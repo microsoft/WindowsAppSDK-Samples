@@ -147,8 +147,6 @@
     <None Include="OpticalSize.md">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="$(MSBuildThisFileDirectory)..\lib\native\windows\x64\release\DWriteCore.dll" />
-    <None Include="$(MSBuildThisFileDirectory)..\lib\native\windows\x64\release\DWriteCore.pdb" />
     <None Include="Introduction.md">
       <Filter>Resource Files</Filter>
     </None>
