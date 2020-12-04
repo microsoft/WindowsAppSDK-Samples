@@ -70,4 +70,12 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <Import Project="$(AppxTargetsLocation)Microsoft.WinUI.AppX.targets" />
+  <PropertyGroup Label="Configuration">
+	<!-- This post build script updates the appxmanifest to add the PackageDependency for the
+	    Project Reunion framework package. Packaging project can automatically pick this up for
+		referenced UWP projects but not for reference Win32 projects. 
+		NOTE: This must be after the main .targets files otherwise the defintions of Macros like
+		$(ProjectDir) will not have been evaluated yet.-->
+    <PostBuildEvent>powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)AddReunionPackageDependencyToManifest.ps1" -appxManifestPath "$(ProjectDir)$(OutDir)AppxManifest.xml" -packagesDirectory "$(SolutionDir)packages"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
