@@ -8,7 +8,7 @@
 
   <Identity
     Name="c9b7841d-b16e-4bfe-a4d0-0c37c1b6823e"
-    Publisher="CN=eliezerp"
+    Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
     Version="1.0.0.0" />
 
   <Properties>
