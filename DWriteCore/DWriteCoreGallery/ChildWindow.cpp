@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 #include "Main.h"
 #include "Helpers.h"
 #include "ChildWindow.h"
