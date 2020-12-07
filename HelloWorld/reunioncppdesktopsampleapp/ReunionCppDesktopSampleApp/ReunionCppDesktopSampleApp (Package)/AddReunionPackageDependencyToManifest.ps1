@@ -19,14 +19,16 @@ package that is backed by a framework package, a UWP project would pull in the N
 would then under the covers cause the UWP project to add <PackageDependency> entry to its
 AppxManifest.
 
-For something distributed through an app packge the package manifest to have the
+For something distributed through an app packge the package manifest must have the
 <PackageDependency> entry. This works automatically for UWP projects referenced by packaging
 projects, because the packaging project knows to look for certain things defined in the referenced
 UWP project's AppxManifest. Unforunately for a Win32 project there is no AppxManifest and therefore
 there is currently no way for the package project AppxManifest to know that the Win32 referenced
 project has properties pulled in from a Nuget that it needs to inherit.
 
-This script has been thrown together as a stop gap for this scenario.
+This script has been thrown together as a stop gap for this scenario. In the future something like
+Dynamic Dependencies(https://github.com/microsoft/ProjectReunion/tree/main/specs/dynamicdependencies)
+might be a solution to this scenario.
 #>
 [CmdLetBinding()]
 Param(

@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock HorizontalAlignment="Center">Clicking the button below will call an API on an activatable class included in a Project Reunion.</TextBlock>
+        <Button x:Name="callAPIButton" Click="CallAPIButton_Click" HorizontalAlignment="Center">Call API</Button>
+        <TextBlock x:Name="resultText" HorizontalAlignment="Center"></TextBlock>
     </StackPanel>
 </Window>

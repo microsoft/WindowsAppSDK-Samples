@@ -1,4 +1,7 @@
-﻿#pragma once
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+#pragma once
 
 #pragma push_macro("GetCurrentTime")
 #undef GetCurrentTime
@@ -16,7 +19,7 @@ namespace winrt::ReunionCppDesktopSampleApp::implementation
         int32_t MyProperty();
         void MyProperty(int32_t value);
 
-        void myButton_Click(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
+        void CallAPIButton_Click(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
     };
 }
 

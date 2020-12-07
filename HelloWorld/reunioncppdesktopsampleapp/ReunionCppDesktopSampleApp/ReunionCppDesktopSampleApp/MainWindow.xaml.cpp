@@ -1,4 +1,7 @@
-﻿#include "pch.h"
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+#include "pch.h"
 #include "MainWindow.xaml.h"
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
@@ -27,12 +30,22 @@ namespace winrt::ReunionCppDesktopSampleApp::implementation
         throw hresult_not_implemented();
     }
 
-    void MainWindow::myButton_Click(IInspectable const&, RoutedEventArgs const&)
+    void MainWindow::CallAPIButton_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        // Call something exposed through Project Reunion as a sanity test that things are loading correctly.
-        // When more is added to Project Reunion there will be more relevant sample content.
-        auto activationArgs = winrt::Microsoft::ProjectReunion::AppLifecycle::GetActivatedEventArgs();
+        winrt::hstring resultMessage = L"API call succeeded.";
+        try
+        {
+            // The purpose of this simple sample is to show the setup for injesting the Project Reunion
+            // Nuget. At the moment there is are not very many APIs exposed through Project Reunion.
+            // The follow line is just calling an arbitrary method on an activatable class that is
+            // included in Project Reunion as validation/demonstration of things working ened to end.
+            auto activationArgs = winrt::Microsoft::ProjectReunion::AppLifecycle::GetActivatedEventArgs();
+        }
+        catch (winrt::hresult_error const& ex)
+        {
+            resultMessage = L"API call failed with error: " + ex.message();
+        }
 
-        myButton().Content(box_value(L"Clicked"));
+        resultText().Text(resultMessage);
     }
 }
