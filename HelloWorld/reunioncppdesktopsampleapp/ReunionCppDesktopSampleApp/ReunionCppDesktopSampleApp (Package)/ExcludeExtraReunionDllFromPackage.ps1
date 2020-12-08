@@ -1,20 +1,20 @@
 <#
 The purpose of the sample is to demonstrate loading the Project Reunion dll from the Project
 Reunion framework package. WinUI3 currently also includes a copy of the Project Reunion dll.
-To ensure that the correct one is loaded we remove the entry from the appxreceipe so that it
+To ensure that the correct one is loaded we remove the entry from the appxrecipe so that it
 is not included in the final package.
 #>
 [CmdLetBinding()]
 Param(
-    [string]$appxReceipePath
+    [string]$appxRecipePath
 )
 
-if ([System.IO.File]::Exists($appxReceipePath))
+if ([System.IO.File]::Exists($appxRecipePath))
 {
-    $appxReceipeXml = [xml](get-content $appxReceipePath)
-    $appxReceipeXmlNamespace = new-object Xml.XmlNamespaceManager $appxReceipeXml.NameTable
-    $appxReceipeXmlNamespace.AddNamespace("docNamespace", $appxReceipeXml.DocumentElement.NamespaceURI)
-    $reunionDllAppxPackagedFileElement = $appxReceipeXml.DocumentElement.SelectNodes("//docNamespace:AppxPackagedFile/docNamespace:PackagePath[.='Microsoft.ProjectReunion.dll']", $appxReceipeXmlNamespace)
+    $appxRecipeXml = [xml](get-content $appxRecipePath)
+    $appxRecipeXmlNamespace = new-object Xml.XmlNamespaceManager $appxRecipeXml.NameTable
+    $appxRecipeXmlNamespace.AddNamespace("docNamespace", $appxRecipeXml.DocumentElement.NamespaceURI)
+    $reunionDllAppxPackagedFileElement = $appxRecipeXml.DocumentElement.SelectNodes("//docNamespace:AppxPackagedFile/docNamespace:PackagePath[.='Microsoft.ProjectReunion.dll']", $appxRecipeXmlNamespace)
     if ($reunionDllAppxPackagedFileElement.Count -eq 0)
     {
         Write-Host "AppxPackagedFile for Microsoft.ProjectReunion.dll not found. If this script is no longer needed it can be removed."
@@ -28,10 +28,10 @@ if ([System.IO.File]::Exists($appxReceipePath))
         $elementToRemove = $reunionDllAppxPackagedFileElement.ParentNode
         $elementToRemove.ParentNode.RemoveChild($elementToRemove)
 
-        $appxReceipeXml.save($appxReceipePath)
+        $appxRecipeXml.save($appxRecipePath)
     }
 }
 else 
 {
-    Write-Host "file could not be found: $appxReceipePath"
+    Write-Host "file could not be found: $appxRecipePath"
 }
