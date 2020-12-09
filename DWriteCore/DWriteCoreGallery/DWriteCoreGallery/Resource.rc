@@ -39,7 +39,4 @@ ID_CUSTOM_FONT_COLLECTION_MARKDOWN              ID_MARKDOWN_RESOURCE "CustomFont
 
 ID_ROBOTO_MONO_REGULAR          ID_FONT_RESOURCE "RobotoMono/RobotoMono-VariableFont_wght.ttf"
 ID_ROBOTO_MONO_ITALIC           ID_FONT_RESOURCE "RobotoMono/RobotoMono-Italic-VariableFont_wght.ttf"
-ID_SOURCE_SANS_PRO_REGULAR      ID_FONT_RESOURCE "SourceSansPro/SourceSansPro-Regular.ttf"
-ID_SOURCE_SANS_PRO_BOLD         ID_FONT_RESOURCE "SourceSansPro/SourceSansPro-Bold.ttf"
-ID_SOURCE_SANS_PRO_ITALIC       ID_FONT_RESOURCE "SourceSansPro/SourceSansPro-Italic.ttf"
-ID_SOURCE_SANS_PRO_BOLD_ITALIC  ID_FONT_RESOURCE "SourceSansPro/SourceSansPro-BoldItalic.ttf"
+ID_MAIDEN_ORANGE_REGULAR        ID_FONT_RESOURCE "MaidenOrange/MaidenOrange-Regular.ttf"
