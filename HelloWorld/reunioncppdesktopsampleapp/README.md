@@ -8,9 +8,17 @@ This C++ sample demonstrates an instance of the "Blank App, Packaged (WinUI in D
 ## How to run the sample
 
 1. Follow steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion#get-started) to setup environment.
+
 2. Clone this repository and open ReunionCppDesktopSampleApp.sln in Visual Studio 2019 
-3. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
-4. To debug the sample and then run it, press F5 or select **Debug** \> **Start Debugging**. To run the sample without debugging, press Ctrl+F5 or select **Debug** \> **Start Without Debugging**.
+
+3. Open File Explorer and go to "\Project-Reunion-Samples\HelloWorld\reunioncppdesktopsampleapp\packages\Microsoft.ProjectReunion.0.1.0\tools\AppX\<arch>\". Arch is the architecture of the project you are trying to run from Visual Studio.
+![](images/Arch.png)
+
+4. Double click on "Microsoft.ProjectReunion.0.1.appx" to install the Framework Package needed to run this sample.
+
+5. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
+
+6. To debug the sample and then run it, press F5 or select **Debug** \> **Start Debugging**. To run the sample without debugging, press Ctrl+F5 or select **Debug** \> **Start Without Debugging**.
 
 ## System requirements
  * Windows 10 Version 1809 or higher
