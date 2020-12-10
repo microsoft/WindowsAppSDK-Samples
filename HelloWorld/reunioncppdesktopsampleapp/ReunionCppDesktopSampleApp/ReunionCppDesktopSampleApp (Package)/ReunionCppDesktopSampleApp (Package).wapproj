@@ -84,7 +84,7 @@
 	 script to remove its from the appxrecipe.
      -->
     <PostBuildEvent>
-		powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)AddReunionPackageDependencyToManifest.ps1" -appxManifestPath "$(ProjectDir)$(OutDir)AppxManifest.xml" -packagesDirectory "$(SolutionDir)packages"
+		powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)AddReunionPackageDependency.ps1" -appxManifestPath "$(ProjectDir)$(OutDir)AppxManifest.xml" -packagesDirectory "$(SolutionDir)packages" -architecture $(PlatformName) -appxRecipePath "$(ProjectDir)$(OutDir)$(TargetFileName).build.appxrecipe"
 		powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)ExcludeExtraReunionDllFromPackage.ps1" -appxRecipePath "$(ProjectDir)$(OutDir)$(TargetFileName).build.appxrecipe"
 	</PostBuildEvent>
   </PropertyGroup>
