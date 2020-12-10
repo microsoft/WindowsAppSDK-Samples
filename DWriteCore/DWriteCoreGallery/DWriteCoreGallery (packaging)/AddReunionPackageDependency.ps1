@@ -4,10 +4,6 @@ in the project file would do. It edits the package project appxmanifest to inclu
 Reunion <PackageDependency> entry and adds a <ResolvedSDKReference> entry to the appx recipe.
 
 Some background:
-The sample Project Reunion app demonstrates the scenario where a user wants to use WinUI 3 with
-Project Reunion. The WinUI 3 template has a Win32 app that is using WinUI 3 and is being referenced
-by a packaging project so that the Win32 app can be distributed through the Microsoft app store.
-
 A goal of Project Reunion is that it can update seamlessly. To achieve this, Project Reunion is
 distributed as a framework package. Unlike a regular Nuget package, the advantage of a framework
 package backed Nuget is that an app can reference the Nuget but not have to include and ship the
@@ -40,39 +36,63 @@ might be a solution to this scenario.
 #>
 [CmdLetBinding()]
 Param(
-    [string]$packagesDirectory,
+    [string]$solutionDirectory,
     [string]$appxManifestPath,
     [string]$architecture,
     [string]$appxRecipePath
 )
 
-function Get-ProjectReunion-Package-Path 
-{
-    Param([string]$packagesDirectory)
+$projectReunionPackageId = "Microsoft.ProjectReunion"
 
-    $projectReunionPackageDirectory = ""
-    if (Test-Path $packagesDirectory)
+function Get-ProjectReunion-Package-Path
+{
+    # Get the correct Project Reunion package folder. If the user did something like a Nuget update
+    # then there could be other version of the Project Reunion package. We can find the right one by
+    # consulting packages.config files.
+    $projectReunionVersion = ""
+    $packageConfigFiles = Get-ChildItem -Path $solutionDirectory -Recurse | Where-Object { $_.FullName -match "packages.config"}
+
+    # For now, for simplicity, we are assuming there is only 1 Win32 packaged project and thus only
+    # 1 packages.config file we need to parse.
+    if ($packageConfigFiles.Count -eq 1)
     {
-        $packageDirectories = Get-ChildItem $packagesDirectory | Where-Object { $_.PSIsContainer } | Where-Object {$_.PSChildName -match "Microsoft.ProjectReunion.[\d+].*.*"}
-        if ($packageDirectories.Count -eq 1)
-        {
-            $projectReunionPackageDirectory = $packageDirectories[0].FullName
-        }
-        elseif ($packageDirectories.Count -gt 1)
-        {
-            Write-Host "Found more than one Project Reunion metapackage. There should only be one."
-        }
-        else
-        {
-            Write-Host "Project Reunion metapackage was not found."
-        }
+        $xml = [xml](get-content $packageConfigFiles[0].FullName)
+        $xmlNamespace = new-object Xml.XmlNamespaceManager $xml.NameTable
+        $xmlNamespace.AddNamespace("docNamespace", $xml.DocumentElement.NamespaceURI)
+        $projectReunionPackageElement = $xml.DocumentElement.SelectNodes("//docNamespace:package[@id='$projectReunionPackageId']", $xmlNamespace)
+        $projectReunionVersion = $projectReunionPackageElement.Version
+    }
+    elseif ($packageConfigFiles.Count -gt 1)
+    {
+        Write-Host "Samples are assume to have one Win32 package project if they use this script. If this is no longer true, please update this script."
     }
     else
     {
-        Write-Host "$packagesDirectory was not found."
+        Write-Host "No packages.config files were found."
     }
 
-    return $projectReunionPackageDirectory
+    if ($projectReunionVersion)
+    {
+        $packagesDirectory = $solutionDirectory + "packages\"
+        if (Test-Path $packagesDirectory)
+        {
+            $projectReunionPackageDirectory = "$packagesDirectory" + "$projectReunionPackageId.$projectReunionVersion"
+            if (Test-Path $projectReunionPackageDirectory)
+            {
+                return $projectReunionPackageDirectory
+            }
+            else
+            {
+                Write-Host "Project Reunion metapackage was not found at location: $projectReunionPackageDirectory"
+            }
+        }
+        else
+        {
+            Write-Host "$packagesDirectory was not found."
+        }
+    }
+
+    return ""
 }
 
 function Add-Framework-Package-Registration-Entry
@@ -94,16 +114,16 @@ function Add-Framework-Package-Registration-Entry
             $xml = [xml](get-content $file.FullName)
             $xmlNamespace = new-object Xml.XmlNamespaceManager $xml.NameTable
             $xmlNamespace.AddNamespace("docNamespace", $xml.DocumentElement.NamespaceURI)
-            $architetureElement = $xml.DocumentElement.SelectNodes("//docNamespace:AppxPackageRegistration/docNamespace:Architecture[.='$architecture']", $xmlNamespace)
+            $architetureElement = $xml.DocumentElement.SelectNodes("//docNamespace:AppxPackageRegistration/docNamespace:Architecture[text()='$architecture']", $xmlNamespace)
             if ($architetureElement.Count -eq 1)
             {
                 $appxPackageRegistrationElement = $architetureElement.ParentNode
-                $includeAttribute = $appxPackageRegistrationElement.Attributes[0]
-                Write-Host "includeAttribute.Value: " $includeAttribute.Value
+                $includeAttribute = $appxPackageRegistrationElement.Include
+
                 # Remove $(MSBuildThisFileDirectory) because this is something we cannot properly
                 # interpret in this context but we know it usually translates to the 'the current
                 # file directory'
-                $relativePath = $includeAttribute.Value.Replace('$(MSBuildThisFileDirectory)','')
+                $relativePath = $includeAttribute.Replace('$(MSBuildThisFileDirectory)','')
                 $pathToAppx = $file.Directory.FullName + "\" + $relativePath
 
                 break;
@@ -117,7 +137,9 @@ function Add-Framework-Package-Registration-Entry
             $xmlNamespace = new-object Xml.XmlNamespaceManager $xml.NameTable
             $xmlNamespace.AddNamespace("docNamespace", $xml.DocumentElement.NamespaceURI)
 
-            $reunionResolvedSDKReferenceElement = $xml.DocumentElement.SelectNodes("//docNamespace:ResolvedSDKReference/docNamespace:AppxLocation[.='$pathToAppx']", $xmlNamespace)
+            # Add a ResolvedSDKReference entry but only if there are no entries that already point to appx of the same name.
+            $appxFileName = [System.IO.Path]::GetFileName($pathToAppx)
+            $reunionResolvedSDKReferenceElement = $xml.DocumentElement.SelectNodes("//docNamespace:ResolvedSDKReference/docNamespace:AppxLocation[contains(text(),`"$appxFileName`")]", $xmlNamespace)
             if ($reunionResolvedSDKReferenceElement.Count -eq 0)
             {
                 # Find the ItemGroup that has the other ResolvedSDKReference entries.
@@ -183,7 +205,7 @@ function Add-Framework-Package-Registration-Entry
     }
 }
 
-$projectReunionPackageDirectory = Get-ProjectReunion-Package-Path -packagesDirectory $packagesDirectory
+$projectReunionPackageDirectory = Get-ProjectReunion-Package-Path
 
 if ($projectReunionPackageDirectory)
 {
@@ -201,9 +223,9 @@ if ($projectReunionPackageDirectory)
     $fwpAppxManifestXmlNamespace = new-object Xml.XmlNamespaceManager $fwpAppxManifestXml.NameTable
     $fwpAppxManifestXmlNamespace.AddNamespace("docNamespace", $fwpAppxManifestXml.DocumentElement.NamespaceURI)
     $identityElements = $fwpAppxManifestXml.DocumentElement.SelectNodes("//docNamespace:Identity", $fwpAppxManifestXmlNamespace)
-    $fwpName = $identityElements[0].Attributes.GetNamedItem("Name").Value
-    $fwpPublisher = $identityElements[0].Attributes.GetNamedItem("Publisher").Value
-    $fwpVersion = $identityElements[0].Attributes.GetNamedItem("Version").Value
+    $fwpName = $identityElements[0].Name
+    $fwpPublisher = $identityElements[0].Publisher
+    $fwpVersion = $identityElements[0].Version
 
     # Create a new PackageDependency entry for the Project Reunion framework package. The PackageDependency entry that will be added will look something like:
     # <PackageDependency Name="Microsoft.ProjectReunion.0.1" MinVersion="0.12011.3010.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
