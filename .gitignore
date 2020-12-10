@@ -23,7 +23,6 @@ mono_crash.*
 [Rr]eleases/
 x64/
 x86/
-[Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
@@ -36,6 +35,9 @@ bld/
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
+
+# Visual Studio code
+.vscode/
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
@@ -142,9 +144,7 @@ _TeamCity*
 !.axoCover/settings.json
 
 # Coverlet is a free, cross platform Code Coverage Tool
-coverage*.json
-coverage*.xml
-coverage*.info
+coverage*[.json, .xml, .info]
 
 # Visual Studio code coverage results
 *.coverage
@@ -330,6 +330,14 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# Dump files
+[Dd]ump[Ff]iles/
+*.dmp
+
+# Build output root
+BuildOutput/
+.nuget/
 
 # OpenCover UI analysis results
 OpenCover/
