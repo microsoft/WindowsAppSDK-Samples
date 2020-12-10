@@ -9,7 +9,7 @@ This C++ sample demonstrates an instance of the "Blank App, Packaged (WinUI in D
 
 1. Follow steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion#get-started) to setup environment.
 
-2. Clone this repository and open ReunionCppDesktopSampleApp.sln in Visual Studio 2019 
+2. Clone this repository and open ReunionCppDesktopSampleApp.sln in Visual Studio 2019 Preview
 
 3. Open File Explorer and go to "\Project-Reunion-Samples\HelloWorld\reunioncppdesktopsampleapp\packages\Microsoft.ProjectReunion.0.1.0\tools\AppX\<arch>\". Arch is the architecture of the project you are trying to run from Visual Studio.
 ![](images/Arch.png)
