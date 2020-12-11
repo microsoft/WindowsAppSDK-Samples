@@ -14,13 +14,9 @@ extendedZipContent:
 
 # DWriteCore gallery sample
 
-This sample application demonstrates the DWriteCore API, which is a reimplementation of the Windows DirectWrite API. Select 
-items from the *Scenario* menu to see pages that demonstrate various API functionality.
+This sample application demonstrates the DWriteCore API, which is a reimplementation of the Windows DirectWrite API. Select items from the *Scenario* menu to see pages that demonstrate various API functionality.
 
-DWriteCore is a low-level API for formatting and rendering text. It's a nano-COM API, meaning that it uses COM-style 
-interfaces (derived from **IUnknown**), but it doesn't actually use the COM run-time. It's therefore not necessary to
-call **CoCreateInstance** before using DWriteCore. Instead, call the **DWriteCreateFactory** function to create a factory
-object (**IDWriteFactory7**), and then call factory methods to create other objects, or perform other actions.
+DWriteCore is a low-level API for formatting and rendering text. It's a nano-COM API, meaning that it uses COM-style interfaces (derived from **IUnknown**), but it doesn't actually use the COM run-time. It's therefore not necessary to call **CoCreateInstance** before using DWriteCore. Instead, call the **DWriteCreateFactory** function to create a factory object (**IDWriteFactory7**). Then call factory methods to create other objects or perform other actions.
 
 ## API Layers
 
@@ -29,7 +25,7 @@ which encapsulate formatting properties, and *text layout* objects (**IDWriteTex
 strings. A text layout object exposes methods for drawing, getting metrics, hit-testing, and so on. Paragraphs displayed within 
 the running sample app are text layout objects.
 
-The **font API** exposes information about fonts, and provides functionality needed for text layout and rendering. It includes
+The **font API** exposes information about fonts and provides functionality needed for text layout and rendering. It includes
 *font collection* objects (**IDWriteFontCollection3**), which are collections of fonts grouped into families, *font set* objects
 (**IDWriteFontSet3**), which are flat collections of fonts, and *font face* objects (**IDWriteFontFace6**), which represent specific
 fonts.
