@@ -49,9 +49,7 @@ This includes script analysis, bi-directional analysis, shaping, and so on.
 
 2. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 
->You may get the following error when building the DWriteCoreGallery (packaging) project:
->
->`SDK folder containing 'UAP.props' for 'UAP 10.0.19041.0' cannot be located.`
+>You may get the following error when building the DWriteCoreGallery (packaging) project: **SDK folder containing 'UAP.props' for 'UAP 10.0.19041.0' cannot be located.**
 >
 >If so, you need to add the specified Windows SDK version to your Visual Studio 2019 installation. To do so, open Visual Studio
 Installer, click the "Modify" button for your Visual Studio version, select the "Individual components" tab, type the SDK version
