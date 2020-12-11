@@ -42,4 +42,4 @@ If winui_desktop_packaged_app cannot find the output from winui_class_lib, follo
 ## Related Links
 
 - [Project Reunion](https://docs.microsoft.com/en-us/windows/apps/project-reunion)
-- [MRT Core](https://docs.microsoft.com/en-us/windows/apps/project-reunion/mrtcore)
+- [MRT Core](https://docs.microsoft.com/en-us/windows/apps/project-reunion/mrtcore-overview)
