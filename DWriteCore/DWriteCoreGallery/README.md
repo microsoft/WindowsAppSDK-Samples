@@ -16,7 +16,7 @@ extendedZipContent:
 
 This sample application demonstrates the DWriteCore API, which is a reimplementation of the Windows DirectWrite API. Select items from the *Scenario* menu to see pages that demonstrate various API functionality.
 
-DWriteCore is a low-level API for formatting and rendering text. It's a nano-COM API, meaning that it uses COM-style interfaces (derived from **IUnknown**), but it doesn't actually use the COM run-time. It's therefore not necessary to call **CoCreateInstance** before using DWriteCore. Instead, call the **DWriteCreateFactory** function to create a factory object (**IDWriteFactory7**). Then call factory methods to create other objects or perform other actions.
+DWriteCore is a low-level API for formatting and rendering text. It's a nano-COM API, meaning that it uses COM-style interfaces (derived from **IUnknown**), but it doesn't actually use the COM run-time. It's therefore not necessary to call **CoCreateInstance** before using DWriteCore. Instead, call the **DWriteCreateFactory** function to create a factory object (**IDWriteFactory7**), and then call factory methods to create other objects or perform other actions.
 
 ## API Layers
 
@@ -56,15 +56,12 @@ This includes script analysis, bi-directional analysis, shaping, and so on.
 >If so, you need to add the specified Windows SDK version to your Visual Studio 2019 installation. To do so, open Visual Studio
 Installer, click the "Modify" button for your Visual Studio version, select the "Individual components" tab, type the SDK version
 number (e.g., "19041") in the search box, select the SDK in the search results, and click the Modify button.
-![](images/Installer.png)
 
 3. Set "DWriteCoreGallery (packaging)" as the startup project. Right click "DWriteCoreGallery (packaging)" and select "set as startup project" from the context menu. 
-![](images/StartupProject.png)
 
 4. For debugging, it is recommended you change the debugger type for the "DWriteCoreGallery (packaging)" project to "Native Only".
 In the project properties, select the "Debug" tab, and set the Debugger type for both "Application process" and "Background
 task process" to "Native Only".
-![](images/Debugger.png)
 
 ## Related Links
 

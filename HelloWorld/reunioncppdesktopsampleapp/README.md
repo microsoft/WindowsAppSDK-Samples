@@ -1,6 +1,6 @@
 # Project Reunion Hello World Sample
 
-This C++ sample demonstrates an instance of the "Blank App, Packaged (WinUI in Desktop)" project template (available in WinUI 3) that has been configured to include the Project Reunion NuGet package. This sample simply displays a button that, when pressed, makes a call to AppLifecycle::GetActivatedEventArgs() to show that Reunion APIs load and run correctly. You can use this sample as a starting point for exploring Project Reunion APIs. For more info about the available APIs, see:
+This C++ sample demonstrates an instance of the "Blank App, Packaged (WinUI in Desktop)" project template (available in WinUI 3) that has been configured to include the Project Reunion NuGet package. This sample simply displays a button that, when pressed, makes a call to AppLifecycle::GetActivatedEventArgs() to show that Reunion APIs load and run correctly. You can use this sample as a starting point for exploring Project Reunion APIs. For more info about the available APIs, see the following links.
 
 * [MRT Core](https://docs.microsoft.com/en-us/windows/apps/project-reunion/mrtcore)
 * [DWrite Core](https://docs.microsoft.com/en-us/windows/apps/project-reunion/dwritecore)
