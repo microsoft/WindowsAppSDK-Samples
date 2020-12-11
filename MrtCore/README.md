@@ -8,15 +8,13 @@ products: windows
 
 # Load resources using MRT Core
 
-MRT Core is the modern resource loading library used in WunUI 3 and Project Reunion. This sample demonstrates how to use MRT Core to load resources from multiple sample files, and how to select which version of a specific named resource to load. 
-
-## Prerequisites
-
- - [Visual Studio 2019 Preview](https://visualstudio.microsoft.com/vs/preview) (any edition)
+MRT Core is the modern resource loading library used in WunUI 3 and Project Reunion. This sample demonstrates how to use MRT Core to load resources from multiple sample files and how to select which version of a specific named resource to load. 
 
 ## Building and running the sample
 
-This sample consists of two solutions, one is a required library for the other and must be manually built before the MRT Core sample will build or run. This is a temporary step that will be removed as development continues on Project Reunion and MRT Core.
+Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion#set-up-your-development-environment).
+
+This sample consists of two solutions. One is a required library for the other and must be manually built before the MRT Core sample will build or run. This is a temporary step that will be removed as development continues on Project Reunion and MRT Core.
 
 1.  Open winui_class_lib\winui_class_lib.sln in Visual Studio 2019 Preview.
 2. Build the solution using the same build configuration you intend to use for the MRT Core sample.
@@ -43,5 +41,5 @@ If winui_desktop_packaged_app cannot find the output from winui_class_lib, follo
 
 ## Related Links
 
-- [Project Reunion]()
-- [MRT Core]()
+- [Project Reunion](https://docs.microsoft.com/en-us/windows/apps/project-reunion)
+- [MRT Core](https://docs.microsoft.com/en-us/windows/apps/project-reunion/mrtcore-overview)
