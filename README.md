@@ -2,9 +2,9 @@
 
 This repository hosts samples related to Project Reunion. Currently it hosts the following three samples, and we will be adding a lot more as the project continues to grow.
 
-- [Hello World sample](HelloWorld/reunioncppdesktopsampleapp/README.md): This sample demonstrates a basic integration with the Project Reunion NuGet package.
-- [DWriteCore gallery sample](DWriteCore/DWriteCoreGallery/README.md): This sample application demonstrates the DWriteCore API.
-- [MRT Core sample](MrtCore/README.md): This sample application demonstrates the MRT Core API.
+- [Hello World sample](https://github.com/microsoft/Project-Reunion-Samples/tree/kegu/README/HelloWorld/reunioncppdesktopsampleapp): This sample demonstrates a basic integration with the Project Reunion NuGet package.
+- [DWriteCore gallery sample](https://github.com/microsoft/Project-Reunion-Samples/tree/kegu/README/DWriteCore/DWriteCoreGallery): This sample application demonstrates the DWriteCore API.
+- [MRT Core sample](https://github.com/microsoft/Project-Reunion-Samples/tree/kegu/README/MrtCore): This sample application demonstrates the MRT Core API.
 
 For more information about Project Reunion, visit the [Project Reunion Documentation](https://docs.microsoft.com/en-us/windows/apps/project-reunion). To learn more about the Project Reunion design or to contribute to the project, make feature proposals, or start discussions, visit the official [Project Reunion GitHub page](https://github.com/microsoft/ProjectReunion).
 
