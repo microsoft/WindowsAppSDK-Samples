@@ -49,24 +49,28 @@ This includes script analysis, bi-directional analysis, shaping, and so on.
 
 ## Building, running, and studying the sample
 
-You can build and run the sample from within Visual Studio. The sample already contains references to any NuGet packages 
-that it requires.
+1. Follow steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion#set-up-your-development-environment) to set up environment.
 
-You may get the following error when building the DWriteCoreGallery (packaging) project:
+2. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 
-  `SDK folder containing 'UAP.props' for 'UAP 10.0.19041.0' cannot be located.`
-
-If so, you need to add the specified Windows SDK version to your Visual Studio 2019 installation. To do so, open Visual Studio
+>You may get the following error when building the DWriteCoreGallery (packaging) project:
+>
+>`SDK folder containing 'UAP.props' for 'UAP 10.0.19041.0' cannot be located.`
+>
+>If so, you need to add the specified Windows SDK version to your Visual Studio 2019 installation. To do so, open Visual Studio
 Installer, click the "Modify" button for your Visual Studio version, select the "Individual components" tab, type the SDK version
 number (e.g., "19041") in the search box, select the SDK in the search results, and click the Modify button.
+![](images/Installer.png)
 
-To run the sample, make sure "DWriteCoreGallery (packaging)" is selected as the startup project. Otherwise, you will
-get an error saying DWriteCore.dll was not found. The packaging project references the Project Reunion framework package,
-which includes DWriteCore.dll.
+3. Set "DWriteCoreGallery (packaging)" as the startup project. Right click "DWriteCoreGallery (packaging)" and select "set as startup project" from the context menu. 
+![](images/StartupProject.png)
 
-For debugging, it is recommended you change the debugger type for the "DWriteCoreGallery (packaging)" project to "Native Only".
+4. For debugging, it is recommended you change the debugger type for the "DWriteCoreGallery (packaging)" project to "Native Only".
 In the project properties, select the "Debug" tab, and set the Debugger type for both "Application process" and "Background
 task process" to "Native Only".
+![](images/Debugger.png)
 
-Navigate around the various pages of the application to see different features of DWriteCore being illustrated. Examine the 
-source code to see how the run-time behavior is achieved.
+## Related Links
+
+- [Project Reunion](https://docs.microsoft.com/en-us/windows/apps/project-reunion)
+- [DWriteCore](https://docs.microsoft.com/en-us/windows/apps/project-reunion/dwritecore)
