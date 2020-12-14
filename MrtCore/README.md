@@ -8,7 +8,7 @@ products: windows
 
 # Load resources using MRT Core
 
-MRT Core is the modern resource loading library used in WunUI 3 and Project Reunion. This sample demonstrates how to use MRT Core to load resources from multiple sample files and how to select which version of a specific named resource to load. 
+MRT Core is the modern resource loading library used in WinUI 3 and Project Reunion. This sample demonstrates how to use MRT Core to load resources from multiple sample files and how to select which version of a specific named resource to load. 
 
 ## Building and running the sample
 
