@@ -92,7 +92,7 @@ void FontFamilyListWindow::DrawItem(TextRenderer* textRenderer, int itemIndex, b
 
     // Set the maximum width, for trimming.
     float widthInDips = GetPixelWidth() / textRenderer->GetDpiScale();
-    THROW_IF_FAILED(textLayout->SetMaxWidth(widthInDips - g_leftMargin));
+    THROW_IF_FAILED(textLayout->SetMaxWidth(std::max(0.0f, widthInDips - g_leftMargin)));
 
     // Draw the text.
     THROW_IF_FAILED(textLayout->Draw(nullptr, textRenderer, g_leftMargin, g_topMargin));
