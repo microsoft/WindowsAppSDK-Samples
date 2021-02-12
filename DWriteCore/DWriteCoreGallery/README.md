@@ -49,7 +49,7 @@ This includes script analysis, bi-directional analysis, shaping, and so on.
 
 2. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 
-> If when building the solution, you get an error related to a powershell command, you may need to manually run the AddReunionPackageDependency.ps1 powershell script located in [here](https://github.com/microsoft/Project-Reunion-Samples/tree/main/DWriteCore/DWriteCoreGallery/DWriteCoreGallery%20(packaging)). 
+> If when building the solution, you get an error related to a powershell command, you will need to manually run that powershell command. Copy the full powershell command and paste it into a command prompt.
 
 3. Set "DWriteCoreGallery (packaging)" as the startup project. Right click "DWriteCoreGallery (packaging)" and select "set as startup project" from the context menu. 
 
