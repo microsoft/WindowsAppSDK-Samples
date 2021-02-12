@@ -15,6 +15,8 @@ This C++ sample demonstrates an instance of the "Blank App, Packaged (WinUI in D
 
 4. To debug the sample and then run it, press F5 or select **Debug** \> **Start Debugging**. To run the sample without debugging, press Ctrl+F5 or select **Debug** \> **Start Without Debugging**.
 
+> If when building the solution, you get an error related to a powershell command, you may need to manually run the AddReunionPackageDependency.ps1 powershell script located in [here](https://github.com/microsoft/Project-Reunion-Samples/tree/main/HelloWorld/reunioncppdesktopsampleapp/ReunionCppDesktopSampleApp/ReunionCppDesktopSampleApp%20(Package)). 
+
 ## System requirements
  * Windows 10 Version 1809 or higher
 
