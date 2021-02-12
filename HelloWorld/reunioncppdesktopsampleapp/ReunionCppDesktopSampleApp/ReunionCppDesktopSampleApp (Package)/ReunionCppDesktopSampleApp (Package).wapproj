@@ -63,11 +63,6 @@
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0" />
-    <!-- Needed for ucrtbased.dll when running a debug build. -->
-    <SDKReference Include="Microsoft.VCLibs, Version=14.0" Condition="'$(Configuration)' == 'Debug'" />
-  </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <Import Project="$(AppxTargetsLocation)Microsoft.WinUI.AppX.targets" />
   <PropertyGroup Label="Configuration">
@@ -80,12 +75,12 @@
      
      At the moment, WinUI3 pulls in Microsoft.ProjectReunion.dll. For the purpose of this sample
      we want Microsoft.ProjectReunion.dll to be loaded from the installed framework package. To
-	 ensure that there is not copy of Microsoft.ProjectReunion.dll in the package we are using a
-	 script to remove its from the appxrecipe.
+     ensure that there is not copy of Microsoft.ProjectReunion.dll in the package we are using a
+     script to remove its from the appxrecipe.
      -->
     <PostBuildEvent>
-		powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)AddReunionPackageDependency.ps1" -appxManifestPath "$(ProjectDir)$(OutDir)AppxManifest.xml" -solutionDirectory $(SolutionDir) -architecture $(PlatformName) -appxRecipePath "$(ProjectDir)$(OutDir)$(TargetFileName).build.appxrecipe"
-		powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)ExcludeExtraReunionDllFromPackage.ps1" -appxRecipePath "$(ProjectDir)$(OutDir)$(TargetFileName).build.appxrecipe"
-	</PostBuildEvent>
+        powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)AddReunionPackageDependency.ps1" -appxManifestPath "$(ProjectDir)$(OutDir)AppxManifest.xml" -solutionDirectory $(SolutionDir) -architecture $(PlatformName) -appxRecipePath "$(ProjectDir)$(OutDir)$(TargetFileName).build.appxrecipe"
+       powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)ExcludeExtraReunionDllFromPackage.ps1" -appxRecipePath "$(ProjectDir)$(OutDir)$(TargetFileName).build.appxrecipe"
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
