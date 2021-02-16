@@ -49,7 +49,7 @@ This includes script analysis, bi-directional analysis, shaping, and so on.
 
 2. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 
-> If when building the solution, you get an error related to a powershell command, you will need to manually run that powershell command. Copy the full powershell command and paste it into a command prompt.
+    > Note: When building the solution, if you get an error related to a PowerShell command: </br></br>`The command "powershell.exe -ExecutionPolicy Unrestricted -file ..." exited with code 1.` </br></br> You will need to manually run that PowerShell command to build. Copy the full PowerShell command inside the quotes of the error message and paste it into a command prompt.
 
 3. Set "DWriteCoreGallery (packaging)" as the startup project. Right click "DWriteCoreGallery (packaging)" and select "set as startup project" from the context menu. 
 
