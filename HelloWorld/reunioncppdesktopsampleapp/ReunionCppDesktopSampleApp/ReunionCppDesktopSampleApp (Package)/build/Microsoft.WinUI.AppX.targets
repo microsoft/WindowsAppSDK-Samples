@@ -35,6 +35,7 @@
     <!-- Replaces AppxManifest WinRT registrations for Microsoft.UI.Xaml.dll, post-GenerateAppxManifest. -->
     <!-- Target runs before manifest validation occurs. Requires output file to support incremental builds. -->
     <Target
+        Condition="'$(ProjectReunionInApp)'!='false'"
         Name="_ReplaceMUXWinRTRegistrations"
         BeforeTargets="_CreateFinalAppxManifestItem"
         AfterTargets="_GenerateCurrentProjectAppxManifest"
@@ -66,70 +67,74 @@
             <Using Namespace="System.Reflection" />
             <Using Namespace="System.Runtime.InteropServices.WindowsRuntime" />
             <Using Namespace="System.Collections.Generic" />
+            <Using Namespace="System.IO" />
             <Code Type="Fragment" Language="cs"><![CDATA[
-                // Load AppxManifest.xml
-                XmlDocument appxManifest = new XmlDocument();
-                appxManifest.Load(FullPathToAppxManifest);
-
-                XmlNamespaceManager namespaceManager = new XmlNamespaceManager(appxManifest.NameTable);
-                namespaceManager.AddNamespace("w", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
-
-                // If there exists an existing Extensions node, we'll remove any Microsoft.UI.Xaml.dll, Microsoft.Web.WebView2.Core.dll entry in it
-                // and add the correct DLL mapping. Otherwise, if there doesn't, we'll create one and add it.
-                XmlNode extensionsNode = null;
-
-                foreach (XmlNode node in appxManifest.DocumentElement.SelectNodes("//w:Package/w:Extensions", namespaceManager))
+                if (File.Exists(FullPathToLiftedXAMLWinRTRegistrations))
                 {
-                    extensionsNode = node;
-                    break;
-                }
+                    // Load AppxManifest.xml
+                    XmlDocument appxManifest = new XmlDocument();
+                    appxManifest.Load(FullPathToAppxManifest);
 
-                if (extensionsNode != null)
-                {
-                    XmlNodeList xmlNodeList = appxManifest.DocumentElement.SelectNodes("//w:Package/w:Extensions/w:Extension", namespaceManager);
+                    XmlNamespaceManager namespaceManager = new XmlNamespaceManager(appxManifest.NameTable);
+                    namespaceManager.AddNamespace("w", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
 
-                    // Remove "Microsoft.UI.Xaml.dll", "Microsoft.Web.WebView2.Core.dll", and
-            	    // "Microsoft.ApplicationModel.Resources.dll" registrations from the 
-                    // AppxManifest file as we will be inserting the entries ourselves
-                    foreach (XmlNode node in xmlNodeList)
+                    // If there exists an existing Extensions node, we'll remove any Microsoft.UI.Xaml.dll, Microsoft.Web.WebView2.Core.dll entry in it
+                    // and add the correct DLL mapping. Otherwise, if there doesn't, we'll create one and add it.
+                    XmlNode extensionsNode = null;
+
+                    foreach (XmlNode node in appxManifest.DocumentElement.SelectNodes("//w:Package/w:Extensions", namespaceManager))
                     {
-                        XmlNode pathNode = node.SelectSingleNode("w:InProcessServer/w:Path", namespaceManager);
-                        if (pathNode.InnerText.Equals("Microsoft.UI.Xaml.dll", StringComparison.InvariantCultureIgnoreCase) ||
-                            pathNode.InnerText.Equals("Microsoft.Web.WebView2.Core.dll", StringComparison.InvariantCultureIgnoreCase) ||
-                            pathNode.InnerText.Equals("Microsoft.ApplicationModel.Resources.dll", StringComparison.InvariantCultureIgnoreCase))
+                        extensionsNode = node;
+                        break;
+                    }
+
+                    if (extensionsNode != null)
+                    {
+                        XmlNodeList xmlNodeList = appxManifest.DocumentElement.SelectNodes("//w:Package/w:Extensions/w:Extension", namespaceManager);
+
+                        // Remove "Microsoft.UI.Xaml.dll", "Microsoft.Web.WebView2.Core.dll", and
+                	    // "Microsoft.ApplicationModel.Resources.dll" registrations from the 
+                        // AppxManifest file as we will be inserting the entries ourselves
+                        foreach (XmlNode node in xmlNodeList)
                         {
-                            extensionsNode.RemoveChild(node);
+                            XmlNode pathNode = node.SelectSingleNode("w:InProcessServer/w:Path", namespaceManager);
+                            if (pathNode.InnerText.Equals("Microsoft.UI.Xaml.dll", StringComparison.InvariantCultureIgnoreCase) ||
+                                pathNode.InnerText.Equals("Microsoft.Web.WebView2.Core.dll", StringComparison.InvariantCultureIgnoreCase) ||
+                                pathNode.InnerText.Equals("Microsoft.ApplicationModel.Resources.dll", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                extensionsNode.RemoveChild(node);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    extensionsNode = appxManifest.CreateElement("Extensions", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
-                    appxManifest.DocumentElement.AppendChild(extensionsNode);
-                }
-
-                // Load correct WinRT registration file created during build.  These entries have the correct implemetation DLLs.
-                XmlDocument newRegistrations = new XmlDocument();
-                newRegistrations.Load(FullPathToLiftedXAMLWinRTRegistrations);
-                XmlNamespaceManager namespaceManager2 = new XmlNamespaceManager(newRegistrations.NameTable);
-                namespaceManager2.AddNamespace("w", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
-                XmlNodeList newRegistrationNodes = newRegistrations.DocumentElement.SelectNodes("/w:Data/w:Extension", namespaceManager2);
-
-                // Add entries for all Microsoft.UI.Xaml types in the AppxManifest
-                foreach (XmlNode node in newRegistrationNodes)
-                {
-                    // If we have a path to our implementation DLLs, we'll add that here.
-                    if (!string.IsNullOrWhiteSpace(PathToXAMLWinRTImplementations))
+                    else
                     {
-                        XmlNode pathNode = node.SelectSingleNode("w:InProcessServer/w:Path", namespaceManager);
-                        pathNode.InnerText = PathToXAMLWinRTImplementations + pathNode.InnerText;
+                        extensionsNode = appxManifest.CreateElement("Extensions", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+                        appxManifest.DocumentElement.AppendChild(extensionsNode);
                     }
-                    XmlNode importNode = extensionsNode.OwnerDocument.ImportNode(node, true);
-                    extensionsNode.AppendChild(importNode);
-                }
 
-                // Save the updated AppxManifest.xml file
-                appxManifest.Save(FullPathToAppxManifest);
+                    // Load correct WinRT registration file created during build.  These entries have the correct implemetation DLLs.
+                    XmlDocument newRegistrations = new XmlDocument();
+                    newRegistrations.Load(FullPathToLiftedXAMLWinRTRegistrations);
+                    XmlNamespaceManager namespaceManager2 = new XmlNamespaceManager(newRegistrations.NameTable);
+                    namespaceManager2.AddNamespace("w", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+                    XmlNodeList newRegistrationNodes = newRegistrations.DocumentElement.SelectNodes("/w:Data/w:Extension", namespaceManager2);
+
+                    // Add entries for all Microsoft.UI.Xaml types in the AppxManifest
+                    foreach (XmlNode node in newRegistrationNodes)
+                    {
+                        // If we have a path to our implementation DLLs, we'll add that here.
+                        if (!string.IsNullOrWhiteSpace(PathToXAMLWinRTImplementations))
+                        {
+                            XmlNode pathNode = node.SelectSingleNode("w:InProcessServer/w:Path", namespaceManager);
+                            pathNode.InnerText = PathToXAMLWinRTImplementations + pathNode.InnerText;
+                        }
+                        XmlNode importNode = extensionsNode.OwnerDocument.ImportNode(node, true);
+                        extensionsNode.AppendChild(importNode);
+                    }
+
+                    // Save the updated AppxManifest.xml file
+                    appxManifest.Save(FullPathToAppxManifest);
+                }
 
             ]]></Code>
         </Task>
@@ -149,6 +154,19 @@
        <!-- WAP project files can have class libraries with WinMDs complain that they don't have requisite dependencies present -
             however, due to our custom packaging, they'll be present in the end, so we'll suppress this warning as well. -->
        MSB3268;
+    </MSBuildWarningsAsMessages>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(EnablePreviewMsixTooling)'=='true' and '$(TargetPlatformIdentifier)'=='Windows'">
+    <!--
+      Suppress warnings about referencing SDKs that target UAP when we're targeting Windows.
+      See https://github.com/dotnet/msbuild/issues/6150 for more details.
+    -->
+    <LogSDKReferenceResolutionErrorsAsWarnings>true</LogSDKReferenceResolutionErrorsAsWarnings>
+    <MSBuildWarningsAsMessages>
+      $(MSBuildWarningsAsMessages);
+      MSB3842;
+      MSB3843;
     </MSBuildWarningsAsMessages>
   </PropertyGroup>
 
@@ -205,9 +223,11 @@
     </ItemGroup>
   </Target>
 
-  <!--
-    Add a dependency for the app against VCLibs.Desktop, which contains the CRT DLLs that WinUI 3 is linked against. -->
-  <ItemGroup Condition="'$(OutputType)' == 'Exe' or '$(OutputType)' == 'AppContainerExe' or '$(MSBuildProjectExtension)'=='.wapproj'">
+  <!--  Add a dependency for the app against VCLibs.Desktop, which contains the CRT DLLs that WinUI 3 is linked against. -->
+  <ItemGroup Condition="'$(OutputType)' == 'Exe' or 
+                      '$(OutputType)' == 'AppContainerExe' or 
+                      '$(MSBuildProjectExtension)'=='.wapproj' or
+                      ('$(OutputType)'=='WinExe' and '$(EnablePreviewMsixTooling)'=='true')">
     <SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0" />
     <!-- Needed for ucrtbased.dll when running a debug build. -->
     <SDKReference Include="Microsoft.UniversalCRT.Debug, Version=$(TargetPlatformVersion)" Condition="'$(Configuration)' == 'Debug'" />
@@ -224,23 +244,10 @@
     </PropertyGroup>
   </Target>
 
-  <!--
-    WindowsAppContainer is the property that you can set in your .NET Desktop project to turn it into a UWP.
-    When the ProjectReferenceWithExtraMetadata.TargetPlatformIdentifier is set to UAP, this causes the AppxManifest.xml
-    generation targets to write in the app entry point which causes UWP activation.
-  -->
-  <Target Name="UpdateTargetPlatformIdentifer" AfterTargets="SetProjectReferenceProperties" Returns="@(ProjectReferenceWithExtraMetadata)">
-    <ItemGroup>
-      <ProjectReferenceWithExtraMetadata Update="@(ProjectReferenceWithExtraMetadata)" Condition="'%(WindowsAppContainer)'=='true'">
-        <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-      </ProjectReferenceWithExtraMetadata>
-    </ItemGroup>
-  </Target>
-  
   <!-- NuGet restore is now supported for wapproj files, so we need to supply an AssetTargetFallback value
        in order for that not to raise an error. -->
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
-    <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion)</AssetTargetFallback>
+    <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
   </PropertyGroup>
 
   <!-- See https://github.com/microsoft/CsWinRT/issues/373 -->
