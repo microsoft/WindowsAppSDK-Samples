@@ -37,7 +37,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>b9fbccf9-049a-4da7-90b5-ac5c7685ec71</ProjectGuid>
-    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
@@ -64,23 +64,9 @@
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>
-  <PropertyGroup>
-    <!--PackageReference.GeneratePathProperty does not support NUGET_PACKAGES env var...-->
-    <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(NUGET_PACKAGES)</NuGetPackageRoot>
-    <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(UserProfile)\.nuget\packages</NuGetPackageRoot>
-    <PkgMicrosoft_ProjectReunion Condition="'$(PkgMicrosoft_ProjectReunion)'==''">$([MSBuild]::NormalizeDirectory('$(NuGetPackageRoot)', 'Microsoft.ProjectReunion', '0.5.0-prerelease'))</PkgMicrosoft_ProjectReunion>
-    <PkgMicrosoft_ProjectReunion Condition="!Exists($(PkgMicrosoft_ProjectReunion))">$(SolutionDir)packages\Microsoft.ProjectReunion.0.5.0-prerelease\</PkgMicrosoft_ProjectReunion>
-    <PkgMicrosoft_ProjectReunion_WinUI Condition="'$(PkgMicrosoft_ProjectReunion_WinUI)'==''">$([MSBuild]::NormalizeDirectory('$(NuGetPackageRoot)', 'Microsoft.ProjectReunion.WinUI', '0.5.0-prerelease'))</PkgMicrosoft_ProjectReunion_WinUI>
-    <PkgMicrosoft_ProjectReunion_WinUI Condition="!Exists($(PkgMicrosoft_ProjectReunion_WinUI))">$(SolutionDir)packages\Microsoft.ProjectReunion.WinUI.0.5.0-prerelease\</PkgMicrosoft_ProjectReunion_WinUI>
-    <Microsoft_ProjectReunion_AppXReference_props>$([MSBuild]::NormalizeDirectory('$(PkgMicrosoft_ProjectReunion)', 'build'))Microsoft.ProjectReunion.AppXReference.props</Microsoft_ProjectReunion_AppXReference_props>
-    <Microsoft_WinUI_AppX_targets>$([MSBuild]::NormalizeDirectory('$(PkgMicrosoft_ProjectReunion_WinUI)', 'build'))Microsoft.WinUI.AppX.targets</Microsoft_WinUI_AppX_targets>
-  </PropertyGroup>
   <ItemGroup>
-      <PackageReference Include="Microsoft.ProjectReunion" Version="[0.5.0-prerelease]" GeneratePathProperty="true">
-          <ExcludeAssets>all</ExcludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="[0.5.0-prerelease]" GeneratePathProperty="true">
-          <ExcludeAssets>all</ExcludeAssets>
+      <PackageReference Include="Microsoft.ProjectReunion" Version="[0.5.0-prerelease]">
+          <IncludeAssets>build</IncludeAssets>
       </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +75,4 @@
     <SDKReference Include="Microsoft.VCLibs, Version=14.0" Condition="'$(Configuration)' == 'Debug'" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
-  <Import Project="$(Microsoft_ProjectReunion_AppXReference_props)" />
-  <Import Project="$(Microsoft_WinUI_AppX_targets)" />
 </Project>
