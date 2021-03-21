@@ -35,10 +35,10 @@ namespace winrt::ReunionCppDesktopSampleApp::implementation
         winrt::hstring resultMessage = L"API call succeeded.";
         try
         {
-            // The purpose of this simple sample is to show the setup for injesting the Project Reunion
-            // Nuget. At the moment there is are not very many APIs exposed through Project Reunion.
+            // The purpose of this simple sample is to show the setup for ingesting the Project Reunion
+            // Nuget. At the moment there are not very many APIs exposed through Project Reunion.
             // The follow line is just calling an arbitrary method on an activatable class that is
-            // included in Project Reunion as validation/demonstration of things working ened to end.
+            // included in Project Reunion as validation/demonstration of things working end to end.
             auto activationArgs = winrt::Microsoft::ProjectReunion::AppLifecycle::GetActivatedEventArgs();
         }
         catch (winrt::hresult_error const& ex)

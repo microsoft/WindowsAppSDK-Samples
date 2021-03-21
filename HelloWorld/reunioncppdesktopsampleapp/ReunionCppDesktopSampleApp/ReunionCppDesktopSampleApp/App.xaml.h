@@ -17,7 +17,6 @@ namespace winrt::ReunionCppDesktopSampleApp::implementation
         App();
 
         void OnLaunched(Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
-        void OnSuspending(IInspectable const&, Windows::ApplicationModel::SuspendingEventArgs const&);
 
     private:
         winrt::Microsoft::UI::Xaml::Window window{ nullptr };

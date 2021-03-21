@@ -67,16 +67,9 @@
     <ProjectReference Include="..\DWriteCoreGallery\DWriteCoreGallery.vcxproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
-  <PropertyGroup Label="Configuration">
-    <!-- This post build script updates the appxmanifest to add the PackageDependency for the
-     Project Reunion framework package. Packaging project can automatically pick this up for
-     referenced UWP projects but not for referenced Win32 projects.
-
-     NOTE: This must be after the main .targets files otherwise the definitions of Macros like
-     $(ProjectDir) will not have been evaluated yet.
-     -->
-    <PostBuildEvent>
-		powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)AddReunionPackageDependency.ps1" -appxManifestPath "$(ProjectDir)$(OutDir)AppxManifest.xml" -solutionDirectory $(SolutionDir) -architecture $(PlatformName) -appxRecipePath "$(ProjectDir)$(OutDir)$(TargetFileName).build.appxrecipe"
-	</PostBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ProjectReunion" Version="[0.5.0-prerelease]">
+        <IncludeAssets>build</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
