@@ -65,9 +65,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-      <PackageReference Include="Microsoft.ProjectReunion" Version="[0.5.0-prerelease]">
-          <IncludeAssets>build</IncludeAssets>
-      </PackageReference>
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.0">
+      <IncludeAssets>build</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0" />
