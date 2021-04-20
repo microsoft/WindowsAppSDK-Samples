@@ -29,7 +29,7 @@ int APIENTRY wWinMain(
 
 #ifndef USE_INBOX_DWRITE
     // Initialize the global factory object.
-    THROW_IF_FAILED(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory7), reinterpret_cast<IUnknown**>(&g_factory)));
+    THROW_IF_FAILED(DWriteCoreCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory7), reinterpret_cast<IUnknown**>(&g_factory)));
 #else
     auto moduleHandle = LoadLibraryW(L"DWrite.dll");
     THROW_LAST_ERROR_IF_NULL(moduleHandle);
