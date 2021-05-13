@@ -3,9 +3,9 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <Platforms>x86;x64</Platforms>
-    <RuntimeIdentifiers>win10-x86;win10-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
@@ -19,7 +19,6 @@
     <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.5.6" />
   </ItemGroup>
 
-  <!-- Not needed with v0.8 or later of Project Reunion. -->
   <ItemGroup>
     <PRIResource Include="Resources.lang-de-de.resw" />
     <PRIResource Include="Resources.lang-en-us.resw" />
