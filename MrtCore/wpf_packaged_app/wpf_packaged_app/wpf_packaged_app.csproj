@@ -19,6 +19,12 @@
     <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.5.6" />
   </ItemGroup>
 
+  <!-- Not needed with v0.8 or later of Project Reunion. -->
+  <ItemGroup>
+    <PRIResource Include="Resources.lang-de-de.resw" />
+    <PRIResource Include="Resources.lang-en-us.resw" />
+  </ItemGroup>
+    
   <ItemGroup>
     <Compile Update="LegacyResources.Designer.cs">
       <DesignTime>True</DesignTime>

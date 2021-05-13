@@ -52,9 +52,9 @@
   <PropertyGroup>
     <ProjectGuid>6cb98632-6091-412f-ab5d-d6f7000073a6</ProjectGuid>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -69,6 +69,7 @@
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
+    <None Include="wpf_packaged_app %28Package%29_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wpf_packaged_app\wpf_packaged_app.csproj">
@@ -77,6 +78,8 @@
   </ItemGroup>
   <PropertyGroup>
     <EntryPointProjectUniqueName>..\wpf_packaged_app\wpf_packaged_app.csproj</EntryPointProjectUniqueName>
+    <PackageCertificateThumbprint>337C429A9C737CF0DFE83D1625E3C850248C16F8</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>wpf_packaged_app %28Package%29_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ProjectReunion">

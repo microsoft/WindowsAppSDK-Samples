@@ -16,7 +16,7 @@ namespace wpf_packaged_app
             m_resourceLoader = resourceLoader;
             m_resourceManager = resourceManager;
 
-            // Create custom resource context for the window. Set the language to German.
+            // Create custom resource context for the window. Set the language to German (Germany).
             m_resourceContext = m_resourceManager.CreateResourceContext();
             m_resourceContext.QualifierValues["Language"] = "de-DE";
 

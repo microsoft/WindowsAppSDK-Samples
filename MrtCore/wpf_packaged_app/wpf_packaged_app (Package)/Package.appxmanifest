@@ -8,12 +8,12 @@
 
   <Identity
     Name="25dee5b5-8e25-431f-a644-e75d98163029"
-    Publisher="CN=rohanp"
+    Publisher="CN=Microsoft Corporation"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>wpf_packaged_app (Package)</DisplayName>
-    <PublisherDisplayName>rohanp</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
