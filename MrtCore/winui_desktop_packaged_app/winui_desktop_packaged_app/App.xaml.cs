@@ -2,25 +2,9 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.InteropServices;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.ApplicationModel.Resources;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 using WinRT;
 
 
@@ -66,9 +50,10 @@ namespace winui_desktop_packaged_app
 
             m_window = new MainWindow(m_resourceLoader, m_resourceManager);
 
-            //Get the Window's HWND
+            // Get the Window's HWND
             var windowNative = m_window.As<IWindowNative>();
-            m_window.Title = "MRT Core C# sample";
+            // Needs to be set in code due to bug https://github.com/microsoft/microsoft-ui-xaml/issues/3689
+            m_window.Title = "MRT Core C# sample";            
             m_window.Activate();
 
             // The Window object doesn't have Width and Height properties in WInUI 3 Desktop yet.
