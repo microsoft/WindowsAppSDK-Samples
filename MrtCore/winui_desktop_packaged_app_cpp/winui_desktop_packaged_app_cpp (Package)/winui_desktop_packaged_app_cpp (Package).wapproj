@@ -57,7 +57,6 @@
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
-    <None Include="winui_desktop_packaged_app_cpp %28Package%29_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\winui_desktop_packaged_app_cpp\winui_desktop_packaged_app_cpp.vcxproj">
