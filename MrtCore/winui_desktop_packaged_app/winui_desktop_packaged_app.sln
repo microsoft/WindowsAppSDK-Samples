@@ -6,6 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "winui_desktop_packaged_app (Package)", "winui_desktop_packaged_app (Package)\winui_desktop_packaged_app (Package).wapproj", "{28B258CA-5ECC-41EE-A5B0-C2F24F3A4984}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "winui_desktop_packaged_app", "winui_desktop_packaged_app\winui_desktop_packaged_app.csproj", "{AF3AA2D2-7150-4996-8C38-0AB44604C3D0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE} = {E52B115E-E54D-4BF6-8174-4FFF5E8860BE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "ClassLibrary\ClassLibrary.csproj", "{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +52,18 @@ Global
 		{AF3AA2D2-7150-4996-8C38-0AB44604C3D0}.Release|x64.Build.0 = Release|x64
 		{AF3AA2D2-7150-4996-8C38-0AB44604C3D0}.Release|x86.ActiveCfg = Release|x86
 		{AF3AA2D2-7150-4996-8C38-0AB44604C3D0}.Release|x86.Build.0 = Release|x86
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Debug|x64.Build.0 = Debug|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Release|x64.ActiveCfg = Release|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Release|x64.Build.0 = Release|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{E52B115E-E54D-4BF6-8174-4FFF5E8860BE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

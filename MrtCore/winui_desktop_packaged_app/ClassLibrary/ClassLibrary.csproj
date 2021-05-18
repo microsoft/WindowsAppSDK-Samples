@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>ClassLibrary</RootNamespace>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="ClassLibraryResources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Include="ClassLibraryResources.resw" />
+  </ItemGroup>
+</Project>
