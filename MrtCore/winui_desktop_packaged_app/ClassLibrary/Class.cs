@@ -10,9 +10,8 @@ namespace ClassLibrary
     {
         public string GetClassLibrarySampleString()
         {
-            var resourceLoader = new ResourceLoader();
-            var uri = new System.Uri("ms-resource://323858f2-34e1-48a5-8244-5c1bc0c1f889/ClassLibrary/ClassLibraryResources/ClassLibrarySampleString");
-            return resourceLoader.GetStringForUri(uri);
+            var resourceManager = new ResourceManager();
+            return resourceManager.MainResourceMap.GetValue("ClassLibrary/ClassLibraryResources/ClassLibrarySampleString").ValueAsString;
         }
     }
 }
