@@ -32,9 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="winui_class_lib">
-      <HintPath>..\..\winui_class_lib\obj\$(Configuration)\net5-windows10.0.19041.0\winui_class_lib.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

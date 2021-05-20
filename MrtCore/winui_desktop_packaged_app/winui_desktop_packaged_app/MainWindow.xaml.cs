@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.ApplicationModel.Resources;
-using SampleLibrary;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -53,8 +52,8 @@ namespace winui_desktop_packaged_app
 
         private void defaultViaLib_Click(object sender, RoutedEventArgs e)
         {
-            var sampleType = new SampleType();
-            output.Text = sampleType.GetDefaultSampleString();
+            var classLib = new ClassLibrary.Class();
+            output.Text = classLib.GetClassLibrarySampleString();
         }
 
         private ResourceLoader m_resourceLoader;
