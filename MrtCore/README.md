@@ -10,9 +10,10 @@ products: windows
 
 MRT Core is the modern resource loading library used in WinUI 3 and Project Reunion. These samples demonstrate how to use MRT Core to load resources from multiple resource files and how to select which version of a specific named resource to load. 
 
-## Building and running the C# WinUI sample, or the C++ WinUI sample, or the C# WPF sample
+## Building and running any of the samples
 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion#set-up-your-development-environment).
+For the unpackaged sample apps, make sure you are set up correctly by following the steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion/deploy-unpackaged-apps).
 
 1. Open the solution file (.sln, e.g., winui_desktop_packaged_app\winui_desktop_packaged_app.sln) in Visual Studio 2019 Preview.
 2. Build the solution.
