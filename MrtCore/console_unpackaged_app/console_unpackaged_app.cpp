@@ -13,7 +13,7 @@
 using namespace winrt;
 using namespace winrt::Microsoft::ApplicationModel::Resources;
 
-HRESULT MddBootstrapInitializeWrapper()
+HRESULT LoadProjectReunion()
 {
     // Take a dependency on Project Reunion v0.8 preview.
     const UINT32 majorMinorVersion{ 0x00000008 };
@@ -22,7 +22,7 @@ HRESULT MddBootstrapInitializeWrapper()
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
     if (FAILED(hr))
     {
-        wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
+        wprintf(L"Error 0x%08X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
             hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
         return hr;
     }
@@ -30,22 +30,12 @@ HRESULT MddBootstrapInitializeWrapper()
     return S_OK;
 }
 
-ResourceManager InitMrtCore()
-{
-    // Required for C++/WinRT. This call associates this thread with an apartment and initializes COM runtime.
-    init_apartment();
-
-    // Create a resource manager using the resources index (PRI file) generated during build.
-    auto factory = winrt::get_activation_factory<ResourceManager, IResourceManagerFactory>();
-    return factory.CreateInstance(L"console_unpackaged_app.pri");
-}
-
 int wmain(int argc, wchar_t* argv[])
 {
     // Print usage help.
-    if ((argc < 2) || (wcscmp(argv[1], L"--help") == 0) || (wcscmp(argv[1], L"-?") == 0))
+    if ((argc < 2) || (_wcsicmp(argv[1], L"--help") == 0) || (_wcsicmp(argv[1], L"-?") == 0))
     {
-        std::cout << "Usage: console_unpackaged_app.exe [options] [mode]\n"
+        std::wcout << "Usage: console_unpackaged_app.exe [options] [mode]\n"
             "options:\n"
             "  -?, --help = Display help\n"
             "mode:\n"
@@ -68,13 +58,19 @@ int wmain(int argc, wchar_t* argv[])
     }
 
     // Initialize dynamic dependencies so we can consume the Project Reunion APIs in the Project Reunion framework package from this unpackaged app. 
-    HRESULT mddInitHr = MddBootstrapInitializeWrapper();
+    HRESULT mddInitHr = LoadProjectReunion();
     if (FAILED(mddInitHr))
     {
         return 1;
     }
 
-    ResourceManager manager = InitMrtCore();
+    // Required for C++/WinRT. This call associates this thread with an apartment and initializes COM runtime.
+    init_apartment();
+
+    // Create a resource manager using the resources index (PRI file) generated during build.
+    auto factory = winrt::get_activation_factory<ResourceManager, IResourceManagerFactory>();
+    ResourceManager manager = factory.CreateInstance(L"console_unpackaged_app.pri");
+
     manager.ResourceNotFound([](ResourceManager const&, ResourceNotFoundEventArgs const& args)
         {
             // There could be a resource in a legacy resource file that we retrieve using the corresponding legacy resource loader. For example, the C#
@@ -86,11 +82,11 @@ int wmain(int argc, wchar_t* argv[])
             }
         });
 
-    if ((wcscmp(argv[1], L"Default") == 0) || (wcscmp(argv[1], L"default") == 0))
+    if ((_wcsicmp(argv[1], L"Default") == 0) || (_wcsicmp(argv[1], L"default") == 0))
     {
         std::wcout << manager.MainResourceMap().GetValue(L"Resources/SampleString").ValueAsString().c_str() << std::endl;
     }
-    else if ((wcscmp(argv[1], L"Override") == 0) || wcscmp(argv[1], L"override") == 0)
+    else if ((_wcsicmp(argv[1], L"Override") == 0) || _wcsicmp(argv[1], L"override") == 0)
     {
         // Create a custom resource context. Set the language to German.
         ResourceContext overrideResourceContext = manager.CreateResourceContext();
@@ -99,7 +95,7 @@ int wmain(int argc, wchar_t* argv[])
         // Use the custom resource context for the resource lookup.
         std::wcout << manager.MainResourceMap().GetValue(L"Resources/SampleString", overrideResourceContext).ValueAsString().c_str() << std::endl;
     }
-    else if ((wcscmp(argv[1], L"Fallback") == 0) || (wcscmp(argv[1], L"fallback") == 0))
+    else if ((_wcsicmp(argv[1], L"Fallback") == 0) || (_wcsicmp(argv[1], L"fallback") == 0))
     {
         std::wcout << manager.MainResourceMap().GetValue(L"Resources/LegacyString").ValueAsString().c_str() << std::endl;
     }
