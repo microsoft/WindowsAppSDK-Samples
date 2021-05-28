@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #include <windows.h>
+#include <wil/resource.h>
 #include <iostream>
 
 #include "winrt\Windows.Foundation.h"
@@ -64,6 +65,13 @@ int wmain(int argc, wchar_t* argv[])
         return 1;
     }
 
+    // Uninitialize dynamic dependencies.
+    auto cleanup = wil::scope_exit([]
+        {
+            MddBootstrapShutdown();
+        });
+
+
     // Required for C++/WinRT. This call associates this thread with an apartment and initializes COM runtime.
     init_apartment();
 
@@ -104,7 +112,5 @@ int wmain(int argc, wchar_t* argv[])
         std::wcout << "Invalid argument!" << std::endl;
     }
 
-    // Uninitialize dynamic dependencies.
-    MddBootstrapShutdown();
     return 0;
 }
