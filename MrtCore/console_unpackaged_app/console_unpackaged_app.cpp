@@ -59,9 +59,10 @@ int wmain(int argc, wchar_t* argv[])
     }
 
     // Initialize dynamic dependencies so we can consume the Project Reunion APIs in the Project Reunion framework package from this unpackaged app. 
-    HRESULT mddInitHr = LoadProjectReunion();
-    if (FAILED(mddInitHr))
+    HRESULT loadProjectReunionHr = LoadProjectReunion();
+    if (FAILED(loadProjectReunionHr))
     {
+        std::wcout << "Could not load Project Reunion!" << std::endl;
         return 1;
     }
 
