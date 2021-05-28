@@ -2,7 +2,7 @@
 title: "Load resources using MRT Core"
 description: "Use MRT Core's ResourceLoader and ResourceManager to load resources from several resource files"
 page_type: sample
-languages: csharp, cpp
+languages: c#, c++
 products: windows
 ---
 
@@ -12,7 +12,7 @@ MRT Core is the modern resource loading library used in WinUI 3 and Project Reun
 
 ## Building and running any of the samples
 
-Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion#set-up-your-development-environment).
+Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion/set-up-your-development-environment).
 For the unpackaged sample apps, in addition to the steps for setting up the environment for Project Reunion, make sure to follow the instructions [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion/deploy-unpackaged-apps).
 
 1. Open the solution file (*.sln, e.g., `winui_desktop_packaged_app\winui_desktop_packaged_app.sln`) in Visual Studio 2019 Preview.
