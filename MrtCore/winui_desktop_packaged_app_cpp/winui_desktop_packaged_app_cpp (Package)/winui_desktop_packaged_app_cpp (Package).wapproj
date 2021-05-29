@@ -64,7 +64,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.0">
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.0-preview">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>
