@@ -39,7 +39,7 @@ namespace winrt::ReunionCppDesktopSampleApp::implementation
             // Nuget. At the moment there are not very many APIs exposed through Project Reunion.
             // The follow line is just calling an arbitrary method on an activatable class that is
             // included in Project Reunion as validation/demonstration of things working end to end.
-            auto activationArgs = winrt::Microsoft::ProjectReunion::AppLifecycle::GetActivatedEventArgs();
+            auto activationArgs = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent().GetActivatedEventArgs();
         }
         catch (winrt::hresult_error const& ex)
         {
