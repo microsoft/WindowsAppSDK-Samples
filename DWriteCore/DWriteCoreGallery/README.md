@@ -59,5 +59,5 @@ task process" to "Native Only".
 
 ## Related Links
 
-- [Project Reunion](https://docs.microsoft.com/en-us/windows/apps/project-reunion)
-- [DWriteCore](https://docs.microsoft.com/en-us/windows/apps/project-reunion/dwritecore)
+- [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
+- [DWriteCore](https://docs.microsoft.com/windows/apps/project-reunion/dwritecore)
