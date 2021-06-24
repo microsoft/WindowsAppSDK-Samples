@@ -45,7 +45,7 @@ This includes script analysis, bi-directional analysis, shaping, and so on.
 
 ## Building, running, and studying the sample
 
-1. Follow steps [here](https://docs.microsoft.com/en-us/windows/apps/project-reunion#set-up-your-development-environment) to set up environment.
+1. Follow steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk#set-up-your-development-environment) to set up environment.
 
 2. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 
@@ -59,5 +59,5 @@ task process" to "Native Only".
 
 ## Related Links
 
-- [Project Reunion](https://docs.microsoft.com/en-us/windows/apps/project-reunion)
-- [DWriteCore](https://docs.microsoft.com/en-us/windows/apps/project-reunion/dwritecore)
+- [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
+- [DWriteCore](https://docs.microsoft.com/windows/apps/windows-app-sdk/dwritecore)
