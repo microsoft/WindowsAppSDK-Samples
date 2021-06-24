@@ -12,8 +12,8 @@ MRT Core is the modern resource loading library used in WinUI 3 and the Windows 
 
 ## Building and running any of the samples
 
-Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/project-reunion/set-up-your-development-environment).
-For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/project-reunion/deploy-unpackaged-apps).
+Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
 
 1. Open the solution file (*.sln, e.g., `winui_desktop_packaged_app\winui_desktop_packaged_app.sln`) in Visual Studio 2019 Preview.
 2. Build the solution.
