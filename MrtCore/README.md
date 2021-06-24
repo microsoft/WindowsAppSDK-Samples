@@ -23,4 +23,4 @@ For the unpackaged sample apps, in addition to the steps for setting up the envi
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [MRT Core](https://docs.microsoft.com/windows/apps/project-reunion/mrtcore/mrtcore-overview)
+- [MRT Core](https://docs.microsoft.com/windows/apps/windows-app-sdk/mrtcore/mrtcore-overview)
