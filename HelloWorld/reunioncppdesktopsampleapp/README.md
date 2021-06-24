@@ -1,6 +1,6 @@
 # Windows App SDK Hello World Sample
 
-This C++ sample demonstrates an instance of the "Blank App, Packaged (WinUI in Desktop)" project template (available in WinUI 3) that has been configured to include the Project Reunion NuGet package. This sample simply displays a button that, when pressed, makes a call to AppLifecycle::GetActivatedEventArgs() to show that Windows App SDK APIs load and run correctly. You can use this sample as a starting point for exploring Project Reunion APIs. For more info about the available APIs, see the following links.
+This C++ sample demonstrates an instance of the "Blank App, Packaged (WinUI in Desktop)" project template (available in WinUI 3) that has been configured to include the Project Reunion NuGet package. This sample simply displays a button that, when pressed, makes a call to AppLifecycle::GetActivatedEventArgs() to show that Windows App SDK APIs load and run correctly. You can use this sample as a starting point for exploring Windows App SDK APIs. For more info about the available APIs, see the following links.
 
 * [MRT Core](https://docs.microsoft.com/windows/apps/windows-app-sdk/mrtcore/mrtcore-overview)
 * [DWrite Core](https://docs.microsoft.com/windows/apps/windows-app-sdk/dwritecore)
