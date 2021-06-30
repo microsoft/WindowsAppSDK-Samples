@@ -173,8 +173,6 @@ description: "Shows how to create and register background tasks that will run in
 
 - Use 4 spaces instead of tabs, and trim trailing spaces.
 
-- The top of each file needs Microsoft copyright [TODO]
-
 ## Code Guidelines
 
 The Windows App SDK Samples coding guidelines generally follow industry standards, with some additional rules specific to the samples environment.
@@ -442,12 +440,6 @@ Avoid culturally-sensitive content, such as flags, countries, and names of dispu
 
 ### Legal issues
 
-Follow Microsoft policies for fictitious content, such as names, phone numbers, street addresses, and email addresses.
-
-Sample datasets should avoid culturally sensitive topics such as gambling, religion, and controversial books. Sample datasets should also try to avoid content that is culturally-specific, such as "movies that were popular in the United States in the late 20th Century".
-
 Comply with all licensing requirements for any content included with your sample. If you include images, fonts, text excerpts, and other potentially-copyrightable material, include information in the pull request confirming that the sample complies with all licensing requirements. (For example, "The images were obtained from <links> and are redistributable under the Creative Commons BY license. Attribution is included in the README.")
 
 Do not include proprietary intellectual property in samples.
-
-Do not include references to bug numbers, internal code names, names of Microsoft employees, etc. in samples. You can reference them in the pull request description, but do not put them in the samples files themselves.
