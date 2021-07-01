@@ -19,9 +19,11 @@ The following steps describe the workflow for the Windows App SDK Samples repo.
 
 ## Design Guidelines
 
+If you have no strong opinion and if your feature allows for it, we recommend writing a scenario-based sample. See the guidelines below on how to write a scenario-based sample. If your feature would be better served as an end-to-end sample, you can proceed with that route. All samples should be complete but simple.
+
 ### Scenario-based
 
-Samples should be scenario-based. They should be complete but simple. Each sample is broken down into a number of scenarios. Each scenario covers one way of using the API being demonstrated.
+The sample is broken down into a number of scenarios. Each scenario covers one way of using the API being demonstrated.
 
 A sample scenario is not a scratchpad. A scratchpad is a page full of buttons, checkboxes, text boxes, etc. where the code simply takes the values from the controls and calls the API and prints the result. This is useful for experimentation and functional testing, but it does not provide any insight into how the API should be used (indeed, such a program could be built automatically from API function signatures without any knowledge of the API at all). For example, a scratchpad Muffin program might have three buttons: *Start*, *Get Value*, and *Stop*:
 
