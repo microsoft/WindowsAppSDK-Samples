@@ -6,6 +6,7 @@ This document outlines the guidelines and best practices for Windows App SDK sam
 - [Design Guidelines](#design-guidelines)
 - [Coding Guidelines](#code-guidelines)
 - [Sample Coverage](#sample-coverage)
+- [Standardization and Naming](#standardization-and-naming)
 - [Checklist](#checklist)
 
 ## Workflow
@@ -151,29 +152,6 @@ It is okay for scenarios to hard-code sample data. Make sure to adhere to the gu
 Avoid helper classes unless they contribute to better understanding of the sample. For example instead of a helper class that calls `deferral.Complete()` automatically, call `deferral.Complete()` manually at the appropriate point in the sample. Developers reading the sample will see the correct point of completion and can create their own wrapper when porting to their app.
 
 **Exception**: In C#, it is acceptable to use the `using` statement to automatically close/complete objects, since this is how production apps will close/complete them, too.
-
-### Samples Browser Metadata
-
-In the README file of your sample, make sure to include the YAML front-matter metadata header to integrate samples with the [Docs Samples Browser](https://docs.microsoft.com/samples/browse/).
-
-For example:
-
-```md
----
-page_type: sample
-languages:
-- csharp
-- cpp
-products:
-- windows
-urlFragment: BackgroundActivation
-description: "Shows how to create and register background tasks that will run in the main process."
----
-```
-
-### Other
-
-- Use 4 spaces instead of tabs, and trim trailing spaces.
 
 ## Code Guidelines
 
@@ -411,6 +389,33 @@ The guidelines for sample coverage are as follows:
 
 - In general, we want to give component owners the flexibility to decide what samples are most important to include. 
 
+## Standardization and Naming
+
+This section will be updated to include more specific guidelines on naming samples (directory structure, naming conventions for different sample configurations).
+
+### Samples Browser Metadata
+
+In the README file of your sample, make sure to include the YAML front-matter metadata header to integrate samples with the [Docs Samples Browser](https://docs.microsoft.com/samples/browse/).
+
+For example:
+
+```md
+---
+page_type: sample
+languages:
+- csharp
+- cpp
+products:
+- windows
+urlFragment: BackgroundActivation
+description: "Shows how to create and register background tasks that will run in the main process."
+---
+```
+
+### Other
+
+- Use 4 spaces instead of tabs, and trim trailing spaces.
+- 
 ## Checklist
 
 ### Build
