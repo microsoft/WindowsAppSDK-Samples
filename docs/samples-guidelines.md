@@ -154,7 +154,7 @@ Avoid helper classes unless they contribute to better understanding of the sampl
 
 ### Samples Browser Metadata
 
-In the README file of your sample, make sure to include the YAML metadata header in to allow for indexing from docs.microsoft.com/samples.
+In the README file of your sample, make sure to include the YAML front-matter metadata header to integrate samples with the [Docs Samples Browser](https://docs.microsoft.com/samples/browse/).
 
 For example:
 
@@ -218,18 +218,17 @@ If a `try/catch` is unavoidable due to the API design:
     In C++, you have to do this manually.
 
     ```cpp
-    // C++/CX
-    try
+    // C++/WinRT
+     try
     {
     ... something ...
     }
-    catch (Exception^ ex)
+    catch (hresult_error const& ex)
     {
-        if (ex->HResult != E_BLUETOOTH_ATT_WRITE_NOT_PERMITTED)
+        if (ex.code() != E_BLUETOOTH_ATT_WRITE_NOT_PERMITTED)
         {
             throw;
         }
-
         ... handle specific exception ...
     }
     ```
@@ -394,11 +393,11 @@ The conventional order of class members is:
 
 There are several options and possible combinations for application types, including: 
 
-- Languages: C#, C++, Rust, JS, etc 
+- Languages: C#, C++, Rust, JS, etc.
 
 - UI Frameworks: WinUI, WPF, WinForms, Console, WinMain 
 
-- Runtime: Packaged vs Unpackaged  
+- Runtime: Packaged, Unpackaged  
 
 - Deployment Method: Framework Package, AppLocal 
 
