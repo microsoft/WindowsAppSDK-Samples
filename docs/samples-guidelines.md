@@ -415,7 +415,7 @@ description: "Shows how to create and register background tasks that will run in
 ### Other
 
 - Use 4 spaces instead of tabs, and trim trailing spaces.
-- 
+
 ## Checklist
 
 ### Build
