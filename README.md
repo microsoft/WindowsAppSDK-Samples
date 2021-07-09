@@ -1,6 +1,6 @@
 # Windows App SDK Samples
 
-This repository hosts samples related to the Windows App SDK. Currently it hosts the following three samples, and we will be adding a lot more as the project continues to grow.
+This repository hosts samples related to the [Windows App SDK](https://github.com/microsoft/WindowsAppSDK). Currently it hosts the following three samples, and we will be adding a lot more as the project continues to grow.
 
 - [Hello World sample](Samples/HelloWorld): This sample demonstrates a basic integration with the Project Reunion NuGet package.
 - [Text Rendering sample](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
