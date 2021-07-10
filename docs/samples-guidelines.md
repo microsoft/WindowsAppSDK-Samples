@@ -373,7 +373,7 @@ There are several options and possible combinations for application types, inclu
 
 - Languages: C#, C++, Rust, JS, etc.
 
-- UI Frameworks: WinUI, WPF, WinForms, Console, WinMain 
+- UI Frameworks: WinUI, WPF, WinForms, Console, Win32 
 
 - Runtime: Packaged, Unpackaged  
 
@@ -391,7 +391,37 @@ The guidelines for sample coverage are as follows:
 
 ## Standardization and Naming
 
-This section will be updated to include more specific guidelines on naming samples (directory structure, naming conventions for different sample configurations).
+### Directory Structure
+
+The WindowsAppSDK-Samples repo is organized in the following manner:
+
+```
+\Samples
+     \<FeatureName>
+          \<Language>-<UI Framework>
+```
+
+- `<FeatureName>`: Use the simple English name instead of the component name, making samples more discoverable for end developers. 
+- `<Language>`: *cs | cpp*
+- `<UI Framework>`:
+    - For C# samples: *winui | wpf | winforms | console* 
+    - For C++ samples: *winui | win32 | console | directx*   
+- The default configuration assumption is: Runtime = MSIX Packaged, Deployment Method = Framework Packaged. If a sample differs from the default Runtime and Deployment options, further specify the folder name, for example: *cs-wpf-unpackaged* or *cpp-winui-applocal*. 
+- It is recommended to place shared code in a separate folder under the `<FeatureName>` folder, e.g. *cs-shared*.  
+
+Here is an example illustrating the scenarios above: 
+    
+```
+\Samples 
+    \Activation 
+        \cs-wpf  (default: MSIX Packaged + Framework Packaged)  
+        \cs-wpf-applocal (MSIX Packaged + AppLocal) 
+        \cs-wpf-unpackaged (Unpackaged + Framework Packaged) 
+        \cs-wpf-unpackaged-applocal (Unpackaged + AppLocal) 
+        \cs-shared
+        ...
+        \cpp-console
+```
 
 ### Samples Browser Metadata
 
