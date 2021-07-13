@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.ProjectReunion.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.props" Condition="Exists('..\packages\Microsoft.ProjectReunion.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.props')" />
+  <Import Project="..\packages\Microsoft.ProjectReunion.DWrite.0.5.0-prerelease\build\Microsoft.ProjectReunion.DWrite.props" Condition="Exists('..\packages\Microsoft.ProjectReunion.DWrite.0.5.0-prerelease\build\Microsoft.ProjectReunion.DWrite.props')" />
+  <Import Project="..\packages\Microsoft.ProjectReunion.Foundation.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.Foundation.props" Condition="Exists('..\packages\Microsoft.ProjectReunion.Foundation.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.Foundation.props')" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{d8b2b69b-b493-46f8-a8e7-c40a7c41728d}</ProjectGuid>
+    <RootNamespace>DWriteCoreGallery</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="CustomFontCollection.h" />
+    <ClInclude Include="FontCollectionWindow.h" />
+    <ClInclude Include="FontFaceListWindow.h" />
+    <ClInclude Include="FontFamilyListWindow.h" />
+    <ClInclude Include="ListWindow.h" />
+    <ClInclude Include="MarkdownWindow.h" />
+    <ClInclude Include="ResourceFontFileLoader.h" />
+    <ClInclude Include="Scenario_BasicTextLayout.h" />
+    <ClInclude Include="ChildWindow.h" />
+    <ClInclude Include="Helpers.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenario_FontCollection.h" />
+    <ClInclude Include="SplitWindow.h" />
+    <ClInclude Include="StaticTextWindow.h" />
+    <ClInclude Include="TextRenderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="App.ico" />
+    <Image Include="AppSmall.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CustomFontCollection.cpp" />
+    <ClCompile Include="FontCollectionWindow.cpp" />
+    <ClCompile Include="FontFaceListWindow.cpp" />
+    <ClCompile Include="FontFamilyListWindow.cpp" />
+    <ClCompile Include="ListWindow.cpp" />
+    <ClCompile Include="MarkdownWindow.cpp" />
+    <ClCompile Include="ResourceFontFileLoader.cpp" />
+    <ClCompile Include="Scenario_BasicTextLayout.cpp" />
+    <ClCompile Include="ChildWindow.cpp" />
+    <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="Scenario_FontCollection.cpp" />
+    <ClCompile Include="Scenario_OpticalSize.cpp" />
+    <ClCompile Include="SplitWindow.cpp" />
+    <ClCompile Include="StaticTextWindow.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="DWriteCoreGallery.exe.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Introduction.md" />
+    <None Include="CustomFontCollection.md" />
+    <None Include="OpticalSize.md" />
+    <None Include="packages.config" />
+    <None Include="SystemFontCollectionTypo.md" />
+    <None Include="SystemFontCollectionWss.md" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.Windows.ImplementationLibrary.1.0.201120.3\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.201120.3\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
+    <Import Project="..\packages\Microsoft.ProjectReunion.Foundation.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.Foundation.targets" Condition="Exists('..\packages\Microsoft.ProjectReunion.Foundation.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.Foundation.targets')" />
+    <Import Project="..\packages\Microsoft.ProjectReunion.DWrite.0.5.0-prerelease\build\Microsoft.ProjectReunion.DWrite.targets" Condition="Exists('..\packages\Microsoft.ProjectReunion.DWrite.0.5.0-prerelease\build\Microsoft.ProjectReunion.DWrite.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.201120.3\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.ImplementationLibrary.1.0.201120.3\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ProjectReunion.Foundation.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.Foundation.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ProjectReunion.Foundation.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.Foundation.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ProjectReunion.Foundation.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.Foundation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ProjectReunion.Foundation.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.Foundation.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ProjectReunion.DWrite.0.5.0-prerelease\build\Microsoft.ProjectReunion.DWrite.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ProjectReunion.DWrite.0.5.0-prerelease\build\Microsoft.ProjectReunion.DWrite.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ProjectReunion.DWrite.0.5.0-prerelease\build\Microsoft.ProjectReunion.DWrite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ProjectReunion.DWrite.0.5.0-prerelease\build\Microsoft.ProjectReunion.DWrite.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ProjectReunion.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ProjectReunion.0.5.0-prerelease\build\native\Microsoft.ProjectReunion.props'))" />
+  </Target>
+</Project>
