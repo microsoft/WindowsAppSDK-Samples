@@ -3,7 +3,7 @@
 The roadmap for Windows App SDK Samples outlines the plans for what samples will be provided to users.
 
 
-#App Lifecycle (1.0 GA)
+# App Lifecycle (1.0 GA)
 
 * WinMain
     * C++
@@ -39,7 +39,7 @@ The roadmap for Windows App SDK Samples outlines the plans for what samples will
 * WPF
     * C#
 
-#Push Notifications (Schedule Inline)
+# Push Notifications (Schedule Inline)
 * Console
     * C++
         * Packaged
