@@ -46,4 +46,4 @@ nuget update $winuicppsln -id Microsoft.WindowsAppSDK.Foundation -version $windo
 nuget update $winuicppsln -id Microsoft.WindowsAppSDK.DWrite -version $windowsAppSDKVersion
 nuget update $winuicppsln -id Microsoft.WindowsAppSDK -version $windowsAppSDKVersion
 nuget restore $winuicppsln
-& $msbuild $winuicppsln /restore /p:platform=x86 /p:configuration=debug
+& $msbuild $winuicppsln /restore /p:platform=x86 /p:configuration=debug /p:WindowsAppSDKPackageVersion=$windowsAppSDKVersion
