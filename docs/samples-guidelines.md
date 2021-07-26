@@ -429,9 +429,9 @@ Here is an example illustrating the naming guidelines above:
 
 When a new GA release of the Windows App SDK is available, we will create a new branch for that version, allowing us to maintain older versions of the samples. Only samples on the latest GA release (not experimental/preview features) should be in the branches for specific releases.
 
-The “main” branch represents the head of development, so it may include experimental features or preview versions of the Windows App SDK. The default branch for the repo will be set to the latest publicly available Windows App SDK release, for example release/1.x. When a new GA release is available (e.g. Windows App SDK vX.Y), we snap a “release/X.Y” branch, and update the default branch to the new “release/X.Y” branch.
+The `main` branch represents the head of development, so it may include experimental features or preview versions of the Windows App SDK. The default branch for the repo will be set to the latest publicly available Windows App SDK release, for example `release/1.x`. When a new GA release is available (e.g. Windows App SDK vX.Y), we snap a `release/X.Y` branch, and update the default branch to the new `release/X.Y` branch.
 
-When we fork a new release/X.Y branch, we will need to pick and choose which samples go into the release/X.Y branch. Experimental samples need to be tagged clearly in the sample’s README.  
+When we branch for a new version of the Windows App SDK, we will need to pick and choose which samples go into the new branch. Experimental samples need to be tagged clearly in the sample’s README so that these samples are not included.  
 
 ### Samples Browser Metadata
 
