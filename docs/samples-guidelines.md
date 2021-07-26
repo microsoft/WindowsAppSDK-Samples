@@ -22,7 +22,7 @@ The following steps describe the workflow for the Windows App SDK Samples repo.
 
 If you have no strong opinion and if your feature allows for it, we recommend writing a scenario-based sample. See the guidelines below on how to write a scenario-based sample. If your feature would be better served as an end-to-end sample, you can proceed with that route. All samples should be complete but simple.
 
-### Scenario-based
+### Scenario-based 
 
 The sample is broken down into a number of scenarios. Each scenario covers one way of using the API being demonstrated.
 
@@ -367,21 +367,25 @@ The conventional order of class members is:
 
 - Interpolated strings are permitted.
 
+### Other
+
+- Use 4 spaces instead of tabs, and trim trailing spaces.
+
 ## Sample Coverage
 
-There are several options and possible combinations for application types, including: 
+There are several options and possible combinations that Windows App SDK samples applications may encompass, including:
 
 - Languages: C#, C++, Rust, JS, etc.
 
 - UI Frameworks: WinUI, WPF, WinForms, Console, Win32 
 
-- Runtime: Packaged, Unpackaged  
+- Runtime: MSIX Packaged, Unpackaged  
 
 - Deployment Method: Framework Package, AppLocal 
 
 - Security: FullTrust, PartialTrust 
 
-The guidelines for sample coverage are as follows: 
+The guidelines for sample coverage are as follows:
 
 - We recommend having samples for both C# and C++ at a minimum.  
 
@@ -406,22 +410,28 @@ The WindowsAppSDK-Samples repo is organized in the following manner:
 - `<UI Framework>`:
     - For C# samples: *winui | wpf | winforms | console* 
     - For C++ samples: *winui | win32 | console | directx*   
-- The default configuration assumption is: Runtime = MSIX Packaged, Deployment Method = Framework Packaged. If a sample differs from the default Runtime and Deployment options, further specify the folder name, for example: *cs-wpf-unpackaged* or *cpp-winui-applocal*. 
+- The default configuration assumption is that samples are MSIX Packaged and deployed using the Framework Package. If a sample differs from the default, further specify the folder name, for example: *cs-wpf-unpackaged*.
 - It is recommended to place shared code in a separate folder under the `<FeatureName>` folder, e.g. *cs-shared*.  
 
-Here is an example illustrating the scenarios above: 
+Here is an example illustrating the naming guidelines above:
     
 ```
 \Samples 
     \Activation 
-        \cs-wpf  (default: MSIX Packaged + Framework Packaged)  
-        \cs-wpf-applocal (MSIX Packaged + AppLocal) 
+        \cs-wpf  (MSIX Packaged + Framework Packaged)   
         \cs-wpf-unpackaged (Unpackaged + Framework Packaged) 
-        \cs-wpf-unpackaged-applocal (Unpackaged + AppLocal) 
         \cs-shared
         ...
         \cpp-console
 ```
+
+### Repo Branching
+
+When a new GA release of the Windows App SDK is available, we will create a new branch for that version, allowing us to maintain older versions of the samples. Only samples on the latest GA release (not experimental/preview features) should be in the branches for specific releases.
+
+The “main” branch represents the head of development, so it may include experimental features or preview versions of the Windows App SDK. The default branch for the repo will be set to the latest publicly available Windows App SDK release, for example release/1.x. When a new GA release is available (e.g. Windows App SDK vX.Y), we snap a “release/X.Y” branch, and update the default branch to the new “release/X.Y” branch.
+
+When we fork a new release/X.Y branch, we will need to pick and choose which samples go into the release/X.Y branch. Experimental samples need to be tagged clearly in the sample’s README.  
 
 ### Samples Browser Metadata
 
@@ -441,10 +451,6 @@ urlFragment: BackgroundActivation
 description: "Shows how to create and register background tasks that will run in the main process."
 ---
 ```
-
-### Other
-
-- Use 4 spaces instead of tabs, and trim trailing spaces.
 
 ## Checklist
 
