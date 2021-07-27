@@ -36,8 +36,8 @@ $msbuild = "msbuild.exe"
 # dotnet add $winuicppsln package Microsoft.WindowsAppSDK.WinUI -v $windowsAppSDKVersion
 
 # # & $msbuild $testroot /restore /p:platform=x86 /p:configuration=debug
-
-
+nuget sources
+nuget restore
 $winuicppsln = "$PSScriptRoot\ResourceManagement\cpp-console-unpackaged\console_unpackaged_app.sln"
 Write-Host $winuicppsln ": " $windowsAppSDKVersion
 nuget update $winuicppsln -id Microsoft.WindowsAppSDK.WinUI -version $windowsAppSDKVersion
