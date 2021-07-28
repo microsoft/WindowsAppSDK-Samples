@@ -40,10 +40,10 @@ nuget sources
 
 $winuicppsln = "$PSScriptRoot\ResourceManagement\cpp-console-unpackaged\console_unpackaged_app.sln"
 Write-Host $winuicppsln ": " $windowsAppSDKVersion
+nuget restore $winuicppsln
 nuget update $winuicppsln -id Microsoft.WindowsAppSDK.WinUI -version $windowsAppSDKVersion
 nuget update $winuicppsln -id Microsoft.WindowsAppSDK.InteractiveExperiences -version $windowsAppSDKVersion
 nuget update $winuicppsln -id Microsoft.WindowsAppSDK.Foundation -version $windowsAppSDKVersion
 nuget update $winuicppsln -id Microsoft.WindowsAppSDK.DWrite -version $windowsAppSDKVersion
 nuget update $winuicppsln -id Microsoft.WindowsAppSDK -version $windowsAppSDKVersion
-nuget restore $winuicppsln
 & $msbuild $winuicppsln /restore /p:platform=x86 /p:configuration=debug /p:WindowsAppSDKPackageVersion=$windowsAppSDKVersion
