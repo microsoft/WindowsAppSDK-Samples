@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\Microsoft.WindowsAppSDK.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.props')" />
+  <Import Project="packages\Microsoft.WindowsAppSDK.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
