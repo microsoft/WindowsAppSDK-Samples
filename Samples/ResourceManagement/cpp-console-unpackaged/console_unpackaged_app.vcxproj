@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\Microsoft.WindowsAppSDK.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.props')" />
-  <Import Project="packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.props')" />
-  <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
-  <Import Project="packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
-  <Import Project="packages\Microsoft.WindowsAppSDK.InteractiveExperiences.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.WinUI.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.WinUI.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
@@ -221,19 +216,19 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Windows.ApplicationModel.DynamicDependency, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime">
-      <HintPath>packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\lib\native\Microsoft.Windows.ApplicationModel.DynamicDependency.winmd</HintPath>
+      <HintPath>packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\lib\native\Microsoft.Windows.ApplicationModel.DynamicDependency.winmd</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Windows.AppLifecycle, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime">
-      <HintPath>packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\lib\native\Microsoft.Windows.AppLifecycle.winmd</HintPath>
+      <HintPath>packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\lib\native\Microsoft.Windows.AppLifecycle.winmd</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Windows.PushNotifications, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime">
-      <HintPath>packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\lib\native\Microsoft.Windows.PushNotifications.winmd</HintPath>
+      <HintPath>packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\lib\native\Microsoft.Windows.PushNotifications.winmd</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsApp.Resources, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime">
-      <HintPath>packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\lib\native\Microsoft.WindowsApp.Resources.winmd</HintPath>
+      <HintPath>packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\lib\native\Microsoft.WindowsApp.Resources.winmd</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -245,10 +240,6 @@
     <Import Project="packages\Microsoft.WindowsAppSDK.InteractiveExperiences.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" />
     <Import Project="packages\Microsoft.WindowsAppSDK.WinUI.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.WinUI.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.WinUI.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" />
     <Import Project="packages\Microsoft.Windows.ImplementationLibrary.1.0.210204.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('packages\Microsoft.Windows.ImplementationLibrary.1.0.210204.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
-    <Import Project="packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" />
-    <Import Project="packages\Microsoft.WindowsAppSDK.InteractiveExperiences.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" />
-    <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" />
-    <Import Project="packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -257,13 +248,13 @@
     <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.210505.3\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.210505.3\build\native\Microsoft.Windows.CppWinRT.props'))" />
     <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.210505.3\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.210505.3\build\native\Microsoft.Windows.CppWinRT.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.Windows.ImplementationLibrary.1.0.210204.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.ImplementationLibrary.1.0.210204.1\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.WinUI.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.WinUI.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.InteractiveExperiences.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.InteractiveExperiences.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.Foundation.0.9.0-20210722.17.CI\build\native\Microsoft.WindowsAppSDK.Foundation.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.DWrite.0.9.0-20210722.17.CI\build\Microsoft.WindowsAppSDK.DWrite.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.WinUI.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.WinUI.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.WinUI.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.WinUI.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.WinUI.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.WinUI.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.InteractiveExperiences.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.InteractiveExperiences.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.Foundation.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.Foundation.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.Foundation.$(WindowsAppSDKPackageVersion)\build\native\Microsoft.WindowsAppSDK.Foundation.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.DWrite.$(WindowsAppSDKPackageVersion)\build\Microsoft.WindowsAppSDK.DWrite.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.DWrite.$(WindowsAppSDKPackageVersion)\build\Microsoft.WindowsAppSDK.DWrite.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.DWrite.$(WindowsAppSDKPackageVersion)\build\Microsoft.WindowsAppSDK.DWrite.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.DWrite.$(WindowsAppSDKPackageVersion)\build\Microsoft.WindowsAppSDK.DWrite.targets'))" />
   </Target>
 </Project>
