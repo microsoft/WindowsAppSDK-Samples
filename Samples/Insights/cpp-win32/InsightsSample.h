@@ -3,13 +3,13 @@
 
 #pragma once
 
-#include "WindowsAppSDKTelemetry.h"
+#include "WindowsAppSDKInsights.h"
 
-class WindowsAppSDKTelemetrySample : public wil::TraceLoggingProvider
+class InsightsSample : public wil::TraceLoggingProvider
 {
-    IMPLEMENT_TRACELOGGING_CLASS(WindowsAppSDKTelemetrySample, "Microsoft.WindowsAppSDK.Telemetry.Sample",
-        // {1d0d1998-1ce1-545b-bd2d-dc5bda011d82}
-        (0x1d0d1998, 0x1ce1, 0x545b, 0xbd, 0x2d, 0xdc, 0x5b, 0xda, 0x01, 0x1d, 0x82));
+    IMPLEMENT_TRACELOGGING_CLASS(InsightsSample, "Microsoft.WindowsAppSDK.Insights.Sample",
+        // {c782669f-f4db-53f2-9674-13b8897164cc}
+        (0xc782669f, 0xf4db, 0x53f2, 0x96, 0x74, 0x13, 0xb8, 0x89, 0x71, 0x64, 0xcc));
 
     // Event that contains a single bool value as payload
     DEFINE_COMPLIANT_TELEMETRY_EVENT_BOOL(BooleanTelemetryEvent, // Event name
