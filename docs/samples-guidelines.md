@@ -7,6 +7,7 @@ This document outlines the guidelines and best practices for Windows App SDK sam
 - [Coding Guidelines](#code-guidelines)
 - [Sample Coverage](#sample-coverage)
 - [Standardization and Naming](#standardization-and-naming)
+- [Repo Branching](#repo-branching)
 - [Checklist](#checklist)
 
 ## Workflow
@@ -397,7 +398,7 @@ The guidelines for sample coverage are as follows:
 
 ### Directory Structure
 
-The WindowsAppSDK-Samples repo is organized in the following manner:
+Samples should be organized and named by app type and feature for discoverability. The WindowsAppSDK-Samples repo is organized in the following manner:
 
 ```
 \Samples
@@ -405,7 +406,7 @@ The WindowsAppSDK-Samples repo is organized in the following manner:
           \<Language>-<UI Framework>
 ```
 
-- `<FeatureName>`: Use the simple English name instead of the component name, making samples more discoverable for end developers. 
+- `<FeatureName>`: Use the simple English name of the feature instead of the component name (for example, *TextRendering* instead of *DWriteCore*). This makes samples more discoverable for end developers and aligns with the organization of the [Windows App SDK documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/). 
 - `<Language>`: *cs | cpp*
 - `<UI Framework>`:
     - For C# samples: *winui | wpf | winforms | console* 
@@ -425,17 +426,13 @@ Here is an example illustrating the naming guidelines above:
         \cpp-console
 ```
 
-### Repo Branching
+### Samples README
 
-When a new GA release of the Windows App SDK is available, we will create a new branch for that version, allowing us to maintain older versions of the samples. Only samples on the latest GA release (not experimental/preview features) should be in the branches for specific releases.
+All features need to include a README.md file with their samples. The purpose of the README is to provide important information and context to customers to get started with a sample. The content of the README should include a description of what the samples does, how to build and run the sample, and include relevant media, such as images, screenshots, and diagrams where applicable. You can reference existing samples in this repo and in the [Windows Universal Samples repo](https://github.com/microsoft/Windows-universal-samples) for examples of how to organize the README.
 
-The `main` branch represents the head of development, so it may include experimental features or preview versions of the Windows App SDK. The default branch for the repo will be set to the latest publicly available Windows App SDK release, for example `release/1.x`. When a new GA release is available (e.g. Windows App SDK vX.Y), we snap a `release/X.Y` branch, and update the default branch to the new `release/X.Y` branch.
+#### Metadata
 
-When we branch for a new version of the Windows App SDK, we will need to pick and choose which samples go into the new branch. Experimental samples need to be tagged clearly in the sample’s README so that these samples are not included.  
-
-### Samples Browser Metadata
-
-In the README file of your sample, make sure to include the YAML front-matter metadata header to integrate samples with the [Docs Samples Browser](https://docs.microsoft.com/samples/browse/).
+In the README.md file of your sample, make sure to include the YAML front-matter metadata header to integrate samples with the [Docs Samples Browser](https://docs.microsoft.com/samples/browse/).
 
 For example:
 
@@ -452,6 +449,16 @@ description: "Shows how to create and register background tasks that will run in
 ---
 ```
 
+### Sample Templates
+
+Sample templates are planned for C# and C++ WinUI samples. These will provide consistent UI look and feel, and provide a scenario-based structure for sample authors. This section will be updated with further guidance.
+
+## Repo Branching
+
+When a new GA release of the Windows App SDK is available, we will create a new branch (e.g. `release/X.Y`), allowing us to maintain samples for previous/supported versions of the Windows App SDK. Only samples on the latest GA release (not experimental-only features) will be included in the branches for specific releases.
+
+The `main` branch represents the head of development, so it may include experimental features or preview versions of the Windows App SDK. The default branch for the repo will be set to the latest publicly available Windows App SDK release, for example `release/1.x`. When a new GA release is available (e.g. Windows App SDK vX.Y), we snap a `release/X.Y` branch, and update the default branch to the new `release/X.Y` branch. Whenever a new release branch is snapped, we will need to pick and choose which samples go into the new branch. Experimental samples should be tagged clearly in the sample’s README so that these samples are not included.  
+
 ## Checklist
 
 ### Build
@@ -461,6 +468,10 @@ Samples should build on all supported platforms (x64, x86, ARM64) and configurat
 ### Deploy and test
 
 Deploy and test your samples on Desktop.
+
+### README file
+
+Make sure to include a README file with your sample. See the above section on [Samples README](#samples-readme).
 
 ### Pass certification
 
