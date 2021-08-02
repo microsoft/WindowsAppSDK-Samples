@@ -8,7 +8,7 @@ Thes Windows App SDK samples have the following system requirements:
 
 - Windows 10, version 1809 (build 17763) or later.
 
-- Visual Studio 2019 version 16.9 or later with the following workloads and components:
+- -Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) version 16.9 or later with the following workloads and components:
 
     - Universal Windows Platform development
     - .NET Desktop Development (needed even if you're only building C++ Win32 apps)
