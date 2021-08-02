@@ -4,23 +4,23 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ## Windows App SDK development
 
-These samples require Visual Studio 2019, the Windows SDK, and the Windows App SDK. Refer to the docs on [setting up your development environment](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment) for more details. 
+These samples require Visual Studio 2019 to build, run and deploy. Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) for a comprehensive list of requirements. 
 
 ## Using the samples
 
-The easiest way to use these samples without Git is to download the ZIP file, unzip the entire archive and use the samples in Visual Studio.
+To use the samples with Git, clone the WindowsAppSDK-Samples repository by running `git clone https://github.com/microsoft/WindowsAppSDK-Samples.git` from a command prompt. You can then navigate to the directory of a sample and open the solution file in Visual Studio 2019.
 
-You can also clone the repo by running `git clone https://github.com/microsoft/WindowsAppSDK-Samples.git` from a command prompt.
+The easiest way to use these samples without Git is to download the ZIP file. Select *Download ZIP* from the download dropdown, unzip the entire archive and open the samples in Visual Studio 2019.
 
 ## List of samples 
 
 - [Hello World](Samples/HelloWorld): This sample demonstrates a basic integration with the Project Reunion NuGet package.
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
-- [WinUI 3 XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
+- [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
 
 ## Contributing
 
 These samples are provided by feature teams and we welcome your input on issues and suggestions for new samples. We encourage you to [file a new issue](https://github.com/microsoft/WindowsAppSDK-Samples/issues/new) for any feedback or questions!
 
-This project has adopted the [Microsoft Open Source Code of Conduct]. For more information, see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
