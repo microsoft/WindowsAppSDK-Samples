@@ -2,9 +2,25 @@
 
 This repository hosts samples for the [Windows App SDK](https://github.com/microsoft/WindowsAppSDK). Samples for various features shipping in the Windows App SDK will be added to this repository. For more information about the Windows App SDK, visit the [Windows App SDK Documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/). To learn more about the Windows App SDK design or to contribute to the project, make feature proposals, or start discussions, visit the [Windows App SDK GitHub page](https://github.com/microsoft/WindowsAppSDK).
 
-## Windows App SDK development
+## Requirements
 
-These samples require Visual Studio 2019 to build, run and deploy. Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) for a comprehensive list of requirements. 
+Thes Windows App SDK samples have the following system requirements:
+
+- Windows 10, version 1809 (build 17763) or later.
+
+- Visual Studio 2019 version 16.9 or later with the following workloads and components:
+
+    - Universal Windows Platform development
+    - .NET Desktop Development (needed even if you're only building C++ Win32 apps)
+    - Desktop development with C++ (needed even if you're only building .NET apps)
+    - Windows SDK version 2004 (build 19041) or later. This is installed with Visual Studio 2019 by default.
+
+- Building .NET apps also requires:
+
+    - .NET 5 SDK version 5.0.300 or later if you're using Visual Studio 2019 version 16.10
+    - .NET 5 SDK version 5.0.204 if you're using Visual Studio 2019 version 16.9
+
+Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) for more details.
 
 ## Using the samples
 
