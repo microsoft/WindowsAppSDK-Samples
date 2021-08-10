@@ -46,7 +46,7 @@ namespace SampleApp
             if(args.DidSizeChange && sender.TitleBar.ExtendsContentIntoTitleBar)
             {
                 // Need to update our drag region if the size of the window changes
-                SetDragRegionForCustomTitleBar();
+                SetDragRegionForCustomTitleBar(sender);
             }
         }
 
@@ -107,7 +107,7 @@ namespace SampleApp
                 m_mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
 
                 // Set the drag region for the custom TitleBar
-                SetDragRegionForCustomTitleBar();
+                SetDragRegionForCustomTitleBar(m_mainAppWindow);
             }
             else
             {
@@ -117,19 +117,19 @@ namespace SampleApp
             }
         }
 
-        private void SetDragRegionForCustomTitleBar()
+        private void SetDragRegionForCustomTitleBar(AppWindow appWindow)
         {
             //Infer titlebar height
-            int titleBarHeight = m_mainAppWindow.TitleBar.Height;
+            int titleBarHeight = appWindow.TitleBar.Height;
             m_mainWindow.MyTitleBar.Height = titleBarHeight;
 
             // Get caption button occlusion information
             // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
-            int CaptionButtonOcclusionWidth = m_mainAppWindow.TitleBar.RightInset;
+            int CaptionButtonOcclusionWidth = appWindow.TitleBar.RightInset;
 
             // Define your drag Regions
             int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon.ActualWidth + (int)m_mainWindow.MyWindowIcon.Margin.Right;
-            int dragRegionWidth = m_mainAppWindow.Size.Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
+            int dragRegionWidth = appWindow.Size.Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
 
             Windows.Graphics.RectInt32[] dragRects = new Windows.Graphics.RectInt32[] { };
             Windows.Graphics.RectInt32 dragRect;
@@ -139,7 +139,7 @@ namespace SampleApp
             dragRect.Height = titleBarHeight;
             dragRect.Width = dragRegionWidth;
 
-            m_mainAppWindow.TitleBar.SetDragRectangles(dragRects.Append(dragRect).ToArray());
+            appWindow.TitleBar.SetDragRectangles(dragRects.Append(dragRect).ToArray());
         }
     }
 }
