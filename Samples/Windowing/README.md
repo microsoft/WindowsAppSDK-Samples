@@ -3,7 +3,6 @@ title: "AppWindow gallery sample"
 page_type: sample
 languages: c#, c++
 products: windows 
-urlFragment: BackgroundActivation
 description: "Shows how to use the windows app SDK windowing apis"
 ---
 # AppWindow gallery sample 
@@ -11,7 +10,7 @@ description: "Shows how to use the windows app SDK windowing apis"
 These samples demonstrate how to use AppWindow to manage your application's window.  
 
 ## Requirements
-Requires either .NET SDK 5.0.205, .NET SDK 5.0.302, or later
+C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.302, or later
 
 ## Building and running any of the samples 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
