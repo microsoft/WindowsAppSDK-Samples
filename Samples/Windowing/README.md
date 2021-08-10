@@ -8,7 +8,7 @@ description: "Shows how to use the windows app SDK windowing apis"
 ---
 # AppWindow gallery sample 
 
-These samples demonstrate how to use AppWindow to customize your application's window.  
+These samples demonstrate how to use AppWindow to manage your application's window.  
 
 ## Building and running any of the samples 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
@@ -18,3 +18,8 @@ For the unpackaged sample apps, in addition to the steps for setting up the envi
 2. Build the solution.
 3. Right click on the solution and click **Deploy Solution**
 4. Debug the project.
+
+## Related Links
+
+- [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
+- [Manage app window](https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/windowing/windowing-overview)
