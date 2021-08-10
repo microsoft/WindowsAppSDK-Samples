@@ -6,14 +6,6 @@ using WinRT;
 
 namespace SampleApp
 {
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("EECDBF0E-BAE9-4CB6-A68E-9598E1CB57BB")]
-    internal interface IWindowNative
-    {
-        IntPtr WindowHandle { get; }
-    }
-
     internal class Interop
     {
         [DllImport("Microsoft.UI.Windowing.Core.dll", CharSet = CharSet.Unicode)]
@@ -28,7 +20,7 @@ namespace SampleApp
     {
         public static AppWindow GetAppWindow(this Microsoft.UI.Xaml.Window window)
         {
-            IntPtr windowHandle = window.As<IWindowNative>().WindowHandle;
+            IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
 
             return GetAppWindowFromWindowHandle(windowHandle);
         }
