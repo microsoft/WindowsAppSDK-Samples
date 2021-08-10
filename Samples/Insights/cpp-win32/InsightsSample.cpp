@@ -7,8 +7,8 @@
 * Boolean Event
 * 
 * "data": {
-        "value": 1,
-        "COMMON_WINDOWSAPPSDK_PARAMS": {
+        "value": 1,   <-- PartC
+        "COMMON_WINDOWSAPPSDK_PARAMS": {      <-- PartB
             "SDKVersion": "0.9",
             "SDKExperimentationLevel": "",
             "IsDebugging": false,
