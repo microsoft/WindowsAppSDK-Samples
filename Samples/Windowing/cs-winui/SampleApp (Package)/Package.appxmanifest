@@ -13,7 +13,7 @@
 
   <Properties>
     <DisplayName>SampleApp (Package)</DisplayName>
-    <PublisherDisplayName>rokarman</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft </PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
