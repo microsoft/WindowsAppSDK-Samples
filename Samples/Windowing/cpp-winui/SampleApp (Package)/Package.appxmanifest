@@ -8,12 +8,12 @@
 
   <Identity
     Name="7089e2db-be6f-4635-9abc-c1430d700d1a"
-    Publisher="CN=rokarman"
+    Publisher="CN=Microsoft Corporation"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>SampleApp (Package)</DisplayName>
-    <PublisherDisplayName>Microsoft</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
