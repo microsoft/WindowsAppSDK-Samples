@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="SampleApp.ConfigPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SampleApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Window Templates</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Margin="5,5,5,5" x:Name="MainWindowBtn" Click="ChangeWindowStyle">Main Window</Button>
+            <Button Margin="5,5,5,5" x:Name="ContextMenuBtn" Click="ChangeWindowStyle">Context Menu</Button>
+            <Button Margin="5,5,5,5" x:Name="DialogWindowBtn" Click="ChangeWindowStyle">Dialog Window</Button>
+            <Button Margin="5,5,5,5" x:Name="ToolWindowBtn" Click="ChangeWindowStyle">Tool Window</Button>
+        </StackPanel>
+        <TextBlock Grid.Row="2" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Window Configurations</TextBlock>
+        <StackPanel Grid.Row="3" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ToggleSwitch Margin="5,5,5,5" x:Name="FrameToggle" OffContent="No Frame" OnContent="Has Frame" Toggled="ChangeConfiguration" IsOn="True" />
+            <ToggleSwitch Margin="5,5,5,5" x:Name="TitleBarToggle" OffContent="No Title Bar" OnContent="Has Title Bar" Toggled="ChangeConfiguration" IsOn="True"  />
+            <ToggleSwitch Margin="5,5,5,5" x:Name="MaxToggle" OffContent="Not Maximizable" OnContent="Maximizable" Toggled="ChangeConfiguration" IsOn="True" />
+            <ToggleSwitch Margin="5,5,5,5" x:Name="MinToggle" OffContent="Not Minimizable" OnContent="Minimizable" Toggled="ChangeConfiguration" IsOn="True" />
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ToggleSwitch Margin="5,5,5,5" x:Name="AlwaysOnTopToggle" OffContent="Not Always on Top" OnContent="Always on Top" Toggled="ChangeConfiguration" IsOn="False" />
+            <ToggleSwitch Margin="5,5,5,5" x:Name="ResizableToggle" OffContent="Not Resizable" OnContent="Resizable" Toggled="ChangeConfiguration" IsOn="True" />
+            <ToggleSwitch Margin="5,5,5,5" x:Name="InUxToggle" OffContent="Not in Switcher" OnContent="In Switcher" Toggled="ChangeConfiguration" IsOn="True" />
+        </StackPanel>
+    </Grid>
+</Page>

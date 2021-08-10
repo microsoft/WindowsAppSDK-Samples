@@ -1,0 +1,40 @@
+
+namespace SampleApp
+{
+    [default_interface]
+    runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+
+        Microsoft.UI.Windowing.AppWindow AppWindow { get; };
+        Microsoft.UI.Xaml.Controls.Grid MyTitleBar{ get; };
+        Microsoft.UI.Xaml.Controls.Image MyWindowIcon{ get; };
+    };
+
+
+    [default_interface]
+    runtimeclass ConfigPage : Microsoft.UI.Xaml.Controls.Page
+    {
+        ConfigPage();
+    };
+
+
+    [default_interface]
+    runtimeclass DemoPage : Microsoft.UI.Xaml.Controls.Page
+    {
+        DemoPage();
+    }
+
+
+    [default_interface]
+    runtimeclass PresenterPage : Microsoft.UI.Xaml.Controls.Page
+    {
+        PresenterPage();
+    };
+
+    [default_interface]
+    runtimeclass TitlebarPage : Microsoft.UI.Xaml.Controls.Page
+    {
+        TitlebarPage();
+    };
+}
