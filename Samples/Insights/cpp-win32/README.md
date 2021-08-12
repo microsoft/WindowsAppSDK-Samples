@@ -11,4 +11,4 @@ The data can be locally saved by using tools.
 3. Stop tracing
 
 ## Viewing the data
-The above steps will produce an ETL file that contains the data. The data can be viewed using [Windows Performance analyzer](https://docs.microsoft.com/windows-hardware/drivers/devtest/capture-and-view-tracelogging-data)
+The above steps will produce an ETL file that contains the data. The data can be viewed using [Windows Performance analyzer](https://docs.microsoft.com/windows-hardware/drivers/devtest/capture-and-view-tracelogging-data#view-tracelogging-data-using-wpa)

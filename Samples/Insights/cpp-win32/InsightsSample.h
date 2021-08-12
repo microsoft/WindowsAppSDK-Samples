@@ -13,7 +13,7 @@ class InsightsSample : public wil::TraceLoggingProvider
 
     // Event that contains a single bool value as payload
     DEFINE_COMPLIANT_TELEMETRY_EVENT_BOOL(BooleanTelemetryEvent, // Event name
-        PDT_ProductAndServiceUsage, // Privacy data data for events. Check wil/traceloggingconfig.h for a full list
+        PDT_ProductAndServiceUsage, // Privacy data for events. Check wil/traceloggingconfig.h for a full list
         value/* value to be logged*/);
 
 
@@ -22,7 +22,7 @@ class InsightsSample : public wil::TraceLoggingProvider
         PDT_ProductAndServiceUsage, // Privacy data data for events. Check wil/traceloggingconfig.h for a full list
         value/* value to be logged*/);
 
-    // Event that contains a single user define data type payload
+    // Event that contains a single user defined data type payload
     DEFINE_COMPLIANT_TELEMETRY_EVENT_PARAM1(EventWithUserDefinedType, //Event name
         PDT_ProductAndServiceUsage, // Privacy data data for events. Check wil/traceloggingconfig.h for a full list
         PCWSTR, // Payload data type
