@@ -1,14 +1,14 @@
 # Instructions
-This sample makes use of the Insights headers and lib to define data collection events that can be used to track different events in the application.
+This sample makes use of the Insights headers and library to define data collection events that can be used to track different events in the application.
 
 ## Collecting data locally
 The data can be locally saved by using tools.
 
-1. Use [tracelog](https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/tracelog) to start tracing
+1. Use [tracelog](https://docs.microsoft.com/windows-hardware/drivers/devtest/tracelog) to start tracing
 
 2. Run your code
 
 3. Stop tracing
 
 ## Viewing the data
-The above steps will produce an ETL file that contains the data. The data can be viewed using [Windows Performance analyzer](https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/capture-and-view-tracelogging-data)
+The above steps will produce an ETL file that contains the data. The data can be viewed using [Windows Performance analyzer](https://docs.microsoft.com/windows-hardware/drivers/devtest/capture-and-view-tracelogging-data)
