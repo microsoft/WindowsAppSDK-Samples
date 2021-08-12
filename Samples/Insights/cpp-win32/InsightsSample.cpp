@@ -9,8 +9,8 @@
 * "data": {
         "value": 1,   <-- PartC
         "COMMON_WINDOWSAPPSDK_PARAMS": {      <-- PartB
-            "SDKVersion": "0.9",
-            "SDKExperimentationLevel": "",
+            "Version": "1.0.0",
+            "WindowsAppSDKChannel": "preview1",
             "IsDebugging": false,
             "AppSessionGuid": "00000D80-0001-0002-B425-C8C4E284D701"
         }
@@ -21,8 +21,8 @@
 * "data": {
         "value": "This text is the event payload",
         "COMMON_WINDOWSAPPSDK_PARAMS": {
-            "SDKVersion": "0.9",
-            "SDKExperimentationLevel": "",
+            "Version": "1.0.0",
+            "WindowsAppSDKChannel": "preview1",
             "IsDebugging": false,
             "AppSessionGuid": "00000D80-0001-0002-B425-C8C4E284D701"
         }
@@ -32,8 +32,8 @@
 *  "data": {
         "value": "This is the user-defined type payload",
         "COMMON_WINDOWSAPPSDK_PARAMS": {
-            "SDKVersion": "0.9",
-            "SDKExperimentationLevel": "",
+            "Version": "1.0.0",
+            "WindowsAppSDKChannel": "preview1",
             "IsDebugging": false,
             "AppSessionGuid": "00000D80-0001-0002-B425-C8C4E284D701"
         }

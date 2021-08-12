@@ -224,7 +224,6 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\Microsoft.Windows.ImplementationLibrary.1.0.210803.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('packages\Microsoft.Windows.ImplementationLibrary.1.0.210803.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
-    <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.Foundation.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.Foundation.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
