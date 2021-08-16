@@ -479,9 +479,7 @@ Run the Windows App Certification Kit (WACK) on a Release build. If your sample 
 
 ### Perform code analysis
 
-For C++ samples, make sure samples build clean with no warnings or errors.
-
-For C# samples, run FxCop.
+Make sure samples build clean with no warnings or errors.
 
 ### Verify accessibility
 
