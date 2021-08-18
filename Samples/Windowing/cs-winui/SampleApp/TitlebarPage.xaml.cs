@@ -43,7 +43,7 @@ namespace SampleApp
 
         private void MainAppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
         {
-            if(args.DidSizeChange && sender.TitleBar.ExtendsContentIntoTitleBar)
+            if (args.DidSizeChange && sender.TitleBar.ExtendsContentIntoTitleBar)
             {
                 // Need to update our drag region if the size of the window changes
                 SetDragRegionForCustomTitleBar(sender);
