@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wpf_packaged_app", "wpf_packaged_app\wpf_packaged_app.csproj", "{93E98476-0F66-4E46-B3F3-096724E0DE4A}"
-EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "wpf_packaged_app (Package)", "wpf_packaged_app (Package)\wpf_packaged_app (Package).wapproj", "{6CB98632-6091-412F-AB5D-D6F7000073A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wpf_packaged_app", "wpf_packaged_app\wpf_packaged_app.csproj", "{93E98476-0F66-4E46-B3F3-096724E0DE4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
