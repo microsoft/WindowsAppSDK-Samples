@@ -115,7 +115,7 @@ namespace winrt::SampleApp::implementation
         // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
         double CaptionButtonOcclusionWidth = m_appWindow.TitleBar().RightInset();
 
-        //// Define your drag Regions
+        // Define your drag Regions
         int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon().ActualWidth() + (int)m_mainWindow.MyWindowIcon().Margin().Right;
         int dragRegionWidth = m_appWindow.Size().Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
 
