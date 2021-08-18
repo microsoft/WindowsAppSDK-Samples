@@ -7,14 +7,7 @@ namespace winrt::SampleApp::implementation
 
 	struct TitlebarPage : TitlebarPageT<TitlebarPage>
 	{
-		
-
-	private:
-		AppWindow m_appWindow{ nullptr };
-		SampleApp::MainWindow m_mainWindow{ nullptr };
-
-
-	public:
+    public:
 		TitlebarPage();
 		void OnNavigatedTo(NavigationEventArgs const& e);
 
@@ -24,8 +17,14 @@ namespace winrt::SampleApp::implementation
 		void TitlebarBrandingBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
 		void TitlebarCustomBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
 		void ResetTitlebarBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
-	};
+		void SetCustomTitleBarDragRegion();
+		void AppWindowChangedHandler(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Windowing::AppWindowChangedEventArgs const& e);
 
+	private:
+		AppWindow m_appWindow{ nullptr };
+		SampleApp::MainWindow m_mainWindow{ nullptr };
+		winrt::event_token m_changedToken;
+	};
 }
 
 
