@@ -26,7 +26,7 @@ namespace winforms_unpackaged_app
             int hr = MddBootstrap.Initialize(8, "preview");
             if (hr < 0)
             {
-                MessageBox.Show("Fail to initialize Dynamic Dependencies with error " + hr, "Error!");
+                MessageBox.Show("Fail to initialize Dynamic Dependencies with error 0x" + hr.ToString("X"), "Error!");
                 return;
             }
             
