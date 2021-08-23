@@ -20,7 +20,7 @@ namespace SampleApp
     public sealed partial class MainWindow : Window
     {
         public String m_windowTitle = "WinUI Desktop C# Sample App";
-        
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -66,6 +66,11 @@ namespace SampleApp
             {
                 ContentFrame.GoBack();
             }
+        }
+
+        private void MyWindowIcon_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -9,6 +9,8 @@ namespace SampleApp
         Microsoft.UI.Windowing.AppWindow AppWindow { get; };
         Microsoft.UI.Xaml.Controls.Grid MyTitleBar{ get; };
         Microsoft.UI.Xaml.Controls.Image MyWindowIcon{ get; };
+
+        void MyWindowIcon_DoubleTapped(IInspectable sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e);
     };
 
 
