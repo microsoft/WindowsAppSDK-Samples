@@ -22,7 +22,7 @@ private:
     winrt::AppWindow GetAppWindowForCurrentWindow();
 
     winrt::AppWindow m_mainAppWindow{ nullptr };
-    hstring m_windowTitle = L"WinUI Desktop C++ Sample App";  
+    hstring m_windowTitle = L"WinUI Desktop C++ Sample App";
 };
 
 }
