@@ -10,8 +10,6 @@ products: windows
 
 MRT Core is the modern resource loading library used in WinUI 3 and the Windows App SDK. These samples demonstrate how to use MRT Core to load resources from multiple resource files and how to select which version of a specific named resource to load.
 
-**Note**: The unpackaged sample apps reference an [experimental version](https://docs.microsoft.com/windows/apps/windows-app-sdk/experimental-channel) of the Windows App SDK. Unpackaged app deployment is not currently supported for use by apps in production environments.
-
 ## Building and running any of the samples
 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
