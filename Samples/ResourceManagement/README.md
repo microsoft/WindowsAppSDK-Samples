@@ -5,7 +5,9 @@ page_type: sample
 languages:
 - csharp
 - cpp
-products: windows-app-sdk
+products:
+- windows
+- windows-app-sdk
 urlFragment: ResourceManagement
 ---
 
