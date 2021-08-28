@@ -21,6 +21,5 @@
                 <Button Content="Clear Messages" Click="ClearMessage_Click" />
             </StackPanel>
         </ScrollViewer>
-
     </Grid>
 </Page>

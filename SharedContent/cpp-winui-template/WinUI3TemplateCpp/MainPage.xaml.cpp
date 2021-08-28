@@ -130,13 +130,8 @@ namespace winrt::WinUI3TemplateCpp::implementation
 
     void MainPage::NotifyUser(hstring const& strMessage, InfoBarSeverity const& severity, bool isOpen)
     {
-        
-        UpdateStatus(strMessage, severity, isOpen);
-
-        /* I got a ERROR winrt::impl::consume_Microsoft_UI_Dispatching_IDispatcherQueue2<D>::HasThreadAccess': 
-        a function that returns 'auto' cannot be used before it is defined
-        */
-        /*
+        // If called from the UI thread, then update immediately.
+        // Otherwise, schedule a task on the UI thread to perform the update.
         if (this->DispatcherQueue().HasThreadAccess())
         {
             UpdateStatus(strMessage, severity, isOpen);
@@ -147,7 +142,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
                 {
                     UpdateStatus(strMessage, severity, isOpen);
                 });
-        }*/
+        }
     }
 
     void MainPage::UpdateStatus(hstring const& strMessage, Microsoft::UI::Xaml::Controls::InfoBarSeverity severity, bool isOpen)
