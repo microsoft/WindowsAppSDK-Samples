@@ -16,24 +16,13 @@ namespace winrt::WinUI3TemplateCpp::implementation
     {
         InitializeComponent();
 
-        Title(winrt::WinUI3TemplateCpp::Settings().FeatureName);
+        Title(winrt::WinUI3TemplateCpp::Settings::FeatureName);
 
         HWND hwnd = GetWindowHandle();
 
-        SetWindowSize(hwnd, 1220, 1080);
         LoadIcon(hwnd, L"windows-sdk.ico");
+        SetWindowSize(hwnd, 1220, 1080);
         PlacementCenterWindowInMonitorWin32(hwnd);
-    }
-
-    void MainWindow::SetWindowSize(const HWND hwnd, const int width, const int height)
-    {
-        // Win32 uses pixels and WinUI 3 uses effective pixels, so you should apply the DPI scale factor
-        auto dpi = GetDpiForWindow(hwnd);
-        float scalingFactor = static_cast<float>(dpi / 96);
-        auto widthScaled = static_cast<int>(width * scalingFactor);
-        auto heightScaled = static_cast<int>(height * scalingFactor);
-
-        SetWindowPos(hwnd, HWND_TOP, 0, 0, widthScaled, heightScaled, SWP_NOMOVE);
     }
 
     HWND MainWindow::GetWindowHandle()
@@ -64,6 +53,17 @@ namespace winrt::WinUI3TemplateCpp::implementation
             GetSystemMetrics(SM_CYICON),
             LR_LOADFROMFILE);
         SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hBigIcon);
+    }
+
+    void MainWindow::SetWindowSize(const HWND hwnd, const int width, const int height)
+    {
+        // Win32 uses pixels and WinUI 3 uses effective pixels, so you should apply the DPI scale factor
+        auto dpi = GetDpiForWindow(hwnd);
+        float scalingFactor = static_cast<float>(dpi / 96);
+        auto widthScaled = static_cast<int>(width * scalingFactor);
+        auto heightScaled = static_cast<int>(height * scalingFactor);
+
+        SetWindowPos(hwnd, HWND_TOP, 0, 0, widthScaled, heightScaled, SWP_NOMOVE);
     }
 
     void MainWindow::PlacementCenterWindowInMonitorWin32(HWND hwnd)

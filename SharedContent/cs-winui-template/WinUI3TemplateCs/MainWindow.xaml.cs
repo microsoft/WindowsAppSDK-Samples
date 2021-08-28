@@ -14,8 +14,8 @@ namespace WinUI3TemplateCs
 
             IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             LoadIcon(hwnd,"Assets/windows-sdk.ico");
-            //SetWindowSize(hwnd, 1220, 1080);
-            //PlacementCenterWindowInMonitorWin32(hwnd);
+            SetWindowSize(hwnd, 1220, 1080);
+            PlacementCenterWindowInMonitorWin32(hwnd);
         }
 
         private void LoadIcon(IntPtr hwnd, string iconName)
@@ -47,7 +47,7 @@ namespace WinUI3TemplateCs
         {
             // Win32 uses pixels and WinUI 3 uses effective pixels, so you should apply the DPI scale factor
             var dpi = PInvoke.User32.GetDpiForWindow(hwnd);
-            float scalingFactor = (float)dpi / 96;
+            float scalingFactor = (float)(dpi / 96);
             width = (int)(width * scalingFactor);
             height = (int)(height * scalingFactor);
 

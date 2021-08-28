@@ -6,7 +6,9 @@ namespace winrt::WinUI3TemplateCpp
 	static class Settings
 	{
 	public:
-		hstring FeatureName{ L"Windows App SDK Template C++ Sample" };
+		static hstring FeatureName;
 		hstring CurrentTheme{ L"" };
 	};
+
+	hstring Settings::FeatureName{ L"Windows App SDK Template C# Sample" };
 }
