@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using System;
 using System.Runtime.InteropServices;
+using WinRT;
 using Microsoft.Win32.SafeHandles;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Controls;
@@ -19,10 +20,10 @@ namespace WinUI3TemplateCs
 
             Title = Settings.FeatureName;
 
-            IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            LoadIcon((HWND)hwnd,"Assets/windows-sdk.ico");
-            SetWindowSize((HWND)hwnd, 1220, 1080);
-            PlacementCenterWindowInMonitorWin32((HWND)hwnd);
+            HWND hwnd = (HWND)WinRT.Interop.WindowNative.GetWindowHandle(this);
+            LoadIcon(hwnd,"Assets/windows-sdk.ico");
+            SetWindowSize(hwnd, 1220, 1080);
+            PlacementCenterWindowInMonitorWin32(hwnd);
         }
 
         private void LoadIcon(HWND hwnd, string iconName)
