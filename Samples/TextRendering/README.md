@@ -3,7 +3,9 @@ page_type: sample
 languages:
 - cpp
 products:
+- windows
 - windows-api-win32
+- windows-app-sdk
 name: DWriteCore gallery sample
 urlFragment: dwritecore-gallery-sample
 description: Demonstrates the DWriteCore API, which is a reimplementation of the Windows DirectWrite API.
