@@ -20,7 +20,7 @@ namespace WinUI3TemplateCs
         {
             if (Settings.CurrentTheme is null)
             {
-                Settings.CurrentTheme = this.RequestedTheme.ToString();
+                Settings.CurrentTheme = RequestedTheme.ToString();
             }
             themePanel.Children.Cast<RadioButton>().FirstOrDefault(c => c?.Tag?.ToString() == Settings.CurrentTheme).IsChecked = true;
 

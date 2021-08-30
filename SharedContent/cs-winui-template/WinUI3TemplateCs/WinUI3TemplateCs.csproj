@@ -14,11 +14,11 @@
     <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.2" />
     <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.2" />
     <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.2" />
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.506-beta">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="PInvoke.User32" Version="0.7.104" />
-  </ItemGroup>
- 
 </Project>
