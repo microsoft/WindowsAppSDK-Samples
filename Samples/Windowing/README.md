@@ -1,9 +1,14 @@
 ---
-title: "AppWindow gallery sample" 
+name: "AppWindow gallery sample" 
 page_type: sample
-languages: c#, c++
-products: windows 
+languages:
+- csharp
+- cpp
+products:
+- windows 
+- windows-app-sdk
 description: "Shows how to use the windows app SDK windowing apis"
+urlFragment: windowing
 ---
 # AppWindow gallery sample 
 
