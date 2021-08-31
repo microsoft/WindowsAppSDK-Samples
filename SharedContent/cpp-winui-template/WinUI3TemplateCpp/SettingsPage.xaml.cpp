@@ -21,30 +21,62 @@ namespace winrt::WinUI3TemplateCpp::implementation
         Grid content = MainPage::Current().Content().as<Grid>();
         if (winrt::WinUI3TemplateCpp::Settings::CurrentTheme == L"")
         {
-            Settings::CurrentTheme = RequestedTheme() == ElementTheme::Dark ? L"Dark" : L"Light";
+            //auto t = winrt::WinUI3TemplateCpp::Application::RequestedTheme();
+            //auto t = RequestedTheme(); // t is ElementTheme::Default ...
+            
+            
+            /*if (t == ElementTheme::Light) {
+
+            }*/
+            if (RequestedTheme() == ElementTheme::Dark) 
+            {
+                Settings::CurrentTheme = L"Dark";
+            } else if (RequestedTheme() == ElementTheme::Light)
+            {
+                Settings::CurrentTheme = L"Light";
+            }
+            else
+            {
+                Settings::CurrentTheme = L"Default";
+            }
+           
+            //Settings::CurrentTheme = RequestedTheme() == ElementTheme::Dark ? L"Dark" : L"Light";
         }
         for (UIElement c : themePanel().Children())
         {
-            if (c.as<RadioButton>().Tag().as<hstring>() == Settings::CurrentTheme)
+            hstring tag = c.as<RadioButton>().Tag().as<hstring>();
+            if (tag == Settings::CurrentTheme)
             {
-                c.as<RadioButton>().IsChecked(true);
+                RadioButton radioButton = c.as<RadioButton>();
+                radioButton.IsChecked(Windows::Foundation::IReference<bool>{true});
             }
         }
     }
 
     void SettingsPage::OnThemeRadioButtonChecked(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
-        RadioButton radiobutton = sender.try_as<RadioButton>();
+        RadioButton radiobutton = sender.as<RadioButton>();
         if (radiobutton != nullptr && radiobutton.Tag() != nullptr)
         {
             winrt::hstring selectedTheme = unbox_value<winrt::hstring>(radiobutton.Tag());
-            Grid content = radiobutton.XamlRoot().Content().as<Grid>();
-            if (winrt::to_string(selectedTheme) == "Dark") {
+            Grid content = MainPage().Current().Content().as<Grid>();
+            if (selectedTheme == L"Dark") 
+            {
+               
+                //radiobutton.XamlRoot().Content().as<Grid>().RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Dark);
                 content.RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Dark);
+                Settings::CurrentTheme = L"Dark";
+            }
+            else if (selectedTheme == L"Light")
+            {
+                //radiobutton.XamlRoot().Content().as<Grid>().RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Light);
+                content.RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Light);
+                Settings::CurrentTheme = L"Light";
             }
             else
             {
-                content.RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Light);
+                content.RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Default);
+                Settings::CurrentTheme = L"Default";
             }
         }
     }

@@ -1,12 +1,11 @@
 #pragma once
-#include "SampleConfiguration.h"
 #include "pch.h"
+#include "SampleConfiguration.h"
 #include "MainPage.xaml.h" 
 
 using namespace winrt;
-using namespace WinUI3TemplateCpp;
+using namespace winrt::WinUI3TemplateCpp;
 using namespace Windows::Foundation::Collections;
-
 
 IVector<Scenario> implementation::MainPage::scenariosInner = winrt::single_threaded_observable_vector<Scenario>(
 	{
@@ -15,3 +14,4 @@ IVector<Scenario> implementation::MainPage::scenariosInner = winrt::single_threa
 	});
 
 hstring Settings::FeatureName{ L"Windows App SDK Template C# Sample" };
+hstring Settings::CurrentTheme{ L"" };

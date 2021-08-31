@@ -26,30 +26,32 @@ namespace WinUI3TemplateCs
             PlacementCenterWindowInMonitorWin32(hwnd);
         }
 
-        private void LoadIcon(HWND hwnd, string iconName)
+        private unsafe void LoadIcon(HWND hwnd, string iconName)
         {
             const int ICON_SMALL = 0;
             const int ICON_BIG = 1;
 
-            SafeFileHandle hSmallIcon = LoadImage(
-                null,
-                iconName,
-                GDI_IMAGE_TYPE.IMAGE_ICON, 
-                GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
-                GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
-                IMAGE_FLAGS.LR_LOADFROMFILE);
+            fixed (char* nameLocal = iconName)
+            {
+                HINSTANCE hInstLocal = default(HINSTANCE);
+                HANDLE __result = LoadImage(hInstLocal, nameLocal,
+                    GDI_IMAGE_TYPE.IMAGE_ICON,
+                    GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
+                    GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
+                    IMAGE_FLAGS.LR_LOADFROMFILE);
+                SendMessage(hwnd, WM_SETICON, ICON_SMALL, __result.Value);
+            }
 
-            SendMessage(hwnd, WM_SETICON, ICON_SMALL, hSmallIcon.DangerousGetHandle());
-
-            SafeFileHandle hBigIcon = LoadImage(
-                null,
-                iconName,
-                GDI_IMAGE_TYPE.IMAGE_ICON,
-                GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
-                GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
-                IMAGE_FLAGS.LR_LOADFROMFILE);
-
-            SendMessage(hwnd, WM_SETICON, ICON_BIG, hBigIcon.DangerousGetHandle());
+            fixed (char* nameLocal = iconName)
+            {
+                HINSTANCE hInstLocal = default(HINSTANCE);
+                HANDLE __result = LoadImage(hInstLocal, nameLocal,
+                    GDI_IMAGE_TYPE.IMAGE_ICON,
+                    GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
+                    GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
+                    IMAGE_FLAGS.LR_LOADFROMFILE);
+                SendMessage(hwnd, WM_SETICON, ICON_BIG, __result.Value);
+            }
         }
         private void SetWindowSize(HWND hwnd, int width, int height)
         {
