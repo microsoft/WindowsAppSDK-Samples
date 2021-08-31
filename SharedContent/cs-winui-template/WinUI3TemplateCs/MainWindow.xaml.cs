@@ -53,6 +53,7 @@ namespace WinUI3TemplateCs
                 SendMessage(hwnd, WM_SETICON, ICON_BIG, __result.Value);
             }
         }
+
         private void SetWindowSize(HWND hwnd, int width, int height)
         {
             // Win32 uses pixels and WinUI 3 uses effective pixels, so you should apply the DPI scale factor

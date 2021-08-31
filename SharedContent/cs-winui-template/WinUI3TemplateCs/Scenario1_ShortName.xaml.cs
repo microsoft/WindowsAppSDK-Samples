@@ -8,6 +8,7 @@ namespace WinUI3TemplateCs
     {
 
         private MainPage rootPage = MainPage.Current;
+
         public Scenario1_ShortName()
         {
             this.InitializeComponent();
