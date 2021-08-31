@@ -6,7 +6,7 @@ languages: cpp
 products:
 - windows
 - windows-app-sdk
-- urlFragment: HelloWorld
+urlFragment: HelloWorld
 ---
 
 
