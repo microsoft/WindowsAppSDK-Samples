@@ -13,3 +13,5 @@ IVector<Scenario> implementation::MainPage::scenariosInner = winrt::single_threa
 		Scenario{ L"Scenario 1", L"WinUI3TemplateCpp.Scenario1_ShortName"},
 		Scenario{ L"Scenario 2", L"WinUI3TemplateCpp.Scenario2_ShortName"}
 	});
+
+hstring Settings::FeatureName{ L"Windows App SDK Template C# Sample" };

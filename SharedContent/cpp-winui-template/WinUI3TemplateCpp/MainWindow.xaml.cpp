@@ -3,7 +3,7 @@
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 
-#include "microsoft.ui.xaml.window.h" //IWindowNative
+#include "microsoft.ui.xaml.window.h" 
 #include "SampleConfiguration.h"
 #endif
 

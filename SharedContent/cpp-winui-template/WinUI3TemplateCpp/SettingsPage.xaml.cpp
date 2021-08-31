@@ -21,14 +21,15 @@ namespace winrt::WinUI3TemplateCpp::implementation
         Grid content = MainPage::Current().Content().as<Grid>();
         if (winrt::WinUI3TemplateCpp::Settings::CurrentTheme == L"")
         {
-            winrt::WinUI3TemplateCpp::Settings::CurrentTheme = unbox_value<winrt::hstring>(RequestedTheme());
+            Settings::CurrentTheme = RequestedTheme() == ElementTheme::Dark ? L"Dark" : L"Light";
         }
-        themePanel::Children()
-        /*if (content.RequestedTheme() == ElementTheme::Default)
+        for (UIElement c : themePanel().Children())
         {
-            Application::Current().RequestedTheme() == ApplicationTheme::Dark ? currentTheme = "Dark" : currentTheme = "Light";
-        }*/
-
+            if (c.as<RadioButton>().Tag().as<hstring>() == Settings::CurrentTheme)
+            {
+                c.as<RadioButton>().IsChecked(true);
+            }
+        }
     }
 
     void SettingsPage::OnThemeRadioButtonChecked(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
