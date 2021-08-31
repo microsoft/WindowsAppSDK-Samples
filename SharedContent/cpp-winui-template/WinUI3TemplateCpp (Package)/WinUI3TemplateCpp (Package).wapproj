@@ -40,8 +40,10 @@
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\WinUI3TemplateCpp\WinUI3TemplateCpp.vcxproj</EntryPointProjectUniqueName>
+    <PackageCertificateThumbprint>6CF6367E0B358802A0091E7BB5D159CAE247A5BE</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>WinUI3TemplateCpp %28Package%29_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -56,6 +58,7 @@
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
+    <None Include="WinUI3TemplateCpp %28Package%29_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WinUI3TemplateCpp\WinUI3TemplateCpp.vcxproj">

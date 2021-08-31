@@ -45,7 +45,6 @@ namespace winrt::WinUI3TemplateCpp::implementation
         // here to load the home page.
         if (Scenarios() != nullptr && Scenarios().Size() > 0)
         {
-            //const EntranceNavigationTransitionInfo entranceNavTraInfo{};
             NavView_Navigate(Scenarios().GetAt(0).ClassName, nullptr);
         }
     }
