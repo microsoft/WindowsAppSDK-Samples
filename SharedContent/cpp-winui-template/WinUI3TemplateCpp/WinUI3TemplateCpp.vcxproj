@@ -206,11 +206,11 @@
     <None Include="PropertySheet.props" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\logo-winui.ico" />
-    <Image Include="Assets\microsoft-logo.png" />
-    <Image Include="Assets\microsoft-sdk.png" />
-    <Image Include="Assets\placeholder-sdk.png" />
-    <Image Include="Assets\windows-sdk.ico" />
+    <Image Include="..\..\Assets\logo-winui.ico" />
+    <Image Include="..\..\Assets\microsoft-logo.png" />
+    <Image Include="..\..\Assets\microsoft-sdk.png" />
+    <Image Include="..\..\Assets\placeholder-sdk.png" />
+    <Image Include="..\..\Assets\windows-sdk.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

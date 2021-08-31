@@ -36,19 +36,19 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\windows-sdk.ico">
+    <Image Include="..\..\Assets\windows-sdk.ico">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\logo-winui.ico">
+    <Image Include="..\..\Assets\logo-winui.ico">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\microsoft-logo.png">
+    <Image Include="..\..\Assets\microsoft-logo.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\microsoft-sdk.png">
+    <Image Include="..\..\Assets\microsoft-sdk.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\placeholder-sdk.png">
+    <Image Include="..\..\Assets\placeholder-sdk.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

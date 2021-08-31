@@ -8,12 +8,12 @@
 
   <Identity
     Name="6b4798ca-ad44-411e-8b94-35bd297e0553"
-    Publisher="CN=migue"
+    Publisher="CN=Microsoft Corporation"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>WinUI3TemplateCpp (Package)</DisplayName>
-    <PublisherDisplayName>migue</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
