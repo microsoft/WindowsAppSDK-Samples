@@ -1,0 +1,26 @@
+﻿<Window x:Class="wpf_packaged_app.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wpf_packaged_app"
+        mc:Ignorable="d"
+        Height="320" Width="560">
+ 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="Nav_ListBox" Grid.Column="0" 
+                 VerticalAlignment="Top" >
+            <ListBoxItem Content="Window Basics" Selected="ListBoxItem_Selected"/>
+            <ListBoxItem Content="Presenters" Selected="ListBoxItem_Selected_1"/>
+            <ListBoxItem Content="Window Configurations" Selected="ListBoxItem_Selected_2"/>
+            <ListBoxItem Content="Title Bar" Selected="ListBoxItem_Selected_3"/>
+        </ListBox>
+        <Frame x:Name="Main" NavigationUIVisibility="Hidden" Grid.Column="1">
+        </Frame>
+    </Grid>
+</Window>
