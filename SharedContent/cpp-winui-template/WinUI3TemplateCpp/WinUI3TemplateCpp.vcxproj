@@ -169,30 +169,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="App.idl">
-      <SubType>Code</SubType>
-      <DependentUpon>App.xaml</DependentUpon>
-    </Midl>
-    <Midl Include="MainPage.idl">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="MainWindow.idl">
-      <SubType>Code</SubType>
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Midl>
-    <Midl Include="Scenario1_ShortName.idl">
-      <DependentUpon>Scenario1_ShortName.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="Scenario2_ShortName.idl">
-      <DependentUpon>Scenario2_ShortName.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="SettingsPage.idl">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
+    <Midl Include="Project.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

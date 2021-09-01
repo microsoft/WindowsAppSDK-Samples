@@ -1,8 +1,0 @@
-namespace WinUI3TemplateCpp
-{
-    [default_interface]
-    runtimeclass Scenario2_ShortName : Microsoft.UI.Xaml.Controls.Page
-    {
-        Scenario2_ShortName();
-    }
-}
