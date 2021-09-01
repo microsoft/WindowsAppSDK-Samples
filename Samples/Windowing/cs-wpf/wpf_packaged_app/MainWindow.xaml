@@ -27,6 +27,7 @@
                    MouseDown="MyWindowIcon_MouseDown"/>
             <TextBlock 
                     Text="Custom titlebar with interactive content" 
+                    Foreground="White"
                     Grid.Column="0"  
                     Margin="44,8,0,0"/>
         </Grid>

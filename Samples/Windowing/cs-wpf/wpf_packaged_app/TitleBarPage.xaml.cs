@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using WinRT;
+
 namespace wpf_packaged_app
 {
     /// <summary>
@@ -86,7 +87,7 @@ namespace wpf_packaged_app
             }
             else
             {
-                m_mainAppWindow.Title = "Default titlebar";
+                m_mainAppWindow.Title = m_mainWindow.m_windowTitle;
             }
             m_mainWindow.MyTitleBar.Visibility = Visibility.Collapsed;
         }
@@ -94,7 +95,7 @@ namespace wpf_packaged_app
         private void ResetTitlebarBtn_Click(object sender, RoutedEventArgs e)
         {
             m_mainAppWindow.TitleBar.ResetToDefault();
-            m_mainWindow.Title = m_mainWindow.m_windowTitle;
+            m_mainAppWindow.Title = m_mainWindow.m_windowTitle;
             m_mainWindow.MyTitleBar.Visibility = Visibility.Collapsed;
         }
 

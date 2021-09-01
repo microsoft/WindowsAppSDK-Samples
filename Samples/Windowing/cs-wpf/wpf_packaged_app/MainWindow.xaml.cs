@@ -16,7 +16,6 @@ using Microsoft.UI.Xaml.Controls;
 
 using System.Xml;
 using System.Windows.Data;
-using Microsoft.UI.Xaml.Input;
 
 namespace wpf_packaged_app
 {
