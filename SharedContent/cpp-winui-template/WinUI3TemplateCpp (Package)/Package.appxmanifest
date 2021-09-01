@@ -14,7 +14,7 @@
   <Properties>
     <DisplayName>WinUI3TemplateCpp (Package)</DisplayName>
     <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
-    <Logo>Images\StoreLogo.png</Logo>
+    <Logo>Images\logo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -34,8 +34,7 @@
         DisplayName="WinUI3TemplateCpp (Package)"
         Description="WinUI3TemplateCpp (Package)"
         BackgroundColor="transparent"
-        Square150x150Logo="Images\Square150x150Logo.png"
-        Square44x44Logo="Images\Square44x44Logo.png">
+        Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>

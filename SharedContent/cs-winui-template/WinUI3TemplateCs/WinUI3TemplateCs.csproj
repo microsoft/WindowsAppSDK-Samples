@@ -10,14 +10,6 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
 
-	<ItemGroup>
-		<Content Remove="Assets\logo-winui.ico" />
-		<Content Remove="Assets\microsoft-logo.png" />
-		<Content Remove="Assets\microsoft-sdk.png" />
-		<Content Remove="Assets\placeholder-sdk.png" />
-		<Content Remove="Assets\windows-sdk.ico" />
-	</ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.2" />
     <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.2" />
