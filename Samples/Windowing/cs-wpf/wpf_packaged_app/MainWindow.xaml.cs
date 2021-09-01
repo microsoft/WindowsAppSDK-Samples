@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Controls;
 
 using System.Xml;
 using System.Windows.Data;
+using Microsoft.UI.Xaml.Input;
 
 namespace wpf_packaged_app
 {
@@ -77,6 +78,14 @@ namespace wpf_packaged_app
         private void ListBoxItem_Selected_3(object sender, RoutedEventArgs e)
         {
             Main.Content = new TitleBarPage();
+        }
+
+        private void MyWindowIcon_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                this.Close();
+            }
         }
     }
 }
