@@ -6,21 +6,47 @@
         xmlns:local="clr-namespace:wpf_packaged_app"
         mc:Ignorable="d"
         Height="320" Width="560">
- 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="Nav_ListBox" Grid.Column="0" 
-                 VerticalAlignment="Top" >
-            <ListBoxItem Content="Window Basics" Selected="ListBoxItem_Selected"/>
-            <ListBoxItem Content="Presenters" Selected="ListBoxItem_Selected_1"/>
-            <ListBoxItem Content="Window Configurations" Selected="ListBoxItem_Selected_2"/>
-            <ListBoxItem Content="Title Bar" Selected="ListBoxItem_Selected_3"/>
-        </ListBox>
-        <Frame x:Name="Main" NavigationUIVisibility="Hidden" Grid.Column="1">
-        </Frame>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" x:Name="MyTitleBar" Background="Blue" x:FieldModifier="public" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="MyWindowIcon" 
+                    Source="/window_icon.png"
+                    Grid.Column="0" 
+                    HorizontalAlignment="Left" 
+                    x:FieldModifier="public" 
+                   Width="20" Height="20" Margin="12,0"
+                   MouseDown="MyWindowIcon_MouseDown"/>
+            <TextBlock 
+                    Text="Custom titlebar with interactive content" 
+                    Foreground="White"
+                    Grid.Column="0"  
+                    Margin="44,8,0,0"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ListBox x:Name="Nav_ListBox" Grid.Column="0" 
+                     VerticalAlignment="Top" >
+                <ListBoxItem Content="Window Basics" Selected="ListBoxItem_Selected"/>
+                <ListBoxItem Content="Presenters" Selected="ListBoxItem_Selected_1"/>
+                <ListBoxItem Content="Window Configurations" Selected="ListBoxItem_Selected_2"/>
+                <ListBoxItem Content="Title Bar" Selected="ListBoxItem_Selected_3"/>
+            </ListBox>
+            <Frame x:Name="Main" NavigationUIVisibility="Hidden" Grid.Column="1">
+            </Frame>
+        </Grid>
     </Grid>
 </Window>

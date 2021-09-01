@@ -78,5 +78,13 @@ namespace wpf_packaged_app
         {
             Main.Content = new TitleBarPage();
         }
+
+        private void MyWindowIcon_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                this.Close();
+            }
+        }
     }
 }
