@@ -25,41 +25,20 @@ namespace wpf_packaged_app
     /// </summary>
     public partial class ConfigPage : Page
     {
-        [DllImport("Microsoft.UI.Windowing.Core.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowHandleFromWindowId(WindowId windowId, out IntPtr result);
-
-        [DllImport("Microsoft.UI.Windowing.Core.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowIdFromWindowHandle(IntPtr hwnd, out WindowId result);
-
         AppWindow m_mainAppWindow;
         AppWindowConfiguration windowConfiguration;
 
-        public static Microsoft.UI.Windowing.AppWindow GetAppWindowFromWPFWindow(Window wpfWindow)
-        {
-            // Get the HWND of the top level WPF window.
-            var helper = new WindowInteropHelper(wpfWindow);
-            IntPtr hwnd = (HwndSource.FromHwnd(helper.EnsureHandle())
-                as IWin32Window).Handle;
-
-            // Get the WindowId from the HWND.
-            Microsoft.UI.WindowId windowId;
-            GetWindowIdFromWindowHandle(hwnd, out windowId);
-
-            // Get an AppWindow from the WindowId.
-            Microsoft.UI.Windowing.AppWindow appWindow =
-            Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-
-            return appWindow;
-        }
         public ConfigPage()
         {
             InitializeComponent();
         }
+
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            m_mainAppWindow = GetAppWindowFromWPFWindow(Window.GetWindow(this));
+            m_mainAppWindow = AppWindowExtensions.GetAppWindowFromWPFWindow(Window.GetWindow(this));
             
         }
+
         private void ChangeWindowStyle(object sender, RoutedEventArgs e)
         {
             if (m_mainAppWindow != null)
@@ -104,93 +83,86 @@ namespace wpf_packaged_app
                 {
                     case "FrameToggle":
                         if (windowConfiguration.HasFrame)
-                        {
-                            windowConfiguration.HasFrame = !windowConfiguration.HasFrame;
+                        {                          
                             FrameToggle.Content = "Has No Frame";
                         }
                         else
                         {
-                            windowConfiguration.HasFrame = !windowConfiguration.HasFrame;
                             FrameToggle.Content = "Has Frame";
                         }
+                        windowConfiguration.HasFrame = !windowConfiguration.HasFrame;
                         break;
 
                     case "TitleBarToggle":         
                         if (windowConfiguration.HasTitleBar)
                         {
-                            windowConfiguration.HasTitleBar = !windowConfiguration.HasTitleBar;
                             TitleBarToggle.Content = "Has No Title Bar";
                         }
                         else
                         {
-                            windowConfiguration.HasTitleBar = !windowConfiguration.HasTitleBar;
                             TitleBarToggle.Content = "Has Title Bar";
                         }
+                        windowConfiguration.HasTitleBar = !windowConfiguration.HasTitleBar;
                         break;
 
                     case "AlwaysOnTopToggle":
                         if (windowConfiguration.IsAlwaysOnTop)
                         {
-                            windowConfiguration.IsAlwaysOnTop = !windowConfiguration.IsAlwaysOnTop;
                             AlwaysOnTopToggle.Content = "Is not Always on Top";
                         }
                         else
-                        {
-                            windowConfiguration.IsAlwaysOnTop = !windowConfiguration.IsAlwaysOnTop; ;
+                        { 
                             AlwaysOnTopToggle.Content = "Is Always on Top";
                         }
+                        windowConfiguration.IsAlwaysOnTop = !windowConfiguration.IsAlwaysOnTop;
                         break;
 
                     case "MaxToggle":
                         if (windowConfiguration.IsMaximizable)
                         {
-                            windowConfiguration.IsMaximizable = !windowConfiguration.IsMaximizable;
                             MaxToggle.Content = "Is not Maximizable";
                         }
                         else
                         {
-                            windowConfiguration.IsMaximizable = !windowConfiguration.IsMaximizable;
                             MaxToggle.Content = "Is Maximizable";
                         }
+                        windowConfiguration.IsMaximizable = !windowConfiguration.IsMaximizable;
                         break;
 
                     case "MinToggle":
                         if (windowConfiguration.IsMinimizable)
                         {
-                            windowConfiguration.IsMinimizable = !windowConfiguration.IsMinimizable;
                             MinToggle.Content = "Is not Minimizable";
                         }
                         else
                         {
-                            windowConfiguration.IsMinimizable = !windowConfiguration.IsMinimizable;
                             MinToggle.Content = "Is Minimizable";
                         }
+                        windowConfiguration.IsMinimizable = !windowConfiguration.IsMinimizable;
                         break;
 
                     case "ResizableToggle":
                         if (windowConfiguration.IsResizable)
                         {
-                            windowConfiguration.IsResizable = !windowConfiguration.IsResizable;
                             ResizableToggle.Content = "Is not Resizable";
                         }
                         else
                         {
-                            windowConfiguration.IsResizable = !windowConfiguration.IsResizable;
                             ResizableToggle.Content = "Is Resizable";
                         }
+                        windowConfiguration.IsResizable = !windowConfiguration.IsResizable;
                         break;
 
                     case "InUxToggle":         
                         if (windowConfiguration.IsShownInSwitchers)
                         {
-                            windowConfiguration.IsShownInSwitchers = !windowConfiguration.IsShownInSwitchers;
                             InUxToggle.Content = "Is not Shown in UX";
                         }
                         else
                         {
-                            windowConfiguration.IsShownInSwitchers = !windowConfiguration.IsShownInSwitchers;
                             InUxToggle.Content = "Is Shown in UX";
                         }
+                        windowConfiguration.IsShownInSwitchers = !windowConfiguration.IsShownInSwitchers;
                         break;
 
                     default:

@@ -25,42 +25,22 @@ namespace wpf_packaged_app
     /// </summary>
     public partial class PresenterPage : Page
     {
-        [DllImport("Microsoft.UI.Windowing.Core.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowHandleFromWindowId(WindowId windowId, out IntPtr result);
-
-        [DllImport("Microsoft.UI.Windowing.Core.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowIdFromWindowHandle(IntPtr hwnd, out WindowId result);
-
         AppWindow m_mainAppWindow;
         AppWindowConfiguration windowConfiguration;
-        public static Microsoft.UI.Windowing.AppWindow GetAppWindowFromWPFWindow(Window wpfWindow)
-        {
-            // Get the HWND of the top level WPF window.
-            var helper = new WindowInteropHelper(wpfWindow);
-            IntPtr hwnd = (HwndSource.FromHwnd(helper.EnsureHandle())
-                as IWin32Window).Handle;
 
-            // Get the WindowId from the HWND.
-            Microsoft.UI.WindowId windowId;
-            GetWindowIdFromWindowHandle(hwnd, out windowId);
-
-            // Get an AppWindow from the WindowId.
-            Microsoft.UI.Windowing.AppWindow appWindow =
-            Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-
-            return appWindow;
-        }
         public PresenterPage()
         {
             InitializeComponent();
         }
+
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            m_mainAppWindow = GetAppWindowFromWPFWindow(Window.GetWindow(this));
+            m_mainAppWindow = AppWindowExtensions.GetAppWindowFromWPFWindow(Window.GetWindow(this));
 
             // Register for window changed events while on this page.
             m_mainAppWindow.Changed += AppWindowChangedHandler;
         }
+
         private void AppWindowChangedHandler(AppWindow sender, AppWindowChangedEventArgs args)
         {
             // The presenter changed so we need to update the button captions to reflect the new state

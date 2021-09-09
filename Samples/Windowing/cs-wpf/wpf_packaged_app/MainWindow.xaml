@@ -40,10 +40,10 @@
 
             <ListBox x:Name="Nav_ListBox" Grid.Column="0" 
                      VerticalAlignment="Top" >
-                <ListBoxItem Content="Window Basics" Selected="ListBoxItem_Selected"/>
-                <ListBoxItem Content="Presenters" Selected="ListBoxItem_Selected_1"/>
-                <ListBoxItem Content="Window Configurations" Selected="ListBoxItem_Selected_2"/>
-                <ListBoxItem Content="Title Bar" Selected="ListBoxItem_Selected_3"/>
+                <ListBoxItem Content="Window Basics" Selected="Basics_Selected"/>
+                <ListBoxItem Content="Presenters" Selected="Presenters_Selected"/>
+                <ListBoxItem Content="Window Configurations" Selected="Configs_Selected"/>
+                <ListBoxItem Content="Title Bar" Selected="Titlebar_Selected"/>
             </ListBox>
             <Frame x:Name="Main" NavigationUIVisibility="Hidden" Grid.Column="1">
             </Frame>
