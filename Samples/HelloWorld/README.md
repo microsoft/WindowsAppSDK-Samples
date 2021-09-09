@@ -2,7 +2,8 @@
 name: "Windows App SDK Hello World"
 description: "Hello World app for basic demonstration"
 page_type: sample
-languages: cpp
+languages: 
+- cpp
 products:
 - windows
 - windows-app-sdk
