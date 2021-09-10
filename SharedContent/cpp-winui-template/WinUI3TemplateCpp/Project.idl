@@ -26,7 +26,7 @@ namespace WinUI3TemplateCpp
         MainPage();
         static MainPage Current();
         // To make these methods accesible to others XAML pages, it's needed to define them on the IDL
-        void NotifyUser(String strMessage, Microsoft.UI.Xaml.Controls.InfoBarSeverity severity, Boolean isOpen);
+        void NotifyUser(String strMessage, Microsoft.UI.Xaml.Controls.InfoBarSeverity severity);
     }
 
     // To use Scenario in a winrt::Windows::Foundation::Collections::IVector<Scenario>, Scenario should be a WinRT type

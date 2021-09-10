@@ -1,15 +1,29 @@
-﻿#include "pch.h"
+﻿//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+
+#include "pch.h"
 #include "MainPage.xaml.h"
 #if __has_include("MainPage.g.cpp")
 #include "MainPage.g.cpp"
 #endif
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Windows::UI::Xaml::Interop;
-using namespace Microsoft::UI::Xaml::Media;
-using namespace Microsoft::UI::Xaml::Media::Animation;
-using namespace Microsoft::UI::Xaml::Controls;
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+    using namespace Microsoft::UI::Xaml::Navigation;
+    using namespace Windows::UI::Xaml::Interop;
+}
 
 
 namespace winrt::WinUI3TemplateCpp::implementation
@@ -22,17 +36,17 @@ namespace winrt::WinUI3TemplateCpp::implementation
         MainPage::current = *this;
     }
 
-    void MainPage::NavView_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void MainPage::NavView_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
     {
         for (auto s : Scenarios())
         {
             FontIcon fontIcon{};
-            fontIcon.FontFamily(winrt::Microsoft::UI::Xaml::Media::FontFamily(L"Segoe MDL2 Assets"));
+            fontIcon.FontFamily(winrt::FontFamily(L"Segoe MDL2 Assets"));
             fontIcon.Glyph(L"\uE82D");
 
             NavigationViewItem navViewItem{};
-            navViewItem.Content(winrt::box_value(s.Title));
-            navViewItem.Tag(winrt::box_value(s.ClassName));
+            navViewItem.Content(box_value(s.Title));
+            navViewItem.Tag(box_value(s.ClassName));
             navViewItem.Icon(fontIcon);
             NavView().MenuItems().Append(navViewItem);
         }
@@ -43,14 +57,14 @@ namespace winrt::WinUI3TemplateCpp::implementation
         // If navigation occurs on SelectionChanged, this isn't needed.
         // Because we use ItemInvoked to navigate, we need to call Navigate
         // here to load the home page.
-        if (Scenarios() != nullptr && Scenarios().Size() > 0)
+        if (Scenarios().Size() > 0)
         {
             NavView_Navigate(Scenarios().GetAt(0).ClassName, nullptr);
         }
     }
 
 
-    void MainPage::NavView_ItemInvoked(winrt::Microsoft::UI::Xaml::Controls::NavigationView const& sender, winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const& args)
+    void MainPage::NavView_ItemInvoked(NavigationView const& sender, NavigationViewItemInvokedEventArgs const& args)
     {
         if (args.IsSettingsInvoked() == true)
         {
@@ -67,7 +81,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
         }
     }
 
-    void MainPage::NavView_Navigate(hstring navItemTag, winrt::Microsoft::UI::Xaml::Media::Animation::NavigationTransitionInfo const& transitionInfo)
+    void MainPage::NavView_Navigate(hstring navItemTag, NavigationTransitionInfo const&)
     {
         TypeName pageType;
 
@@ -93,7 +107,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
         }
     }
 
-    void MainPage::NavView_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const& sender, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const& args)
+    void MainPage::NavView_BackRequested(NavigationView const&, NavigationViewBackRequestedEventArgs const&)
     {
         if (ContentFrame().CanGoBack())
         {
@@ -101,7 +115,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
         }
     }
 
-    void MainPage::ContentFrame_Navigated(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& e)
+    void MainPage::ContentFrame_Navigated(IInspectable const&, NavigationEventArgs const& e)
     {
         NavView().IsBackEnabled(ContentFrame().CanGoBack());
 
@@ -127,29 +141,34 @@ namespace winrt::WinUI3TemplateCpp::implementation
         }
     }
 
-    void MainPage::NotifyUser(hstring const& strMessage, InfoBarSeverity const& severity, bool isOpen)
+    void MainPage::NotifyUser(hstring const& strMessage, InfoBarSeverity const& severity)
     {
         // If called from the UI thread, then update immediately.
         // Otherwise, schedule a task on the UI thread to perform the update.
         if (this->DispatcherQueue().HasThreadAccess())
         {
-            UpdateStatus(strMessage, severity, isOpen);
+            UpdateStatus(strMessage, severity);
         }
         else
         {
-            this->DispatcherQueue().TryEnqueue([strMessage, severity, isOpen, this]()
+            this->DispatcherQueue().TryEnqueue([strMessage, severity, this]()
                 {
-                    UpdateStatus(strMessage, severity, isOpen);
+                    UpdateStatus(strMessage, severity);
                 });
         }
     }
 
-    void MainPage::UpdateStatus(hstring const& strMessage, Microsoft::UI::Xaml::Controls::InfoBarSeverity severity, bool isOpen)
+    void MainPage::UpdateStatus(hstring const& strMessage, InfoBarSeverity severity)
     {
         infoBar().Message(strMessage);
-        infoBar().IsOpen(isOpen);
         infoBar().Severity(severity);
+        if (strMessage == L"")
+        {
+            infoBar().IsOpen(false);
+        }
+        else 
+        {
+            infoBar().IsOpen(true);
+        }  
     }
 }
-
-

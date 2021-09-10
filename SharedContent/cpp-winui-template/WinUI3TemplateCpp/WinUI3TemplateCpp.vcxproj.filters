@@ -9,6 +9,7 @@
     <Page Include="SettingsPage.xaml" />
     <Page Include="Scenario1_ShortName.xaml" />
     <Page Include="Scenario2_ShortName.xaml" />
+    <Page Include="Styles.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Project.idl" />

@@ -1,4 +1,15 @@
-﻿#include "pch.h"
+﻿//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+
+#include "pch.h"
 #include "MainWindow.xaml.h"
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
@@ -35,10 +46,10 @@ namespace winrt::WinUI3TemplateCpp::implementation
         return _hwnd;
     }
 
-    void MainWindow::LoadIcon(HWND hwnd, wchar_t* iconName)
+    void MainWindow::LoadIcon(HWND hwnd, wchar_t* iconPath)
     {
         auto hSmallIcon = LoadImage(NULL,
-            iconName,
+            iconPath,
             IMAGE_ICON,
             GetSystemMetrics(SM_CXSMICON),
             GetSystemMetrics(SM_CYSMICON),
@@ -47,7 +58,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
 
         auto hBigIcon = LoadImage(
             NULL,
-            iconName,
+            iconPath,
             IMAGE_ICON,
             GetSystemMetrics(SM_CXICON),
             GetSystemMetrics(SM_CYICON),
@@ -63,7 +74,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
         auto widthScaled = static_cast<int>(width * scalingFactor);
         auto heightScaled = static_cast<int>(height * scalingFactor);
 
-        SetWindowPos(hwnd, HWND_TOP, 0, 0, widthScaled, heightScaled, SWP_NOMOVE);
+        SetWindowPos(hwnd, nullptr, 0, 0, widthScaled, heightScaled, SWP_NOZORDER);
     }
 
     void MainWindow::PlacementCenterWindowInMonitorWin32(HWND hwnd)
@@ -78,7 +89,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
             SWP_NOACTIVATE);
     }
 
-    void MainWindow::ClipOrCenterRectToMonitorWin32(RECT* prc, bool UseWorkArea)
+    void MainWindow::ClipOrCenterRectToMonitorWin32(RECT* prc, bool useWorkArea)
     {
         HMONITOR hMonitor;
         RECT rc;
@@ -92,7 +103,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
 
         GetMonitorInfo(hMonitor, &mi);
 
-        rc = UseWorkArea ? mi.rcWork : mi.rcMonitor;
+        rc = useWorkArea ? mi.rcWork : mi.rcMonitor;
         prc->left = rc.left + (rc.right - rc.left - w) / 2;
         prc->top = rc.top + (rc.bottom - rc.top - h) / 2;
         prc->right = prc->left + w;

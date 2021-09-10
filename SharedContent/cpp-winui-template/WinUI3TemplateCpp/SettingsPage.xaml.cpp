@@ -1,4 +1,15 @@
-﻿#include "pch.h"
+﻿//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+
+#include "pch.h"
 #include "SettingsPage.xaml.h"
 #if __has_include("SettingsPage.g.cpp")
 #include "SettingsPage.g.cpp"
@@ -8,6 +19,8 @@
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
+using namespace Microsoft::UI::Xaml::Navigation;
+using namespace Windows::Foundation;
 
 namespace winrt::WinUI3TemplateCpp::implementation
 {
@@ -16,10 +29,10 @@ namespace winrt::WinUI3TemplateCpp::implementation
         InitializeComponent();
     }
 
-    void SettingsPage::OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& e)
+    void SettingsPage::OnNavigatedTo(NavigationEventArgs const&)
     {
         // Initialize the CurrentTheme on first navigation to the Settings page
-        if (winrt::WinUI3TemplateCpp::Settings::CurrentTheme == L"")
+        if (Settings::CurrentTheme == L"")
         {
             if (RequestedTheme() == ElementTheme::Dark) 
             {
@@ -41,37 +54,34 @@ namespace winrt::WinUI3TemplateCpp::implementation
             if (tag == Settings::CurrentTheme)
             {
                 RadioButton radioButton = c.as<RadioButton>();
-                radioButton.IsChecked(Windows::Foundation::IReference<bool>{true});
+                radioButton.IsChecked(IReference<bool>{true});
             }
         }
     }
 
-    void SettingsPage::OnThemeRadioButtonChecked(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void SettingsPage::OnThemeRadioButtonChecked(IInspectable const& sender, RoutedEventArgs const&)
     { 
         RadioButton radiobutton = sender.as<RadioButton>();
-		winrt::hstring selectedTheme = unbox_value<winrt::hstring>(radiobutton.Tag());
+        hstring selectedTheme = unbox_value<winrt::hstring>(radiobutton.Tag());
 
         if (selectedTheme != L"") 
         {
             Grid content = MainPage().Current().Content().as<Grid>();
             if (selectedTheme == L"Dark")
             {
-                content.RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Dark);
+                content.RequestedTheme(ElementTheme::Dark);
                 Settings::CurrentTheme = L"Dark";
             }
             else if (selectedTheme == L"Light")
             {
-                content.RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Light);
+                content.RequestedTheme(ElementTheme::Light);
                 Settings::CurrentTheme = L"Light";
             }
             else
             {
-                content.RequestedTheme(Microsoft::UI::Xaml::ElementTheme::Default);
+                content.RequestedTheme(ElementTheme::Default);
                 Settings::CurrentTheme = L"Default";
             }
         }      
     }
 }
-
-
-

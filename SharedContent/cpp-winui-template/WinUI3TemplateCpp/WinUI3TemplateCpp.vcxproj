@@ -138,6 +138,9 @@
     <Page Include="SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainPage.xaml.cpp">
@@ -186,6 +189,7 @@
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.210211.2\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210211.2\build\native\Microsoft.Windows.CppWinRT.targets')" />
     <Import Project="..\packages\Microsoft.ProjectReunion.Foundation.0.8.2\build\native\Microsoft.ProjectReunion.Foundation.targets" Condition="Exists('..\packages\Microsoft.ProjectReunion.Foundation.0.8.2\build\native\Microsoft.ProjectReunion.Foundation.targets')" />
     <Import Project="..\packages\Microsoft.ProjectReunion.WinUI.0.8.2\build\native\Microsoft.ProjectReunion.WinUI.targets" Condition="Exists('..\packages\Microsoft.ProjectReunion.WinUI.0.8.2\build\native\Microsoft.ProjectReunion.WinUI.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.Wil.0.2.81\build\native\Microsoft.Windows.Wil.targets" Condition="Exists('..\packages\Microsoft.Windows.Wil.0.2.81\build\native\Microsoft.Windows.Wil.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -198,5 +202,6 @@
     <Error Condition="!Exists('..\packages\Microsoft.ProjectReunion.Foundation.0.8.2\build\native\Microsoft.ProjectReunion.Foundation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ProjectReunion.Foundation.0.8.2\build\native\Microsoft.ProjectReunion.Foundation.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ProjectReunion.WinUI.0.8.2\build\native\Microsoft.ProjectReunion.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ProjectReunion.WinUI.0.8.2\build\native\Microsoft.ProjectReunion.WinUI.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ProjectReunion.WinUI.0.8.2\build\native\Microsoft.ProjectReunion.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ProjectReunion.WinUI.0.8.2\build\native\Microsoft.ProjectReunion.WinUI.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.Wil.0.2.81\build\native\Microsoft.Windows.Wil.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.Wil.0.2.81\build\native\Microsoft.Windows.Wil.targets'))" />
   </Target>
 </Project>
