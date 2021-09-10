@@ -8,11 +8,11 @@ namespace SampleApp
 {
     internal class Interop
     {
-        [DllImport("Microsoft.Internal.FrameworkUdk.dll", EntryPoint = "Windowing_GetWindowIdFromWindowHandle", CharSet = CharSet.Unicode)]
+        [DllImport("Microsoft.Internal.FrameworkUdk.dll", EntryPoint = "Windowing_GetWindowHandleFromWindowId", CharSet = CharSet.Unicode)]
         public static extern IntPtr GetWindowHandleFromWindowId(WindowId windowId, out IntPtr result);
 
 
-        [DllImport("Microsoft.Internal.FrameworkUdk.dll", EntryPoint = "Windowing_GetWindowHandleFromWindowId", CharSet = CharSet.Unicode)]
+        [DllImport("Microsoft.Internal.FrameworkUdk.dll", EntryPoint = "Windowing_GetWindowIdFromWindowHandle", CharSet = CharSet.Unicode)]
         public static extern IntPtr GetWindowIdFromWindowHandle(IntPtr hwnd, out WindowId result);
     }
 
@@ -33,6 +33,5 @@ namespace SampleApp
 
             return AppWindow.GetFromWindowId(windowId);
         }
-
     }
 }
