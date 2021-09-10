@@ -53,7 +53,6 @@ namespace SampleApp
             {
                 m_mainAppWindow.Title = TitleTextBox.Text;
             }
-            var displayAreas = DisplayArea.FindAll();
         }
 
         private void SizeBtn_Click(object sender, RoutedEventArgs e)
