@@ -22,7 +22,7 @@ namespace SampleApp
     {
        
         AppWindow m_mainAppWindow;
-
+        Window m_mainWindow;
         public DemoPage()
         {
             this.InitializeComponent();
@@ -32,6 +32,8 @@ namespace SampleApp
         {
             // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
             m_mainAppWindow = e.Parameter.As<Window>().GetAppWindow();
+            m_mainWindow = e.Parameter as MainWindow;
+
             base.OnNavigatedTo(e);
         }
 
@@ -51,6 +53,7 @@ namespace SampleApp
             {
                 m_mainAppWindow.Title = TitleTextBox.Text;
             }
+            var displayAreas = DisplayArea.FindAll();
         }
 
         private void SizeBtn_Click(object sender, RoutedEventArgs e)
@@ -71,6 +74,43 @@ namespace SampleApp
             if (windowHeight > 0 && windowWidth > 0)
             {
                 m_mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+            }
+        }
+
+
+        private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+        {
+            ContentDialog interceptCloseDialog = new ContentDialog()
+            {
+                Title = "Close intercepted!",
+                Content = "Do you want to close the window?",
+                CloseButtonText = "Yes",
+                PrimaryButtonText = "No",
+                DefaultButton = ContentDialogButton.Close
+            };
+
+            interceptCloseDialog.XamlRoot = m_mainWindow.Content.XamlRoot;
+            ContentDialogResult result = await interceptCloseDialog.ShowAsync();
+
+            if(result != ContentDialogResult.Primary)
+            {
+                // The user either dismissed with dialog (Esc/close), or selected No to go back to the app.
+                // Cancel the system close.
+                args.Cancel = true;
+            }
+        }
+
+        private void InterceptCloseSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (sender.As<ToggleSwitch>().IsOn)
+            {
+                ShowMessageOnCloseSwitch.IsEnabled = true;
+                m_mainAppWindow.Closing += AppWindow_Closing;
+            }
+            else
+            {
+                ShowMessageOnCloseSwitch.IsEnabled = false;
+                m_mainAppWindow.Closing -= AppWindow_Closing;
             }
         }
     }

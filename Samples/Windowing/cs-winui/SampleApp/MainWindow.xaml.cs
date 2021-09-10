@@ -54,10 +54,11 @@ namespace SampleApp
                     case "titlebar":
                         ContentFrame.Navigate(typeof(TitlebarPage), this);
                         break;
-
+                    case "displayarea":
+                        ContentFrame.Navigate(typeof(DisplayAreaPage), this);
+                        break;
                 }
             }
-
         }
 
         private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)

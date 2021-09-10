@@ -11,17 +11,28 @@
   <ItemGroup>
     <None Remove="ConfigPage.xaml" />
     <None Remove="DemoPage.xaml" />
+    <None Remove="DisplayAreaPAge.xaml" />
     <None Remove="PresenterPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-experimental1" />
     <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-20210829.5-CI" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Update="ConfigPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="DisplayAreaPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
 

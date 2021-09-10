@@ -82,7 +82,6 @@ namespace SampleApp
             // Bail out if we don't have an AppWindow object.
             if (m_mainAppWindow != null)
             {
-
                 AppWindowPresenterKind newPresenterKind;
                 switch (sender.As<Button>().Name)
                 {

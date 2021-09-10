@@ -38,11 +38,11 @@
                 <NavigationViewItem Tag="presenters" Content="Presenters"></NavigationViewItem>
                 <NavigationViewItem Tag="configs" Content="Window Configurations"></NavigationViewItem>
                 <NavigationViewItem Tag="titlebar" Content="Titlebar"></NavigationViewItem>
+                <NavigationViewItem Tag="displayarea" Content="DisplayArea"></NavigationViewItem>
             </NavigationView.MenuItems>
             <ScrollViewer>
                 <Frame x:Name="ContentFrame"></Frame>
             </ScrollViewer>
         </NavigationView>
     </Grid>
-   
 </Window>

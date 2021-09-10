@@ -12,6 +12,7 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Window Basics</TextBlock>
         <StackPanel Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -22,6 +23,10 @@
             <TextBox  Margin="5,5,5,5" x:Name="WidthTextBox" InputScope="Number"></TextBox>
             <TextBox  Margin="5,5,5,5" x:Name="HeightTextBox" InputScope="Number"></TextBox>
             <Button   Margin="5,5,5,5" x:Name="SizeBtn" Click="SizeBtn_Click">Resize window</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ToggleSwitch Name="InterceptCloseSwitch" OnContent="Intercept close" OffContent="Don't intercept close" Toggled="InterceptCloseSwitch_Toggled"/>
+            <ToggleSwitch Name="ShowMessageOnCloseSwitch" OnContent="Show confirmation dialog" OffContent="Don't show confirmation dialog"/>
         </StackPanel>
     </Grid>
 </Page>
