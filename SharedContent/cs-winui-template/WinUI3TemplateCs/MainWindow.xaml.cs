@@ -1,18 +1,28 @@
-﻿using Microsoft.UI.Xaml;
+﻿//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+
+using Microsoft.UI.Xaml;
 using System;
 using System.Runtime.InteropServices;
-using WinRT;
-using Microsoft.Win32.SafeHandles;
 using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.WindowsAndMessaging;
-using Windows.Win32.Graphics.Gdi;
+
 using static Windows.Win32.PInvoke;
 using static Windows.Win32.Constants;
 
 namespace WinUI3TemplateCs
 {
-    public sealed partial class MainWindow : Window
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
@@ -33,24 +43,24 @@ namespace WinUI3TemplateCs
 
             fixed (char* nameLocal = iconName)
             {
-                HINSTANCE hInstLocal = default(HINSTANCE);
-                HANDLE __result = LoadImage(hInstLocal, nameLocal,
+                HANDLE imageHandle = LoadImage(default(HINSTANCE), 
+                    nameLocal,
                     GDI_IMAGE_TYPE.IMAGE_ICON,
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
-                    IMAGE_FLAGS.LR_LOADFROMFILE);
-                SendMessage(hwnd, WM_SETICON, ICON_SMALL, __result.Value);
+                    IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
+                SendMessage(hwnd, WM_SETICON, ICON_SMALL, imageHandle.Value);
             }
 
             fixed (char* nameLocal = iconName)
             {
-                HINSTANCE hInstLocal = default(HINSTANCE);
-                HANDLE __result = LoadImage(hInstLocal, nameLocal,
+                HANDLE imageHandle = LoadImage(default(HINSTANCE), 
+                    nameLocal,
                     GDI_IMAGE_TYPE.IMAGE_ICON,
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
-                    IMAGE_FLAGS.LR_LOADFROMFILE);
-                SendMessage(hwnd, WM_SETICON, ICON_BIG, __result.Value);
+                    IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
+                SendMessage(hwnd, WM_SETICON, ICON_BIG, imageHandle.Value);
             }
         }
 
@@ -62,7 +72,7 @@ namespace WinUI3TemplateCs
             width = (int)(width * scalingFactor);
             height = (int)(height * scalingFactor);
 
-            SetWindowPos(hwnd, HWND_TOP, 0, 0, width, height, SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
+            SetWindowPos(hwnd, default, 0, 0, width, height, SET_WINDOW_POS_FLAGS.SWP_NOZORDER);
         }
 
         private void PlacementCenterWindowInMonitorWin32(HWND hwnd)
@@ -70,7 +80,7 @@ namespace WinUI3TemplateCs
             RECT rc;
             GetWindowRect(hwnd, out rc);
             ClipOrCenterRectToMonitorWin32(rc, true, true);
-            SetWindowPos(hwnd, HWND_TOP, rc.left, rc.top, 0, 0,
+            SetWindowPos(hwnd, default, rc.left, rc.top, 0, 0,
                          SET_WINDOW_POS_FLAGS.SWP_NOSIZE | 
                          SET_WINDOW_POS_FLAGS.SWP_NOZORDER | 
                          SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);     

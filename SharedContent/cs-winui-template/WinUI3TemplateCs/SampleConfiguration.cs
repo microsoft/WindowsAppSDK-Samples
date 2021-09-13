@@ -9,9 +9,8 @@
 //
 //*********************************************************
 
-using System;
-using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
+using System.Collections.Generic;
 
 namespace WinUI3TemplateCs
 {

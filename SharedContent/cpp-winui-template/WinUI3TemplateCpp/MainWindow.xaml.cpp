@@ -53,23 +53,22 @@ namespace winrt::WinUI3TemplateCpp::implementation
             IMAGE_ICON,
             GetSystemMetrics(SM_CXSMICON),
             GetSystemMetrics(SM_CYSMICON),
-            LR_LOADFROMFILE);
+            LR_LOADFROMFILE | LR_SHARED);
         SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hSmallIcon);
 
-        auto hBigIcon = LoadImage(
-            NULL,
+        auto hBigIcon = LoadImage(NULL,
             iconPath,
             IMAGE_ICON,
             GetSystemMetrics(SM_CXICON),
             GetSystemMetrics(SM_CYICON),
-            LR_LOADFROMFILE);
+            LR_LOADFROMFILE | LR_SHARED);
         SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hBigIcon);
     }
 
     void MainWindow::SetWindowSize(const HWND hwnd, const int width, const int height)
     {
         // Win32 uses pixels and WinUI 3 uses effective pixels, so you should apply the DPI scale factor
-        auto dpi = GetDpiForWindow(hwnd);
+        UINT dpi = GetDpiForWindow(hwnd);
         float scalingFactor = static_cast<float>(dpi / 96);
         auto widthScaled = static_cast<int>(width * scalingFactor);
         auto heightScaled = static_cast<int>(height * scalingFactor);

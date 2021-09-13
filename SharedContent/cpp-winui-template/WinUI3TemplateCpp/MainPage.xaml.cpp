@@ -161,14 +161,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
     void MainPage::UpdateStatus(hstring const& strMessage, InfoBarSeverity severity)
     {
         infoBar().Message(strMessage);
+        infoBar().IsOpen(!strMessage.empty());
         infoBar().Severity(severity);
-        if (strMessage == L"")
-        {
-            infoBar().IsOpen(false);
-        }
-        else 
-        {
-            infoBar().IsOpen(true);
-        }  
     }
 }

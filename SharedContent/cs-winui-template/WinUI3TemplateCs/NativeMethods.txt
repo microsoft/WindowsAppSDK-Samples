@@ -1,4 +1,4 @@
-﻿GetDpiForWindow
+﻿GetDpiForWindow 
 LoadImage
 SendMessage
 SetWindowPos

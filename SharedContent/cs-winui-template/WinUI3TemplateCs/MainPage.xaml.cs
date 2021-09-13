@@ -1,7 +1,17 @@
-﻿using Microsoft.UI.Xaml;
+﻿//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +19,10 @@ using System.Linq;
 namespace WinUI3TemplateCs
 {
 
-    public sealed partial class MainPage : Page
+    public partial class MainPage : Page
     {
         public static MainPage Current;
-
-        public List<Scenario> Scenarios
-        {
-            get { return this.scenarios; }
-        }
+        public List<Scenario> Scenarios => this.scenarios;
 
         public MainPage()
         {
@@ -53,10 +59,9 @@ namespace WinUI3TemplateCs
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var item in scenarios)
+            foreach (Scenario item in scenarios)
             {
-                NavView.MenuItems.Add(new NavigationViewItem
-                {
+                NavView.MenuItems.Add(new NavigationViewItem {
                     Content = item.Title,
                     Tag = item.ClassName,
                     Icon = new FontIcon() { FontFamily = new("Segoe MDL2 Assets"), Glyph = "\uE82D" }
@@ -77,16 +82,16 @@ namespace WinUI3TemplateCs
 
         private void NavView_Navigate(string navItemTag, Microsoft.UI.Xaml.Media.Animation.NavigationTransitionInfo transitionInfo)
         {
-            Type _page = null;
+            Type page;
 
             if (navItemTag == nameof(SettingsPage))
             {
-                _page = typeof(SettingsPage);
+                page = typeof(SettingsPage);
             }
             else
             {
-                var item = scenarios.FirstOrDefault(p => p.ClassName.Equals(navItemTag));
-                _page = Type.GetType(item.ClassName);
+                Scenario item = scenarios.First(p => p.ClassName.Equals(navItemTag));
+                page = Type.GetType(item.ClassName);
             }
 
             // Get the page type before navigation so you can prevent duplicate
@@ -94,9 +99,9 @@ namespace WinUI3TemplateCs
             var preNavPageType = ContentFrame.CurrentSourcePageType;
 
             // Only navigate if the selected page isn't currently loaded.
-            if (!(_page is null) && !Type.Equals(preNavPageType, _page))
+            if ((page is not null) && !Type.Equals(preNavPageType, page))
             {
-                ContentFrame.Navigate(_page, null, transitionInfo);
+                ContentFrame.Navigate(page, null, transitionInfo);
             }
         }
 
@@ -112,15 +117,14 @@ namespace WinUI3TemplateCs
         {
             var naViewItemInvoked = (NavigationViewItem)args.InvokedItemContainer;
 
-            if (args.IsSettingsInvoked == true)
+            if (args.IsSettingsInvoked)
             {
                 NavView_Navigate(nameof(SettingsPage), args.RecommendedNavigationTransitionInfo);
             }
-            else
-            if (args.InvokedItemContainer is not null)
+            else if (args.InvokedItemContainer is not null)
             {
                 var navItemTag = args.InvokedItemContainer.Tag?.ToString();
-                if (navItemTag is not null)
+                if (!string.IsNullOrEmpty(navItemTag))
                 {
                     NavView_Navigate(navItemTag, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
                 }
@@ -137,10 +141,9 @@ namespace WinUI3TemplateCs
                 NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
                 NavView.Header = "Settings";
             }
-            else
-            if (ContentFrame.SourcePageType != null)
+            else if (ContentFrame.SourcePageType != null)
             {
-                var item = scenarios.FirstOrDefault(p => p.ClassName == e.SourcePageType.FullName);
+                var item = scenarios.First(p => p.ClassName == e.SourcePageType.FullName);
                 var menuItems = NavView.MenuItems;
 
                 NavView.SelectedItem = NavView.MenuItems
@@ -153,4 +156,3 @@ namespace WinUI3TemplateCs
         }
     }
 }
-

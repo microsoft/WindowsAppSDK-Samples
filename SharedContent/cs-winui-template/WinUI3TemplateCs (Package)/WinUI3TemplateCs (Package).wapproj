@@ -35,7 +35,6 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <ProjectGuid>17b55766-7f58-4604-ac56-faa983ee25cb</ProjectGuid>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
@@ -60,11 +59,7 @@
     <ProjectReference Include="..\WinUI3TemplateCs\WinUI3TemplateCs.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\logo.png" />
-    <Content Include="Images\SplashScreen.png" />
-    <Content Include="Images\Square150x150Logo.png" />
-    <Content Include="Images\Square44x44Logo.png" />
-    <Content Include="Images\Wide310x150Logo.png" />
+    <Content Include="Images\*.png" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
