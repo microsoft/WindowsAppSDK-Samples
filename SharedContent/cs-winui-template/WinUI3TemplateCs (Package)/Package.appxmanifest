@@ -9,7 +9,7 @@
   <Identity
     Name="cfb926cc-c146-49f1-9ac1-cfaf8182bfd7"
     Publisher="CN=Microsoft Corporation"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>WinUICSTemplate (Package)</DisplayName>
@@ -41,7 +41,6 @@
             <uap:ShowOn Tile="square150x150Logo"/>
           </uap:ShowNameOnTiles>
         </uap:DefaultTile >
-        <uap:SplashScreen Image="Images\SplashScreen.png"/>
       </uap:VisualElements>
     </Application>
   </Applications>

@@ -9,15 +9,16 @@
 //
 //*********************************************************
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Generic;
 
 namespace WinUI3TemplateCs
 {
-    public static class Settings
+    internal static class Settings
     {
         public const string FeatureName = "Windows App SDK Template C# Sample";
-        public static string CurrentTheme;
+        public static ElementTheme CurrentTheme = ElementTheme.Default;
     }
 
     public partial class MainPage : Page

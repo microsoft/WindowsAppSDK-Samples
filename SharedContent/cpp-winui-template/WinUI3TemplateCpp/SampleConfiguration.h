@@ -1,4 +1,4 @@
-//*********************************************************
+﻿//*********************************************************
 //
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
@@ -18,6 +18,6 @@ namespace winrt::WinUI3TemplateCpp
     {
     public:
         static hstring FeatureName;
-        static hstring CurrentTheme;
+        static Microsoft::UI::Xaml::ElementTheme CurrentTheme;
     };
 }

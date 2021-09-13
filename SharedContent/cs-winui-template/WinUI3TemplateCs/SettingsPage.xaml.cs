@@ -27,38 +27,21 @@ namespace WinUI3TemplateCs
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (Settings.CurrentTheme is null)
-            {
-                Settings.CurrentTheme = RequestedTheme.ToString();
-            }
-
-            themePanel.Children.Cast<RadioButton>().FirstOrDefault(c => c?.Tag?.ToString() == Settings.CurrentTheme).IsChecked = true;
-
+            themePanel.Children.Cast<RadioButton>().First(c => (ElementTheme)c.Tag == Settings.CurrentTheme).IsChecked = true;
             base.OnNavigatedTo(e);
         }
 
         private void OnThemeRadioButtonChecked(object sender, RoutedEventArgs e)
         {
-            string selectedTheme = ((RadioButton)sender)?.Tag?.ToString();
-            if (selectedTheme is not null)
-            {
+            ElementTheme selectedTheme = (ElementTheme)((RadioButton)sender).Tag;
+      
                 Grid content = MainPage.Current.Content as Grid;
                 if (content is not null)
                 {
-                    content.RequestedTheme = GetEnum<ElementTheme>(selectedTheme);
-                    Settings.CurrentTheme = content.RequestedTheme.ToString();
+                    content.RequestedTheme = selectedTheme;
+                    Settings.CurrentTheme = content.RequestedTheme;
                 }
-            }
-        }
-
-        private static TEnum GetEnum<TEnum>(string text) where TEnum : struct
-        {
-            if (!typeof(TEnum).GetTypeInfo().IsEnum)
-            {
-                throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
-            }
-
-            return (TEnum)Enum.Parse(typeof(TEnum), text);
+            
         }
     }
 }

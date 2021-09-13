@@ -27,9 +27,21 @@
                                 FontWeight="Normal"
                                 Text="Theme Mode" />
             <StackPanel x:Name="themePanel">
-                <RadioButton Tag="Light" Checked="OnThemeRadioButtonChecked" Content="Light"  />
-                <RadioButton Tag="Dark" Checked="OnThemeRadioButtonChecked" Content="Dark" />
-                <RadioButton Tag="Default" Checked="OnThemeRadioButtonChecked" Content="System Default" />
+                <RadioButton Checked="OnThemeRadioButtonChecked" Content="Light">
+                    <RadioButton.Tag>
+                        <ElementTheme>Light</ElementTheme>
+                    </RadioButton.Tag>
+                </RadioButton>
+                <RadioButton Checked="OnThemeRadioButtonChecked" Content="Dark">
+                    <RadioButton.Tag>
+                        <ElementTheme>Dark</ElementTheme>
+                    </RadioButton.Tag>
+                </RadioButton>
+                <RadioButton Checked="OnThemeRadioButtonChecked" Content="System Default">
+                    <RadioButton.Tag>
+                        <ElementTheme>Default</ElementTheme>
+                    </RadioButton.Tag>
+                </RadioButton>
             </StackPanel>
         </StackPanel>
 

@@ -31,30 +31,13 @@ namespace winrt::WinUI3TemplateCpp::implementation
 
     void SettingsPage::OnNavigatedTo(NavigationEventArgs const&)
     {
-        // Initialize the CurrentTheme on first navigation to the Settings page
-        if (Settings::CurrentTheme == L"")
-        {
-            if (RequestedTheme() == ElementTheme::Dark) 
-            {
-                Settings::CurrentTheme = L"Dark";
-            } 
-            else if (RequestedTheme() == ElementTheme::Light)
-            {
-                Settings::CurrentTheme = L"Light";
-            }
-            else
-            {
-                Settings::CurrentTheme = L"Default";
-            }   
-        }
-
         for (UIElement c : themePanel().Children())
         {
-            hstring tag = c.as<RadioButton>().Tag().as<hstring>();
+            ElementTheme tag = c.as<RadioButton>().Tag().as<ElementTheme>();
             if (tag == Settings::CurrentTheme)
             {
                 RadioButton radioButton = c.as<RadioButton>();
-                radioButton.IsChecked(IReference<bool>{true});
+                radioButton.IsChecked(true);
             }
         }
     }
@@ -62,26 +45,24 @@ namespace winrt::WinUI3TemplateCpp::implementation
     void SettingsPage::OnThemeRadioButtonChecked(IInspectable const& sender, RoutedEventArgs const&)
     { 
         RadioButton radiobutton = sender.as<RadioButton>();
-        hstring selectedTheme = unbox_value<winrt::hstring>(radiobutton.Tag());
+        ElementTheme selectedTheme = unbox_value<ElementTheme>(radiobutton.Tag());
 
-        if (selectedTheme != L"") 
+        Grid content = MainPage().Current().Content().as<Grid>();
+        if (selectedTheme == ElementTheme::Dark)
         {
-            Grid content = MainPage().Current().Content().as<Grid>();
-            if (selectedTheme == L"Dark")
-            {
-                content.RequestedTheme(ElementTheme::Dark);
-                Settings::CurrentTheme = L"Dark";
-            }
-            else if (selectedTheme == L"Light")
-            {
-                content.RequestedTheme(ElementTheme::Light);
-                Settings::CurrentTheme = L"Light";
-            }
-            else
-            {
-                content.RequestedTheme(ElementTheme::Default);
-                Settings::CurrentTheme = L"Default";
-            }
-        }      
+            content.RequestedTheme(ElementTheme::Dark);
+            Settings::CurrentTheme = ElementTheme::Dark;
+        }
+        else if (selectedTheme == ElementTheme::Light)
+        {
+            content.RequestedTheme(ElementTheme::Light);
+            Settings::CurrentTheme = ElementTheme::Dark;
+        }
+        else
+        {
+            content.RequestedTheme(ElementTheme::Default);
+            Settings::CurrentTheme = ElementTheme::Default;
+        }
+           
     }
 }

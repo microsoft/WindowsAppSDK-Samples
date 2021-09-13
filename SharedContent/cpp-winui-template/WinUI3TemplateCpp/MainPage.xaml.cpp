@@ -151,10 +151,8 @@ namespace winrt::WinUI3TemplateCpp::implementation
         }
         else
         {
-            this->DispatcherQueue().TryEnqueue([strMessage, severity, this]()
-                {
-                    UpdateStatus(strMessage, severity);
-                });
+            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this, strMessage, severity]
+                { UpdateStatus(strMessage, severity); });
         }
     }
 

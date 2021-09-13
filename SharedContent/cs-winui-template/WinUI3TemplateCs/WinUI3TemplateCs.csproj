@@ -12,6 +12,9 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.ProjectReunion" Version="0.8.2" />
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.506-beta" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 

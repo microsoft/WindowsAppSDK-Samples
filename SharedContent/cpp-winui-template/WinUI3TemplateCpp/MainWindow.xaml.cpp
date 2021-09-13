@@ -40,7 +40,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
     {
         if (_hwnd == nullptr)
         {
-            Window window = this->try_as<Window>();
+            Window window = *this;
             window.as<IWindowNative>()->get_WindowHandle(&_hwnd);
         }
         return _hwnd;

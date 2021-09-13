@@ -67,7 +67,7 @@ namespace WinUI3TemplateCs
         private void SetWindowSize(HWND hwnd, int width, int height)
         {
             // Win32 uses pixels and WinUI 3 uses effective pixels, so you should apply the DPI scale factor
-            var dpi = GetDpiForWindow(hwnd);
+            uint dpi = GetDpiForWindow(hwnd);
             float scalingFactor = (float)(dpi / 96);
             width = (int)(width * scalingFactor);
             height = (int)(height * scalingFactor);

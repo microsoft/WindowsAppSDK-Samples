@@ -1,4 +1,4 @@
-//*********************************************************
+﻿//*********************************************************
 //
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
@@ -16,6 +16,7 @@
 
 using namespace winrt;
 using namespace winrt::WinUI3TemplateCpp;
+using namespace Microsoft::UI::Xaml;
 using namespace Windows::Foundation::Collections;
 
 IVector<Scenario> implementation::MainPage::scenariosInner = winrt::single_threaded_observable_vector<Scenario>(
@@ -25,4 +26,4 @@ IVector<Scenario> implementation::MainPage::scenariosInner = winrt::single_threa
 	});
 
 hstring Settings::FeatureName{ L"Windows App SDK Template C++ Sample" };
-hstring Settings::CurrentTheme{ L"" };
+ElementTheme Settings::CurrentTheme{ ElementTheme::Default };
