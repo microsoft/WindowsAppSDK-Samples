@@ -111,7 +111,6 @@
     <ClInclude Include="MainWindow.xaml.h">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SampleConfiguration.h" />
     <ClInclude Include="Scenario1_ShortName.xaml.h">
       <DependentUpon>Scenario1_ShortName.xaml</DependentUpon>
@@ -183,9 +182,6 @@
   <ItemGroup>
     <Image Include="Assets\logo-winui.ico" />
     <Image Include="Assets\windows-sdk.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="WinUI3TemplateCpp.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
