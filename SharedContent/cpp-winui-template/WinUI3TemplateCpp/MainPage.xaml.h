@@ -25,9 +25,6 @@ namespace winrt::WinUI3TemplateCpp::implementation
         void NavView_BackRequested(Microsoft::UI::Xaml::Controls::NavigationView const& sender, Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const& args);
         void ContentFrame_Navigated(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& e);
 
-        void NotifyUser(hstring const& strMessage, Microsoft::UI::Xaml::Controls::InfoBarSeverity const& severity);
-        void UpdateStatus(hstring const& strMessage, Microsoft::UI::Xaml::Controls::InfoBarSeverity severity);
-
     private:
         static Windows::Foundation::Collections::IVector<Scenario> scenariosInner;
         static WinUI3TemplateCpp::MainPage current;

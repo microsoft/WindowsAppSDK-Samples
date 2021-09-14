@@ -32,27 +32,48 @@ namespace winrt::WinUI3TemplateCpp::implementation
         Scenario1_ShortName::rootPage = MainPage::Current();
     }
 
+    void Scenario1_ShortName::NotifyUser(hstring const& strMessage, InfoBarSeverity const& severity)
+    {
+        // If called from the UI thread, then update immediately.
+        // Otherwise, schedule a task on the UI thread to perform the update.
+        if (this->DispatcherQueue().HasThreadAccess())
+        {
+            UpdateStatus(strMessage, severity);
+        }
+        else
+        {
+            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this, strMessage, severity]
+                { UpdateStatus(strMessage, severity); });
+        }
+    }
+
+    void Scenario1_ShortName::UpdateStatus(hstring const& strMessage, InfoBarSeverity severity)
+    {
+        infoBar().Message(strMessage);
+        infoBar().IsOpen(!strMessage.empty());
+        infoBar().Severity(severity);
+    }
     
     void Scenario1_ShortName::SuccessMessage_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        rootPage.NotifyUser(L"Everything was ok!", InfoBarSeverity::Success);
+        NotifyUser(L"Everything was ok!", InfoBarSeverity::Success);
     }
 
 
     void Scenario1_ShortName::ErrorMessage_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        rootPage.NotifyUser(L"Something went wrong.", InfoBarSeverity::Error);
+        NotifyUser(L"Something went wrong.", InfoBarSeverity::Error);
     }
 
 
     void Scenario1_ShortName::InformationalMessage_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        rootPage.NotifyUser(L"This is the informational bar.", InfoBarSeverity::Informational);
+        NotifyUser(L"This is the informational bar.", InfoBarSeverity::Informational);
     }
 
 
     void Scenario1_ShortName::ClearMessage_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        rootPage.NotifyUser(L"", InfoBarSeverity::Informational);
+        NotifyUser(L"", InfoBarSeverity::Informational);
     }
 }

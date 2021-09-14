@@ -22,6 +22,7 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="SampleConfiguration.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">
@@ -38,17 +39,11 @@
     <Image Include="Assets\logo-winui.ico">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\microsoft-logo.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\microsoft-sdk.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\placeholder-sdk.png">
-      <Filter>Assets</Filter>
-    </Image>
     <Image Include="Assets\windows-sdk.ico">
       <Filter>Assets</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinUI3TemplateCpp.rc" />
   </ItemGroup>
 </Project>

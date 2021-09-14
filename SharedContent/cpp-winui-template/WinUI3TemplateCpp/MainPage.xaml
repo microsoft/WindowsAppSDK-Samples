@@ -9,7 +9,7 @@
 // PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 //
 //*********************************************************
---> 
+-->
 <Page
     x:Class="WinUI3TemplateCpp.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -20,7 +20,6 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
         <NavigationView x:Name="NavView"
                          Loaded="NavView_Loaded"
                          ItemInvoked="NavView_ItemInvoked"
@@ -29,15 +28,11 @@
                 <NavigationViewItemHeader x:Name="MainPagesHeader" Content="Scenarios"/>
             </NavigationView.MenuItems>
 
-
             <Grid RowDefinitions="*,Auto">
                 <ScrollViewer>
                     <Frame Padding="20" x:Name="ContentFrame" Navigated="ContentFrame_Navigated" />
                 </ScrollViewer>
-                <InfoBar x:Name="infoBar" Grid.Row="1" />
             </Grid>
-
         </NavigationView>
-
     </Grid>
 </Page>

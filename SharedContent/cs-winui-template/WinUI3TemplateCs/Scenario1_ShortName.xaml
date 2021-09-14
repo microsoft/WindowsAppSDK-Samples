@@ -17,10 +17,9 @@
     xmlns:local="using:WinUI3TemplateCs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
-    <Grid>
+    <Grid RowDefinitions="*,Auto">
         <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel Spacing="10">
                 <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
@@ -33,5 +32,6 @@
                 <Button Content="Clear Messages" Click="ClearMessage_Click" />
             </StackPanel>
         </ScrollViewer>
+        <InfoBar x:Name="infoBar" Grid.Row="1"/>
     </Grid>
 </Page>

@@ -17,8 +17,7 @@
     xmlns:local="using:WinUI3TemplateCs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <NavigationView x:Name="NavView"
@@ -33,7 +32,6 @@
                 <ScrollViewer>
                     <Frame Padding="20" x:Name="ContentFrame" Navigated="ContentFrame_Navigated" />
                 </ScrollViewer>
-                <InfoBar x:Name="infoBar" Grid.Row="1" />
             </Grid>
         </NavigationView>
     </Grid>

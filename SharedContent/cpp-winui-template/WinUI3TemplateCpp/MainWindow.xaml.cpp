@@ -48,7 +48,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
 
     void MainWindow::LoadIcon(HWND hwnd, wchar_t* iconPath)
     {
-        auto hSmallIcon = LoadImage(NULL,
+        HANDLE hSmallIcon = LoadImage(NULL,
             iconPath,
             IMAGE_ICON,
             GetSystemMetrics(SM_CXSMICON),
@@ -56,7 +56,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
             LR_LOADFROMFILE | LR_SHARED);
         SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hSmallIcon);
 
-        auto hBigIcon = LoadImage(NULL,
+        HANDLE hBigIcon = LoadImage(NULL,
             iconPath,
             IMAGE_ICON,
             GetSystemMetrics(SM_CXICON),
@@ -70,10 +70,10 @@ namespace winrt::WinUI3TemplateCpp::implementation
         // Win32 uses pixels and WinUI 3 uses effective pixels, so you should apply the DPI scale factor
         UINT dpi = GetDpiForWindow(hwnd);
         float scalingFactor = static_cast<float>(dpi / 96);
-        auto widthScaled = static_cast<int>(width * scalingFactor);
-        auto heightScaled = static_cast<int>(height * scalingFactor);
+        int widthScaled = static_cast<int>(width * scalingFactor);
+        int heightScaled = static_cast<int>(height * scalingFactor);
 
-        SetWindowPos(hwnd, nullptr, 0, 0, widthScaled, heightScaled, SWP_NOZORDER);
+        SetWindowPos(hwnd, nullptr, 0, 0, widthScaled, heightScaled, SWP_NOMOVE | SWP_NOZORDER);
     }
 
     void MainWindow::PlacementCenterWindowInMonitorWin32(HWND hwnd)
@@ -81,7 +81,7 @@ namespace winrt::WinUI3TemplateCpp::implementation
         RECT rc;
         GetWindowRect(hwnd, &rc);
         ClipOrCenterRectToMonitorWin32(&rc, true);
-        SetWindowPos(hwnd, HWND_TOP,
+        SetWindowPos(hwnd, nullptr,
             rc.left, rc.top, 0, 0,
             SWP_NOSIZE |
             SWP_NOZORDER |
@@ -96,7 +96,6 @@ namespace winrt::WinUI3TemplateCpp::implementation
         int h = prc->bottom - prc->top;
 
         hMonitor = MonitorFromRect(prc, MONITOR_DEFAULTTONEAREST);
-
         MONITORINFO mi;
         mi.cbSize = sizeof(MONITORINFO);
 

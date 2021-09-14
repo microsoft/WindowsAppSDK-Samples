@@ -43,7 +43,7 @@ namespace WinUI3TemplateCs
 
             fixed (char* nameLocal = iconName)
             {
-                HANDLE imageHandle = LoadImage(default(HINSTANCE), 
+                HANDLE imageHandle = LoadImage(default, 
                     nameLocal,
                     GDI_IMAGE_TYPE.IMAGE_ICON,
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
@@ -54,7 +54,7 @@ namespace WinUI3TemplateCs
 
             fixed (char* nameLocal = iconName)
             {
-                HANDLE imageHandle = LoadImage(default(HINSTANCE), 
+                HANDLE imageHandle = LoadImage(default, 
                     nameLocal,
                     GDI_IMAGE_TYPE.IMAGE_ICON,
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
@@ -72,21 +72,21 @@ namespace WinUI3TemplateCs
             width = (int)(width * scalingFactor);
             height = (int)(height * scalingFactor);
 
-            SetWindowPos(hwnd, default, 0, 0, width, height, SET_WINDOW_POS_FLAGS.SWP_NOZORDER);
+            SetWindowPos(hwnd, default, 0, 0, width, height, SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER);
         }
 
         private void PlacementCenterWindowInMonitorWin32(HWND hwnd)
         {
             RECT rc;
             GetWindowRect(hwnd, out rc);
-            ClipOrCenterRectToMonitorWin32(rc, true, true);
+            ClipOrCenterRectToMonitorWin32(ref rc, true); 
             SetWindowPos(hwnd, default, rc.left, rc.top, 0, 0,
                          SET_WINDOW_POS_FLAGS.SWP_NOSIZE | 
                          SET_WINDOW_POS_FLAGS.SWP_NOZORDER | 
                          SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);     
         }
 
-        private void ClipOrCenterRectToMonitorWin32(RECT prc, bool UseWorkArea, bool IsCenter)
+        private void ClipOrCenterRectToMonitorWin32(ref RECT prc, bool UseWorkArea)
         {
             HMONITOR hMonitor;
             RECT rc;
@@ -95,26 +95,15 @@ namespace WinUI3TemplateCs
 
             hMonitor = MonitorFromRect(prc, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST);
             MONITORINFO mi = new MONITORINFO();
-            mi.cbSize = (uint)Marshal.SizeOf(mi);
+            mi.cbSize = (uint)Marshal.SizeOf<MONITORINFO>();
 
             GetMonitorInfo(hMonitor, ref mi);
 
             rc = UseWorkArea ? mi.rcWork : mi.rcMonitor;
-
-            if (IsCenter)
-            {
-                prc.left = rc.left + (rc.right - rc.left - w) / 2;
-                prc.top = rc.top + (rc.bottom - rc.top - h) / 2;
-                prc.right = prc.left + w;
-                prc.bottom = prc.top + h;
-            }
-            else
-            {
-                prc.left = Math.Max(rc.left, Math.Min(rc.right - w, prc.left));
-                prc.top = Math.Max(rc.top, Math.Min(rc.bottom - h, prc.top));
-                prc.right = prc.left + w;
-                prc.bottom = prc.top + h;
-            }
+            prc.left = rc.left + (rc.right - rc.left - w) / 2;
+            prc.top = rc.top + (rc.bottom - rc.top - h) / 2;
+            prc.right = prc.left + w;
+            prc.bottom = prc.top + h;
         }
     }
 }
