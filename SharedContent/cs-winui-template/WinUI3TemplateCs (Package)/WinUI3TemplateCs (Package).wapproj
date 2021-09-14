@@ -47,14 +47,14 @@
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-experimental1">
-			<IncludeAssets>build</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.0.0-experimental1">
-			<IncludeAssets>build</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-experimental1">
+      <IncludeAssets>build</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.0.0-experimental1">
+      <IncludeAssets>build</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WinUI3TemplateCs\WinUI3TemplateCs.csproj" />
   </ItemGroup>
