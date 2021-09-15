@@ -1,13 +1,18 @@
 ---
-title: "AppWindow gallery sample" 
+name: "Windowing gallery sample" 
 page_type: sample
-languages: c#, c++
-products: windows 
+languages:
+- csharp
+- cpp
+products:
+- windows 
+- windows-app-sdk
 description: "Shows how to use the windows app SDK windowing apis"
+urlFragment: windowing
 ---
-# AppWindow gallery sample 
+# Windowing gallery sample 
 
-These samples demonstrate how to use AppWindow to manage your application's window.  
+These samples demonstrate how to use the AppWindow class to manage your application's window.  
 
 ## Requirements
 C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.302, or later

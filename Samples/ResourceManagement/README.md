@@ -1,9 +1,14 @@
 ---
-title: "Load resources using MRT Core"
+name: "Load resources using MRT Core"
 description: "Use MRT Core's ResourceLoader and ResourceManager to load resources from several resource files"
 page_type: sample
-languages: c#, c++
-products: windows
+languages:
+- csharp
+- cpp
+products:
+- windows
+- windows-app-sdk
+urlFragment: ResourceManagement
 ---
 
 # Load resources using MRT Core

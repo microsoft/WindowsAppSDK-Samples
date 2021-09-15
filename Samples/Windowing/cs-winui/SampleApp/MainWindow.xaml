@@ -19,16 +19,17 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Image x:Name="MyWindowIcon" 
-                    Source="/Assets/window_icon.png" 
-                    Grid.Column="0" 
-                    HorizontalAlignment="Left" 
-                    x:FieldModifier="public" 
-                   Width="20" Height="20" Margin="12,0"/>
+                Source="/Assets/window_icon.png" 
+                Grid.Column="0" 
+                HorizontalAlignment="Left" 
+                x:FieldModifier="public"
+                Width="20" Height="20" Margin="12,0"
+                DoubleTapped="MyWindowIcon_DoubleTapped"/>
             <TextBlock 
-                    Text="Custom titlebar with interactive content" 
-                    Grid.Column="0" 
-                    Style="{StaticResource CaptionTextBlockStyle}" 
-                    Margin="44,8,0,0"/>
+                Text="Custom titlebar with interactive content" 
+                Grid.Column="0" 
+                Style="{StaticResource CaptionTextBlockStyle}" 
+                Margin="44,8,0,0"/>
         </Grid>
 
         <NavigationView Grid.Row="1" Loaded="NavigationView_Loaded" ItemInvoked="NavigationView_ItemInvoked" BackRequested="NavigationView_BackRequested" IsBackEnabled="{Binding ElementName=ContentFrame, Path=CanGoBack}">

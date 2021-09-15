@@ -25,8 +25,17 @@ namespace winrt::SampleApp::implementation
         m_mainWindow = e.Parameter().as<MainWindow>();
         AppWindow appWindow = m_mainWindow.AppWindow();
         m_appWindow = appWindow;
-
+        m_changedToken = m_appWindow.Changed({ this, &TitlebarPage::AppWindowChangedHandler });
     }
+
+    void TitlebarPage::AppWindowChangedHandler(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Windowing::AppWindowChangedEventArgs const& e)
+    {
+        if (e.DidSizeChange() && sender.as<AppWindow>().TitleBar().ExtendsContentIntoTitleBar())
+        {
+            SetCustomTitleBarDragRegion();
+        }
+    }
+
     void TitlebarPage::TitlebarBrandingBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         m_appWindow.TitleBar().ResetToDefault();
@@ -57,6 +66,7 @@ namespace winrt::SampleApp::implementation
             m_appWindow.Title(defaultTitle);
         }
     }
+
     void TitlebarPage::TitlebarCustomBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         if (!m_customTitleBar) {
@@ -76,29 +86,8 @@ namespace winrt::SampleApp::implementation
             m_appWindow.TitleBar().ButtonPressedBackgroundColor(Colors::Green());
             m_appWindow.TitleBar().ButtonPressedForegroundColor(Colors::White());
 
-            //Infer titlebar height and set the titlebar height
-            int titleBarHeight = m_appWindow.TitleBar().Height();
-            m_mainWindow.MyTitleBar().Height(titleBarHeight);
-
-            // Get caption button occlusion information
-            // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
-            double CaptionButtonOcclusionWidth = m_appWindow.TitleBar().RightInset();
-
-            //// Define your drag Regions
-            int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon().ActualWidth() + (int)m_mainWindow.MyWindowIcon().Margin().Right;
-            int dragRegionWidth = m_appWindow.Size().Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
-
-            std::vector<Windows::Graphics::RectInt32> dragRects;
-            Windows::Graphics::RectInt32 dragRect;
-
-            dragRect.X = windowIconWidthAndPadding;
-            dragRect.Y = 0;
-            dragRect.Height = titleBarHeight;
-            dragRect.Width = dragRegionWidth;
-
-            dragRects.push_back(dragRect);
-            m_appWindow.TitleBar().SetDragRectangles(dragRects);
-
+            //Set the drag region for the custom titlebar
+            SetCustomTitleBarDragRegion();
         }
         else
         {
@@ -108,10 +97,37 @@ namespace winrt::SampleApp::implementation
             m_appWindow.TitleBar().ResetToDefault();
         }
     }
+
     void TitlebarPage::ResetTitlebarBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         m_mainWindow.MyTitleBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
         m_appWindow.TitleBar().ResetToDefault();
         m_appWindow.Title(defaultTitle);
+    }
+
+    void TitlebarPage::SetCustomTitleBarDragRegion()
+    {
+        // Get the titlebar heigt and set our XAML titlebar element to match
+        int titleBarHeight = m_appWindow.TitleBar().Height();
+        m_mainWindow.MyTitleBar().Height(titleBarHeight);
+
+        // Get caption button occlusion information
+        // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
+        double CaptionButtonOcclusionWidth = m_appWindow.TitleBar().RightInset();
+
+        // Define your drag Regions
+        int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon().ActualWidth() + (int)m_mainWindow.MyWindowIcon().Margin().Right;
+        int dragRegionWidth = m_appWindow.Size().Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
+
+        std::vector<Windows::Graphics::RectInt32> dragRects;
+        Windows::Graphics::RectInt32 dragRect;
+
+        dragRect.X = windowIconWidthAndPadding;
+        dragRect.Y = 0;
+        dragRect.Height = titleBarHeight;
+        dragRect.Width = dragRegionWidth;
+
+        dragRects.push_back(dragRect);
+        m_appWindow.TitleBar().SetDragRectangles(dragRects);
     }
 }

@@ -26,19 +26,30 @@ namespace SampleApp
         private bool m_isBrandedTitleBar;
         private MainWindow m_mainWindow;
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
-            m_mainAppWindow = e.Parameter.As<Window>().GetAppWindow();
-            m_mainWindow = e.Parameter as MainWindow;
-            base.OnNavigatedTo(e);
-        }
-
         public TitlebarPage()
         {
             this.InitializeComponent();
         }
-        
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
+            m_mainAppWindow = e.Parameter.As<Window>().GetAppWindow();
+
+            m_mainWindow = e.Parameter as MainWindow;
+            m_mainAppWindow.Changed += MainAppWindow_Changed;
+            base.OnNavigatedTo(e);
+        }
+
+        private void MainAppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+        {
+            if (args.DidSizeChange && sender.TitleBar.ExtendsContentIntoTitleBar)
+            {
+                // Need to update our drag region if the size of the window changes
+                SetDragRegionForCustomTitleBar(sender);
+            }
+        }
+
         private void TitlebarBrandingBtn_Click(object sender, RoutedEventArgs e)
         {
             m_mainAppWindow.TitleBar.ResetToDefault();
@@ -95,29 +106,8 @@ namespace SampleApp
                 m_mainAppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Green;
                 m_mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
 
-                //Infer titlebar height
-                int titleBarHeight = m_mainAppWindow.TitleBar.Height;
-                m_mainWindow.MyTitleBar.Height = titleBarHeight;
-
-                // Get caption button occlusion information
-                // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
-                int CaptionButtonOcclusionWidth = m_mainAppWindow.TitleBar.RightInset;
-
-                // Define your drag Regions
-                int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon.ActualWidth + (int)m_mainWindow.MyWindowIcon.Margin.Right;
-                int dragRegionWidth = m_mainAppWindow.Size.Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding );
-
-                Windows.Graphics.RectInt32[] dragRects = new Windows.Graphics.RectInt32[] { };
-                Windows.Graphics.RectInt32 dragRect;
-
-                dragRect.X = windowIconWidthAndPadding;
-                dragRect.Y = 0;
-                dragRect.Height = titleBarHeight;
-                dragRect.Width = dragRegionWidth;
-
-                var dragRectsArray = dragRects.Append(dragRect).ToArray();
-                m_mainAppWindow.TitleBar.SetDragRectangles(dragRectsArray);
-
+                // Set the drag region for the custom TitleBar
+                SetDragRegionForCustomTitleBar(m_mainAppWindow);
             }
             else
             {
@@ -125,6 +115,31 @@ namespace SampleApp
                 m_mainWindow.MyTitleBar.Visibility = Visibility.Collapsed;
                 m_mainAppWindow.TitleBar.ResetToDefault();
             }
+        }
+
+        private void SetDragRegionForCustomTitleBar(AppWindow appWindow)
+        {
+            //Infer titlebar height
+            int titleBarHeight = appWindow.TitleBar.Height;
+            m_mainWindow.MyTitleBar.Height = titleBarHeight;
+
+            // Get caption button occlusion information
+            // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
+            int CaptionButtonOcclusionWidth = appWindow.TitleBar.RightInset;
+
+            // Define your drag Regions
+            int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon.ActualWidth + (int)m_mainWindow.MyWindowIcon.Margin.Right;
+            int dragRegionWidth = appWindow.Size.Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
+
+            Windows.Graphics.RectInt32[] dragRects = new Windows.Graphics.RectInt32[] { };
+            Windows.Graphics.RectInt32 dragRect;
+
+            dragRect.X = windowIconWidthAndPadding;
+            dragRect.Y = 0;
+            dragRect.Height = titleBarHeight;
+            dragRect.Width = dragRegionWidth;
+
+            appWindow.TitleBar.SetDragRectangles(dragRects.Append(dragRect).ToArray());
         }
     }
 }
