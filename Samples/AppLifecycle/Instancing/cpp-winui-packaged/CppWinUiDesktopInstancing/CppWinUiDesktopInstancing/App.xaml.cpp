@@ -38,6 +38,11 @@ App::App()
 }
 
 // Enum-to-string helpers. This app only supports Launch and File activation.
+// Note that ExtendedActivationKind is a superset of ActivationKind, so 
+// we could reduce these 2 methods to one, and cast appropriately from
+// ActivationKind to ExtendedActivationKind. However, this sample keeps
+// them separate to illustrate the difference between Xaml::LaunchActivatedEventArgs
+// and AppLifecycle::AppActivationArguments
 winrt::hstring KindString(
     winrt::Windows::ApplicationModel::Activation::ActivationKind kind)
 {
