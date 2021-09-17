@@ -10,7 +10,7 @@
     <None Remove="ClassLibraryResources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.1" />
+    <PackageReference Include="Microsoft,WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
   </ItemGroup>
 
   <ItemGroup>
