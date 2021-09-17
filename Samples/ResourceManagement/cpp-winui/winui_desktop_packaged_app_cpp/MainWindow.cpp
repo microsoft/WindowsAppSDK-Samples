@@ -7,7 +7,7 @@
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
-using namespace winrt::Microsoft::ApplicationModel::Resources;
+using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,9 +27,9 @@ namespace winrt::winui_desktop_packaged_app_cpp::implementation
     }
 
 #ifdef MRM_C_API_AVAILABLE // This API is not present in the current release package.
-    void MainWindow::InitializeResourceLoaders(winrt::Microsoft::ApplicationModel::Resources::ResourceManager resourceManagerWinRT, MrmManagerHandle resourceManagerMrm)
+    void MainWindow::InitializeResourceLoaders(winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager resourceManagerWinRT, MrmManagerHandle resourceManagerMrm)
 #else
-    void MainWindow::InitializeResourceLoaders(winrt::Microsoft::ApplicationModel::Resources::ResourceManager resourceManagerWinRT)
+    void MainWindow::InitializeResourceLoaders(winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager resourceManagerWinRT)
 #endif 
     {
         m_resourceManagerWinRT = resourceManagerWinRT;

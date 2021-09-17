@@ -14,7 +14,7 @@
 #include <MRM.h>
 #endif
 
-#include <winrt/Microsoft.ApplicationModel.Resources.h>
+#include <winrt/Microsoft.Windows.ApplicationModel.Resources.h>
 
 namespace winrt::winui_desktop_packaged_app_cpp::implementation
 {
@@ -24,9 +24,9 @@ namespace winrt::winui_desktop_packaged_app_cpp::implementation
         ~MainWindow();
 
 #ifdef MRM_C_API_AVAILABLE // This API is not present in the current release package.
-        void InitializeResourceLoaders(winrt::Microsoft::ApplicationModel::Resources::ResourceManager resourceManagerWinRT, MrmManagerHandle resourceManagerMrm);
+        void InitializeResourceLoaders(winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager resourceManagerWinRT, MrmManagerHandle resourceManagerMrm);
 #else
-        void InitializeResourceLoaders(winrt::Microsoft::ApplicationModel::Resources::ResourceManager resourceManagerWinRT);
+        void InitializeResourceLoaders(winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager resourceManagerWinRT);
 #endif
 
         void defaultWinrtApi_Click(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
@@ -37,8 +37,8 @@ namespace winrt::winui_desktop_packaged_app_cpp::implementation
         void overrideCApi_Click(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
 
     private:
-        winrt::Microsoft::ApplicationModel::Resources::ResourceContext m_overrideResourceContext{ nullptr };
-        winrt::Microsoft::ApplicationModel::Resources::ResourceManager m_resourceManagerWinRT{ nullptr };
+        winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceContext m_overrideResourceContext{ nullptr };
+        winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager m_resourceManagerWinRT{ nullptr };
 
 #ifdef MRM_C_API_AVAILABLE // This API is not present in the current release package.
         MrmManagerHandle m_resourceManagerMrm{ nullptr };

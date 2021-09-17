@@ -14,7 +14,7 @@ using namespace Microsoft::UI::Xaml::Controls;
 using namespace Microsoft::UI::Xaml::Navigation;
 using namespace winui_desktop_packaged_app_cpp;
 using namespace winui_desktop_packaged_app_cpp::implementation;
-using namespace winrt::Microsoft::ApplicationModel::Resources;
+using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
