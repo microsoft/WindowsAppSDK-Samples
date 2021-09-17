@@ -3,7 +3,7 @@
 
 using System;
 using System.Windows.Forms;
-using Microsoft.ApplicationModel.Resources;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Microsoft.Windows.ApplicationModel;
 
 namespace winforms_unpackaged_app
