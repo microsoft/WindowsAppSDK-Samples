@@ -7,12 +7,12 @@
 
 #include "winrt\Windows.Foundation.h"
 #include "winrt\Windows.Foundation.Collections.h"
-#include "winrt\Microsoft.ApplicationModel.Resources.h"
+#include "winrt\Microsoft.Windows.ApplicationModel.Resources.h"
 
 #include <MddBootstrap.h>
 
 using namespace winrt;
-using namespace winrt::Microsoft::ApplicationModel::Resources;
+using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 
 HRESULT LoadProjectReunion()
 {
