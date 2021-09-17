@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft,WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
-    <PackageReference Include="Microsoft,WindowsAppSDK.Foundation" Version="$(WindowsAppSDKVersion)" />
-    <PackageReference Include="Microsoft,WindowsAppSDK.WinUI" Version="$(WindowsAppSDKVersion)" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="$(WindowsAppSDKVersion)" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="$(WindowsAppSDKVersion)" />
   </ItemGroup>
 
   <ItemGroup>

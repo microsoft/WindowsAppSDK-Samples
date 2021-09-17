@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft,WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
-    <PackageReference Include="Microsoft,WindowsAppSDK.Foundation" Version="$(WindowsAppSDKVersion)" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="$(WindowsAppSDKVersion)" />
   </ItemGroup>
 
   <ItemGroup>

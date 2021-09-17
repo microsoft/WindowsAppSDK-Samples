@@ -64,7 +64,7 @@ namespace Microsoft.Windows.ApplicationModel
             return MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion);
         }
 
-        [DllImport("Microsoft,WindowsAppSDK.Bootstrap.dll", CharSet = CharSet.Unicode)]
+        [DllImport("Microsoft.WindowsAppSDK.Bootstrap.dll", CharSet = CharSet.Unicode)]
         private static extern int MddBootstrapInitialize(uint majorMinorVersion, string versionTag, PackageVersion packageVersion);
 
         public static void Shutdown()
@@ -72,7 +72,7 @@ namespace Microsoft.Windows.ApplicationModel
             MddBootstrapShutdown();
         }
 
-        [DllImport("Microsoft,WindowsAppSDK.Bootstrap.dll")]
+        [DllImport("Microsoft.WindowsAppSDK.Bootstrap.dll")]
         private static extern void MddBootstrapShutdown();
     }
 }
