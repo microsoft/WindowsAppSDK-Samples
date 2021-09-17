@@ -10,8 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.1" />
-    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview1" />
   </ItemGroup>
 
   <ItemGroup>
