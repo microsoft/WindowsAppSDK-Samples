@@ -14,7 +14,7 @@
 using namespace winrt;
 using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 
-HRESULT LoadProjectReunion()
+HRESULT LoadWindowsAppSDK()
 {
     // Take a dependency on WindowsAppSDK 1.0 preview1.
     const UINT32 majorMinorVersion{ 0x00010000 };
@@ -60,8 +60,8 @@ int wmain(int argc, wchar_t* argv[])
     }
 
     // Initialize dynamic dependencies so we can consume the WindowsAppSDK APIs in the WindowsAppSDK framework package from this unpackaged app. 
-    HRESULT loadProjectReunionHr = LoadProjectReunion();
-    if (FAILED(loadProjectReunionHr))
+    HRESULT loadWindowsAppSDKHr = LoadWindowsAppSDK();
+    if (FAILED(loadWindowsAppSDKHr))
     {
         std::wcout << "Could not load WindowsAppSDK!" << std::endl;
         return 1;

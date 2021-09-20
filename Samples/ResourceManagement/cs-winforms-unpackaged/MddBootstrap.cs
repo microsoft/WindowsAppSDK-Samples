@@ -4,7 +4,7 @@
 using System.Runtime.InteropServices;
 
 // This file provides helpers to be able to use dynamic dependencies, which will enable this unpackaged app
-// to consume the Project Reunion APIs in the Project Reunion framework package.
+// to consume the WindowsAppSDK APIs.
 
 namespace Microsoft.Windows.ApplicationModel
 {

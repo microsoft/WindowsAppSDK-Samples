@@ -20,9 +20,8 @@ namespace winforms_unpackaged_app
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Initialize dynamic dependencies so we can consume the Project Reunion APIs in the Project
-            // Reunion framework package from this unpackaged app.
-            // Take a dependency on Project Reunion v0.8 preview.
+            // Initialize dynamic dependencies so we can consume the WindowsAppSDK APIs from this unpackaged app.
+            // Take a dependency on WindowsAppSDK v1.0.0-preview1.
             int hr = MddBootstrap.Initialize(0x00010000, "preview1");
             if (hr < 0)
             {
