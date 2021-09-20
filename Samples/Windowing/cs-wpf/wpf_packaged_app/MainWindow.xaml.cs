@@ -28,7 +28,7 @@ namespace wpf_packaged_app
             this.InitializeComponent();
             this.Title = m_windowTitle;
 
-            // Get appwindow from HWND
+            // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
             m_mainAppWindow = AppWindowExtensions.GetAppWindowFromWPFWindow(this);
 
             Main.Content = new DemoPage();

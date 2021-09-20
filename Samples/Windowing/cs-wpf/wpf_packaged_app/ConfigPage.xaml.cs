@@ -20,9 +20,6 @@ using WinRT;
 
 namespace wpf_packaged_app
 {
-    /// <summary>
-    /// Interaction logic for ConfigPage.xaml
-    /// </summary>
     public partial class ConfigPage : Page
     {
         AppWindow m_mainAppWindow;

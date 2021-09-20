@@ -19,9 +19,6 @@ using Microsoft.UI.Windowing;
 
 namespace wpf_packaged_app
 {
-    /// <summary>
-    /// Interaction logic for DemoPage.xaml
-    /// </summary>
     public partial class DemoPage : Page
     {
         AppWindow m_mainAppWindow;

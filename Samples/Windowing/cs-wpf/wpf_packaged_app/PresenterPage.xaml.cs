@@ -20,9 +20,6 @@ using WinRT;
 
 namespace wpf_packaged_app
 {
-    /// <summary>
-    /// Interaction logic for PresenterPage.xaml
-    /// </summary>
     public partial class PresenterPage : Page
     {
         AppWindow m_mainAppWindow;

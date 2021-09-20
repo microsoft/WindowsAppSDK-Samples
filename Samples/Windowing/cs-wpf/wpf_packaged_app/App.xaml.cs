@@ -5,9 +5,6 @@ using System.Windows;
 
 namespace wpf_packaged_app
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public App()
