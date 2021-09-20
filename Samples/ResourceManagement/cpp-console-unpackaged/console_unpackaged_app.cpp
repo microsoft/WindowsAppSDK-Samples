@@ -16,10 +16,11 @@ using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 
 HRESULT LoadProjectReunion()
 {
-    // Take a dependency on WindowsAppSDK 1.0 preview.
-    const UINT32 majorMinorVersion{ 0x00000008 };
-    PCWSTR versionTag{ L"preview" };
-    const PACKAGE_VERSION minVersion{};
+    // Take a dependency on WindowsAppSDK 1.0 preview1.
+    const UINT32 majorMinorVersion{ 0x00010000 };
+    PCWSTR versionTag{ L"preview1" };
+    PACKAGE_VERSION minVersion{};
+
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
     if (FAILED(hr))
     {
@@ -58,11 +59,11 @@ int wmain(int argc, wchar_t* argv[])
         return 1;
     }
 
-    // Initialize dynamic dependencies so we can consume the Project Reunion APIs in the Project Reunion framework package from this unpackaged app. 
+    // Initialize dynamic dependencies so we can consume the WindowsAppSDK APIs in the WindowsAppSDK framework package from this unpackaged app. 
     HRESULT loadProjectReunionHr = LoadProjectReunion();
     if (FAILED(loadProjectReunionHr))
     {
-        std::wcout << "Could not load Project Reunion!" << std::endl;
+        std::wcout << "Could not load WindowsAppSDK!" << std::endl;
         return 1;
     }
 
