@@ -4,7 +4,6 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ## List of samples 
 
-- [Hello World](Samples/HelloWorld): This sample demonstrates a basic integration with the Project Reunion NuGet package.
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs. 
