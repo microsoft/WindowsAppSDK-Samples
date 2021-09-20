@@ -16,7 +16,7 @@ using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 
 HRESULT LoadProjectReunion()
 {
-    // Take a dependency on Project Reunion v0.8 preview.
+    // Take a dependency on WindowsAppSDK 1.0 preview.
     const UINT32 majorMinorVersion{ 0x00000008 };
     PCWSTR versionTag{ L"preview" };
     const PACKAGE_VERSION minVersion{};
