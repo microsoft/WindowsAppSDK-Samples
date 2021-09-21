@@ -7,19 +7,20 @@
 
 #include "winrt\Windows.Foundation.h"
 #include "winrt\Windows.Foundation.Collections.h"
-#include "winrt\Microsoft.ApplicationModel.Resources.h"
+#include "winrt\Microsoft.Windows.ApplicationModel.Resources.h"
 
 #include <MddBootstrap.h>
 
 using namespace winrt;
-using namespace winrt::Microsoft::ApplicationModel::Resources;
+using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 
-HRESULT LoadProjectReunion()
+HRESULT LoadWindowsAppSDK()
 {
-    // Take a dependency on Project Reunion v0.8 preview.
-    const UINT32 majorMinorVersion{ 0x00000008 };
-    PCWSTR versionTag{ L"preview" };
-    const PACKAGE_VERSION minVersion{};
+    // Take a dependency on Windows App SDK 1.0 preview1.
+    const UINT32 majorMinorVersion{ 0x00010000 };
+    PCWSTR versionTag{ L"preview1" };
+    PACKAGE_VERSION minVersion{};
+
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
     if (FAILED(hr))
     {
@@ -58,11 +59,11 @@ int wmain(int argc, wchar_t* argv[])
         return 1;
     }
 
-    // Initialize dynamic dependencies so we can consume the Project Reunion APIs in the Project Reunion framework package from this unpackaged app. 
-    HRESULT loadProjectReunionHr = LoadProjectReunion();
-    if (FAILED(loadProjectReunionHr))
+    // Initialize dynamic dependencies so we can consume the Windows App SDK APIs in the Windows App SDK framework package from this unpackaged app. 
+    HRESULT loadWindowsAppSDKHr = LoadWindowsAppSDK();
+    if (FAILED(loadWindowsAppSDKHr))
     {
-        std::wcout << "Could not load Project Reunion!" << std::endl;
+        std::wcout << "Could not load Windows App SDK!" << std::endl;
         return 1;
     }
 
