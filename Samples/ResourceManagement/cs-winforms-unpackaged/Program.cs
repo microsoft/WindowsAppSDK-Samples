@@ -20,8 +20,8 @@ namespace winforms_unpackaged_app
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Initialize dynamic dependencies so we can consume the WindowsAppSDK APIs from this unpackaged app.
-            // Take a dependency on WindowsAppSDK v1.0.0-preview1.
+            // Initialize dynamic dependencies so we can consume the Windows App SDK APIs from this unpackaged app.
+            // Take a dependency on Windows App SDK v1.0.0-preview1.
             int hr = MddBootstrap.Initialize(0x00010000, "preview1");
             if (hr < 0)
             {
