@@ -3,7 +3,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Microsoft.ApplicationModel.Resources;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Microsoft.UI.Xaml;
 using WinRT;
 

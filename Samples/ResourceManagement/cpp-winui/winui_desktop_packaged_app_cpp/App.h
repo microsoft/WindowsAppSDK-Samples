@@ -14,7 +14,7 @@
 #include "MRM.h"
 #endif
 
-#include "winrt/Microsoft.ApplicationModel.resources.h"
+#include "winrt/Microsoft.Windows.ApplicationModel.resources.h"
 
 namespace winrt::winui_desktop_packaged_app_cpp::implementation
 {
@@ -30,7 +30,7 @@ namespace winrt::winui_desktop_packaged_app_cpp::implementation
     private:
         winrt::Microsoft::UI::Xaml::Window m_window{ nullptr };
 
-        winrt::Microsoft::ApplicationModel::Resources::ResourceManager m_resourceManagerWinRT{ nullptr };
+        winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager m_resourceManagerWinRT{ nullptr };
 
 #ifdef MRM_C_API_AVAILABLE // This API is not present in the current release package.
         MrmManagerHandle m_resourceManagerMrm{ nullptr };
