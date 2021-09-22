@@ -18,13 +18,13 @@ namespace CsWinFormsState
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Initialize WASDK for unpackaged apps.            
+            // Initialize Windows App SDK for unpackaged apps.            
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
             if (result == 0)
             {
                 Application.Run(new MainForm());
 
-                // Uninitialize WASDK.
+                // Uninitialize Windows App SDK.
                 MddBootstrap.Shutdown();
             }
         }

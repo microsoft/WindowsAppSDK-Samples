@@ -70,6 +70,16 @@ void winrt::CppWinUiDesktopState::implementation::MainWindow::RegisterPowerManag
         const auto&, winrt::Windows::Foundation::IInspectable obj) { OnRemainingChargePercentChanged(); });
     dischargeToken = PowerManager::RemainingDischargeTimeChanged([&](
         const auto&, winrt::Windows::Foundation::IInspectable obj) { OnRemainingDischargeTimeChanged(); });
+    displayToken = PowerManager::DisplayStatusChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnDisplayStatusChanged(); });
+    energyToken = PowerManager::EnergySaverStatusChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnEnergySaverStatusChanged(); });
+    powerModeToken = PowerManager::EffectivePowerModeChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnPowerModeChanged(); });
+    userPresenceToken = PowerManager::UserPresenceStatusChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnUserPresenceStatusChanged(); });
+    systemSuspendToken = PowerManager::SystemSuspendStatusChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnSystemSuspendStatusChanged(); });
 
     if (batteryToken && powerToken && powerSourceToken && chargeToken && dischargeToken)
     {
@@ -89,6 +99,11 @@ void winrt::CppWinUiDesktopState::implementation::MainWindow::UnregisterPowerMan
     PowerManager::PowerSourceKindChanged(powerSourceToken);
     PowerManager::RemainingChargePercentChanged(chargeToken);
     PowerManager::RemainingDischargeTimeChanged(dischargeToken);
+    PowerManager::DisplayStatusChanged(displayToken);
+    PowerManager::EnergySaverStatusChanged(energyToken);
+    PowerManager::EffectivePowerModeChanged(powerModeToken);
+    PowerManager::UserPresenceStatusChanged(userPresenceToken);
+    PowerManager::SystemSuspendStatusChanged(systemSuspendToken);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -214,6 +229,30 @@ void winrt::CppWinUiDesktopState::implementation::MainWindow::OnDisplayStatusCha
         StopUpdatingGraphics();
         StartDoingBackgroundWork();
     }
+}
+
+void winrt::CppWinUiDesktopState::implementation::MainWindow::OnEnergySaverStatusChanged()
+{
+    OutputMessage(L"Energy saver status changed");
+    DetermineWorkloads();
+}
+
+void winrt::CppWinUiDesktopState::implementation::MainWindow::OnPowerModeChanged()
+{
+    OutputMessage(L"Power mode changed");
+    DetermineWorkloads();
+}
+
+void winrt::CppWinUiDesktopState::implementation::MainWindow::OnUserPresenceStatusChanged()
+{
+    OutputMessage(L"User presence status changed");
+    DetermineWorkloads();
+}
+
+void winrt::CppWinUiDesktopState::implementation::MainWindow::OnSystemSuspendStatusChanged()
+{
+    OutputMessage(L"System suspend status changed");
+    DetermineWorkloads();
 }
 
 void winrt::CppWinUiDesktopState::implementation::MainWindow::DetermineWorkloads()

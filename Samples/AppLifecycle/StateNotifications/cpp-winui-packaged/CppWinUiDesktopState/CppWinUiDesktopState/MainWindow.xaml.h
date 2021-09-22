@@ -16,6 +16,11 @@ namespace winrt::CppWinUiDesktopState::implementation
         winrt::event_token powerSourceToken;
         winrt::event_token chargeToken;
         winrt::event_token dischargeToken;
+        winrt::event_token displayToken;
+        winrt::event_token energyToken;
+        winrt::event_token powerModeToken;
+        winrt::event_token userPresenceToken;
+        winrt::event_token systemSuspendToken;
         Windows::Foundation::Collections::IVector<IInspectable> messages;
         Windows::System::DispatcherQueue* dispatcherQueue;
 
@@ -36,6 +41,10 @@ namespace winrt::CppWinUiDesktopState::implementation
         void OnDisplayStatusChanged();
         void OnRemainingChargePercentChanged();
         void OnRemainingDischargeTimeChanged();
+        void OnEnergySaverStatusChanged();
+        void OnPowerModeChanged();
+        void OnUserPresenceStatusChanged();
+        void OnSystemSuspendStatusChanged();
 
         void RegisterButton_Click(
             winrt::Windows::Foundation::IInspectable const& sender, 

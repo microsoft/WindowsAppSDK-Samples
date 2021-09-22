@@ -65,6 +65,7 @@ namespace CsWinFormsEnv
 
         private void GetEnvironmentVariables()
         {
+            // The EnvironmentManager APIs are only supported from OS builds 19044 onwards.
             if (EnvironmentManager.IsSupported)
             {
                 // Get environment variables for the current user.
@@ -108,9 +109,6 @@ namespace CsWinFormsEnv
 
                 var systemManager = EnvironmentManager.GetForMachine();
 
-                // BUG:
-                // Unhandled exception at 0x75EBE7D2 in CppWinRtConsoleEnv.exe: 
-                // Microsoft C++ exception: winrt::hresult_access_denied at memory location 0x0079F1C0.
                 systemManager.SetEnvironmentVariable("Fruit", "Banana");
 
                 var Fruit = systemManager.GetEnvironmentVariable("Fruit");
@@ -147,9 +145,6 @@ namespace CsWinFormsEnv
             {
                 var userManager = EnvironmentManager.GetForUser();
 
-                // BUG
-                // Exception thrown at 0x75EBE7D2 in CppWinRtConsoleEnv.exe: 
-                // Microsoft C++ exception: winrt::hresult_error at memory location 0x00B9F544.
                 userManager.AddExecutableFileExtension(".XYZ");
                 var PATHEXT = userManager.GetEnvironmentVariable("PATHEXT");
                 OutputMessage($"PATHEXT={PATHEXT}");

@@ -23,6 +23,11 @@ winrt::event_token powerToken;
 winrt::event_token powerSourceToken;
 winrt::event_token chargeToken;
 winrt::event_token dischargeToken;
+winrt::event_token displayToken;
+winrt::event_token energyToken;
+winrt::event_token powerModeToken;
+winrt::event_token userPresenceToken;
+winrt::event_token systemSuspendToken;
 
 void RegisterForStateNotifications();
 void UnregisterForStateNotifications();
@@ -38,6 +43,11 @@ void OnPowerSourceKindChanged();
 void OnDisplayStatusChanged();
 void OnRemainingChargePercentChanged();
 void OnRemainingDischargeTimeChanged();
+void OnEnergySaverStatusChanged();
+void OnPowerModeChanged();
+void OnUserPresenceStatusChanged();
+void OnSystemSuspendStatusChanged();
+
 
 // Helpers ////////////////////////////////////////////////////////////////////
 
@@ -61,10 +71,9 @@ void OutputFormattedMessage(const WCHAR* fmt, ...)
 
 int main()
 {
-
     init_apartment();
 
-    // Initialize WASDK for unpackaged apps.
+    // Initialize Windows App SDK for unpackaged apps.
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
     if (FAILED(hr))
     {
@@ -102,7 +111,7 @@ int main()
         }
     } while (int_choice != 3);
 
-    // Uninitialize WASDK.
+    // Uninitialize Windows App SDK.
     MddBootstrapShutdown();
     return 0;
 }
@@ -121,6 +130,16 @@ void RegisterForStateNotifications()
         const auto&, winrt::Windows::Foundation::IInspectable obj) { OnRemainingChargePercentChanged(); });
     dischargeToken = PowerManager::RemainingDischargeTimeChanged([&](
         const auto&, winrt::Windows::Foundation::IInspectable obj) { OnRemainingDischargeTimeChanged(); });
+    displayToken = PowerManager::DisplayStatusChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnDisplayStatusChanged(); });
+    energyToken = PowerManager::EnergySaverStatusChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnEnergySaverStatusChanged(); });
+    powerModeToken = PowerManager::EffectivePowerModeChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnPowerModeChanged(); });
+    userPresenceToken = PowerManager::UserPresenceStatusChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnUserPresenceStatusChanged(); });
+    systemSuspendToken = PowerManager::SystemSuspendStatusChanged([&](
+        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnSystemSuspendStatusChanged(); });
 
     if (batteryToken && powerToken && powerSourceToken && chargeToken && dischargeToken)
     {
@@ -140,6 +159,11 @@ void UnregisterForStateNotifications()
     PowerManager::PowerSourceKindChanged(powerSourceToken);
     PowerManager::RemainingChargePercentChanged(chargeToken);
     PowerManager::RemainingDischargeTimeChanged(dischargeToken);
+    PowerManager::DisplayStatusChanged(displayToken);
+    PowerManager::EnergySaverStatusChanged(energyToken);
+    PowerManager::EffectivePowerModeChanged(powerModeToken);
+    PowerManager::UserPresenceStatusChanged(userPresenceToken);
+    PowerManager::SystemSuspendStatusChanged(systemSuspendToken);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -265,6 +289,30 @@ void OnDisplayStatusChanged()
         StopUpdatingGraphics();
         StartDoingBackgroundWork();
     }
+}
+
+void OnEnergySaverStatusChanged()
+{
+    OutputMessage(L"Energy saver status changed");
+    DetermineWorkloads();
+}
+
+void OnPowerModeChanged()
+{
+    OutputMessage(L"Power mode changed");
+    DetermineWorkloads();
+}
+
+void OnUserPresenceStatusChanged()
+{
+    OutputMessage(L"User presence status changed");
+    DetermineWorkloads();
+}
+
+void OnSystemSuspendStatusChanged()
+{
+    OutputMessage(L"System suspend status changed");
+    DetermineWorkloads();
 }
 
 void DetermineWorkloads()

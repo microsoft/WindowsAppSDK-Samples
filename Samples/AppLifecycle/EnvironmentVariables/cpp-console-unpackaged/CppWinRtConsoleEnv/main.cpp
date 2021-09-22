@@ -62,7 +62,7 @@ int main()
 {
     init_apartment();
 
-	// Initialize WASDK for unpackaged apps.
+	// Initialize Windows App SDK for unpackaged apps.
 	HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
 	if (FAILED(hr))
 	{
@@ -83,7 +83,7 @@ int main()
 	_putws(L"...press any key to exit...");
 	int _ = getwchar();
 
-	// Uninitialize WASDK.
+	// Uninitialize Windows App SDK.
 	MddBootstrapShutdown();
 	return 0;
 }
@@ -96,6 +96,8 @@ int main()
 void GetEnvironmentVariables()
 {
 	OutputMessage(L"\nGetEnvironmentVariables.......");
+
+	// The EnvironmentManager APIs are only supported from OS builds 19044 onwards.
 	if (EnvironmentManager::IsSupported())
 	{
 		try
@@ -150,8 +152,6 @@ void AddEnvironmentVariables()
 
 			auto systemManager = EnvironmentManager::GetForMachine();
 
-			// BUG:
-			// This throws, and we catch it down below, but GetLastError returns 0.
 			systemManager.SetEnvironmentVariable(fruitName, L"Banana");
 
 			auto fruitValue = systemManager.GetEnvironmentVariable(fruitName);
@@ -202,8 +202,6 @@ void RemoveEnvironmentVariables()
 
 			auto systemManager = EnvironmentManager::GetForMachine();
 
-			// BUG:
-			// This throws, and we catch it down below, but GetLastError returns 0.
 			systemManager.SetEnvironmentVariable(fruitName, L"");
 			auto fruitValue = systemManager.GetEnvironmentVariable(fruitName);
 			if (maxItemsValue == L"")
@@ -276,8 +274,6 @@ void AddToPathExt()
 			// You can append extensions to the PATHEXT variable
 			auto userManager = EnvironmentManager::GetForUser();
 
-			// BUG
-			// Unhandled exception, not caught below.
 			userManager.AddExecutableFileExtension(xyzExtension);
 
 			auto pathExt = userManager.GetEnvironmentVariable(L"PATHEXT");

@@ -143,7 +143,10 @@ namespace CsWpfInstancing
                 for (int i = 0; i < argStrings.Length; i++)
                 {
                     string argString = argStrings[i];
-                    ReportInfo($"arg[{i}] = {argString}");
+                    if (!string.IsNullOrWhiteSpace(argString))
+                    {
+                        ReportInfo($"arg[{i}] = {argString}");
+                    }
                 }
             }
         }

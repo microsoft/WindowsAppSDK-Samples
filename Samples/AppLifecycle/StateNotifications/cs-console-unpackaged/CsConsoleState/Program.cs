@@ -17,7 +17,7 @@ namespace CsConsoleState
 
         static void Main(string[] args)
         {
-            // Initialize WASDK for unpackaged apps.            
+            // Initialize Windows App SDK for unpackaged apps.            
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
 
             if (result == 0)
@@ -50,7 +50,7 @@ namespace CsConsoleState
                     }
                 }
 
-                // Uninitialize WASDK.
+                // Uninitialize Windows App SDK.
                 MddBootstrap.Shutdown();
             }
         }
@@ -74,6 +74,10 @@ namespace CsConsoleState
             PowerManager.RemainingChargePercentChanged += PowerManager_RemainingChargePercentChanged;
             PowerManager.RemainingDischargeTimeChanged += PowerManager_RemainingDischargeTimeChanged;
             PowerManager.DisplayStatusChanged += PowerManager_DisplayStatusChanged;
+            PowerManager.EnergySaverStatusChanged += PowerManager_EnergySaverStatusChanged;
+            PowerManager.EffectivePowerModeChanged += PowerManager_EffectivePowerModeChanged;
+            PowerManager.UserPresenceStatusChanged += PowerManager_UserPresenceStatusChanged;
+            PowerManager.SystemSuspendStatusChanged += PowerManager_SystemSuspendStatusChanged;
         }
 
         private static void UnregisterForStateNotifications()
@@ -85,6 +89,10 @@ namespace CsConsoleState
             PowerManager.RemainingChargePercentChanged -= PowerManager_RemainingChargePercentChanged;
             PowerManager.RemainingDischargeTimeChanged -= PowerManager_RemainingDischargeTimeChanged;
             PowerManager.DisplayStatusChanged -= PowerManager_DisplayStatusChanged;
+            PowerManager.EnergySaverStatusChanged -= PowerManager_EnergySaverStatusChanged;
+            PowerManager.EffectivePowerModeChanged -= PowerManager_EffectivePowerModeChanged;
+            PowerManager.UserPresenceStatusChanged -= PowerManager_UserPresenceStatusChanged;
+            PowerManager.SystemSuspendStatusChanged -= PowerManager_SystemSuspendStatusChanged;
         }
 
         #endregion
@@ -139,6 +147,34 @@ namespace CsConsoleState
                 StopUpdatingGraphics();
                 StartDoingBackgroundWork();
             }
+        }
+
+        private static void PowerManager_EnergySaverStatusChanged(object sender, object e)
+        {
+            EnergySaverStatus energyStatus = PowerManager.EnergySaverStatus;
+            OutputMessage($"Energy saver status changed: {energyStatus}");
+            DetermineWorkloads();
+        }
+
+        private static async void PowerManager_EffectivePowerModeChanged(object sender, object e)
+        {
+            EffectivePowerMode powerMode = await PowerManager.EffectivePowerMode;
+            OutputMessage($"Effective power mode changed: {powerMode}");
+            DetermineWorkloads();
+        }
+
+        private static void PowerManager_UserPresenceStatusChanged(object sender, object e)
+        {
+            UserPresenceStatus userStatus = PowerManager.UserPresenceStatus;
+            OutputMessage($"User presence status changed: {userStatus}");
+            DetermineWorkloads();
+        }
+
+        private static void PowerManager_SystemSuspendStatusChanged(object sender, object e)
+        {
+            SystemSuspendStatus systemSuspendStatus = PowerManager.SystemSuspendStatus;
+            OutputMessage($"System suspend status changed: {systemSuspendStatus}");
+            DetermineWorkloads();
         }
 
         private static void DetermineWorkloads()

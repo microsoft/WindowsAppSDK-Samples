@@ -13,7 +13,7 @@ namespace CsWpfState
         [STAThread]
         static void Main(string[] args)
         {
-            // Initialize WASDK for unpackaged apps.            
+            // Initialize Windows App SDK for unpackaged apps.            
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
             if (result == 0)
             {
@@ -23,7 +23,7 @@ namespace CsWpfState
                 };
                 app.Run();
 
-                // Uninitialize WASDK.
+                // Uninitialize Windows App SDK.
                 MddBootstrap.Shutdown();
             }
         }

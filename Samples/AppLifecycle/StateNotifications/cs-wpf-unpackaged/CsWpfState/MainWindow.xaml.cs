@@ -4,7 +4,6 @@
 using System;
 using System.Windows;
 using Microsoft.Windows.System.Power;
-using CsWpfState.Controls;
 
 namespace CsWpfState
 {
@@ -42,6 +41,10 @@ namespace CsWpfState
             PowerManager.RemainingChargePercentChanged += PowerManager_RemainingChargePercentChanged;
             PowerManager.RemainingDischargeTimeChanged += PowerManager_RemainingDischargeTimeChanged;
             PowerManager.DisplayStatusChanged += PowerManager_DisplayStatusChanged;
+            PowerManager.EnergySaverStatusChanged += PowerManager_EnergySaverStatusChanged;
+            PowerManager.EffectivePowerModeChanged += PowerManager_EffectivePowerModeChanged;
+            PowerManager.UserPresenceStatusChanged += PowerManager_UserPresenceStatusChanged;
+            PowerManager.SystemSuspendStatusChanged += PowerManager_SystemSuspendStatusChanged;
         }
 
         private void UnregisterButton_Click(object sender, RoutedEventArgs e)
@@ -53,6 +56,10 @@ namespace CsWpfState
             PowerManager.RemainingChargePercentChanged -= PowerManager_RemainingChargePercentChanged;
             PowerManager.RemainingDischargeTimeChanged -= PowerManager_RemainingDischargeTimeChanged;
             PowerManager.DisplayStatusChanged -= PowerManager_DisplayStatusChanged;
+            PowerManager.EnergySaverStatusChanged -= PowerManager_EnergySaverStatusChanged;
+            PowerManager.EffectivePowerModeChanged -= PowerManager_EffectivePowerModeChanged;
+            PowerManager.UserPresenceStatusChanged -= PowerManager_UserPresenceStatusChanged;
+            PowerManager.SystemSuspendStatusChanged -= PowerManager_SystemSuspendStatusChanged;
         }
 
         #endregion
@@ -107,6 +114,34 @@ namespace CsWpfState
                 StopUpdatingGraphics();
                 StartDoingBackgroundWork();
             }
+        }
+
+        private void PowerManager_EnergySaverStatusChanged(object sender, object e)
+        {
+            EnergySaverStatus energyStatus = PowerManager.EnergySaverStatus;
+            OutputMessage($"Energy saver status changed: {energyStatus}");
+            DetermineWorkloads();
+        }
+
+        private async void PowerManager_EffectivePowerModeChanged(object sender, object e)
+        {
+            EffectivePowerMode powerMode = await PowerManager.EffectivePowerMode;
+            OutputMessage($"Effective power mode changed: {powerMode}");
+            DetermineWorkloads();
+        }
+
+        private void PowerManager_UserPresenceStatusChanged(object sender, object e)
+        {
+            UserPresenceStatus userStatus = PowerManager.UserPresenceStatus;
+            OutputMessage($"User presence status changed: {userStatus}");
+            DetermineWorkloads();
+        }
+
+        private void PowerManager_SystemSuspendStatusChanged(object sender, object e)
+        {
+            SystemSuspendStatus systemSuspendStatus = PowerManager.SystemSuspendStatus;
+            OutputMessage($"System suspend status changed: {systemSuspendStatus}");
+            DetermineWorkloads();
         }
 
         private void DetermineWorkloads()
