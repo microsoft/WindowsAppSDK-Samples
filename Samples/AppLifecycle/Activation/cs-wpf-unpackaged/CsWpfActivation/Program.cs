@@ -7,13 +7,14 @@ namespace CsWpfActivation
 {
     public class Program
     {
+        // Windows App SDK version.
         static uint majorMinorVersion = 0x00010000;
         static string versionTag = "preview1";
 
         [STAThread]
         static void Main(string[] args)
         {
-            // Initialize WASDK for unpackaged apps.            
+            // Initialize Windows App SDK for unpackaged apps.            
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
             if (result == 0)
             {
@@ -23,7 +24,7 @@ namespace CsWpfActivation
                 };
                 app.Run();
 
-                // Uninitialize WASDK.
+                // Uninitialize Windows App SDK.
                 MddBootstrap.Shutdown();
             }
         }

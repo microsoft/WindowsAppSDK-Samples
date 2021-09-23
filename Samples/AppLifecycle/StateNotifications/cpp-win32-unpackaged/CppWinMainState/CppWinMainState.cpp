@@ -21,7 +21,7 @@ using namespace winrt::Windows::System::Diagnostics;
 using namespace winrt::Windows::System;
 using namespace winrt::Microsoft::Windows::System::Power;
 
-// WASDK version.
+// Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
 PCWSTR versionTag{ L"preview1" };
 const PACKAGE_VERSION minVersion{};

@@ -8,6 +8,7 @@ namespace CsWinFormsState
 {
     static class Program
     {
+        // Windows App SDK version.
         static uint majorMinorVersion = 0x00010000;
         static string versionTag = "preview1";
 

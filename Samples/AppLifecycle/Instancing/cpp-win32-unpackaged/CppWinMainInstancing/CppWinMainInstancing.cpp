@@ -11,7 +11,7 @@ using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Windows::Storage;
 
-// WASDK version.
+// Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
 PCWSTR versionTag{ L"preview1" };
 const PACKAGE_VERSION minVersion{};
@@ -244,7 +244,7 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // Initialize WASDK unpackaged apps.
+    // Initialize Windows App SDK unpackaged apps.
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
     if (FAILED(hr))
     {

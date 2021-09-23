@@ -13,6 +13,7 @@ namespace CsConsoleActivation
 {
     class Program
     {
+        // Windows App SDK version.
         private static uint majorMinorVersion = 0x00010000;
         private static string versionTag = "preview1";
 
@@ -21,7 +22,7 @@ namespace CsConsoleActivation
 
         static void Main(string[] args)
         {
-            // Initialize WASDK for unpackaged apps.            
+            // Initialize Windows App SDK for unpackaged apps.            
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
             if (result == 0)
             {
@@ -63,7 +64,7 @@ namespace CsConsoleActivation
                     }
                 }
 
-                // Uninitialize WASDK.
+                // Uninitialize Windows App SDK.
                 MddBootstrap.Shutdown();
             }
         }

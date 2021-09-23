@@ -8,6 +8,7 @@ namespace CsWinFormsActivation
 {
     static class Program
     {
+        // Windows App SDK version.
         static uint majorMinorVersion = 0x00010000;
         static string versionTag = "preview1";
 
@@ -18,13 +19,13 @@ namespace CsWinFormsActivation
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Initialize WASDK for unpackaged apps.            
+            // Initialize Windows App SDK for unpackaged apps.            
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
             if (result == 0)
             {
                 Application.Run(new MainForm());
 
-                // Uninitialize WASDK.
+                // Uninitialize Windows App SDK.
                 MddBootstrap.Shutdown();
             }
         }
