@@ -154,8 +154,28 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Windows.ApplicationModel.DynamicDependency">
+      <HintPath>..\WindowsAppSDK\BuildOutput\Debug\x64\WindowsAppRuntime_DLL\Microsoft.Windows.ApplicationModel.DynamicDependency.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Microsoft.Windows.ApplicationModel.WindowsAppSDK">
+      <HintPath>..\WindowsAppSDK\BuildOutput\Debug\x64\WindowsAppRuntime_DLL\Microsoft.Windows.ApplicationModel.WindowsAppSDK.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Microsoft.Windows.AppLifecycle">
+      <HintPath>..\WindowsAppSDK\BuildOutput\Debug\x64\WindowsAppRuntime_DLL\Microsoft.Windows.AppLifecycle.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
     <Reference Include="Microsoft.Windows.PushNotifications">
       <HintPath>..\WindowsAppSDK\BuildOutput\Debug\x64\WindowsAppRuntime_DLL\Microsoft.Windows.PushNotifications.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Microsoft.Windows.System">
+      <HintPath>..\WindowsAppSDK\BuildOutput\Debug\x64\WindowsAppRuntime_DLL\Microsoft.Windows.System.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Microsoft.Windows.System.Power">
+      <HintPath>..\WindowsAppSDK\BuildOutput\Debug\x64\WindowsAppRuntime_DLL\Microsoft.Windows.System.Power.winmd</HintPath>
       <IsWinMDFile>true</IsWinMDFile>
     </Reference>
   </ItemGroup>

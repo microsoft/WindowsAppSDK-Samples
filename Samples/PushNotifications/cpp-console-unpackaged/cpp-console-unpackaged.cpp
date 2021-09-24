@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #include <windows.h>
-#include <wil/resource.h>
 #include <iostream>
 
 #include <unknwn.h>
@@ -16,18 +15,19 @@
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Streams.h>
-//#include <winrt/Microsoft.Windows.AppLifecycle.h>
+#include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
 
-//#include "winrt\Windows.Foundation.h"
-//#include "winrt\Windows.Foundation.Collections.h"
-//#include "winrt\Microsoft.Windows.ApplicationModel.Resources.h"
+#include "winrt\Windows.Foundation.h"
+#include "winrt\Windows.Foundation.Collections.h"
+#include "winrt\Windows.ApplicationModel.Resources.h"
 
 #include <MddBootstrap.h>
 
-//using namespace winrt;
-//using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
+using namespace winrt;
+using namespace winrt::Windows::ApplicationModel::Resources;
 
+using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
 using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Windows::ApplicationModel::Background; // BackgroundTask APIs
@@ -35,12 +35,14 @@ using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Storage;
 using namespace winrt::Windows::Storage::Streams;
 
+// To obtain an AAD RemoteIdentifier for your app,
+// follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+//winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
+winrt::guid remoteId{ "0160ee84-0c53-4851-9ff2-d7f5a87ed914" };
+
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
-    // To obtain an AAD RemoteIdentifier for your app,
-    // follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-    auto channelOperation = PushNotificationManager::CreateChannelAsync(
-        winrt::guid("0160ee84-0c53-4851-9ff2-d7f5a87ed914"));
+    auto channelOperation = PushNotificationManager::CreateChannelAsync(remoteId);
 
     // Setup the inprogress event handler
     channelOperation.Progress(
@@ -118,18 +120,61 @@ int main()
     const PACKAGE_VERSION minVersion{};
     RETURN_IF_FAILED(MddBootstrapInitialize(c_Version_MajorMinor, nullptr, minVersion));
 
-    // Uninitialize dynamic dependencies.
-    auto cleanup = wil::scope_exit([]
-        {
-            MddBootstrapShutdown();
-        });
+
+    //auto cleanup = wil::scope_exit([]
+    //    {
+
+    //    });
 	
     PushNotificationActivationInfo info(PushNotificationRegistrationActivators::ProtocolActivator);
-    PushNotificationManager::RegisterActivator(info);
+    //PushNotificationManager::RegisterActivator(info);
 
 	PushNotificationChannel channel = RequestChannel();
-	std::cout << "Press 'Enter' at any time to exit App.";
-    std::cin.ignore();
+	//std::cout << "Press 'Enter' at any time to exit App.";
+    //std::cin.ignore();
+
+    
+    auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
+    auto kind = args.Kind();
+    if (kind == ExtendedActivationKind::Push)
+    {
+        PushNotificationReceivedEventArgs pushArgs = args.Data().as<PushNotificationReceivedEventArgs>();
+
+        // Call GetDeferral to ensure that code runs in low power
+        auto deferral = pushArgs.GetDeferral();
+
+        auto payload = pushArgs.Payload();
+
+        // Do stuff to process the raw payload
+        std::string payloadString(payload.begin(), payload.end());
+        printf("Push notification content received from BACKGROUND: %s\n", payloadString.c_str());
+        printf("Press 'Enter' to exit the App.");
+
+        // Call Complete on the deferral when finished processing the payload.
+        // This removes the override that kept the app running even when the system was in a low power mode.
+        //deferral.Complete();
+        std::cin.ignore();
+    }
+    else if (kind == ExtendedActivationKind::Launch)
+    {
+        PushNotificationChannel channel = RequestChannel();
+        printf("Press 'Enter' at any time to exit App.");
+        std::cin.ignore();
+    }
+    else if (kind == ExtendedActivationKind::ToastNotification)
+    {
+        printf("ToastNotification received!");
+        printf("Press 'Enter' at any time to exit App.");
+        std::cin.ignore();
+    }
+
+
+
+    // We do not call PushNotificationManager::RegisterActivator
+    //  - because the we wouldn't be able to receive background activations, once the app has closed.
+
+    // Uninitialize dynamic dependencies.
+    MddBootstrapShutdown();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
