@@ -77,9 +77,7 @@ namespace CsWpfInstancing
             ReportInfo($"ActivationKind={kind}");
             if (kind == ExtendedActivationKind.Launch)
             {
-                // This is a launch activation: here we'll register for file activation.
                 ReportLaunchArgs("Main", args);
-                RegisterForFileActivation();
             }
             else if (kind == ExtendedActivationKind.File)
             {
@@ -219,11 +217,6 @@ namespace CsWpfInstancing
 
         public static void UnregisterForFileActivation()
         {
-            // BUG Unregistering a filetype removes the 
-            // [HKEY_CURRENT_USER\Software\Classes\App.5761a1850f7033ad.File]
-            // entry, and the value under [HKEY_CURRENT_USER\Software\Classes\.foo\OpenWithProgids]
-            // but not the [HKEY_CURRENT_USER\Software\Classes\.foo] key.
-
             // Unregister one or more registered filetypes.
             try
             {

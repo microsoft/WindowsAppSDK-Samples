@@ -80,7 +80,8 @@ int APIENTRY wWinMain(
     if (FAILED(hr))
     {
         wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
+            hr, majorMinorVersion, versionTag, 
+            minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
         return hr;
     }
 

@@ -1,57 +1,74 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Dispatching;
+// NOTES. This app is cloned from the unpackaged version. Redundant code is left in place as comments, so that you can more easily see the differences.
+// 1. A packaged app cannot use the Register/Unregister APIs for rich activation.
+// 2. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
+// 3. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
+// 4. A packaged app can declare rich activation extensions in the manifest, and retrieve activation arguments via the Windows App SDK GetActivatedEventArgs API.
+
 using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
 using Windows.Storage;
 
-namespace CsWinUiDesktopInstancing
+namespace CsWpfInstancing
 {
-    // NOTE: We need to check for redirection as early as possible, and
-    // before creating any windows. To do this, we must define this symbol
-    // in the project build properties:
-    // DISABLE_XAML_GENERATED_MAIN
-    // ...and define a custom Program class with a Main method 
-
-    public static class Program
+    public class Program
     {
-        private static int activationCount = 1;
-        public static List<string> OutputStack { get; private set; }
+        // UNDONE: A packaged app does not need to initialize the Windows App SDK for unpackaged support.
+        // Windows App SDK version.
+        //private static uint majorMinorVersion = 0x00010000;
+        //private static string versionTag = "preview1";
 
-        // Replaces the standard App.g.i.cs.
+        // UNDONE: A packaged app can't use the Register/Unregister APIs for rich activation.
+        //private static string executablePath;
+        //private static string executablePathAndIconIndex;
+        private static int activationCount = 1;
+        public static List<string> OutputStack = new();
+
         [STAThread]
         static void Main(string[] args)
         {
-            WinRT.ComWrappersSupport.InitializeComWrappers();
+            //executablePath = Process.GetCurrentProcess().MainModule.FileName;
+            //executablePathAndIconIndex = $"{executablePath},1";
 
-            OutputStack = new();
-
-            bool isRedirect = DecideRedirection();
-            if (!isRedirect)
-            {
-                Microsoft.UI.Xaml.Application.Start((p) =>
+            // UNDONE: Initialize Windows App SDK for unpackaged apps.
+            //int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
+            //if (result == 0)
+            //{
+                Task<bool> task = DetermineActivationKind();
+                task.Wait();
+                bool isRedirect = task.Result;
+                if (!isRedirect)
                 {
-                    var context = new DispatcherQueueSynchronizationContext(
-                        DispatcherQueue.GetForCurrentThread());
-                    SynchronizationContext.SetSynchronizationContext(context);
-                    new App();
-                });
-            }
+                    App app = new()
+                    {
+                        StartupUri = new Uri("MainWindow.xaml", UriKind.Relative)
+                    };
+                    app.Run();
+                }
+
+            //    // Uninitialize Windows App SDK.
+            //    MddBootstrap.Shutdown();
+            //}
         }
 
         private static void ReportInfo(string message)
         {
             // If we already have a form, display the message now.
             // Otherwise, add it to the collection for displaying later.
-            if (App.Current is App thisApp && thisApp.AppWindow != null
-                && thisApp.AppWindow is MainWindow mainWindow)
+            if (App.Current != null && App.Current.MainWindow != null)
             {
-                mainWindow.OutputMessage(message);
+                if (App.Current.MainWindow is MainWindow mainWindow)
+                {
+                    mainWindow.OutputMessage(message);
+                }
             }
             else
             {
@@ -59,7 +76,7 @@ namespace CsWinUiDesktopInstancing
             }
         }
 
-        private static bool DecideRedirection()
+        private static async Task<bool> DetermineActivationKind()
         {
             bool isRedirect = false;
 
@@ -69,8 +86,8 @@ namespace CsWinUiDesktopInstancing
             ReportInfo($"ActivationKind={kind}");
             if (kind == ExtendedActivationKind.Launch)
             {
-                // This is a launch activation: here we'll register for file activation.
                 ReportLaunchArgs("Main", args);
+                //RegisterForFileActivation();
             }
             else if (kind == ExtendedActivationKind.File)
             {
@@ -102,8 +119,17 @@ namespace CsWinUiDesktopInstancing
                             isRedirect = true;
 
                             // TODO don't block the STA.
-                            // NOTE this *seems* to work fine.
-                            keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
+                            // BUG This works in an unpackaged WPF app, but not in a packaged WPF app
+                            // - the target instance doesn't get the redirection.
+                            await keyInstance.RedirectActivationToAsync(args);
+
+                            // BUG This works in a native Win32 app, but not in a managed app
+                            // - the target instance crashes.
+                            //keyInstance.RedirectActivationToAsync(args).GetResults();
+
+                            // BUG This works in a WinUI app but not in a packaged WPF app.
+                            // - the target instance doesn't get the redirection.
+                            //keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
                         }
                     }
                 }
@@ -192,6 +218,41 @@ namespace CsWinUiDesktopInstancing
                 }
             }
         }
+
+        //public static void RegisterForFileActivation()
+        //{
+        //    // Register one or more supported filetypes, 
+        //    // an icon (specified by binary file path plus resource index),
+        //    // a display name to use in Shell and Settings,
+        //    // zero or more verbs for the File Explorer context menu,
+        //    // and the path to the EXE to register for activation.
+        //    string[] myFileTypes = { ".moo" };
+        //    string[] verbs = { "view", "edit" };
+        //    ActivationRegistrationManager.RegisterForFileTypeActivation(
+        //        myFileTypes,
+        //        executablePathAndIconIndex,
+        //        "Contoso File Types",
+        //        verbs,
+        //        executablePath
+        //    );
+        //}
+
+        //public static void UnregisterForFileActivation()
+        //{
+        //    // Unregister one or more registered filetypes.
+        //    try
+        //    {
+        //        string[] myFileTypes = { ".moo" };
+        //        ActivationRegistrationManager.UnregisterForFileTypeActivation(
+        //            myFileTypes,
+        //            executablePath
+        //        );
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ReportInfo($"Error unregistering file types {ex.Message}");
+        //    }
+        //}
 
     }
 }

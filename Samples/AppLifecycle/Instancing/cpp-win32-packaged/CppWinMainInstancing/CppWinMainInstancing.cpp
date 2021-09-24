@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// NOTES. This app is cloned from the unpackaged version. Redundant code is left in place as comments, so that you can more easily see the differences.
+// 1. A packaged app cannot use the Register/Unregister APIs for rich activation.
+// 2. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
+// 3. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
+// 4. A packaged app can declare rich activation extensions in the manifest, and retrieve activation arguments via the Windows App SDK GetActivatedEventArgs API.
+// 5. The app can use the UWP GetActivatedEventArgs API instead.
+
 #include "framework.h"
 #include "CppWinMainInstancing.h"
 
@@ -11,10 +18,11 @@ using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Windows::Storage;
 
+// UNDONE: A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // Windows App SDK version.
-const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview1" };
-const PACKAGE_VERSION minVersion{};
+//const UINT32 majorMinorVersion{ 0x00010000 };
+//PCWSTR versionTag{ L"preview1" };
+//const PACKAGE_VERSION minVersion{};
 
 #define MAX_LOADSTRING 100
 WCHAR szTitle[MAX_LOADSTRING];
@@ -22,8 +30,10 @@ WCHAR szWindowClass[MAX_LOADSTRING];
 ATOM RegisterWindowClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-WCHAR szExePath[MAX_PATH];
-WCHAR szExePathAndIconIndex[MAX_PATH + 8];
+
+// UNDONE: A packaged app can't use the Register/Unregister APIs for rich activation.
+//WCHAR szExePath[MAX_PATH];
+//WCHAR szExePathAndIconIndex[MAX_PATH + 8];
 int activationCount = 1;
 HWND g_hWndListbox = NULL;
 HINSTANCE g_hInst;
@@ -34,8 +44,8 @@ HWND CreateListbox();
 bool DecideRedirection();
 void ReportLaunchArgs(hstring callLocation, AppActivationArguments args);
 void ReportFileArgs(hstring callLocation, AppActivationArguments args);
-void RegisterForFileActivation();
-void UnregisterForFileActivation();
+//void RegisterForFileActivation();
+//void UnregisterForFileActivation();
 void GetActivationInfo();
 void OnActivated(
     const winrt::Windows::Foundation::IInspectable&, 
@@ -217,12 +227,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_GETARGS:
                 GetActivationInfo();
                 break;
-            case IDM_REGISTER:
-                RegisterForFileActivation();
-                break;
-            case IDM_UNREGISTER:
-                UnregisterForFileActivation();
-                break;
+            //case IDM_REGISTER:
+            //    RegisterForFileActivation();
+            //    break;
+            //case IDM_UNREGISTER:
+            //    UnregisterForFileActivation();
+            //    break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
@@ -244,16 +254,16 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // Initialize Windows App SDK unpackaged apps.
-    HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    if (FAILED(hr))
-    {
-        OutputFormattedDebugString(
-            L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, 
-            minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
+    // UNDONE: Initialize Windows App SDK for unpackaged apps.
+    //HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
+    //if (FAILED(hr))
+    //{
+    //    OutputFormattedDebugString(
+    //        L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
+    //        hr, majorMinorVersion, versionTag, 
+    //        minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
+    //    return hr;
+    //}
 
     if (DecideRedirection())
     {
@@ -285,7 +295,7 @@ int APIENTRY wWinMain(
         DispatchMessage(&msg);
     }
 
-    MddBootstrapShutdown();
+    //MddBootstrapShutdown();
     return (int)msg.wParam;
 }
 
@@ -298,9 +308,9 @@ bool DecideRedirection()
 {
     // Get the current executable filesystem path, so we can
     // use it later in registering for activation kinds.
-    GetModuleFileName(NULL, szExePath, MAX_PATH);
-    wcscpy_s(szExePathAndIconIndex, szExePath);
-    wcscat_s(szExePathAndIconIndex, L",1");
+    //GetModuleFileName(NULL, szExePath, MAX_PATH);
+    //wcscpy_s(szExePathAndIconIndex, szExePath);
+    //wcscat_s(szExePathAndIconIndex, L",1");
 
     // Find out what kind of activation this is.
     AppActivationArguments args = AppInstance::GetCurrent().GetActivatedEventArgs();
@@ -349,44 +359,44 @@ bool DecideRedirection()
     return false;
 }
 
-void RegisterForFileActivation()
-{
-    OutputMessage(L"Registering for file activation");
-
-    // Register one or more supported image filetypes, 
-    // an icon (specified by binary file path plus resource index),
-    // a display name to use in Shell and Settings,
-    // zero or more verbs for the File Explorer context menu,
-    // and the path to the EXE to register for activation.
-    hstring imageFileTypes[1] = { L".moo" };
-    hstring verbs[2] = { L"view", L"edit" };
-    ActivationRegistrationManager::RegisterForFileTypeActivation(
-        imageFileTypes,
-        szExePathAndIconIndex,
-        L"Montoso File Types",
-        verbs,
-        szExePath
-    );
-}
-
-void UnregisterForFileActivation()
-{
-    OutputMessage(L"Unregistering for file activation");
-
-    // Unregister one or more registered filetypes.
-    try
-    {
-        hstring imageFileTypes[1] = { L".moo" };
-        ActivationRegistrationManager::UnregisterForFileTypeActivation(
-            imageFileTypes,
-            szExePath
-        );
-    }
-    catch (...)
-    {
-        OutputMessage(L"Error unregistering file types");
-    }
-}
+//void RegisterForFileActivation()
+//{
+//    OutputMessage(L"Registering for file activation");
+//
+//    // Register one or more supported image filetypes, 
+//    // an icon (specified by binary file path plus resource index),
+//    // a display name to use in Shell and Settings,
+//    // zero or more verbs for the File Explorer context menu,
+//    // and the path to the EXE to register for activation.
+//    hstring imageFileTypes[1] = { L".moo" };
+//    hstring verbs[2] = { L"view", L"edit" };
+//    ActivationRegistrationManager::RegisterForFileTypeActivation(
+//        imageFileTypes,
+//        szExePathAndIconIndex,
+//        L"Montoso File Types",
+//        verbs,
+//        szExePath
+//    );
+//}
+//
+//void UnregisterForFileActivation()
+//{
+//    OutputMessage(L"Unregistering for file activation");
+//
+//    // Unregister one or more registered filetypes.
+//    try
+//    {
+//        hstring imageFileTypes[1] = { L".moo" };
+//        ActivationRegistrationManager::UnregisterForFileTypeActivation(
+//            imageFileTypes,
+//            szExePath
+//        );
+//    }
+//    catch (...)
+//    {
+//        OutputMessage(L"Error unregistering file types");
+//    }
+//}
 
 void GetActivationInfo()
 {

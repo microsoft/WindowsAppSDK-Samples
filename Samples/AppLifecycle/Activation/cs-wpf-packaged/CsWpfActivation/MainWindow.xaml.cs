@@ -9,7 +9,7 @@
 // 5. The app can use the UWP GetActivatedEventArgs API instead.
 // 6. MddBootstrap.cs is not needed.
 
-// UNDONE: To avoid name conflicts, we'll alias the Windows App SDK namespace in a local scope below.
+// NOTE: To avoid name conflicts, we'll alias the Windows App SDK namespace.
 //using Microsoft.Windows.AppLifecycle;
 using WindowsAppSdk = Microsoft.Windows.AppLifecycle;
 
