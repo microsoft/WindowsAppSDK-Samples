@@ -17,6 +17,7 @@
 #include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
+#include <winrt/Windows.Globalization.DateTimeFormatting.h>
 
 #include "winrt\Windows.Foundation.h"
 #include "winrt\Windows.Foundation.Collections.h"
@@ -34,11 +35,12 @@ using namespace winrt::Windows::ApplicationModel::Background; // BackgroundTask 
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Storage;
 using namespace winrt::Windows::Storage::Streams;
+using namespace Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
-
+//winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
+winrt::guid remoteId{ "0160ee84-0c53-4851-9ff2-d7f5a87ed914" };
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
@@ -66,22 +68,6 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 
     if (result.Status() == PushNotificationChannelStatus::CompletedSuccess)
     {
-        auto channelUri = result.Channel().Uri();
-
-        std::cout << "channelUri: " << winrt::to_string(channelUri.ToString()) << std::endl << std::endl;
-
-        auto channelExpiry = result.Channel().ExpirationTime();
-
-        // Register Push Event for Foreground
-        winrt::event_token token = result.Channel().PushReceived([](const auto&, PushNotificationReceivedEventArgs const& args)
-            {
-                auto payload = args.Payload();
-
-                // Do stuff to process the raw payload
-                std::string payloadString(payload.begin(), payload.end());
-                std::cout << "Push notification content received from FOREGROUND: " << payloadString << std::endl << std::endl;
-                args.Handled(true);
-            });
         // Caller's responsibility to keep the channel alive
         co_return result.Channel();
     }
@@ -131,8 +117,32 @@ int main()
 
     case ExtendedActivationKind::Launch:
     {
+
+        // request a channel
         PushNotificationChannel channel = RequestChannel();
-        printf("Press 'Enter' at any time to exit App.");
+
+        // register the chaneel
+        if (channel)
+        {
+            auto channelUri = channel.Uri();
+            DateTimeFormatter formater = DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}");
+
+            std::cout << "Channel Uri: " << winrt::to_string(channelUri.ToString()) << std::endl << std::endl;
+            std::wcout << L"Channel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
+
+            // Register Push Event for Foreground
+            winrt::event_token token = channel.PushReceived([](const auto&, PushNotificationReceivedEventArgs const& args)
+                {
+                    auto payload = args.Payload();
+
+                    // Do stuff to process the raw payload
+                    std::string payloadString(payload.begin(), payload.end());
+                    std::cout << "Push notification content received from FOREGROUND: " << payloadString << std::endl << std::endl;
+                    args.Handled(true);
+                });
+        }
+
+        std::cout << "Press 'Enter' at any time to exit App." << std::endl;
         std::cin.ignore();
     }
     break;
@@ -148,8 +158,8 @@ int main()
 
         // Do stuff to process the raw payload
         std::string payloadString(payload.begin(), payload.end());
-        printf("Push notification content received from BACKGROUND: %s\n", payloadString.c_str());
-        printf("Press 'Enter' to exit the App.");
+        std::cout << "Push notification content received from BACKGROUND: " << payloadString.c_str() << std::endl;
+        std::cout << "Press 'Enter' to exit the App." << std::endl;
 
         // Call Complete on the deferral when finished processing the payload.
         // This removes the override that kept the app running even when the system was in a low power mode.
@@ -159,7 +169,10 @@ int main()
     break;
 
     default:
-
+        // Unexpected activation type
+        std::cout << "Unexpected activation type";
+        std::cout << "Press 'Enter' to exit the App.";
+        std::cin.ignore();
         break;
     } //switch
 
