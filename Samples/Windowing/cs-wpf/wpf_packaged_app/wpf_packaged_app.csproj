@@ -23,13 +23,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="window_icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="window_icon.png" />
-  </ItemGroup>
 </Project>
