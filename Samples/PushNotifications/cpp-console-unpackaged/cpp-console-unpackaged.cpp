@@ -37,8 +37,8 @@ using namespace winrt::Windows::Storage::Streams;
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-//winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
-winrt::guid remoteId{ "0160ee84-0c53-4851-9ff2-d7f5a87ed914" };
+winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
+
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
@@ -120,23 +120,24 @@ int main()
     const PACKAGE_VERSION minVersion{};
     RETURN_IF_FAILED(MddBootstrapInitialize(c_Version_MajorMinor, nullptr, minVersion));
 
-
-    //auto cleanup = wil::scope_exit([]
-    //    {
-
-    //    });
-	
     PushNotificationActivationInfo info(PushNotificationRegistrationActivators::ProtocolActivator);
-    //PushNotificationManager::RegisterActivator(info);
+    PushNotificationManager::RegisterActivator(info);
 
-	PushNotificationChannel channel = RequestChannel();
-	//std::cout << "Press 'Enter' at any time to exit App.";
-    //std::cin.ignore();
-
-    
+   
     auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
     auto kind = args.Kind();
-    if (kind == ExtendedActivationKind::Push)
+    switch (kind)
+    {
+
+    case ExtendedActivationKind::Launch:
+    {
+        PushNotificationChannel channel = RequestChannel();
+        printf("Press 'Enter' at any time to exit App.");
+        std::cin.ignore();
+    }
+    break;
+
+    case ExtendedActivationKind::Push:
     {
         PushNotificationReceivedEventArgs pushArgs = args.Data().as<PushNotificationReceivedEventArgs>();
 
@@ -155,20 +156,12 @@ int main()
         //deferral.Complete();
         std::cin.ignore();
     }
-    else if (kind == ExtendedActivationKind::Launch)
-    {
-        PushNotificationChannel channel = RequestChannel();
-        printf("Press 'Enter' at any time to exit App.");
-        std::cin.ignore();
-    }
-    else if (kind == ExtendedActivationKind::ToastNotification)
-    {
-        printf("ToastNotification received!");
-        printf("Press 'Enter' at any time to exit App.");
-        std::cin.ignore();
-    }
+    break;
 
+    default:
 
+        break;
+    } //switch
 
     // We do not call PushNotificationManager::RegisterActivator
     //  - because the we wouldn't be able to receive background activations, once the app has closed.
