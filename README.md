@@ -8,7 +8,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs. 
 - [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
-
+- [Push Notifications](Samples/PushNotifications): This is a sample app that showcases Push Notifications.
 ## Requirements
 
 Thes Windows App SDK samples have the following system requirements:

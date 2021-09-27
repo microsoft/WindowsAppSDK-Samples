@@ -9,9 +9,16 @@ description: "Shows how to use the windows app SDK Push Notifications APIs from 
 urlFragment: PushNotifications
 ---
 # Push Notifications Sample
-
-These samples demonstrate how to use the AppWindow class to manage your application's window.  
-
+This sample demonstrates 
+1. How an unpackaged app can use the WindowsAppSDK to request a channel URI
+    * The Channel URI uniquely identifies the app for a current user on a specific device, allowing other apps and servers to send notifications to this app.
+2.	How to use the WindowsAppSDK to register an app for foreground and background activation.
+The Code
+When it is launched normally (by the users, or from the debugger), the sample requests a channeluri and displays it, then waits for notifications.
+    * This allows to copy the channeluri and sent notifications
+When it is activated from a push notification, the sample displays the notification.
+    * It doesn’t register for foreground activation of perform any other actions.
+       * Because background activation is meant to let app perform only small tasks in order to preserve battery life.
 ## Requirements
 Cpp sample requires a ... like Postman or fiddler to send notifications.
 * The WindowsAppSDK push notifications APIs defines all that is needed to register for and receive notifications but it's the role of an external app to send the notifications.
@@ -26,7 +33,25 @@ For the unpackaged sample apps, in addition to the steps for setting up the envi
 3. Right click on the solution and click **Deploy Solution**
 4. Debug the project.
 
-## Related Links
+## Receiving Notifications
+1.	Obtain an RemoteId for your sample
+    * The remoteId (and corresponding secret) allows a publisher to authenticate themselves with the WNS server.
+    * The WNS server receives notifications from a publisher and dispatches it to the appropriate app for the appropriate user on the appropriate device.
+2.	Prepare to send a notification
+3.	Build the sample
+4.	Run the sample and copy the channeluri
+    * The ChannelUri uniquely identify the app, user, and device.
+    * WNS uses the channel URI to route notifications to the appropriate app, user, and device combination.
+5.	Send a notification
+6.	The sample should have received it as a foreground activation
+7.	Close the sample app
+8.	Send another notification
+9.	The sample should have been activated from the background.
 
+## Low power mode activity
+When waiting for push toast, the app uses deferred mode 
+* This ensures that notifications will be received even if the device enters low power mode.
+
+## Related Links
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
 - [Push Notifications Doc]()
