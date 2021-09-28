@@ -20,7 +20,7 @@ When it is activated from a push notification, the sample displays the notificat
     * It doesn’t register for foreground activation of perform any other actions.
        * Because background activation is meant to let app perform only small tasks in order to preserve battery life.
 ## Requirements
-Cpp sample requires a ... like Postman or fiddler to send notifications.
+The sample requires a web API tool like Postman or fiddler to send notifications.
 * The WindowsAppSDK push notifications APIs defines all that is needed to register for and receive notifications but it's the role of an external app to send the notifications.
 This ... (postman, fiddler) is used to eimulate that external server and sends notifications.
 
