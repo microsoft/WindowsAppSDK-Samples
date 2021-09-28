@@ -34,6 +34,7 @@ For the unpackaged sample apps, in addition to the steps for setting up the envi
 4. Debug the project.
 
 ## Receiving Notifications
+### Packaged
 1.	Obtain an RemoteId for your sample
     * The remoteId (and corresponding secret) allows a publisher to authenticate themselves with the WNS server.
     * The WNS server receives notifications from a publisher and dispatches it to the appropriate app for the appropriate user on the appropriate device.
@@ -47,7 +48,7 @@ For the unpackaged sample apps, in addition to the steps for setting up the envi
 7.	Close the sample app
 8.	Send another notification
 9.	The sample should have been activated from the background.
-
+### Unpackaged
 ## Low power mode activity
 When waiting for push toast, the app uses deferred mode 
 * This ensures that notifications will be received even if the device enters low power mode.
