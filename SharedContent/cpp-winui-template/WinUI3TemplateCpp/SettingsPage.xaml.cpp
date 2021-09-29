@@ -47,22 +47,11 @@ namespace winrt::WinUI3TemplateCpp::implementation
         RadioButton radiobutton = sender.as<RadioButton>();
         ElementTheme selectedTheme = unbox_value<ElementTheme>(radiobutton.Tag());
 
-        Grid content = MainPage().Current().Content().as<Grid>();
-        if (selectedTheme == ElementTheme::Dark)
+        Grid content = MainPage::Current().Content().as<Grid>();
+        if (content != nullptr)
         {
-            content.RequestedTheme(ElementTheme::Dark);
-            Settings::CurrentTheme = ElementTheme::Dark;
-        }
-        else if (selectedTheme == ElementTheme::Light)
-        {
-            content.RequestedTheme(ElementTheme::Light);
-            Settings::CurrentTheme = ElementTheme::Dark;
-        }
-        else
-        {
-            content.RequestedTheme(ElementTheme::Default);
-            Settings::CurrentTheme = ElementTheme::Default;
-        }
-           
+            content.RequestedTheme(selectedTheme);
+            Settings::CurrentTheme = content.RequestedTheme();
+        }       
     }
 }
