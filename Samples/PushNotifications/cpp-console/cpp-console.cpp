@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <iostream>
 
+<<<<<<< Updated upstream
 #include <unknwn.h>
 #include <appmodel.h>
 #include <wil/result.h>
@@ -15,10 +16,24 @@
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Streams.h>
+=======
+//#include <unknwn.h>
+#include <appmodel.h>
+#include <wil/result.h>
+#include <wil/cppwinrt.h>
+//#include <wil/resource.h>
+
+//#include <winrt/Windows.ApplicationModel.Activation.h>
+#include <winrt/Windows.Foundation.h>
+//#include <winrt/Windows.Foundation.Collections.h>
+//#include <winrt/Windows.Storage.h>
+//#include <winrt/Windows.Storage.Streams.h>
+>>>>>>> Stashed changes
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
 #include <winrt/Windows.Globalization.DateTimeFormatting.h>
 
+<<<<<<< Updated upstream
 #include "winrt\Windows.Foundation.h"
 #include "winrt\Windows.Foundation.Collections.h"
 #include "winrt\Windows.ApplicationModel.Resources.h"
@@ -34,11 +49,31 @@ using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Storage;
 using namespace winrt::Windows::Storage::Streams;
 using namespace Windows::Globalization::DateTimeFormatting;
+=======
+//#include "winrt\Windows.Foundation.h"
+//#include "winrt\Windows.Foundation.Collections.h"
+//#include "winrt\Windows.ApplicationModel.Resources.h"
+
+//using namespace winrt;
+//using namespace winrt::Windows::ApplicationModel::Resources;
+
+using namespace winrt::Microsoft::Windows::AppLifecycle;
+using namespace winrt::Microsoft::Windows::PushNotifications;
+//using namespace winrt::Windows::ApplicationModel::Activation;
+//using namespace winrt::Windows::ApplicationModel::Background; // BackgroundTask APIs
+using namespace winrt::Windows::Foundation;
+//using namespace winrt::Windows::Storage;
+//using namespace winrt::Windows::Storage::Streams;
+using namespace winrt::Windows::Globalization::DateTimeFormatting;
+>>>>>>> Stashed changes
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
 //winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
+<<<<<<< Updated upstream
 winrt::guid remoteId{ "0160ee84-0c53-4851-9ff2-d7f5a87ed914" };
+=======
+>>>>>>> Stashed changes
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
@@ -160,7 +195,11 @@ int main()
 
         // Call Complete on the deferral when finished processing the payload.
         // This removes the override that kept the app running even when the system was in a low power mode.
+<<<<<<< Updated upstream
         //deferral.Complete();
+=======
+        deferral.Complete();
+>>>>>>> Stashed changes
         std::cin.ignore();
     }
     break;
