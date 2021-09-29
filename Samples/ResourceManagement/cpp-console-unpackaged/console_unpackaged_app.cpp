@@ -1,7 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #include <windows.h>
+#include <shlobj_core.h>
 #include <wil/resource.h>
 #include <iostream>
 
@@ -56,6 +57,13 @@ int wmain(int argc, wchar_t* argv[])
             "    console_unpackaged_app.exe override\n"
             "  Get the sample string for the resource-not-found fallback case\n"
             "    console_unpackaged_app.exe fallback\n";
+        return 1;
+    }
+
+    // Despite the name of this API, it will return FALSE if the user is an admin but the context isn't elevated.
+    if (IsUserAnAdmin())
+    {
+        std::wcout << "Windows App SDK doesn't currently support elevation for unpackaged apps. See https://github.com/microsoft/WindowsAppSDK/issues/567." << std::endl;
         return 1;
     }
 
