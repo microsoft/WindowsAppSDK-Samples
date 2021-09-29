@@ -160,7 +160,7 @@ int main()
 
         // Call Complete on the deferral when finished processing the payload.
         // This removes the override that kept the app running even when the system was in a low power mode.
-        //deferral.Complete();
+        deferral.Complete();
         std::cin.ignore();
     }
     break;

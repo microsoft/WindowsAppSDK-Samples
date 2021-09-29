@@ -13,18 +13,18 @@ This sample demonstrates
 1. How an unpackaged app can use the WindowsAppSDK to request a channel URI
     * The Channel URI uniquely identifies the app for a current user on a specific device, allowing other apps and servers to send notifications to this app.
 2.	How to use the WindowsAppSDK to register an app for foreground and background activation.
-The Code
+## The Code
 When it is launched normally (by the users, or from the debugger), the sample requests a channeluri and displays it, then waits for notifications.
-    * This allows to copy the channeluri and sent notifications
+* This allows to copy the channeluri and sent notifications
 When it is activated from a push notification, the sample displays the notification.
-    * It doesn’t register for foreground activation of perform any other actions.
-       * Because background activation is meant to let app perform only small tasks in order to preserve battery life.
+* It doesn’t register for foreground activation of perform any other actions.
+  * Because background activation is meant to let app perform only small tasks in order to preserve battery life.
 ## Requirements
-Cpp sample requires a ... like Postman or fiddler to send notifications.
+The sample requires a web API tool like Postman or fiddler to send notifications.
 * The WindowsAppSDK push notifications APIs defines all that is needed to register for and receive notifications but it's the role of an external app to send the notifications.
 This ... (postman, fiddler) is used to eimulate that external server and sends notifications.
-
-## Building and running any of the samples 
+* Windows 10
+## Building and running the sample 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
 
