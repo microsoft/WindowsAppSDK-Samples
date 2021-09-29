@@ -69,7 +69,7 @@ namespace CsWinUiDesktopInstancing
             ReportInfo($"ActivationKind={kind}");
             if (kind == ExtendedActivationKind.Launch)
             {
-                // This is a launch activation: here we'll register for file activation.
+                // This is a launch activation.
                 ReportLaunchArgs("Main", args);
             }
             else if (kind == ExtendedActivationKind.File)
@@ -101,8 +101,7 @@ namespace CsWinUiDesktopInstancing
                         {
                             isRedirect = true;
 
-                            // TODO don't block the STA.
-                            // NOTE this *seems* to work fine.
+                            // This doesn't block the STA because AsTask puts the work on another thread.
                             keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
                         }
                     }

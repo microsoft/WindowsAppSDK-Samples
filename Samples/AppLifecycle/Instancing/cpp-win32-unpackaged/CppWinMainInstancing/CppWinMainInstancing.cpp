@@ -10,6 +10,7 @@ using namespace winrt::Windows::Foundation::Collections;
 using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Windows::Storage;
+using namespace std::chrono_literals;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
@@ -336,7 +337,7 @@ bool DecideRedirection()
                 }
                 else
                 {
-                    keyInstance.RedirectActivationToAsync(args).get();
+                    keyInstance.RedirectActivationToAsync(args).wait_for(2s);
                     return true;
                 }
             }

@@ -12,6 +12,7 @@ using namespace Microsoft::UI::Xaml::Controls;
 using namespace Microsoft::UI::Xaml::Navigation;
 using namespace CppWinUiDesktopInstancing;
 using namespace CppWinUiDesktopInstancing::implementation;
+using namespace std::chrono;
 
 using namespace Windows::Foundation::Collections;
 using namespace Windows::ApplicationModel::Activation;
@@ -154,9 +155,8 @@ void OnActivated(const IInspectable&, const AppActivationArguments& args)
     }
 }
 
-IAsyncAction Redirect(AppInstance keyInstance, AppActivationArguments args)
+winrt::fire_and_forget Redirect(AppInstance keyInstance, AppActivationArguments args)
 {
-    // Do work on a background thread.
     co_await winrt::resume_background();
     keyInstance.RedirectActivationToAsync(args).get();
     SetEvent(redirectEventHandle);
@@ -181,7 +181,7 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     ExtendedActivationKind kind = args.Kind();
     if (kind == ExtendedActivationKind::Launch)
     {
-        // This is a launch activation: here we'll register for file activation.
+        // This is a launch activation.
         ReportLaunchArgs(L"main", args);
     }
     else if (kind == ExtendedActivationKind::File)

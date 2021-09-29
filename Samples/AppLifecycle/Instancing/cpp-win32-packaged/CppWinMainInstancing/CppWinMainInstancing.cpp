@@ -17,6 +17,7 @@ using namespace winrt::Windows::Foundation::Collections;
 using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Windows::Storage;
+using namespace std::chrono_literals;
 
 // UNDONE: A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // Windows App SDK version.
@@ -346,7 +347,7 @@ bool DecideRedirection()
                 }
                 else
                 {
-                    keyInstance.RedirectActivationToAsync(args).get();
+                    keyInstance.RedirectActivationToAsync(args).wait_for(2s);
                     return true;
                 }
             }
