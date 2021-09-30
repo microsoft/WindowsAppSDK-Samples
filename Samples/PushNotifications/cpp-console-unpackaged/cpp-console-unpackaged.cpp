@@ -4,40 +4,45 @@
 #include <windows.h>
 #include <iostream>
 
-//#include <unknwn.h>
 #include <appmodel.h>
-#include <wil/result.h> // Do we really want to include WIL in a sample?
+#include <wil/result.h>
 #include <wil/cppwinrt.h>
-//#include <wil/resource.h>
 
-//#include <winrt/Windows.ApplicationModel.Activation.h>
+#include <winrt/Windows.ApplicationModel.Activation.h>
+#include <winrt/Windows.ApplicationModel.Background.h>
 #include <winrt/Windows.Foundation.h>
-//#include <winrt/Windows.Foundation.Collections.h>
-//#include <winrt/Windows.Storage.h>
-//#include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
 #include <winrt/Windows.Globalization.DateTimeFormatting.h>
 
-//#include "winrt\Windows.ApplicationModel.Resources.h"
-
 #include <MddBootstrap.h>
 
-//using namespace winrt;
-//using namespace winrt::Windows::ApplicationModel::Resources;
 
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
-//using namespace winrt::Windows::ApplicationModel::Activation;
-//using namespace winrt::Windows::ApplicationModel::Background; // BackgroundTask APIs
+using namespace winrt::Windows::ApplicationModel::Background; // BackgroundTask APIs
 using namespace winrt::Windows::Foundation;
-//using namespace winrt::Windows::Storage;
-//using namespace winrt::Windows::Storage::Streams;
 using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
 winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
+HRESULT LoadWindowsAppSDK()
+{
+    // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
+    const UINT32 majorMinorVersion{ 0x00040001 };
+    PCWSTR versionTag{ L"" };
+    const PACKAGE_VERSION minVersion{};
+    HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
+    if (FAILED(hr))
+    {
+        wprintf(L"Error 0x%08X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
+            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
+        return hr;
+    }
+
+    return S_OK;
+}
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
@@ -97,16 +102,22 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
 int main()
 {
     // Initialize dynamic dependencies so we can consume the Windows App SDK APIs in the Windows App SDK framework package from this unpackaged app. 
+    HRESULT loadWindowsAppSDKHr = LoadWindowsAppSDK();
+    if (FAILED(loadWindowsAppSDKHr))
+    {
+        std::wcout << "Could not load Windows App SDK!" << std::endl;
+        return 1;
+    }
 
-    // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
-    const UINT32 c_Version_MajorMinor{ 0x00040001 };
-    const PACKAGE_VERSION minVersion{};
-    RETURN_IF_FAILED(MddBootstrapInitialize(c_Version_MajorMinor, nullptr, minVersion));
+    // Uninitialize dynamic dependencies.
+    auto cleanup = wil::scope_exit([]
+    {
+        MddBootstrapShutdown();
+    });
 
     PushNotificationActivationInfo info(PushNotificationRegistrationActivators::ProtocolActivator);
     PushNotificationManager::RegisterActivator(info);
 
-   
     auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
     auto kind = args.Kind();
     switch (kind)
@@ -167,8 +178,8 @@ int main()
 
     default:
         // Unexpected activation type
-        std::cout << "Unexpected activation type";
-        std::cout << "Press 'Enter' to exit the App.";
+        std::cout << "Unexpected activation type" << std::endl;
+        std::cout << "Press 'Enter' to exit the App." << std::endl;
         std::cin.ignore();
         break;
     } //switch
