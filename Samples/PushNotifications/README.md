@@ -29,7 +29,7 @@ Before building the sample, make sure to set up your environment correctly by fo
 For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
 
 1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio 2019 Preview.
-2. Build the solution.
+2. Build the solution. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 3. Right click on the solution and click **Deploy Solution**
 4. Debug the project.
 
