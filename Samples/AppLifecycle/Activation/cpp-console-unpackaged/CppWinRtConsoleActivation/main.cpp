@@ -60,12 +60,13 @@ int main()
 {
     init_apartment();
 
-    // Initialize WASDK for unpackaged apps.
+    // Initialize Windows App SDK for unpackaged apps.
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
     if (FAILED(hr))
     {
         wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
+            hr, majorMinorVersion, versionTag, 
+            minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
         return hr;
     }
 
@@ -108,7 +109,7 @@ int main()
         }
     } while (int_choice != 4);
 
-    // Uninitialize WASDK.
+    // Uninitialize Windows App SDK.
     MddBootstrapShutdown();
     return 0;
 }

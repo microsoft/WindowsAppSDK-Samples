@@ -347,7 +347,7 @@ bool DecideRedirection()
                 }
                 else
                 {
-                    keyInstance.RedirectActivationToAsync(args).wait_for(2s);
+                    keyInstance.RedirectActivationToAsync(args).get();
                     return true;
                 }
             }

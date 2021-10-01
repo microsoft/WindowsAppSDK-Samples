@@ -75,7 +75,7 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // Initialize WASDK for unpackaged apps.
+    // Initialize Windows App SDK for unpackaged apps.
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
     if (FAILED(hr))
     {
@@ -106,7 +106,7 @@ int APIENTRY wWinMain(
         DispatchMessage(&msg);
     }
 
-    // Uninitialize WASDK.
+    // Uninitialize Windows App SDK.
     MddBootstrapShutdown();
     return (int)msg.wParam;
 }

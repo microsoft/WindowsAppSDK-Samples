@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 
@@ -24,14 +25,17 @@ namespace CsWinUiDesktopInstancing
         public static List<string> OutputStack { get; private set; }
 
         // Replaces the standard App.g.i.cs.
+        // We must declare Main to be async, as we want to await 
+        // another async function call.
         [STAThread]
-        static void Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
             WinRT.ComWrappersSupport.InitializeComWrappers();
 
             OutputStack = new();
 
-            bool isRedirect = DecideRedirection();
+            // Ensure we don't block the STA.
+            bool isRedirect = await DecideRedirection();
             if (!isRedirect)
             {
                 Microsoft.UI.Xaml.Application.Start((p) =>
@@ -42,6 +46,8 @@ namespace CsWinUiDesktopInstancing
                     new App();
                 });
             }
+
+            return 0;
         }
 
         private static void ReportInfo(string message)
@@ -59,7 +65,7 @@ namespace CsWinUiDesktopInstancing
             }
         }
 
-        private static bool DecideRedirection()
+        private static async Task<bool> DecideRedirection()
         {
             bool isRedirect = false;
 
@@ -100,9 +106,7 @@ namespace CsWinUiDesktopInstancing
                         else
                         {
                             isRedirect = true;
-
-                            // This doesn't block the STA because AsTask puts the work on another thread.
-                            keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
+                            await keyInstance.RedirectActivationToAsync(args);
                         }
                     }
                 }

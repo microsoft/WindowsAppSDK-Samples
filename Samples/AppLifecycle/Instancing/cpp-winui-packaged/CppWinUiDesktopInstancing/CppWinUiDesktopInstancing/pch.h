@@ -33,10 +33,7 @@
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
 
-// BUG
-// Cannot open include file: 'winrt/microsoft.ui.dispatching.co_await.h': No such file or directory
-//#include <winrt/microsoft.ui.dispatching.co_await.h>
-
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Windows.Storage.h>
 
+#include <wil/resource.h>

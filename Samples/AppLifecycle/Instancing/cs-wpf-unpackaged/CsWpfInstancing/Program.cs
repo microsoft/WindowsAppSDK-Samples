@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 
@@ -23,8 +25,9 @@ namespace CsWpfInstancing
         private static int activationCount = 1;
         public static List<string> OutputStack = new();
 
+        // NOTE We can't make Main async in a WPF app.
         [STAThread]
-        static void Main(string[] args)
+        public static int Main(string[] args)
         {
             executablePath = Process.GetCurrentProcess().MainModule.FileName;
             executablePathAndIconIndex = $"{executablePath},1";
@@ -33,9 +36,7 @@ namespace CsWpfInstancing
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
             if (result == 0)
             {
-                Task<bool> task = DetermineActivationKind();
-                task.Wait();
-                bool isRedirect = task.Result;
+                bool isRedirect = DecideRedirection();
                 if (!isRedirect)
                 {
                     App app = new()
@@ -48,18 +49,24 @@ namespace CsWpfInstancing
                 // Uninitialize Windows App SDK.
                 MddBootstrap.Shutdown();
             }
+            return 0;
         }
 
         private static void ReportInfo(string message)
         {
             // If we already have a form, display the message now.
             // Otherwise, add it to the collection for displaying later.
-            if (App.Current != null && App.Current.MainWindow != null)
+            if (Application.Current != null)
             {
-                if (App.Current.MainWindow is MainWindow mainWindow)
+                // Ensure we access the MainWindow on the correct thread,
+                // in case this function is called from a different thread.
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    mainWindow.OutputMessage(message);
-                }
+                    if (Application.Current.MainWindow is MainWindow mainWindow)
+                    {
+                        mainWindow.OutputMessage(message);
+                    }
+                }));
             }
             else
             {
@@ -67,7 +74,22 @@ namespace CsWpfInstancing
             }
         }
 
-        private static async Task<bool> DetermineActivationKind()
+        // P/Invokes for creating and waiting on an event: we use these to
+        // perform the async redirect call in a non-blocking way.
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr CreateEvent(
+            IntPtr lpEventAttributes, bool bManualReset, bool bInitialState, string lpName);
+
+        [DllImport("kernel32.dll")]
+        private static extern bool SetEvent(IntPtr hEvent);
+
+        [DllImport("ole32.dll")]
+        private static extern uint CoWaitForMultipleObjects(
+            uint dwFlags, uint dwMilliseconds, ulong nHandles, IntPtr[] pHandles, uint dwIndex);
+
+        private static IntPtr redirectEventHandle = IntPtr.Zero;
+
+        private static bool DecideRedirection()
         {
             bool isRedirect = false;
 
@@ -107,7 +129,22 @@ namespace CsWpfInstancing
                         else
                         {
                             isRedirect = true;
-                            await keyInstance.RedirectActivationToAsync(args);
+
+                            // Ensure we don't block the STA.
+                            redirectEventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+                            if (redirectEventHandle != IntPtr.Zero)
+                            {
+                                Task.Run(() =>
+                                {
+                                    keyInstance.RedirectActivationToAsync(args).GetResults();
+                                    SetEvent(redirectEventHandle);
+                                });
+                                uint CWMO_DEFAULT = 0;
+                                uint INFINITE = 0xFFFFFFFF;
+                                uint handleIndex = 0;
+                                CoWaitForMultipleObjects(
+                                    CWMO_DEFAULT, INFINITE, 1, new IntPtr[] { redirectEventHandle }, handleIndex);
+                            }
                         }
                     }
                 }

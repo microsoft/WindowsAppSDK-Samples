@@ -24,8 +24,10 @@ namespace CsWinFormsInstancing
         private static List<string> outputStack = new();
         private static int activationCount = 1;
 
+        // We must declare Main to be async, as we want to await 
+        // another async function call.
         [STAThread]
-        public static void Main()
+        public static async Task<int> Main(string[] args)
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
@@ -38,9 +40,8 @@ namespace CsWinFormsInstancing
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
             if (result == 0)
             {
-                Task<bool> task = DetermineActivationKind();
-                task.Wait();
-                bool isRedirect = task.Result;
+                // Ensure we don't block the STA.
+                bool isRedirect = await DecideRedirection();
                 if (!isRedirect)
                 {
                     mainForm = new MainForm(outputStack);
@@ -50,6 +51,7 @@ namespace CsWinFormsInstancing
                 // Uninitialize Windows App SDK.
                 MddBootstrap.Shutdown();
             }
+            return 0;
         }
 
         private static void ReportInfo(string message)
@@ -66,7 +68,7 @@ namespace CsWinFormsInstancing
             }
         }
 
-        private static async Task<bool> DetermineActivationKind()
+        private static async Task<bool> DecideRedirection()
         {
             bool isRedirect = false;
 

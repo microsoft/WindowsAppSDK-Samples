@@ -9,7 +9,7 @@
 #endif
 
 using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+using namespace winrt::Microsoft::UI::Xaml;
 
 namespace winrt::CppWinUiDesktopInstancing::implementation
 {

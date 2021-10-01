@@ -48,7 +48,7 @@ All the constraints for packaged apps also apply to WinUI apps (because they are
 #### GetActivatedEventArgs
 
 - Unpackaged apps: Fully usable.
-- Packaged apps: Usable, but these apps can also use the platform GetActivatedEventArgs. Note: the platform defines Windows.ApplicationModel.AppInstance whereas the Windows App SDK defines Microsoft.Windows.AppLifecycle.AppInstance, which are similar but different.
+- Packaged apps: Usable, but these apps can also use the platform GetActivatedEventArgs. Note: the platform defines Windows.ApplicationModel.AppInstance whereas the Windows App SDK defines Microsoft.Windows.AppLifecycle.AppInstance, which are similar but different. Note also that while UWP apps can use the *ActivatedEventArgs classes (eg, FileActivatedEventArgs, LaunchActivatedEventArgs, and so on), apps that use the Windows App SDK AppLifecycle feature must use the interfaces not the classes (eg, IFileActivatedEventArgs, ILaunchActivatedEventArgs, and so on).
 - WinUi apps: WinUI's App.OnLaunched is given a Microsoft.UI.Xaml.LaunchActivatedEventArgs, whereas the platform GetActivatedEventArgs returns a Windows.ApplicationModel.IActivatedEventArgs, and the WindowsAppSDK GetActivatedEventArgs returns a Microsoft.Windows.AppLifecycle.AppActivationArguments object which can represent a platform LaunchActivatedEventArgs.
 
 #### RegisterForXXXActivation

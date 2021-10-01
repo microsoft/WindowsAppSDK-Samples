@@ -7,17 +7,17 @@
 
 using namespace winrt;
 using namespace Windows::Foundation;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Controls;
-using namespace Microsoft::UI::Xaml::Navigation;
+using namespace winrt::Microsoft::UI::Xaml;
+using namespace winrt::Microsoft::UI::Xaml::Controls;
+using namespace winrt::Microsoft::UI::Xaml::Navigation;
 using namespace CppWinUiDesktopInstancing;
 using namespace CppWinUiDesktopInstancing::implementation;
-using namespace std::chrono;
 
 using namespace Windows::Foundation::Collections;
 using namespace Windows::ApplicationModel::Activation;
-using namespace Microsoft::Windows::AppLifecycle;
+using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace Windows::Storage;
+using namespace winrt::Microsoft::Windows;
 
 // Standard implementation ////////////////////////////////////////////////////
 
@@ -48,7 +48,6 @@ void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&
 
 // Helpers ////////////////////////////////////////////////////////////////////
 
-HANDLE redirectEventHandle;
 int activationCount = 1;
 event_token activationToken;
 Windows::Foundation::Collections::IVector<IInspectable> messages;
@@ -155,12 +154,18 @@ void OnActivated(const IInspectable&, const AppActivationArguments& args)
     }
 }
 
+// wil requires the Microsoft.Windows.ImplementationLibrary nuget.
+// https://github.com/Microsoft/wil
+
+wil::unique_event redirectEventHandle;
+
 winrt::fire_and_forget Redirect(AppInstance keyInstance, AppActivationArguments args)
 {
-    co_await winrt::resume_background();
-    keyInstance.RedirectActivationToAsync(args).get();
-    SetEvent(redirectEventHandle);
-    co_return;
+    // Using this type of event ensures that it gets signaled when it 
+    // goes out of scope, even if the RedirectActivationToAsync fails.
+    wil::event_set_scope_exit ensure_signaled = 
+        wil::SetEvent_scope_exit(redirectEventHandle.get());
+    co_await keyInstance.RedirectActivationToAsync(args);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -168,11 +173,11 @@ winrt::fire_and_forget Redirect(AppInstance keyInstance, AppActivationArguments 
 
 // WinMain ////////////////////////////////////////////////////////////////////
 
-// Replaces generated App.xaml.g.hpp
+// Replaces the WinMain generated in App.xaml.g.hpp, which is suppressed
+// by defining DISABLE_XAML_GENERATED_MAIN in the project properties.
 int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
     winrt::init_apartment(winrt::apartment_type::single_threaded);
-
     messages = winrt::single_threaded_observable_vector<IInspectable>();
     bool isRedirect = false;
 
@@ -215,18 +220,15 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
                 }
                 else
                 {
-                    isRedirect = true;
-
                     // We're in an STA so we must not block the thread by
                     // waiting on the async call. Instead, we'll move the call
                     // to a separate thread, and use an event to synchronize.
-                    redirectEventHandle = CreateEvent(NULL, TRUE, FALSE, L"RedirectEvent");
-                    if (redirectEventHandle != NULL)
-                    {
-                        Redirect(keyInstance, args);
-                        MsgWaitForMultipleObjects(
-                            1, &redirectEventHandle, FALSE, INFINITE, QS_ALLINPUT);
-                    }
+                    isRedirect = true;
+                    redirectEventHandle.create();
+                    Redirect(keyInstance, args);
+                    DWORD handleIndex = 0;
+                    HANDLE rawHandle = redirectEventHandle.get();
+                    CoWaitForMultipleObjects(CWMO_DEFAULT, INFINITE, 1, &rawHandle, &handleIndex);
                 }
             }
         }
