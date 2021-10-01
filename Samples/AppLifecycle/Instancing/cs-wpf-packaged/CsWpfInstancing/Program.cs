@@ -90,7 +90,7 @@ namespace CsWpfInstancing
 
         [DllImport("ole32.dll")]
         private static extern uint CoWaitForMultipleObjects(
-            uint dwFlags, uint dwMilliseconds, ulong nHandles, IntPtr[] pHandles, uint dwIndex);
+            uint dwFlags, uint dwMilliseconds, ulong nHandles, IntPtr[] pHandles, out uint dwIndex);
 
         private static IntPtr redirectEventHandle = IntPtr.Zero;
 
@@ -136,21 +136,20 @@ namespace CsWpfInstancing
                         {
                             isRedirect = true;
 
-                            // TODO Additional considerations for CreateEvent in a packaged app.
-                            // Ensure we don't block the STA.
+                            // Ensure we don't block the STA, by doing the redirect operation
+                            // in another thread, and using an event to signal when it has completed.
                             redirectEventHandle = CreateEvent(IntPtr.Zero, true, false, null);
                             if (redirectEventHandle != IntPtr.Zero)
                             {
                                 Task.Run(() =>
                                 {
-                                    keyInstance.RedirectActivationToAsync(args).GetResults();
+                                    keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
                                     SetEvent(redirectEventHandle);
                                 });
                                 uint CWMO_DEFAULT = 0;
                                 uint INFINITE = 0xFFFFFFFF;
-                                uint handleIndex = 0;
-                                CoWaitForMultipleObjects(
-                                    CWMO_DEFAULT, INFINITE, 1, new IntPtr[] { redirectEventHandle }, handleIndex);
+                                _ = CoWaitForMultipleObjects(
+                                    CWMO_DEFAULT, INFINITE, 1, new IntPtr[] { redirectEventHandle }, out uint handleIndex);
                             }
                         }
                     }

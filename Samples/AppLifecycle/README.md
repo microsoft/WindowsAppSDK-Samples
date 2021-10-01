@@ -39,7 +39,7 @@ Before building the sample, make sure to set up your environment correctly by fo
 
 Most of the AppLifecycle features are features that already exist in the UWP platform, and have been brought forward to the Windows App SDK so that all app types can use them - and in particular, unpackaged app types such as Console apps, Win32 apps, Windows Forms apps, and WPF apps. These features cannot be used in UWP apps - and there is no need for a UWP app to use the Windows App SDK implementations, since there are equivalent features in the UWP platform itself.
 
-Non-UWP apps can also be packaged into MSIX packages, with an MSIX app manifest - and these are known as Desktop Bridge apps. While these apps can use some of the Windows App SDK AppLifecycle features, they must use the manifest approach where this is available. For example, they cannot use the Windows App SDK RegisterForXXXActivation APIs and must instead register for rich activation via the manifest.
+Non-UWP apps can also be packaged into MSIX packages as Desktop Bridge apps. While these apps can use some of the Windows App SDK AppLifecycle features, they must use the manifest approach where this is available. For example, they cannot use the Windows App SDK RegisterForXXXActivation APIs and must instead register for rich activation via the manifest.
 
 All the constraints for packaged apps also apply to WinUI apps (because they are packaged apps) - and there are additional considerations specific to WinUI apps as described below.
 
@@ -66,11 +66,12 @@ All the constraints for packaged apps also apply to WinUI apps (because they are
 - Unpackaged apps: Fully usable.
 - Packaged apps: Fully usable.
 - WinUI apps: If an app wants to detect other instances and redirect an activation, it must do so as early as possible, and before initializing any windows, etc. To enable this, the app must define DISABLE_XAML_GENERATED_MAIN, and write a custom Main (C#) or WinMain (C++) where it can do the detection and redirection.
+- STAs and async operations: By default, certain apps specify that their Main/WinMain function runs in a Single-Threaded Apartment (STA). The RedirectActivationToAsync API is an async method, and the caller must wait for the method to complete  before exiting. This method should be called as early as possible in the life of the app before it performs any work - such as creating windows or any other initialization - that would be redundant if the app is redirecting its activation. However, waiting for completion in Main/WinMain is problematic because this would block the STA. This applies to Windows Forms, WPF and WinUI apps. For Windows Forms and C# WinUI, you can solve the problem by declaring Main/WinMain to be async, and then using the non-blocking await mechanism on the call to RedirectActivationToAsync. For WPF apps, you cannot declare Main to be async because this causes problems in creating windows. Similarly, C++ WinUI apps cannot use the async/await mechanisms which are only available in C#. For WPF and C++ WinUI apps, one option is to move the RedirectActivationToAsync call onto another thread, use an event to signal when it is completed, and use a non-blocking wait API such as CoWaitForMultipleObjects or MsgWaitForMultipleObjects to wait for this signal. See the sample code for examples of how to do this. NOTE: this added complexity for certain app types leads us to consider refining the API in a later release.
 
 ### Power/State notifications
 
-- Unpackaged apps: OK.
-- Packaged apps: OK.
+- Unpackaged apps: Fully usable.
+- Packaged apps: Fully usable.
 
 ## Related Links
 
