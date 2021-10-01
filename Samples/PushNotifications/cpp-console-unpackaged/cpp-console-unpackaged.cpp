@@ -27,6 +27,7 @@ using namespace winrt::Windows::Globalization::DateTimeFormatting;
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
 winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
+
 HRESULT LoadWindowsAppSDK()
 {
     // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
@@ -70,8 +71,15 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 
     if (result.Status() == PushNotificationChannelStatus::CompletedSuccess)
     {
+        auto channel = result.Channel();
+
+        DateTimeFormatter formater = DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}");
+
+        std::cout << "Channel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl << std::endl;
+        std::wcout << L"Channel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
+
         // Caller's responsibility to keep the channel alive
-        co_return result.Channel();
+        co_return channel;
     }
     else if (result.Status() == PushNotificationChannelStatus::CompletedFailure)
     {
@@ -99,9 +107,23 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
     return result;
 }
 
+// Register Push Event for Foreground
+void RegisterForegroundNotificationsHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
+{
+    winrt::event_token token = channel.PushReceived([](const auto&, PushNotificationReceivedEventArgs const& args)
+        {
+            auto payload = args.Payload();
+
+            // Do stuff to process the raw payload
+            std::string payloadString(payload.begin(), payload.end());
+            std::cout << "Push notification content received from FOREGROUND: " << payloadString << std::endl << std::endl;
+            args.Handled(true);
+        });
+}
+
 int main()
 {
-    // Initialize dynamic dependencies so we can consume the Windows App SDK APIs in the Windows App SDK framework package from this unpackaged app. 
+    // An unpackaged app must initialize dynamic dependencies so we can consume the Windows App SDK APIs.
     HRESULT loadWindowsAppSDKHr = LoadWindowsAppSDK();
     if (FAILED(loadWindowsAppSDKHr))
     {
@@ -109,14 +131,10 @@ int main()
         return 1;
     }
 
-    // Uninitialize dynamic dependencies.
-    auto cleanup = wil::scope_exit([]
-    {
-        MddBootstrapShutdown();
-    });
-
     PushNotificationActivationInfo info(PushNotificationRegistrationActivators::ProtocolActivator);
     PushNotificationManager::RegisterActivator(info);
+    // We do not call PushNotificationManager::RegisterActivator
+    //  - because the we wouldn't be able to receive background activations, once the app has closed.
 
     auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
     auto kind = args.Kind();
@@ -132,22 +150,11 @@ int main()
         // register the chaneel
         if (channel)
         {
-            auto channelUri = channel.Uri();
-            DateTimeFormatter formater = DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}");
-
-            std::cout << "Channel Uri: " << winrt::to_string(channelUri.ToString()) << std::endl << std::endl;
-            std::wcout << L"Channel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
-
-            // Register Push Event for Foreground
-            winrt::event_token token = channel.PushReceived([](const auto&, PushNotificationReceivedEventArgs const& args)
-                {
-                    auto payload = args.Payload();
-
-                    // Do stuff to process the raw payload
-                    std::string payloadString(payload.begin(), payload.end());
-                    std::cout << "Push notification content received from FOREGROUND: " << payloadString << std::endl << std::endl;
-                    args.Handled(true);
-                });
+            RegisterForegroundNotificationsHandler(channel);
+        }
+        else
+        {
+            std::cout << "error" << std::endl;
         }
 
         std::cout << "Press 'Enter' at any time to exit App." << std::endl;
@@ -184,20 +191,6 @@ int main()
         break;
     } //switch
 
-    // We do not call PushNotificationManager::RegisterActivator
-    //  - because the we wouldn't be able to receive background activations, once the app has closed.
-
     // Uninitialize dynamic dependencies.
     MddBootstrapShutdown();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
