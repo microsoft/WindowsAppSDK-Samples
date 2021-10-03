@@ -1,18 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// NOTES. This app is cloned from the unpackaged version. Redundant code is left in place as comments, so that you can more easily see the differences.
+// NOTES. This app is cloned from the unpackaged version. The key differences are as follows:
 // 1. A packaged app cannot use the Register/Unregister APIs for rich activation.
 // 2. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // 3. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
 // 4. A packaged app can declare rich activation extensions in the manifest, and retrieve activation arguments via the Windows App SDK GetActivatedEventArgs API.
-// 5. The app can use the UWP GetActivatedEventArgs API instead.
+// 5. A packaged app can use the UWP GetActivatedEventArgs API instead of the Windows App SDK version.
 // 6. MddBootstrap.cs is not needed.
 
-// NOTE: To avoid name conflicts, we'll alias the Windows App SDK namespace.
-//using Microsoft.Windows.AppLifecycle;
 using WindowsAppSdk = Microsoft.Windows.AppLifecycle;
-
 using System;
 using System.Linq;
 using System.Windows;
@@ -23,16 +20,10 @@ namespace CsWpfActivation
 {
     public partial class MainWindow : Window
     {
-        // UNDONE: A packaged app can't use the Register/Unregister APIs for rich activation.
-        //private string executablePath;
-        //private string executablePathAndIconIndex;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            //executablePath = Process.GetCurrentProcess().MainModule.FileName;
-            //executablePathAndIconIndex = $"{executablePath},1";
         }
 
         private void OutputMessage(string message)
@@ -52,80 +43,6 @@ namespace CsWpfActivation
         {
             GetActivationInfoUwp();
         }
-
-        //private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    OutputMessage("Registering for rich activation");
-
-        //    // Register one or more supported filetypes, 
-        //    // an icon (specified by binary file path plus resource index),
-        //    // a display name to use in Shell and Settings,
-        //    // zero or more verbs for the File Explorer context menu,
-        //    // and the path to the EXE to register for activation.
-        //    string[] myFileTypes = { ".foo", ".foo2", ".foo3" };
-        //    string[] verbs = { "view", "edit" };
-        //    ActivationRegistrationManager.RegisterForFileTypeActivation(
-        //        myFileTypes,
-        //        executablePathAndIconIndex,
-        //        "Contoso File Types",
-        //        verbs,
-        //        executablePath
-        //    );
-
-        //    // Register a URI scheme for protocol activation,
-        //    // specifying the scheme name, icon, display name and EXE path.
-        //    ActivationRegistrationManager.RegisterForProtocolActivation(
-        //        "foo",
-        //        executablePathAndIconIndex,
-        //        "Contoso Foo Protocol",
-        //        executablePath
-        //    );
-
-        //    // Register for startup activation.
-        //    ActivationRegistrationManager.RegisterForStartupActivation(
-        //        "ContosoStartupId",
-        //        executablePath
-        //    );
-        //}
-
-        //private void UnregisterButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    OutputMessage("Unregistering for rich activation");
-
-        //    // BUG Unregistering a filetype removes the 
-        //    // [HKEY_CURRENT_USER\Software\Classes\App.5761a1850f7033ad.File]
-        //    // entry, and the value under [HKEY_CURRENT_USER\Software\Classes\.foo\OpenWithProgids]
-        //    // but not the [HKEY_CURRENT_USER\Software\Classes\.foo] key.
-
-        //    // Unregister one or more registered filetypes.
-        //    try
-        //    {
-        //        string[] myFileTypes = { ".foo", ".foo2", ".foo3" };
-        //        ActivationRegistrationManager.UnregisterForFileTypeActivation(
-        //            myFileTypes,
-        //            executablePath
-        //        );
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        OutputMessage($"Error unregistering file types {ex.Message}");
-        //    }
-
-        //    // BUG Unregistering a protocol removes the 
-        //    // [HKEY_CURRENT_USER\Software\Classes\App.5761a1850f7033ad.Protocol]
-        //    // entry, but not the [HKEY_CURRENT_USER\Software\Classes\foo] key.
-
-        //    // Unregister a protocol scheme.
-        //    ActivationRegistrationManager.UnregisterForProtocolActivation(
-        //        "foo",
-        //        "");
-
-        //    // Unregister for startup activation.
-        //    ActivationRegistrationManager.UnregisterForStartupActivation(
-        //        "ContosoStartupId");
-        //}
-
-        // Use the Windows App SDK version of AppInstance::GetActivatedEventArgs.
 
         private void GetActivationInfoWas()
         {

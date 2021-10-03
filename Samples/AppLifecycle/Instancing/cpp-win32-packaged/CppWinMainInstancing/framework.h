@@ -21,6 +21,3 @@
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Windows.Storage.h>
-
-//#include <MddBootstrap.h>
-

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// NOTES. This app is cloned from the unpackaged version. Redundant code is left in place as comments, so that you can more easily see the differences.
+// NOTES. This app is cloned from the unpackaged version. The key differences are as follows:
 // 1. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // 2. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
 // 3. MddBootstrap.cs is not needed.

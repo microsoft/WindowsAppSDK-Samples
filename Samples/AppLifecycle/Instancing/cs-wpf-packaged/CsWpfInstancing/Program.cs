@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// NOTES. This app is cloned from the unpackaged version. Redundant code is left in place as comments, so that you can more easily see the differences.
+// NOTES. This app is cloned from the unpackaged version. The key differences are as follows:
 // 1. A packaged app cannot use the Register/Unregister APIs for rich activation.
 // 2. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // 3. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
 // 4. A packaged app can declare rich activation extensions in the manifest, and retrieve activation arguments via the Windows App SDK GetActivatedEventArgs API.
+// 5. MddBootstrap.cs is not needed.
 
 using Microsoft.Windows.AppLifecycle;
 using System;
@@ -21,40 +22,21 @@ namespace CsWpfInstancing
 {
     public class Program
     {
-        // UNDONE: A packaged app does not need to initialize the Windows App SDK for unpackaged support.
-        // Windows App SDK version.
-        //private static uint majorMinorVersion = 0x00010000;
-        //private static string versionTag = "preview1";
-
-        // UNDONE: A packaged app can't use the Register/Unregister APIs for rich activation.
-        //private static string executablePath;
-        //private static string executablePathAndIconIndex;
         private static int activationCount = 1;
         public static List<string> OutputStack = new();
 
         [STAThread]
         static void Main(string[] args)
         {
-            //executablePath = Process.GetCurrentProcess().MainModule.FileName;
-            //executablePathAndIconIndex = $"{executablePath},1";
-
-            // UNDONE: Initialize Windows App SDK for unpackaged apps.
-            //int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
-            //if (result == 0)
-            //{
-                bool isRedirect = DecideRedirection();
-                if (!isRedirect)
+            bool isRedirect = DecideRedirection();
+            if (!isRedirect)
+            {
+                App app = new()
                 {
-                    App app = new()
-                    {
-                        StartupUri = new Uri("MainWindow.xaml", UriKind.Relative)
-                    };
-                    app.Run();
-                }
-
-            //    // Uninitialize Windows App SDK.
-            //    MddBootstrap.Shutdown();
-            //}
+                    StartupUri = new Uri("MainWindow.xaml", UriKind.Relative)
+                };
+                app.Run();
+            }
         }
 
         private static void ReportInfo(string message)
@@ -105,7 +87,6 @@ namespace CsWpfInstancing
             if (kind == ExtendedActivationKind.Launch)
             {
                 ReportLaunchArgs("Main", args);
-                //RegisterForFileActivation();
             }
             else if (kind == ExtendedActivationKind.File)
             {
@@ -149,7 +130,8 @@ namespace CsWpfInstancing
                                 uint CWMO_DEFAULT = 0;
                                 uint INFINITE = 0xFFFFFFFF;
                                 _ = CoWaitForMultipleObjects(
-                                    CWMO_DEFAULT, INFINITE, 1, new IntPtr[] { redirectEventHandle }, out uint handleIndex);
+                                    CWMO_DEFAULT, INFINITE, 1, 
+                                    new IntPtr[] { redirectEventHandle }, out uint handleIndex);
                             }
                         }
                     }
@@ -239,41 +221,6 @@ namespace CsWpfInstancing
                 }
             }
         }
-
-        //public static void RegisterForFileActivation()
-        //{
-        //    // Register one or more supported filetypes, 
-        //    // an icon (specified by binary file path plus resource index),
-        //    // a display name to use in Shell and Settings,
-        //    // zero or more verbs for the File Explorer context menu,
-        //    // and the path to the EXE to register for activation.
-        //    string[] myFileTypes = { ".moo" };
-        //    string[] verbs = { "view", "edit" };
-        //    ActivationRegistrationManager.RegisterForFileTypeActivation(
-        //        myFileTypes,
-        //        executablePathAndIconIndex,
-        //        "Contoso File Types",
-        //        verbs,
-        //        executablePath
-        //    );
-        //}
-
-        //public static void UnregisterForFileActivation()
-        //{
-        //    // Unregister one or more registered filetypes.
-        //    try
-        //    {
-        //        string[] myFileTypes = { ".moo" };
-        //        ActivationRegistrationManager.UnregisterForFileTypeActivation(
-        //            myFileTypes,
-        //            executablePath
-        //        );
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ReportInfo($"Error unregistering file types {ex.Message}");
-        //    }
-        //}
 
     }
 }

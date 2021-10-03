@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// NOTES. This app is cloned from the unpackaged version. Redundant code is left in place as comments, so that you can more easily see the differences.
+// NOTES. This app is cloned from the unpackaged version. The key differences are as follows:
 // 1. A packaged app cannot use the Register/Unregister APIs for rich activation.
 // 2. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // 3. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
 // 4. A packaged app can declare rich activation extensions in the manifest, and retrieve activation arguments via the Windows App SDK GetActivatedEventArgs API.
-// 5. The app can use the UWP GetActivatedEventArgs API instead.
+// 5. A packaged app can use the UWP GetActivatedEventArgs API instead of the Windows App SDK version.
 
 #include "framework.h"
 #include "CppWinMainActivation.h"
@@ -15,16 +15,7 @@ using namespace winrt;
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Foundation::Collections;
 using namespace winrt::Windows::ApplicationModel::Activation;
-
-// UNDONE: To avoid name conflicts, we'll alias the Windows App SDK namespace in a local scope below.
-//using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Windows::Storage;
-
-// UNDONE: A packaged app does not need to initialize the Windows App SDK for unpackaged support.
-// Windows App SDK version.
-//const UINT32 majorMinorVersion{ 0x00010000 };
-//PCWSTR versionTag{ L"preview1" };
-//const PACKAGE_VERSION minVersion{};
 
 #define MAX_LOADSTRING 100
 WCHAR szTitle[MAX_LOADSTRING];
@@ -32,18 +23,11 @@ WCHAR szWindowClass[MAX_LOADSTRING];
 ATOM RegisterWindowClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-
-// UNDONE: A packaged app can't use the Register/Unregister APIs for rich activation.
-//WCHAR szExePath[MAX_PATH];
-//WCHAR szExePathAndIconIndex[MAX_PATH + 8];
 HWND g_hWndListbox;
 HINSTANCE g_hInst;
 HWND g_hWnd;
 
 HWND CreateListbox();
-
-//void RegisterForActivation();
-//void UnregisterForActivation();
 void GetActivationInfoWas();
 void GetActivationInfoUwp();
 
@@ -88,22 +72,6 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // UNDONE: Initialize Windows App SDK for unpackaged apps.
-    //HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    //if (FAILED(hr))
-    //{
-    //    wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-    //        hr, majorMinorVersion, versionTag, 
-    //        minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-    //    return hr;
-    //}
-
-    // Get the current executable filesystem path, so we can
-    // use it later in registering for activation kinds.
-    //GetModuleFileName(NULL, szExePath, MAX_PATH);
-    //wcscpy_s(szExePathAndIconIndex, szExePath);
-    //wcscat_s(szExePathAndIconIndex, L",1");
-
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_CLASSNAME, szWindowClass, MAX_LOADSTRING);
     RegisterWindowClass(hInstance);
@@ -119,8 +87,6 @@ int APIENTRY wWinMain(
         DispatchMessage(&msg);
     }
 
-    // Uninitialize Windows App SDK.
-    //MddBootstrapShutdown();
     return (int)msg.wParam;
 }
 
@@ -194,12 +160,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_GETARGSUWP:
                 GetActivationInfoUwp();
                 break;
-                //case IDM_REGISTER:
-            //    RegisterForActivation();
-            //    break;
-            //case IDM_UNREGISTER:
-            //    UnregisterForActivation();
-            //    break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
@@ -216,82 +176,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-
-// Rich activation ////////////////////////////////////////////////////////////
-
-//void RegisterForActivation()
-//{
-//    OutputMessage(L"Registering for rich activation");
-//
-//    // Register one or more supported filetypes, specifying 
-//    // an icon (specified by binary file path plus resource index),
-//    // a display name to use in Shell and Settings,
-//    // zero or more verbs for the File Explorer context menu,
-//    // and the path to the EXE to register for activation.
-//    hstring myFileTypes[3] = { L".foo", L".foo2", L".foo3" };
-//    hstring verbs[2] = { L"view", L"edit" };
-//    ActivationRegistrationManager::RegisterForFileTypeActivation(
-//        myFileTypes,
-//        szExePathAndIconIndex,
-//        L"Contoso File Types",
-//        verbs,
-//        szExePath
-//    );
-//
-//    // Register a URI scheme for protocol activation,
-//    // specifying the scheme name, icon, display name and EXE path.
-//    ActivationRegistrationManager::RegisterForProtocolActivation(
-//        L"foo",
-//        szExePathAndIconIndex,
-//        L"Contoso Foo Protocol",
-//        szExePath
-//    );
-//
-//    // Register for startup activation.
-//    // As we're registering for startup activation multiple times,
-//    // and this is a multi-instance app, we'll get multiple instances
-//    // activated at startup.
-//    ActivationRegistrationManager::RegisterForStartupActivation(
-//        L"ContosoStartupId",
-//        szExePath
-//    );
-//
-//    // If we don't specify the EXE, it will default to this EXE.
-//    ActivationRegistrationManager::RegisterForStartupActivation(
-//        L"ContosoStartupId2",
-//        L""
-//    );
-//}
-//
-//void UnregisterForActivation()
-//{
-//    OutputMessage(L"Unregistering for rich activation");
-//    
-//    // Unregister one or more registered filetypes.
-//    try
-//    {
-//        hstring myFileTypes[3] = { L".foo", L".foo2", L".foo3" };
-//        ActivationRegistrationManager::UnregisterForFileTypeActivation(
-//            myFileTypes,
-//            szExePath
-//        );
-//    }
-//    catch (...)
-//    {
-//        OutputMessage(L"Error unregistering file types");
-//    }
-//
-//    // Unregister a protocol scheme.
-//    ActivationRegistrationManager::UnregisterForProtocolActivation(
-//        L"foo",
-//        L"");
-//
-//    // Unregister for startup activation.
-//    ActivationRegistrationManager::UnregisterForStartupActivation(
-//        L"ContosoStartupId");
-//    ActivationRegistrationManager::UnregisterForStartupActivation(
-//        L"ContosoStartupId2");
-//}
 
 // Use the Windows App SDK version of AppInstance::GetActivatedEventArgs.
 void GetActivationInfoWas()

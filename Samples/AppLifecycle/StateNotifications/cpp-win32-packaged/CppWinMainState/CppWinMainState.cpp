@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// NOTES. This app is cloned from the unpackaged version. Redundant code is left in place as comments, so that you can more easily see the differences.
+// NOTES. This app is cloned from the unpackaged version. The key differences are as follows:
 // 1. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // 2. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
 
@@ -18,18 +18,12 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
-using namespace std;
 
+using namespace std;
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::System::Diagnostics;
 using namespace winrt::Windows::System;
 using namespace winrt::Microsoft::Windows::System::Power;
-
-// UNDONE: A packaged app does not need to initialize the Windows App SDK for unpackaged support.
-// Windows App SDK version.
-//const UINT32 majorMinorVersion{ 0x00010000 };
-//PCWSTR versionTag{ L"preview1" };
-//const PACKAGE_VERSION minVersion{};
 
 #define MAX_LOADSTRING 256
 WCHAR szTitle[MAX_LOADSTRING];
@@ -37,7 +31,6 @@ WCHAR szWindowClass[MAX_LOADSTRING];
 HINSTANCE g_hInst; 
 HWND g_hWnd;
 HWND g_hWndListbox;
-
 BOOL bWorkInProgress;
 winrt::event_token batteryToken;
 winrt::event_token powerToken;
@@ -103,16 +96,6 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // UNDONE: Initialize Windows App SDK for unpackaged apps.
-    //HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    //if (FAILED(hr))
-    //{
-    //    wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-    //        hr, majorMinorVersion, versionTag, minVersion.Major, 
-    //        minVersion.Minor, minVersion.Build, minVersion.Revision);
-    //    return hr;
-    //}
-
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_CLASSNAME, szWindowClass, MAX_LOADSTRING);
     RegisterWindowClass(hInstance);
@@ -128,8 +111,6 @@ int APIENTRY wWinMain(
         DispatchMessage(&msg);
     }
 
-    // UNDONE: Uninitialize Windows App SDK.
-    // MddBootstrapShutdown();
     return (int) msg.wParam;
 }
 

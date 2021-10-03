@@ -5,8 +5,6 @@
 #define IDR_MAINFRAME    128
 #define IDM_GETARGSWAS   103
 #define IDM_GETARGSUWP   104
-//#define IDM_REGISTER     104
-//#define IDM_UNREGISTER   105
 #define IDI_MAINICON     107
 #define IDI_SMALL        108
 #define IDC_CLASSNAME    109

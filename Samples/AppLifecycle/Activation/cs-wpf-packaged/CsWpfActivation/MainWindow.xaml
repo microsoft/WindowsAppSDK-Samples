@@ -15,12 +15,6 @@
                 <Button 
                     x:Name="ActivationInfoUwpButton" Click="ActivationInfoUwpButton_Click" 
                     ToolTip="Get activation info UWP" Content="ActivationInfo UWP"/>
-                <!--<Button 
-                    x:Name="RegisterButton" Click="RegisterButton_Click" 
-                    ToolTip="Register for rich activation" Content="Register"/>
-                <Button 
-                    x:Name="UnregisterButton" Click="UnregisterButton_Click" 
-                    ToolTip="Unregister for rich activation" Content="Unregister"/>-->
             </ToolBar>
         </ToolBarTray>
 

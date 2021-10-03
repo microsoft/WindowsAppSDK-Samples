@@ -12,12 +12,6 @@
                 <Button 
                     x:Name="ActivationInfoButton" Click="ActivationInfoButton_Click" 
                     ToolTip="Get activation info" Content="ActivationInfo"/>
-                <!--<Button 
-                    x:Name="RegisterButton" Click="RegisterButton_Click" 
-                    ToolTip="Register for rich activation" Content="Register"/>
-                <Button 
-                    x:Name="UnregisterButton" Click="UnregisterButton_Click" 
-                    ToolTip="Unregister for file activation" Content="Unregister"/>-->
             </ToolBar>
         </ToolBarTray>
 
