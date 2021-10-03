@@ -83,7 +83,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
     }
     else if (result.Status() == PushNotificationChannelStatus::CompletedFailure)
     {
-        LOG_HR_MSG(result.ExtendedError(), "We hit a critical non-retryable error with channel request!");
+        std::cout << result.ExtendedError() << "We hit a critical non-retryable error with channel request!" << std::endl;
         co_return nullptr;
     }
     else
@@ -154,6 +154,7 @@ int main()
         }
         else
         {
+            // troubleshooting, you would get this error when passing 0 as the guid.
             std::cout << "error" << std::endl;
         }
 
