@@ -38,7 +38,7 @@ using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-//winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
+winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with own remoteId
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
@@ -51,7 +51,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
             if (args.status == PushNotificationChannelStatus::InProgress)
             {
                 // This is basically a noop since it isn't really an error state
-                std::cout << "Channel request is in progress." << std::endl << std::endl;
+                std::cout << "Channel request is in progress." << std::endl;
             }
             else if (args.status == PushNotificationChannelStatus::InProgressRetry)
             {
@@ -70,7 +70,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 
         DateTimeFormatter formater = DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}");
 
-        std::cout << "Channel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl << std::endl;
+        std::cout << "Channel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
         std::wcout << L"Channel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
 
         // Caller's responsibility to keep the channel alive
@@ -105,13 +105,15 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
 // Register Push Event for Foreground
 void RegisterForegroundNotificationsHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
 {
-    winrt::event_token token = channel.PushReceived([](const auto&, PushNotificationReceivedEventArgs const& args)
+    winrt::event_token token = channel.PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
         {
             auto payload = args.Payload();
 
             // Do stuff to process the raw payload
             std::string payloadString(payload.begin(), payload.end());
-            std::cout << "Push notification content received from FOREGROUND: " << payloadString << std::endl << std::endl;
+            std::cout << "Push notification content received from FOREGROUND: " << payloadString << std::endl;
+
+            // Set handled to true to prevent background activation
             args.Handled(true);
         });
 }
@@ -135,17 +137,18 @@ int main()
     case ExtendedActivationKind::Launch:
     {
 
-        // request a channel
+        // Request a channel which can be passed off to an external app to send notifications to.
+        // The channel uniquely identifies, this app for this user and device.
         PushNotificationChannel channel = RequestChannel();
 
-        // register the chaneel
+        // register the channel, so we can receive notifications in the foreground while the app is running.
         if (channel)
         {
             RegisterForegroundNotificationsHandler(channel);
         }
         else
         {
-            // troubleshooting, you would get this error when passing 0 as the guid.
+            // troubleshooting: you would get this error when passing 0 as the guid in req.
             std::cout << "error" << std::endl;
         }
 
