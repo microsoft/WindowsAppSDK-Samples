@@ -20,9 +20,8 @@ When it is activated from a push notification, the sample displays the notificat
 * It doesn’t register for foreground activation of perform any other actions.
   * Because background activation is meant to let app perform only small tasks in order to preserve battery life.
 ## Requirements
-The sample requires a web API tool like Postman or fiddler to send notifications.
-* The WindowsAppSDK push notifications APIs defines all that is needed to register for and receive notifications but it's the role of an external app to send the notifications.
-This ... (postman, fiddler) is used to eimulate that external server and sends notifications.
+* A web API tool (like Postman or fiddler) to send notifications.
+   * The WindowsAppSDK push notifications APIs provides everything an app needs register for and receive notifications but it's expected that an external server app will be sending the notifications. The web API tool is used to emulate that external server app to send notifications.
 * Windows 10
 ## Building and running the sample 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
