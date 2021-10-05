@@ -1,0 +1,8 @@
+﻿namespace $rootnamespace$
+{
+    [default_interface]
+    runtimeclass $safeitemname$ : Microsoft.UI.Xaml.Controls.Page
+    {
+        $safeitemname$();
+    }
+}
