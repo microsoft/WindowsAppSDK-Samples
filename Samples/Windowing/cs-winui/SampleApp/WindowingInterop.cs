@@ -8,12 +8,12 @@ namespace SampleApp
 {
     internal class Interop
     {
-        [DllImport("Microsoft.UI.Windowing.Core.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowHandleFromWindowId(WindowId windowId, out IntPtr result);
+        [DllImport("Microsoft.Internal.FrameworkUdk.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr Windowing_GetWindowHandleFromWindowId(WindowId windowId, out IntPtr result);
 
 
-        [DllImport("Microsoft.UI.Windowing.Core.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowIdFromWindowHandle(IntPtr hwnd, out WindowId result);
+        [DllImport("Microsoft.Internal.FrameworkUdk.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr Windowing_GetWindowIdFromWindowHandle(IntPtr hwnd, out WindowId result);
     }
 
     public static class AppWindowExtensions
@@ -29,7 +29,7 @@ namespace SampleApp
         {
             WindowId windowId;
 
-            Interop.GetWindowIdFromWindowHandle(windowHandle, out windowId);
+            Interop.Windowing_GetWindowIdFromWindowHandle(windowHandle, out windowId);
 
             return AppWindow.GetFromWindowId(windowId);
         }
