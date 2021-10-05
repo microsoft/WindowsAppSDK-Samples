@@ -39,15 +39,15 @@ The roadmap for Windows App SDK Samples outlines the plans for what samples will
 * WPF
     * C#
 
-# Push Notifications (Schedule Inline)
+# Push Notifications (1.1 Experimental)
 * Console
     * C++
         * Packaged
-            * Framework Packaged (**1.0 GA**)
+            * Framework Packaged
         * Unpackaged
-            * Framework Packaged (**1.0 GA**)
+            * Framework Packaged 
 * Azure Function            
-    * C# (**1.0 GA**)
+    * C# 
    
 
 

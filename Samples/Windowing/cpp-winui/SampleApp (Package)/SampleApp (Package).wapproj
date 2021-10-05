@@ -40,9 +40,9 @@
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\SampleApp\SampleApp.vcxproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>11E64BF3D5B97DD1BC360CA30BF6BD90A8DD8EA8</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>F228DAF78E2825B41AF844B517FAC4B6928B66B3</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>SampleApp %28Package%29_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemGroup>

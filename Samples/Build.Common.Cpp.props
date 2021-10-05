@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT License. See LICENSE in the project root for license information. -->
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Automatic PlatformToolset version selection. -->
+  <!-- If there is no DefaultPlatformToolset set, we will try to detect the version based on version of the VS / MSBuild tools. -->
+  <PropertyGroup>
+    <BuildToolVersion>$(VisualStudioVersion)</BuildToolVersion>
+    <!-- Only use the MSBuildToolsVersion if we don't have the VisualStudioVersion and MSBuildToolsVersion is set to something other than Current. -->
+    <BuildToolVersion Condition="'$(BuildToolVersion)'=='' and '$(MSBuildToolsVersion)' != 'Current'">$(MSBuildToolsVersion)</BuildToolVersion>
+    <!-- Note:
+      v142 is the Visual Studio 2019 toolset. (16.0)
+      v143 is the Visual Studio 2022 toolset. (17.0)
+    -->
+    <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='16'">v142</AutoDetectedPlatformToolset>
+    <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='17'">v143</AutoDetectedPlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="EmptyDefaultPlatformToolset">
+    <DefaultPlatformToolset Condition=" '$(DefaultPlatformToolset)' == '' ">$(AutoDetectedPlatformToolset)</DefaultPlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="PlatformToolset">
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
+  </PropertyGroup>
+</Project>
