@@ -17,20 +17,21 @@ The following are prequisites to using the sample templates:
 1. Download the Windows App SDK Sample VSIX. The VSIX will install the following templates:
 
     - Project Templates: Windows App SDK Sample C# WinUI, Windows App SDK Sample C++ WinUI
-    - Item Templates:
+    - Item Templates: Sample C# WinUI Scenario Page, Sample C++ WinUI Scenario Page
 
 2. Create a new project in Visual Studio 2022. In the New Project dialog, search for either *Windows App SDK C# Sample* or *Windows App SDK C++ Sample*.
 
     ![Create New Project](./readme-images/create-newproject.png)
 
-    a. Replace the Project name with your feature name, for example *Windowing*. Check the box for "Place solution and project in same directory".
+3. Replace the Project name with your feature name, for example *Windowing*. Check the box for "Place solution and project in same directory".
+
     ![Name Project](./readme-images/name-project.png)
 
-3. To add a new Scenario Page, right-click on the project and select *Add* -> *New Item*. Select *WinUI* and *Sample C#/C++ WinUI Scenario Page*. Name the file with your Scenario name.
+4. To add a new Scenario Page, right-click on the project and select *Add* -> *New Item*. Select *WinUI* and *Sample C#/C++ WinUI Scenario Page*. Name the file with your Scenario name.
 
-    ![Name Project](./readme-images/add-scenario.png)
+    ![Add Scenario Page](./readme-images/add-scenario.png)
 
-    To add the new page to your sample's navigation view, add the page to the scenario List in *SampleConfiguration.cs* or *SampleConfiguration.cpp*
+    To add the new page to your sample's navigation view, add the page to the scenario List in *SampleConfiguration.cs* or *SampleConfiguration.cpp*.
 
 ## Tips and Best Practices
 
