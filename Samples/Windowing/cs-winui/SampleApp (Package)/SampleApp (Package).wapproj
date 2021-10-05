@@ -40,9 +40,9 @@
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\SampleApp\SampleApp.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>52902158A7BB4EF57D9DB04AF265DB38A11F1661</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>697B0A4425F6E61C280403E9B3F468E3E3C905A5</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>SampleApp %28Package%29_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemGroup>
