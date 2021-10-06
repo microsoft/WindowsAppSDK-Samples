@@ -4,36 +4,23 @@
 #include <windows.h>
 #include <iostream>
 
-//#include <unknwn.h>
 #include <appmodel.h>
 #include <wil/result.h>
 #include <wil/cppwinrt.h>
-//#include <wil/resource.h>
 
 #include <winrt/Windows.ApplicationModel.Activation.h>
 #include <winrt/Windows.ApplicationModel.Background.h>
 #include <winrt/Windows.Foundation.h>
-//#include <winrt/Windows.Foundation.Collections.h>
-//#include <winrt/Windows.Storage.h>
-//#include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
 #include <winrt/Windows.Globalization.DateTimeFormatting.h>
 
 #include "winrt\Windows.Foundation.h"
-//#include "winrt\Windows.Foundation.Collections.h"
-//#include "winrt\Windows.ApplicationModel.Resources.h"
-
-//using namespace winrt;
-//using namespace winrt::Windows::ApplicationModel::Resources;
 
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
-using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Windows::ApplicationModel::Background; // BackgroundTask APIs
 using namespace winrt::Windows::Foundation;
-//using namespace winrt::Windows::Storage;
-//using namespace winrt::Windows::Storage::Streams;
 using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
@@ -73,7 +60,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
         std::cout << "Channel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
         std::wcout << L"Channel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
 
-        // Caller's responsibility to keep the channel alive
+        // It's the caller's responsibility to keep the channel alive
         co_return channel;
     }
     else if (result.Status() == PushNotificationChannelStatus::CompletedFailure)
@@ -102,8 +89,8 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
     return result;
 }
 
-// Register Push Event for Foreground
-void RegisterForegroundNotificationsHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
+// Subscribe to an event which will get signaled whenever a foreground notification arrives.
+void SubcribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
 {
     winrt::event_token token = channel.PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
         {
@@ -133,63 +120,62 @@ int main()
     auto kind = args.Kind();
     switch (kind)
     {
-
-    // When it is launched normally (by the users, or from the debugger), the sample requests a Channel Uri and displays it, then waits for notifications.
-    // This user can take a copy of the Channel Uri and use it to send notifications to the sample
-    case ExtendedActivationKind::Launch:
-    {
-
-        // Request a channel which can be passed off to an external app to send notifications to.
-        // The channel uniquely identifies, this app for this user and device.
-        PushNotificationChannel channel = RequestChannel();
-
-        // register the channel, so we can receive notifications in the foreground while the app is running.
-        if (channel)
+        // When it is launched normally (by the users, or from the debugger), the sample requests a Channel Uri and
+        // displays it, then waits for notifications. This user can take a copy of the Channel Uri and use it to send
+        // notifications to the sample
+        case ExtendedActivationKind::Launch:
         {
-            RegisterForegroundNotificationsHandler(channel);
+            // Request a channel which can be passed off to an external app to send notifications to.
+            // The channel uniquely identifies, this app for this user and device.
+            PushNotificationChannel channel = RequestChannel();
+
+            // Setup an event handler, so we can receive notifications in the foreground while the app is running.
+            if (channel)
+            {
+                SubcribeForegroundEventHandler(channel);
+            }
+            else
+            {
+                // troubleshooting: Did you replace the zero'ed out remote id (near the top of the sample) with your own?
+                std::cout << "There was an error obtaining the Channel Uri" << std::endl;
+            }
+
+            std::cout << "Press 'Enter' at any time to exit App." << std::endl;
+            std::cin.ignore();
         }
-        else
-        {
-            // troubleshooting: Did you replace the zero'ed out remote id (near the top of the sample) with your own?
-            std::cout << "There was an error obtaining the Channel Uri" << std::endl;
-        }
-
-        std::cout << "Press 'Enter' at any time to exit App." << std::endl;
-        std::cin.ignore();
-    }
-    break;
-
-    // When it is activated from a push notification, the sample only displays the notification.
-    // It doesn’t register for foreground activation of perform any other actions
-    // because background activation is meant to let app perform only small tasks in order to preserve battery life.
-    case ExtendedActivationKind::Push:
-    {
-        PushNotificationReceivedEventArgs pushArgs = args.Data().as<PushNotificationReceivedEventArgs>();
-
-        // Call GetDeferral to ensure that code runs in low power
-        auto deferral = pushArgs.GetDeferral();
-
-        auto payload = pushArgs.Payload();
-
-        // Do stuff to process the raw payload
-        std::string payloadString(payload.begin(), payload.end());
-        std::cout << "Push notification content received from BACKGROUND: " << payloadString.c_str() << std::endl;
-        std::cout << "Press 'Enter' to exit the App." << std::endl;
-
-        // Call Complete on the deferral when finished processing the payload.
-        // This removes the override that kept the app running even when the system was in a low power mode.
-        deferral.Complete();
-        std::cin.ignore();
-    }
-    break;
-
-    default:
-        // Unexpected activation type
-        std::cout << "Unexpected activation type" << std::endl;
-        std::cout << "Press 'Enter' to exit the App." << std::endl;
-        std::cin.ignore();
         break;
-    } //switch
+
+        // When it is activated from a push notification, the sample only displays the notification.
+        // It doesn’t register for foreground activation of perform any other actions
+        // because background activation is meant to let app perform only small tasks in order to preserve battery life.
+        case ExtendedActivationKind::Push:
+        {
+            PushNotificationReceivedEventArgs pushArgs = args.Data().as<PushNotificationReceivedEventArgs>();
+
+            // Call GetDeferral to ensure that code runs in low power
+            auto deferral = pushArgs.GetDeferral();
+
+            auto payload = pushArgs.Payload();
+
+            // Do stuff to process the raw notification payload
+            std::string payloadString(payload.begin(), payload.end());
+            std::cout << "Push notification content received from BACKGROUND: " << payloadString.c_str() << std::endl;
+            std::cout << "Press 'Enter' to exit the App." << std::endl;
+
+            // Call Complete on the deferral when finished processing the payload.
+            // This removes the override that kept the app running even when the system was in a low power mode.
+            deferral.Complete();
+            std::cin.ignore();
+        }
+        break;
+
+        default:
+            // Unexpected activation type
+            std::cout << "Unexpected activation type" << std::endl;
+            std::cout << "Press 'Enter' to exit the App." << std::endl;
+            std::cin.ignore();
+            break;
+    }
 
    if (PushNotificationManager::IsActivatorSupported(PushNotificationRegistrationActivators::ComActivator))
     {
