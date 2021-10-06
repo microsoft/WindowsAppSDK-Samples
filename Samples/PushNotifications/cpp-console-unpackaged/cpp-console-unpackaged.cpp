@@ -36,7 +36,7 @@ HRESULT LoadWindowsAppSDK()
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
     if (FAILED(hr))
     {
-        wprintf(L"Error 0x%08X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
+        wprintf(L"\nError 0x%08X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
             hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
         return hr;
     }
@@ -55,7 +55,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
             if (args.status == PushNotificationChannelStatus::InProgress)
             {
                 // This is basically a noop since it isn't really an error state
-                std::cout << "Channel request is in progress." << std::endl;
+                std::cout << std::endl << "Channel request is in progress." << std::endl;
             }
             else if (args.status == PushNotificationChannelStatus::InProgressRetry)
             {
@@ -74,15 +74,15 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 
         DateTimeFormatter formater = DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}");
 
-        std::cout << "Channel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
-        std::wcout << L"Channel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
+        std::cout << std::endl << "Channel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
+        std::wcout << std::endl << L"Channel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
 
         // It's the caller's responsibility to keep the channel alive
         co_return channel;
     }
     else if (result.Status() == PushNotificationChannelStatus::CompletedFailure)
     {
-        std::cout << result.ExtendedError() << "We hit a critical non-retryable error with channel request!" << std::endl;
+        LOG_HR_MSG(result.ExtendedError(), "We hit a critical non-retryable error with channel request!");
         co_return nullptr;
     }
     else
@@ -107,7 +107,7 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
 }
 
 // Subscribe to an event which will get signaled whenever a foreground notification arrives.
-void SubcribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
+void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
 {
     winrt::event_token token = channel.PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
         {
@@ -115,9 +115,9 @@ void SubcribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotific
 
             // Do stuff to process the raw payload
             std::string payloadString(payload.begin(), payload.end());
-            std::cout << "Push notification content received from FOREGROUND: " << payloadString << std::endl;
+            std::cout << std::endl << "Push notification content received from FOREGROUND: " << payloadString << std::endl;
 
-            // Set handled to true to prevent background activation
+            // Set handled to true to prevent the same notification to pop up through background activation
             args.Handled(true);
         });
 }
@@ -125,10 +125,13 @@ void SubcribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotific
 int main()
 {
     // An unpackaged app must initialize dynamic dependencies so we can consume the Windows App SDK APIs.
-    HRESULT loadWindowsAppSDKHr = LoadWindowsAppSDK();
-    if (FAILED(loadWindowsAppSDKHr))
+    // See https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/tutorial-unpackaged-deployment?tabs=cpp,
+    // for details about using the WindowsAppSDK from an unpackaged app.
+    if (FAILED(LoadWindowsAppSDK()))
     {
-        std::wcout << "Could not load Windows App SDK!" << std::endl;
+        std::wcout << std::endl << "Could not load Windows App SDK!" << std::endl;
+        std::cin.ignore();
+
         return 1;
     }
 
@@ -136,6 +139,7 @@ int main()
     PushNotificationManager::RegisterActivator(info);
     // We do not call PushNotificationManager::UnregisterActivator
     // because then we wouldn't be able to receive background activations, once the app has closed.
+    // Call UnregisterActivator once you don't want to receive push notifications anymore.
 
     auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
     auto kind = args.Kind();
@@ -153,15 +157,15 @@ int main()
             // Setup an event handler, so we can receive notifications in the foreground while the app is running.
             if (channel)
             {
-                SubcribeForegroundEventHandler(channel);
+                SubscribeForegroundEventHandler(channel);
             }
             else
             {
                 // troubleshooting: Did you replace the zero'ed out remote id (near the top of the sample) with your own?
-                std::cout << "There was an error obtaining the Channel Uri" << std::endl;
+                std::cout << std::endl << "There was an error obtaining the Channel Uri" << std::endl;
             }
 
-            std::cout << "Press 'Enter' at any time to exit App." << std::endl;
+            std::cout << std::endl << "Press 'Enter' at any time to exit App." << std::endl;
             std::cin.ignore();
         }
         break;
@@ -180,7 +184,7 @@ int main()
 
             // Do stuff to process the raw notification payload
             std::string payloadString(payload.begin(), payload.end());
-            std::cout << "Push notification content received from BACKGROUND: " << payloadString.c_str() << std::endl;
+            std::cout << std::endl << "Push notification content received from BACKGROUND: " << payloadString.c_str() << std::endl;
             std::cout << "Press 'Enter' to exit the App." << std::endl;
 
             // Call Complete on the deferral when finished processing the payload.
@@ -192,7 +196,7 @@ int main()
 
         default:
             // Unexpected activation type
-            std::cout << "Unexpected activation type" << std::endl;
+            std::cout << std::endl << "Unexpected activation type" << std::endl;
             std::cout << "Press 'Enter' to exit the App." << std::endl;
             std::cin.ignore();
             break;
