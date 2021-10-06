@@ -105,7 +105,7 @@ void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifi
 
 int main()
 {
-    if (PushNotificationManager::IsActivatorSupported(PushNotificationRegistrationActivators::ComActivator))
+    if (PushNotificationManager::IsActivatorSupported(PushNotificationRegistrationActivators::PushTrigger | PushNotificationRegistrationActivators::ComActivator))
     {
         PushNotificationActivationInfo info(
             PushNotificationRegistrationActivators::PushTrigger | PushNotificationRegistrationActivators::ComActivator,
@@ -144,7 +144,7 @@ int main()
         break;
 
         // When it is activated from a push notification, the sample only displays the notification.
-        // It doesn’t register for foreground activation of perform any other actions
+        // It doesnâ€™t register for foreground activation of perform any other actions
         // because background activation is meant to let app perform only small tasks in order to preserve battery life.
         case ExtendedActivationKind::Push:
         {
