@@ -39,24 +39,24 @@ namespace SampleApp
         {
             if (m_mainAppWindow != null)
             {
-                AppWindowConfiguration windowConfiguration;
+                OverlappedPresenter customOverlappedPresenter;
                 
                 switch (sender.As<Button>().Name)
                 {
                     case "MainWindowBtn":
-                        windowConfiguration = AppWindowConfiguration.CreateDefault();
+                        customOverlappedPresenter = OverlappedPresenter.Create();
                         break;
 
                     case "ContextMenuBtn":
-                        windowConfiguration = AppWindowConfiguration.CreateForContextMenu();
+                        customOverlappedPresenter = OverlappedPresenter.CreateForContextMenu();
                         break;
 
                     case "DialogWindowBtn":
-                        windowConfiguration = AppWindowConfiguration.CreateForDialog();
+                        customOverlappedPresenter = OverlappedPresenter.CreateForDialog();
                         break;
 
                     case "ToolWindowBtn":
-                        windowConfiguration = AppWindowConfiguration.CreateForToolWindow();
+                        customOverlappedPresenter = OverlappedPresenter.CreateForToolWindow();
                         break;
 
                     default:
@@ -64,7 +64,7 @@ namespace SampleApp
                         return;
                 }
 
-                m_mainAppWindow.ApplyConfiguration(windowConfiguration);
+                m_mainAppWindow.SetPresenter(customOverlappedPresenter);
             }
         }
 
@@ -73,44 +73,45 @@ namespace SampleApp
         {
             if (m_mainAppWindow != null)
             {
-                AppWindowConfiguration windowConfiguration = m_mainAppWindow.Configuration;
+                OverlappedPresenter overlappedPresenter = m_mainAppWindow.Presenter.As<OverlappedPresenter>();
 
-                switch (sender.As<ToggleSwitch>().Name)
+                if (overlappedPresenter != null)
                 {
-                    case "FrameToggle":
-                        windowConfiguration.HasFrame = FrameToggle.IsOn;
-                        break;
+                    switch (sender.As<ToggleSwitch>().Name)
+                    {
+                        case "FrameToggle":
+                            overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
+                            break;
 
-                    case "TitleBarToggle":
-                        windowConfiguration.HasTitleBar = TitleBarToggle.IsOn;
-                        break;
+                        case "TitleBarToggle":
+                            overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
+                            break;
 
-                    case "AlwaysOnTopToggle":
-                        windowConfiguration.IsAlwaysOnTop = AlwaysOnTopToggle.IsOn;
-                        break;
+                        case "AlwaysOnTopToggle":
+                            overlappedPresenter.IsAlwaysOnTop = AlwaysOnTopToggle.IsOn;
+                            break;
 
-                    case "MaxToggle":
-                        windowConfiguration.IsMaximizable = MaxToggle.IsOn;
-                        break;
+                        case "MaxToggle":
+                            overlappedPresenter.IsMaximizable = MaxToggle.IsOn;
+                            break;
 
-                    case "MinToggle":
-                        windowConfiguration.IsMinimizable = MinToggle.IsOn;
-                        break;
+                        case "MinToggle":
+                            overlappedPresenter.IsMinimizable = MinToggle.IsOn;
+                            break;
 
-                    case "ResizableToggle":
-                        windowConfiguration.IsResizable = ResizableToggle.IsOn;
-                        break;
+                        case "ResizableToggle":
+                            overlappedPresenter.IsResizable = ResizableToggle.IsOn;
+                            break;
 
-                    case "InUxToggle":
-                        windowConfiguration.IsShownInSwitchers = InUxToggle.IsOn;
-                        break;
+                        case "InUxToggle":
+                            m_mainAppWindow.IsShownInSwitchers = InUxToggle.IsOn;
+                            break;
 
-                    default:
-                        // Something else called this method, we can't handle that so exit the method
-                        return;
+                        default:
+                            // Something else called this method, we can't handle that so exit the method
+                            return;
+                    }
                 }
-
-                m_mainAppWindow.ApplyConfiguration(windowConfiguration);
             }
         }
     }

@@ -38,6 +38,7 @@ namespace SampleApp
 
             m_mainWindow = e.Parameter as MainWindow;
             m_mainAppWindow.Changed += MainAppWindow_Changed;
+
             base.OnNavigatedTo(e);
         }
 
