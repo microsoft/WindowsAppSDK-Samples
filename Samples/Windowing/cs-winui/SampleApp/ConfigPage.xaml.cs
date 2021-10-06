@@ -31,6 +31,27 @@ namespace SampleApp
         {
             // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
             m_mainAppWindow = e.Parameter.As<Window>().GetAppWindow();
+            
+            // Disable the switches that control properties only available when Overlapped if we're in any other Presenter state
+            if(m_mainAppWindow.Presenter.Kind != AppWindowPresenterKind.Overlapped)
+            {
+                FrameToggle.IsEnabled = false;
+                TitleBarToggle.IsEnabled = false;
+                AlwaysOnTopToggle.IsEnabled = false;
+                MaxToggle.IsEnabled = false;
+                MinToggle.IsEnabled = false;
+                ResizableToggle.IsEnabled = false;
+            }
+            else
+            {
+                FrameToggle.IsEnabled = true;
+                TitleBarToggle.IsEnabled = true;
+                AlwaysOnTopToggle.IsEnabled = true;
+                MaxToggle.IsEnabled = true;
+                MinToggle.IsEnabled = true;
+                ResizableToggle.IsEnabled = true;
+            }
+
             base.OnNavigatedTo(e);
         }
 
@@ -73,44 +94,45 @@ namespace SampleApp
         {
             if (m_mainAppWindow != null)
             {
-                OverlappedPresenter overlappedPresenter = m_mainAppWindow.Presenter.As<OverlappedPresenter>();
-
-                if (overlappedPresenter != null)
+                OverlappedPresenter overlappedPresenter = null;
+                if(m_mainAppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
                 {
-                    switch (sender.As<ToggleSwitch>().Name)
-                    {
-                        case "FrameToggle":
-                            overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
-                            break;
+                    overlappedPresenter = m_mainAppWindow.Presenter.As<OverlappedPresenter>();
+                }
 
-                        case "TitleBarToggle":
-                            overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
-                            break;
+                switch (sender.As<ToggleSwitch>().Name)
+                {
+                    case "FrameToggle":
+                        overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
+                        break;
 
-                        case "AlwaysOnTopToggle":
-                            overlappedPresenter.IsAlwaysOnTop = AlwaysOnTopToggle.IsOn;
-                            break;
+                    case "TitleBarToggle":
+                        overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
+                        break;
 
-                        case "MaxToggle":
-                            overlappedPresenter.IsMaximizable = MaxToggle.IsOn;
-                            break;
+                    case "AlwaysOnTopToggle":
+                        overlappedPresenter.IsAlwaysOnTop = AlwaysOnTopToggle.IsOn;
+                        break;
 
-                        case "MinToggle":
-                            overlappedPresenter.IsMinimizable = MinToggle.IsOn;
-                            break;
+                    case "MaxToggle":
+                        overlappedPresenter.IsMaximizable = MaxToggle.IsOn;
+                        break;
 
-                        case "ResizableToggle":
-                            overlappedPresenter.IsResizable = ResizableToggle.IsOn;
-                            break;
+                    case "MinToggle":
+                        overlappedPresenter.IsMinimizable = MinToggle.IsOn;
+                        break;
 
-                        case "InUxToggle":
-                            m_mainAppWindow.IsShownInSwitchers = InUxToggle.IsOn;
-                            break;
+                    case "ResizableToggle":
+                        overlappedPresenter.IsResizable = ResizableToggle.IsOn;
+                        break;
 
-                        default:
-                            // Something else called this method, we can't handle that so exit the method
-                            return;
-                    }
+                    case "InUxToggle":
+                        m_mainAppWindow.IsShownInSwitchers = InUxToggle.IsOn;
+                        break;
+
+                    default:
+                        // Something else called this method, we can't handle that so exit the method
+                        return;
                 }
             }
         }

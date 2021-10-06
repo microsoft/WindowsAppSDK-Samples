@@ -39,6 +39,13 @@ namespace SampleApp
             m_mainWindow = e.Parameter as MainWindow;
             m_mainAppWindow.Changed += MainAppWindow_Changed;
 
+            // Check to see that customization of the TitleBar is supported, if not we disable these options.
+            if(!AppWindowTitleBar.IsCustomizationSupported())
+            {
+                TitlebarBrandingBtn.IsEnabled = false;
+                TitlebarCustomBtn.IsEnabled = false;
+            }
+
             base.OnNavigatedTo(e);
         }
 
