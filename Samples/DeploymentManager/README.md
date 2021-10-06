@@ -11,14 +11,13 @@ urlFragment: deployment
 ---
 # Deployment API sample 
 
-These samples demonstrate how to use the DeploymentManager class to ensure the WindowsAppRuntime is initialized and in a good state.  
+These samples demonstrate how to use the DeploymentManager class to ensure the WindowsAppRuntime is initialized and in a good state.
 
 ## Requirements
-C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.302, or later
+C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.401, or later
 
 ## Building and running any of the samples 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
-For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
 
 1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio 2019 Preview.
 2. Build the solution.
@@ -28,4 +27,4 @@ For the unpackaged sample apps, in addition to the steps for setting up the envi
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [Deployment API](https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/deploy-apps-that-use-the-windows-app-sdk)
+- [Deployment API](https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.windows.applicationmodel.windowsappruntime.deploymentmanager?view=windows-app-sdk-1.0)

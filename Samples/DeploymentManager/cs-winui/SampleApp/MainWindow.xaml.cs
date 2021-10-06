@@ -33,19 +33,21 @@ namespace SampleApp
             // requires and expects are present in in an Ok state.
             DeploymentResult result = DeploymentManager.GetStatus();
 
-            // The two properties for a result include the resulting status and the
-            // extended error code. An error code of 0x0 is success.
+            // The two properties for a result include the resulting status and the extended
+            // error code. The Status is usually the property of interest, as the ExtendedError is
+            // typically used for diagnostic purposes or troubleshooting. 
             resultStatus.Text = "Result Status: " + result.Status.ToString();
             resultExtendedError.Text = "Result ExtendedError: " + result.ExtendedError.ToString();
 
-            // Check the result.
+            // Check the resulting Status.
             if (result.Status == DeploymentStatus.Ok)
             {
                 resultImplication.Text = "The WindowsAppRuntime is ready for use!";
-                
             }
             else
             {
+                // A not-Ok status means it is not ready for us. The Status will indicate the
+                // reason it is not Ok, such as some packages need to be installed.
                 resultImplication.Text = "The WindowsAppRuntime is not ready for use.";
             }
         }
