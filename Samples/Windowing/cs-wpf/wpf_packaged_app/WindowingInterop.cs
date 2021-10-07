@@ -16,16 +16,6 @@ using System.Windows.Data;
 
 namespace wpf_packaged_app
 {
-    internal class Interop
-    {
-
-        [DllImport("Microsoft.Internal.FrameworkUdk.dll", EntryPoint = "Windowing_GetWindowHandleFromWindowId", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowHandleFromWindowId(WindowId windowId, out IntPtr result);
-
-        [DllImport("Microsoft.Internal.FrameworkUdk.dll", EntryPoint = "Windowing_GetWindowIdFromWindowHandle", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowIdFromWindowHandle(IntPtr hwnd, out WindowId windowId);
-    }
-
     public static class AppWindowExtensions
     {
         public static Microsoft.UI.Windowing.AppWindow GetAppWindowFromWPFWindow(this Window wpfWindow)
@@ -37,8 +27,8 @@ namespace wpf_packaged_app
 
             // Get the WindowId from the HWND.
             Microsoft.UI.WindowId windowId;
-            Interop.GetWindowIdFromWindowHandle(hwnd, out windowId);
-            
+            windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
+
             // Get an AppWindow from the WindowId.
             Microsoft.UI.Windowing.AppWindow appWindow =
             Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
