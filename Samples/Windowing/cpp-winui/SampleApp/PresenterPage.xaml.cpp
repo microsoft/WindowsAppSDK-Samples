@@ -44,11 +44,11 @@ namespace winrt::SampleApp::implementation
 
         if(newPresenterKind == m_mainAppWindow.Presenter().Kind())
         { 
-            m_mainAppWindow.TrySetPresenter(AppWindowPresenterKind::Default);
+            m_mainAppWindow.SetPresenter(AppWindowPresenterKind::Default);
         }
         else
         {
-            m_mainAppWindow.TrySetPresenter(newPresenterKind);
+            m_mainAppWindow.SetPresenter(newPresenterKind);
         }
     }
 }

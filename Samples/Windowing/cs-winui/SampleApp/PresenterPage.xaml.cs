@@ -35,7 +35,7 @@ namespace SampleApp
 
             // Register for window changed events while on this page.
             m_mainAppWindow.Changed += AppWindowChangedHandler;
-            
+
             base.OnNavigatedTo(e);
         }
 
@@ -56,12 +56,12 @@ namespace SampleApp
                         CompactoverlaytBtn.Content = "Exit CompactOverlay";
                         FullscreenBtn.Content = "Enter FullScreen";
                         break;
-                    
+
                     case AppWindowPresenterKind.FullScreen:
                         CompactoverlaytBtn.Content = "Enter CompactOverlay";
                         FullscreenBtn.Content = "Exit FullScreen";
                         break;
-                    
+
                     case AppWindowPresenterKind.Overlapped:
                         CompactoverlaytBtn.Content = "Enter CompactOverlay";
                         FullscreenBtn.Content = "Enter FullScreen";
@@ -89,11 +89,11 @@ namespace SampleApp
                     case "CompactoverlaytBtn":
                         newPresenterKind = AppWindowPresenterKind.CompactOverlay;
                         break;
-                    
+
                     case "FullscreenBtn":
                         newPresenterKind = AppWindowPresenterKind.FullScreen;
                         break;
-                    
+
                     case "OverlappedBtn":
                         newPresenterKind = AppWindowPresenterKind.Overlapped;
                         break;
@@ -106,12 +106,12 @@ namespace SampleApp
                 // If the same presenter button was pressed as the mode we're in, toggle the window back to Default.
                 if (newPresenterKind == m_mainAppWindow.Presenter.Kind)
                 {
-                    m_mainAppWindow.TrySetPresenter(AppWindowPresenterKind.Default);
+                    m_mainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
                 }
                 else
                 {
                     // else request a presenter of the selected kind to be created and applied to the window.
-                    m_mainAppWindow.TrySetPresenter(newPresenterKind);
+                    m_mainAppWindow.SetPresenter(newPresenterKind);
                 }
             }
         }
