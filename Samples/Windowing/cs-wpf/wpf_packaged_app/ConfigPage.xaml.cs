@@ -23,7 +23,7 @@ namespace wpf_packaged_app
     public partial class ConfigPage : Page
     {
         AppWindow m_mainAppWindow;
-        AppWindowConfiguration windowConfiguration;
+
 
         public ConfigPage()
         {
@@ -33,31 +33,50 @@ namespace wpf_packaged_app
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             m_mainAppWindow = AppWindowExtensions.GetAppWindowFromWPFWindow(Window.GetWindow(this));
-            
+
+            // Disable the switches that control properties only available when Overlapped if we're in any other Presenter state
+            if (m_mainAppWindow.Presenter.Kind != AppWindowPresenterKind.Overlapped)
+            {
+                FrameToggle.IsEnabled = false;
+                TitleBarToggle.IsEnabled = false;
+                AlwaysOnTopToggle.IsEnabled = false;
+                MaxToggle.IsEnabled = false;
+                MinToggle.IsEnabled = false;
+                ResizableToggle.IsEnabled = false;
+            }
+            else
+            {
+                FrameToggle.IsEnabled = true;
+                TitleBarToggle.IsEnabled = true;
+                AlwaysOnTopToggle.IsEnabled = true;
+                MaxToggle.IsEnabled = true;
+                MinToggle.IsEnabled = true;
+                ResizableToggle.IsEnabled = true;
+            }
         }
 
         private void ChangeWindowStyle(object sender, RoutedEventArgs e)
         {
             if (m_mainAppWindow != null)
             {
-                AppWindowConfiguration windowConfiguration;
+                OverlappedPresenter customOverlappedPresenter;
 
                 switch (sender.As<Button>().Name)
                 {
                     case "MainWindowBtn":
-                        windowConfiguration = AppWindowConfiguration.CreateDefault();
+                        customOverlappedPresenter = OverlappedPresenter.Create();
                         break;
 
                     case "ContextMenuBtn":
-                        windowConfiguration = AppWindowConfiguration.CreateForContextMenu();
+                        customOverlappedPresenter = OverlappedPresenter.CreateForContextMenu();
                         break;
 
                     case "DialogWindowBtn":
-                        windowConfiguration = AppWindowConfiguration.CreateForDialog();
+                        customOverlappedPresenter = OverlappedPresenter.CreateForDialog();
                         break;
 
                     case "ToolWindowBtn":
-                        windowConfiguration = AppWindowConfiguration.CreateForToolWindow();
+                        customOverlappedPresenter = OverlappedPresenter.CreateForToolWindow();
                         break;
 
                     default:
@@ -65,21 +84,26 @@ namespace wpf_packaged_app
                         return;
                 }
 
-                m_mainAppWindow.ApplyConfiguration(windowConfiguration);
+                m_mainAppWindow.SetPresenter(customOverlappedPresenter);
             }
         }
 
         // Change the properties of the window based on which switch was toggled
         private void ChangeConfiguration(object sender, RoutedEventArgs e)
         {
+
             if (m_mainAppWindow != null)
             {
-                AppWindowConfiguration windowConfiguration = m_mainAppWindow.Configuration;
+                OverlappedPresenter overlappedPresenter = null;
+                if (m_mainAppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
+                {
+                    overlappedPresenter = m_mainAppWindow.Presenter.As<OverlappedPresenter>();
+                }
 
                 switch (sender.As<Button>().Name)
                 {
                     case "FrameToggle":
-                        if (windowConfiguration.HasFrame)
+                        if (overlappedPresenter.HasBorder && overlappedPresenter.HasTitleBar)
                         {                          
                             FrameToggle.Content = "Has No Frame";
                         }
@@ -87,11 +111,11 @@ namespace wpf_packaged_app
                         {
                             FrameToggle.Content = "Has Frame";
                         }
-                        windowConfiguration.HasFrame = !windowConfiguration.HasFrame;
+                        overlappedPresenter.SetBorderAndTitleBar(!overlappedPresenter.HasBorder, !overlappedPresenter.HasTitleBar);
                         break;
 
                     case "TitleBarToggle":         
-                        if (windowConfiguration.HasTitleBar)
+                        if (overlappedPresenter.HasBorder && overlappedPresenter.HasTitleBar)
                         {
                             TitleBarToggle.Content = "Has No Title Bar";
                         }
@@ -99,11 +123,11 @@ namespace wpf_packaged_app
                         {
                             TitleBarToggle.Content = "Has Title Bar";
                         }
-                        windowConfiguration.HasTitleBar = !windowConfiguration.HasTitleBar;
+                        overlappedPresenter.SetBorderAndTitleBar(!overlappedPresenter.HasBorder, !overlappedPresenter.HasTitleBar);
                         break;
 
                     case "AlwaysOnTopToggle":
-                        if (windowConfiguration.IsAlwaysOnTop)
+                        if (overlappedPresenter.IsAlwaysOnTop)
                         {
                             AlwaysOnTopToggle.Content = "Is not Always on Top";
                         }
@@ -111,11 +135,11 @@ namespace wpf_packaged_app
                         { 
                             AlwaysOnTopToggle.Content = "Is Always on Top";
                         }
-                        windowConfiguration.IsAlwaysOnTop = !windowConfiguration.IsAlwaysOnTop;
+                        overlappedPresenter.IsAlwaysOnTop = !overlappedPresenter.IsAlwaysOnTop;
                         break;
 
                     case "MaxToggle":
-                        if (windowConfiguration.IsMaximizable)
+                        if (overlappedPresenter.IsMaximizable)
                         {
                             MaxToggle.Content = "Is not Maximizable";
                         }
@@ -123,11 +147,11 @@ namespace wpf_packaged_app
                         {
                             MaxToggle.Content = "Is Maximizable";
                         }
-                        windowConfiguration.IsMaximizable = !windowConfiguration.IsMaximizable;
+                        overlappedPresenter.IsMaximizable = !overlappedPresenter.IsMaximizable;
                         break;
 
                     case "MinToggle":
-                        if (windowConfiguration.IsMinimizable)
+                        if (overlappedPresenter.IsMinimizable)
                         {
                             MinToggle.Content = "Is not Minimizable";
                         }
@@ -135,11 +159,11 @@ namespace wpf_packaged_app
                         {
                             MinToggle.Content = "Is Minimizable";
                         }
-                        windowConfiguration.IsMinimizable = !windowConfiguration.IsMinimizable;
+                        overlappedPresenter.IsMinimizable = !overlappedPresenter.IsMinimizable;
                         break;
 
                     case "ResizableToggle":
-                        if (windowConfiguration.IsResizable)
+                        if (overlappedPresenter.IsResizable)
                         {
                             ResizableToggle.Content = "Is not Resizable";
                         }
@@ -147,11 +171,11 @@ namespace wpf_packaged_app
                         {
                             ResizableToggle.Content = "Is Resizable";
                         }
-                        windowConfiguration.IsResizable = !windowConfiguration.IsResizable;
+                        overlappedPresenter.IsResizable = !overlappedPresenter.IsResizable;
                         break;
 
                     case "InUxToggle":         
-                        if (windowConfiguration.IsShownInSwitchers)
+                        if (m_mainAppWindow.IsShownInSwitchers)
                         {
                             InUxToggle.Content = "Is not Shown in UX";
                         }
@@ -159,7 +183,7 @@ namespace wpf_packaged_app
                         {
                             InUxToggle.Content = "Is Shown in UX";
                         }
-                        windowConfiguration.IsShownInSwitchers = !windowConfiguration.IsShownInSwitchers;
+                        m_mainAppWindow.IsShownInSwitchers = !m_mainAppWindow.IsShownInSwitchers;
                         break;
 
                     default:
@@ -167,7 +191,6 @@ namespace wpf_packaged_app
                         return;
                 }
 
-                m_mainAppWindow.ApplyConfiguration(windowConfiguration);
             }
         }
     }
