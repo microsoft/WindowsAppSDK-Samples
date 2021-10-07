@@ -17,17 +17,16 @@
     xmlns:local="using:$rootnamespace$"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
     <Grid>
         <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <StackPanel>
-                <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
+            <StackPanel Spacing="10" Margin="10,10,10,10">
+                <TextBlock Text="Description:" Style="{StaticResource ScenarioHeaderTextStyle}"/>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                Add scenario description text here.
+                    Add scenario description text here.
                 </TextBlock>
-                <TextBlock Margin="0,10,0,0">Hello from scenario $safeitemname$.</TextBlock>
+                <TextBlock>Hello from $safeitemname$.</TextBlock>
             </StackPanel>
         </ScrollViewer>
     </Grid>

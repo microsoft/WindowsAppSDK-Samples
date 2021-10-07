@@ -30,7 +30,7 @@
 
             <Grid RowDefinitions="*,Auto">
                 <ScrollViewer>
-                    <Frame Padding="20" x:Name="ContentFrame" Navigated="ContentFrame_Navigated" />
+                    <Frame Padding="50" x:Name="ContentFrame" Navigated="ContentFrame_Navigated" />
                 </ScrollViewer>
             </Grid>
         </NavigationView>
