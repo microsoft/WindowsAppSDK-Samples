@@ -34,6 +34,5 @@ namespace CsWinUiDesktopInstancing
         {
             Program.GetActivationInfo();
         }
-
     }
 }

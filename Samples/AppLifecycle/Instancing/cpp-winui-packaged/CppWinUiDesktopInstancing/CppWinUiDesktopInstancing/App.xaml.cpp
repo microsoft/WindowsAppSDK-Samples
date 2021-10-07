@@ -19,7 +19,7 @@ using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace Windows::Storage;
 using namespace winrt::Microsoft::Windows;
 
-// Standard implementation ////////////////////////////////////////////////////
+// Initialization /////////////////////////////////////////////////////////////
 
 App::App()
 {
@@ -37,8 +37,58 @@ App::App()
 #endif
 }
 
-void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&)
+// Enum-to-string helpers. This app only supports Launch and File activation.
+winrt::hstring KindString(
+    winrt::Windows::ApplicationModel::Activation::ActivationKind kind)
 {
+    using namespace winrt::Windows::ApplicationModel::Activation;
+    switch (kind)
+    {
+    case ActivationKind::Launch: return winrt::hstring(L"Launch"); 
+    case ActivationKind::File: return winrt::hstring(L"File"); 
+    default: return winrt::hstring(L"Unknown");
+    }
+}
+
+winrt::hstring KindString(
+    winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind)
+{
+    using namespace winrt::Microsoft::Windows::AppLifecycle;
+    switch (extendedKind)
+    {
+    case ExtendedActivationKind::Launch: return winrt::hstring(L"Launch"); 
+    case ExtendedActivationKind::File: return winrt::hstring(L"File"); 
+    default: return winrt::hstring(L"Unknown");
+    }
+}
+
+void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& args)
+{
+    // NOTE: OnLaunched will always report that the ActivationKind == Launch,
+    // even when it isn't.
+    winrt::Windows::ApplicationModel::Activation::ActivationKind kind
+        = args.UWPLaunchActivatedEventArgs().Kind();
+    OutputFormattedMessage(L"OnLaunched: Kind=%s", KindString(kind).c_str());
+
+    // NOTE: AppInstance is ambiguous between
+    // Microsoft.Windows.AppLifecycle.AppInstance and
+    // Windows.ApplicationModel.AppInstance
+    auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
+    if (NULL != currentInstance)
+    {
+        // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
+        // even in WinUI's OnLaunched.
+        winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
+            = currentInstance.GetActivatedEventArgs();
+        if (NULL != activationArgs)
+        {
+            winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
+                = activationArgs.Kind();
+            OutputFormattedMessage(L"activationArgs.Kind=%s", KindString(extendedKind).c_str());
+        }
+    }
+
+    // Go ahead and do standard window initialization regardless.
     window = make<MainWindow>();
     window.Activate();
 }

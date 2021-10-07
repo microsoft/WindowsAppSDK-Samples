@@ -2,9 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using System;
-using System.Diagnostics;
-using Windows.ApplicationModel.Activation;
 
 namespace CsWinUiDesktopInstancing
 {
@@ -23,37 +20,35 @@ namespace CsWinUiDesktopInstancing
         }
 
         // NOTE: WinUI's App.OnLaunched is given a Microsoft.UI.Xaml.LaunchActivatedEventArgs,
-        // whereas AppInstance.GetActivatedEventArgs will return a
-        // Windows.ApplicationModel.Activation.LaunchActivatedEventArgs.
-        // NOTE: All other *ActivatedEventArgs are not ambiguous, as they're only
-        // defined in Windows.ApplicationModel.Activation.
+        // where the UWPLaunchActivatedEventArgs property will be one of the 
+        // Windows.ApplicationModel.Activation.*ActivatedEventArgs types.
+        // Conversely, AppInstance.GetActivatedEventArgs will return a
+        // Microsoft.Windows.AppLifecycle.AppActivationArguments, where the Data property
+        // will be one of the Windows.ApplicationModel.Activation.*ActivatedEventArgs types.
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            // NOTE AppInstance is ambiguous:
-            // Microsoft.Windows.AppLifecycle.AppInstance
+            // NOTE: OnLaunched will always report that the ActivationKind == Launch,
+            // even when it isn't.
+            Windows.ApplicationModel.Activation.ActivationKind kind
+                = args.UWPLaunchActivatedEventArgs.Kind;
+            Program.ReportInfo($"OnLaunched: Kind={kind}");
+
+            // NOTE: AppInstance is ambiguous between
+            // Microsoft.Windows.AppLifecycle.AppInstance and
             // Windows.ApplicationModel.AppInstance
             var currentInstance =
                 Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent();
             if (currentInstance != null)
             {
-                var activationArgs = currentInstance.GetActivatedEventArgs();
+                // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
+                // even in WinUI's OnLaunched.
+                Microsoft.Windows.AppLifecycle.AppActivationArguments activationArgs 
+                    = currentInstance.GetActivatedEventArgs();
                 if (activationArgs != null)
                 {
-                    if (activationArgs.Kind ==
-                        Microsoft.Windows.AppLifecycle.ExtendedActivationKind.Launch)
-                    {
-                        if (activationArgs.Data is ILaunchActivatedEventArgs launchArgs)
-                        {
-                            Debug.WriteLine($"LaunchArgs: {launchArgs.Arguments}");
-                        }
-                        Debug.WriteLine($"CommandLine: {Environment.CommandLine}");
-                        string[] cmdArgs = Environment.GetCommandLineArgs();
-                        foreach (string cmdArg in cmdArgs)
-                        {
-                            Debug.WriteLine($"GetCommandLineArgs: {cmdArg}");
-                        }
-                    }
-
+                    Microsoft.Windows.AppLifecycle.ExtendedActivationKind extendedKind
+                        = activationArgs.Kind;
+                    Program.ReportInfo($"activationArgs.Kind={extendedKind}");
                 }
             }
 
@@ -61,6 +56,5 @@ namespace CsWinUiDesktopInstancing
             m_window = new MainWindow();
             m_window.Activate();
         }
-
     }
 }

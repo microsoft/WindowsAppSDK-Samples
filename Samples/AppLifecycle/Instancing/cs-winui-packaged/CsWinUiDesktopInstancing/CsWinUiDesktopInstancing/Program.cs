@@ -50,7 +50,7 @@ namespace CsWinUiDesktopInstancing
             return 0;
         }
 
-        private static void ReportInfo(string message)
+        public static void ReportInfo(string message)
         {
             // If we already have a form, display the message now.
             // Otherwise, add it to the collection for displaying later.
