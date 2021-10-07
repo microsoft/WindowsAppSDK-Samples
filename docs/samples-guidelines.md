@@ -432,9 +432,7 @@ All features need to include a README.md file with their samples. The purpose of
 
 #### Metadata
 
-In the README.md file of your sample, make sure to include the YAML front-matter metadata header to integrate samples with the [Docs Samples Browser](https://docs.microsoft.com/samples/browse/).
-
-For example:
+In the README.md file of your sample, make sure to include the YAML front-matter metadata header like below to integrate samples with the [Docs Samples Browser](https://docs.microsoft.com/samples/browse/). Refer to existing samples in this repository and the snippet below for an example.
 
 ```md
 ---
@@ -444,6 +442,7 @@ languages:
 - cpp
 products:
 - windows
+- windows-app-sdk
 urlFragment: BackgroundActivation
 description: "Shows how to create and register background tasks that will run in the main process."
 ---

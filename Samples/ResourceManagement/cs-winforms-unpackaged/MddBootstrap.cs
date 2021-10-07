@@ -4,7 +4,7 @@
 using System.Runtime.InteropServices;
 
 // This file provides helpers to be able to use dynamic dependencies, which will enable this unpackaged app
-// to consume the Project Reunion APIs in the Project Reunion framework package.
+// to consume the Windows App SDK APIs.
 
 namespace Microsoft.Windows.ApplicationModel
 {
@@ -64,7 +64,7 @@ namespace Microsoft.Windows.ApplicationModel
             return MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion);
         }
 
-        [DllImport("Microsoft.ProjectReunion.Bootstrap.dll", CharSet = CharSet.Unicode)]
+        [DllImport("Microsoft.WindowsAppRuntime.Bootstrap.dll", CharSet = CharSet.Unicode)]
         private static extern int MddBootstrapInitialize(uint majorMinorVersion, string versionTag, PackageVersion packageVersion);
 
         public static void Shutdown()
@@ -72,7 +72,7 @@ namespace Microsoft.Windows.ApplicationModel
             MddBootstrapShutdown();
         }
 
-        [DllImport("Microsoft.ProjectReunion.Bootstrap.dll")]
+        [DllImport("Microsoft.WindowsAppRuntime.Bootstrap.dll")]
         private static extern void MddBootstrapShutdown();
     }
 }

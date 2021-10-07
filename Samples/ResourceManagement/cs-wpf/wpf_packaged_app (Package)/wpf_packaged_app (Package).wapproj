@@ -21,12 +21,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|arm64">
-        <Configuration>Debug</Configuration>
-        <Platform>arm64</Platform>
+      <Configuration>Debug</Configuration>
+      <Platform>arm64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|arm64">
-        <Configuration>Release</Configuration>
-        <Platform>arm64</Platform>
+      <Configuration>Release</Configuration>
+      <Platform>arm64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
@@ -64,11 +64,8 @@
     <EntryPointProjectUniqueName>..\wpf_packaged_app\wpf_packaged_app.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.ProjectReunion">
-      <Version>0.8.1</Version>
-      <IncludeAssets>build</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.19041.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.20348.19" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview1" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
