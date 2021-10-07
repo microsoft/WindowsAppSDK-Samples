@@ -55,7 +55,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
             if (args.status == PushNotificationChannelStatus::InProgress)
             {
                 // This is basically a noop since it isn't really an error state
-                std::cout << std::endl << "Channel request is in progress." << std::endl;
+                std::cout << "\nChannel request is in progress." << std::endl;
             }
             else if (args.status == PushNotificationChannelStatus::InProgressRetry)
             {
@@ -74,8 +74,8 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 
         DateTimeFormatter formater = DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}");
 
-        std::cout << std::endl << "Channel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
-        std::wcout << std::endl << L"Channel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
+        std::cout << "\nChannel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
+        std::wcout << L"\nChannel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
 
         // It's the caller's responsibility to keep the channel alive
         co_return channel;
@@ -115,7 +115,7 @@ void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifi
 
             // Do stuff to process the raw payload
             std::string payloadString(payload.begin(), payload.end());
-            std::cout << std::endl << "Push notification content received from FOREGROUND: " << payloadString << std::endl;
+            std::cout << "\nPush notification content received from FOREGROUND: " << payloadString << std::endl;
 
             // Set handled to true to prevent the same notification to pop up through background activation
             args.Handled(true);
@@ -129,7 +129,7 @@ int main()
     // for details about using the WindowsAppSDK from an unpackaged app.
     if (FAILED(LoadWindowsAppSDK()))
     {
-        std::wcout << std::endl << "Could not load Windows App SDK!" << std::endl;
+        std::wcout << "\nCould not load Windows App SDK!" << std::endl;
         std::cin.ignore();
 
         return 1;
@@ -161,11 +161,10 @@ int main()
             }
             else
             {
-                // troubleshooting: Did you replace the zero'ed out remote id (near the top of the sample) with your own?
-                std::cout << std::endl << "There was an error obtaining the Channel Uri" << std::endl;
+                std::cout << "\nThere was an error obtaining the Channel Uri" << std::endl;
             }
 
-            std::cout << std::endl << "Press 'Enter' at any time to exit App." << std::endl;
+            std::cout << "\nPress 'Enter' at any time to exit App." << std::endl;
             std::cin.ignore();
         }
         break;
@@ -184,8 +183,8 @@ int main()
 
             // Do stuff to process the raw notification payload
             std::string payloadString(payload.begin(), payload.end());
-            std::cout << std::endl << "Push notification content received from BACKGROUND: " << payloadString.c_str() << std::endl;
-            std::cout << "Press 'Enter' to exit the App." << std::endl;
+            std::cout << "\nPush notification content received from BACKGROUND: " << payloadString.c_str() << std::endl;
+            std::cout << "\nPress 'Enter' to exit the App." << std::endl;
 
             // Call Complete on the deferral when finished processing the payload.
             // This removes the override that kept the app running even when the system was in a low power mode.
@@ -196,8 +195,8 @@ int main()
 
         default:
             // Unexpected activation type
-            std::cout << std::endl << "Unexpected activation type" << std::endl;
-            std::cout << "Press 'Enter' to exit the App." << std::endl;
+            std::cout << "\nUnexpected activation type" << std::endl;
+            std::cout << "\nPress 'Enter' to exit the App." << std::endl;
             std::cin.ignore();
             break;
     }
