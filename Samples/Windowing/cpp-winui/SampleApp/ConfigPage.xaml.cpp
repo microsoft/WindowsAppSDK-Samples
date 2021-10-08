@@ -2,6 +2,7 @@
 #include "ConfigPage.xaml.h"
 #if __has_include("ConfigPage.g.cpp")
 #include "ConfigPage.g.cpp"
+#include <stddef.h>
 #endif
 
 using namespace winrt;
@@ -14,7 +15,7 @@ namespace winrt::SampleApp::implementation
 {
     ConfigPage::ConfigPage()
     {
-	    InitializeComponent();
+        InitializeComponent();
     }
 
     void ConfigPage::OnNavigatedTo(NavigationEventArgs const& e)
@@ -22,30 +23,54 @@ namespace winrt::SampleApp::implementation
         Window window = e.Parameter().as<Window>();
         MainWindow mainWindow = window.as<MainWindow>();
         m_mainAppWindow = mainWindow.AppWindow();
+
+        // Disable the switches that control properties only available when Overlapped if we're in any other Presenter state
+        if (m_mainAppWindow.Presenter().Kind() != AppWindowPresenterKind::Overlapped)
+        {
+            FrameToggle().IsEnabled(false);
+            TitleBarToggle().IsEnabled(false);
+            AlwaysOnTopToggle().IsEnabled(false);
+            MaxToggle().IsEnabled(false);
+            MinToggle().IsEnabled(false);
+            ResizableToggle().IsEnabled(false);
+        }
+        else
+        {
+            FrameToggle().IsEnabled(true);
+            TitleBarToggle().IsEnabled(true);
+            AlwaysOnTopToggle().IsEnabled(true);
+            MaxToggle().IsEnabled(true);
+            MinToggle().IsEnabled(true);
+            ResizableToggle().IsEnabled(true);
+        }
     }
 
     void ConfigPage::ChangeWindowStyle(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
-        std::string buttonName = to_string(sender.as<Button>().Name());
-        AppWindowConfiguration windowConfiguration = nullptr;
-        
-        if (buttonName == "MainWindowBtn")
+        if (m_mainAppWindow)
         {
-            windowConfiguration = winrt::AppWindowConfiguration::CreateDefault();
+            OverlappedPresenter customOverlappedPresenter(NULL);
+            std::string buttonName = to_string(sender.as<Button>().Name());
+
+            if (buttonName == "MainWindowBtn")
+            {
+                customOverlappedPresenter = OverlappedPresenter::Create();
+            }
+            else if (buttonName == "ContextMenuBtn")
+            {
+                customOverlappedPresenter = OverlappedPresenter::CreateForContextMenu();
+            }
+            else if (buttonName == "DialogWindowBtn")
+            {
+                customOverlappedPresenter = OverlappedPresenter::CreateForDialog();
+            }
+            else if (buttonName == "ToolWindowBtn")
+            {
+                customOverlappedPresenter = OverlappedPresenter::CreateForToolWindow();
+            }
+            m_mainAppWindow.SetPresenter(customOverlappedPresenter);
         }
-        else if (buttonName == "ContextMenuBtn")
-        {
-            windowConfiguration = winrt::AppWindowConfiguration::CreateForContextMenu();
-        }
-        else if (buttonName == "DialogWindowBtn")
-        {
-            windowConfiguration = winrt::AppWindowConfiguration::CreateForDialog();
-        }
-        else if (buttonName == "ToolWindowBtn")
-        {
-            windowConfiguration = winrt::AppWindowConfiguration::CreateForToolWindow();
-        }
-        m_mainAppWindow.ApplyConfiguration(windowConfiguration);
+
     }
 
     void ConfigPage::ChangeConfiguration(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
@@ -55,38 +80,45 @@ namespace winrt::SampleApp::implementation
             ToggleSwitch toggleSwitch = sender.as<ToggleSwitch>();
 
             std::string toggleName = to_string(toggleSwitch.Name());
-            AppWindowConfiguration windowConfiguration = m_mainAppWindow.Configuration();
+            OverlappedPresenter overlappedPresenter(NULL);
+            if (m_mainAppWindow.Presenter().Kind() == AppWindowPresenterKind::Overlapped)
+            {
+                overlappedPresenter = m_mainAppWindow.Presenter().as<OverlappedPresenter>();
+            }
 
             // Change the property that corresponts to the switch that was toggled
             if (toggleName == "FrameToggle")
             {
-                windowConfiguration.HasFrame(toggleSwitch.IsOn());
+                overlappedPresenter.SetBorderAndTitleBar(!overlappedPresenter.HasBorder(), !overlappedPresenter.HasTitleBar());
             }
             else if (toggleName == "TitleBarToggle")
             {
-                windowConfiguration.HasTitleBar(toggleSwitch.IsOn());
+                overlappedPresenter.SetBorderAndTitleBar(!overlappedPresenter.HasBorder(), !overlappedPresenter.HasTitleBar());
             }
             else if (toggleName == "MaxToggle")
             {
-                windowConfiguration.IsMaximizable(toggleSwitch.IsOn());
+                overlappedPresenter.IsMaximizable(toggleSwitch.IsOn());
             }
             else if (toggleName == "MinToggle")
             {
-                windowConfiguration.IsMinimizable(toggleSwitch.IsOn());
+                overlappedPresenter.IsMinimizable(toggleSwitch.IsOn());
             }
             else if (toggleName == "AlwaysOnTopToggle")
             {
-                windowConfiguration.IsAlwaysOnTop(toggleSwitch.IsOn());
+                overlappedPresenter.IsAlwaysOnTop(toggleSwitch.IsOn());
             }
             else if (toggleName == "ResizableToggle")
             {
-                windowConfiguration.IsResizable(toggleSwitch.IsOn());
+                overlappedPresenter.IsResizable(toggleSwitch.IsOn());
             }
             else if (toggleName == "InUxToggle")
             {
-                windowConfiguration.IsShownInSwitchers(toggleSwitch.IsOn());
+                m_mainAppWindow.IsShownInSwitchers(toggleSwitch.IsOn());
             }
-            m_mainAppWindow.ApplyConfiguration(windowConfiguration);
+        
         }
     }
 }
+
+
+
