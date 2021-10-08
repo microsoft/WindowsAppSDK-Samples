@@ -89,11 +89,11 @@ namespace winrt::SampleApp::implementation
             // Change the property that corresponts to the switch that was toggled
             if (toggleName == "FrameToggle")
             {
-                overlappedPresenter.SetBorderAndTitleBar(FrameToggle().IsOn(), TitleBarToggle().IsOn());
+                overlappedPresenter.SetBorderAndTitleBar(!overlappedPresenter.HasBorder(), !overlappedPresenter.HasTitleBar());
             }
             else if (toggleName == "TitleBarToggle")
             {
-                overlappedPresenter.SetBorderAndTitleBar(FrameToggle().IsOn(), TitleBarToggle().IsOn());
+                overlappedPresenter.SetBorderAndTitleBar(!overlappedPresenter.HasBorder(), !overlappedPresenter.HasTitleBar());
             }
             else if (toggleName == "MaxToggle")
             {

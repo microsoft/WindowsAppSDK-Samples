@@ -103,11 +103,11 @@ namespace SampleApp
                 switch (sender.As<ToggleSwitch>().Name)
                 {
                     case "FrameToggle":
-                        overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
+                        overlappedPresenter.SetBorderAndTitleBar(!overlappedPresenter.HasBorder, !overlappedPresenter.HasTitleBar);
                         break;
 
                     case "TitleBarToggle":
-                        overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
+                        overlappedPresenter.SetBorderAndTitleBar(!overlappedPresenter.HasBorder, !overlappedPresenter.HasTitleBar);
                         break;
 
                     case "AlwaysOnTopToggle":
