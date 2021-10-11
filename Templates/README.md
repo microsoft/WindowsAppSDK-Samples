@@ -23,23 +23,23 @@ The following are prequisites to using the sample templates:
 
     ![Create New Project](./readme-images/create-newproject.png)
 
-3. Replace the Project name with your feature name, for example *Windowing*. Check the box for "Place solution and project in same directory".
+3. Replace the Project name with your feature name, for example *Windowing*. Check the box for "Place solution and project in the same directory".
 
     ![Name Project](./readme-images/name-project.png)
 
-4. Sample development should be done in the *ScenarioX_ScenarioName* files. All other files including the Settings, App, and MainWindow/MainPage files should stay the same.
+4. Sample development should be done in the *ScenarioX_ScenarioName* files. All other files including the Settings, App, and MainWindow/MainPage files should not need any changes.
 
-5. To add a new Scenario Page, right-click on the project and select *Add* -> *New Item*. Select *WinUI* and *Sample C#/C++ WinUI Scenario Page*. Name the file with your Scenario name.
+5. To add a new Scenario Page, right-click on the project and select *Add* -> *New Item*. Select *WinUI* in the left column and choose *Sample C#/C++ WinUI Scenario Page*. Name the file with your Scenario name.
 
     ![Add Scenario Page](./readme-images/add-scenario.png)
 
-    To add the new page to your sample's navigation view, add the page to the scenario List in *SampleConfiguration.cs* or *SampleConfiguration.cpp*.
+    You will also need to add the page to the scenario list in *SampleConfiguration.cs* or *SampleConfiguration.cpp* in order to display the new page in the navigation view.
 
 ## Tips and Best Practices
 
 * The VSIX comes preinstalled with a public version of the Windows App SDK package. To develop your samples with an internal package version, first configure your NuGet package sources and then modify the package version in your project.
 
-* For C++ samples, consolidate all *.idl* code into the *Project.idl* file. If you add additional Scenario pages to the project, copy and paste the contents of the newly created *Scenario3_ScenarioName.idl* file into *Project.idl*, and delete *Scenario3_ScenarioName.idl*.
+* For C++ samples, consolidate all *.idl* code into the *Project.idl* file. If you add additional Scenario pages to the project, copy and paste the contents of the newly created *ScenarioName.idl* files into *Project.idl*, and delete any extra *.idl* files.
 
 ## Troubleshooting
 

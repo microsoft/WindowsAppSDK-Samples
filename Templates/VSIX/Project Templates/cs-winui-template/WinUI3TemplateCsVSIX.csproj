@@ -86,6 +86,7 @@
     <Content Include="App.xaml.cs" />
     <Content Include="MainWindow.xaml.cs" />
     <Content Include="MainPage.xaml.cs" />
+    <Content Include="SampleConfiguration.cs" />
     <Content Include="Scenario1_ShortName.xaml.cs" />
     <Content Include="Scenario2_ShortName.xaml.cs" />
     <Content Include="SettingsPage.xaml.cs" />
