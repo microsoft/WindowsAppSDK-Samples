@@ -63,7 +63,7 @@ namespace SampleApp
             if (m_mainAppWindow != null)
             {
                 OverlappedPresenter customOverlappedPresenter;
-                
+
                 switch (sender.As<Button>().Name)
                 {
                     case "MainWindowBtn":
@@ -97,7 +97,7 @@ namespace SampleApp
             if (m_mainAppWindow != null)
             {
                 OverlappedPresenter overlappedPresenter = null;
-                if(m_mainAppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
+                if (m_mainAppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
                 {
                     overlappedPresenter = m_mainAppWindow.Presenter.As<OverlappedPresenter>();
                 }

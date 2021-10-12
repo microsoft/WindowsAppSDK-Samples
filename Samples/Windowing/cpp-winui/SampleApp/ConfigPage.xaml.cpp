@@ -4,6 +4,7 @@
 #include "ConfigPage.xaml.h"
 #if __has_include("ConfigPage.g.cpp")
 #include "ConfigPage.g.cpp"
+#include <stddef.h>
 #endif
 
 using namespace winrt;
@@ -16,7 +17,7 @@ namespace winrt::SampleApp::implementation
 {
     ConfigPage::ConfigPage()
     {
-	    InitializeComponent();
+        InitializeComponent();
     }
 
     void ConfigPage::OnNavigatedTo(NavigationEventArgs const& e)
@@ -55,7 +56,7 @@ namespace winrt::SampleApp::implementation
         {
             customOverlappedPresenter = winrt::OverlappedPresenter::Create();
         }
-        else if (buttonName == "ContextMenuBtn")
+        else
         {
             customOverlappedPresenter = winrt::OverlappedPresenter::CreateForContextMenu();
         }
@@ -121,3 +122,6 @@ namespace winrt::SampleApp::implementation
         }
     }
 }
+
+
+
