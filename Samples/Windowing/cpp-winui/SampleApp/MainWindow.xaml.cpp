@@ -89,7 +89,7 @@ namespace winrt::SampleApp::implementation
 
         // Get the WindowId for our window
         winrt::WindowId windowId;
-        windowId = winrt::GetWindowIdFromWindowHandle(hWnd);
+        windowId = winrt::GetWindowIdFromWindow(hWnd);
 
         // Get the AppWindow for the WindowId
         Microsoft::UI::Windowing::AppWindow appWindow = Microsoft::UI::Windowing::AppWindow::GetFromWindowId(windowId);

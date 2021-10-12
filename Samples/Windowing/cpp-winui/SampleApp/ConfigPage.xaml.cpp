@@ -29,25 +29,25 @@ namespace winrt::SampleApp::implementation
     void ConfigPage::ChangeWindowStyle(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         std::string buttonName = to_string(sender.as<Button>().Name());
-        AppWindowConfiguration windowConfiguration = nullptr;
+        OverlappedPresenter customOverlappedPresenter = nullptr;
         
         if (buttonName == "MainWindowBtn")
         {
-            windowConfiguration = winrt::AppWindowConfiguration::CreateDefault();
+            customOverlappedPresenter = winrt::OverlappedPresenter::Create();
         }
         else if (buttonName == "ContextMenuBtn")
         {
-            windowConfiguration = winrt::AppWindowConfiguration::CreateForContextMenu();
+            customOverlappedPresenter = winrt::OverlappedPresenter::CreateForContextMenu();
         }
         else if (buttonName == "DialogWindowBtn")
         {
-            windowConfiguration = winrt::AppWindowConfiguration::CreateForDialog();
+            customOverlappedPresenter = winrt::OverlappedPresenter::CreateForDialog();
         }
         else if (buttonName == "ToolWindowBtn")
         {
-            windowConfiguration = winrt::AppWindowConfiguration::CreateForToolWindow();
+            customOverlappedPresenter = winrt::OverlappedPresenter::CreateForToolWindow();
         }
-        m_mainAppWindow.ApplyConfiguration(windowConfiguration);
+        m_mainAppWindow.SetPresenter(customOverlappedPresenter);
     }
 
     void ConfigPage::ChangeConfiguration(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
@@ -55,40 +55,41 @@ namespace winrt::SampleApp::implementation
         if (m_mainAppWindow)
         {
             ToggleSwitch toggleSwitch = sender.as<ToggleSwitch>();
-
+            
             std::string toggleName = to_string(toggleSwitch.Name());
-            AppWindowConfiguration windowConfiguration = m_mainAppWindow.Configuration();
+            OverlappedPresenter overlappedPresenter = m_mainAppWindow.Presenter().try_as<OverlappedPresenter>();
 
             // Change the property that corresponts to the switch that was toggled
             if (toggleName == "FrameToggle")
             {
-                windowConfiguration.HasFrame(toggleSwitch.IsOn());
+                // TODO: THIS DOES NOT WORK. FIX IT!
+                overlappedPresenter.SetBorderAndTitleBar(FrameToggle().IsOn(), TitleBarToggle().IsOn());
             }
             else if (toggleName == "TitleBarToggle")
             {
-                windowConfiguration.HasTitleBar(toggleSwitch.IsOn());
+                // TODO: THIS DOES NOT WORK. FIX IT!
+                overlappedPresenter.SetBorderAndTitleBar(FrameToggle().IsOn(), TitleBarToggle().IsOn());
             }
             else if (toggleName == "MaxToggle")
             {
-                windowConfiguration.IsMaximizable(toggleSwitch.IsOn());
+                overlappedPresenter.IsMaximizable(toggleSwitch.IsOn());
             }
             else if (toggleName == "MinToggle")
             {
-                windowConfiguration.IsMinimizable(toggleSwitch.IsOn());
+                overlappedPresenter.IsMinimizable(toggleSwitch.IsOn());
             }
             else if (toggleName == "AlwaysOnTopToggle")
             {
-                windowConfiguration.IsAlwaysOnTop(toggleSwitch.IsOn());
+                overlappedPresenter.IsAlwaysOnTop(toggleSwitch.IsOn());
             }
             else if (toggleName == "ResizableToggle")
             {
-                windowConfiguration.IsResizable(toggleSwitch.IsOn());
+                overlappedPresenter.IsResizable(toggleSwitch.IsOn());
             }
             else if (toggleName == "InUxToggle")
             {
-                windowConfiguration.IsShownInSwitchers(toggleSwitch.IsOn());
+                m_mainAppWindow.IsShownInSwitchers(toggleSwitch.IsOn());
             }
-            m_mainAppWindow.ApplyConfiguration(windowConfiguration);
         }
     }
 }
