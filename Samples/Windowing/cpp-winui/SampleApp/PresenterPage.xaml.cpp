@@ -26,7 +26,7 @@ namespace winrt::SampleApp::implementation
         m_mainAppWindow = mainWindow.AppWindow();
     }
 
-    void PresenterPage::SwitchPresenter(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void PresenterPage::SwitchPresenter(winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         std::string buttonName = to_string(sender.as<Button>().Name());
         AppWindowPresenterKind newPresenterKind = AppWindowPresenterKind::Default;

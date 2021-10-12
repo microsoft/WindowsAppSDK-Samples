@@ -38,7 +38,7 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void TitlebarPage::TitlebarBrandingBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void TitlebarPage::TitlebarBrandingBtn_Click([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         m_appWindow.TitleBar().ResetToDefault();
         m_mainWindow.MyTitleBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
@@ -69,7 +69,7 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void TitlebarPage::TitlebarCustomBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void TitlebarPage::TitlebarCustomBtn_Click([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         if (!m_customTitleBar) {
             m_customTitleBar = true;
@@ -100,7 +100,7 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void TitlebarPage::ResetTitlebarBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void TitlebarPage::ResetTitlebarBtn_Click([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         m_mainWindow.MyTitleBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
         m_appWindow.TitleBar().ResetToDefault();
@@ -115,7 +115,7 @@ namespace winrt::SampleApp::implementation
 
         // Get caption button occlusion information
         // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
-        double CaptionButtonOcclusionWidth = m_appWindow.TitleBar().RightInset();
+        int CaptionButtonOcclusionWidth = m_appWindow.TitleBar().RightInset();
 
         // Define your drag Regions
         int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon().ActualWidth() + (int)m_mainWindow.MyWindowIcon().Margin().Right;

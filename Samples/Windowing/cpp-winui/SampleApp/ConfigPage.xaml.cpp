@@ -46,7 +46,7 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void ConfigPage::ChangeWindowStyle(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void ConfigPage::ChangeWindowStyle(winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         std::string buttonName = to_string(sender.as<Button>().Name());
         OverlappedPresenter customOverlappedPresenter = nullptr;
@@ -70,7 +70,7 @@ namespace winrt::SampleApp::implementation
         m_mainAppWindow.SetPresenter(customOverlappedPresenter);
     }
 
-    void ConfigPage::ChangeConfiguration(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void ConfigPage::ChangeConfiguration(winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
         if (m_mainAppWindow)
         {

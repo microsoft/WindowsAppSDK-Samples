@@ -30,13 +30,13 @@ namespace winrt::SampleApp::implementation
     }
 
 
-    void MainWindow::NavigationView_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& args)
+    void MainWindow::NavigationView_Loaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& args)
     {
         ContentFrame().Navigate(xaml_typename<winrt::SampleApp::DemoPage>(), *this);
     }
 
 
-    void MainWindow::NavigationView_ItemInvoked(winrt::IInspectable const& sender, winrt::NavigationViewItemInvokedEventArgs const& args)
+    void MainWindow::NavigationView_ItemInvoked([[maybe_unused]] winrt::IInspectable const& sender, winrt::NavigationViewItemInvokedEventArgs const& args)
     {
         if (args.InvokedItemContainer() != nullptr)
         {
@@ -63,7 +63,7 @@ namespace winrt::SampleApp::implementation
     }
 
 
-    void MainWindow::NavigationView_BackRequested(winrt::NavigationView const& sender, winrt::NavigationViewBackRequestedEventArgs const& args)
+    void MainWindow::NavigationView_BackRequested([[maybe_unused]] winrt::NavigationView const& sender, [[maybe_unused]] winrt::NavigationViewBackRequestedEventArgs const& args)
     {
         if (ContentFrame().CanGoBack())
         {
@@ -71,7 +71,7 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void MainWindow::MyWindowIcon_DoubleTapped(winrt::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::DoubleTappedRoutedEventArgs const& e)
+    void MainWindow::MyWindowIcon_DoubleTapped([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::DoubleTappedRoutedEventArgs const& e)
     {
         this->AppWindow().Destroy();
     }
