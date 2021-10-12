@@ -9,7 +9,7 @@ namespace CsWpfState
     {
         // Windows App SDK version.
         static uint majorMinorVersion = 0x00010000;
-        static string versionTag = "";
+        static string versionTag = "preview2";
 
         [STAThread]
         static void Main(string[] args)

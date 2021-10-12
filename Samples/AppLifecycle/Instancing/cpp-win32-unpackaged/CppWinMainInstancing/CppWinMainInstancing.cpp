@@ -14,7 +14,7 @@ using namespace std::chrono_literals;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"" };
+PCWSTR versionTag{ L"preview2" };
 const PACKAGE_VERSION minVersion{};
 
 #define MAX_LOADSTRING 100

@@ -13,7 +13,7 @@ namespace CsConsoleState
 
         // Windows App SDK version.
         static uint majorMinorVersion = 0x00010000;
-        static string versionTag = "";
+        static string versionTag = "preview2";
         private static bool isWorkInProgress;
 
         static void Main(string[] args)

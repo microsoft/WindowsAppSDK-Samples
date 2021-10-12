@@ -12,7 +12,7 @@ using namespace winrt::Windows::Storage;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"" };
+PCWSTR versionTag{ L"preview2" };
 const PACKAGE_VERSION minVersion{};
 
 WCHAR szExePath[MAX_PATH];
