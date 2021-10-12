@@ -24,6 +24,26 @@ namespace winrt::SampleApp::implementation
         Window window = e.Parameter().as<Window>();
         MainWindow mainWindow = window.as<MainWindow>();
         m_mainAppWindow = mainWindow.AppWindow();
+
+        // Disable the switches that control properties only available when Overlapped if we're in any other Presenter state
+        if (m_mainAppWindow.Presenter().Kind() != AppWindowPresenterKind::Overlapped)
+        {
+            BorderToggle().IsEnabled(false);
+            TitleBarToggle().IsEnabled(false);
+            AlwaysOnTopToggle().IsEnabled(false);
+            MaxToggle().IsEnabled(false);
+            MinToggle().IsEnabled(false);
+            ResizableToggle().IsEnabled(false);
+        }
+        else
+        {
+            BorderToggle().IsEnabled(true);
+            TitleBarToggle().IsEnabled(true);
+            AlwaysOnTopToggle().IsEnabled(true);
+            MaxToggle().IsEnabled(true);
+            MinToggle().IsEnabled(true);
+            ResizableToggle().IsEnabled(true);
+        }
     }
 
     void ConfigPage::ChangeWindowStyle(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
