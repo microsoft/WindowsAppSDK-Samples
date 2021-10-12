@@ -60,15 +60,23 @@ namespace winrt::SampleApp::implementation
             OverlappedPresenter overlappedPresenter = m_mainAppWindow.Presenter().try_as<OverlappedPresenter>();
 
             // Change the property that corresponts to the switch that was toggled
-            if (toggleName == "FrameToggle")
+            if (toggleName == "BorderToggle")
             {
-                // TODO: THIS DOES NOT WORK. FIX IT!
-                overlappedPresenter.SetBorderAndTitleBar(FrameToggle().IsOn(), TitleBarToggle().IsOn());
+                // In order to turn off the Border, you need to turn off the TitleBar too.
+                if (!BorderToggle().IsOn() && TitleBarToggle().IsOn())
+                {
+                    TitleBarToggle().IsOn(false);
+                }
+                overlappedPresenter.SetBorderAndTitleBar(BorderToggle().IsOn(), TitleBarToggle().IsOn());
             }
             else if (toggleName == "TitleBarToggle")
             {
-                // TODO: THIS DOES NOT WORK. FIX IT!
-                overlappedPresenter.SetBorderAndTitleBar(FrameToggle().IsOn(), TitleBarToggle().IsOn());
+                // In order for TitleBar to be turned on, the Border has to be turn on too.
+                if (!BorderToggle().IsOn() && TitleBarToggle().IsOn())
+                {
+                    BorderToggle().IsOn(true);
+                }
+                overlappedPresenter.SetBorderAndTitleBar(BorderToggle().IsOn(), TitleBarToggle().IsOn());
             }
             else if (toggleName == "MaxToggle")
             {

@@ -25,7 +25,7 @@
         </StackPanel>
         <TextBlock Grid.Row="2" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Window Configurations</TextBlock>
         <StackPanel Grid.Row="3" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ToggleSwitch Margin="5,5,5,5" x:Name="FrameToggle" OffContent="No Frame" OnContent="Has Frame" Toggled="ChangeConfiguration" IsOn="True" />
+            <ToggleSwitch Margin="5,5,5,5" x:Name="BorderToggle" OffContent="No Border" OnContent="Has Border" Toggled="ChangeConfiguration" IsOn="True" />
             <ToggleSwitch Margin="5,5,5,5" x:Name="TitleBarToggle" OffContent="No Title Bar" OnContent="Has Title Bar" Toggled="ChangeConfiguration" IsOn="True"  />
             <ToggleSwitch Margin="5,5,5,5" x:Name="MaxToggle" OffContent="Not Maximizable" OnContent="Maximizable" Toggled="ChangeConfiguration" IsOn="True" />
             <ToggleSwitch Margin="5,5,5,5" x:Name="MinToggle" OffContent="Not Minimizable" OnContent="Minimizable" Toggled="ChangeConfiguration" IsOn="True" />

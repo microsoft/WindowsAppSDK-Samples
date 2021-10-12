@@ -37,7 +37,7 @@ namespace SampleApp
             // Disable the switches that control properties only available when Overlapped if we're in any other Presenter state
             if(m_mainAppWindow.Presenter.Kind != AppWindowPresenterKind.Overlapped)
             {
-                FrameToggle.IsEnabled = false;
+                BorderToggle.IsEnabled = false;
                 TitleBarToggle.IsEnabled = false;
                 AlwaysOnTopToggle.IsEnabled = false;
                 MaxToggle.IsEnabled = false;
@@ -46,7 +46,7 @@ namespace SampleApp
             }
             else
             {
-                FrameToggle.IsEnabled = true;
+                BorderToggle.IsEnabled = true;
                 TitleBarToggle.IsEnabled = true;
                 AlwaysOnTopToggle.IsEnabled = true;
                 MaxToggle.IsEnabled = true;
@@ -104,12 +104,22 @@ namespace SampleApp
 
                 switch (sender.As<ToggleSwitch>().Name)
                 {
-                    case "FrameToggle":
-                        overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
+                    case "BorderToggle":
+                            // In order to turn off the Border, you need to turn off the TitleBar too.
+                            if (!BorderToggle.IsOn && TitleBarToggle.IsOn)
+                            {
+                                TitleBarToggle.IsOn = false;
+                            }
+                            overlappedPresenter.SetBorderAndTitleBar(BorderToggle.IsOn, TitleBarToggle.IsOn);
                         break;
 
                     case "TitleBarToggle":
-                        overlappedPresenter.SetBorderAndTitleBar(FrameToggle.IsOn, TitleBarToggle.IsOn);
+                            // In order for TitleBar to be turned on, the Border has to be turn on too.
+                            if (!BorderToggle.IsOn && TitleBarToggle.IsOn)
+                            {
+                                BorderToggle.IsOn = true;
+                            }
+                            overlappedPresenter.SetBorderAndTitleBar(BorderToggle.IsOn, TitleBarToggle.IsOn);
                         break;
 
                     case "AlwaysOnTopToggle":
