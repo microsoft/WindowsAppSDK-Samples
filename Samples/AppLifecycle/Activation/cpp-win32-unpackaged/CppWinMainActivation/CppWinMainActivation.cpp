@@ -13,7 +13,7 @@ using namespace winrt::Windows::Storage;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview1" };
+PCWSTR versionTag{ L"" };
 const PACKAGE_VERSION minVersion{};
 
 #define MAX_LOADSTRING 100
@@ -279,7 +279,8 @@ void UnregisterForActivation()
 
 void GetActivationInfo()
 {
-    AppActivationArguments args = AppInstance::GetCurrent().GetActivatedEventArgs();
+    AppActivationArguments args = 
+        AppInstance::GetCurrent().GetActivatedEventArgs();
     ExtendedActivationKind kind = args.Kind();
     if (kind == ExtendedActivationKind::Launch)
     {

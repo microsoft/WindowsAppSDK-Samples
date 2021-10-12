@@ -12,7 +12,7 @@ using namespace winrt::Windows::Storage;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview1" };
+PCWSTR versionTag{ L"" };
 const PACKAGE_VERSION minVersion{};
 
 WCHAR szMessage[65536];
@@ -54,41 +54,6 @@ void OutputErrorString(const WCHAR* message)
     FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(),
         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), err, 255, NULL);
     OutputFormattedDebugString(L"%s: %s", message, err);
-}
-
-std::wstring GetErrorString(const WCHAR* message)
-{
-    int const arraysize = 4096;
-    WCHAR szTmp[arraysize];
-    size_t cbTmp = arraysize * sizeof(WCHAR);
-
-    WCHAR err[256];
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(),
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), err, 255, NULL);
-    StringCbPrintf(szTmp, cbTmp, L"%s: %s", message, err);
-
-    std::wstring outString(szTmp);
-    return outString;
-}
-
-std::wstring GetCurrentDateTime()
-{
-    time_t now = time(0);
-    struct tm tstruct;
-    WCHAR buf[512];
-    errno_t err;
-    err = localtime_s(&tstruct, &now);
-    wcsftime(buf, sizeof(buf)/2, L"%Y-%m-%d %X", &tstruct);
-    return std::wstring(buf);
-}
-
-void Logger(std::wstring logMsg)
-{
-    std::wstring filePath = L"C:\\Temp\\ErrLog.txt";
-    std::wstring now = GetCurrentDateTime();
-    std::wofstream ofs(filePath.c_str(), std::ios_base::out | std::ios_base::app);
-    ofs << '\n' << now << '\n' << logMsg.c_str() << '\n';
-    ofs.close();
 }
 
 std::vector<std::wstring> split_strings(hstring argString)

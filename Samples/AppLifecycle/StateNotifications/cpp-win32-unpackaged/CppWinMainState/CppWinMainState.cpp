@@ -23,7 +23,7 @@ using namespace winrt::Microsoft::Windows::System::Power;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview1" };
+PCWSTR versionTag{ L"" };
 const PACKAGE_VERSION minVersion{};
 
 #define MAX_LOADSTRING 256
@@ -241,7 +241,8 @@ void RegisterPowerManagerCallbacks()
     systemSuspendToken = PowerManager::SystemSuspendStatusChanged([&](
         const auto&, winrt::Windows::Foundation::IInspectable obj) { OnSystemSuspendStatusChanged(); });
 
-    if (batteryToken && powerToken && powerSourceToken && chargeToken && dischargeToken)
+    if (batteryToken && powerToken && powerSourceToken && chargeToken && dischargeToken
+        && displayToken && energyToken && powerModeToken && userPresenceToken && systemSuspendToken)
     {
         OutputMessage(L"Successfully registered for state notifications");
     }
