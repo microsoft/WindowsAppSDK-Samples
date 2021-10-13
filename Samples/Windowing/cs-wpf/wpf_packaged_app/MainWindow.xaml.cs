@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
 using System.Windows;
-using System;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.UI;
