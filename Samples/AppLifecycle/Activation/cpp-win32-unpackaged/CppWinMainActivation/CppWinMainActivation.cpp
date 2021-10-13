@@ -17,13 +17,13 @@ PCWSTR versionTag{ L"preview2" };
 const PACKAGE_VERSION minVersion{};
 
 #define MAX_LOADSTRING 100
-WCHAR szTitle[MAX_LOADSTRING];
-WCHAR szWindowClass[MAX_LOADSTRING];
+WCHAR windowTitle[MAX_LOADSTRING];
+WCHAR windowClass[MAX_LOADSTRING];
 ATOM RegisterWindowClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-WCHAR szExePath[MAX_PATH];
-WCHAR szExePathAndIconIndex[MAX_PATH + 8];
+WCHAR exePath[MAX_PATH];
+WCHAR exePathAndIconIndex[MAX_PATH + 8];
 HWND g_hWndListbox;
 HINSTANCE g_hInst;
 HWND g_hWnd;
@@ -87,12 +87,12 @@ int APIENTRY wWinMain(
 
     // Get the current executable filesystem path, so we can
     // use it later in registering for activation kinds.
-    GetModuleFileName(NULL, szExePath, MAX_PATH);
-    wcscpy_s(szExePathAndIconIndex, szExePath);
-    wcscat_s(szExePathAndIconIndex, L",1");
+    GetModuleFileName(NULL, exePath, MAX_PATH);
+    wcscpy_s(exePathAndIconIndex, exePath);
+    wcscat_s(exePathAndIconIndex, L",1");
 
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_CLASSNAME, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDS_APP_TITLE, windowTitle, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_CLASSNAME, windowClass, MAX_LOADSTRING);
     RegisterWindowClass(hInstance);
     if (!InitInstance(hInstance, nCmdShow))
     {
@@ -124,7 +124,7 @@ ATOM RegisterWindowClass(HINSTANCE hInstance)
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CLASSNAME);
-    wcex.lpszClassName  = szWindowClass;
+    wcex.lpszClassName  = windowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     return RegisterClassExW(&wcex);
 }
@@ -132,7 +132,7 @@ ATOM RegisterWindowClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    g_hInst = hInstance; 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   HWND hWnd = CreateWindowW(windowClass, windowTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, 640,480, nullptr, nullptr, hInstance, nullptr);
    if (!hWnd)
    {
@@ -216,19 +216,19 @@ void RegisterForActivation()
     hstring verbs[2] = { L"view", L"edit" };
     ActivationRegistrationManager::RegisterForFileTypeActivation(
         myFileTypes,
-        szExePathAndIconIndex,
+        exePathAndIconIndex,
         L"Contoso File Types",
         verbs,
-        szExePath
+        exePath
     );
 
     // Register a URI scheme for protocol activation,
     // specifying the scheme name, icon, display name and EXE path.
     ActivationRegistrationManager::RegisterForProtocolActivation(
         L"foo",
-        szExePathAndIconIndex,
+        exePathAndIconIndex,
         L"Contoso Foo Protocol",
-        szExePath
+        exePath
     );
 
     // Register for startup activation.
@@ -237,7 +237,7 @@ void RegisterForActivation()
     // activated at startup.
     ActivationRegistrationManager::RegisterForStartupActivation(
         L"ContosoStartupId",
-        szExePath
+        exePath
     );
 
     // If we don't specify the EXE, it will default to this EXE.
@@ -257,7 +257,7 @@ void UnregisterForActivation()
         hstring myFileTypes[3] = { L".foo", L".foo2", L".foo3" };
         ActivationRegistrationManager::UnregisterForFileTypeActivation(
             myFileTypes,
-            szExePath
+            exePath
         );
     }
     catch (...)
@@ -286,12 +286,12 @@ void GetActivationInfo()
     {
         ILaunchActivatedEventArgs launchArgs = 
             args.Data().as<ILaunchActivatedEventArgs>();
-        if (launchArgs != NULL)
+        if (launchArgs)
         {
             winrt::hstring argString = launchArgs.Arguments().c_str();
             std::vector<std::wstring> argStrings = split_strings(argString);
             OutputMessage(L"Launch activation");
-            for (std::wstring s : argStrings)
+            for (std::wstring const& s : argStrings)
             {
                 OutputMessage(s.c_str());
             }
@@ -301,7 +301,7 @@ void GetActivationInfo()
     {
         IFileActivatedEventArgs fileArgs = 
             args.Data().as<IFileActivatedEventArgs>();
-        if (fileArgs != NULL)
+        if (fileArgs)
         {
             IStorageItem file = fileArgs.Files().GetAt(0);
             OutputFormattedMessage(
@@ -312,7 +312,7 @@ void GetActivationInfo()
     {
         IProtocolActivatedEventArgs protocolArgs = 
             args.Data().as<IProtocolActivatedEventArgs>();
-        if (protocolArgs != NULL)
+        if (protocolArgs)
         {
             Uri uri = protocolArgs.Uri();
             OutputFormattedMessage(
@@ -323,7 +323,7 @@ void GetActivationInfo()
     {
         IStartupTaskActivatedEventArgs startupArgs = 
             args.Data().as<IStartupTaskActivatedEventArgs>();
-        if (startupArgs != NULL)
+        if (startupArgs)
         {
             OutputFormattedMessage(
                 L"Startup activation: %s", startupArgs.TaskId().c_str());

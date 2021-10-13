@@ -15,9 +15,9 @@ const UINT32 majorMinorVersion{ 0x00010000 };
 PCWSTR versionTag{ L"preview2" };
 const PACKAGE_VERSION minVersion{};
 
-WCHAR szMessage[65536];
-WCHAR szExePath[MAX_PATH];
-WCHAR szExePathAndIconIndex[MAX_PATH + 8];
+WCHAR g_Message[65536];
+WCHAR exePath[MAX_PATH];
+WCHAR exePathAndIconIndex[MAX_PATH + 8];
 int activationCount = 1;
 event_token activationToken;
 
@@ -76,12 +76,12 @@ void GetActivationInfo()
     if (kind == ExtendedActivationKind::Launch)
     {
         auto launchArgs = args.Data().as<ILaunchActivatedEventArgs>();
-        if (launchArgs != NULL)
+        if (launchArgs)
         {
             auto argString = launchArgs.Arguments().c_str();
             std::vector<std::wstring> argStrings = split_strings(argString);
             OutputMessage(L"Launch activation");
-            for (std::wstring s : argStrings)
+            for (std::wstring const& s : argStrings)
             {
                 OutputMessage(s.c_str());
             }
@@ -90,7 +90,7 @@ void GetActivationInfo()
     else if (kind == ExtendedActivationKind::File)
     {
         auto fileArgs = args.Data().as<IFileActivatedEventArgs>();
-        if (fileArgs != NULL)
+        if (fileArgs)
         {
             IStorageItem file = fileArgs.Files().GetAt(0);
             OutputFormattedMessage(
@@ -110,10 +110,10 @@ void RegisterForFileActivation()
     hstring verbs[2] = { L"view", L"edit" };
     ActivationRegistrationManager::RegisterForFileTypeActivation(
         imageFileTypes,
-        szExePathAndIconIndex,
+        exePathAndIconIndex,
         L"Montoso File Types",
         verbs,
-        szExePath
+        exePath
     );
     OutputMessage(L"Registered for file activation");
 }
@@ -126,7 +126,7 @@ void UnregisterForFileActivation()
         hstring imageFileTypes[1] = { L".moo" };
         ActivationRegistrationManager::UnregisterForFileTypeActivation(
             imageFileTypes,
-            szExePath
+            exePath
         );
         OutputMessage(L"Unregistered for file activation");
     }
@@ -157,12 +157,12 @@ IAsyncAction ProcessTheFile(const WCHAR* fileName)
 void ReportLaunchArgs(hstring callLocation, AppActivationArguments args)
 {
     ILaunchActivatedEventArgs launchArgs = args.Data().as<ILaunchActivatedEventArgs>();
-    if (launchArgs != NULL)
+    if (launchArgs)
     {
         winrt::hstring argString = launchArgs.Arguments().c_str();
         std::vector<std::wstring> argStrings = split_strings(argString);
         OutputFormattedMessage(L"Launch activation: %s", callLocation.c_str());
-        for (std::wstring s : argStrings)
+        for (std::wstring const& s : argStrings)
         {
             OutputMessage(s.c_str());
         }
@@ -172,7 +172,7 @@ void ReportLaunchArgs(hstring callLocation, AppActivationArguments args)
 void ReportFileArgs(hstring callLocation, AppActivationArguments args)
 {
     IFileActivatedEventArgs fileArgs = args.Data().as<IFileActivatedEventArgs>();
-    if (fileArgs != NULL)
+    if (fileArgs)
     {
         IStorageItem file = fileArgs.Files().GetAt(0);
         OutputFormattedMessage(
@@ -212,10 +212,10 @@ int main()
 
     // Get the current executable filesystem path, so we can
     // use it later in registering for activation kinds.
-    GetModuleFileName(NULL, szExePath, MAX_PATH);
-    _putws(szExePath);
-    wcscpy_s(szExePathAndIconIndex, szExePath);
-    wcscat_s(szExePathAndIconIndex, L",1");
+    GetModuleFileName(NULL, exePath, MAX_PATH);
+    _putws(exePath);
+    wcscpy_s(exePathAndIconIndex, exePath);
+    wcscat_s(exePathAndIconIndex, L",1");
 
     // Find out what kind of activation this is.
     AppActivationArguments args = AppInstance::GetCurrent().GetActivatedEventArgs();
@@ -235,21 +235,21 @@ int main()
             // This is a file activation: here we'll get the file information,
             // and register the file name as our instance key.
             IFileActivatedEventArgs fileArgs = args.Data().as<IFileActivatedEventArgs>();
-            if (fileArgs != NULL)
+            if (fileArgs)
             {
                 IStorageItem file = fileArgs.Files().GetAt(0);
                 AppInstance keyInstance = AppInstance::FindOrRegisterForKey(file.Name());
-                wcscat_s(szMessage, L"\nRegistered key = ");
-                wcscat_s(szMessage, keyInstance.Key().c_str());
+                wcscat_s(g_Message, L"\nRegistered key = ");
+                wcscat_s(g_Message, keyInstance.Key().c_str());
 
                 // If we successfully registered the file name, we must be the
                 // only instance running that was activated for this file.
                 if (keyInstance.IsCurrent())
                 {
                     // Report successful file name key registration.
-                    wcscat_s(szMessage, L"\nIsCurrent=true; registered this instance for ");
-                    wcscat_s(szMessage, file.Name().c_str());
-                    _putws(szMessage);
+                    wcscat_s(g_Message, L"\nIsCurrent=true; registered this instance for ");
+                    wcscat_s(g_Message, file.Name().c_str());
+                    _putws(g_Message);
 
                     activationToken = keyInstance.Activated([&keyInstance](
                             const auto& sender, const AppActivationArguments& args)
@@ -257,8 +257,7 @@ int main()
                     );
                     _putws(L"Connected Activated event");
 
-                    // Process the selected file. Note: we're in an MTA,
-                    // so it's OK to wait on the async call here.
+                    // Process the selected file. Note that get() is a blocking call.
                     ProcessTheFile(file.Name().c_str()).get();
                 }
                 else
@@ -266,6 +265,8 @@ int main()
                     // Pause long enough to show the Redirecting message.
                     _putws(L"\nRedirecting...\n");
                     Sleep(3000);
+
+                    // Note that get() is a blocking call.
                     keyInstance.RedirectActivationToAsync(args).get();
                     return 1;
                 }

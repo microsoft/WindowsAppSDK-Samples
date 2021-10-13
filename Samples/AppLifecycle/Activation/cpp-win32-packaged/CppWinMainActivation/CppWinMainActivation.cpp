@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 // NOTES. This app is cloned from the unpackaged version. The key differences are as follows:
-// 1. A packaged app cannot use the Register/Unregister APIs for rich activation.
+// 1. A packaged app cannot use the Register/Unregister APIs for rich activation; instead it declares activation kinds in its manifest.
 // 2. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // 3. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
 // 4. A packaged app can declare rich activation extensions in the manifest, and retrieve activation arguments via the Windows App SDK GetActivatedEventArgs API.
@@ -18,8 +18,8 @@ using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Windows::Storage;
 
 #define MAX_LOADSTRING 100
-WCHAR szTitle[MAX_LOADSTRING];
-WCHAR szWindowClass[MAX_LOADSTRING];
+WCHAR windowTitle[MAX_LOADSTRING];
+WCHAR windowClass[MAX_LOADSTRING];
 ATOM RegisterWindowClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -72,8 +72,8 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_CLASSNAME, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDS_APP_TITLE, windowTitle, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_CLASSNAME, windowClass, MAX_LOADSTRING);
     RegisterWindowClass(hInstance);
     if (!InitInstance(hInstance, nCmdShow))
     {
@@ -103,7 +103,7 @@ ATOM RegisterWindowClass(HINSTANCE hInstance)
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CLASSNAME);
-    wcex.lpszClassName  = szWindowClass;
+    wcex.lpszClassName  = windowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     return RegisterClassExW(&wcex);
 }
@@ -111,7 +111,7 @@ ATOM RegisterWindowClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    g_hInst = hInstance; 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   HWND hWnd = CreateWindowW(windowClass, windowTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, 640,480, nullptr, nullptr, hInstance, nullptr);
    if (!hWnd)
    {
@@ -194,12 +194,12 @@ void GetActivationInfoWas()
     {
         ILaunchActivatedEventArgs launchArgs =
             args.Data().as<ILaunchActivatedEventArgs>();
-        if (launchArgs != NULL)
+        if (launchArgs)
         {
             winrt::hstring argString = launchArgs.Arguments().c_str();
             std::vector<std::wstring> argStrings = split_strings(argString);
             OutputMessage(L"Launch activation");
-            for (std::wstring s : argStrings)
+            for (std::wstring const& s : argStrings)
             {
                 OutputMessage(s.c_str());
             }
@@ -209,7 +209,7 @@ void GetActivationInfoWas()
     {
         IFileActivatedEventArgs fileArgs =
             args.Data().as<IFileActivatedEventArgs>();
-        if (fileArgs != NULL)
+        if (fileArgs)
         {
             IStorageItem file = fileArgs.Files().GetAt(0);
             OutputFormattedMessage(
@@ -220,7 +220,7 @@ void GetActivationInfoWas()
     {
         IProtocolActivatedEventArgs protocolArgs =
             args.Data().as<IProtocolActivatedEventArgs>();
-        if (protocolArgs != NULL)
+        if (protocolArgs)
         {
             Uri uri = protocolArgs.Uri();
             OutputFormattedMessage(
@@ -231,7 +231,7 @@ void GetActivationInfoWas()
     {
         IStartupTaskActivatedEventArgs startupArgs =
             args.Data().as<IStartupTaskActivatedEventArgs>();
-        if (startupArgs != NULL)
+        if (startupArgs)
         {
             OutputFormattedMessage(
                 L"Startup activation: %s", startupArgs.TaskId().c_str());
@@ -251,12 +251,12 @@ void GetActivationInfoUwp()
     {
         ILaunchActivatedEventArgs launchArgs = 
             args.as<ILaunchActivatedEventArgs>();
-        if (launchArgs != NULL)
+        if (launchArgs)
         {
             winrt::hstring argString = launchArgs.Arguments().c_str();
             std::vector<std::wstring> argStrings = split_strings(argString);
             OutputMessage(L"Launch activation");
-            for (std::wstring s : argStrings)
+            for (std::wstring const& s : argStrings)
             {
                 OutputMessage(s.c_str());
             }
@@ -266,7 +266,7 @@ void GetActivationInfoUwp()
     {
         IFileActivatedEventArgs fileArgs =
             args.as<IFileActivatedEventArgs>();
-        if (fileArgs != NULL)
+        if (fileArgs)
         {
             IStorageItem file = fileArgs.Files().GetAt(0);
             OutputFormattedMessage(
@@ -277,7 +277,7 @@ void GetActivationInfoUwp()
     {
         IProtocolActivatedEventArgs protocolArgs =
             args.as<IProtocolActivatedEventArgs>();
-        if (protocolArgs != NULL)
+        if (protocolArgs)
         {
             Uri uri = protocolArgs.Uri();
             OutputFormattedMessage(
@@ -288,7 +288,7 @@ void GetActivationInfoUwp()
     {
         IStartupTaskActivatedEventArgs startupArgs =
             args.as<IStartupTaskActivatedEventArgs>();
-        if (startupArgs != NULL)
+        if (startupArgs)
         {
             OutputFormattedMessage(
                 L"Startup activation: %s", startupArgs.TaskId().c_str());

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 // NOTES. This app is cloned from the unpackaged version. The key differences are as follows:
-// 1. A packaged app cannot use the Register/Unregister APIs for rich activation.
+// 1. A packaged app cannot use the Register/Unregister APIs for rich activation; instead it declares activation kinds in its manifest.
 // 2. A packaged app does not need to initialize the Windows App SDK for unpackaged support.
 // 3. The Package project must include a reference to the Windows App SDK NuGet in addition to the app project itself.
 // 4. A packaged app can declare rich activation extensions in the manifest, and retrieve activation arguments via the Windows App SDK GetActivatedEventArgs API.

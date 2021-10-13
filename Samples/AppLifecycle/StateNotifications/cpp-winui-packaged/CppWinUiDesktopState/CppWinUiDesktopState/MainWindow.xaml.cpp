@@ -114,77 +114,77 @@ void winrt::CppWinUiDesktopState::implementation::MainWindow::UnregisterPowerMan
 void winrt::CppWinUiDesktopState::implementation::MainWindow::OnBatteryStatusChanged()
 {
     const size_t statusSize = 16;
-    WCHAR szStatus[statusSize];
-    wmemset(&(szStatus[0]), 0, statusSize);
+    WCHAR status[statusSize];
+    wmemset(&(status[0]), 0, statusSize);
 
     BatteryStatus batteryStatus = PowerManager::BatteryStatus();
     int remainingCharge = PowerManager::RemainingChargePercent();
     switch (batteryStatus)
     {
     case BatteryStatus::Charging:
-        wcscpy_s(szStatus, L"Charging");
+        wcscpy_s(status, L"Charging");
         break;
     case BatteryStatus::Discharging:
-        wcscpy_s(szStatus, L"Discharging");
+        wcscpy_s(status, L"Discharging");
         break;
     case BatteryStatus::Idle:
-        wcscpy_s(szStatus, L"Idle");
+        wcscpy_s(status, L"Idle");
         break;
     case BatteryStatus::NotPresent:
-        wcscpy_s(szStatus, L"NotPresent");
+        wcscpy_s(status, L"NotPresent");
         break;
     }
 
     OutputFormattedMessage(
         L"Battery status changed: %s, %d%% remaining",
-        szStatus, remainingCharge);
+        status, remainingCharge);
     DetermineWorkloads();
 }
 
 void winrt::CppWinUiDesktopState::implementation::MainWindow::OnPowerSupplyStatusChanged()
 {
     const size_t statusSize = 16;
-    WCHAR szStatus[statusSize];
-    wmemset(&(szStatus[0]), 0, statusSize);
+    WCHAR status[statusSize];
+    wmemset(&(status[0]), 0, statusSize);
 
     PowerSupplyStatus powerStatus = PowerManager::PowerSupplyStatus();
     switch (powerStatus)
     {
     case PowerSupplyStatus::Adequate:
-        wcscpy_s(szStatus, L"Adequate");
+        wcscpy_s(status, L"Adequate");
         break;
     case PowerSupplyStatus::Inadequate:
-        wcscpy_s(szStatus, L"Inadequate");
+        wcscpy_s(status, L"Inadequate");
         break;
     case PowerSupplyStatus::NotPresent:
-        wcscpy_s(szStatus, L"NotPresent");
+        wcscpy_s(status, L"NotPresent");
         break;
     }
 
     OutputFormattedMessage(
-        L"Power supply status changed: %s", szStatus);
+        L"Power supply status changed: %s", status);
     DetermineWorkloads();
 }
 
 void winrt::CppWinUiDesktopState::implementation::MainWindow::OnPowerSourceKindChanged()
 {
     const size_t statusSize = 16;
-    WCHAR szStatus[statusSize];
-    wmemset(&(szStatus[0]), 0, statusSize);
+    WCHAR status[statusSize];
+    wmemset(&(status[0]), 0, statusSize);
 
     PowerSourceKind powerSource = PowerManager::PowerSourceKind();
     switch (powerSource)
     {
     case PowerSourceKind::AC:
-        wcscpy_s(szStatus, L"AC");
+        wcscpy_s(status, L"AC");
         break;
     case PowerSourceKind::DC:
-        wcscpy_s(szStatus, L"DC");
+        wcscpy_s(status, L"DC");
         break;
     }
 
     OutputFormattedMessage(
-        L"Power source kind changed: %s", szStatus);
+        L"Power source kind changed: %s", status);
     DetermineWorkloads();
 }
 
@@ -203,25 +203,25 @@ void winrt::CppWinUiDesktopState::implementation::MainWindow::OnRemainingDischar
 void winrt::CppWinUiDesktopState::implementation::MainWindow::OnDisplayStatusChanged()
 {
     const size_t statusSize = 16;
-    WCHAR szStatus[statusSize];
-    wmemset(&(szStatus[0]), 0, statusSize);
+    WCHAR status[statusSize];
+    wmemset(&(status[0]), 0, statusSize);
 
     DisplayStatus displayStatus = PowerManager::DisplayStatus();
     switch (displayStatus)
     {
     case DisplayStatus::Dimmed:
-        wcscpy_s(szStatus, L"Dimmed");
+        wcscpy_s(status, L"Dimmed");
         break;
     case DisplayStatus::Off:
-        wcscpy_s(szStatus, L"Off");
+        wcscpy_s(status, L"Off");
         break;
     case DisplayStatus::On:
-        wcscpy_s(szStatus, L"On");
+        wcscpy_s(status, L"On");
         break;
     }
 
     OutputFormattedMessage(
-        L"Display status changed: %s", szStatus);
+        L"Display status changed: %s", status);
     if (displayStatus == DisplayStatus::Off)
     {
         // The screen is off, let's stop rendering foreground graphics,

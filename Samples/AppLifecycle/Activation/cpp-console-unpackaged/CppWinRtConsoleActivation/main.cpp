@@ -15,8 +15,8 @@ const UINT32 majorMinorVersion{ 0x00010000 };
 PCWSTR versionTag{ L"preview2" };
 const PACKAGE_VERSION minVersion{};
 
-WCHAR szExePath[MAX_PATH];
-WCHAR szExePathAndIconIndex[MAX_PATH + 8];
+WCHAR exePath[MAX_PATH];
+WCHAR exePathAndIconIndex[MAX_PATH + 8];
 
 std::vector<std::wstring> split_strings(hstring argString);
 void RegisterForActivation();
@@ -72,13 +72,13 @@ int main()
 
     // Get the current executable filesystem path, so we can
     // use it later in registering for activation kinds.
-    GetModuleFileName(NULL, szExePath, MAX_PATH);
-    wcscpy_s(szExePathAndIconIndex, szExePath);
-    wcscat_s(szExePathAndIconIndex, L",1");
-    _putws(szExePath);
+    GetModuleFileName(NULL, exePath, MAX_PATH);
+    wcscpy_s(exePathAndIconIndex, exePath);
+    wcscat_s(exePathAndIconIndex, L",1");
+    _putws(exePath);
 
-    char char_choice[2];
-    int int_choice = 0;
+    char charOption[2];
+    int intOption = 0;
     do
     {
         _putws(L"\nMENU");
@@ -88,9 +88,9 @@ int main()
         _putws(L"4 - Quit");
         wprintf(L"Select an option: ");
 
-        scanf("%s", char_choice);
-        int_choice = atoi(char_choice);
-        switch (int_choice)
+        scanf_s("%1s", charOption, (unsigned)_countof(charOption));
+        intOption = atoi(charOption);
+        switch (intOption)
         {
         case 1:
             GetActivationInfo();
@@ -104,10 +104,10 @@ int main()
         case 4:
             break;
         default:
-            printf("*** Error: %s is not a valid choice ***", char_choice);
+            printf("*** Error: %s is not a valid choice ***", charOption);
             break;
         }
-    } while (int_choice != 4);
+    } while (intOption != 4);
 
     // Uninitialize Windows App SDK.
     MddBootstrapShutdown();
@@ -130,10 +130,10 @@ void RegisterForActivation()
     hstring verbs[2] = { L"view", L"edit" };
     ActivationRegistrationManager::RegisterForFileTypeActivation(
         myFileTypes,
-        szExePathAndIconIndex,
+        exePathAndIconIndex,
         L"Contoso File Types",
         verbs,
-        szExePath
+        exePath
     );
     OutputMessage(L"Registered for file activation");
 
@@ -141,9 +141,9 @@ void RegisterForActivation()
     // specifying the scheme name, icon, display name and EXE path.
     ActivationRegistrationManager::RegisterForProtocolActivation(
         L"foo",
-        szExePathAndIconIndex,
+        exePathAndIconIndex,
         L"Contoso Foo Protocol",
-        szExePath
+        exePath
     );
     OutputMessage(L"Registered for protocol activation");
 
@@ -153,7 +153,7 @@ void RegisterForActivation()
     // activated at startup.
     ActivationRegistrationManager::RegisterForStartupActivation(
         L"ContosoStartupId",
-        szExePath
+        exePath
     );
     OutputMessage(L"Registered for startup activation");
 }
@@ -166,7 +166,7 @@ void UnregisterForActivation()
         hstring myFileTypes[3] = { L".foo", L".foo2", L".foo3" };
         ActivationRegistrationManager::UnregisterForFileTypeActivation(
             myFileTypes,
-            szExePath
+            exePath
         );
         OutputMessage(L"Unregistered for file activation");
     }
@@ -194,12 +194,12 @@ void GetActivationInfo()
     if (kind == ExtendedActivationKind::Launch)
     {
         auto launchArgs = args.Data().as<ILaunchActivatedEventArgs>();
-        if (launchArgs != NULL)
+        if (launchArgs)
         {
             auto argString = launchArgs.Arguments().c_str();
             std::vector<std::wstring> argStrings = split_strings(argString);
             OutputMessage(L"Launch activation");
-            for (std::wstring s : argStrings)
+            for (std::wstring const& s : argStrings)
             {
                 OutputMessage(s.c_str());
             }
@@ -208,7 +208,7 @@ void GetActivationInfo()
     else if (kind == ExtendedActivationKind::File)
     {
         auto fileArgs = args.Data().as<IFileActivatedEventArgs>();
-        if (fileArgs != NULL)
+        if (fileArgs)
         {
             IStorageItem file = fileArgs.Files().GetAt(0);
             OutputFormattedMessage(
@@ -218,7 +218,7 @@ void GetActivationInfo()
     else if (kind == ExtendedActivationKind::Protocol)
     {
         auto protocolArgs = args.Data().as<IProtocolActivatedEventArgs>();
-        if (protocolArgs != NULL)
+        if (protocolArgs)
         {
             Uri uri = protocolArgs.Uri();
             OutputFormattedMessage(
@@ -228,7 +228,7 @@ void GetActivationInfo()
     else if (kind == ExtendedActivationKind::StartupTask)
     {
         auto startupArgs = args.Data().as<IStartupTaskActivatedEventArgs>();
-        if (startupArgs != NULL)
+        if (startupArgs)
         {
             OutputFormattedMessage(
                 L"Startup activation: %s", startupArgs.TaskId().c_str());

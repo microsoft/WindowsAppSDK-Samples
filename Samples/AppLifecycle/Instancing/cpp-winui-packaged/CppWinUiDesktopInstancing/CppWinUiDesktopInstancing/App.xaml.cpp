@@ -74,13 +74,13 @@ void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&
     // Microsoft.Windows.AppLifecycle.AppInstance and
     // Windows.ApplicationModel.AppInstance
     auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
-    if (NULL != currentInstance)
+    if (currentInstance)
     {
         // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
         // even in WinUI's OnLaunched.
         winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
             = currentInstance.GetActivatedEventArgs();
-        if (NULL != activationArgs)
+        if (activationArgs)
         {
             winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
                 = activationArgs.Kind();
@@ -141,12 +141,12 @@ void GetActivationInfo()
     {
         auto launchArgs = args.Data().as<
             Windows::ApplicationModel::Activation::ILaunchActivatedEventArgs>();
-        if (launchArgs != NULL)
+        if (launchArgs)
         {
             auto argString = launchArgs.Arguments().c_str();
             std::vector<std::wstring> argStrings = split_strings(argString);
             OutputMessage(L"Launch activation");
-            for (std::wstring s : argStrings)
+            for (std::wstring const& s : argStrings)
             {
                 OutputMessage(s.c_str());
             }
@@ -155,7 +155,7 @@ void GetActivationInfo()
     else if (kind == ExtendedActivationKind::File)
     {
         auto fileArgs = args.Data().as<IFileActivatedEventArgs>();
-        if (fileArgs != NULL)
+        if (fileArgs)
         {
             IStorageItem file = fileArgs.Files().GetAt(0);
             OutputFormattedMessage(
@@ -168,12 +168,12 @@ void ReportLaunchArgs(hstring callLocation, AppActivationArguments args)
 {
     Windows::ApplicationModel::Activation::ILaunchActivatedEventArgs launchArgs = 
         args.Data().as<Windows::ApplicationModel::Activation::ILaunchActivatedEventArgs>();
-    if (launchArgs != NULL)
+    if (launchArgs)
     {
         winrt::hstring argString = launchArgs.Arguments().c_str();
         std::vector<std::wstring> argStrings = split_strings(argString);
         OutputFormattedMessage(L"Launch activation (%s)", callLocation.c_str());
-        for (std::wstring s : argStrings)
+        for (std::wstring const& s : argStrings)
         {
             OutputMessage(s.c_str());
         }
@@ -183,7 +183,7 @@ void ReportLaunchArgs(hstring callLocation, AppActivationArguments args)
 void ReportFileArgs(hstring callLocation, AppActivationArguments args)
 {
     IFileActivatedEventArgs fileArgs = args.Data().as<IFileActivatedEventArgs>();
-    if (fileArgs != NULL)
+    if (fileArgs)
     {
         IStorageItem file = fileArgs.Files().GetAt(0);
         OutputFormattedMessage(
@@ -248,7 +248,7 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
             // This is a file activation: here we'll get the file information,
             // and register the file name as our instance key.
             IFileActivatedEventArgs fileArgs = args.Data().as<IFileActivatedEventArgs>();
-            if (fileArgs != NULL)
+            if (fileArgs)
             {
                 IStorageItem file = fileArgs.Files().GetAt(0);
                 AppInstance keyInstance = AppInstance::FindOrRegisterForKey(file.Name());

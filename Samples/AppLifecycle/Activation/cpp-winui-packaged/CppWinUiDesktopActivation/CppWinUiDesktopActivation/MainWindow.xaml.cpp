@@ -44,33 +44,45 @@ void winrt::CppWinUiDesktopActivation::implementation::MainWindow::GetActivation
             args.Data().as
             <winrt::Windows::ApplicationModel::Activation::ILaunchActivatedEventArgs>()
             .Arguments().c_str();
-        std::vector<std::wstring> argStrings = split_strings(launchArgs);
-
-        OutputMessage(L"Launch activation");
-        for (std::wstring s : argStrings)
+        if (launchArgs)
         {
-            OutputMessage(s.c_str());
+            std::vector<std::wstring> argStrings = split_strings(launchArgs);
+
+            OutputMessage(L"Launch activation");
+            for (std::wstring const& s : argStrings)
+            {
+                OutputMessage(s.c_str());
+            }
         }
     }
     else if (kind == ExtendedActivationKind::File)
     {
         auto fileArgs = args.Data().as<IFileActivatedEventArgs>();
-        IStorageItem file = fileArgs.Files().GetAt(0);
-        OutputFormattedMessage(
-            L"File activation: %s", file.Name().c_str());
+        if (fileArgs)
+        {
+            IStorageItem file = fileArgs.Files().GetAt(0);
+            OutputFormattedMessage(
+                L"File activation: %s", file.Name().c_str());
+        }
     }
     else if (kind == ExtendedActivationKind::Protocol)
     {
         auto protocolArgs = args.Data().as<IProtocolActivatedEventArgs>();
-        Uri uri = protocolArgs.Uri();
-        OutputFormattedMessage(
-            L"Protocol activation: %s", uri.RawUri().c_str());
+        if (protocolArgs)
+        {
+            Uri uri = protocolArgs.Uri();
+            OutputFormattedMessage(
+                L"Protocol activation: %s", uri.RawUri().c_str());
+        }
     }
     else if (kind == ExtendedActivationKind::StartupTask)
     {
         auto startupArgs = args.Data().as<IStartupTaskActivatedEventArgs>();
-        OutputFormattedMessage(
-            L"Startup activation: %s", startupArgs.TaskId().c_str());
+        if (startupArgs)
+        {
+            OutputFormattedMessage(
+                L"Startup activation: %s", startupArgs.TaskId().c_str());
+        }
     }
 }
 

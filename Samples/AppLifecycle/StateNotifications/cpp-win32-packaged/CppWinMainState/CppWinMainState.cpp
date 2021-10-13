@@ -26,12 +26,12 @@ using namespace winrt::Windows::System;
 using namespace winrt::Microsoft::Windows::System::Power;
 
 #define MAX_LOADSTRING 256
-WCHAR szTitle[MAX_LOADSTRING];
-WCHAR szWindowClass[MAX_LOADSTRING];
+WCHAR windowTitle[MAX_LOADSTRING];
+WCHAR windowClass[MAX_LOADSTRING];
 HINSTANCE g_hInst; 
 HWND g_hWnd;
 HWND g_hWndListbox;
-BOOL bWorkInProgress;
+BOOL isWorkInProgress;
 winrt::event_token batteryToken;
 winrt::event_token powerToken;
 winrt::event_token powerSourceToken;
@@ -96,8 +96,8 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_CLASSNAME, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDS_APP_TITLE, windowTitle, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_CLASSNAME, windowClass, MAX_LOADSTRING);
     RegisterWindowClass(hInstance);
     if (!InitInstance (hInstance, nCmdShow))
     {
@@ -127,7 +127,7 @@ ATOM RegisterWindowClass(HINSTANCE hInstance)
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CLASSNAME);
-    wcex.lpszClassName  = szWindowClass;
+    wcex.lpszClassName  = windowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     return RegisterClassExW(&wcex);
 }
@@ -135,7 +135,7 @@ ATOM RegisterWindowClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    g_hInst = hInstance; 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   HWND hWnd = CreateWindowW(windowClass, windowTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, 640,480, nullptr, nullptr, hInstance, nullptr);
    if (!hWnd)
    {
@@ -260,77 +260,77 @@ void UnregisterPowerManagerCallbacks()
 void OnBatteryStatusChanged()
 {
     const size_t statusSize = 16;
-    WCHAR szStatus[statusSize];
-    wmemset(&(szStatus[0]), 0, statusSize);
+    WCHAR status[statusSize];
+    wmemset(&(status[0]), 0, statusSize);
 
     BatteryStatus batteryStatus = PowerManager::BatteryStatus();
     int remainingCharge = PowerManager::RemainingChargePercent();
     switch (batteryStatus)
     {
     case BatteryStatus::Charging:
-        wcscpy_s(szStatus, L"Charging");
+        wcscpy_s(status, L"Charging");
         break;
     case BatteryStatus::Discharging:
-        wcscpy_s(szStatus, L"Discharging");
+        wcscpy_s(status, L"Discharging");
         break;
     case BatteryStatus::Idle:
-        wcscpy_s(szStatus, L"Idle");
+        wcscpy_s(status, L"Idle");
         break;
     case BatteryStatus::NotPresent:
-        wcscpy_s(szStatus, L"NotPresent");
+        wcscpy_s(status, L"NotPresent");
         break;
     }
 
     OutputFormattedMessage(
         L"Battery status changed: %s, %d%% remaining", 
-        szStatus, remainingCharge);
+        status, remainingCharge);
     DetermineWorkloads();
 }
 
 void OnPowerSupplyStatusChanged()
 {
     const size_t statusSize = 16;
-    WCHAR szStatus[statusSize];
-    wmemset(&(szStatus[0]), 0, statusSize);
+    WCHAR status[statusSize];
+    wmemset(&(status[0]), 0, statusSize);
 
     PowerSupplyStatus powerStatus = PowerManager::PowerSupplyStatus();
     switch (powerStatus)
     {
     case PowerSupplyStatus::Adequate:
-        wcscpy_s(szStatus, L"Adequate");
+        wcscpy_s(status, L"Adequate");
         break;
     case PowerSupplyStatus::Inadequate:
-        wcscpy_s(szStatus, L"Inadequate");
+        wcscpy_s(status, L"Inadequate");
         break;
     case PowerSupplyStatus::NotPresent:
-        wcscpy_s(szStatus, L"NotPresent");
+        wcscpy_s(status, L"NotPresent");
         break;
     }
 
     OutputFormattedMessage(
-        L"Power supply status changed: %s", szStatus);
+        L"Power supply status changed: %s", status);
     DetermineWorkloads();
 }
 
 void OnPowerSourceKindChanged()
 {
     const size_t statusSize = 16;
-    WCHAR szStatus[statusSize];
-    wmemset(&(szStatus[0]), 0, statusSize);
+    WCHAR status[statusSize];
+    wmemset(&(status[0]), 0, statusSize);
 
     PowerSourceKind powerSource = PowerManager::PowerSourceKind();
     switch (powerSource)
     {
     case PowerSourceKind::AC:
-        wcscpy_s(szStatus, L"AC");
+        wcscpy_s(status, L"AC");
         break;
     case PowerSourceKind::DC:
-        wcscpy_s(szStatus, L"DC");
+        wcscpy_s(status, L"DC");
         break;
     }
 
     OutputFormattedMessage(
-        L"Power source kind changed: %s", szStatus);
+        L"Power source kind changed: %s", status);
     DetermineWorkloads();
 }
 
@@ -349,25 +349,25 @@ void OnRemainingDischargeTimeChanged()
 void OnDisplayStatusChanged()
 {
     const size_t statusSize = 16;
-    WCHAR szStatus[statusSize];
-    wmemset(&(szStatus[0]), 0, statusSize);
+    WCHAR status[statusSize];
+    wmemset(&(status[0]), 0, statusSize);
 
     DisplayStatus displayStatus = PowerManager::DisplayStatus();
     switch (displayStatus)
     {
     case DisplayStatus::Dimmed:
-        wcscpy_s(szStatus, L"Dimmed");
+        wcscpy_s(status, L"Dimmed");
         break;
     case DisplayStatus::Off:
-        wcscpy_s(szStatus, L"Off");
+        wcscpy_s(status, L"Off");
         break;
     case DisplayStatus::On:
-        wcscpy_s(szStatus, L"On");
+        wcscpy_s(status, L"On");
         break;
     }
 
     OutputFormattedMessage(
-        L"Display status changed: %s", szStatus);
+        L"Display status changed: %s", status);
     if (displayStatus == DisplayStatus::Off)
     {
         // The screen is off, let's stop rendering foreground graphics,
@@ -434,15 +434,15 @@ void DetermineWorkloads()
 
 void PauseNonCriticalWork() 
 {
-    bWorkInProgress = false;
+    isWorkInProgress = false;
     OutputMessage(L"paused non-critical work");
 }
 
 void StartPowerIntensiveWork()
 {
-    if (!bWorkInProgress)
+    if (!isWorkInProgress)
     {
-        bWorkInProgress = true;
+        isWorkInProgress = true;
         OutputMessage(L"starting power-intensive work");
     }
 }
