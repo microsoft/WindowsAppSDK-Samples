@@ -18,10 +18,12 @@ const PACKAGE_VERSION minVersion{};
 WCHAR exePath[MAX_PATH];
 WCHAR exePathAndIconIndex[MAX_PATH + 8];
 
-std::vector<std::wstring> split_strings(hstring argString);
+std::vector<std::wstring> SplitStrings(hstring argString);
 void RegisterForActivation();
 void UnregisterForActivation();
 void GetActivationInfo();
+void LaunchSettingsPage();
+void LaunchMainPage();
 
 // Helpers ////////////////////////////////////////////////////////////////////
 
@@ -40,7 +42,7 @@ void OutputFormattedMessage(const WCHAR* fmt, ...)
     OutputMessage(message);
 }
 
-std::vector<std::wstring> split_strings(hstring argString)
+std::vector<std::wstring> SplitStrings(hstring argString)
 {
     std::vector<std::wstring> argStrings;
     std::wistringstream iss(argString.c_str());
@@ -77,7 +79,7 @@ int main()
     wcscat_s(exePathAndIconIndex, L",1");
     _putws(exePath);
 
-    char charOption[2];
+    char charOption[2] = { 0 };
     int intOption = 0;
     do
     {
@@ -196,12 +198,21 @@ void GetActivationInfo()
         auto launchArgs = args.Data().as<ILaunchActivatedEventArgs>();
         if (launchArgs)
         {
-            auto argString = launchArgs.Arguments().c_str();
-            std::vector<std::wstring> argStrings = split_strings(argString);
+            auto argString = launchArgs.Arguments();
+            std::vector<std::wstring> argStrings = SplitStrings(argString);
             OutputMessage(L"Launch activation");
             for (std::wstring const& s : argStrings)
             {
                 OutputMessage(s.c_str());
+            }
+            // If the first argument is "Settings", we'll launch the Settings page.
+            if (wcscmp(argStrings[1].c_str(), L"Settings") == 0)
+            {
+                LaunchSettingsPage();
+            }
+            else
+            {
+                LaunchMainPage();
             }
         }
     }
@@ -238,3 +249,6 @@ void GetActivationInfo()
 
 ///////////////////////////////////////////////////////////////////////////////
 
+// Dummy methods for illustration only.
+void LaunchSettingsPage() { OutputMessage(L"Launching Settings page..."); }
+void LaunchMainPage() { OutputMessage(L"Launching Main page..."); }

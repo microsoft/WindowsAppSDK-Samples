@@ -16,7 +16,7 @@ namespace winrt::CppWinUiDesktopActivation::implementation
 
         void OutputMessage(const WCHAR* message);
         void OutputFormattedMessage(const WCHAR* fmt, ...);
-        std::vector<std::wstring> split_strings(hstring argString);
+        std::vector<std::wstring> SplitStrings(hstring argString);
 
         void ActivationInfoButton_Click(
             winrt::Windows::Foundation::IInspectable const& sender, 

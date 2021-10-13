@@ -117,7 +117,7 @@ void OutputFormattedMessage(const WCHAR* fmt, ...)
     OutputMessage(message);
 }
 
-std::vector<std::wstring> split_strings(hstring argString)
+std::vector<std::wstring> SplitStrings(hstring argString)
 {
     std::vector<std::wstring> argStrings;
     std::wistringstream iss(argString.c_str());
@@ -143,8 +143,8 @@ void GetActivationInfo()
             Windows::ApplicationModel::Activation::ILaunchActivatedEventArgs>();
         if (launchArgs)
         {
-            auto argString = launchArgs.Arguments().c_str();
-            std::vector<std::wstring> argStrings = split_strings(argString);
+            auto argString = launchArgs.Arguments();
+            std::vector<std::wstring> argStrings = SplitStrings(argString);
             OutputMessage(L"Launch activation");
             for (std::wstring const& s : argStrings)
             {
@@ -170,8 +170,8 @@ void ReportLaunchArgs(hstring callLocation, AppActivationArguments args)
         args.Data().as<Windows::ApplicationModel::Activation::ILaunchActivatedEventArgs>();
     if (launchArgs)
     {
-        winrt::hstring argString = launchArgs.Arguments().c_str();
-        std::vector<std::wstring> argStrings = split_strings(argString);
+        winrt::hstring argString = launchArgs.Arguments();
+        std::vector<std::wstring> argStrings = SplitStrings(argString);
         OutputFormattedMessage(L"Launch activation (%s)", callLocation.c_str());
         for (std::wstring const& s : argStrings)
         {

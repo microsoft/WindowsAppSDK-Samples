@@ -83,7 +83,7 @@ int main()
         return hr;
     }
 
-    char charOption[2];
+    char charOption[2] = { 0 };
     int intOption = 0;
     do
     {
@@ -93,7 +93,7 @@ int main()
         _putws(L"3 - Quit");
         _putws(L"Select an option: ");
 
-        scanf("%s", charOption);
+        scanf_s("%1s", charOption, (unsigned)_countof(charOption));
         intOption = atoi(charOption);
         switch (intOption)
         {
@@ -120,28 +120,19 @@ int main()
 
 void RegisterForStateNotifications()
 {
-    batteryToken = PowerManager::BatteryStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnBatteryStatusChanged(); });
-    powerToken = PowerManager::PowerSupplyStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnPowerSupplyStatusChanged(); });
-    powerSourceToken = PowerManager::PowerSourceKindChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnPowerSourceKindChanged(); });
-    chargeToken = PowerManager::RemainingChargePercentChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnRemainingChargePercentChanged(); });
-    dischargeToken = PowerManager::RemainingDischargeTimeChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnRemainingDischargeTimeChanged(); });
-    displayToken = PowerManager::DisplayStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnDisplayStatusChanged(); });
-    energyToken = PowerManager::EnergySaverStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnEnergySaverStatusChanged(); });
-    powerModeToken = PowerManager::EffectivePowerModeChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnPowerModeChanged(); });
-    userPresenceToken = PowerManager::UserPresenceStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnUserPresenceStatusChanged(); });
-    systemSuspendToken = PowerManager::SystemSuspendStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnSystemSuspendStatusChanged(); });
+    batteryToken = PowerManager::BatteryStatusChanged([](auto&&...) { OnBatteryStatusChanged(); });
+    powerToken = PowerManager::PowerSupplyStatusChanged([](auto&&...) { OnPowerSupplyStatusChanged(); });
+    powerSourceToken = PowerManager::PowerSourceKindChanged([](auto&&...) { OnPowerSourceKindChanged(); });
+    chargeToken = PowerManager::RemainingChargePercentChanged([](auto&&...) { OnRemainingChargePercentChanged(); });
+    dischargeToken = PowerManager::RemainingDischargeTimeChanged([](auto&&...) { OnRemainingDischargeTimeChanged(); });
+    displayToken = PowerManager::DisplayStatusChanged([](auto&&...) { OnDisplayStatusChanged(); });
+    energyToken = PowerManager::EnergySaverStatusChanged([](auto&&...) { OnEnergySaverStatusChanged(); });
+    powerModeToken = PowerManager::EffectivePowerModeChanged([](auto&&...) { OnPowerModeChanged(); });
+    userPresenceToken = PowerManager::UserPresenceStatusChanged([](auto&&...) { OnUserPresenceStatusChanged(); });
+    systemSuspendToken = PowerManager::SystemSuspendStatusChanged([](auto&&...) { OnSystemSuspendStatusChanged(); });
 
-    if (batteryToken && powerToken && powerSourceToken && chargeToken && dischargeToken)
+    if (batteryToken && powerToken && powerSourceToken && chargeToken && dischargeToken
+        && displayToken && energyToken && powerModeToken && userPresenceToken && systemSuspendToken)
     {
         OutputMessage(L"Successfully registered for state notifications");
     }

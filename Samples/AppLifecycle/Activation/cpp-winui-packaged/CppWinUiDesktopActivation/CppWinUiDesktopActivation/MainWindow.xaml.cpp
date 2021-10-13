@@ -40,14 +40,12 @@ void winrt::CppWinUiDesktopActivation::implementation::MainWindow::GetActivation
     ExtendedActivationKind kind = args.Kind();
     if (kind == ExtendedActivationKind::Launch)
     {
-        auto launchArgs = 
-            args.Data().as
-            <winrt::Windows::ApplicationModel::Activation::ILaunchActivatedEventArgs>()
-            .Arguments().c_str();
+        auto launchArgs = args.Data()
+            .as<winrt::Windows::ApplicationModel::Activation::ILaunchActivatedEventArgs>();
         if (launchArgs)
         {
-            std::vector<std::wstring> argStrings = split_strings(launchArgs);
-
+            winrt::hstring argString = launchArgs.Arguments();
+            std::vector<std::wstring> argStrings = SplitStrings(argString);
             OutputMessage(L"Launch activation");
             for (std::wstring const& s : argStrings)
             {
@@ -101,7 +99,7 @@ void winrt::CppWinUiDesktopActivation::implementation::MainWindow::OutputFormatt
     OutputMessage(message);
 }
 
-std::vector<std::wstring> winrt::CppWinUiDesktopActivation::implementation::MainWindow::split_strings(hstring argString)
+std::vector<std::wstring> winrt::CppWinUiDesktopActivation::implementation::MainWindow::SplitStrings(hstring argString)
 {
     std::vector<std::wstring> argStrings;
     std::wistringstream iss(argString.c_str());
