@@ -18,7 +18,7 @@
   <TemplateContent PreferedSolutionConfiguration="Debug|x64">
     <CustomParameters>
       <CustomParameter Name="$WindowsAppSDKNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
-      <CustomParameter Name="$CppWinRTVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+      <CustomParameter Name="$CppWinRTNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
       <CustomParameter Name="$WindowsSDKBuildToolsNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
     </CustomParameters>
     <ProjectCollection>

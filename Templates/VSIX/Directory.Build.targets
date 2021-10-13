@@ -143,7 +143,7 @@ xmlns:ns="http://schemas.microsoft.com/developer/vstemplate/2005">
         <xsl:attribute name="Path">Microsoft.Windows.CsWin32.$(CsWin32Version).nupkg</xsl:attribute>
     </xsl:template>
     <!-- Update custom parameters passed into subtemplates -->
-    <xsl:template match="/ns:VSTemplate/ns:TemplateContent/ns:CustomParameters/ns:CustomParameter[@Name='$CppWinRTVersion$']/@Value">
+    <xsl:template match="/ns:VSTemplate/ns:TemplateContent/ns:CustomParameters/ns:CustomParameter[@Name='$CppWinRTNupkgVersion$']/@Value">
         <xsl:attribute name="Value">$(CppWinRTVersion)</xsl:attribute>
     </xsl:template>
     <xsl:template match="/ns:VSTemplate/ns:TemplateContent/ns:CustomParameters/ns:CustomParameter[@Name='$WindowsAppSDKNupkgVersion$']/@Value">

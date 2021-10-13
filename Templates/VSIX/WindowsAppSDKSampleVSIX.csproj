@@ -61,9 +61,6 @@
     <PackageReference Include="Microsoft.Windows.CppWinRT" Version="[$(CppWinRTVersion)]" GeneratePathProperty="true">
       <ExcludeAssets>All</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.CsWin32" Version="[$(CsWin32Version)]" GeneratePathProperty="true">
-      <ExcludeAssets>All</ExcludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="[$(WindowsAppSDKVersion)]" GeneratePathProperty="true">
       <ExcludeAssets>All</ExcludeAssets>
     </PackageReference>

@@ -21,9 +21,6 @@
       <CustomParameter Name="$WindowsAppSDKNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
       <CustomParameter Name="$WindowsSDKBuildToolsNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
       <CustomParameter Name="$CsWin32NupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
-      <!--<CustomParameter Name="$(WindowsAppSdkVersion)" Value="1.0.0-preview1" />
-      <CustomParameter Name="$(WindowsSDKBuildToolsVersion)" Value="10.0.20348.19" />
-      <CustomParameter Name="$(CsWin32Version)" Value="0.1.506-beta" />-->
     </CustomParameters>
     <Project File="WinUI3TemplateCs.csproj" ReplaceParameters="true">
       <Folder Name="Assets" TargetFolderName="Assets">
