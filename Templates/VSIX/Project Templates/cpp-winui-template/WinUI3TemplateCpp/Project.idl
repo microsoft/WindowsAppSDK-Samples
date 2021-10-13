@@ -1,4 +1,5 @@
-﻿// Project.idl
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 namespace $safeprojectname$
 {
