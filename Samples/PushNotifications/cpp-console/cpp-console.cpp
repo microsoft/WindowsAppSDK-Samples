@@ -23,7 +23,8 @@ using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own RemoteId
+//winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own RemoteId
+winrt::guid remoteId{ "0160ee84-0c53-4851-9ff2-d7f5a87ed914" };
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
@@ -105,6 +106,8 @@ void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifi
 
 int main()
 {
+    std::cin.ignore();
+#if 0
     if (PushNotificationManager::IsActivatorSupported(PushNotificationRegistrationActivators::PushTrigger | PushNotificationRegistrationActivators::ComActivator))
     {
         PushNotificationActivationInfo info(
@@ -113,7 +116,7 @@ int main()
 
         PushNotificationManager::RegisterActivator(info);
 	}
-
+#endif
     auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
     auto kind = args.Kind();
     switch (kind)
