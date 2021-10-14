@@ -25,11 +25,11 @@ jobs:
       - name: Use NuGet 5.2.0
         uses: nuget/setup-nuget@v1
 
-      - run: nuget restore .\${{ env.SamplesRepoName }}\Samples\**\*.sln
+      - run: nuget restore Samples\**\*.sln
 
       - name: Restore nuget packages for all solutions
-        run: msbuild '.\${{ env.SamplesRepoName }}\Samples\**\*.sln' /p:configuration='Release' /p:platform='x86' /t:restore
+        run: msbuild 'Samples\**\*.sln' /p:configuration='Release' /p:platform='x86' /t:restore
       
       - name: Build all Sample solutions
-        run: msbuild '.\${{ env.SamplesRepoName }}\Samples\**\*.sln' /p:configuration='Release' /p:platform='x86'
+        run: msbuild 'Samples\**\*.sln' /p:configuration='Release' /p:platform='x86'
              
