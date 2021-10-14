@@ -1,0 +1,38 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+#
+# GitHub Action configuration script for WindowsAppSDK-Samples continuous integration tasks.
+
+name: GHA CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: '**'
+
+jobs:
+  samples-buils-VS-2019:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+
+      # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.3
+      
+      - name: Use NuGet 5.2.0
+        uses: nuget/setup-nuget@v1
+        
+      - name: Run Msbuild
+        run: msbuild $env:Solution_Name /p:platform=$env:buildPlatform /p:Configuration=$env:buildConfiguration
+
+      - run: nuget restore .\${{ env.SamplesRepoName }}\Samples\**\*.sln
+
+      - name: Restore nuget packages for all solutions
+        run: msbuild '.\${{ env.SamplesRepoName }}\Samples\**\*.sln' /p:configuration='Release' /p:platform='x86' /t:restore
+      
+      - name: Build all Sample solutions
+        run: msbuild '.\${{ env.SamplesRepoName }}\Samples\**\*.sln' /p:configuration='Release' /p:platform='x86'
+             
