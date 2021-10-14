@@ -106,8 +106,6 @@ void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifi
 
 int main()
 {
-    std::cin.ignore();
-#if 0
     if (PushNotificationManager::IsActivatorSupported(PushNotificationRegistrationActivators::PushTrigger | PushNotificationRegistrationActivators::ComActivator))
     {
         PushNotificationActivationInfo info(
@@ -116,7 +114,7 @@ int main()
 
         PushNotificationManager::RegisterActivator(info);
 	}
-#endif
+
     auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
     auto kind = args.Kind();
     switch (kind)
