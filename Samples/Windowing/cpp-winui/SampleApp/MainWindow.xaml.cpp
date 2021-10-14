@@ -1,7 +1,10 @@
-﻿#include "pch.h"
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+#include "pch.h"
 #include "MainWindow.xaml.h"
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
+#include <winrt/Microsoft.UI.Interop.h>
 #endif
 
 
@@ -87,7 +90,7 @@ namespace winrt::SampleApp::implementation
 
         // Get the WindowId for our window
         winrt::WindowId windowId;
-        windowId = winrt::GetWindowIdFromWindowHandle(hWnd);
+        windowId = winrt::GetWindowIdFromWindow(hWnd);
 
         // Get the AppWindow for the WindowId
         Microsoft::UI::Windowing::AppWindow appWindow = Microsoft::UI::Windowing::AppWindow::GetFromWindowId(windowId);

@@ -1,4 +1,6 @@
-﻿#include "pch.h"
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+#include "pch.h"
 #include "PresenterPage.xaml.h"
 #if __has_include("PresenterPage.g.cpp")
 #include "PresenterPage.g.cpp"
@@ -44,11 +46,11 @@ namespace winrt::SampleApp::implementation
 
         if(newPresenterKind == m_mainAppWindow.Presenter().Kind())
         { 
-            m_mainAppWindow.TrySetPresenter(AppWindowPresenterKind::Default);
+            m_mainAppWindow.SetPresenter(AppWindowPresenterKind::Default);
         }
         else
         {
-            m_mainAppWindow.TrySetPresenter(newPresenterKind);
+            m_mainAppWindow.SetPresenter(newPresenterKind);
         }
     }
 }
