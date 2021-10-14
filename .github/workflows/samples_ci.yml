@@ -13,7 +13,7 @@ on:
     branches: '**'
 
 jobs:
-  samples-buils-VS-2019:
+  samples-build-VS-2019:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
@@ -24,9 +24,6 @@ jobs:
       
       - name: Use NuGet 5.2.0
         uses: nuget/setup-nuget@v1
-        
-      - name: Run Msbuild
-        run: msbuild $env:Solution_Name /p:platform=$env:buildPlatform /p:Configuration=$env:buildConfiguration
 
       - run: nuget restore .\${{ env.SamplesRepoName }}\Samples\**\*.sln
 
