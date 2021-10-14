@@ -476,13 +476,13 @@ Make sure to include a README file with your sample. See the above section on [S
 
 Make sure to include the appropriate copyright notice and license text added to the header of each file.
 
-For C#/C++ files:
+For C#/C++ files (*h, *.cpp, *.cs, *.idl)
 ```csharp
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 ```
 
-For XAML files:
+For XAML files (*.xaml)
 ```xml
 <!-- Copyright (c) Microsoft Corporation.
      Licensed under the MIT License. -->
