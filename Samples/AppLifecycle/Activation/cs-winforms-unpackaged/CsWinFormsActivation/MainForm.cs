@@ -23,7 +23,7 @@ namespace CsWinFormsActivation
             InitializeComponent();
 
             executablePath = Application.ExecutablePath;
-            executablePathAndIconIndex = $"{executablePath},1";
+            executablePathAndIconIndex = $"{executablePath},0";
         }
 
         private void OutputMessage(string message)

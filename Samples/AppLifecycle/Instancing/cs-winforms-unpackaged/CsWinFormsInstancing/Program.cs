@@ -34,7 +34,7 @@ namespace CsWinFormsInstancing
             Application.SetCompatibleTextRenderingDefault(false);
 
             executablePath = Application.ExecutablePath;
-            executablePathAndIconIndex = $"{executablePath},1";
+            executablePathAndIconIndex = $"{executablePath},0";
 
             // Initialize Windows App SDK for unpackaged apps.            
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);

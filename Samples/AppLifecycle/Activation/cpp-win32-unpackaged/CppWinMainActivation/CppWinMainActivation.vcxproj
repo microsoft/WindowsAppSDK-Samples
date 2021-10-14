@@ -222,6 +222,7 @@
     <ResourceCompile Include="CppWinMainActivation.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="B.ico" />
     <Image Include="small.ico" />
     <Image Include="CppWinMainActivation.ico" />
   </ItemGroup>

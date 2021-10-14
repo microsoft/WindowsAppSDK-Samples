@@ -21,7 +21,7 @@ namespace CsWpfActivation
             InitializeComponent();
 
             executablePath = Process.GetCurrentProcess().MainModule.FileName;
-            executablePathAndIconIndex = $"{executablePath},1";
+            executablePathAndIconIndex = $"{executablePath},0";
         }
 
         private void OutputMessage(string message)

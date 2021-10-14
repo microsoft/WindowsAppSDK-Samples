@@ -29,7 +29,7 @@ namespace CsConsoleActivation
                 StringBuilder builder = new StringBuilder(MAX_PATH);
                 GetModuleFileName(IntPtr.Zero, builder, builder.Capacity);
                 executablePath = builder.ToString();
-                executablePathAndIconIndex = $"{executablePath},1";
+                executablePathAndIconIndex = $"{executablePath},0";
                 Console.WriteLine($"Exe: {executablePathAndIconIndex}");
 
                 int choice = 0;

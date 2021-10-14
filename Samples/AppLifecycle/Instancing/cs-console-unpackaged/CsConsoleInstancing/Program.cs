@@ -31,7 +31,7 @@ namespace CsConsoleInstancing
                 StringBuilder builder = new(MAX_PATH);
                 GetModuleFileName(IntPtr.Zero, builder, builder.Capacity);
                 executablePath = builder.ToString();
-                executablePathAndIconIndex = $"{executablePath},1";
+                executablePathAndIconIndex = $"{executablePath},0";
 
                 Task<bool> task = DetermineActivationKind();
                 task.Wait();

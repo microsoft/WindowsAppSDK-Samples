@@ -220,6 +220,7 @@
     <ResourceCompile Include="CppWinMainInstancing.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="G.ico" />
     <Image Include="small.ico" />
     <Image Include="CppWinMainInstancing.ico" />
   </ItemGroup>

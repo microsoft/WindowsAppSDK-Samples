@@ -266,7 +266,7 @@ bool DecideRedirection()
     // use it later in registering for activation kinds.
     GetModuleFileName(NULL, exePath, MAX_PATH);
     wcscpy_s(exePathAndIconIndex, exePath);
-    wcscat_s(exePathAndIconIndex, L",1");
+    wcscat_s(exePathAndIconIndex, L",2");
 
     // Find out what kind of activation this is.
     AppActivationArguments args = AppInstance::GetCurrent().GetActivatedEventArgs();

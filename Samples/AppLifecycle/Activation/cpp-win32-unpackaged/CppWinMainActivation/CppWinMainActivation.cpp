@@ -89,7 +89,7 @@ int APIENTRY wWinMain(
     // use it later in registering for activation kinds.
     GetModuleFileName(NULL, exePath, MAX_PATH);
     wcscpy_s(exePathAndIconIndex, exePath);
-    wcscat_s(exePathAndIconIndex, L",1");
+    wcscat_s(exePathAndIconIndex, L",2");
 
     LoadStringW(hInstance, IDS_APP_TITLE, windowTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_CLASSNAME, windowClass, MAX_LOADSTRING);

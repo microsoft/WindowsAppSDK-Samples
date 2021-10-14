@@ -76,7 +76,7 @@ int main()
     // use it later in registering for activation kinds.
     GetModuleFileName(NULL, exePath, MAX_PATH);
     wcscpy_s(exePathAndIconIndex, exePath);
-    wcscat_s(exePathAndIconIndex, L",1");
+    wcscat_s(exePathAndIconIndex, L",0");
     _putws(exePath);
 
     char charOption[2] = { 0 };

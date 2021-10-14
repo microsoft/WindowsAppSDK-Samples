@@ -215,7 +215,7 @@ int main()
     GetModuleFileName(NULL, exePath, MAX_PATH);
     _putws(exePath);
     wcscpy_s(exePathAndIconIndex, exePath);
-    wcscat_s(exePathAndIconIndex, L",1");
+    wcscat_s(exePathAndIconIndex, L",0");
 
     // Find out what kind of activation this is.
     AppActivationArguments args = AppInstance::GetCurrent().GetActivatedEventArgs();

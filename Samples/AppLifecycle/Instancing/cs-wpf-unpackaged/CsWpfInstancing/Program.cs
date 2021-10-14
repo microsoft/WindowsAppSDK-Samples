@@ -30,7 +30,7 @@ namespace CsWpfInstancing
         public static int Main(string[] args)
         {
             executablePath = Process.GetCurrentProcess().MainModule.FileName;
-            executablePathAndIconIndex = $"{executablePath},1";
+            executablePathAndIconIndex = $"{executablePath},0";
 
             // Initialize Windows App SDK for unpackaged apps.            
             int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
