@@ -196,11 +196,17 @@ void OnActivated(const IInspectable&, const AppActivationArguments& args)
     int const arraysize = 4096;
     WCHAR szTmp[arraysize];
     size_t cbTmp = arraysize * sizeof(WCHAR);
-    StringCbPrintf(szTmp, cbTmp, TEXT("OnActivated, count=%d"), activationCount++);
     ExtendedActivationKind kind = args.Kind();
     if (kind == ExtendedActivationKind::File)
     {
-        ReportFileArgs(szTmp, args);
+        if (StringCbPrintf(szTmp, cbTmp, TEXT("OnActivated, count=%d"), activationCount++) == 0)
+        {
+            ReportFileArgs(szTmp, args);
+        }
+        else
+        {
+            ReportFileArgs(L"OnActivated", args);
+        }
     }
 }
 
@@ -278,7 +284,10 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
                     Redirect(keyInstance, args);
                     DWORD handleIndex = 0;
                     HANDLE rawHandle = redirectEventHandle.get();
-                    CoWaitForMultipleObjects(CWMO_DEFAULT, INFINITE, 1, &rawHandle, &handleIndex);
+                    if (CoWaitForMultipleObjects(CWMO_DEFAULT, INFINITE, 1, &rawHandle, &handleIndex) != 0)
+                    {
+                        OutputDebugString(L"Error waiting on event");
+                    }
                 }
             }
         }

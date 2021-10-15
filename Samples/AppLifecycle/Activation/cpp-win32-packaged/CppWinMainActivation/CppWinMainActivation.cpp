@@ -126,7 +126,7 @@ HWND CreateListbox()
 {
     DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_VSCROLL | LBS_DISABLENOSCROLL | LBS_NOTIFY;
     return CreateWindowEx(WS_EX_CLIENTEDGE, L"listbox",
-        NULL,
+        nullptr,
         dwStyle,
         0, 0, 0, 0,
         g_hWnd,

@@ -9,6 +9,7 @@ using namespace winrt::Windows::Foundation::Collections;
 using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Windows::Storage;
+using namespace std::chrono;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
@@ -147,7 +148,7 @@ IAsyncAction ProcessTheFile(const WCHAR* fileName)
     for (int i = 0; i < 20; i++)
     {
         wprintf(L"processing %s (%d)...\n", fileName, i);
-        Sleep(1000);
+        co_await 1s;
     }
 
     // Switch back to the UI thread.
@@ -185,11 +186,17 @@ void OnActivated(const IInspectable&, const AppActivationArguments& args)
     int const arraysize = 4096;
     WCHAR szTmp[arraysize];
     size_t cbTmp = arraysize * sizeof(WCHAR);
-    StringCbPrintf(szTmp, cbTmp, TEXT("OnActivated, count=%d"), activationCount++);
     ExtendedActivationKind kind = args.Kind();
     if (kind == ExtendedActivationKind::File)
     {
-        ReportFileArgs(szTmp, args);
+        if (StringCbPrintf(szTmp, cbTmp, TEXT("OnActivated, count=%d"), activationCount++) == 0)
+        {
+            ReportFileArgs(szTmp, args);
+        }
+        else
+        { 
+            ReportFileArgs(L"OnActivated", args);
+        }
     }
 }
 
