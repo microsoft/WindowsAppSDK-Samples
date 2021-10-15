@@ -474,19 +474,19 @@ Make sure to include a README file with your sample. See the above section on [S
 
 ### Copyright Headers
 
-Make sure to include the appropriate copyright notice and license text added to the header of each file.
+Microsoft-authored samples must include the appropriate copyright notice and license text added to the header of each file.
 
-For C#/C++ files (*h, *.cpp, *.cs, *.idl)
-```csharp
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-```
+- For C#/C++ files (*h, *.cpp, *.cs, *.idl):
+    ```csharp
+    // Copyright (c) Microsoft Corporation.
+    // Licensed under the MIT License.
+    ```
 
-For XAML files (*.xaml)
-```xml
-<!-- Copyright (c) Microsoft Corporation.
+- For XAML files (*.xaml):
+    ```xml
+    <!-- Copyright (c) Microsoft Corporation.
      Licensed under the MIT License. -->
-```
+    ```
 
 ### Pass certification
 
