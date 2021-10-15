@@ -1,0 +1,29 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
+  <TemplateData>
+    <Name>Windows App SDK Sample C++ WinUI</Name>
+    <Description>Template for creating a Windows App SDK C++ WinUI Sample</Description>
+    <Icon>WinUI.Desktop.Cpp.PackagedApp.ico</Icon>
+    <ProjectType>VC</ProjectType>
+    <DefaultName>MyFeatureName</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LanguageTag>cpp</LanguageTag>
+    <LanguageTag>XAML</LanguageTag>
+    <PlatformTag>windows</PlatformTag>
+    <PlatformTag>Windows App SDK</PlatformTag>
+    <ProjectTypeTag>desktop</ProjectTypeTag>
+    <ProjectTypeTag>WinUI</ProjectTypeTag>
+    <CreateInPlace>true</CreateInPlace>
+    <CreateNewFolder>false</CreateNewFolder>
+  </TemplateData>
+  <TemplateContent PreferedSolutionConfiguration="Debug|x64">
+    <CustomParameters>
+      <CustomParameter Name="$WindowsAppSDKNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+      <CustomParameter Name="$CppWinRTNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+      <CustomParameter Name="$WindowsSDKBuildToolsNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+    </CustomParameters>
+    <ProjectCollection>
+      <ProjectTemplateLink ProjectName="$projectname$ (Package)" CopyParameters="true">WinUI3TemplateCpp (Package)\WinUI3TemplateCppWapProj.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">WinUI3TemplateCpp\WinUI3TemplateCppApp.vstemplate</ProjectTemplateLink>
+    </ProjectCollection>
+  </TemplateContent>
+</VSTemplate>
