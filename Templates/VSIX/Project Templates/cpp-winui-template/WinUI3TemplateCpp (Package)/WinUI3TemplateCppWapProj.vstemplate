@@ -1,0 +1,53 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Hidden>true</Hidden>
+    <Name>Windows App SDK Sample C++ WinUI</Name>
+    <Description>Template for creating a Windows App SDK C++ WinUI Sample</Description>
+    <ProjectType>VC</ProjectType>
+    <ProjectSubType>WapProj</ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>false</CreateNewFolder>
+    <DefaultName>WinUI3TemplateCpp (Package)</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>WapProjTemplate.ico</Icon>
+    <TargetPlatformName>Windows</TargetPlatformName>
+    <LanguageTag>cpp</LanguageTag>
+    <LanguageTag>XAML</LanguageTag>
+    <PlatformTag>windows</PlatformTag>
+    <PlatformTag>Windows App SDK</PlatformTag>
+    <ProjectTypeTag>desktop</ProjectTypeTag>
+    <ProjectTypeTag>WinUI</ProjectTypeTag>
+  </TemplateData>
+  <TemplateContent>
+    <CustomParameters>
+      <CustomParameter Name="$WindowsAppSDKNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+      <CustomParameter Name="$WindowsSDKBuildToolsNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+    </CustomParameters>
+    <Project File="WinUI3TemplateCpp (Package).wapproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
+      <Folder Name="Images" TargetFolderName="Images">
+        <ProjectItem ReplaceParameters="false" TargetFileName="logo.png">logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.png">SplashScreen.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square150x150Logo.png">Square150x150Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square44x44Logo.png">Square44x44Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Wide310x150Logo.png">Wide310x150Logo.png</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.VisualStudio.Universal.TemplateWizards, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.VisualStudio.Universal.TemplateWizards.PlatformVersion.Wizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <!-- Generates Publisher name for appxmanifest -->
+    <Assembly>Microsoft.VisualStudio.WinRT.TemplateWizards, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.VisualStudio.WinRT.TemplateWizards.UpdatePublisherInManifestWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <MinSupportedVersion>10.0.17763.0</MinSupportedVersion>
+    <SkipXamlCompilerCheck>true</SkipXamlCompilerCheck>
+  </WizardData>
+</VSTemplate>

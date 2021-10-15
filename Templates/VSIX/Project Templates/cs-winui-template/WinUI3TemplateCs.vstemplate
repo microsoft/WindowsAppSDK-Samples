@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Windows App SDK Sample C# WinUI</Name>
+    <Description>Template for creating a Windows App SDK C# WinUI Sample</Description>
+    <Icon>WinUI.Desktop.Cs.PackagedApp.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <DefaultName>MyFeatureName</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LanguageTag>csharp</LanguageTag>
+    <LanguageTag>XAML</LanguageTag>
+    <PlatformTag>windows</PlatformTag>
+    <PlatformTag>Windows App SDK</PlatformTag>
+    <ProjectTypeTag>desktop</ProjectTypeTag>
+    <ProjectTypeTag>WinUI</ProjectTypeTag>
+    <CreateInPlace>true</CreateInPlace>
+    <CreateNewFolder>true</CreateNewFolder>
+  </TemplateData>
+  <TemplateContent PreferedSolutionConfiguration="Debug|x64">
+    <CustomParameters>
+      <CustomParameter Name="$WindowsAppSDKNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+      <CustomParameter Name="$WindowsSDKBuildToolsNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+      <CustomParameter Name="$CsWin32NupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+    </CustomParameters>
+    <Project File="WinUI3TemplateCs.csproj" ReplaceParameters="true">
+      <Folder Name="Assets" TargetFolderName="Assets">
+        <ProjectItem ReplaceParameters="false" TargetFileName="logo.png">logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.png">SplashScreen.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square150x150Logo.png">Square150x150Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square44x44Logo.png">Square44x44Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Wide310x150Logo.png">Wide310x150Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="windows-sdk.ico">windows-sdk.ico</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="win10-arm64.pubxml">Properties\PublishProfiles\win10-arm64.pubxml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="win10-x64.pubxml">Properties\PublishProfiles\win10-x64.pubxml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="win10-x86.pubxml">Properties\PublishProfiles\win10-x86.pubxml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">Properties\launchSettings.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml">App.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml.cs">App.xaml.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml">MainPage.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml.cs">MainPage.xaml.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainWindow.xaml">MainWindow.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainWindow.xaml.cs">MainWindow.xaml.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="NativeMethods.txt">NativeMethods.txt</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SampleConfiguration.cs">SampleConfiguration.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario1_ShortName.xaml">Scenario1_ShortName.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario1_ShortName.xaml.cs">Scenario1_ShortName.xaml.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario2_ShortName.xaml">Scenario2_ShortName.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario2_ShortName.xaml.cs">Scenario2_ShortName.xaml.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SettingsPage.xaml">SettingsPage.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SettingsPage.xaml.cs">SettingsPage.xaml.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Styles.xaml">Styles.xaml</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
