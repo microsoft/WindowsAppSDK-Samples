@@ -1,4 +1,6 @@
-﻿#include "pch.h"
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+#include "pch.h"
 #include "TitlebarPage.xaml.h"
 #if __has_include("TitlebarPage.g.cpp")
 #include "TitlebarPage.g.cpp"

@@ -1,0 +1,31 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page x:Class="wpf_packaged_app.DemoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:wpf_packaged_app"
+      mc:Ignorable="d" 
+      d:DesignHeight="450"
+      Title="DemoPage"
+      Loaded="Page_Loaded" Width="798">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox x:Name="TitleTextBox" Text="WPF ❤️ AppWindow"/>
+            <Button x:Name="TitleBtn" Click="TitleBtn_Click">Set Window Title</Button>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox x:Name="WidthTextBox" InputScope="Number" Width="30px"></TextBox>
+            <TextBox x:Name="HeightTextBox" InputScope="Number" Width="30px"></TextBox>
+            <Button x:Name="sizeBtn" Click="SizeBtn_Click">Resize window</Button>
+        </StackPanel>
+    </Grid>
+</Page>

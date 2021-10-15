@@ -51,7 +51,7 @@ namespace winui_desktop_packaged_app
             m_window = new MainWindow(m_resourceLoader, m_resourceManager);
 
             // Get the Window's HWND
-            var windowNative = m_window.As<IWindowNative>();
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(m_window);
             // Needs to be set in code due to bug https://github.com/microsoft/microsoft-ui-xaml/issues/3689
             m_window.Title = "MRT Core C# sample";            
             m_window.Activate();
@@ -59,7 +59,7 @@ namespace winui_desktop_packaged_app
             // The Window object doesn't have Width and Height properties in WInUI 3 Desktop yet.
             // To set the Width and Height, you can use the Win32 API SetWindowPos.
             // Note, you should apply the DPI scale factor if you are thinking of DPI instead of pixels.
-            SetWindowSize(windowNative.WindowHandle, 550, 500);
+            SetWindowSize(hwnd, 550, 500);
         }
 
         private void SetWindowSize(IntPtr hwnd, int width, int height)
@@ -77,14 +77,6 @@ namespace winui_desktop_packaged_app
 
         [DllImport("user32.dll", SetLastError = true)]
         static extern uint GetDpiForWindow(IntPtr hWnd);
-
-        [ComImport]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        [Guid("EECDBF0E-BAE9-4CB6-A68E-9598E1CB57BB")]
-        internal interface IWindowNative
-        {
-            IntPtr WindowHandle { get; }
-        }
 
         private Window m_window;
 
