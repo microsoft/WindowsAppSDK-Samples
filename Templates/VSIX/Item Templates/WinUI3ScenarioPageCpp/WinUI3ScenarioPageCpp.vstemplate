@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Sample C++ WinUI Scenario Page</Name>
+    <Description>Sample C++ WinUI Scenario Page</Description>
+    <Icon>WinUI3ScenarioPageCpp.ico</Icon>
+    <ProjectType>VC</ProjectType>
+    <DefaultName>Scenario3_ShortName.xaml</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <TargetPlatformName>Windows</TargetPlatformName>
+    <LanguageTag>cpp</LanguageTag>
+    <PlatformTag>windows</PlatformTag>
+    <ProjectTypeTag>uwp</ProjectTypeTag>
+    <ProjectTypeTag>desktop</ProjectTypeTag>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem SubType="Designer" TargetFileName="$fileinputname$.xaml" ReplaceParameters="true">Scenario3_ShortName.xaml</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml\$fileinputname$.xaml.cpp" ReplaceParameters="true">Scenario3_ShortName.xaml.cpp</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml\$fileinputname$.xaml.h" ReplaceParameters="true">Scenario3_ShortName.xaml.h</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml\$fileinputname$.idl" ReplaceParameters="true">Scenario3_ShortName.idl</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

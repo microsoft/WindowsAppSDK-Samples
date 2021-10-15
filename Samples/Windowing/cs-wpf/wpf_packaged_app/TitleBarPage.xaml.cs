@@ -44,7 +44,7 @@ namespace wpf_packaged_app
             m_mainAppWindow.TitleBar.ResetToDefault();
 
             m_isBrandedTitleBar = !m_isBrandedTitleBar;
-            if (m_isBrandedTitleBar)
+            if (AppWindowTitleBar.IsCustomizationSupported() && m_isBrandedTitleBar)
             {
                 m_mainAppWindow.Title = "Default titlebar with custom color customization";
                 m_mainAppWindow.TitleBar.ForegroundColor = Colors.White;
@@ -80,7 +80,7 @@ namespace wpf_packaged_app
         {
             m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar = !m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar;
 
-            if (m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
+            if (AppWindowTitleBar.IsCustomizationSupported() && m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
             {
                 // Show the custom titlebar
                 m_mainWindow.MyTitleBar.Visibility = Visibility.Visible;
