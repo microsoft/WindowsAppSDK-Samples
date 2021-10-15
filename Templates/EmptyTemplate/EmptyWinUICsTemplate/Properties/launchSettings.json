@@ -1,0 +1,7 @@
+﻿{
+    "profiles": {
+        "EmptyWinUICsTemplate": {
+            "commandName": "MsixPackage"
+        }
+    }
+}
