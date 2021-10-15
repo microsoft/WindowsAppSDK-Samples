@@ -6,7 +6,7 @@
 
 namespace winrt::$safeprojectname$
 {
-    class Settings
+    struct SampleConfig
     {
     public:
         static hstring FeatureName;

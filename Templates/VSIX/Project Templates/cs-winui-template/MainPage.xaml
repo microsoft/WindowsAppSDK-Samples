@@ -22,6 +22,7 @@
                 <ScrollViewer>
                     <Frame Padding="50" x:Name="ContentFrame" Navigated="ContentFrame_Navigated" />
                 </ScrollViewer>
+                <InfoBar x:Name="infoBar" Grid.Row="1" />
             </Grid>
         </NavigationView>
     </Grid>

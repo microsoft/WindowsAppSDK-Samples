@@ -25,6 +25,30 @@ namespace $safeprojectname$
             Current = this;
         }
 
+        public void NotifyUser(string strMessage, InfoBarSeverity severity, bool isOpen = true)
+        {
+            // If called from the UI thread, then update immediately.
+            // Otherwise, schedule a task on the UI thread to perform the update.
+            if (DispatcherQueue.HasThreadAccess)
+            {
+                UpdateStatus(strMessage, severity, isOpen);
+            }
+            else
+            {
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    UpdateStatus(strMessage, severity, isOpen);
+                });
+            }
+        }
+
+    private void UpdateStatus(string strMessage, InfoBarSeverity severity, bool isOpen)
+        {
+            infoBar.Message = strMessage;
+            infoBar.IsOpen = isOpen;
+            infoBar.Severity = severity;
+        }
+
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
             foreach (Scenario item in scenarios)

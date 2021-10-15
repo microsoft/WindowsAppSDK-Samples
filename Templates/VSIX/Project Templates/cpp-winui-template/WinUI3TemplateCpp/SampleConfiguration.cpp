@@ -17,5 +17,5 @@ IVector<Scenario> implementation::MainPage::scenariosInner = winrt::single_threa
 		Scenario{ L"Scenario 2", winrt::hstring(winrt::name_of<$safeprojectname$::Scenario2_ShortName>())}
 	});
 
-hstring Settings::FeatureName{ L"$safeprojectname$" };
-ElementTheme Settings::CurrentTheme{ ElementTheme::Default };
+hstring SampleConfig::FeatureName{ L"$safeprojectname$" };
+ElementTheme SampleConfig::CurrentTheme{ ElementTheme::Default };

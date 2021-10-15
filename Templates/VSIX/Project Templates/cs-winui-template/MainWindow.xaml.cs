@@ -20,7 +20,7 @@ namespace $safeprojectname$
         {
             this.InitializeComponent();
 
-            Title = Settings.FeatureName;
+            Title = SampleConfig.FeatureName;
 
             HWND hwnd = (HWND)WinRT.Interop.WindowNative.GetWindowHandle(this);
             LoadIcon(hwnd,"Assets/windows-sdk.ico");

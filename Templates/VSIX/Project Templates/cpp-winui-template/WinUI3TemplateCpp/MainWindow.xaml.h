@@ -15,7 +15,7 @@ namespace winrt::$safeprojectname$::implementation
         HWND _hwnd{ nullptr };
         void SetWindowSize(HWND hwnd, const int width, const int height);
         HWND GetWindowHandle();
-        void LoadIcon(HWND hwnd, wchar_t* iconName);
+        void LoadIcon(HWND hwnd, wchar_t const* iconName);
         void ClipOrCenterRectToMonitorWin32(RECT* prc);
         void PlacementCenterWindowInMonitorWin32(HWND hwnd);
     };

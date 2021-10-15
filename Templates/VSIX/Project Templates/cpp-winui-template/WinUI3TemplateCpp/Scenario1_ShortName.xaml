@@ -22,6 +22,5 @@
                 <Button Content="Clear Messages" Click="ClearMessage_Click" />
             </StackPanel>
         </ScrollViewer>
-        <InfoBar x:Name="infoBar" Grid.Row="1"/>
     </Grid>
 </Page>

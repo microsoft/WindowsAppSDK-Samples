@@ -26,7 +26,7 @@ namespace winrt::$safeprojectname$::implementation
         for (UIElement c : themePanel().Children())
         {
             ElementTheme tag = c.as<RadioButton>().Tag().as<ElementTheme>();
-            if (tag == Settings::CurrentTheme)
+            if (tag == SampleConfig::CurrentTheme)
             {
                 RadioButton radioButton = c.as<RadioButton>();
                 radioButton.IsChecked(true);
@@ -43,7 +43,7 @@ namespace winrt::$safeprojectname$::implementation
         if (content != nullptr)
         {
             content.RequestedTheme(selectedTheme);
-            Settings::CurrentTheme = content.RequestedTheme();
+            SampleConfig::CurrentTheme = content.RequestedTheme();
         }  
     }
 }

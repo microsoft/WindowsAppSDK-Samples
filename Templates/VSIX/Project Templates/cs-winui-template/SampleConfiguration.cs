@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace $safeprojectname$
 {
-    internal static class Settings
+    internal static class SampleConfig
     {
         public const string FeatureName = "$safeprojectname$";
         public static ElementTheme CurrentTheme = ElementTheme.Default;

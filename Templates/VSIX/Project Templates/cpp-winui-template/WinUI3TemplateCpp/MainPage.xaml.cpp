@@ -28,6 +28,28 @@ namespace winrt::$safeprojectname$::implementation
         MainPage::current = *this;
     }
 
+    void MainPage::NotifyUser(hstring const& strMessage, InfoBarSeverity const& severity)
+    {
+        // If called from the UI thread, then update immediately.
+        // Otherwise, schedule a task on the UI thread to perform the update.
+        if (this->DispatcherQueue().HasThreadAccess())
+        {
+            UpdateStatus(strMessage, severity);
+        }
+        else
+        {
+            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this, strMessage, severity]
+                { UpdateStatus(strMessage, severity); });
+        }
+    }
+
+    void MainPage::UpdateStatus(hstring const& strMessage, InfoBarSeverity severity)
+    {
+        infoBar().Message(strMessage);
+        infoBar().IsOpen(!strMessage.empty());
+        infoBar().Severity(severity);
+    }
+
     void MainPage::NavView_Loaded(IInspectable const&, RoutedEventArgs const&)
     {
         for (auto s : Scenarios())

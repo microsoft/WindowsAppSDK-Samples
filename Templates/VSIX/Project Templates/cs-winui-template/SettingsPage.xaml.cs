@@ -17,7 +17,7 @@ namespace $safeprojectname$
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            themePanel.Children.Cast<RadioButton>().First(c => (ElementTheme)c.Tag == Settings.CurrentTheme).IsChecked = true;
+            themePanel.Children.Cast<RadioButton>().First(c => (ElementTheme)c.Tag == SampleConfig.CurrentTheme).IsChecked = true;
             base.OnNavigatedTo(e);
         }
 
@@ -29,7 +29,7 @@ namespace $safeprojectname$
                 if (content is not null)
                 {
                     content.RequestedTheme = selectedTheme;
-                    Settings.CurrentTheme = content.RequestedTheme;
+                    SampleConfig.CurrentTheme = content.RequestedTheme;
                 }
             
         }

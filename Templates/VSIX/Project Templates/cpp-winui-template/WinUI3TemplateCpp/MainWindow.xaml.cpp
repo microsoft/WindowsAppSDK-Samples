@@ -19,7 +19,7 @@ namespace winrt::$safeprojectname$::implementation
     {
         InitializeComponent();
 
-        Title(winrt::$safeprojectname$::Settings::FeatureName);
+        Title(winrt::$safeprojectname$::SampleConfig::FeatureName);
 
         HWND hwnd = GetWindowHandle();
 
@@ -38,7 +38,7 @@ namespace winrt::$safeprojectname$::implementation
         return _hwnd;
     }
 
-    void MainWindow::LoadIcon(HWND hwnd, wchar_t* iconPath)
+    void MainWindow::LoadIcon(HWND hwnd, wchar_t const* iconPath)
     {
         HANDLE hSmallIcon = LoadImage(NULL,
             iconPath,
