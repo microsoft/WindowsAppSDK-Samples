@@ -80,18 +80,14 @@ namespace $safeprojectname$
 
         private void ClipOrCenterRectToMonitorWin32(ref RECT prc)
         {
-            HMONITOR hMonitor;
-            RECT rc;
+            MONITORINFO mi = new MONITORINFO(); 
+            mi.cbSize = (uint)Marshal.SizeOf<MONITORINFO>();
+            GetMonitorInfo(MonitorFromRect(prc, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST), ref mi);
+
+            RECT rc = mi.rcWork;
             int w = prc.right - prc.left;
             int h = prc.bottom - prc.top;
 
-            hMonitor = MonitorFromRect(prc, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST);
-            MONITORINFO mi = new MONITORINFO();
-            mi.cbSize = (uint)Marshal.SizeOf<MONITORINFO>();
-
-            GetMonitorInfo(hMonitor, ref mi);
-
-            rc = mi.rcWork;
             prc.left = rc.left + (rc.right - rc.left - w) / 2;
             prc.top = rc.top + (rc.bottom - rc.top - h) / 2;
             prc.right = prc.left + w;
