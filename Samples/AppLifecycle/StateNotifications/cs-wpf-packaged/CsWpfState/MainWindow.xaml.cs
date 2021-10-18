@@ -166,11 +166,11 @@ namespace CsWpfState
                 // so we should pause any non-critical work.
                 PauseNonCriticalWork();
             }
-            else if ((batteryStatus != BatteryStatus.Discharging && remainingCharge > 75)
+            else if (batteryStatus != BatteryStatus.Discharging && remainingCharge > 75
                 && powerStatus != PowerSupplyStatus.Inadequate)
             {
                 // The device is in good battery/power state,
-                // so let's kick of some high-power work.
+                // so let's start some power-intensive work.
                 StartPowerIntensiveWork();
             }
         }
@@ -178,7 +178,7 @@ namespace CsWpfState
         #endregion
 
 
-        #region Simulate starting/stopping work 
+        #region Workload management
 
         private void PauseNonCriticalWork()
         {

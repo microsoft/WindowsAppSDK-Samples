@@ -11,7 +11,7 @@
             <ToolBar>
                 <Button 
                     x:Name="RegisterButton" Click="RegisterButton_Click" 
-                    ToolTip="Register for state notifications" Content="Register"/>
+                    ToolTip="Register for state notifications" Content="Register"/> 
                 <Button 
                     x:Name="UnregisterButton" Click="UnregisterButton_Click" 
                     ToolTip="Unregister for state notifications" Content="Unregister"/>
