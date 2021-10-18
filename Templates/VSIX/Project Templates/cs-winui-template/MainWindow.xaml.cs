@@ -35,24 +35,24 @@ namespace $safeprojectname$
 
             fixed (char* nameLocal = iconName)
             {
-                HANDLE imageHandle = LoadImage(default,
+                HANDLE hSmallIcon = LoadImage(default,
                     nameLocal,
                     GDI_IMAGE_TYPE.IMAGE_ICON,
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
                     IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
-                SendMessage(hwnd, WM_SETICON, ICON_SMALL, imageHandle.Value);
+                SendMessage(hwnd, WM_SETICON, ICON_SMALL, hSmallIcon.Value);
             }
 
             fixed (char* nameLocal = iconName)
             {
-                HANDLE imageHandle = LoadImage(default,
+                HANDLE hBigIcon = LoadImage(default,
                     nameLocal,
                     GDI_IMAGE_TYPE.IMAGE_ICON,
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
                     IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
-                SendMessage(hwnd, WM_SETICON, ICON_BIG, imageHandle.Value);
+                SendMessage(hwnd, WM_SETICON, ICON_BIG, hBigIcon.Value);
             }
         }
 

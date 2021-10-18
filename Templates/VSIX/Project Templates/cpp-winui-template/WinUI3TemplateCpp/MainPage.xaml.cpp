@@ -17,7 +17,6 @@ namespace winrt
     using namespace Windows::UI::Xaml::Interop;
 }
 
-
 namespace winrt::$safeprojectname$::implementation
 {
     $safeprojectname$::MainPage MainPage::current{ nullptr };
@@ -87,7 +86,7 @@ namespace winrt::$safeprojectname$::implementation
         }
         else if (args.InvokedItemContainer() != nullptr)
         {
-            hstring navItemTag = winrt::unbox_value<hstring>(args.InvokedItemContainer().Tag());
+            auto navItemTag = winrt::unbox_value<hstring>(args.InvokedItemContainer().Tag());
             if (navItemTag != L"")
             {
                 NavView_Navigate(navItemTag, args.RecommendedNavigationTransitionInfo());
@@ -143,7 +142,7 @@ namespace winrt::$safeprojectname$::implementation
         {
             for (auto item : NavView().MenuItems())
             {
-                NavigationViewItem navViewItem = item.try_as<NavigationViewItem>();
+                auto navViewItem = item.try_as<NavigationViewItem>();
                 if (navViewItem != nullptr && 
                     winrt::unbox_value<hstring>(navViewItem.Tag()) == e.SourcePageType().Name)
                 {

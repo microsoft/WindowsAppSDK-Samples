@@ -8,11 +8,13 @@
 #endif
 #include <SampleConfiguration.h>
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Controls;
-using namespace Microsoft::UI::Xaml::Navigation;
-using namespace Windows::Foundation;
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Navigation;
+    using namespace Windows::Foundation;
+}
 
 namespace winrt::$safeprojectname$::implementation
 {
@@ -37,7 +39,7 @@ namespace winrt::$safeprojectname$::implementation
     void SettingsPage::OnThemeRadioButtonChecked(IInspectable const& sender, RoutedEventArgs const&)
     { 
         RadioButton radiobutton = sender.as<RadioButton>();
-        ElementTheme selectedTheme = unbox_value<ElementTheme>(radiobutton.Tag());
+        auto selectedTheme = unbox_value<ElementTheme>(radiobutton.Tag());
 
         Grid content = MainPage::Current().Content().as<Grid>();
         if (content != nullptr)

@@ -7,15 +7,15 @@
 #include "Scenario1_ShortName.g.cpp"
 #endif
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Controls;
-using namespace Windows::Foundation;
-
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Windows::Foundation;
+}
 
 namespace winrt::$safeprojectname$::implementation
 {
-
     MainPage Scenario1_ShortName::rootPage{ nullptr };
 
     Scenario1_ShortName::Scenario1_ShortName()
@@ -29,18 +29,15 @@ namespace winrt::$safeprojectname$::implementation
         rootPage.NotifyUser(L"Everything was ok!", InfoBarSeverity::Success);
     }
 
-
     void Scenario1_ShortName::ErrorMessage_Click(IInspectable const&, RoutedEventArgs const&)
     {
         rootPage.NotifyUser(L"Something went wrong.", InfoBarSeverity::Error);
     }
 
-
     void Scenario1_ShortName::InformationalMessage_Click(IInspectable const&, RoutedEventArgs const&)
     {
         rootPage.NotifyUser(L"This is the informational bar.", InfoBarSeverity::Informational);
     }
-
 
     void Scenario1_ShortName::ClearMessage_Click(IInspectable const&, RoutedEventArgs const&)
     {
