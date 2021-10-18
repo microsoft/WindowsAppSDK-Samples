@@ -10,6 +10,11 @@
 #include "SampleConfiguration.h"
 #endif
 
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::$safeprojectname$::implementation
 {
     MainWindow::MainWindow()
@@ -28,7 +33,7 @@ namespace winrt::$safeprojectname$::implementation
     {
         if (_hwnd == nullptr)
         {
-            winrt::Microsoft::UI::Xaml::Window window = *this;
+            Window window = *this;
             window.as<IWindowNative>()->get_WindowHandle(&_hwnd);
         }
         return _hwnd;
