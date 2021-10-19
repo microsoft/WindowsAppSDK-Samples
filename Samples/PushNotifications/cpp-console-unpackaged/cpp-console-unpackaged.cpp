@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #include <windows.h>
@@ -24,7 +24,7 @@ using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
-// follow the instructions on https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+// follow the instructions on https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/push/push-quickstart#configure-your-apps-identity-in-azure-active-directory
 winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own RemoteId
 
 HRESULT LoadWindowsAppSDK()
@@ -55,13 +55,13 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
             if (args.status == PushNotificationChannelStatus::InProgress)
             {
                 // This is basically a noop since it isn't really an error state
-                std::cout << "\nChannel request is in progress." << std::endl;
+                std::cout << "\nWNS ChannelURI request is in progress." << std::endl;
             }
             else if (args.status == PushNotificationChannelStatus::InProgressRetry)
             {
                 LOG_HR_MSG(
                     args.extendedError,
-                    "The channel request is in back-off retry mode because of a retryable error! Expect delays in acquiring it. RetryCount = %d",
+                    "The WNS ChannelURI request is in back-off retry mode because of a retryable error! Expect delays in acquiring it. RetryCount = %d",
                     args.retryCount);
             }
         });
@@ -74,15 +74,15 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 
         DateTimeFormatter formater = DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}");
 
-        std::cout << "\nChannel Uri: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
-        std::wcout << L"\nChannel Uri will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
+        std::cout << "\nWNS ChannelURI: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
+        std::wcout << L"\nThe WNS ChannelURI will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
 
         // It's the caller's responsibility to keep the channel alive
         co_return channel;
     }
     else if (result.Status() == PushNotificationChannelStatus::CompletedFailure)
     {
-        LOG_HR_MSG(result.ExtendedError(), "We hit a critical non-retryable error with channel request!");
+        LOG_HR_MSG(result.ExtendedError(), "We hit a critical non-retryable error with the WNS ChannelURI request!");
         co_return nullptr;
     }
     else
@@ -145,13 +145,13 @@ int main()
     auto kind = args.Kind();
     switch (kind)
     {
-        // When it is launched normally (by the users, or from the debugger), the sample requests a Channel Uri and
-        // displays it, then waits for notifications. This user can take a copy of the Channel Uri and use it to send
+        // When it is launched normally (by the users, or from the debugger), the sample requests a WNS ChannelURI and
+        // displays it, then waits for notifications. This user can take a copy of the WNS ChannelURI and use it to send
         // notifications to the sample
         case ExtendedActivationKind::Launch:
         {
-            // Request a channel which can be passed off to an external app to send notifications to.
-            // The channel uniquely identifies, this app for this user and device.
+            // Request a WNS ChannelURI which can be passed off to an external app to send notifications to.
+            // The WNS ChannelURI uniquely identifies, this app for this user and device.
             PushNotificationChannel channel = RequestChannel();
 
             // Setup an event handler, so we can receive notifications in the foreground while the app is running.
@@ -161,7 +161,7 @@ int main()
             }
             else
             {
-                std::cout << "\nThere was an error obtaining the Channel Uri" << std::endl;
+                std::cout << "\nThere was an error obtaining the WNS ChannelURI" << std::endl;
             }
 
             std::cout << "\nPress 'Enter' at any time to exit App." << std::endl;
@@ -170,7 +170,7 @@ int main()
         break;
 
         // When it is activated from a push notification, the sample only displays the notification.
-        // It doesn�t register for foreground activation of perform any other actions
+        // It doesn’t register for foreground activation of perform any other actions
         // because background activation is meant to let app perform only small tasks in order to preserve battery life.
         case ExtendedActivationKind::Push:
         {
