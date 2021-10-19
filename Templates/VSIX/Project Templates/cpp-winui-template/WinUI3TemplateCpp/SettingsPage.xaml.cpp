@@ -25,12 +25,12 @@ namespace winrt::$safeprojectname$::implementation
 
     void SettingsPage::OnNavigatedTo(NavigationEventArgs const&)
     {
-        for (UIElement c : themePanel().Children())
+        for (UIElement&& c : themePanel().Children())
         {
-            ElementTheme tag = c.as<RadioButton>().Tag().as<ElementTheme>();
+            auto tag = c.as<RadioButton>().Tag().as<ElementTheme>();
             if (tag == SampleConfig::CurrentTheme)
             {
-                RadioButton radioButton = c.as<RadioButton>();
+                auto radioButton = c.as<RadioButton>();
                 radioButton.IsChecked(true);
             }
         }
@@ -38,10 +38,10 @@ namespace winrt::$safeprojectname$::implementation
 
     void SettingsPage::OnThemeRadioButtonChecked(IInspectable const& sender, RoutedEventArgs const&)
     { 
-        RadioButton radiobutton = sender.as<RadioButton>();
+        auto radiobutton = sender.as<RadioButton>();
         auto selectedTheme = unbox_value<ElementTheme>(radiobutton.Tag());
 
-        Grid content = MainPage::Current().Content().as<Grid>();
+        auto content = MainPage::Current().Content().as<Grid>();
         if (content != nullptr)
         {
             content.RequestedTheme(selectedTheme);

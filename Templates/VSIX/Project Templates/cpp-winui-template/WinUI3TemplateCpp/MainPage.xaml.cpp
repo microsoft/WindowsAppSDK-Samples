@@ -51,7 +51,7 @@ namespace winrt::$safeprojectname$::implementation
 
     void MainPage::NavView_Loaded(IInspectable const&, RoutedEventArgs const&)
     {
-        for (auto s : Scenarios())
+        for (auto&& s : Scenarios())
         {
             FontIcon fontIcon{};
             fontIcon.FontFamily(winrt::FontFamily(L"Segoe MDL2 Assets"));
@@ -140,7 +140,7 @@ namespace winrt::$safeprojectname$::implementation
         }
         else
         {
-            for (auto item : NavView().MenuItems())
+            for (auto&& item : NavView().MenuItems())
             {
                 auto navViewItem = item.try_as<NavigationViewItem>();
                 if (navViewItem != nullptr && 
