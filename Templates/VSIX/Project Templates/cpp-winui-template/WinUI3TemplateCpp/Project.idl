@@ -21,7 +21,6 @@ namespace $safeprojectname$
      /* The following code is template-specific IDL.
      These runtime classes are the same across all C++/WinRT WinUI samples. */
 
-    [default_interface]
     runtimeclass MainPage : Microsoft.UI.Xaml.Controls.Page
     {
         MainPage();
