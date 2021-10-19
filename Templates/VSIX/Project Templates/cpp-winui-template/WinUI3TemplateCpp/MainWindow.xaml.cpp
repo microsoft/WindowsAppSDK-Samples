@@ -65,24 +65,25 @@ namespace winrt::$safeprojectname$::implementation
 
     void MainWindow::PlacementCenterWindowInMonitorWin32(HWND hwnd)
     {
-        RECT rc;
-        GetWindowRect(hwnd, &rc);
-        ClipOrCenterRectToMonitorWin32(&rc);
-        SetWindowPos(hwnd, nullptr, rc.left, rc.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+        RECT windowMontiorRectToAdjust;
+        GetWindowRect(hwnd, &windowMontiorRectToAdjust);
+        ClipOrCenterRectToMonitorWin32(windowMontiorRectToAdjust);
+        SetWindowPos(hwnd, nullptr, windowMontiorRectToAdjust.left,
+            windowMontiorRectToAdjust.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
     }
 
     void MainWindow::ClipOrCenterRectToMonitorWin32(_Inout_ RECT* prc)
     {
         MONITORINFO mi{ sizeof(mi) };
-        GetMonitorInfoW(MonitorFromRect(prc, MONITOR_DEFAULTTONEAREST), &mi);
+        GetMonitorInfoW(MonitorFromRect(&prc, MONITOR_DEFAULTTONEAREST), &mi);
 
         const auto& rcWork = mi.rcWork;
-        const int w = prc->right - prc->left;
-        const int h = prc->bottom - prc->top;
+        const int w = (&prc)->right - (&prc)->left;
+        const int h = (&prc)->bottom - (&prc)->top;
 
-        prc->left = rcWork.left + (rcWork.right - rcWork.left - w) / 2;
-        prc->top = rcWork.top + (rcWork.bottom - rcWork.top - h) / 2;
-        prc->right = prc->left + w;
-        prc->bottom = prc->top + h;
+        (&prc)->left = rcWork.left + (rcWork.right - rcWork.left - w) / 2;
+        (&prc)->top = rcWork.top + (rcWork.bottom - rcWork.top - h) / 2;
+        (&prc)->right = (&prc)->left + w;
+        (&prc)->bottom = (&prc)->top + h;
     }
 }
