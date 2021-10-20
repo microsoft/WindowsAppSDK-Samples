@@ -1,14 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include <windows.h>
 #include <iostream>
 
-#include <appmodel.h>
 #include <wil/result.h>
 #include <wil/cppwinrt.h>
 
-#include <winrt/Windows.ApplicationModel.Activation.h>
 #include <winrt/Windows.ApplicationModel.Background.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
@@ -19,7 +16,6 @@
 
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
-using namespace winrt::Windows::ApplicationModel::Background; // BackgroundTask APIs
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
