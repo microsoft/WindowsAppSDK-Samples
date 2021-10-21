@@ -14,10 +14,10 @@ namespace winrt
 
 namespace winrt::$safeprojectname$
 {
-    IVector<Scenario> implementation::MainPage::scenariosInner = winrt::single_threaded_observable_vector<Scenario>(
+    IVector<Scenario> implementation::MainPage::scenariosInner = single_threaded_observable_vector<Scenario>(
         {
-            Scenario{ L"Scenario 1", winrt::hstring(winrt::name_of<$safeprojectname$::Scenario1_ShortName>())},
-            Scenario{ L"Scenario 2", winrt::hstring(winrt::name_of<$safeprojectname$::Scenario2_ShortName>())}
+            Scenario{ L"Scenario 1", hstring(name_of<$safeprojectname$::Scenario1_ShortName>())},
+            Scenario{ L"Scenario 2", hstring(name_of<$safeprojectname$::Scenario2_ShortName>())}
         });
 
     hstring SampleConfig::FeatureName{ L"$safeprojectname$" };
