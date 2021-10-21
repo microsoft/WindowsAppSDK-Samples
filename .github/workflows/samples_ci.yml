@@ -36,8 +36,8 @@ jobs:
         run: msbuild 'Samples/ResourceManagement/cpp-console-unpackaged/*.sln' /p:configuration=${{ matrix.configuration }} /p:platform=${{ matrix.platform }}
 
       - name: Restore nuget packages for all solutions
-        run: msbuild 'Samples/*/*.sln' /p:configuration=${{ matrix.configuration }} /p:platform=${{ matrix.platform }} /t:restore
+        run: msbuild 'Samples\**\*.sln' /p:configuration=${{ matrix.configuration }} /p:platform=${{ matrix.platform }} /t:restore
       
       - name: Build all Sample solutions
-        run: msbuild 'Samples/*/*.sln' /p:configuration=${{ matrix.configuration }} /p:platform=${{ matrix.platform }}
+        run: msbuild 'Samples\**\*.sln' /p:configuration=${{ matrix.configuration }} /p:platform=${{ matrix.platform }}
              
