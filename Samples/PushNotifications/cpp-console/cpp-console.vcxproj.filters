@@ -21,6 +21,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="cpp-console-package\cpp-console-package.wapproj" />
   </ItemGroup>
 </Project>
