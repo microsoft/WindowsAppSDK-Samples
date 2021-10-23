@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CsWinFormsActivation": {
+      "commandName": "Project",
+      "commandLineArgs": "apple banana cherry"
+    }
+  }
+}
