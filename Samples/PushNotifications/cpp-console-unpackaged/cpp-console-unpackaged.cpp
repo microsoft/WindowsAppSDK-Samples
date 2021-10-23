@@ -26,7 +26,7 @@ winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this w
 HRESULT LoadWindowsAppSDK()
 {
     // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
-    const UINT32 majorMinorVersion{ 0x00040001 }; //  { Major << 16) | Minor };
+    const UINT32 majorMinorVersion{ 0x00010000 }; //  { Major << 16) | Minor };
     PCWSTR versionTag{ L"" };
     const PACKAGE_VERSION minVersion{};
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
