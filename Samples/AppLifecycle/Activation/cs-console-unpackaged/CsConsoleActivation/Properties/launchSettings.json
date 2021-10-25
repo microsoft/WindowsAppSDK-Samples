@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CsConsoleActivation": {
+      "commandName": "Project",
+      "commandLineArgs": "Elm Oak Ash"
+    }
+  }
+}
