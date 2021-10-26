@@ -472,6 +472,22 @@ Deploy and test your samples on Desktop.
 
 Make sure to include a README file with your sample. See the above section on [Samples README](#samples-readme).
 
+### Copyright Headers
+
+Microsoft-authored samples must include the appropriate copyright notice and license text added to the header of each file.
+
+- For C#/C++ files (*h, *.cpp, *.cs, *.idl):
+    ```csharp
+    // Copyright (c) Microsoft Corporation.
+    // Licensed under the MIT License.
+    ```
+
+- For XAML files (*.xaml):
+    ```xml
+    <!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+    ```
+
 ### Pass certification
 
 Run the Windows App Certification Kit (WACK) on a Release build. If your sample does something architecture-specific (e.g., uses different intrinsics on x86 vs ARM), then run WACK on applicable architectures. Otherwise, one architecture is sufficient.

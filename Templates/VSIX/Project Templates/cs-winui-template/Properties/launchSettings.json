@@ -1,0 +1,7 @@
+﻿{
+    "profiles": {
+        "$projectname$": {
+            "commandName": "MsixPackage"
+        }
+    }
+}

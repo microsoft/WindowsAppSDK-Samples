@@ -1,5 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 using System;
 using System.Windows;
 using System.Windows.Controls;
