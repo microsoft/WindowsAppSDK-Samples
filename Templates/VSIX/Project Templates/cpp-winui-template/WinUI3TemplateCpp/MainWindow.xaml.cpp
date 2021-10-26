@@ -72,18 +72,18 @@ namespace winrt::$safeprojectname$::implementation
             windowMontiorRectToAdjust.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
     }
 
-    void MainWindow::ClipOrCenterRectToMonitorWin32(RECT& rc)
+    void MainWindow::ClipOrCenterRectToMonitorWin32(RECT& adjustedWindowRect)
     {
         MONITORINFO mi{ sizeof(mi) };
-        GetMonitorInfoW(MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST), &mi);
+        GetMonitorInfoW(MonitorFromRect(&adjustedWindowRect, MONITOR_DEFAULTTONEAREST), &mi);
 
         const auto& rcWork = mi.rcWork;
-        const int w = rc.right - rc.left;
-        const int h = rc.bottom - rc.top;
+        const int w = adjustedWindowRect.right - adjustedWindowRect.left;
+        const int h = adjustedWindowRect.bottom - adjustedWindowRect.top;
 
-        rc.left = rcWork.left + (rcWork.right - rcWork.left - w) / 2;
-        rc.top = rcWork.top + (rcWork.bottom - rcWork.top - h) / 2;
-        rc.right = rc.left + w;
-        rc.bottom = rc.top + h;
+        adjustedWindowRect.left = rcWork.left + (rcWork.right - rcWork.left - w) / 2;
+        adjustedWindowRect.top = rcWork.top + (rcWork.bottom - rcWork.top - h) / 2;
+        adjustedWindowRect.right = adjustedWindowRect.left + w;
+        adjustedWindowRect.bottom = adjustedWindowRect.top + h;
     }
 }
