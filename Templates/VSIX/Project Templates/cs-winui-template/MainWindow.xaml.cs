@@ -69,14 +69,14 @@ namespace $safeprojectname$
 
         private void PlacementCenterWindowInMonitorWin32(HWND hwnd)
         {
-            RECT windowMonitorRectToAdjust;
-            GetWindowRect(hwnd, out windowMonitorRectToAdjust);
-            ClipOrCenterRectToMonitorWin32(ref windowMonitorRectToAdjust); 
-            SetWindowPos(hwnd, default, windowMonitorRectToAdjust.left,
-                windowMonitorRectToAdjust.top, 0, 0,
-                SET_WINDOW_POS_FLAGS.SWP_NOSIZE | 
-                SET_WINDOW_POS_FLAGS.SWP_NOZORDER | 
-                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);     
+            RECT windowMontiorRectToAdjust;
+            GetWindowRect(hwnd, out windowMontiorRectToAdjust);
+            ClipOrCenterRectToMonitorWin32(ref windowMontiorRectToAdjust);
+            SetWindowPos(hwnd, default, windowMontiorRectToAdjust.left,
+                windowMontiorRectToAdjust.top, 0, 0,
+                SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
+                SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
+                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
         }
 
         private void ClipOrCenterRectToMonitorWin32(ref RECT adjustedWindowRect)
