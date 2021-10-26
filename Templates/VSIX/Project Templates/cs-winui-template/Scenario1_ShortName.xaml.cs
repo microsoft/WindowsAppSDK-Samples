@@ -8,8 +8,9 @@ namespace $safeprojectname$
 {
     public partial class Scenario1_ShortName : Page
     {
-    private MainPage rootPage = MainPage.Current;
-    public Scenario1_ShortName()
+        private MainPage rootPage = MainPage.Current;
+
+        public Scenario1_ShortName()
         {
             this.InitializeComponent();
         }
@@ -17,7 +18,6 @@ namespace $safeprojectname$
         private void SuccessMessage_Click(object sender, RoutedEventArgs e)
         {
             rootPage.NotifyUser("Everything was ok!", InfoBarSeverity.Success);
-
         }
 
         private void ErrorMessage_Click(object sender, RoutedEventArgs e)

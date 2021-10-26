@@ -10,7 +10,6 @@ using System.Linq;
 
 namespace $safeprojectname$
 {
-
     public partial class MainPage : Page
     {
         public static MainPage Current;
