@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using Microsoft.UI;
@@ -30,7 +31,6 @@ namespace winforms_unpackaged_app
 
         private void InitializeComponent()
         {
-            this.title = new System.Windows.Forms.Label();
             this.toggleCompactOverlay = new System.Windows.Forms.Button();
             this.toggleFullScreen = new System.Windows.Forms.Button();
             this.presenterHeader = new System.Windows.Forms.Label();
@@ -45,24 +45,14 @@ namespace winforms_unpackaged_app
             this.titlebarBrandingBtn = new System.Windows.Forms.Button();
             this.titlebarCustomBtn = new System.Windows.Forms.Button();
             this.resetTitlebarBtn = new System.Windows.Forms.Button();
+            this.MyTitleBar = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.MyTitleBar.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // title
-            // 
-            this.title.AutoSize = true;
-            this.title.Dock = System.Windows.Forms.DockStyle.Right;
-            this.title.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.title.ForeColor = System.Drawing.Color.DarkGray;
-            this.title.Location = new System.Drawing.Point(347, 0);
-            this.title.Name = "title";
-            this.title.Size = new System.Drawing.Size(335, 32);
-            this.title.TabIndex = 0;
-            this.title.Text = "WindowsAppSDK AppWindow";
-            this.title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // toggleCompactOverlay
             // 
-            this.toggleCompactOverlay.Location = new System.Drawing.Point(12, 135);
+            this.toggleCompactOverlay.Location = new System.Drawing.Point(12, 223);
             this.toggleCompactOverlay.Name = "toggleCompactOverlay";
             this.toggleCompactOverlay.Size = new System.Drawing.Size(191, 27);
             this.toggleCompactOverlay.TabIndex = 1;
@@ -72,7 +62,7 @@ namespace winforms_unpackaged_app
             // 
             // toggleFullScreen
             // 
-            this.toggleFullScreen.Location = new System.Drawing.Point(209, 135);
+            this.toggleFullScreen.Location = new System.Drawing.Point(209, 223);
             this.toggleFullScreen.Name = "toggleFullScreen";
             this.toggleFullScreen.Size = new System.Drawing.Size(144, 27);
             this.toggleFullScreen.TabIndex = 2;
@@ -84,7 +74,7 @@ namespace winforms_unpackaged_app
             // 
             this.presenterHeader.AutoSize = true;
             this.presenterHeader.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.presenterHeader.Location = new System.Drawing.Point(12, 112);
+            this.presenterHeader.Location = new System.Drawing.Point(12, 200);
             this.presenterHeader.Name = "presenterHeader";
             this.presenterHeader.Size = new System.Drawing.Size(244, 20);
             this.presenterHeader.TabIndex = 3;
@@ -92,7 +82,7 @@ namespace winforms_unpackaged_app
             // 
             // overlapped
             // 
-            this.overlapped.Location = new System.Drawing.Point(359, 135);
+            this.overlapped.Location = new System.Drawing.Point(359, 223);
             this.overlapped.Name = "overlapped";
             this.overlapped.Size = new System.Drawing.Size(165, 27);
             this.overlapped.TabIndex = 4;
@@ -105,7 +95,7 @@ namespace winforms_unpackaged_app
             this.customizeWindowHeader.AutoSize = true;
             this.customizeWindowHeader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.customizeWindowHeader.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.customizeWindowHeader.Location = new System.Drawing.Point(12, 9);
+            this.customizeWindowHeader.Location = new System.Drawing.Point(12, 97);
             this.customizeWindowHeader.Name = "customizeWindowHeader";
             this.customizeWindowHeader.Size = new System.Drawing.Size(137, 20);
             this.customizeWindowHeader.TabIndex = 5;
@@ -113,7 +103,7 @@ namespace winforms_unpackaged_app
             // 
             // windowTitleTextBox
             // 
-            this.windowTitleTextBox.Location = new System.Drawing.Point(12, 32);
+            this.windowTitleTextBox.Location = new System.Drawing.Point(12, 120);
             this.windowTitleTextBox.Name = "windowTitleTextBox";
             this.windowTitleTextBox.Size = new System.Drawing.Size(191, 27);
             this.windowTitleTextBox.TabIndex = 6;
@@ -121,7 +111,7 @@ namespace winforms_unpackaged_app
             // 
             // setWindowTitleButton
             // 
-            this.setWindowTitleButton.Location = new System.Drawing.Point(209, 32);
+            this.setWindowTitleButton.Location = new System.Drawing.Point(209, 120);
             this.setWindowTitleButton.Name = "setWindowTitleButton";
             this.setWindowTitleButton.Size = new System.Drawing.Size(133, 27);
             this.setWindowTitleButton.TabIndex = 7;
@@ -131,21 +121,21 @@ namespace winforms_unpackaged_app
             // 
             // widthTextBox
             // 
-            this.widthTextBox.Location = new System.Drawing.Point(12, 65);
+            this.widthTextBox.Location = new System.Drawing.Point(12, 153);
             this.widthTextBox.Name = "widthTextBox";
             this.widthTextBox.Size = new System.Drawing.Size(50, 27);
             this.widthTextBox.TabIndex = 9;
             // 
             // heightTextBox
             // 
-            this.heightTextBox.Location = new System.Drawing.Point(68, 65);
+            this.heightTextBox.Location = new System.Drawing.Point(68, 153);
             this.heightTextBox.Name = "heightTextBox";
             this.heightTextBox.Size = new System.Drawing.Size(50, 27);
             this.heightTextBox.TabIndex = 10;
             // 
             // resizeButton
             // 
-            this.resizeButton.Location = new System.Drawing.Point(124, 65);
+            this.resizeButton.Location = new System.Drawing.Point(124, 153);
             this.resizeButton.Name = "resizeButton";
             this.resizeButton.Size = new System.Drawing.Size(119, 27);
             this.resizeButton.TabIndex = 11;
@@ -157,7 +147,7 @@ namespace winforms_unpackaged_app
             // 
             this.customTitleBarHeader.AutoSize = true;
             this.customTitleBarHeader.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.customTitleBarHeader.Location = new System.Drawing.Point(12, 176);
+            this.customTitleBarHeader.Location = new System.Drawing.Point(12, 264);
             this.customTitleBarHeader.Name = "customTitleBarHeader";
             this.customTitleBarHeader.Size = new System.Drawing.Size(114, 20);
             this.customTitleBarHeader.TabIndex = 12;
@@ -165,7 +155,7 @@ namespace winforms_unpackaged_app
             // 
             // titlebarBrandingBtn
             // 
-            this.titlebarBrandingBtn.Location = new System.Drawing.Point(12, 199);
+            this.titlebarBrandingBtn.Location = new System.Drawing.Point(12, 287);
             this.titlebarBrandingBtn.Name = "titlebarBrandingBtn";
             this.titlebarBrandingBtn.Size = new System.Drawing.Size(231, 29);
             this.titlebarBrandingBtn.TabIndex = 13;
@@ -175,7 +165,7 @@ namespace winforms_unpackaged_app
             // 
             // titlebarCustomBtn
             // 
-            this.titlebarCustomBtn.Location = new System.Drawing.Point(249, 199);
+            this.titlebarCustomBtn.Location = new System.Drawing.Point(249, 287);
             this.titlebarCustomBtn.Name = "titlebarCustomBtn";
             this.titlebarCustomBtn.Size = new System.Drawing.Size(178, 29);
             this.titlebarCustomBtn.TabIndex = 14;
@@ -185,7 +175,7 @@ namespace winforms_unpackaged_app
             // 
             // resetTitlebarBtn
             // 
-            this.resetTitlebarBtn.Location = new System.Drawing.Point(12, 234);
+            this.resetTitlebarBtn.Location = new System.Drawing.Point(12, 322);
             this.resetTitlebarBtn.Name = "resetTitlebarBtn";
             this.resetTitlebarBtn.Size = new System.Drawing.Size(114, 29);
             this.resetTitlebarBtn.TabIndex = 15;
@@ -193,10 +183,31 @@ namespace winforms_unpackaged_app
             this.resetTitlebarBtn.UseVisualStyleBackColor = true;
             this.resetTitlebarBtn.Click += new System.EventHandler(this.resetTitlebarBtn_Click);
             // 
+            // MyTitleBar
+            // 
+            this.MyTitleBar.BackColor = System.Drawing.SystemColors.Highlight;
+            this.MyTitleBar.Controls.Add(this.label1);
+            this.MyTitleBar.Location = new System.Drawing.Point(-1, 0);
+            this.MyTitleBar.Name = "MyTitleBar";
+            this.MyTitleBar.Size = new System.Drawing.Size(688, 67);
+            this.MyTitleBar.TabIndex = 16;
+            this.MyTitleBar.TabStop = false;
+            this.MyTitleBar.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(363, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(50, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
+            // 
             // AppForm
             // 
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(682, 453);
+            this.Controls.Add(this.MyTitleBar);
             this.Controls.Add(this.resetTitlebarBtn);
             this.Controls.Add(this.titlebarCustomBtn);
             this.Controls.Add(this.titlebarBrandingBtn);
@@ -211,9 +222,10 @@ namespace winforms_unpackaged_app
             this.Controls.Add(this.presenterHeader);
             this.Controls.Add(this.toggleFullScreen);
             this.Controls.Add(this.toggleCompactOverlay);
-            this.Controls.Add(this.title);
             this.Name = "AppForm";
             this.Load += new System.EventHandler(this.AppForm_Load);
+            this.MyTitleBar.ResumeLayout(false);
+            this.MyTitleBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -323,17 +335,92 @@ namespace winforms_unpackaged_app
 
         private void titlebarBrandingBtn_Click(object sender, EventArgs e)
         {
-            
+            m_mainAppWindow.TitleBar.ResetToDefault();
+
+            m_isBrandedTitleBar = !m_isBrandedTitleBar;
+            if (AppWindowTitleBar.IsCustomizationSupported() && m_isBrandedTitleBar)
+            {
+                m_mainAppWindow.Title = "Default titlebar with custom color customization";
+                m_mainAppWindow.TitleBar.ForegroundColor = Colors.White;
+                m_mainAppWindow.TitleBar.BackgroundColor = Colors.DarkOrange;
+                m_mainAppWindow.TitleBar.InactiveBackgroundColor = Colors.Blue;
+                m_mainAppWindow.TitleBar.InactiveForegroundColor = Colors.White;
+
+                //Buttons
+                m_mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.DarkOrange;
+                m_mainAppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+                m_mainAppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Blue;
+                m_mainAppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.White;
+                m_mainAppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Green;
+                m_mainAppWindow.TitleBar.ButtonHoverForegroundColor = Colors.White;
+                m_mainAppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.DarkOrange;
+                m_mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
+            }
+            else
+            {
+                m_mainAppWindow.Title = m_windowTitle;
+            }
+            MyTitleBar.Visible = false;
         }
 
         private void titlebarCustomBtn_Click(object sender, EventArgs e)
         {
-           
+            m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar = !m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar;
+
+            if (AppWindowTitleBar.IsCustomizationSupported() && m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
+            {
+                // Show the custom titlebar
+                MyTitleBar.Visible = true;
+
+                // Set Button colors to match the custom titlebar
+                m_mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.Blue;
+                m_mainAppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+                m_mainAppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Blue;
+                m_mainAppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.White;
+                m_mainAppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Green;
+                m_mainAppWindow.TitleBar.ButtonHoverForegroundColor = Colors.White;
+                m_mainAppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Green;
+                m_mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
+
+                //Infer titlebar height
+                int titleBarHeight = m_mainAppWindow.TitleBar.Height;
+                MyTitleBar.Height = titleBarHeight;
+
+                // Get caption button occlusion information
+                // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
+                int CaptionButtonOcclusionWidth = m_mainAppWindow.TitleBar.RightInset;
+
+                // Define your drag Regions
+                //int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon.ActualWidth + (int)m_mainWindow.MyWindowIcon.Margin.Right;
+                int windowIconWidthAndPadding = 0;
+                int dragRegionWidth = m_mainAppWindow.Size.Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
+
+                Windows.Graphics.RectInt32[] dragRects = new Windows.Graphics.RectInt32[] { };
+                Windows.Graphics.RectInt32 dragRect;
+
+                dragRect.X = windowIconWidthAndPadding;
+                dragRect.Y = 0;
+                dragRect.Height = titleBarHeight;
+                dragRect.Width = dragRegionWidth;
+
+                var dragRectsArray = dragRects.Append(dragRect).ToArray();
+                m_mainAppWindow.TitleBar.SetDragRectangles(dragRectsArray);
+            }
+            else
+            {
+                // Bring back the default titlebar
+                MyTitleBar.Visible = false;
+                m_mainAppWindow.TitleBar.ResetToDefault();
+            }
         }
 
         private void resetTitlebarBtn_Click(object sender, EventArgs e)
         {
-
+            m_mainAppWindow.TitleBar.ResetToDefault();
+            m_mainAppWindow.Title = m_windowTitle;
+            MyTitleBar.Visible = false;
         }
+
+
     }
 }
