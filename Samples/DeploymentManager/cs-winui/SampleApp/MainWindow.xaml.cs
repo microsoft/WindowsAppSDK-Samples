@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using Microsoft.Windows.ApplicationModel.WindowsAppRuntime;
 
