@@ -19,7 +19,7 @@ C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.401, or later
 ## Building and running any of the samples 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 
-1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio 2019 Preview.
+1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio 2019.
 2. Build the solution.
 3. Right click on the solution and click **Deploy Solution**
 4. Debug the project.
