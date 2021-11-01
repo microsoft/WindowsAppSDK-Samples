@@ -4,7 +4,7 @@
 namespace $safeprojectname$
 {
     /* The following code is scenario/feature-specific IDL.
-    Samples authors should modify these runtime classes as approriate. */
+    Samples authors should modify these runtime classes as appropriate. */
 
     [default_interface]
     runtimeclass Scenario1_ShortName : Microsoft.UI.Xaml.Controls.Page
@@ -21,7 +21,6 @@ namespace $safeprojectname$
      /* The following code is template-specific IDL.
      These runtime classes are the same across all C++/WinRT WinUI samples. */
 
-    [default_interface]
     runtimeclass MainPage : Microsoft.UI.Xaml.Controls.Page
     {
         MainPage();

@@ -35,24 +35,24 @@ namespace $safeprojectname$
 
             fixed (char* nameLocal = iconName)
             {
-                HANDLE imageHandle = LoadImage(default,
+                HANDLE smallIcon = LoadImage(default,
                     nameLocal,
                     GDI_IMAGE_TYPE.IMAGE_ICON,
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
                     IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
-                SendMessage(hwnd, WM_SETICON, ICON_SMALL, imageHandle.Value);
+                SendMessage(hwnd, WM_SETICON, ICON_SMALL, smallIcon.Value);
             }
 
             fixed (char* nameLocal = iconName)
             {
-                HANDLE imageHandle = LoadImage(default,
+                HANDLE bigIcon = LoadImage(default,
                     nameLocal,
                     GDI_IMAGE_TYPE.IMAGE_ICON,
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
                     IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
-                SendMessage(hwnd, WM_SETICON, ICON_BIG, imageHandle.Value);
+                SendMessage(hwnd, WM_SETICON, ICON_BIG, bigIcon.Value);
             }
         }
 
@@ -69,33 +69,30 @@ namespace $safeprojectname$
 
         private void PlacementCenterWindowInMonitorWin32(HWND hwnd)
         {
-            RECT rc;
-            GetWindowRect(hwnd, out rc);
-            ClipOrCenterRectToMonitorWin32(ref rc); 
-            SetWindowPos(hwnd, default, rc.left, rc.top, 0, 0,
-                         SET_WINDOW_POS_FLAGS.SWP_NOSIZE | 
-                         SET_WINDOW_POS_FLAGS.SWP_NOZORDER | 
-                         SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);     
+            RECT windowMonitorRectToAdjust;
+            GetWindowRect(hwnd, out windowMonitorRectToAdjust);
+            ClipOrCenterRectToMonitorWin32(ref windowMonitorRectToAdjust); 
+            SetWindowPos(hwnd, default, windowMonitorRectToAdjust.left,
+                windowMonitorRectToAdjust.top, 0, 0,
+                SET_WINDOW_POS_FLAGS.SWP_NOSIZE | 
+                SET_WINDOW_POS_FLAGS.SWP_NOZORDER | 
+                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);     
         }
 
-        private void ClipOrCenterRectToMonitorWin32(ref RECT prc)
+        private void ClipOrCenterRectToMonitorWin32(ref RECT adjustedWindowRect)
         {
-            HMONITOR hMonitor;
-            RECT rc;
-            int w = prc.right - prc.left;
-            int h = prc.bottom - prc.top;
-
-            hMonitor = MonitorFromRect(prc, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST);
-            MONITORINFO mi = new MONITORINFO();
+            MONITORINFO mi = new MONITORINFO(); 
             mi.cbSize = (uint)Marshal.SizeOf<MONITORINFO>();
+            GetMonitorInfo(MonitorFromRect(adjustedWindowRect, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST), ref mi);
 
-            GetMonitorInfo(hMonitor, ref mi);
+            RECT rcWork = mi.rcWork;
+            int w = adjustedWindowRect.right - adjustedWindowRect.left;
+            int h = adjustedWindowRect.bottom - adjustedWindowRect.top;
 
-            rc = mi.rcWork;
-            prc.left = rc.left + (rc.right - rc.left - w) / 2;
-            prc.top = rc.top + (rc.bottom - rc.top - h) / 2;
-            prc.right = prc.left + w;
-            prc.bottom = prc.top + h;
+            adjustedWindowRect.left = rcWork.left + (rcWork.right - rcWork.left - w) / 2;
+            adjustedWindowRect.top = rcWork.top + (rcWork.bottom - rcWork.top - h) / 2;
+            adjustedWindowRect.right = adjustedWindowRect.left + w;
+            adjustedWindowRect.bottom = adjustedWindowRect.top + h;
         }
     }
 }
