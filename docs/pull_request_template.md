@@ -6,14 +6,14 @@ how to best contribute to the Windows App SDK Samples repository!
 
 -->
 
-##### Description
+## Description
 
-##### Checklist
+Please include a summary of the change and/or which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
-- [ ] Please ensure your samples can be correctly built using the Visual Studio versions
-      in https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment?tabs=stable#2-install-visual-studio
-- [ ] If you're adding a new sample, and it is related to one of the existing scenarios 
-      (ResourceManagement, Windowing, etc) make sure to add them in the corresponding folder.
-- [ ] Samples should build on all supported platforms (x64, x86, ARM64) and configurations (Debug, Release). 
-- [ ] Samples should set the minimum version to Windows 10 version 1809.
-- [ ] Make sure samples build clean with no warnings or errors.
+## Checklist
+
+- [ ] Samples build and run using the Visual Studio versions listed in the [Windows development docs](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment?tabs=stable#2-install-visual-studio).
+- [ ] Samples build and run on all supported platforms (x64, x86, ARM64) and configurations (Debug, Release). 
+- [ ] Samples set the minimum supported OS version to Windows 10 version 1809.
+- [ ] Samples build clean with no warnings or errors.
+- [ ] **[For new samples]**: Samples have completed the [sample guidelines checklist](https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/docs/samples-guidelines.md#checklist) and follow [standardization/naming guidelines](https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/docs/samples-guidelines.md#standardization-and-naming).

@@ -31,7 +31,6 @@ namespace $safeprojectname$
                     content.RequestedTheme = selectedTheme;
                     SampleConfig.CurrentTheme = content.RequestedTheme;
                 }
-            
         }
     }
 }
