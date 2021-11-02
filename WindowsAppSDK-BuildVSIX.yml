@@ -11,7 +11,8 @@ stages:
 - stage: BuildVSIX
   jobs:
   - job: BuildVSIX
-    pool: 'ProjectReunionESPool'
+    pool:
+      vmImage: 'windows-2022'
     steps:
     # Update path for MSIX reference in build\NuSpecs\build\Microsoft.WindowsAppSDK.AppXReference.props
     # Before, this was a hardcoded value
