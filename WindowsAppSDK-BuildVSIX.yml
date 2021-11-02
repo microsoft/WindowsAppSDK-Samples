@@ -22,6 +22,7 @@ stages:
         script: |
           $file = '$(Build.SourcesDirectory)\Templates\VSIX\Directory.Build.props'
           $WinAppSDKVersion = '${{ parameters.WinAppSDKVersion }}'
+          Write-Host $WinAppSDKVersion
           [xml]$props = Get-Content -Encoding utf8 -Path $file
           $props.Project.PropertyGroup.WindowsAppSdkVersion = $WindowsAppSDKNugetPackageVersion
           Set-Content -Encoding utf8 -Value $publicNuspec.OuterXml $file
