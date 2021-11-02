@@ -25,8 +25,8 @@ stages:
           Write-Host $WinAppSDKVersion
           [xml]$props = Get-Content -Encoding utf8 -Path $file
           $props.Project.PropertyGroup.WindowsAppSdkVersion.innerText = $WindowsAppSDKNugetPackageVersion
-          Write-Host $publicNuspec
-          Set-Content -Encoding utf8 -Value $publicNuspec.OuterXml $file
+          Write-Host $props
+          Set-Content -Encoding utf8 -Value $props.OuterXml $file
       
     - task: VSBuild@1
       displayName: 'Restore WindowsAppSDKSampleVSIX.sln'
