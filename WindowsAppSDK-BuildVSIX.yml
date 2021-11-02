@@ -24,7 +24,8 @@ stages:
           $WinAppSDKVersion = '${{ parameters.WinAppSDKVersion }}'
           Write-Host $WinAppSDKVersion
           [xml]$props = Get-Content -Encoding utf8 -Path $file
-          $props.Project.PropertyGroup.WindowsAppSdkVersion = $WindowsAppSDKNugetPackageVersion
+          $props.Project.PropertyGroup.WindowsAppSdkVersion.innerText = $WindowsAppSDKNugetPackageVersion
+          Write-Host $publicNuspec.OuterXml
           Set-Content -Encoding utf8 -Value $publicNuspec.OuterXml $file
       
     - task: VSBuild@1
