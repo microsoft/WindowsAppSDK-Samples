@@ -1,0 +1,45 @@
+# see https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases for info on yaml ADO jobs
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+parameters:
+  - name: "WinAppSDKVersion"
+    displayName: "Windows App SDK version" 
+  # You can find this value in the URL of the build https://dev.azure.com/microsoft/WindowsAppSDK/_build/results?buildId=35021212&view=results
+    type: string
+    default: ''
+
+stages:
+- stage: BuildVSIX
+  jobs:
+  - job: BuildVSIX
+    pool: 'ProjectReunionESPool'
+    steps:
+    # Update path for MSIX reference in build\NuSpecs\build\Microsoft.WindowsAppSDK.AppXReference.props
+    # Before, this was a hardcoded value
+    - task: PowerShell@2
+      displayName: 'Update version in Directory.Build.props'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $file = '$(Build.SourcesDirectory)\Templates\VSIX\Directory.Build.props'
+          $WinAppSDKVersion = '${{ parameters.WinAppSDKVersion }}'
+          [xml]$props = Get-Content -Encoding utf8 -Path $file
+          $props.Project.PropertyGroup.WindowsAppSdkVersion = $WindowsAppSDKNugetPackageVersion
+          Set-Content -Encoding utf8 -Value $publicNuspec.OuterXml $file
+      
+    - task: VSBuild@1
+      displayName: 'Restore WindowsAppSDKSampleVSIX.sln'
+      inputs:
+        solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
+        platform: 'Any CPU'
+        configuration: 'Release'
+        msBuildArgs: '/t:restore '
+
+    - task: VSBuild@1
+      displayName: 'Build WindowsAppSDKSampleVSIX.sln'
+      inputs:
+        solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
+        platform: 'Any CPU'
+        configuration: 'Release'
+
+    - script: |
+        dir /s $(Build.SourcesDirectory)
