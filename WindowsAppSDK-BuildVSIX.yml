@@ -21,7 +21,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          $file = '$(Build.SourcesDirectory)\Templates\VSIX\Directory.Build.props'
+          $file = '$(Build.SourcesDirectory)\Templates\Directory.Build.props'
           $WinAppSDKVersion = '${{ parameters.WinAppSDKVersion }}'
           [xml]$props = Get-Content -Encoding utf8 -Path $file
           $props.Project.PropertyGroup.WindowsAppSdkVersion.innerText = $WinAppSDKVersion
