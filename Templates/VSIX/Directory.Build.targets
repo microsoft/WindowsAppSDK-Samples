@@ -166,6 +166,7 @@ xmlns:ns="http://schemas.microsoft.com/developer/vstemplate/2005">
       OutputPaths="@(_allVsTemplates->'$(_tempDir)%(RecursiveDir)%(Filename)%(Extension).generated')"
       XslContent="$(_UnconditionalVsTemplateXslt)" />
     <!-- Replace the original .vstemplate -->
+    <Delete Files="@(_allVsTemplates->'$(_tempDir)%(RecursiveDir)%(Filename)%(Extension)')" />
     <Move SourceFiles="@(_allVsTemplates->'$(_tempDir)%(RecursiveDir)%(Filename)%(Extension).generated')"
       DestinationFiles="@(_allVsTemplates->'$(_tempDir)%(RecursiveDir)%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true" />
 
