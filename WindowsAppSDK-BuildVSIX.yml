@@ -43,15 +43,18 @@ stages:
       inputs:
         solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
         platform: 'Any CPU'
-        configuration: 'Debug'
+        configuration: 'Release'
         msBuildArgs: '/t:restore '
+
+    - script: |
+      dir /s $(Build.SourcesDirectory)
 
     - task: VSBuild@1
       displayName: 'Build WindowsAppSDKSampleVSIX.sln'
       inputs:
         solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
         platform: 'Any CPU'
-        configuration: 'Debug'
+        configuration: 'Release'
 
     - script: |
         dir /s $(Build.SourcesDirectory)
