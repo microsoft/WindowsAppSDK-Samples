@@ -285,6 +285,11 @@ namespace winforms_unpackaged_app
                 // Need to update our drag region if the size of the window changes
                 SetDragRegionForCustomTitleBar(sender);
             }
+            if (args.DidSizeChange)
+            {
+                // update the size of custom titlebar as the window size changes
+                MyTitleBar.Width = m_mainAppWindow.Size.Width;
+            }
         }
 
         private void SwitchPresenter(object sender, System.EventArgs e)
