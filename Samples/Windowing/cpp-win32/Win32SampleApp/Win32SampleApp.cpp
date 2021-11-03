@@ -1,4 +1,4 @@
-// Win32SampleApp.cpp : Defines the entry point for the application.
+﻿// Win32SampleApp.cpp : Defines the entry point for the application.
 //
 
 #include "framework.h"
@@ -10,12 +10,14 @@
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+winrt::AppWindow appWindow { nullptr };
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int, HWND*);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+void                AddControls(HWND);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -26,7 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     HWND hwnd = nullptr;
-    winrt::AppWindow appWindow { nullptr };
+    //winrt::AppWindow appWindow { nullptr };
 
     winrt::init_apartment();
 
@@ -42,14 +44,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WIN32SAMPLEAPP));
-    
-    // Create an AppWindow from an existing HWND
+
+    // Get the WindowId for our window
     winrt::WindowId windowId { (UINT64) hwnd };
-    HRESULT hr = winrt::GetWindowIdFromWindowHandle(hwnd, &windowId);
-    if (SUCCEEDED(hr))
-    {
-        appWindow = winrt::AppWindow::GetFromWindowId(windowId);
-    }
+    windowId = winrt::GetWindowIdFromWindow(hwnd);
+
+    // Get the AppWindow for the WindowId
+    appWindow = winrt::AppWindow::GetFromWindowId(windowId);
 
     // Main message loop:
     MSG msg;
@@ -89,6 +90,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
+
+
 }
 
 //
@@ -107,7 +110,18 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow, HWND* phWnd)
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
-
+    HWND hwndButton = CreateWindow(
+        L"BUTTON",  // Predefined class; Unicode assumed 
+        L"OK",      // Button text 
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+        10,         // x position 
+        10,         // y position 
+        100,        // Button width
+        100,        // Button height
+        hWnd,     // Parent window
+        NULL,       // No menu.
+        (HINSTANCE)GetWindowLongPtr(hWnd, GWLP_HINSTANCE),
+        NULL);      // Pointer not needed.
     if (!hWnd)
     {
         *phWnd = nullptr;
@@ -188,3 +202,6 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return (INT_PTR)FALSE;
 }
+
+
+

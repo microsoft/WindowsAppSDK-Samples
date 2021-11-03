@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\Microsoft.WindowsAppSDK.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.props')" />
+  <Import Project="packages\Microsoft.WindowsAppSDK.1.0.0-preview2\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.1.0.0-preview2\build\native\Microsoft.WindowsAppSDK.props')" />
+  <Import Project="packages\Microsoft.Windows.SDK.BuildTools.10.0.20348.19\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.20348.19\build\Microsoft.Windows.SDK.BuildTools.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.WinUI.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.WinUI.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" />
   <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.Foundation.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
@@ -171,6 +172,8 @@
     <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.Foundation.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.Foundation.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" />
     <Import Project="packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" />
     <Import Project="packages\Microsoft.WindowsAppSDK.WinUI.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.WinUI.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.WinUI.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" />
+    <Import Project="packages\Microsoft.Windows.SDK.BuildTools.10.0.20348.19\build\Microsoft.Windows.SDK.BuildTools.targets" Condition="Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.20348.19\build\Microsoft.Windows.SDK.BuildTools.targets')" />
+    <Import Project="packages\Microsoft.WindowsAppSDK.1.0.0-preview2\build\native\Microsoft.WindowsAppSDK.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.1.0.0-preview2\build\native\Microsoft.WindowsAppSDK.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -186,6 +189,9 @@
     <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.WinUI.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.WinUI.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.WinUI.props'))" />
     <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.WinUI.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.WinUI.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.WinUI.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.0.0-experimental1\build\native\Microsoft.WindowsAppSDK.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.20348.19\build\Microsoft.Windows.SDK.BuildTools.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.SDK.BuildTools.10.0.20348.19\build\Microsoft.Windows.SDK.BuildTools.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.20348.19\build\Microsoft.Windows.SDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.SDK.BuildTools.10.0.20348.19\build\Microsoft.Windows.SDK.BuildTools.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.0.0-preview2\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.0.0-preview2\build\native\Microsoft.WindowsAppSDK.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.0.0-preview2\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.0.0-preview2\build\native\Microsoft.WindowsAppSDK.targets'))" />
   </Target>
 </Project>

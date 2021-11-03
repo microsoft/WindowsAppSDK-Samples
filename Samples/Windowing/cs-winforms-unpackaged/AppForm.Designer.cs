@@ -25,8 +25,6 @@ namespace winforms_unpackaged_app
 
         #region Windows Form Designer generated code
         #endregion
-
-        private System.Windows.Forms.Label title;
         private System.Windows.Forms.Button toggleCompactOverlay;
         private System.Windows.Forms.Button toggleFullScreen;
         private System.Windows.Forms.Label presenterHeader;
@@ -41,6 +39,8 @@ namespace winforms_unpackaged_app
         private System.Windows.Forms.Button titlebarBrandingBtn;
         private System.Windows.Forms.Button titlebarCustomBtn;
         private System.Windows.Forms.Button resetTitlebarBtn;
+        private System.Windows.Forms.GroupBox MyTitleBar;
+        private System.Windows.Forms.Label label1;
     }
 }
 
