@@ -69,28 +69,28 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Item Templates\WinUI3ScenarioPageCpp\WinUI3ScenarioPageCpp.csproj">
+    <ProjectReference Include="..\Item Templates\WinUI3ScenarioPageCpp\WinUI3ScenarioPageCpp.csproj">
       <Project>{538FC0F0-5250-453E-B40F-40881A965490}</Project>
       <Name>WinUI3ScenarioPageCpp</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="Item Templates\WinUI3ScenarioPageCs\WinUI3ScenarioPageCs.csproj">
+    <ProjectReference Include="..\Item Templates\WinUI3ScenarioPageCs\WinUI3ScenarioPageCs.csproj">
       <Project>{C061FD19-1AF2-4FAE-BD42-A9BC8129B464}</Project>
       <Name>WinUI3ScenarioPageCs</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="Project Templates\cpp-winui-template\WinUI3TemplateCppVSIX.csproj">
+    <ProjectReference Include="..\Project Templates\cpp-winui-template\WinUI3TemplateCppVSIX.csproj">
       <Project>{F316060C-F7A2-42A4-86C8-E7403A4DAD1C}</Project>
       <Name>WinUI3TemplateCppVSIX</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="Project Templates\cs-winui-template\WinUI3TemplateCsVSIX.csproj">
+    <ProjectReference Include="..\Project Templates\cs-winui-template\WinUI3TemplateCsVSIX.csproj">
       <Project>{5EA732AA-04CA-45B1-8BEA-047FDF5200EA}</Project>
       <Name>WinUI3TemplateCsVSIX</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>

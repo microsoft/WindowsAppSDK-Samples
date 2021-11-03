@@ -6,6 +6,9 @@
     <CsWin32Version Condition="'$(CsWin32Version)' == ''">0.1.588-beta</CsWin32Version>
     <WindowsSDKBuildToolsVersion Condition="'$(WindowsSDKBuildToolsVersion)' == ''">10.0.22000.194</WindowsSDKBuildToolsVersion>
     <WindowsAppSdkVersion Condition="'$(WindowsAppSdkVersion)' == ''">1.0.0-preview2</WindowsAppSdkVersion>
+    <VSIXRootDir>$(MSBuildThisFileDirectory)</VSIXRootDir>
+    <ItemTemplatesDir>$(VSIXRootDir)\VSIX\ItemTemplates\</ItemTemplatesDir>
+    <ProjectTemplatesDir>$(VSIXRootDir)\VSIX\ProjectTemplates\</ProjectTemplatesDir>
   </PropertyGroup>
 
 </Project>
