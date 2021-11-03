@@ -39,8 +39,9 @@ namespace winforms_unpackaged_app
         private System.Windows.Forms.Button titlebarBrandingBtn;
         private System.Windows.Forms.Button titlebarCustomBtn;
         private System.Windows.Forms.Button resetTitlebarBtn;
-        private System.Windows.Forms.GroupBox MyTitleBar;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.FlowLayoutPanel MyTitleBar;
+        private System.Windows.Forms.PictureBox MyWindowIcon;
+        private System.Windows.Forms.Label MyWindowTitle;
     }
 }
 
