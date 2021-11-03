@@ -47,7 +47,7 @@ stages:
         msBuildArgs: '/t:restore '
 
     - script: |
-      dir /s $(Build.SourcesDirectory)
+        dir /s $(Build.SourcesDirectory)
 
     - task: VSBuild@1
       displayName: 'Build WindowsAppSDKSampleVSIX.sln'
