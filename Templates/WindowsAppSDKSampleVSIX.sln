@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsAppSDKSampleVSIX", "WindowsAppSDKSampleVSIX.csproj", "{05C60E6E-BACE-4F82-90B6-B1D80170B324}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsAppSDKSampleVSIX", "VSIX\WindowsAppSDKSampleVSIX.csproj", "{05C60E6E-BACE-4F82-90B6-B1D80170B324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI3TemplateCsVSIX", "Project Templates\cs-winui-template\WinUI3TemplateCsVSIX.csproj", "{5EA732AA-04CA-45B1-8BEA-047FDF5200EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI3TemplateCsVSIX", "VSIX\Project Templates\cs-winui-template\WinUI3TemplateCsVSIX.csproj", "{5EA732AA-04CA-45B1-8BEA-047FDF5200EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI3TemplateCppVSIX", "Project Templates\cpp-winui-template\WinUI3TemplateCppVSIX.csproj", "{F316060C-F7A2-42A4-86C8-E7403A4DAD1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI3TemplateCppVSIX", "VSIX\Project Templates\cpp-winui-template\WinUI3TemplateCppVSIX.csproj", "{F316060C-F7A2-42A4-86C8-E7403A4DAD1C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10942FB9-0171-4B78-AA8E-BE2AD61E3647}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI3ScenarioPageCpp", "Item Templates\WinUI3ScenarioPageCpp\WinUI3ScenarioPageCpp.csproj", "{538FC0F0-5250-453E-B40F-40881A965490}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI3ScenarioPageCpp", "VSIX\Item Templates\WinUI3ScenarioPageCpp\WinUI3ScenarioPageCpp.csproj", "{538FC0F0-5250-453E-B40F-40881A965490}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI3ScenarioPageCs", "Item Templates\WinUI3ScenarioPageCs\WinUI3ScenarioPageCs.csproj", "{C061FD19-1AF2-4FAE-BD42-A9BC8129B464}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI3ScenarioPageCs", "VSIX\Item Templates\WinUI3ScenarioPageCs\WinUI3ScenarioPageCs.csproj", "{C061FD19-1AF2-4FAE-BD42-A9BC8129B464}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

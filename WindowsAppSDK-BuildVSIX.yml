@@ -41,7 +41,7 @@ stages:
     - task: VSBuild@1
       displayName: 'Restore WindowsAppSDKSampleVSIX.sln'
       inputs:
-        solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
+        solution: $(Build.SourcesDirectory)\Templates\WindowsAppSDKSampleVSIX.sln
         platform: 'Any CPU'
         configuration: 'Release'
         msBuildArgs: '/t:restore '
@@ -52,7 +52,7 @@ stages:
     - task: VSBuild@1
       displayName: 'Build WindowsAppSDKSampleVSIX.sln'
       inputs:
-        solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
+        solution: $(Build.SourcesDirectory)\Templates\WindowsAppSDKSampleVSIX.sln
         platform: 'Any CPU'
         configuration: 'Release'
 
