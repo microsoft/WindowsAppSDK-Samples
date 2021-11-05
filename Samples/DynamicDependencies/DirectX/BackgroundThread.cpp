@@ -1,10 +1,11 @@
 ﻿//--------------------------------------------------------------------------------------
+// Copyright(c) Microsoft Corporation.
+// Licensed under the MIT License.
+//
 // File: BackgroundThread.cpp
 //
 // Sample showing how to use D3D9Ex advanced features.
 //
-// Copyright(c) Microsoft Corporation.
-// Licensed under the MIT License.
 //--------------------------------------------------------------------------------------
 #include <windows.h>
 #include <d3d9.h>

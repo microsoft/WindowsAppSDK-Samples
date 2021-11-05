@@ -10,18 +10,18 @@ namespace DynamicDependenciesBasicCS
     {
         static void Main(string[] args)
         {
-            //Initialize the Bootstrapper to load the Windows App SDK framework package
-            Bootstrap.Initialize(0x00010000, "preview2");
+            //For explicit initialization, call Bootstrap.Initialize() to load the Windows App SDK framework package
+            //Remove WindowsPackageType=None in project file
+            // Bootstrap.Initialize(0x00010000, "preview3");
 
-            // Call a simple Windows App SDK api, and output the result
-            // Off = 0, On = 1, Dimmed = 2,
+            // Call a simple Windows App SDK API, and output the result
             DisplayStatus dispStatus = PowerManager.DisplayStatus;
 
             Console.WriteLine("Hello World!");
             Console.WriteLine($"DisplayStatus: {dispStatus}");
 
-            //Release the Dynamic Dependencies Lifetime Manager
-            Bootstrap.Shutdown();
+            //When performing explicit initialization, release the Dynamic Dependencies Lifetime Manager
+            // Bootstrap.Shutdown();
         }
     }
 }

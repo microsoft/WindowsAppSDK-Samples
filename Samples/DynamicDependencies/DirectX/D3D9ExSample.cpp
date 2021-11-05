@@ -1,10 +1,11 @@
 ﻿//--------------------------------------------------------------------------------------
+// Copyright(c) Microsoft Corporation.
+// Licensed under the MIT License.
+//
 // File: D3D9ExSample.cpp
 //
 // Sample showing how to use D3D9Ex advanced features.
 //
-// Copyright(c) Microsoft Corporation.
-// Licensed under the MIT License.
 //--------------------------------------------------------------------------------------
 #define INITGUID
 #include <windows.h>
@@ -99,27 +100,14 @@ extern float GetFPS();
 
 // Constants for Windows App SDK lookup via bootstrapper 
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview2" };
+PCWSTR versionTag{ L"preview3" };
 
 int APIENTRY wWinMain( HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
                        LPWSTR    lpCmdLine,
                        int       nCmdShow )
 {
-
-    // Initialize bootstrapper to find WinAppSDK and Dynamic Dependencies
-    const PACKAGE_VERSION minVersion{};
-    const HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-
-    // Check the return code for errors. If there is an error, display the result.
-    if (FAILED(hr))
-    {
-        wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
-
-    // Use Dynamic Dependencies api to use DirectX framework package
+    // Use Dynamic Dependencies API to use DirectX framework package
     if (FAILED(SetupDynamicDependencyToDirectXFrameworkPackage()))
         return 10;
 
@@ -192,9 +180,6 @@ exit:
     // Clean up Dynamic Dependencies reference to DirectX framework package
     CleanUpDynamicDependencyToDirectXFrameworkPackage();
 
-    // Release the DDLM and clean up.
-    MddBootstrapShutdown();
-
     Cleanup();
     return (int) msg.wParam;
 }
@@ -251,7 +236,7 @@ exit:
      // Remove the runtime reference
      MddRemovePackageDependency(packageDependencyContext);
 
-     // Remove the install time reference - ideally this is part of your Installer
+     // Remove the install time reference - this should be part of the app Installer
      MddDeletePackageDependency(packageDependencyId.get());
  }
 
