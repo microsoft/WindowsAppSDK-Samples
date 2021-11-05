@@ -4,12 +4,19 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ## List of samples 
 
+#### App Lifecycle and System Services
 - [App Lifecycle](Samples/AppLifecycle): These samples demonstrate app instancing using the AppLifecycle APIs. They include the following features:
     - [Activation](Samples/AppLifecycle/Activation): These samples demonstrate support for rich activation kinds.
     - [Instancing](Samples/Applifecycle/Instancing): These samples demonstrate support for single and selective multi-instancing.
     - [Power Notifications](Samples/Applifecycle/StateNotifications): These samples demonstrate the power/system state notifications for managing app workload.  
+
+#### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
+
+#### Graphics
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
+
+#### User Interface and Input
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs. 
 - [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
 
