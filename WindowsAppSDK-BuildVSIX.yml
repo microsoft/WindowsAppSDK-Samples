@@ -6,7 +6,8 @@ parameters:
   # You can find this value in the URL of the build https://dev.azure.com/microsoft/WindowsAppSDK/_build/results?buildId=35021212&view=results
     type: string
     default: ''
-
+variables:
+  branchRef: 'user/kythant/Test'
 stages:
 - stage: BuildVSIX
   jobs:
@@ -14,19 +15,27 @@ stages:
     pool:
       vmImage: 'windows-2022'
     steps:
-    # Update path for MSIX reference in build\NuSpecs\build\Microsoft.WindowsAppSDK.AppXReference.props
-    # Before, this was a hardcoded value
     - task: PowerShell@2
       displayName: 'Update version in Directory.Build.props'
       inputs:
         targetType: 'inline'
         script: |
-          $file = '$(Build.SourcesDirectory)\Templates\Directory.Build.props'
-          $WinAppSDKVersion = '${{ parameters.WinAppSDKVersion }}'
-          [xml]$props = Get-Content -Encoding utf8 -Path $file
-          $props.Project.PropertyGroup.WindowsAppSdkVersion.innerText = $WinAppSDKVersion
-          Write-Host $props.OuterXml
-          Set-Content -Encoding utf8 -Value $props.OuterXml $file
+          Write-Host $(Build.SourceBranch)
+
+    # Update path for MSIX reference in build\NuSpecs\build\Microsoft.WindowsAppSDK.AppXReference.props
+    # Before, this was a hardcoded value
+    - ${{ if eq(variables['Build.SourceBranch'], variables.branchRef) }}:
+      - task: PowerShell@2
+        displayName: 'Update version in Directory.Build.props'
+        inputs:
+          targetType: 'inline'
+          script: |
+            $file = '$(Build.SourcesDirectory)\Templates\Directory.Build.props'
+            $WinAppSDKVersion = '${{ parameters.WinAppSDKVersion }}'
+            [xml]$props = Get-Content -Encoding utf8 -Path $file
+            $props.Project.PropertyGroup.WindowsAppSdkVersion.innerText = $WinAppSDKVersion
+            Write-Host $props.OuterXml
+            Set-Content -Encoding utf8 -Value $props.OuterXml $file
 
     # The environment variable VCToolsInstallDir isn't defined on lab machines, so we need to retrieve it ourselves.
     - script: |
