@@ -7,7 +7,7 @@ parameters:
     type: string
     default: ''
 variables:
-  branchRef: 'user/kythant/Test'
+  branchRef: 'refs/heads/user/kythant/Test'
 stages:
 - stage: BuildVSIX
   jobs:
