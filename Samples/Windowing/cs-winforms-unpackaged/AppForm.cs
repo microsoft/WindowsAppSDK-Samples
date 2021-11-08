@@ -57,19 +57,19 @@ namespace winforms_unpackaged_app
             // 
             this.toggleCompactOverlay.Location = new System.Drawing.Point(12, 223);
             this.toggleCompactOverlay.Name = "toggleCompactOverlay";
-            this.toggleCompactOverlay.Size = new System.Drawing.Size(191, 27);
+            this.toggleCompactOverlay.Size = new System.Drawing.Size(176, 27);
             this.toggleCompactOverlay.TabIndex = 1;
-            this.toggleCompactOverlay.Text = "Toggle Compact Overlay";
+            this.toggleCompactOverlay.Text = "Enter Compact Overlay";
             this.toggleCompactOverlay.UseVisualStyleBackColor = true;
             this.toggleCompactOverlay.Click += new System.EventHandler(this.SwitchPresenter);
             // 
             // toggleFullScreen
             // 
-            this.toggleFullScreen.Location = new System.Drawing.Point(209, 223);
+            this.toggleFullScreen.Location = new System.Drawing.Point(194, 223);
             this.toggleFullScreen.Name = "toggleFullScreen";
             this.toggleFullScreen.Size = new System.Drawing.Size(144, 27);
             this.toggleFullScreen.TabIndex = 2;
-            this.toggleFullScreen.Text = "Toggle Full Screen";
+            this.toggleFullScreen.Text = "Enter Full Screen";
             this.toggleFullScreen.UseVisualStyleBackColor = true;
             this.toggleFullScreen.Click += new System.EventHandler(this.SwitchPresenter);
             // 
@@ -79,17 +79,17 @@ namespace winforms_unpackaged_app
             this.presenterHeader.ForeColor = System.Drawing.Color.DodgerBlue;
             this.presenterHeader.Location = new System.Drawing.Point(12, 200);
             this.presenterHeader.Name = "presenterHeader";
-            this.presenterHeader.Size = new System.Drawing.Size(196, 15);
+            this.presenterHeader.Size = new System.Drawing.Size(244, 20);
             this.presenterHeader.TabIndex = 3;
             this.presenterHeader.Text = "Change your AppWindow Presenter";
             // 
             // overlapped
             // 
-            this.overlapped.Location = new System.Drawing.Point(359, 223);
+            this.overlapped.Location = new System.Drawing.Point(344, 223);
             this.overlapped.Name = "overlapped";
-            this.overlapped.Size = new System.Drawing.Size(165, 27);
+            this.overlapped.Size = new System.Drawing.Size(148, 27);
             this.overlapped.TabIndex = 4;
-            this.overlapped.Text = "Overlapped Presenter";
+            this.overlapped.Text = "Enter Overlapped ";
             this.overlapped.UseVisualStyleBackColor = true;
             this.overlapped.Click += new System.EventHandler(this.SwitchPresenter);
             // 
@@ -100,7 +100,7 @@ namespace winforms_unpackaged_app
             this.customizeWindowHeader.ForeColor = System.Drawing.Color.DodgerBlue;
             this.customizeWindowHeader.Location = new System.Drawing.Point(12, 97);
             this.customizeWindowHeader.Name = "customizeWindowHeader";
-            this.customizeWindowHeader.Size = new System.Drawing.Size(110, 15);
+            this.customizeWindowHeader.Size = new System.Drawing.Size(137, 20);
             this.customizeWindowHeader.TabIndex = 5;
             this.customizeWindowHeader.Text = "Customize Window";
             // 
@@ -108,7 +108,7 @@ namespace winforms_unpackaged_app
             // 
             this.windowTitleTextBox.Location = new System.Drawing.Point(12, 120);
             this.windowTitleTextBox.Name = "windowTitleTextBox";
-            this.windowTitleTextBox.Size = new System.Drawing.Size(191, 23);
+            this.windowTitleTextBox.Size = new System.Drawing.Size(191, 27);
             this.windowTitleTextBox.TabIndex = 6;
             this.windowTitleTextBox.Text = "WinForms ❤️ AppWindow";
             // 
@@ -126,14 +126,14 @@ namespace winforms_unpackaged_app
             // 
             this.widthTextBox.Location = new System.Drawing.Point(12, 153);
             this.widthTextBox.Name = "widthTextBox";
-            this.widthTextBox.Size = new System.Drawing.Size(50, 23);
+            this.widthTextBox.Size = new System.Drawing.Size(50, 27);
             this.widthTextBox.TabIndex = 9;
             // 
             // heightTextBox
             // 
             this.heightTextBox.Location = new System.Drawing.Point(68, 153);
             this.heightTextBox.Name = "heightTextBox";
-            this.heightTextBox.Size = new System.Drawing.Size(50, 23);
+            this.heightTextBox.Size = new System.Drawing.Size(50, 27);
             this.heightTextBox.TabIndex = 10;
             // 
             // resizeButton
@@ -152,7 +152,7 @@ namespace winforms_unpackaged_app
             this.customTitleBarHeader.ForeColor = System.Drawing.Color.DodgerBlue;
             this.customTitleBarHeader.Location = new System.Drawing.Point(12, 264);
             this.customTitleBarHeader.Name = "customTitleBarHeader";
-            this.customTitleBarHeader.Size = new System.Drawing.Size(91, 15);
+            this.customTitleBarHeader.Size = new System.Drawing.Size(114, 20);
             this.customTitleBarHeader.TabIndex = 12;
             this.customTitleBarHeader.Text = "Custom TitleBar";
             // 
@@ -215,7 +215,7 @@ namespace winforms_unpackaged_app
             this.MyWindowTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MyWindowTitle.Location = new System.Drawing.Point(36, 0);
             this.MyWindowTitle.Name = "MyWindowTitle";
-            this.MyWindowTitle.Size = new System.Drawing.Size(217, 32);
+            this.MyWindowTitle.Size = new System.Drawing.Size(270, 32);
             this.MyWindowTitle.TabIndex = 1;
             this.MyWindowTitle.Text = "Custom titlebar with interactive content";
             this.MyWindowTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
