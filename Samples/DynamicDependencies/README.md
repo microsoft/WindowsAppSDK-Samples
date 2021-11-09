@@ -30,7 +30,7 @@ This example also shows how to add a reference to another MSIX framework package
 
 *C1083 Cannot open include file: 'TerminalVelocityFeatures-DynamicDependency.h"*.
 
-To workaround this error, open the file *MsixDynamicDependency.h.*,  comment out `#include <TerminalVelocityFeatures-DynamicDependency.h>`, and add `#include <stdint.h>`.
+To workaround this error, open the file *MsixDynamicDependency.h.*, comment out `#include <TerminalVelocityFeatures-DynamicDependency.h>`, and add `#include <stdint.h>`.
 
 **VS Developer Environment:** - Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 
