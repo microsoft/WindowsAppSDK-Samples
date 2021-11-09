@@ -16,7 +16,7 @@
 
 // Include the header to demo usage of a Windows App SDK API
 #include "winrt\Microsoft.Windows.System.Power.h"
-#include "DynamicDependenciesBasic.h"
+#include "Unpackaged.h"
 
 namespace winrt
 {

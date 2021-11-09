@@ -1,18 +1,12 @@
 # Use the Windows App SDK from non-MSIX deployed applications
 
-Dynamic Dependencies is an api call that allows unpackaged applications (non-MSIX deployed apps) the ability to load MSIX framework packages. These samples demonstrated how to use Dynamic Dependencies and call APIs in the Windows App SDK and other MSIX framework packages, such as the DirectX Runtime.
+Dynamic Dependencies is an api call allows applications the ability to dynamically load MSIX framework packages. This sample demonstrates how to use thethe Dynamic Dependency APIs in the Windows App SDK to dynamically load the DirectX Runtime MSIX framework package.
 
 ## List of Samples
 
-- [Basic - C++](Basic/cpp-console-unpackaged) - Console app sample showing how to initialize the bootstrapper to access the Windows App SDK and call a simple api.
-- [Basic - C#](Basic/cs-console-unpackaged) - Console app sample showing how to initialize the managed bootstrapper component to access the Windows App SDK and call a simple api.
 - [DirectX - C++](DirectX/) - DirectX sample (D3D9Ex), built using the older DirectX9 SDK, but updated to show how to use Dynamic Dependencies and the DirectX Framework package instead of the DirectX redist.
 
 ## Scenarios covered in these samples
-### Using the Windows App SDK in an unpackaged desktop app
-When using the WinAppSDK in an unpackaged app, the developer needs to add a packagereference the nuget and set WindowsPackageType=None in the project properties. This property auto-initializes the framework package for use with application. If developers want more control over the initialization, they can explicitly call the Bootstrapper APIs to initialize the framework package. See [https://docs.microsoft.com/windows/apps/windows-app-sdk/reference-framework-package-run-time](https://docs.microsoft.com/windows/apps/windows-app-sdk/reference-framework-package-run-time)
-
-
 ### Dynamically referencing additional MSIX framework packages
 This example also shows how to add a reference to another MSIX framework package (DirectX) by explicitly using the Dynamic Dependency api. For more information on these concepts, please refer to [https://docs.microsoft.com/windows/apps/desktop/modernize/framework-packages/use-the-dynamic-dependency-api](https://docs.microsoft.com/windows/apps/desktop/modernize/framework-packages/use-the-dynamic-dependency-api)
 
