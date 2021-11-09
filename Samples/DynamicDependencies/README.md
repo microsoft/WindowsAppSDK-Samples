@@ -1,6 +1,18 @@
-# Use the Windows App SDK from non-MSIX deployed applications
+---
+name: "Dynamic Dependencies Sample"
+description: "Demonstrate how to use Dynamic Dependencies API to load MSIX framework packages in any application"
+page_type: sample
+languages:
+- cpp
+products:
+- windows
+- windows-app-sdk
+urlFragment: DynamicDependencies
+---
 
-Dynamic Dependencies is an api call allows applications the ability to dynamically load MSIX framework packages. This sample demonstrates how to use thethe Dynamic Dependency APIs in the Windows App SDK to dynamically load the DirectX Runtime MSIX framework package.
+# Dynamically load MSIX framework packages from your application
+
+Dynamic Dependencies is an API in the Windows App SDK that enables applications the ability to dynamically load MSIX framework packages. This sample demonstrates how to use those APIs to dynamically load the DirectX Runtime MSIX framework package.
 
 ## List of Samples
 
@@ -8,7 +20,7 @@ Dynamic Dependencies is an api call allows applications the ability to dynamical
 
 ## Scenarios covered in these samples
 ### Dynamically referencing additional MSIX framework packages
-This example also shows how to add a reference to another MSIX framework package (DirectX) by explicitly using the Dynamic Dependency api. For more information on these concepts, please refer to [https://docs.microsoft.com/windows/apps/desktop/modernize/framework-packages/use-the-dynamic-dependency-api](https://docs.microsoft.com/windows/apps/desktop/modernize/framework-packages/use-the-dynamic-dependency-api)
+This example also shows how to add a reference to another MSIX framework package (DirectX) by explicitly using the Dynamic Dependency API. For more information on these concepts, please refer to [https://docs.microsoft.com/windows/apps/desktop/modernize/framework-packages/use-the-dynamic-dependency-API](https://docs.microsoft.com/windows/apps/desktop/modernize/framework-packages/use-the-dynamic-dependency-API)
 
 ## Building and running any of the samples
 
