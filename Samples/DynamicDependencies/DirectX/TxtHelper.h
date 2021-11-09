@@ -1,10 +1,11 @@
 ﻿//--------------------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+// 
 // File: TxtHelper.h
 //
 // Text helper class for drawing txt
 //
-// Copyright(c) Microsoft Corporation.
-// Licensed under the MIT License.
 //--------------------------------------------------------------------------------------
 
 #include <windows.h>
