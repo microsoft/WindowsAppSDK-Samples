@@ -17,7 +17,7 @@ parameters:
   - name: "ReleaseNotes"
     displayName: "Release Notes" 
     type: string
-    default: ''
+    default: ' '
   - name: "IsDraft"
     type: boolean
     default: False
