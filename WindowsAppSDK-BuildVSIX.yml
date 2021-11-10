@@ -38,13 +38,12 @@ stages:
         echo ##vso[task.setvariable variable=VCToolsInstallDir]%VCToolsInstallDir%
       displayName: 'Retrieve VC tools directory'
 
-    - task: VSBuild@1
-      displayName: 'Restore WindowsAppSDKSampleVSIX.sln'
+    - task: NuGetCommand@2
       inputs:
-        solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
-        platform: 'Any CPU'
-        configuration: 'Release'
-        msBuildArgs: '/t:restore '
+        command: 'restore'
+        feedsToUse: 'config'
+        nugetConfigPath: $(Build.SourcesDirectory)\Templates\VSIX\nuget.config'
+        restoreSolution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln'
 
     - script: |
         dir /s $(Build.SourcesDirectory)
