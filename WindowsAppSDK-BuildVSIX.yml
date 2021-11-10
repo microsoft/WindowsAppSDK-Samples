@@ -6,9 +6,11 @@ parameters:
     type: string
     default: ''
   - name: "Action"
+    displayName: "GitHub Release Option" 
     type: string
     default: 'create'
     values:
+    - 'None'
     - 'create'
     - 'edit'
     - 'delete'
@@ -76,12 +78,13 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)\VSIX'
           ArtifactName: 'VSIX'
 
-    - task: GitHubRelease@1
-      inputs:
-        gitHubConnection: 'GitHub - benkuhn - 2-18'
-        repositoryName: 'microsoft/WindowsAppSDK-Samples'
-        action: ${{ parameters.Action }}
-        tag: ${{ parameters.ReleaseTag }}
-        assets: '$(Build.ArtifactStagingDirectory)/VSIX/WindowsAppSDKSampleVSIX.vsix'
-        tagSource: manual
-        isDraft: ${{ parameters.IsDraft }}
+    - ${{ if ne(parameters.Action, 'none') }}:
+      - task: GitHubRelease@1
+        inputs:
+          gitHubConnection: 'GitHub - benkuhn - 2-18'
+          repositoryName: 'microsoft/WindowsAppSDK-Samples'
+          action: ${{ parameters.Action }}
+          tag: ${{ parameters.ReleaseTag }}
+          assets: '$(Build.ArtifactStagingDirectory)/VSIX/WindowsAppSDKSampleVSIX.vsix'
+          tagSource: 'userSpecifiedTag'
+          isDraft: ${{ parameters.IsDraft }}
