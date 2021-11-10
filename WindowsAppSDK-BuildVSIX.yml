@@ -5,7 +5,7 @@ parameters:
     displayName: "Windows App SDK version" 
   # You can find this value in the URL of the build https://dev.azure.com/microsoft/WindowsAppSDK/_build/results?buildId=35021212&view=results
     type: string
-    default: ''
+    default: '1.0.0-preview3'
 
 stages:
 - stage: BuildVSIX
