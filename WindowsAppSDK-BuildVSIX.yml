@@ -42,8 +42,8 @@ stages:
       inputs:
         command: 'restore'
         feedsToUse: 'config'
-        nugetConfigPath: $(Build.SourcesDirectory)\Templates\VSIX\nuget.config'
-        restoreSolution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln'
+        nugetConfigPath: Templates\VSIX\nuget.config'
+        restoreSolution: Templates\VSIX\WindowsAppSDKSampleVSIX.sln'
 
     - script: |
         dir /s $(Build.SourcesDirectory)
