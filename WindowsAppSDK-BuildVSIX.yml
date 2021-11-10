@@ -17,7 +17,11 @@ parameters:
   - name: "ReleaseNotes"
     displayName: "Release Notes" 
     type: string
+    default: ''
   - name: "IsDraft"
+    type: boolean
+    default: False
+  - name: "IsPreRelease"
     type: boolean
     default: False
   - name: "WinAppSDKVersion"
