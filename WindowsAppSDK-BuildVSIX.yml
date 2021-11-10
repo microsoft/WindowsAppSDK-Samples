@@ -40,9 +40,6 @@ stages:
         configuration: 'Release'
         msBuildArgs: '/t:restore'
 
-    - script: |
-        dir /s $(Build.SourcesDirectory)
-
     - task: VSBuild@1
       displayName: 'Build WindowsAppSDKSampleVSIX.sln'
       inputs:
@@ -50,5 +47,30 @@ stages:
         platform: 'Any CPU'
         configuration: 'Release'
 
-    - script: |
-        dir /s $(Build.SourcesDirectory)
+    - task: CopyFiles@2
+      displayName: 'Extract files for Nuget Package from Full: DWriteCorePackageName'
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)\Templates\VSIX\bin\Release'
+        Contents: |
+          WindowsAppSDKSampleVSIX.vsix
+        TargetFolder: '$(Build.ArtifactStagingDirectory)\VSIX'
+        flattenFolders: false
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish VSIX artifacts'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)\VSIX'
+        ArtifactName: 'VSIX'
+
+    - task: GitHubRelease@1
+      inputs:
+        gitHubConnection: 'GitHub - benkuhn - 2-18'
+        repositoryName: 'microsoft/WindowsAppSDK-Samples'
+        action: 'create'
+        target: '$(myCommitSHA)'
+        assets: '$(Build.ArtifactStagingDirectory)/VSIX'
+        tagSource: 'gitTag'
+        title: 'VSIX-Samples'
+        isDraft: true
+        changeLogCompareToRelease: 'lastFullRelease'
+        changeLogType: 'commitBased'
