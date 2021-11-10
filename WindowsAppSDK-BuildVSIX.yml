@@ -31,7 +31,7 @@ stages:
       inputs:
         nuGetServiceConnections: 'Internal-ReleaseSigned'
 
-    - ${{ if ne(parameters.BuildType, 'delete') }}:
+    - ${{ if ne(parameters.Action, 'delete') }}:
       # Update path for MSIX reference in build\NuSpecs\build\Microsoft.WindowsAppSDK.AppXReference.props
       # Before, this was a hardcoded value
       - task: PowerShell@2
