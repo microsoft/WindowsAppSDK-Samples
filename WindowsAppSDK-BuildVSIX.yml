@@ -28,22 +28,13 @@ stages:
           Write-Host $props.OuterXml
           Set-Content -Encoding utf8 -Value $props.OuterXml $file
 
-    # The environment variable VCToolsInstallDir isn't defined on lab machines, so we need to retrieve it ourselves.
-    - script: |
-        "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -Latest -prerelease -requires Microsoft.Component.MSBuild -property InstallationPath > %TEMP%\vsinstalldir.txt
-        set /p _VSINSTALLDIR15=<%TEMP%\vsinstalldir.txt
-        del %TEMP%\vsinstalldir.txt
-        call "%_VSINSTALLDIR15%\Common7\Tools\VsDevCmd.bat"
-        echo VCToolsInstallDir = %VCToolsInstallDir%
-        echo ##vso[task.setvariable variable=VCToolsInstallDir]%VCToolsInstallDir%
-      displayName: 'Retrieve VC tools directory'
-
-    - task: NuGetCommand@2
+    - task: VSBuild@1
+      displayName: 'Restore WindowsAppSDKSampleVSIX.sln'
       inputs:
-        command: 'restore'
-        feedsToUse: 'config'
-        nugetConfigPath: Templates\VSIX\nuget.config'
-        restoreSolution: Templates\VSIX\WindowsAppSDKSampleVSIX.sln'
+        solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
+        platform: 'Any CPU'
+        configuration: 'Release'
+        msBuildArgs: '/t:restore'
 
     - script: |
         dir /s $(Build.SourcesDirectory)
