@@ -10,10 +10,13 @@ parameters:
     type: string
     default: 'create'
     values:
-    - 'None'
+    - 'none'
     - 'create'
     - 'edit'
     - 'delete'
+  - name: "ReleaseNotes"
+    displayName: "Release Notes" 
+    type: string
   - name: "IsDraft"
     type: boolean
     default: False
@@ -88,3 +91,6 @@ stages:
           assets: '$(Build.ArtifactStagingDirectory)/VSIX/WindowsAppSDKSampleVSIX.vsix'
           tagSource: 'userSpecifiedTag'
           isDraft: ${{ parameters.IsDraft }}
+          releaseNotesSource: 'inline'
+          releaseNotesInline: ${{ parameters.ReleaseNotes }}
+          addChangeLog: false
