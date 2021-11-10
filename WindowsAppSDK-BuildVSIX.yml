@@ -15,8 +15,9 @@ stages:
       vmImage: 'windows-2022'
     steps:
     - task: NuGetAuthenticate@0
-    inputs:
-      nuGetServiceConnections: 'Internal-ReleaseSigned'
+      inputs:
+        nuGetServiceConnections: 'Internal-ReleaseSigned'
+
     # Update path for MSIX reference in build\NuSpecs\build\Microsoft.WindowsAppSDK.AppXReference.props
     # Before, this was a hardcoded value
     - task: PowerShell@2
