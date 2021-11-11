@@ -14,6 +14,10 @@ parameters:
     - 'create'
     - 'edit'
     - 'delete'
+  - name: "ReleaseTitle"
+    displayName: "Release Title (Not used in none and delete option)" 
+    type: string
+    default: 'Replace Me'
   - name: "ReleaseNotes"
     displayName: "Release Notes (Not used in none and delete option)" 
     type: string
@@ -94,6 +98,7 @@ stages:
           repositoryName: 'microsoft/WindowsAppSDK-Samples'
           action: ${{ parameters.Action }}
           tag: ${{ parameters.ReleaseTag }}
+          title: ${{ parameters.ReleaseTitle }}
           assets: '$(Build.ArtifactStagingDirectory)/VSIX/WindowsAppSDKSampleVSIX.vsix'
           tagSource: 'userSpecifiedTag'
           isDraft: ${{ parameters.IsDraft }}
