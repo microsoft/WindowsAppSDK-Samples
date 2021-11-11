@@ -2,11 +2,11 @@
 name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
 parameters:
   - name: "ReleaseTag"
-    displayName: "Release Tag" 
+    displayName: "Release Tag and Post Title" 
     type: string
     default: ''
   - name: "Action"
-    displayName: "GitHub Release Option" 
+    displayName: "GitHub Release Action" 
     type: string
     default: 'create'
     values:
@@ -17,11 +17,13 @@ parameters:
   - name: "ReleaseNotes"
     displayName: "Release Notes" 
     type: string
-    default: ' '
+    default: ''
   - name: "IsDraft"
+    displayName: "IsDraft: Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published."
     type: boolean
     default: False
   - name: "IsPreRelease"
+    displayName: "IsPrelease: Indicate whether the release should be marked as a pre-release." 
     type: boolean
     default: False
   - name: "WinAppSDKVersion"
@@ -30,9 +32,9 @@ parameters:
     default: '1.0.0-preview3'
 
 stages:
-- stage: BuildVSIX
+- stage: BuildAndReleaseVSIX
   jobs:
-  - job: BuildVSIX
+  - job: BuildAndReleaseVSIX
     pool:
       vmImage: 'windows-2022'
     steps:
