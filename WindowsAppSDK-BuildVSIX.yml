@@ -30,11 +30,11 @@ parameters:
     type: string
     default: 'Placeholder'
   - name: "IsDraft"
-    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published. (Required for 'create','edit' actions)"
+    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published. (Effective only in 'create','edit' actions)"
     type: boolean
     default: False
   - name: "IsPreRelease"
-    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Required for 'create','edit' actions)" 
+    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Effective only in 'create','edit' actions)" 
     type: boolean
     default: False
 
