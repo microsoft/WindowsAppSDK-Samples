@@ -1,17 +1,6 @@
 # see https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases for info on yaml ADO jobs
 name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
 parameters:
-  # Version of the WindowsAppSDK used to build the Samples VSIX
-  - name: "WinAppSDKVersion"
-    displayName: "Windows App SDK version" 
-    type: string
-    default: ''
-  # This is used as a unique identifier for the GitHub Release.
-  - name: "ReleaseTag"
-    displayName: "Release Unique Identifier" 
-    type: string
-    default: ''
-  # GitHubRelease@1 Action
   - name: "Action"
     displayName: "GitHub Release Action" 
     type: string
@@ -21,20 +10,31 @@ parameters:
     - 'create' # Builds and publishes the VSIX and also creates a github release
     - 'edit' # Builds and publishes the VSIX and edits an existing github release
     - 'delete' # Does not build the VSIX and deletes an existing github release
+  # Version of the WindowsAppSDK used to build the Samples VSIX
+  - name: "WinAppSDKVersion"
+    displayName: "Windows App SDK version (Required except for 'delete' action)" 
+    type: string
+    default: 'Placeholder'
+  # This is used as a unique identifier for the GitHub Release.
+  - name: "ReleaseTag"
+    displayName: "Release Unique Identifier (Required for 'create','edit','delete' actions)" 
+    type: string
+    default: 'Placeholder'
+  # GitHubRelease@1 Action
   - name: "ReleaseTitle"
-    displayName: "Release Title (Unused in none and delete Action)" 
+    displayName: "Release Title (Required for 'create','edit' actions)" 
     type: string
-    default: 'Replace Me'
+    default: 'Placeholder'
   - name: "ReleaseNotes"
-    displayName: "Release Notes (Unused in none and delete Action)" 
+    displayName: "Release Notes (Required for 'create','edit' actions)" 
     type: string
-    default: 'Replace Me'
+    default: 'Placeholder'
   - name: "IsDraft"
-    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published. (Unused in none and delete Action)"
+    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published. (Required for 'create','edit' actions)"
     type: boolean
     default: False
   - name: "IsPreRelease"
-    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Unused in none and delete Action)" 
+    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Required for 'create','edit' actions)" 
     type: boolean
     default: False
 
