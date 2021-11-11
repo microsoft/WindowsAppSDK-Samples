@@ -5,7 +5,7 @@ parameters:
   - name: "WinAppSDKVersion"
     displayName: "Windows App SDK version" 
     type: string
-    default: '1.0.0-preview3'
+    default: ''
   # This is used as a unique identifier for the GitHub Release.
   - name: "ReleaseTag"
     displayName: "Release Unique Identifier" 
