@@ -8,22 +8,22 @@ parameters:
   - name: "Action"
     displayName: "GitHub Release Action" 
     type: string
-    default: 'create'
+    default: 'none'
     values:
     - 'none'
     - 'create'
     - 'edit'
     - 'delete'
   - name: "ReleaseNotes"
-    displayName: "Release Notes" 
+    displayName: "Release Notes (Not used in none and delete option)" 
     type: string
     default: ''
   - name: "IsDraft"
-    displayName: "IsDraft: Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published."
+    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published."
     type: boolean
     default: False
   - name: "IsPreRelease"
-    displayName: "IsPrelease: Indicate whether the release should be marked as a pre-release." 
+    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release." 
     type: boolean
     default: False
   - name: "WinAppSDKVersion"
