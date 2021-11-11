@@ -17,7 +17,7 @@ parameters:
   - name: "ReleaseNotes"
     displayName: "Release Notes (Not used in none and delete option)" 
     type: string
-    default: ''
+    default: 'Replace Me'
   - name: "IsDraft"
     displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published."
     type: boolean
