@@ -13,13 +13,18 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 #### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
 
+#### Deployment
+- [Unpackaged](Samples/Unpackaged): These samples demonstrate auto-initialization with the Windows App SDK package from non-MSIX (unpackaged) application.
+
+#### Dynamic Dependencies
+- [DirectX](Samples/DynamicDependencies): This sample demonstrates how to use the Dynamic Dependencies API to dynamically load the DirectX Runtime MSIX framework package.
+
 #### Graphics
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
 
 #### User Interface and Input
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs. 
 - [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
-- [Dynamic Dependencies](Samples/DynamicDependencies): These samples demonstrate how to use the Windows App SDK in applications that are not deployed using MSIX packaging.
 
 ## Requirements
 
