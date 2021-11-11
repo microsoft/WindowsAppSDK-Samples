@@ -22,19 +22,19 @@ parameters:
     - 'edit' # Builds and publishes the VSIX and edits an existing github release
     - 'delete' # Does not build the VSIX and deletes an existing github release
   - name: "ReleaseTitle"
-    displayName: "Release Title (Not used in none and delete option)" 
+    displayName: "Release Title (Unused in none and delete Action)" 
     type: string
     default: 'Replace Me'
   - name: "ReleaseNotes"
-    displayName: "Release Notes (Not used in none and delete option)" 
+    displayName: "Release Notes (Unused in none and delete Action)" 
     type: string
     default: 'Replace Me'
   - name: "IsDraft"
-    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published. (Not used in none and delete option)"
+    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published. (Unused in none and delete Action)"
     type: boolean
     default: False
   - name: "IsPreRelease"
-    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Not used in none and delete option)" 
+    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Unused in none and delete Action)" 
     type: boolean
     default: False
 
