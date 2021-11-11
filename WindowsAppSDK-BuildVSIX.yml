@@ -1,6 +1,11 @@
 # see https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases for info on yaml ADO jobs
 name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
 parameters:
+  # Version of the WindowsAppSDK used to build the Samples VSIX
+  - name: "WinAppSDKVersion"
+    displayName: "Windows App SDK version" 
+    type: string
+    default: '1.0.0-preview3'
   # This is used as a unique identifier for the GitHub Release.
   - name: "ReleaseTag"
     displayName: "Release Unique Identifier" 
@@ -25,18 +30,13 @@ parameters:
     type: string
     default: 'Replace Me'
   - name: "IsDraft"
-    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published."
+    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published. (Not used in none and delete option)"
     type: boolean
     default: False
   - name: "IsPreRelease"
-    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release." 
+    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Not used in none and delete option)" 
     type: boolean
     default: False
-  # Version of the WindowsAppSDK used to build the Samples VSIX
-  - name: "WinAppSDKVersion"
-    displayName: "Windows App SDK version" 
-    type: string
-    default: '1.0.0-preview3'
 
 stages:
 - stage: BuildAndReleaseVSIX
