@@ -2,7 +2,7 @@
 name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
 parameters:
   - name: "ReleaseTag"
-    displayName: "Release Tag and Post Title" 
+    displayName: "Release Unique Identifier" 
     type: string
     default: ''
   - name: "Action"
