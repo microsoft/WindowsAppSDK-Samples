@@ -32,7 +32,7 @@ Thes Windows App SDK samples have the following system requirements:
 
 - Windows 10, version 1809 (build 17763) or later.
 
-- [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) Version 16.9 or later with the following workloads and components:
+- [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or Visual Studio 2019 version 16.9 or later, with the following workloads and components:
  
     - Universal Windows Platform development
     - .NET Desktop Development (needed even if you're only building C++ Win32 apps)
@@ -48,9 +48,9 @@ Refer to the docs on [system requirements](https://docs.microsoft.com/windows/ap
 
 ## Using the samples
 
-To use the samples with Git, clone the WindowsAppSDK-Samples repository by running `git clone https://github.com/microsoft/WindowsAppSDK-Samples.git` from a command prompt. You can then navigate to the directory of a sample and open the solution file in Visual Studio 2019.
+To use the samples with Git, clone the WindowsAppSDK-Samples repository by running `git clone https://github.com/microsoft/WindowsAppSDK-Samples.git` from a command prompt. You can then navigate to the directory of a sample and open the solution file in Visual Studio.
 
-The easiest way to use these samples without Git is to download the ZIP file. Select *Download ZIP* from the download dropdown, unzip the entire archive and open the samples in Visual Studio 2019.
+The easiest way to use these samples without Git is to download the ZIP file. Select *Download ZIP* from the download dropdown, unzip the entire archive and open the samples in Visual Studio.
 
 ### Samples versioning
 
