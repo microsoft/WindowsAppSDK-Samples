@@ -1,0 +1,110 @@
+# see https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases for info on yaml ADO jobs
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+parameters:
+  - name: "Action"
+    displayName: "GitHub Release Action" 
+    type: string
+    default: 'none'
+    values:
+    - 'none' # Only builds the VSIX and publish it to Build Artifacts.
+    - 'create' # Builds and publishes the VSIX and also creates a github release
+    - 'edit' # Builds and publishes the VSIX and edits an existing github release
+    - 'delete' # Does not build the VSIX and deletes an existing github release
+  # Version of the WindowsAppSDK used to build the Samples VSIX
+  - name: "WinAppSDKVersion"
+    displayName: "Windows App SDK version (Required except for 'delete' action)" 
+    type: string
+    default: 'Placeholder'
+  # This is used as a unique identifier for the GitHub Release.
+  - name: "ReleaseTag"
+    displayName: "Release Unique Identifier (Required for 'create','edit','delete' actions)" 
+    type: string
+    default: 'Placeholder'
+  # GitHubRelease@1 Action
+  - name: "ReleaseTitle"
+    displayName: "Release Title (Required for 'create','edit' actions)" 
+    type: string
+    default: 'Placeholder'
+  - name: "ReleaseNotes"
+    displayName: "Release Notes (Required for 'create','edit' actions)" 
+    type: string
+    default: 'Placeholder'
+  - name: "IsDraft"
+    displayName: "IsDraft: \n Indicate whether the release should be saved as a draft (unpublished). If unchecked, the release will be published. (Effective only in 'create','edit' actions)"
+    type: boolean
+    default: False
+  - name: "IsPreRelease"
+    displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Effective only in 'create','edit' actions)" 
+    type: boolean
+    default: False
+
+stages:
+- stage: BuildAndReleaseVSIX
+  jobs:
+  - job: BuildAndReleaseVSIX
+    pool:
+      vmImage: 'windows-2022'
+    steps:
+    - task: NuGetAuthenticate@0
+      inputs:
+        nuGetServiceConnections: 'Internal-ReleaseSigned'
+
+    - ${{ if ne(parameters.Action, 'delete') }}:
+      # Update path for MSIX reference in build\NuSpecs\build\Microsoft.WindowsAppSDK.AppXReference.props
+      # Before, this was a hardcoded value
+      - task: PowerShell@2
+        displayName: 'Update version in Directory.Build.props'
+        inputs:
+          targetType: 'inline'
+          script: |
+            $file = '$(Build.SourcesDirectory)\Templates\VSIX\Directory.Build.props'
+            $WinAppSDKVersion = '${{ parameters.WinAppSDKVersion }}'
+            [xml]$props = Get-Content -Encoding utf8 -Path $file
+            $props.Project.PropertyGroup.WindowsAppSdkVersion.innerText = $WinAppSDKVersion
+            Write-Host $props.OuterXml
+            Set-Content -Encoding utf8 -Value $props.OuterXml $file
+
+      - task: VSBuild@1
+        displayName: 'Restore WindowsAppSDKSampleVSIX.sln'
+        inputs:
+          solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
+          platform: 'Any CPU'
+          configuration: 'Release'
+          msBuildArgs: '/t:restore'
+
+      - task: VSBuild@1
+        displayName: 'Build WindowsAppSDKSampleVSIX.sln'
+        inputs:
+          solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
+          platform: 'Any CPU'
+          configuration: 'Release'
+
+      - task: CopyFiles@2
+        displayName: 'Extract files for Nuget Package from Full: DWriteCorePackageName'
+        inputs:
+          SourceFolder: '$(Build.SourcesDirectory)\Templates\VSIX\bin\Release'
+          Contents: |
+            WindowsAppSDKSampleVSIX.vsix
+          TargetFolder: '$(Build.ArtifactStagingDirectory)\VSIX'
+          flattenFolders: false
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish VSIX artifacts'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)\VSIX'
+          ArtifactName: 'VSIX'
+
+    - ${{ if ne(parameters.Action, 'none') }}:
+      - task: GitHubRelease@1
+        inputs:
+          gitHubConnection: 'GitHub - benkuhn - 2-18'
+          repositoryName: 'microsoft/WindowsAppSDK-Samples'
+          action: ${{ parameters.Action }}
+          tag: ${{ parameters.ReleaseTag }}
+          title: ${{ parameters.ReleaseTitle }}
+          assets: '$(Build.ArtifactStagingDirectory)/VSIX/WindowsAppSDKSampleVSIX.vsix'
+          tagSource: 'userSpecifiedTag'
+          isDraft: ${{ parameters.IsDraft }}
+          releaseNotesSource: 'inline'
+          releaseNotesInline: ${{ parameters.ReleaseNotes }}
+          addChangeLog: false
