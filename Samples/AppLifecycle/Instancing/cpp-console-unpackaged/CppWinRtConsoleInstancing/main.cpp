@@ -13,7 +13,7 @@ using namespace std::chrono;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview2" };
+PCWSTR versionTag{ L"" };
 const PACKAGE_VERSION minVersion{};
 
 WCHAR g_Message[65536];
