@@ -1,0 +1,30 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page x:Class="wpf_packaged_app.TitleBarPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:wpf_packaged_app"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TitleBarPage"
+      Loaded="Page_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Titlebar Basics</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="TitlebarBrandingBtn" Click="TitlebarBrandingBtn_Click">Toggle TitleBar color branding</Button>
+            <Button x:Name="TitlebarCustomBtn" Click="TitlebarCustomBtn_Click" Margin="12,0,0,0">Toggle custom TitleBar</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="ResetTitlebarBtn" Click="ResetTitlebarBtn_Click">Reset Titlebar</Button>
+        </StackPanel>
+    </Grid>
+</Page>

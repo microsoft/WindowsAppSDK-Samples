@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Sample C# WinUI Scenario Page</Name>
+    <Description>Sample C# WinUI Scenario Page</Description>
+    <Icon>WinUI3ScenarioPageCs.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <DefaultName>Scenario3_ShortName.xaml</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LanguageTag>csharp</LanguageTag>
+    <LanguageTag>XAML</LanguageTag>
+    <PlatformTag>windows</PlatformTag>
+    <PlatformTag>Windows App SDK</PlatformTag>
+    <ProjectTypeTag>desktop</ProjectTypeTag>
+    <ProjectTypeTag>WinUI</ProjectTypeTag>
+    <TemplateGroupID>WinRT-Managed-UAP</TemplateGroupID>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem OpenInEditor="true" ReplaceParameters="true" ItemType="Page" CustomTool="MSBuild:Compile" TargetFileName="$fileinputname$.xaml">Scenario3_ShortName.xaml</ProjectItem>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$fileinputname$.xaml.cs">Scenario3_ShortName.xaml.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

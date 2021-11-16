@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Windowing;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -35,7 +37,6 @@ namespace SampleApp
         {
             // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
             m_mainAppWindow = e.Parameter.As<Window>().GetAppWindow();
-
             m_mainWindow = e.Parameter as MainWindow;
             m_mainAppWindow.Changed += MainAppWindow_Changed;
             base.OnNavigatedTo(e);
@@ -55,7 +56,7 @@ namespace SampleApp
             m_mainAppWindow.TitleBar.ResetToDefault();
 
             m_isBrandedTitleBar = !m_isBrandedTitleBar;
-            if (m_isBrandedTitleBar)
+            if (AppWindowTitleBar.IsCustomizationSupported() && m_isBrandedTitleBar)
             {
                 m_mainAppWindow.Title = "Default titlebar with custom color customization";
                 m_mainAppWindow.TitleBar.ForegroundColor = Colors.White;
@@ -91,7 +92,7 @@ namespace SampleApp
         {
             m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar = !m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar;
 
-            if (m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
+            if (AppWindowTitleBar.IsCustomizationSupported() && m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
             {
                 // Show the custom titlebar
                 m_mainWindow.MyTitleBar.Visibility = Visibility.Visible;

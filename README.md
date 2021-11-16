@@ -4,8 +4,25 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ## List of samples 
 
+#### App Lifecycle and System Services
+- [App Lifecycle](Samples/AppLifecycle): These samples demonstrate app instancing using the AppLifecycle APIs. They include the following features:
+    - [Activation](Samples/AppLifecycle/Activation): These samples demonstrate support for rich activation kinds.
+    - [Instancing](Samples/Applifecycle/Instancing): These samples demonstrate support for single and selective multi-instancing.
+    - [Power Notifications](Samples/Applifecycle/StateNotifications): These samples demonstrate the power/system state notifications for managing app workload.  
+
+#### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
+
+#### Deployment
+- [Unpackaged](Samples/Unpackaged): These samples demonstrate auto-initialization with the Windows App SDK package from non-MSIX (unpackaged) application.
+
+#### Dynamic Dependencies
+- [DirectX](Samples/DynamicDependencies): This sample demonstrates how to use the Dynamic Dependencies API to dynamically load the DirectX Runtime MSIX framework package.
+
+#### Graphics
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
+
+#### User Interface and Input
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs. 
 - [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
 
@@ -15,7 +32,7 @@ Thes Windows App SDK samples have the following system requirements:
 
 - Windows 10, version 1809 (build 17763) or later.
 
-- [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) Version 16.9 or later with the following workloads and components:
+- [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or Visual Studio 2019 version 16.9 or later, with the following workloads and components:
  
     - Universal Windows Platform development
     - .NET Desktop Development (needed even if you're only building C++ Win32 apps)
@@ -31,9 +48,9 @@ Refer to the docs on [system requirements](https://docs.microsoft.com/windows/ap
 
 ## Using the samples
 
-To use the samples with Git, clone the WindowsAppSDK-Samples repository by running `git clone https://github.com/microsoft/WindowsAppSDK-Samples.git` from a command prompt. You can then navigate to the directory of a sample and open the solution file in Visual Studio 2019.
+To use the samples with Git, clone the WindowsAppSDK-Samples repository by running `git clone https://github.com/microsoft/WindowsAppSDK-Samples.git` from a command prompt. You can then navigate to the directory of a sample and open the solution file in Visual Studio.
 
-The easiest way to use these samples without Git is to download the ZIP file. Select *Download ZIP* from the download dropdown, unzip the entire archive and open the samples in Visual Studio 2019.
+The easiest way to use these samples without Git is to download the ZIP file. Select *Download ZIP* from the download dropdown, unzip the entire archive and open the samples in Visual Studio.
 
 ### Samples versioning
 

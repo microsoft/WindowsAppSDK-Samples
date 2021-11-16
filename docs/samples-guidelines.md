@@ -450,7 +450,7 @@ description: "Shows how to create and register background tasks that will run in
 
 ### Sample Templates
 
-Sample templates are planned for C# and C++ WinUI samples. These will provide consistent UI look and feel, and provide a scenario-based structure for sample authors. This section will be updated with further guidance.
+Any new C#/C++ WinUI-based samples should use the [WinUI 3 sample templates](../Templates). The templates provide a scenario-based structure and ensure consistent UI and coding standards across WinUI samples.
 
 ## Repo Branching
 
@@ -471,6 +471,22 @@ Deploy and test your samples on Desktop.
 ### README file
 
 Make sure to include a README file with your sample. See the above section on [Samples README](#samples-readme).
+
+### Copyright Headers
+
+Microsoft-authored samples must include the appropriate copyright notice and license text added to the header of each file.
+
+- For C#/C++ files (*h, *.cpp, *.cs, *.idl):
+    ```csharp
+    // Copyright (c) Microsoft Corporation.
+    // Licensed under the MIT License.
+    ```
+
+- For XAML files (*.xaml):
+    ```xml
+    <!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+    ```
 
 ### Pass certification
 

@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="..\Directory.Build.targets" Condition="Exists('..\Directory.Build.targets')"/>
+
+  <Target Name="AfterBuild">
+    <PropertyGroup>
+      <BinRoot Condition="$(BinRoot) == ''">$(OutputPath)</BinRoot>
+    </PropertyGroup>
+    <Message Importance="high" Text="Binplacing to: $(BinRoot)" />
+    <Copy SourceFiles="$(TargetVsixContainer)" DestinationFolder="$(BinRoot)"/>
+  </Target>
+
+  <!--
+      These targets are used to make build-time updates to the contents of the VSIX;
+      currently the .vsixmanifest and all .vstemplate files are modified. They operate
+      against the
+      Concrete example:
+      Originally, it looks like this (notice the "FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries"):
+        <WizardData>
+          <MinSupportedVersion>10.0.17763.0</MinSupportedVersion>
+          <packages repository="extension" repositoryId="Microsoft.WindowsAppSDK">
+              <package id="Microsoft.Windows.CppWinRT" version="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+              <package id="Microsoft.WindowsAppSDK" version="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+              (other WindowsAppSDK packages...)
+          </packages>
+      </WizardData>
+      Then, XmlPoke changes it to the real version of the package we embed in the VSIX, like this:
+        <WizardData>
+          <MinSupportedVersion>10.0.17763.0</MinSupportedVersion>
+          <packages repository="extension" repositoryId="Microsoft.WindowsAppSDK">
+              <package id="Microsoft.Windows.CppWinRT" version="2.0.190730.2" />
+              <package id="Microsoft.WindowsAppSDK" version="3.0.190925000-prerelease" />
+              (other WindowsAppSDK packages...)
+          </packages>
+      </WizardData>
+  -->
+
+  <PropertyGroup>
+    <_RewriteVsixContentsDependsOn>
+      $(_RewriteVsixContentsDependsOn);
+      EnsureGeneratedFilesDir;
+      GetVsixSourceItems;
+      _CollectVsTemplateArchives;
+      _RewriteVsTemplates
+    </_RewriteVsixContentsDependsOn>
+    <RewriteVsixSourceItemsUpToDateMarker>$(IntermediateOutputPath)vsixsourceitemsrewritten.marker</RewriteVsixSourceItemsUpToDateMarker>
+  </PropertyGroup>
+
+  <Target Name="RewriteVsixSourceItems"
+    Inputs="@(VSIXSourceItem);$(IntermediateVsixManifest)"
+    Outputs="$(RewriteVsixSourceItemsUpToDateMarker)"
+    AfterTargets="GetVsixSourceItems"
+    BeforeTargets="GenerateFileManifest;GenerateTemplatesManifest;CreateVsixContainer"
+    DependsOnTargets="$(_RewriteVsixContentsDependsOn)">
+
+    <Touch Files="$(RewriteVsixSourceItemsUpToDateMarker)" AlwaysCreate="true">
+      <Output TaskParameter="TouchedFiles" ItemName="FileWrites" />
+    </Touch>
+  </Target>
+
+  <Target Name="EnsureGeneratedFilesDir">
+    <PropertyGroup>
+      <GeneratedFilesDir>$(IntermediateOutputPath)generated\</GeneratedFilesDir>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(GeneratedFilesDir)" />
+  </Target>
+
+  <Target Name="_CollectVsTemplateArchives"
+    AfterTargets="GetVsixSourceItems">
+    <!-- Templates are packed into ZIP archives before being later unzipped and added to the
+         VSIX source items manifest; the archives are also used to generate the template manifests.
+         We need to modify the archives' contents before they are used to generate the template
+         manifests in order for our changes to be picked up. -->
+    <ItemGroup>
+      <VsTemplateArchives Include="@(VSIXSourceItem)" Condition="'%(VSIXSourceItem.Extension)' == '.zip'" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_RewriteVsTemplates"
+    Inputs="@(VsTemplateArchives);$(IntermediateVsixManifest)"
+    Outputs="$(GeneratedFilesDir)%(Filename)%(Extension)"
+    DependsOnTargets="_CollectVsTemplateArchives"
+    Condition="'@(VsTemplateArchives)' != ''">
+
+    <PropertyGroup>
+      <_tempDir>$(GeneratedFilesDir)%(VsTemplateArchives.Filename)\</_tempDir>
+    </PropertyGroup>
+
+    <!--
+      Unzip the archive
+      We specify the full name of the built-in MSBuild Unzip task to avoid conflicting with
+      VSSDK's own 'Unzip' task which, despite its name, is actually unable to extract generic
+      ZIP archives due to internal use of the System.IO.Packaging API
+      (all System.IO.Packaging.ZipPackage are ZIP archives, but not all ZIP archives are
+      ZipPackages).
+    -->
+    <RemoveDir Directories="$(_tempDir)" />
+    <Microsoft.Build.Tasks.Unzip SourceFiles="%(VsTemplateArchives.FullPath)"
+      DestinationFolder="$(_tempDir)" />
+
+    <ItemGroup>
+      <_allVsTemplates Include="$(_tempDir)**\*.vstemplate" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <!-- XSL transform that we want to always run against .vstemplates -->
+      <_UnconditionalVsTemplateXslt>
+        <![CDATA[
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+xmlns:ns="http://schemas.microsoft.com/developer/vstemplate/2005">
+
+    <!-- Identity template to copy everything by default -->
+    <xsl:template match="@*|node()">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()"/>
+        </xsl:copy>
+    </xsl:template>
+    <!-- Update Packages section with actual Nuget package versions to restore -->
+    <xsl:template match="/ns:VSTemplate/ns:WizardData/ns:packages/ns:package[@id='Microsoft.Windows.CppWinRT']/@version">
+        <xsl:attribute name="version">$(CppWinRTVersion)</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:WizardData/ns:packages/ns:package[@id='Microsoft.WindowsAppSDK']/@version">
+        <xsl:attribute name="version">$(WindowsAppSDKVersion)</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:WizardData/ns:packages/ns:package[@id='Microsoft.Windows.SDK.BuildTools']/@version">
+        <xsl:attribute name="version">$(WindowsSDKBuildToolsVersion)</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:WizardData/ns:packages/ns:package[@id='Microsoft.Windows.CsWin32']/@version">
+        <xsl:attribute name="version">$(CsWin32Version)</xsl:attribute>
+    </xsl:template>
+    <!-- Update Assets section with actual Nuget package filenames -->
+    <xsl:template match="/ns:VSTemplate/ns:WizardData/ns:Assets/ns:Asset[@Type='Microsoft.Windows.CppWinRT.nupkg']/@Path">
+        <xsl:attribute name="Path">Microsoft.Windows.CppWinRT.$(CppWinRTVersion).nupkg</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:WizardData/ns:Assets/ns:Asset[@Type='Microsoft.WindowsAppSDK.nupkg']/@Path">
+        <xsl:attribute name="Path">Microsoft.WindowsAppSDK.$(WindowsAppSDKVersion).nupkg</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:WizardData/ns:Assets/ns:Asset[@Type='Microsoft.Windows.SDK.BuildTools.nupkg']/@Path">
+        <xsl:attribute name="Path">Microsoft.Windows.SDK.BuildTools.$(WindowsSDKBuildToolsVersion).nupkg</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:WizardData/ns:Assets/ns:Asset[@Type='Microsoft.Windows.CsWin32.nupkg']/@Path">
+        <xsl:attribute name="Path">Microsoft.Windows.CsWin32.$(CsWin32Version).nupkg</xsl:attribute>
+    </xsl:template>
+    <!-- Update custom parameters passed into subtemplates -->
+    <xsl:template match="/ns:VSTemplate/ns:TemplateContent/ns:CustomParameters/ns:CustomParameter[@Name='$CppWinRTNupkgVersion$']/@Value">
+        <xsl:attribute name="Value">$(CppWinRTVersion)</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:TemplateContent/ns:CustomParameters/ns:CustomParameter[@Name='$WindowsAppSDKNupkgVersion$']/@Value">
+        <xsl:attribute name="Value">$(WindowsAppSDKVersion)</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:TemplateContent/ns:CustomParameters/ns:CustomParameter[@Name='$WindowsSDKBuildToolsNupkgVersion$']/@Value">
+        <xsl:attribute name="Value">$(WindowsSDKBuildToolsVersion)</xsl:attribute>
+    </xsl:template>
+    <xsl:template match="/ns:VSTemplate/ns:TemplateContent/ns:CustomParameters/ns:CustomParameter[@Name='$CsWin32NupkgVersion$']/@Value">
+        <xsl:attribute name="Value">$(CsWin32Version)</xsl:attribute>
+    </xsl:template>
+</xsl:stylesheet>
+      ]]>
+      </_UnconditionalVsTemplateXslt>
+    </PropertyGroup>
+
+    <!-- Run the XSL transformations! -->
+    <XslTransformation
+      XmlInputPaths="@(_allVsTemplates)"
+      OutputPaths="@(_allVsTemplates->'$(_tempDir)%(RecursiveDir)%(Filename)%(Extension).generated')"
+      XslContent="$(_UnconditionalVsTemplateXslt)" />
+    <!-- Replace the original .vstemplate -->
+    <Delete Files="@(_allVsTemplates->'$(_tempDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Move SourceFiles="@(_allVsTemplates->'$(_tempDir)%(RecursiveDir)%(Filename)%(Extension).generated')"
+      DestinationFiles="@(_allVsTemplates->'$(_tempDir)%(RecursiveDir)%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true" />
+
+    <!-- Repack the archive -->
+    <ZipDirectory SourceDirectory="$(_tempDir)"
+      DestinationFile="$(GeneratedFilesDir)%(VsTemplateArchives.Filename)%(VsTemplateArchives.Extension)"
+      Overwrite="true" />
+
+    <!-- Replace the original item from @(VsixSourceItem) with the newly generated archive -->
+    <ItemGroup>
+      <VsTemplateArchives Condition="'%(VsTemplateArchives.Identity)' == '%(Identity)'">
+        <ZipFile>$(GeneratedFilesDir)%(VsTemplateArchives.Filename)%(VsTemplateArchives.Extension)</ZipFile>
+      </VsTemplateArchives>
+      <VsixSourceItem Remove="%(VsTemplateArchives.Identity)" />
+      <VsixSourceItem Include="@(VsTemplateArchives->'%(ZipFile)')" />
+    </ItemGroup>
+
+    <!-- Clear properties/item groups to prevent clobbering during batching -->
+    <ItemGroup>
+      <_allVsTemplates Remove="@(_allVsTemplates)" />
+      <FileWrites Include="$(_tempDir)**\*" />
+      <FileWrites Include="$(GeneratedFilesDir)%(VsTemplateArchives.Filename)%(VsTemplateArchives.Extension)" />
+    </ItemGroup>
+  </Target>
+
+</Project>
