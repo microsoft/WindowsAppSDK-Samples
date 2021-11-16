@@ -5,6 +5,7 @@ languages:
 - cpp
 products:
 - windows
+- windows-app-sdk
 - windows-api-win32
 description: "Shows how to use CreateProcess to launch the installer without a console window."
 urlFragment: installer
@@ -16,14 +17,14 @@ window appearing while it is running. This sample is intended for Win32 programs
 programs that need to embed the WindowsAppSDK without any pop-up windows.
 
 ## Requirements
-Sample requires downloading or building a version of WindowsAppRuntimeInstall.exe. The sample
-assumes that it will be in %USERPROFILE%\Downloads for convenience. If a different path is
-desired, it can be specified in the #define at the top in main.cpp.
+Sample requires downloading WindowsAppRuntimeInstall.exe from [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/downloads) or building a version of it.
+The sample assumes that WindowsAppRuntimeInstall.exe will be in %USERPROFILE%\Downloads for convenience.
+If a different path is desired, it can be specified in the #define at the top in main.cpp.
 
 ## Building and running any of the samples 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 
-1. Download or build a version of the WindowsAppRuntimeInstall.exe, and place it in
+1. Download WindowsAppRuntimeInstall.exe from [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/downloads) or build a version of it, and place it in
 %USERPROFILE%\Downloads.
 2. Open the solution file (.sln) in the sample.
 3. Build the solution.
