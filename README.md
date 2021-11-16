@@ -2,18 +2,19 @@
 
 This repository hosts samples for the [Windows App SDK](https://github.com/microsoft/WindowsAppSDK). Samples for various features shipping in the Windows App SDK will be added to this repository. For more information about the Windows App SDK, visit the [Windows App SDK Documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/). To learn more about the Windows App SDK design or to contribute to the project, make feature proposals, or start discussions, visit the [Windows App SDK GitHub page](https://github.com/microsoft/WindowsAppSDK).
 
-## List of samples 
+## List of samples
 
 #### App Lifecycle and System Services
 - [App Lifecycle](Samples/AppLifecycle): These samples demonstrate app instancing using the AppLifecycle APIs. They include the following features:
     - [Activation](Samples/AppLifecycle/Activation): These samples demonstrate support for rich activation kinds.
     - [Instancing](Samples/Applifecycle/Instancing): These samples demonstrate support for single and selective multi-instancing.
-    - [Power Notifications](Samples/Applifecycle/StateNotifications): These samples demonstrate the power/system state notifications for managing app workload.  
+    - [Power Notifications](Samples/Applifecycle/StateNotifications): These samples demonstrate the power/system state notifications for managing app workload.
 
 #### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
 
 #### Deployment
+- [Deployment Manager](Samples/DeploymentManager): This sample demonstrates how to initialize and access deployment information for the Windows App SDK runtime.
 - [Unpackaged](Samples/Unpackaged): These samples demonstrate auto-initialization with the Windows App SDK package from non-MSIX (unpackaged) application.
 
 #### Dynamic Dependencies
@@ -23,7 +24,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
 
 #### User Interface and Input
-- [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs. 
+- [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
 - [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
 
 ## Requirements
@@ -33,7 +34,7 @@ Thes Windows App SDK samples have the following system requirements:
 - Windows 10, version 1809 (build 17763) or later.
 
 - [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or Visual Studio 2019 version 16.9 or later, with the following workloads and components:
- 
+
     - Universal Windows Platform development
     - .NET Desktop Development (needed even if you're only building C++ Win32 apps)
     - Desktop development with C++ (needed even if you're only building .NET apps)
