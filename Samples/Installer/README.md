@@ -1,5 +1,5 @@
 ---
-name: "Installer launch sample" 
+name: "Installer launch sample"
 page_type: sample
 languages:
 - cpp
@@ -17,12 +17,15 @@ window appearing while it is running. This sample is intended for Win32 programs
 programs that need to embed the WindowsAppSDK without any pop-up windows.
 
 ## Requirements
-Sample requires downloading WindowsAppRuntimeInstall.exe from [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/downloads) or building a version of it.
-The sample assumes that WindowsAppRuntimeInstall.exe will be in %USERPROFILE%\Downloads for convenience.
+
+- This sample requires downloading WindowsAppRuntimeInstall.exe from [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/downloads) or building a version of it.
+
+- This sample assumes that WindowsAppRuntimeInstall.exe will be in %USERPROFILE%\Downloads for convenience.
 If a different path is desired, it can be specified in the #define at the top in main.cpp.
 
-## Building and running any of the samples 
-Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+- Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+
+## Building and running any of the samples
 
 1. Download WindowsAppRuntimeInstall.exe from [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/downloads) or build a version of it, and place it in
 %USERPROFILE%\Downloads.
