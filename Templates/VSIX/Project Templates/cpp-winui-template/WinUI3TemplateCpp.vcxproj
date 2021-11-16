@@ -157,9 +157,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
     <ClCompile Include="SampleConfiguration.cpp" />
     <ClCompile Include="Scenario1_ShortName.xaml.cpp">
       <DependentUpon>Scenario1_ShortName.xaml</DependentUpon>
