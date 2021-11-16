@@ -14,7 +14,7 @@ urlFragment: deployment
 These samples demonstrate how to use the DeploymentManager class to ensure the WindowsAppRuntime is initialized and in a good state.
 
 ## Requirements
-C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.401, or later
+C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.401, or later.
 
 ## Building and running any of the samples 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
