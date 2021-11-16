@@ -3,7 +3,6 @@
 
 using System;
 using System.Windows.Forms;
-using Microsoft.Windows.ApplicationModel;
 
 namespace winforms_unpackaged_app
 {
@@ -18,7 +17,6 @@ namespace winforms_unpackaged_app
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new AppForm());
-
         }
     }
 }
