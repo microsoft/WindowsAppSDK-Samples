@@ -43,8 +43,6 @@ namespace winforms_unpackaged_app
             // The resource manager is a superset of the resource loader in terms of functionality.
             Application.Run(new AppForm(resourceManager, resourceLoader, overrideResourceContext));
 
-            // Uninitialize dynamic dependencies.
-            MddBootstrap.Shutdown();
         }
     }
 }
