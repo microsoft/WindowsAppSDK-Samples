@@ -15,6 +15,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 #### Deployment
 - [Deployment Manager](Samples/DeploymentManager): This sample demonstrates how to initialize and access deployment information for the Windows App SDK runtime.
+- [Installer](Samples/Installer): This sample demonstrates how to launch the Windows App SDK installer without a console window.
 - [Unpackaged](Samples/Unpackaged): These samples demonstrate auto-initialization with the Windows App SDK package from non-MSIX (unpackaged) application.
 
 #### Dynamic Dependencies
