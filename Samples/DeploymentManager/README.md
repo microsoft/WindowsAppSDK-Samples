@@ -1,5 +1,5 @@
 ---
-name: "Deployment API sample" 
+name: "Deployment Manager sample" 
 page_type: sample
 languages:
 - csharp
@@ -19,7 +19,7 @@ C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.401, or later.
 ## Building and running any of the samples 
 Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 
-1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio 2019.
+1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio.
 2. Build the solution.
 3. Right click on the solution and click **Deploy Solution**
 4. Debug the project.
@@ -27,4 +27,4 @@ Before building the sample, make sure to set up your environment correctly by fo
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [Deployment API](https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.windows.applicationmodel.windowsappruntime.deploymentmanager?view=windows-app-sdk-1.0)
+- [Deployment API](https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.windows.applicationmodel.windowsappruntime.deploymentmanager)
