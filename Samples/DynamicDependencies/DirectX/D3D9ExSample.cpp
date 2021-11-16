@@ -100,7 +100,7 @@ extern float GetFPS();
 
 // Constants for Windows App SDK lookup via bootstrapper 
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview3" };
+PCWSTR versionTag{ L"" };
 
 int APIENTRY wWinMain( HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
