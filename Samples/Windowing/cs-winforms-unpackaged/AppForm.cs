@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. 
 // Licensed under the MIT License. 
 using System;
 using System.Linq;
@@ -332,11 +332,9 @@ namespace winforms_unpackaged_app
         }
         private void AppForm_Load(object sender, EventArgs e)
         {
-            
         }
         private void AppForm_Activated(object sender, EventArgs e)
-        {
-           
+        { 
         }
 
         private void windowTitleButton_Click(object sender, EventArgs e)
