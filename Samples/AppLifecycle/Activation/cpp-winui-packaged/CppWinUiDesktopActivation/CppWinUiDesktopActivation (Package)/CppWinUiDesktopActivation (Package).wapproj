@@ -37,8 +37,8 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>695881d5-5fe9-46ad-b406-d093165fa947</ProjectGuid>
-    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.22000.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\CppWinUiDesktopActivation\CppWinUiDesktopActivation.vcxproj</EntryPointProjectUniqueName>
@@ -63,10 +63,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="[1.0.0-preview1]">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="[10.0.20348.19]">
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>

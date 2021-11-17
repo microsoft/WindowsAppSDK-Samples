@@ -76,11 +76,6 @@ namespace CsWpfActivation
         {
             OutputMessage("Unregistering for rich activation");
 
-            // BUG Unregistering a filetype removes the 
-            // [HKEY_CURRENT_USER\Software\Classes\App.5761a1850f7033ad.File]
-            // entry, and the value under [HKEY_CURRENT_USER\Software\Classes\.foo\OpenWithProgids]
-            // but not the [HKEY_CURRENT_USER\Software\Classes\.foo] key.
-
             // Unregister one or more registered filetypes.
             try
             {
@@ -94,10 +89,6 @@ namespace CsWpfActivation
             {
                 OutputMessage($"Error unregistering file types {ex.Message}");
             }
-
-            // BUG Unregistering a protocol removes the 
-            // [HKEY_CURRENT_USER\Software\Classes\App.5761a1850f7033ad.Protocol]
-            // entry, but not the [HKEY_CURRENT_USER\Software\Classes\foo] key.
 
             // Unregister a protocol scheme.
             ActivationRegistrationManager.UnregisterForProtocolActivation(
