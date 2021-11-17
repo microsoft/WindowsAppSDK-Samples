@@ -1,9 +1,9 @@
 ﻿{
     "profiles": {
-        "$projectname$ (Package)": {
+        "Windowing (Package)": {
             "commandName": "MsixPackage"
         },
-        "$projectname$ (Unpackaged)": {
+        "Windowing (Unpackaged)": {
             "commandName": "Project"
         }
     }
