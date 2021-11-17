@@ -19,6 +19,7 @@ namespace Windowing
             Window window = MainWindow.Current;
             m_mainAppWindow = AppWindowExtensions.GetAppWindow(window);
         }
+
         private async void TitleBtn_Click(object sender, RoutedEventArgs e)
         {
             if (TitleTextBox.Text.Contains("\n"))
@@ -36,6 +37,7 @@ namespace Windowing
                 m_mainAppWindow.Title = TitleTextBox.Text;
             }
         }
+
         private void SizeBtn_Click(object sender, RoutedEventArgs e)
         {
             int windowWidth = 0;

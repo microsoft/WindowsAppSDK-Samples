@@ -21,6 +21,5 @@ namespace Windowing
 
             return AppWindow.GetFromWindowId(windowId);
         }
-
     }
 }

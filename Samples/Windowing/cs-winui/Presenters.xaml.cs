@@ -38,6 +38,7 @@ namespace Windowing
             // Register for window changed events while on this page.
             m_mainAppWindow.Changed += AppWindowChangedHandler;
         }
+
         private void AppWindowChangedHandler(AppWindow sender, AppWindowChangedEventArgs args)
         {
             // The presenter changed so we need to update the button captions to reflect the new state

@@ -125,10 +125,10 @@ namespace Windowing
                     ((NavigationViewItem)NavView.SelectedItem)?.Content?.ToString();
             }
         }
+
         private void MyWindowIcon_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             window.Close();
         }
-
     }
 }

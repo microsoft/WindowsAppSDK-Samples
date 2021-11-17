@@ -101,6 +101,7 @@ namespace Windowing
             prc.right = prc.left + w;
             prc.bottom = prc.top + h;
         }
+
         private void MyWindowIcon_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             this.Close();

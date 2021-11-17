@@ -9,31 +9,5 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-   <local:MainPage/>
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" x:Name="MyTitleBar" Background="Blue" x:FieldModifier="public" Visibility="Collapsed">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Image x:Name="MyWindowIcon" 
-                Source="/Assets/window_icon.png" 
-                Grid.Column="0" 
-                HorizontalAlignment="Left" 
-                x:FieldModifier="public"
-                Width="20" Height="20" Margin="12,0"
-                DoubleTapped="MyWindowIcon_DoubleTapped"/>
-            <TextBlock 
-                Text="Custom titlebar with interactive content" 
-                Grid.Column="0" 
-                Style="{StaticResource CaptionTextBlockStyle}" 
-                Margin="44,8,0,0"/>
-        </Grid>
-        <local:MainPage/>
-    </Grid>-->
-    
+    <local:MainPage/>
 </Window>
