@@ -1,19 +1,16 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using WinRT;
 
-namespace SampleApp
+namespace Windowing
 {
     public static class AppWindowExtensions
     {
         public static AppWindow GetAppWindow(this Microsoft.UI.Xaml.Window window)
         {
             IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
-
             return GetAppWindowFromWindowHandle(windowHandle);
         }
 
@@ -24,6 +21,5 @@ namespace SampleApp
 
             return AppWindow.GetFromWindowId(windowId);
         }
-
     }
 }

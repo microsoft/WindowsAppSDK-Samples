@@ -1,46 +1,31 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using Microsoft.UI.Windowing;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Windowing;
+using WinRT;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using WinRT;
-using Microsoft.UI;
-using Windows.UI;
 
-
-namespace SampleApp
+namespace Windowing
 {
-    public sealed partial class TitlebarPage : Page
+    public partial class TitleBar : Page
     {
         private AppWindow m_mainAppWindow;
         private bool m_isBrandedTitleBar;
         private MainWindow m_mainWindow;
-
-        public TitlebarPage()
+        private MainPage m_mainPage;
+        public TitleBar()
         {
             this.InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
-            m_mainAppWindow = e.Parameter.As<Window>().GetAppWindow();
-            m_mainWindow = e.Parameter as MainWindow;
+            m_mainWindow = MainWindow.Current;
+            m_mainPage= MainPage.Current;
+            m_mainAppWindow = AppWindowExtensions.GetAppWindow(m_mainWindow);
             m_mainAppWindow.Changed += MainAppWindow_Changed;
-            base.OnNavigatedTo(e);
         }
+ 
 
         private void MainAppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
         {
@@ -78,14 +63,14 @@ namespace SampleApp
             {
                 m_mainAppWindow.Title = "Default titlebar";
             }
-            m_mainWindow.MyTitleBar.Visibility = Visibility.Collapsed;
-        } 
-        
+            m_mainPage.MyTitleBar.Visibility = Visibility.Collapsed;
+        }
+
         private void ResetTitlebarBtn_Click(object sender, RoutedEventArgs e)
         {
             m_mainAppWindow.TitleBar.ResetToDefault();
             m_mainWindow.Title = m_mainWindow.m_windowTitle;
-            m_mainWindow.MyTitleBar.Visibility = Visibility.Collapsed;
+            m_mainPage.MyTitleBar.Visibility = Visibility.Collapsed;
         }
 
         private void TitlebarCustomBtn_Click(object sender, RoutedEventArgs e)
@@ -95,7 +80,7 @@ namespace SampleApp
             if (AppWindowTitleBar.IsCustomizationSupported() && m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
             {
                 // Show the custom titlebar
-                m_mainWindow.MyTitleBar.Visibility = Visibility.Visible;
+                m_mainPage.MyTitleBar.Visibility = Visibility.Visible;
 
                 // Set Button colors to match the custom titlebar
                 m_mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.Blue;
@@ -113,7 +98,7 @@ namespace SampleApp
             else
             {
                 // Bring back the default titlebar
-                m_mainWindow.MyTitleBar.Visibility = Visibility.Collapsed;
+                m_mainPage.MyTitleBar.Visibility = Visibility.Collapsed;
                 m_mainAppWindow.TitleBar.ResetToDefault();
             }
         }
@@ -122,14 +107,14 @@ namespace SampleApp
         {
             //Infer titlebar height
             int titleBarHeight = appWindow.TitleBar.Height;
-            m_mainWindow.MyTitleBar.Height = titleBarHeight;
+            m_mainPage.MyTitleBar.Height = titleBarHeight;
 
             // Get caption button occlusion information
             // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
             int CaptionButtonOcclusionWidth = appWindow.TitleBar.RightInset;
 
             // Define your drag Regions
-            int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon.ActualWidth + (int)m_mainWindow.MyWindowIcon.Margin.Right;
+            int windowIconWidthAndPadding = (int)m_mainPage.MyWindowIcon.ActualWidth + (int)m_mainPage.MyWindowIcon.Margin.Right;
             int dragRegionWidth = appWindow.Size.Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
 
             Windows.Graphics.RectInt32[] dragRects = new Windows.Graphics.RectInt32[] { };

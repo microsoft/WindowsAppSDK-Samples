@@ -1,40 +1,23 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using WinRT;
 
-
-namespace SampleApp
+namespace Windowing
 {
-    public sealed partial class DemoPage : Page
+    public partial class WindowBasics : Page
     {
-       
         AppWindow m_mainAppWindow;
-
-        public DemoPage()
+        public WindowBasics()
         {
             this.InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
-            m_mainAppWindow = e.Parameter.As<Window>().GetAppWindow();
-            base.OnNavigatedTo(e);
+            Window window = MainWindow.Current;
+            m_mainAppWindow = AppWindowExtensions.GetAppWindow(window);
         }
 
         private async void TitleBtn_Click(object sender, RoutedEventArgs e)
