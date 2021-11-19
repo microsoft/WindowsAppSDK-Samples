@@ -119,6 +119,10 @@ stages:
           tag: ${{ parameters.ReleaseTag }}
           tagSource: 'userSpecifiedTag'
           isDraft: ${{ parameters.IsDraft }}
+          title: ${{ parameters.ReleaseTitle }}
+          releaseNotesSource: 'inline'
+          releaseNotesInline: ${{ parameters.ReleaseNotes }}
+          addChangeLog: false
 
     - ${{ if eq(parameters.Action, 'delete') }}:
       - task: GithubRelease@1
