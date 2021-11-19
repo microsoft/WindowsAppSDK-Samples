@@ -22,11 +22,11 @@ parameters:
     default: 'Placeholder'
   # GitHubRelease@1 Action
   - name: "ReleaseTitle"
-    displayName: "Release Title (Required for 'create','edit' actions)" 
+    displayName: "Release Title (Required for 'create' actions)" 
     type: string
     default: 'Placeholder'
   - name: "ReleaseNotes"
-    displayName: "Release Notes (Required for 'create','edit' actions)" 
+    displayName: "Release Notes (Required for 'create' actions)" 
     type: string
     default: 'Placeholder'
   - name: "IsDraft"
