@@ -94,7 +94,7 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)\VSIX'
           ArtifactName: 'VSIX'
 
-    - ${{ if ne(parameters.Action, 'create') }}:
+    - ${{ if eq(parameters.Action, 'create') }}:
       - task: GitHubRelease@1
         inputs:
           gitHubConnection: 'GitHub - benkuhn - 2-18'
@@ -109,7 +109,7 @@ stages:
           releaseNotesInline: ${{ parameters.ReleaseNotes }}
           addChangeLog: false
 
-    - ${{ if ne(parameters.Action, 'edit') }}:
+    - ${{ if eq(parameters.Action, 'edit') }}:
       - task: GithubRelease@1
         displayName: 'Edit GitHub Release'
         inputs:
@@ -120,7 +120,7 @@ stages:
           tagSource: 'userSpecifiedTag'
           isDraft: ${{ parameters.IsDraft }}
 
-    - ${{ if ne(parameters.Action, 'delete') }}:
+    - ${{ if eq(parameters.Action, 'delete') }}:
       - task: GithubRelease@1
         displayName: 'Delete GitHub Release'
         inputs:
