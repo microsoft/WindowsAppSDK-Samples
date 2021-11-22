@@ -46,7 +46,7 @@ HRESULT ExplicitlyInitializeWinAppRuntime()
     // Constants for dynamic dependencies lookup.
     // Preview tag not needed for GA release, eg: versionTag{ L"" };
     const UINT32 majorMinorVersion{ 0x00010000 };
-    PCWSTR versionTag{ L"preview3" };
+    PCWSTR versionTag{ L"" };
 
     // Initialize values for the call to the Dynamic Dependencies bootstrapper
     const PACKAGE_VERSION minVersion{};

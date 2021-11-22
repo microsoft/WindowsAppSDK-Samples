@@ -1,4 +1,5 @@
-<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
+<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
     <Name>Windows App SDK Sample C++ WinUI</Name>
     <Description>Template for creating a Windows App SDK C++ WinUI Sample</Description>
@@ -13,17 +14,66 @@
     <ProjectTypeTag>desktop</ProjectTypeTag>
     <ProjectTypeTag>WinUI</ProjectTypeTag>
     <CreateInPlace>true</CreateInPlace>
-    <CreateNewFolder>false</CreateNewFolder>
+    <CreateNewFolder>true</CreateNewFolder>
   </TemplateData>
   <TemplateContent PreferedSolutionConfiguration="Debug|x64">
-    <CustomParameters>
-      <CustomParameter Name="$WindowsAppSDKNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
-      <CustomParameter Name="$CppWinRTNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
-      <CustomParameter Name="$WindowsSDKBuildToolsNupkgVersion$" Value="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
-    </CustomParameters>
-    <ProjectCollection>
-      <ProjectTemplateLink ProjectName="$projectname$ (Package)" CopyParameters="true">WinUI3TemplateCpp (Package)\WinUI3TemplateCppWapProj.vstemplate</ProjectTemplateLink>
-      <ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">WinUI3TemplateCpp\WinUI3TemplateCppApp.vstemplate</ProjectTemplateLink>
-    </ProjectCollection>
+    <Project File="WinUI3TemplateCpp.vcxproj" ReplaceParameters="true">
+      <Folder Name="Assets" TargetFolderName="Assets">
+        <ProjectItem ReplaceParameters="false" TargetFileName="logo.png">logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.png">SplashScreen.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square150x150Logo.png">Square150x150Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square44x44Logo.png">Square44x44Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Wide310x150Logo.png">Wide310x150Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="windows-sdk.ico">windows-sdk.ico</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.vcxproj.filters">WinUI3TemplateCpp.vcxproj.filters</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml">App.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml.cpp">App.xaml.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml.h">App.xaml.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml">MainPage.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml.cpp">MainPage.xaml.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml.h">MainPage.xaml.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainWindow.xaml">MainWindow.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainWindow.xaml.cpp">MainWindow.xaml.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainWindow.xaml.h">MainWindow.xaml.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="pch.cpp">pch.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="pch.h">pch.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Project.idl">Project.idl</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SampleConfiguration.cpp">SampleConfiguration.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SampleConfiguration.h">SampleConfiguration.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario1_ShortName.xaml">Scenario1_ShortName.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario1_ShortName.xaml.cpp">Scenario1_ShortName.xaml.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario1_ShortName.xaml.h">Scenario1_ShortName.xaml.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario2_ShortName.xaml">Scenario2_ShortName.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario2_ShortName.xaml.cpp">Scenario2_ShortName.xaml.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Scenario2_ShortName.xaml.h">Scenario2_ShortName.xaml.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SettingsPage.xaml">SettingsPage.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SettingsPage.xaml.cpp">SettingsPage.xaml.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SettingsPage.xaml.h">SettingsPage.xaml.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Styles.xaml">Styles.xaml</ProjectItem>
+    </Project>
   </TemplateContent>
+  <WizardExtension>
+    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <!-- Generates Publisher name for appxmanifest -->
+    <Assembly>Microsoft.VisualStudio.WinRT.TemplateWizards, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.VisualStudio.WinRT.TemplateWizards.UpdatePublisherInManifestWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <packages repository="extension" repositoryId="Microsoft.WindowsAppSDKTemplate">
+      <package id="Microsoft.Windows.CppWinRT" version="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+      <package id="Microsoft.Windows.SDK.BuildTools" version="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+      <package id="Microsoft.WindowsAppSDK" version="FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries" />
+    </packages>
+    <Assets>
+      <Asset Type="Microsoft.Windows.CppWinRT.nupkg" Source="File" Path="Microsoft.Windows.CppWinRT.FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries.nupkg" VsixSubPath="Packages" />
+      <Asset Type="Microsoft.Windows.SDK.BuildTools.nupkg" Source="File" Path="Microsoft.Windows.SDK.BuildTools.FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries.nupkg" VsixSubPath="Packages" />
+      <Asset Type="Microsoft.WindowsAppSDK.nupkg" Source="File" Path="Microsoft.WindowsAppSDK.FIXME-Verify-Directory.Build.Targets-XmlPoke-Queries.nupkg" VsixSubPath="Packages" />
+    </Assets>
+  </WizardData>
 </VSTemplate>

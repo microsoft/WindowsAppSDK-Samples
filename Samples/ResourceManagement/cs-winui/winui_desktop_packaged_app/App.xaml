@@ -1,5 +1,5 @@
 <!-- Copyright (c) Microsoft Corporation.
-     Licensed under the MIT License. -->﻿
+     Licensed under the MIT License. -->
 <Application
     x:Class="winui_desktop_packaged_app.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

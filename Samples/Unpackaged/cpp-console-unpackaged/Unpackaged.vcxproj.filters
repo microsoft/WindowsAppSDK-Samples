@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DynamicDependenciesBasic.cpp">
+    <ClCompile Include="Unpackaged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -23,7 +23,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DynamicDependenciesBasic.h">
+    <ClInclude Include="Unpackaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
