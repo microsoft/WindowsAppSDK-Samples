@@ -27,6 +27,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 #### User Interface and Input
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
 - [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
+- [Composition Samples](https://github.com/microsoft/WindowsCompositionSamples/): Visit the Windows Composition Samples repo for samples that focus on the platform building blocks making up the Fluent design System while using Windows App SDK!
 
 ## Requirements
 
