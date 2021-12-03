@@ -7,6 +7,7 @@ This document outlines the guidelines and best practices for Windows App SDK sam
 - [Coding Guidelines](#code-guidelines)
 - [Sample Coverage](#sample-coverage)
 - [Standardization and Naming](#standardization-and-naming)
+- [Sample Templates](#sample-templates)
 - [Repo Branching](#repo-branching)
 - [Checklist](#checklist)
 
@@ -448,9 +449,9 @@ description: "Shows how to create and register background tasks that will run in
 ---
 ```
 
-### Sample Templates
+## Sample Templates
 
-Any new C#/C++ WinUI-based samples should use the [WinUI 3 sample templates](../Templates). The templates provide a scenario-based structure and ensure consistent UI and coding standards across WinUI samples.
+Any new C#/C++ WinUI-based samples should use the [WinUI 3 sample templates](../Templates). You can download the template VSIX file under the Github releases [here](https://github.com/microsoft/WindowsAppSDK-Samples/releases) in this repo, under the "Assets" section. The templates provide a scenario-based structure and ensure consistent UI and coding standards across WinUI samples.
 
 ## Repo Branching
 
