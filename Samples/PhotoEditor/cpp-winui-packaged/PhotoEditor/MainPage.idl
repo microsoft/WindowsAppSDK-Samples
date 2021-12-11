@@ -1,0 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+namespace PhotoEditor
+{
+    runtimeclass MainPage : Microsoft.UI.Xaml.Controls.Page, Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        MainPage();
+        Windows.Foundation.Collections.IVector<IInspectable> Photos{ get; };
+        Windows.Foundation.IAsyncAction StartConnectedAnimationForBackNavigation();
+    }
+}

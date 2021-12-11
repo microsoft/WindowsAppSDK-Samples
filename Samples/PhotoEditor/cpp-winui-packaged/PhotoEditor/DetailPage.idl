@@ -1,0 +1,22 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import "Photo.idl";
+
+namespace PhotoEditor
+{
+    runtimeclass DetailPage : Microsoft.UI.Xaml.Controls.Page
+    {
+        DetailPage();
+        Photo Item;
+        void ResetColorEffects();
+        void ResetLightEffects();
+        void ResetBlurEffects();
+        void ResetSepiaEffects();
+        void FitToScreen();
+        void ShowActualSize();
+        void UpdateZoomState();
+        void UpdateEffectBrush(String var);
+        void ResetEffects();
+    }
+}
