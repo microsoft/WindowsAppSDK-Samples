@@ -3,18 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Windowing;
 using WinRT;
 
@@ -29,14 +17,12 @@ namespace Windowing
     /// </summary>
     public sealed partial class Presenters : Page
     {
-        AppWindow m_mainAppWindow;
+        private AppWindow _mainAppWindow = MainWindow.AppWindow;
         public Presenters()
         {
             this.InitializeComponent();
-            Window window = MainWindow.Current;
-            m_mainAppWindow = AppWindowExtensions.GetAppWindow(window);
             // Register for window changed events while on this page.
-            m_mainAppWindow.Changed += AppWindowChangedHandler;
+            _mainAppWindow.Changed += AppWindowChangedHandler;
         }
 
         private void AppWindowChangedHandler(AppWindow sender, AppWindowChangedEventArgs args)
@@ -44,7 +30,7 @@ namespace Windowing
             // The presenter changed so we need to update the button captions to reflect the new state
             if (args.DidPresenterChange)
             {
-                switch (m_mainAppWindow.Presenter.Kind)
+                switch (_mainAppWindow.Presenter.Kind)
                 {
                     case AppWindowPresenterKind.CompactOverlay:
                         CompactoverlaytBtn.Content = "Exit CompactOverlay";
@@ -74,7 +60,7 @@ namespace Windowing
         private void SwitchPresenter(object sender, RoutedEventArgs e)
         {
             // Bail out if we don't have an AppWindow object.
-            if (m_mainAppWindow != null)
+            if (_mainAppWindow != null)
             {
 
                 AppWindowPresenterKind newPresenterKind;
@@ -98,14 +84,14 @@ namespace Windowing
                 }
 
                 // If the same presenter button was pressed as the mode we're in, toggle the window back to Default.
-                if (newPresenterKind == m_mainAppWindow.Presenter.Kind)
+                if (newPresenterKind == _mainAppWindow.Presenter.Kind)
                 {
-                    m_mainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
+                    _mainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
                 }
                 else
                 {
                     // else request a presenter of the selected kind to be created and applied to the window.
-                    m_mainAppWindow.SetPresenter(newPresenterKind);
+                    _mainAppWindow.SetPresenter(newPresenterKind);
                 }
             }
         }

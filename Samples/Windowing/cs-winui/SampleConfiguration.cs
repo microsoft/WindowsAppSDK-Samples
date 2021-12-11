@@ -9,7 +9,7 @@ namespace Windowing
 {
     internal static class Settings
     {
-        public const string FeatureName = "Windowing";
+        public const string FeatureName = "Windowing WinUI C# Sample";
         public static ElementTheme CurrentTheme = ElementTheme.Default;
     }
 
