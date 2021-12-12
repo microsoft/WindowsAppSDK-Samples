@@ -8,12 +8,12 @@
 
   <Identity
     Name="96eb8b1a-8885-4cd2-ab4d-8f31ffc46bc7"
-    Publisher="CN=stwhi"
+    Publisher="CN=Microsoft Corporation"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>PhotoEditor</DisplayName>
-    <PublisherDisplayName>stwhi</PublisherDisplayName>
+    <PublisherDisplayName>CN=Microsoft Corporation</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

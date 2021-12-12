@@ -7,29 +7,31 @@
 #include "App.xaml.h"
 #include "Photo.h"
 
-using namespace winrt;
-using namespace Microsoft::Graphics::Canvas;
-using namespace Microsoft::Graphics::Canvas::Effects;
-using namespace Microsoft::Graphics::Canvas::Text;
-using namespace Microsoft::Graphics::Canvas::UI::Xaml;
-using namespace Microsoft::Graphics::Canvas::UI;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Numerics;
-using namespace Windows::Graphics::Effects;
-using namespace Windows::Graphics::Imaging;
-using namespace Windows::Storage;
-using namespace Windows::Storage::Search;
-using namespace Windows::Storage::Streams;
-using namespace Windows::Storage::Pickers;
-using namespace Windows::UI;
-using namespace Microsoft::UI::Composition;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Controls;
-using namespace Microsoft::UI::Xaml::Hosting;
-using namespace Microsoft::UI::Xaml::Input;
-using namespace Microsoft::UI::Xaml::Media::Imaging;
-using namespace Microsoft::UI::Xaml::Media::Animation;
-using namespace Microsoft::UI::Xaml::Navigation;
+namespace winrt
+{
+    using namespace Microsoft::Graphics::Canvas;
+    using namespace Microsoft::Graphics::Canvas::Effects;
+    using namespace Microsoft::Graphics::Canvas::Text;
+    using namespace Microsoft::Graphics::Canvas::UI::Xaml;
+    using namespace Microsoft::Graphics::Canvas::UI;
+    using namespace Microsoft::UI::Composition;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Hosting;
+    using namespace Microsoft::UI::Xaml::Input;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+    using namespace Microsoft::UI::Xaml::Media::Imaging;
+    using namespace Microsoft::UI::Xaml::Navigation;
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Numerics;
+    using namespace Windows::Graphics::Effects;
+    using namespace Windows::Graphics::Imaging;
+    using namespace Windows::Storage;
+    using namespace Windows::Storage::Pickers;
+    using namespace Windows::Storage::Search;
+    using namespace Windows::Storage::Streams;
+    using namespace Windows::UI;
+}
 
 namespace winrt::PhotoEditor::implementation
 {

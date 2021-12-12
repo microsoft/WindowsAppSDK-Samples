@@ -6,24 +6,26 @@
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
 
-using namespace winrt;
-using namespace Windows::Foundation;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Controls;
-using namespace Microsoft::UI::Xaml::Navigation;
-using namespace PhotoEditor;
-using namespace PhotoEditor::implementation;
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Navigation;
+    using namespace PhotoEditor;
+    using namespace PhotoEditor::implementation;
+    using namespace Windows::Foundation;
+}
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-winrt::Microsoft::UI::Xaml::Window App::window{ nullptr };
+winrt::Microsoft::UI::Xaml::Window winrt::App::window{ nullptr };
 
 /// <summary>
 /// Initializes the singleton application object.  This is the first line of authored code
 /// executed, and as such is the logical equivalent of main() or WinMain().
 /// </summary>
-App::App()
+winrt::App::App()
 {
     InitializeComponent();
 
@@ -44,7 +46,7 @@ App::App()
 /// will be used such as when the application is launched to open a specific file.
 /// </summary>
 /// <param name="e">Details about the launch request and process.</param>
-void App::OnLaunched(LaunchActivatedEventArgs const&)
+void winrt::App::OnLaunched(LaunchActivatedEventArgs const&)
 {
     window = make<MainWindow>();
 
@@ -62,12 +64,12 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
 /// </summary>
 /// <param name="sender">The Frame that failed navigation</param>
 /// <param name="e">Details about the navigation failure</param>
-void App::OnNavigationFailed(IInspectable const&, NavigationFailedEventArgs const& e)
+void winrt::App::OnNavigationFailed(IInspectable const&, NavigationFailedEventArgs const& e)
 {
     throw hresult_error(E_FAIL, hstring(L"Failed to load Page ") + e.SourcePageType().Name);
 }
 
-Frame App::CreateRootFrame()
+winrt::Frame winrt::App::CreateRootFrame()
 {
     Frame rootFrame{ nullptr };
     auto content = window.Content();

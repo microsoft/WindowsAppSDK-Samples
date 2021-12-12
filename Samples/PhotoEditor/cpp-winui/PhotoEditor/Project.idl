@@ -1,0 +1,52 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+namespace PhotoEditor
+{
+    runtimeclass Photo : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        Photo();
+        Photo(Windows.Storage.FileProperties.ImageProperties props, Windows.Storage.StorageFile imageFile, String name, String type);
+        Windows.Storage.StorageFile ImageFile{ get; };
+        Windows.Storage.FileProperties.ImageProperties ImageProperties{ get; };
+        String ImageName{ get; };
+        String ImageFileType{ get; };
+        String ImageDimensions{ get; };
+        String ImageTitle;
+        Single Exposure;
+        Single Temperature;
+        Single Tint;
+        Single Contrast;
+        Single Saturation;
+        Single BlurAmount;
+        Single Intensity;
+    }
+
+    runtimeclass DetailPage : Microsoft.UI.Xaml.Controls.Page
+    {
+        DetailPage();
+        Photo Item;
+        void ResetColorEffects();
+        void ResetLightEffects();
+        void ResetBlurEffects();
+        void ResetSepiaEffects();
+        void FitToScreen();
+        void ShowActualSize();
+        void UpdateZoomState();
+        void UpdateEffectBrush(String var);
+        void ResetEffects();
+    }
+
+    runtimeclass MainPage : Microsoft.UI.Xaml.Controls.Page, Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        MainPage();
+        Windows.Foundation.Collections.IVector<IInspectable> Photos{ get; };
+        Windows.Foundation.IAsyncAction StartConnectedAnimationForBackNavigation();
+    }
+
+    [default_interface]
+    runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+    }
+}

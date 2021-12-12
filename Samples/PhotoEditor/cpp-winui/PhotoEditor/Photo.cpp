@@ -6,13 +6,15 @@
 #include "Photo.g.cpp"
 #include <sstream>
 
-using namespace winrt;
 using namespace std;
-using namespace Microsoft::UI::Xaml;
-using namespace Windows::Storage;
-using namespace Windows::Foundation;
-using namespace Microsoft::UI::Xaml::Media::Imaging;
-using namespace Windows::Storage::Streams;
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media::Imaging;
+    using namespace Windows::Foundation;
+    using namespace Windows::Storage;
+    using namespace Windows::Storage::Streams;
+}
 
 namespace winrt::PhotoEditor::implementation
 {

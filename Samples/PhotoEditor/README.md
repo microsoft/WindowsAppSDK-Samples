@@ -8,7 +8,7 @@ products:
 - windows-app-sdk
 name: "Photo Editor"
 urlFragment: PhotoEditor
-description: "Shows how to retrieve photos from the **Pictures** library, and then edit the selected image with assorted photo effects."
+description: "Shows how to retrieve photos from the Pictures library, and then edit the selected image with assorted photo effects."
 extendedZipContent:
 - path: LICENSE
   target: LICENSE

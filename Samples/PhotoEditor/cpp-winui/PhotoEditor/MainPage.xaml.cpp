@@ -7,20 +7,22 @@
 #include "App.xaml.h"
 #include "Photo.h"
 
-using namespace winrt;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Storage;
-using namespace Windows::Storage::Search;
-using namespace Windows::Storage::Streams;
-using namespace Microsoft::UI::Composition;
-using namespace Microsoft::UI::Xaml::Navigation;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Controls;
-using namespace Microsoft::UI::Xaml::Data;
-using namespace Microsoft::UI::Xaml::Hosting;
-using namespace Microsoft::UI::Xaml::Media::Animation;
-using namespace Microsoft::UI::Xaml::Media::Imaging;
+namespace winrt
+{
+    using namespace Microsoft::UI::Composition;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Data;
+    using namespace Microsoft::UI::Xaml::Hosting;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+    using namespace Microsoft::UI::Xaml::Media::Imaging;
+    using namespace Microsoft::UI::Xaml::Navigation;
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Collections;
+    using namespace Windows::Storage;
+    using namespace Windows::Storage::Search;
+    using namespace Windows::Storage::Streams;
+}
 
 namespace winrt::PhotoEditor::implementation
 {
