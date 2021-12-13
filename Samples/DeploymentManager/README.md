@@ -5,10 +5,10 @@ languages:
 products:
 - windows
 - windows-app-sdk
-name: "Deployment Manager sample"
-description: "Shows how to use the Windows App Runtime Deployment API"
-extendedZipContent:
+name: Deployment Manager sample
+description: Shows how to use the Windows App Runtime Deployment API
 urlFragment: deployment
+extendedZipContent:
 - path: LICENSE
   target: LICENSE
 ---
