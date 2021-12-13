@@ -1,22 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Interop;
-using System.Runtime.InteropServices;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using WinRT;
 
@@ -24,8 +9,7 @@ namespace wpf_packaged_app
 {
     public partial class ConfigPage : Page
     {
-        AppWindow m_mainAppWindow;
-
+        private AppWindow _mainAppWindow = MainWindow.AppWindow;
 
         public ConfigPage()
         {
@@ -34,10 +18,8 @@ namespace wpf_packaged_app
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            m_mainAppWindow = AppWindowExtensions.GetAppWindowFromWPFWindow(Window.GetWindow(this));
-
             // Disable the switches that control properties only available when Overlapped if we're in any other Presenter state
-            if (m_mainAppWindow.Presenter.Kind != AppWindowPresenterKind.Overlapped)
+            if (_mainAppWindow.Presenter.Kind != AppWindowPresenterKind.Overlapped)
             {
                 FrameToggle.IsEnabled = false;
                 TitleBarToggle.IsEnabled = false;
@@ -59,7 +41,7 @@ namespace wpf_packaged_app
 
         private void ChangeWindowStyle(object sender, RoutedEventArgs e)
         {
-            if (m_mainAppWindow != null)
+            if (_mainAppWindow != null)
             {
                 OverlappedPresenter customOverlappedPresenter;
 
@@ -86,7 +68,7 @@ namespace wpf_packaged_app
                         return;
                 }
 
-                m_mainAppWindow.SetPresenter(customOverlappedPresenter);
+                _mainAppWindow.SetPresenter(customOverlappedPresenter);
             }
         }
 
@@ -94,12 +76,12 @@ namespace wpf_packaged_app
         private void ChangeConfiguration(object sender, RoutedEventArgs e)
         {
 
-            if (m_mainAppWindow != null)
+            if (_mainAppWindow != null)
             {
                 OverlappedPresenter overlappedPresenter = null;
-                if (m_mainAppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
+                if (_mainAppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
                 {
-                    overlappedPresenter = m_mainAppWindow.Presenter.As<OverlappedPresenter>();
+                    overlappedPresenter = _mainAppWindow.Presenter.As<OverlappedPresenter>();
                 }
 
                 switch (sender.As<Button>().Name)
@@ -177,7 +159,7 @@ namespace wpf_packaged_app
                         break;
 
                     case "InUxToggle":         
-                        if (m_mainAppWindow.IsShownInSwitchers)
+                        if (_mainAppWindow.IsShownInSwitchers)
                         {
                             InUxToggle.Content = "Is not Shown in UX";
                         }
@@ -185,7 +167,7 @@ namespace wpf_packaged_app
                         {
                             InUxToggle.Content = "Is Shown in UX";
                         }
-                        m_mainAppWindow.IsShownInSwitchers = !m_mainAppWindow.IsShownInSwitchers;
+                        _mainAppWindow.IsShownInSwitchers = !_mainAppWindow.IsShownInSwitchers;
                         break;
 
                     default:

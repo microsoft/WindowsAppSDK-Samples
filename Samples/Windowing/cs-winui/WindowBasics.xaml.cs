@@ -1,23 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using WinRT;
 
 namespace Windowing
 {
     public partial class WindowBasics : Page
     {
-        AppWindow m_mainAppWindow;
+        private AppWindow _mainAppWindow = MainWindow.AppWindow;
         public WindowBasics()
         {
             this.InitializeComponent();
-            Window window = MainWindow.Current;
-            m_mainAppWindow = AppWindowExtensions.GetAppWindow(window);
         }
 
         private async void TitleBtn_Click(object sender, RoutedEventArgs e)
@@ -34,7 +29,7 @@ namespace Windowing
             }
             else
             {
-                m_mainAppWindow.Title = TitleTextBox.Text;
+                _mainAppWindow.Title = TitleTextBox.Text;
             }
         }
 
@@ -55,7 +50,7 @@ namespace Windowing
 
             if (windowHeight > 0 && windowWidth > 0)
             {
-                m_mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
             }
         }
     }

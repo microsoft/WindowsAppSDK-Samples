@@ -16,14 +16,10 @@ namespace winforms_unpackaged_app
             IntPtr hwnd = winformsWindow.Handle;        
             
             // Get the WindowId from the HWND.
-            WindowId windowId;
-            windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
+            WindowId windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
 
-            // Get an AppWindow from the WindowId.
-            AppWindow appWindow =
-            AppWindow.GetFromWindowId(windowId);
-
-            return appWindow;
+            // Return an AppWindow from the WindowId.
+            return AppWindow.GetFromWindowId(windowId);
         }
     }
 }
