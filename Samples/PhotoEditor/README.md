@@ -66,23 +66,23 @@ If you're just interested in code snippets for certain areas, and you don't want
 
 A custom runtime class that represents a photo.
 
-* [Photo.idl](PhotoEditor/cpp-winui/Photo.idl)
-  * [Photo.h](PhotoEditor/cpp-winui/Photo.h)
-  * [Photo.cpp](PhotoEditor/cpp-winui/Photo.cpp)
+* [Photo.idl](PhotoEditor/cpp-winui/PhotoEditor/Photo.idl)
+  * [Photo.h](PhotoEditor/cpp-winui/PhotoEditor/Photo.h)
+  * [Photo.cpp](PhotoEditor/cpp-winui/PhotoEditor/Photo.cpp)
 
 The main page, which loads the photos from the Pictures Library and displays a tiled thumbnail view.
 
-* [MainPage.xaml](PhotoEditor/cpp-winui/MainPage.xaml)
-  * [MainPage.idl](PhotoEditor/cpp-winui/MainPage.idl)
-  * [MainPage.h](PhotoEditor/cpp-winui/MainPage.h)
-  * [MainPage.cpp](PhotoEditor/cpp-winui/MainPage.cpp)
+* [MainPage.xaml](PhotoEditor/cpp-winui/PhotoEditor/MainPage.xaml)
+  * [MainPage.idl](PhotoEditor/cpp-winui/PhotoEditor/MainPage.idl)
+  * [MainPage.h](PhotoEditor/cpp-winui/PhotoEditor/MainPage.h)
+  * [MainPage.cpp](PhotoEditor/cpp-winui/PhotoEditor/MainPage.cpp)
 
 Tapping a photo from the **MainPage** thumbnail view takes you to the photo editor page, where Win2D effects are toggled, set, and chained together.
 
-* [DetailPage.xaml](PhotoEditor/cpp-winui/DetailPage.xaml)
-  * [DetailPage.idl](PhotoEditor/cpp-winui/DetailPage.idl)
-  * [DetailPage.h](PhotoEditor/cpp-winui/DetailPage.h)
-  * [DetailPage.cpp](PhotoEditor/cpp-winui/DetailPage.cpp)
+* [DetailPage.xaml](PhotoEditor/cpp-winui/PhotoEditor/DetailPage.xaml)
+  * [DetailPage.idl](PhotoEditor/cpp-winui/PhotoEditor/DetailPage.idl)
+  * [DetailPage.h](PhotoEditor/cpp-winui/PhotoEditor/DetailPage.h)
+  * [DetailPage.cpp](PhotoEditor/cpp-winui/PhotoEditor/DetailPage.cpp)
 
 ## Related documentation and code samples
 
