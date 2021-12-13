@@ -60,4 +60,4 @@ task process" to "Native Only".
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [DWriteCore](https://docs.microsoft.com/windows/apps/windows-app-sdk/dwritecore)
+- [Render text with DWriteCore](https://docs.microsoft.com/windows/apps/windows-app-sdk/dwritecore)
