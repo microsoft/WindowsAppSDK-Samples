@@ -23,17 +23,16 @@ These sample applications demonstrate the AppLifecycle APIs, which cover the fol
 - Selective single-/multi-instancing
 - Power and system state notifications.
 
-## System requirements
+## Prerequisites
 
-* Windows 10
+* See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
+* Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+    * For the unpackaged sample apps, make sure to also install the prerequisites for [deploying unpackaged apps](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
 
 ## Building and running the samples
 
-Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment). For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
-
-1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio.
-2. Build the solution.
-3. Press F5 to deploy and debug the project.
+* Open the solution file (`.sln`) from the subfolder of your preferred sample in Visual Studio.
+* From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
 ## Notes for different app types
 
@@ -83,6 +82,6 @@ All the constraints for packaged apps also apply to WinUI apps (because they are
 
 - [Power/state notifications](https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/applifecycle/applifecycle-power)
 
-  
 
-  
+
+
