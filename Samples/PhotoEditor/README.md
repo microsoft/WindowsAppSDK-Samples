@@ -66,23 +66,23 @@ If you're just interested in code snippets for certain areas, and you don't want
 
 A custom runtime class that represents a photo.
 
-* [Photo.idl](PhotoEditor/cpp-winui-packaged/Photo.idl)
-  * [Photo.h](PhotoEditor/cpp-winui-packaged/Photo.h)
-  * [Photo.cpp](PhotoEditor/cpp-winui-packaged/Photo.cpp)
+* [Photo.idl](PhotoEditor/cpp-winui/Photo.idl)
+  * [Photo.h](PhotoEditor/cpp-winui/Photo.h)
+  * [Photo.cpp](PhotoEditor/cpp-winui/Photo.cpp)
 
 The main page, which loads the photos from the Pictures Library and displays a tiled thumbnail view.
 
-* [MainPage.xaml](PhotoEditor/cpp-winui-packaged/MainPage.xaml)
-  * [MainPage.idl](PhotoEditor/cpp-winui-packaged/MainPage.idl)
-  * [MainPage.h](PhotoEditor/cpp-winui-packaged/MainPage.h)
-  * [MainPage.cpp](PhotoEditor/cpp-winui-packaged/MainPage.cpp)
+* [MainPage.xaml](PhotoEditor/cpp-winui/MainPage.xaml)
+  * [MainPage.idl](PhotoEditor/cpp-winui/MainPage.idl)
+  * [MainPage.h](PhotoEditor/cpp-winui/MainPage.h)
+  * [MainPage.cpp](PhotoEditor/cpp-winui/MainPage.cpp)
 
 Tapping a photo from the **MainPage** thumbnail view takes you to the photo editor page, where Win2D effects are toggled, set, and chained together.
 
-* [DetailPage.xaml](PhotoEditor/cpp-winui-packaged/DetailPage.xaml)
-  * [DetailPage.idl](PhotoEditor/cpp-winui-packaged/DetailPage.idl)
-  * [DetailPage.h](PhotoEditor/cpp-winui-packaged/DetailPage.h)
-  * [DetailPage.cpp](PhotoEditor/cpp-winui-packaged/DetailPage.cpp)
+* [DetailPage.xaml](PhotoEditor/cpp-winui/DetailPage.xaml)
+  * [DetailPage.idl](PhotoEditor/cpp-winui/DetailPage.idl)
+  * [DetailPage.h](PhotoEditor/cpp-winui/DetailPage.h)
+  * [DetailPage.cpp](PhotoEditor/cpp-winui/DetailPage.cpp)
 
 ## Related documentation and code samples
 
@@ -102,6 +102,6 @@ Tapping a photo from the **MainPage** thumbnail view takes you to the photo edit
 
 If you build the project on a given target platform version (`TargetPlatformVersion` in the project file), and then you retarget and rebuild, you might see this error message in Visual Studio: "error MIDL2003: [msg]redefinition [context]: <SYMBOL>". If you do, then here are some options to resolve the issue.
 
-- Sometimes, the resolution is as simple as deleting the file `\cpp-winui-packaged\PhotoEditor\<CONFIGURATION>\XamlMetaDataProvider.idl`, and rebuilding.
+- Sometimes, the resolution is as simple as deleting the file `\cpp-winui\PhotoEditor\<CONFIGURATION>\XamlMetaDataProvider.idl`, and rebuilding.
 - If that doesn't clear the issue, then you can try deleting all temporary/generated folders and files, and rebuilding.
 - If you haven't made changes, then you can alternatively re-clone the repo, re-target, and build.
