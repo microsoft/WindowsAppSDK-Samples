@@ -9,10 +9,6 @@
     <Page Include="MainPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="App.idl" />
-    <Midl Include="MainWindow.idl" />
-    <Midl Include="DetailPage.idl" />
-    <Midl Include="MainPage.idl" />
     <Midl Include="Project.idl" />
   </ItemGroup>
   <ItemGroup>
