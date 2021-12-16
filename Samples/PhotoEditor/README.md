@@ -50,13 +50,13 @@ The C++/WinRT-specific features that Photo Editor demonstrates include:
 ## Prerequisites
 
 * See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
+* Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 * You'll need to have a collection of images available in your local **Pictures** folder. If there are no images or photos available at that location, then the app will show only the background when you run it.
 
 To get the latest updates to Windows and the development tools, and to help shape their development, join the [Windows Insider Program](https://insider.windows.com).
 
 ## Building and running the sample
 
-* Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 * Open the solution file (`.sln`) in Visual Studio.
 * From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 

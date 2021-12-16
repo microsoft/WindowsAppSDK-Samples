@@ -440,13 +440,17 @@ In the README.md file of your sample, make sure to include the YAML front-matter
 page_type: sample
 languages:
 - csharp
+- cppwinrt
 - cpp
 products:
 - windows
 - windows-app-sdk
-urlFragment: BackgroundActivation
-description: "Shows how to create and register background tasks that will run in the main process."
----
+name: "Photo Editor"
+urlFragment: PhotoEditor
+description: "Shows how to retrieve photos from the Pictures library, and then edit the selected image with assorted photo effects."
+extendedZipContent:
+- path: LICENSE
+  target: LICENSE
 ```
 
 ## Sample Templates
