@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace SelfContainedDeployment
 {
@@ -10,9 +11,13 @@ namespace SelfContainedDeployment
     {
         private MainPage rootPage = MainPage.Current;
 
+        private ResourceManager resourceManager = new ResourceManager();
+
         public Scenario1_SelfContainedDeployment()
         {
             this.InitializeComponent();
+
+            Description.Text = resourceManager.MainResourceMap.GetValue("Resources/Description").ValueAsString;
         }
 
         private void SuccessMessage_Click(object sender, RoutedEventArgs e)
