@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-	<Platforms>AnyCPU;x64;x86</Platforms>
+	<Platforms>x64;x86;ARM64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
