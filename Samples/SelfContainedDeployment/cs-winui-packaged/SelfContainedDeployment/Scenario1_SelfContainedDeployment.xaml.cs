@@ -11,13 +11,9 @@ namespace SelfContainedDeployment
     {
         private MainPage rootPage = MainPage.Current;
 
-        private ResourceManager resourceManager = new ResourceManager();
-
         public Scenario1_SelfContainedDeployment()
         {
             this.InitializeComponent();
-
-            Description.Text = resourceManager.MainResourceMap.GetValue("Resources/Description").ValueAsString;
         }
 
         private void SuccessMessage_Click(object sender, RoutedEventArgs e)
