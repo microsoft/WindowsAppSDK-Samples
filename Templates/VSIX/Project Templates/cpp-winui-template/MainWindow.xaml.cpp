@@ -24,7 +24,7 @@ namespace winrt::$safeprojectname$::implementation
         Title(winrt::$safeprojectname$::SampleConfig::FeatureName);
 
         HWND hwnd = GetWindowHandle();
-        LoadIcon(hwnd, L"windows-sdk.ico");
+        LoadIcon(hwnd, L"Assets/windows-sdk.ico");
         SetWindowSize(hwnd, 1050, 800);
         PlacementCenterWindowInMonitorWin32(hwnd);
     }
