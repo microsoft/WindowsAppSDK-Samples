@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PhotoLab_WAS (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "PhotoLab_WAS (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
