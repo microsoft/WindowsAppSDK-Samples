@@ -23,24 +23,4 @@ namespace winrt::SelfContainedDeployment::implementation
         InitializeComponent();
         Scenario1_SelfContainedDeployment::rootPage = MainPage::Current();
     }
-    
-    void Scenario1_SelfContainedDeployment::SuccessMessage_Click(IInspectable const&, RoutedEventArgs const&)
-    {
-        rootPage.NotifyUser(L"Everything was ok!", InfoBarSeverity::Success);
-    }
-
-    void Scenario1_SelfContainedDeployment::ErrorMessage_Click(IInspectable const&, RoutedEventArgs const&)
-    {
-        rootPage.NotifyUser(L"Something went wrong.", InfoBarSeverity::Error);
-    }
-
-    void Scenario1_SelfContainedDeployment::InformationalMessage_Click(IInspectable const&, RoutedEventArgs const&)
-    {
-        rootPage.NotifyUser(L"This is the informational bar.", InfoBarSeverity::Informational);
-    }
-
-    void Scenario1_SelfContainedDeployment::ClearMessage_Click(IInspectable const&, RoutedEventArgs const&)
-    {
-        rootPage.NotifyUser(L"", InfoBarSeverity::Informational);
-    }
 }
