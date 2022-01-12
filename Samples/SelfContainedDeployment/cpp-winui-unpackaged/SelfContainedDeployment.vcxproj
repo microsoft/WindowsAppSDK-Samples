@@ -71,6 +71,9 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+	<AppxPriInitialPath></AppxPriInitialPath> <!-- https://task.ms/36913638 - The resource URI for unpackaged C++ WinUI app has an extra root namespace -->
+  </PropertyGroup>
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets">
