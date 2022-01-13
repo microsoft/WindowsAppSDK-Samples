@@ -12,7 +12,7 @@
     <ProjectGuid>{a55ae73a-73fc-430a-8755-4df2e6f774b0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CppWinRtConsoleInstancing</RootNamespace>
-    <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0.22000.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.17134.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
