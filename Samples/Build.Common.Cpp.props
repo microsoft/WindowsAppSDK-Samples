@@ -9,9 +9,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <!-- Only use the MSBuildToolsVersion if we don't have the VisualStudioVersion and MSBuildToolsVersion is set to something other than Current. -->
     <BuildToolVersion Condition="'$(BuildToolVersion)'=='' and '$(MSBuildToolsVersion)' != 'Current'">$(MSBuildToolsVersion)</BuildToolVersion>
     <!-- Note:
+      v142 is the Visual Studio 2015 toolset. (14.0)
+      v142 is the Visual Studio 2017 toolset. (15.0)
       v142 is the Visual Studio 2019 toolset. (16.0)
       v143 is the Visual Studio 2022 toolset. (17.0)
     -->
+    <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='14'">v140</AutoDetectedPlatformToolset>
+    <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='15'">v141</AutoDetectedPlatformToolset>
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='16'">v142</AutoDetectedPlatformToolset>
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='17'">v143</AutoDetectedPlatformToolset>
   </PropertyGroup>
