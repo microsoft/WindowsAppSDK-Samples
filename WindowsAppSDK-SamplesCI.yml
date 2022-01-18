@@ -1,0 +1,60 @@
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+stages:
+- stage: BuildSamples
+  jobs:
+  - job: BuildSamples
+    pool: 'ProjectReunionSamplesESPool-MS'
+    strategy:
+        maxParallel: 10
+        matrix:
+          Release_x86:
+            buildPlatform: 'x86'
+            buildConfiguration: 'Release'
+          Release_x64:
+            buildPlatform: 'x64'
+            buildConfiguration: 'Release'
+          Debug_x86:
+            buildPlatform: 'x86'
+            buildConfiguration: 'Debug'
+          Debug_x64:
+            buildPlatform: 'x64'
+            buildConfiguration: 'Debug'
+    steps:
+    - task: NuGetToolInstaller@1
+      displayName: 'Use NuGet 5.11.0'
+      inputs:
+        versionSpec: 5.11.0
+
+    # The environment variable VCToolsInstallDir isn't defined on lab machines, so we need to retrieve it ourselves.
+    - script: |
+        "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -Latest -prerelease -requires Microsoft.Component.MSBuild -property InstallationPath > %TEMP%\vsinstalldir.txt
+        set /p _VSINSTALLDIR15=<%TEMP%\vsinstalldir.txt
+        del %TEMP%\vsinstalldir.txt
+        call "%_VSINSTALLDIR15%\Common7\Tools\VsDevCmd.bat"
+        echo VCToolsInstallDir = %VCToolsInstallDir%
+        echo ##vso[task.setvariable variable=VCToolsInstallDir]%VCToolsInstallDir%
+      displayName: 'Retrieve VC tools directory'
+
+    #====================================================================================================================
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        feedsToUse: 'config'
+        nugetConfigPath: '.\Samples\nuget.config'
+        restoreSolution: '.\Samples\**\*.sln'
+
+    - task: VSBuild@1
+      displayName: 'Restore nuget packages for all solutions'
+      inputs:
+        solution: .\Samples\**\*.sln
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        msbuildArgs: '/t:restore /p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
+
+    - task: VSBuild@1
+      displayName: 'Build all Sample solutions'
+      inputs:
+        solution: .\Samples\**\*.sln
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        msbuildArgs: '/p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
