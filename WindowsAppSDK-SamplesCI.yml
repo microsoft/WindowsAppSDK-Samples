@@ -3,8 +3,7 @@ stages:
 - stage: BuildSamples
   jobs:
   - job: BuildSamples
-    pool:
-      vmImage: 'ProjectReunionSamplesESPool-MS'
+    pool: 'ProjectReunionSamplesESPool-MS'
     strategy:
         maxParallel: 10
         matrix:
