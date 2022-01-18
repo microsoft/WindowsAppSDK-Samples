@@ -1,0 +1,13 @@
+<Project>
+  <!--
+    Every project in this repository should include the root Directory.Build.props file. This allows us to create a 
+    single place where we can share common build infrastructure, without creating MSBuild duplicate import errors.
+    The files that this props file imports should be self-contained and not import other project files.
+
+    The ordering of inclusion of these files should be well thought out as well.  As an example, specifying the versions
+    of all our dependencies should be the first file imported, since any other property could depend on that version.
+    And it's unlikely that defining these versions would depend on anything else. The ordering doesn't have to be set in
+    stone, but it isn't guaranteed that just switching them up will work.
+    -->
+  <Import Project="eng\versions.props" />
+</Project>

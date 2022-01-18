@@ -1,0 +1,6 @@
+<Project>
+  <!-- These package versions need to stay in sync with what is in packages.config -->
+  <PropertyGroup>
+    <WindowsAppSDKVersion>1.0.0</WindowsAppSDKVersion>
+  </PropertyGroup>
+</Project>
