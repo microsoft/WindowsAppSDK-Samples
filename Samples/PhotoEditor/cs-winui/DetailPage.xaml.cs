@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.UI.Core;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml;
-using Windows.Foundation;
 using Windows.Foundation.Metadata;
 
 namespace PhotoEditor
@@ -109,13 +106,10 @@ namespace PhotoEditor
                 base.OnNavigatingFrom(e);
             }
         }
-
         /// <summary>
         /// Gives users a chance to save the image before navigating
         /// to a different page.
         /// </summary>
-
-
         private async void ShowSaveDialog(NavigatingCancelEventArgs e)
         {
             ContentDialog saveDialog = new ContentDialog()
@@ -229,7 +223,6 @@ namespace PhotoEditor
                         using (IRandomAccessStream outStream = await outputFile.OpenAsync(FileAccessMode.ReadWrite))
                         {
                             await offscreen.SaveAsync(outStream, CanvasBitmapFileFormat.Jpeg);
-
                         }
 
                         // Check whether this save is overwriting the original image.

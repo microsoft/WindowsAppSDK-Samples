@@ -2,17 +2,9 @@
 // Licensed under the MIT License.
 
 using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Effects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Foundation;
-using Windows.Graphics.Effects;
 using Microsoft.UI.Composition;
-using Windows.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Windows.Storage.Streams;
 using Microsoft.UI.Xaml;
