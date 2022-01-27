@@ -101,7 +101,6 @@ namespace PhotoEditor
             brush.CompositionBrush?.Properties.InsertScalar("ExposureEffect.Exposure", (float)(double)e.NewValue);
         }
 
-
         public static readonly DependencyProperty TintAmountProperty = DependencyProperty.Register("TintAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnTintAmountChanged)));
 
         public double TintAmount

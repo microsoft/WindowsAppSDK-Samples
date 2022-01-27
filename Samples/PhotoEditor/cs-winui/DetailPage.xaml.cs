@@ -280,7 +280,6 @@ namespace PhotoEditor
                 MainPage.Current.Images.Insert(index + 1, item);
             }
 
-
             // Replace the persisted image used for connected animation.
             MainPage.Current.UpdatePersistedItem(item);
 
