@@ -17,8 +17,6 @@ using Microsoft.UI.Xaml.Media;
 using Windows.Storage.Streams;
 using Microsoft.UI.Xaml;
 
-
-
 namespace PhotoEditor
 {
     class LoadedImageBrush : XamlCompositionBrushBase
@@ -51,13 +49,7 @@ namespace PhotoEditor
             saturationEffect.Source = source;
         }
 
-        public static readonly DependencyProperty BlurAmountProperty = DependencyProperty.Register(
-    "BlurAmount",
-    typeof(double),
-    typeof(LoadedImageBrush),
-    new PropertyMetadata(0.0, new PropertyChangedCallback(OnBlurAmountChanged)
-    )
-);
+        public static readonly DependencyProperty BlurAmountProperty = DependencyProperty.Register("BlurAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnBlurAmountChanged)));
 
         public double BlurAmount
         {
@@ -72,15 +64,7 @@ namespace PhotoEditor
             brush.CompositionBrush?.Properties.InsertScalar("Blur.BlurAmount", (float)(double)e.NewValue);
         }
 
-
-
-        public static readonly DependencyProperty ContrastAmountProperty = DependencyProperty.Register(
-"ContrastAmount",
-typeof(double),
-typeof(LoadedImageBrush),
-new PropertyMetadata(0.0, new PropertyChangedCallback(OnContrastAmountChanged)
-)
-);
+        public static readonly DependencyProperty ContrastAmountProperty = DependencyProperty.Register("ContrastAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnContrastAmountChanged)));
 
         public double ContrastAmount
         {
@@ -95,13 +79,7 @@ new PropertyMetadata(0.0, new PropertyChangedCallback(OnContrastAmountChanged)
             brush.CompositionBrush?.Properties.InsertScalar("ContrastEffect.Contrast", (float)(double)e.NewValue);
         }
 
-        public static readonly DependencyProperty SaturationAmountProperty = DependencyProperty.Register(
-"SaturationAmount",
-typeof(double),
-typeof(LoadedImageBrush),
-new PropertyMetadata(1.0, new PropertyChangedCallback(OnSaturationAmountChanged)
-)
-);
+        public static readonly DependencyProperty SaturationAmountProperty = DependencyProperty.Register("SaturationAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(1.0, new PropertyChangedCallback(OnSaturationAmountChanged)));
 
         public double SaturationAmount
         {
@@ -116,13 +94,7 @@ new PropertyMetadata(1.0, new PropertyChangedCallback(OnSaturationAmountChanged)
             brush.CompositionBrush?.Properties.InsertScalar("SaturationEffect.Saturation", (float)(double)e.NewValue);
         }
 
-        public static readonly DependencyProperty ExposureAmountProperty = DependencyProperty.Register(
-"ExposureAmount",
-typeof(double),
-typeof(LoadedImageBrush),
-new PropertyMetadata(0.0, new PropertyChangedCallback(OnExposureAmountChanged)
-)
-);
+        public static readonly DependencyProperty ExposureAmountProperty = DependencyProperty.Register("ExposureAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnExposureAmountChanged)));
 
         public double ExposureAmount
         {
@@ -138,13 +110,7 @@ new PropertyMetadata(0.0, new PropertyChangedCallback(OnExposureAmountChanged)
         }
 
 
-        public static readonly DependencyProperty TintAmountProperty = DependencyProperty.Register(
-"TintAmount",
-typeof(double),
-typeof(LoadedImageBrush),
-new PropertyMetadata(0.0, new PropertyChangedCallback(OnTintAmountChanged)
-)
-);
+        public static readonly DependencyProperty TintAmountProperty = DependencyProperty.Register("TintAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnTintAmountChanged)));
 
         public double TintAmount
         {
@@ -159,13 +125,7 @@ new PropertyMetadata(0.0, new PropertyChangedCallback(OnTintAmountChanged)
             brush.CompositionBrush?.Properties.InsertScalar("TemperatureAndTintEffect.Tint", (float)(double)e.NewValue);
         }
 
-        public static readonly DependencyProperty TemperatureAmountProperty = DependencyProperty.Register(
-"TemperatureAmount",
-typeof(double),
-typeof(LoadedImageBrush),
-new PropertyMetadata(0.0, new PropertyChangedCallback(OnTemperatureAmountChanged)
-)
-);
+        public static readonly DependencyProperty TemperatureAmountProperty = DependencyProperty.Register("TemperatureAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnTemperatureAmountChanged)));
 
         public double TemperatureAmount
         {
