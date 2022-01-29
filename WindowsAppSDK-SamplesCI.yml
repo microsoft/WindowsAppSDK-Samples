@@ -58,3 +58,7 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
+
+    - script: |
+        dir /s $(Build.SourcesDirectory)
+      displayName: 'Contents of SourcesDirectory and other source folders'
