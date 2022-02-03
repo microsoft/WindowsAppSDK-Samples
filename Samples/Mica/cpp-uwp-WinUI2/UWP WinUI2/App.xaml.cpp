@@ -1,4 +1,6 @@
-﻿//
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+//
 // App.xaml.cpp
 // Implementation of the App class.
 //

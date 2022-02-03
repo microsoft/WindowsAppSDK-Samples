@@ -1,3 +1,5 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 #include "pch.h"
 
 #include "WebView2Window.h"
