@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System;
@@ -16,16 +17,14 @@ namespace Windowing
 {
     public partial class MainWindow : Window
     {
-        public String m_windowTitle = "WinUI Desktop C# Sample App";
-        public static MainWindow Current;
+        public static AppWindow AppWindow;
+        public string WindowTitle;
         public MainWindow()
         {
             this.InitializeComponent();
-
-            Current = this;
-            this.Title = m_windowTitle;
+            AppWindow = AppWindowExtensions.GetAppWindow(this);
             Title = Settings.FeatureName;
-
+            
             HWND hwnd = (HWND)WinRT.Interop.WindowNative.GetWindowHandle(this);
             LoadIcon(hwnd, "Assets/windows-sdk.ico");
             SetWindowSize(hwnd, 1050, 800);

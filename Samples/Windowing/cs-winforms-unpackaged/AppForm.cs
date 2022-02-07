@@ -2,7 +2,6 @@
 // Licensed under the MIT License. 
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Forms;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -12,21 +11,18 @@ namespace winforms_unpackaged_app
 {
     public partial class AppForm : Form
     {
-        public static IWin32Window m_mainWindow;
-        public String m_windowTitle = "WinForms Desktop C# Sample App";
-        AppWindow m_mainAppWindow;
-        bool m_isBrandedTitleBar = false;
+        public string WindowTitle = "Windowing WinForms C# Sample";
+        private AppWindow _mainAppWindow;
+        private bool _isBrandedTitleBar = false;
 
         public AppForm()
         {
             this.InitializeComponent();
 
-            m_mainWindow = this;
-
             // Gets the AppWindow using the windowing interop methods (see WindowingInterop.cs for details)
-            m_mainAppWindow = AppWindowExtensions.GetAppWindowFromWinformsWindow(m_mainWindow);
-            m_mainAppWindow.Changed += AppWindowChangedHandler;
-            m_mainAppWindow.Title = m_windowTitle;
+            _mainAppWindow = AppWindowExtensions.GetAppWindowFromWinformsWindow(this);
+            _mainAppWindow.Changed += AppWindowChangedHandler;
+            _mainAppWindow.Title = WindowTitle;
         }
 
         private void InitializeComponent()
@@ -255,7 +251,7 @@ namespace winforms_unpackaged_app
             // The presenter changed so we need to update the button captions to reflect the new state
             if (args.DidPresenterChange)
             {
-                switch (m_mainAppWindow.Presenter.Kind)
+                switch (_mainAppWindow.Presenter.Kind)
                 {
                     case AppWindowPresenterKind.CompactOverlay:
                         toggleCompactOverlay.Text = "Exit CompactOverlay";
@@ -288,14 +284,14 @@ namespace winforms_unpackaged_app
             if (args.DidSizeChange)
             {
                 // update the size of custom titlebar as the window size changes
-                MyTitleBar.Width = m_mainAppWindow.Size.Width;
+                MyTitleBar.Width = _mainAppWindow.Size.Width;
             }
         }
 
         private void SwitchPresenter(object sender, System.EventArgs e)
         {
             // Bail out if we don't have an AppWindow object.
-            if (m_mainAppWindow != null)
+            if (_mainAppWindow != null)
             {
 
                 AppWindowPresenterKind newPresenterKind;
@@ -319,14 +315,14 @@ namespace winforms_unpackaged_app
                 }
 
                 // If the same presenter button was pressed as the mode we're in, toggle the window back to Default.
-                if (newPresenterKind == m_mainAppWindow.Presenter.Kind)
+                if (newPresenterKind == _mainAppWindow.Presenter.Kind)
                 {
-                    m_mainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
+                    _mainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
                 }
                 else
                 {
                     // else request a presenter of the selected kind to be created and applied to the window.
-                    m_mainAppWindow.SetPresenter(newPresenterKind);
+                    _mainAppWindow.SetPresenter(newPresenterKind);
                 }
             }
         }
@@ -339,7 +335,7 @@ namespace winforms_unpackaged_app
 
         private void windowTitleButton_Click(object sender, EventArgs e)
         {
-            m_mainAppWindow.Title = windowTitleTextBox.Text;
+            _mainAppWindow.Title = windowTitleTextBox.Text;
         }
 
         private void resizeButton_Click(object sender, EventArgs e)
@@ -359,67 +355,67 @@ namespace winforms_unpackaged_app
 
             if (windowHeight > 0 && windowWidth > 0)
             {
-                m_mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
             }
         }
 
         private void titlebarBrandingBtn_Click(object sender, EventArgs e)
         {
-            m_mainAppWindow.TitleBar.ResetToDefault();
+            _mainAppWindow.TitleBar.ResetToDefault();
 
-            m_isBrandedTitleBar = !m_isBrandedTitleBar;
-            if (AppWindowTitleBar.IsCustomizationSupported() && m_isBrandedTitleBar)
+            _isBrandedTitleBar = !_isBrandedTitleBar;
+            if (AppWindowTitleBar.IsCustomizationSupported() && _isBrandedTitleBar)
             {
-                m_mainAppWindow.Title = "Default titlebar with custom color customization";
-                m_mainAppWindow.TitleBar.ForegroundColor = Colors.White;
-                m_mainAppWindow.TitleBar.BackgroundColor = Colors.DarkOrange;
-                m_mainAppWindow.TitleBar.InactiveBackgroundColor = Colors.Blue;
-                m_mainAppWindow.TitleBar.InactiveForegroundColor = Colors.White;
+                _mainAppWindow.Title = "Default titlebar with custom color customization";
+                _mainAppWindow.TitleBar.ForegroundColor = Colors.White;
+                _mainAppWindow.TitleBar.BackgroundColor = Colors.DarkOrange;
+                _mainAppWindow.TitleBar.InactiveBackgroundColor = Colors.Blue;
+                _mainAppWindow.TitleBar.InactiveForegroundColor = Colors.White;
 
-                //Buttons
-                m_mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.DarkOrange;
-                m_mainAppWindow.TitleBar.ButtonForegroundColor = Colors.White;
-                m_mainAppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Blue;
-                m_mainAppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.White;
-                m_mainAppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Green;
-                m_mainAppWindow.TitleBar.ButtonHoverForegroundColor = Colors.White;
-                m_mainAppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.DarkOrange;
-                m_mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
+                // Buttons
+                _mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.DarkOrange;
+                _mainAppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+                _mainAppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Blue;
+                _mainAppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.White;
+                _mainAppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Green;
+                _mainAppWindow.TitleBar.ButtonHoverForegroundColor = Colors.White;
+                _mainAppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.DarkOrange;
+                _mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
             }
             else
             {
-                m_mainAppWindow.Title = m_windowTitle;
+                _mainAppWindow.Title = WindowTitle;
             }
             MyTitleBar.Visible = false;
         }
 
         private void titlebarCustomBtn_Click(object sender, EventArgs e)
         {
-            m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar = !m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar;
+            _mainAppWindow.TitleBar.ExtendsContentIntoTitleBar = !_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar;
 
-            if (AppWindowTitleBar.IsCustomizationSupported() && m_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
+            if (AppWindowTitleBar.IsCustomizationSupported() && _mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
             {
                 // Show the custom titlebar
                 MyTitleBar.Visible = true;
 
                 // Set Button colors to match the custom titlebar
-                m_mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                m_mainAppWindow.TitleBar.ButtonForegroundColor = Colors.White;
-                m_mainAppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                m_mainAppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.White;
-                m_mainAppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Green;
-                m_mainAppWindow.TitleBar.ButtonHoverForegroundColor = Colors.White;
-                m_mainAppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Green;
-                m_mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
+                _mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                _mainAppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+                _mainAppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                _mainAppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.White;
+                _mainAppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Green;
+                _mainAppWindow.TitleBar.ButtonHoverForegroundColor = Colors.White;
+                _mainAppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Green;
+                _mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
 
                 // Set the drag region for the custom TitleBar
-                SetDragRegionForCustomTitleBar(m_mainAppWindow);
+                SetDragRegionForCustomTitleBar(_mainAppWindow);
             }
             else
             {
                 // Bring back the default titlebar
                 MyTitleBar.Visible = false;
-                m_mainAppWindow.TitleBar.ResetToDefault();
+                _mainAppWindow.TitleBar.ResetToDefault();
             }
         }
 
@@ -427,14 +423,14 @@ namespace winforms_unpackaged_app
         {
             //Infer titlebar height
             int titleBarHeight = appWindow.TitleBar.Height;
-            this.MyTitleBar.Height = titleBarHeight;
+            MyTitleBar.Height = titleBarHeight;
 
             // Get caption button occlusion information
             // Use LeftInset if you've explicitly set your window layout to RTL or if app language is a RTL language
             int CaptionButtonOcclusionWidth = appWindow.TitleBar.RightInset;
 
             // Define your drag Regions
-            int windowIconWidthAndPadding = (int)MyWindowIcon.Width + (int)MyWindowIcon.Margin.Right;
+            int windowIconWidthAndPadding = MyWindowIcon.Width + MyWindowIcon.Margin.Right;
             int dragRegionWidth = appWindow.Size.Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
 
             Windows.Graphics.RectInt32[] dragRects = new Windows.Graphics.RectInt32[] { };
@@ -450,8 +446,8 @@ namespace winforms_unpackaged_app
 
         private void resetTitlebarBtn_Click(object sender, EventArgs e)
         {
-            m_mainAppWindow.TitleBar.ResetToDefault();
-            m_mainAppWindow.Title = m_windowTitle;
+            _mainAppWindow.TitleBar.ResetToDefault();
+            _mainAppWindow.Title = WindowTitle;
             MyTitleBar.Visible = false;
         }
     }

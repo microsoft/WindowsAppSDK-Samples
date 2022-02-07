@@ -1,32 +1,35 @@
 ---
-name: "Windowing gallery sample" 
 page_type: sample
 languages:
 - csharp
 - cpp
 products:
-- windows 
+- windows
 - windows-app-sdk
-description: "Shows how to use the windows app SDK windowing apis"
+name: "Windowing gallery sample"
 urlFragment: windowing
+description: "Shows how to use the Windows App SDK windowing APIs"
+extendedZipContent:
+- path: LICENSE
+  target: LICENSE
 ---
-# Windowing gallery sample 
+# Windowing gallery sample
 
-These samples demonstrate how to use the AppWindow class to manage your application's window.  
+These samples demonstrate how to use the AppWindow class to manage your application's window.
 
-## Requirements
-C# sample requires either .NET SDK 5.0.205, .NET SDK 5.0.302, or later
+## Prerequisites
 
-## Building and running any of the samples 
-Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
-For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
+* See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
+* Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+    * For the unpackaged sample apps, make sure to also install the prerequisites for [deploying unpackaged apps](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
+* The C# samples require either .NET SDK 5.0.205 or later, or .NET SDK 5.0.400 or later.
 
-1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio 2019 Preview.
-2. Build the solution.
-3. Right click on the solution and click **Deploy Solution**
-4. Debug the project.
+## Building and running any of the samples
+
+* Open the solution file (`.sln`) from the subfolder of your preferred sample in Visual Studio.
+* From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [Manage app window](https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/windowing/windowing-overview)
+- [Manage app windows](https://docs.microsoft.com/windows/apps/windows-app-sdk/windowing/windowing-overview)

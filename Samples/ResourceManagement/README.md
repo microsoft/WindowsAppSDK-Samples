@@ -1,6 +1,4 @@
 ---
-name: "Load resources using MRT Core"
-description: "Use MRT Core's ResourceLoader and ResourceManager to load resources from several resource files"
 page_type: sample
 languages:
 - csharp
@@ -8,26 +6,30 @@ languages:
 products:
 - windows
 - windows-app-sdk
+name: "Load resources using MRT Core"
 urlFragment: ResourceManagement
+description: "Use MRT Core's ResourceLoader and ResourceManager to load resources from several resource files"
+extendedZipContent:
+- path: LICENSE
+  target: LICENSE
 ---
 
 # Load resources using MRT Core
 
 MRT Core is the modern resource loading library used in WinUI 3 and the Windows App SDK. These samples demonstrate how to use MRT Core to load resources from multiple resource files and how to select which version of a specific named resource to load.
 
-**Note**: The unpackaged sample apps reference an [experimental version](https://docs.microsoft.com/windows/apps/windows-app-sdk/experimental-channel) of the Windows App SDK. Unpackaged app deployment is not currently supported for use by apps in production environments.
+## Prerequisites
+
+* See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
+* Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+    * For the unpackaged sample apps, make sure to also install the prerequisites for [deploying unpackaged apps](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
 
 ## Building and running any of the samples
 
-Before building the sample, make sure to set up your environment correctly by following the steps [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
-For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
-
-1. Open the solution file (.sln) in the subfolder of your preferred sample in Visual Studio 2019 Preview.
-2. Build the solution.
-3. Right click on the solution and click **Deploy Solution**
-4. Debug the project.
+* Open the solution file (`.sln`) from the subfolder of your preferred sample in Visual Studio.
+* From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [MRT Core](https://docs.microsoft.com/windows/apps/windows-app-sdk/mrtcore/mrtcore-overview)
+- [Manage resources with MRT Core](https://docs.microsoft.com/windows/apps/windows-app-sdk/mrtcore/mrtcore-overview)

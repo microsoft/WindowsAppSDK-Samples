@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using WinRT;
 
 namespace Windowing
 {
@@ -16,9 +14,7 @@ namespace Windowing
 
         private static AppWindow GetAppWindowFromWindowHandle(IntPtr windowHandle)
         {
-            WindowId windowId;
-            windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
-
+            WindowId windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
             return AppWindow.GetFromWindowId(windowId);
         }
     }

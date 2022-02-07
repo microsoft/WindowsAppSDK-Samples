@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "CsWinUiDesktopActivation": {
-      "commandName": "Project",
-      "commandLineArgs": "bee wasp hornet"
-    }
-  }
-}

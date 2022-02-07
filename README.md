@@ -26,6 +26,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 #### User Interface and Input
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
+- [Windows Input and Composition Gallery](https://github.com/microsoft/WindowsCompositionSamples): This collection of samples showcases Microsoft.UI.Composition and Microsoft.UI.Input APIs.
 - [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
 
 ## Requirements
@@ -39,12 +40,12 @@ Thes Windows App SDK samples have the following system requirements:
     - Universal Windows Platform development
     - .NET Desktop Development (needed even if you're only building C++ Win32 apps)
     - Desktop development with C++ (needed even if you're only building .NET apps)
-    - Windows SDK version 2004 (build 19041) or later. This is installed with Visual Studio 2019 by default.
+    - Windows SDK version 2004 (build 19041) or later. This is installed with Visual Studio by default.
 
 - Building .NET apps also requires:
 
-    - .NET 5 SDK version 5.0.300 or later if you're using Visual Studio 2019 version 16.10
-    - .NET 5 SDK version 5.0.204 if you're using Visual Studio 2019 version 16.9
+    - .NET 5 SDK version 5.0.400 or later if you're using Visual Studio 2019 version 16.11
+    - .NET 5 SDK version 5.0.205 or later if you're using Visual Studio 2019 version 16.9
 
 Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) and [tools for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment) for a detalied list of requirements for developing apps with the Windows App SDK.
 
@@ -64,5 +65,7 @@ The samples will be updated with GA releases of the Windows App SDK. The `main` 
 ## Contributing
 
 These samples are provided by feature teams and we welcome your input on issues and suggestions for new samples. We encourage you to [file a new issue](https://github.com/microsoft/WindowsAppSDK-Samples/issues/new) for any feedback or questions!
+
+Sample authors should follow the [samples guidelines](docs/samples-guidelines.md) to begin developing their samples. For WinUI-based Windows App SDK samples, use the [sample templates](Templates/README.md). The VSIX file is available for download in the Github releases page [here](https://github.com/microsoft/WindowsAppSDK-Samples/releases).
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
