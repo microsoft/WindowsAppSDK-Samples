@@ -60,7 +60,7 @@
 
         <uap5:Extension
             Category="windows.startupTask"
-            Executable="CsWinUiDesktopActivation.exe"
+            Executable="CsWinUiDesktopActivation\CsWinUiDesktopActivation.exe"
             EntryPoint="Windows.FullTrustApplication">
           <uap5:StartupTask
             TaskId="FooStartupId"
