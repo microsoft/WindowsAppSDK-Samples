@@ -5,16 +5,16 @@
     <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <Platforms>x64;x86</Platforms>
-    <RuntimeIdentifiers>win10-x64;win10-x86;win-x86</RuntimeIdentifiers>
-    <StartupObject>CsWpfState.Program</StartupObject>
+    <RuntimeIdentifiers>win10-x64;win10-x86;win-x86;win-x64</RuntimeIdentifiers>
+    <StartupObject>CsWpfActivation.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+    <ApplicationDefinition Remove="App.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <ApplicationDefinition Remove="App.xaml" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
