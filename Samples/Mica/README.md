@@ -32,4 +32,4 @@ These samples demonstrate how to use the Mica material in different apps and fra
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [Learn more about Mica](https://docs.microsoft.com/en-us/windows/apps/design/style/mica#app-layering-with-mica)
+- [Learn more about Mica](https://docs.microsoft.com/windows/apps/design/style/mica#app-layering-with-mica)
