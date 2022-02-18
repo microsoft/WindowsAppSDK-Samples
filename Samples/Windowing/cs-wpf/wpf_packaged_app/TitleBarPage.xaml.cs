@@ -29,6 +29,7 @@ namespace wpf_packaged_app
             _mainAppWindow.TitleBar.ResetToDefault();
 
             _isBrandedTitleBar = !_isBrandedTitleBar;
+            // Check to see if customization is supported. Currently only supported on Windows 11.
             if (AppWindowTitleBar.IsCustomizationSupported() && _isBrandedTitleBar)
             {
                 _mainAppWindow.Title = "Default titlebar with custom color customization";
@@ -65,6 +66,7 @@ namespace wpf_packaged_app
         {
             _mainAppWindow.TitleBar.ExtendsContentIntoTitleBar = !_mainAppWindow.TitleBar.ExtendsContentIntoTitleBar;
 
+            // Check to see if customization is supported. Currently only supported on Windows 11.
             if (AppWindowTitleBar.IsCustomizationSupported() && _mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
             {
                 // Show the custom titlebar
