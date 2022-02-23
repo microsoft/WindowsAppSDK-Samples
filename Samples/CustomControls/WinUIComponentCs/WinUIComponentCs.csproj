@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<RootNamespace>WinUIComponentCs</RootNamespace>
+		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<UseWinUI>true</UseWinUI>
+		<CsWinRTComponent>true</CsWinRTComponent>
+		<WindowsAppContainer>true</WindowsAppContainer>
+		<Platforms>AnyCPU;x64</Platforms>
+		<!-- Workaround for .NET SDK update -->
+		<WindowsAppSDKVerifyWinrtRuntimeVersion>false</WindowsAppSDKVerifyWinrtRuntimeVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.5.0-prerelease.220214.2" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0-20220215.0-CI-experimental" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
+	</ItemGroup>
+
+</Project>
