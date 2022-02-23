@@ -19,8 +19,8 @@ These samples demonstrate how to use the AppWindow class to manage your applicat
 
 ## Limitations
 
-Please note that customization of a window's TitleBar using the AppWindowTitleBar APIs is only supported on Windows 11 or later. This is illustrated in the sample by using the (IsCustomizationSupported)[https://docs.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.windowing.appwindowtitlebar.iscustomizationsupported] method. Please see the [Title bar
-  customization](https://docs.microsoft.com/en-us/windows/apps/develop/title-bar) article for more details.
+Please note that customization of a window's TitleBar using the AppWindowTitleBar APIs is only supported on Windows 11 or later. This is illustrated in the sample by using the (IsCustomizationSupported)[https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.windowing.appwindowtitlebar.iscustomizationsupported] method. Please see the [Title bar
+  customization](https://docs.microsoft.com/windows/apps/develop/title-bar) article for more details.
 
 ## Prerequisites
 
