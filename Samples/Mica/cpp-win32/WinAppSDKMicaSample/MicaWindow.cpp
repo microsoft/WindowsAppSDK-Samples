@@ -29,6 +29,7 @@ void MicaWindow::RegisterWindowClass()
     winrt::check_bool(RegisterClassExW(&wcex)); // check if the window class was registered succesfully
 }
 
+// Create the main window and enable MICA
 MicaWindow::MicaWindow(const winrt::Compositor& compositor, const std::wstring& windowTitle)
 {
     auto instance = winrt::check_pointer(GetModuleHandleW(nullptr));
@@ -37,7 +38,7 @@ MicaWindow::MicaWindow(const winrt::Compositor& compositor, const std::wstring& 
         // Window Properties
         CreateWindowExW(
             WS_EX_COMPOSITED,
-            ClassName.c_str(),
+            ClassName.c_str(), // declared in MicaWindow.h and defined above
             windowTitle.c_str(),
             WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT,
@@ -48,6 +49,7 @@ MicaWindow::MicaWindow(const winrt::Compositor& compositor, const std::wstring& 
             instance, 
             this
         ));
+
     // Check that the window was created succesfully
     WINRT_ASSERT(m_window);
 

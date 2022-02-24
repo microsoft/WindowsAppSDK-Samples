@@ -35,10 +35,11 @@ CompositionWindow::CompositionWindow(const winrt::Compositor& compositor, const 
     auto instance = winrt::check_pointer(GetModuleHandleW(nullptr));
     WINRT_ASSERT(!m_window);
     WINRT_VERIFY(
+        // Default Window Properties
         CreateWindowExW(
             WS_EX_COMPOSITED, 
-            ClassName.c_str(), 
-            windowTitle.c_str(), 
+            ClassName.c_str(), // declared in CompositionWindow.h and defined above
+            windowTitle.c_str(),
             WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, 
             CW_USEDEFAULT, 
@@ -48,11 +49,14 @@ CompositionWindow::CompositionWindow(const winrt::Compositor& compositor, const 
             instance, 
             this
         ));
+
+    // Check that the window was created succesfully
     WINRT_ASSERT(m_window);
 
     ShowWindow(m_window, SW_SHOWDEFAULT);
     UpdateWindow(m_window);
 
+    // The Mica controller needs to set a target with a root to recognize the visual base layer
     m_target = CreateWindowTarget(compositor);
 
     // Need to set a root before we can enable Mica.

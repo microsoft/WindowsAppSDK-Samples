@@ -18,15 +18,23 @@ int __stdcall WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ int)
     // Enable referencing the WindowsAppSDK from an unpackaged app.
     // Remember to have a matching Microsoft.WindowsAppRuntime.Redist installed.
     // https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/deploy-unpackaged-apps
-    Utilities::WindowsAppSDKBootstrapperContext sdkContext;
+    // There are two options to initialize the bootstrapper, use the utility function here
+    //      Utilities::WindowsAppSDKBootstrapperContext sdkContext;
+    // or add the following tags to your .vcx project file, as done in this sample:
+    //      <WindowsPackageType>None</WindowsPackageType>
+    //      <LogSDKReferenceResolutionErrorsAsWarnings>true< / LogSDKReferenceResolutionErrorsAsWarnings>
+    // 
 
+    // Register Window Class before making the window
     CompositionWindow::RegisterWindowClass();
 
-    // A dispatcher queue is required to be able to create a compositor.
+    // Mica requires a compositor, which also requires a dispatcher queue
     auto controller = Utilities::CreateDispatcherQueueControllerForCurrentThread();
 
     auto compositor = winrt::Compositor();
 
+    // Mica windows is inherited from the Mica Window class, which is an extension of the DesktopWindow Class
+    // Here we initialize the main window and set the title
     auto window = WebView2Window(compositor, L"Hello, WebView2!");
 
     // Message pump.
