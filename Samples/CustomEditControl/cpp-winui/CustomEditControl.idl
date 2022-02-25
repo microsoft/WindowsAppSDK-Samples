@@ -1,0 +1,9 @@
+namespace CustomEditControlWinAppSDK
+{
+    [default_interface]
+    runtimeclass CustomEditControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        CustomEditControl();
+        void SetAppWindow(Microsoft.UI.WindowId windowId);
+    }
+}
