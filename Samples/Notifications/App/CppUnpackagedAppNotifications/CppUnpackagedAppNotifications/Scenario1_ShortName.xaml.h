@@ -5,7 +5,7 @@
 
 #include "Scenario1_ShortName.g.h"
 
-namespace winrt::cpp_winui_unpackaged::implementation
+namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     struct Scenario1_ShortName : Scenario1_ShortNameT<Scenario1_ShortName>
     {
@@ -15,11 +15,11 @@ namespace winrt::cpp_winui_unpackaged::implementation
         void InformationalMessage_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
         void ClearMessage_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
     private:
-        static cpp_winui_unpackaged::MainPage rootPage;
+        static CppUnpackagedAppNotifications::MainPage rootPage;
     };
 }
 
-namespace winrt::cpp_winui_unpackaged::factory_implementation
+namespace winrt::CppUnpackagedAppNotifications::factory_implementation
 {
     struct Scenario1_ShortName : Scenario1_ShortNameT<Scenario1_ShortName, implementation::Scenario1_ShortName>
     {

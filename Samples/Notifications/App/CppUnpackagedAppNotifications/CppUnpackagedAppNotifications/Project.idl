@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace cpp_winui_unpackaged
+namespace CppUnpackagedAppNotifications
 {
     /* The following code is scenario/feature-specific IDL.
     Samples authors should modify these runtime classes as appropriate. */

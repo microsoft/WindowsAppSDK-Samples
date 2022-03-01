@@ -4,13 +4,13 @@
 #pragma once
 #include "MainPage.g.h"
 
-namespace winrt::cpp_winui_unpackaged::implementation
+namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     struct MainPage : MainPageT<MainPage>
     {
         MainPage();
-        static cpp_winui_unpackaged::MainPage Current() { return current; }
-        static Windows::Foundation::Collections::IVector<cpp_winui_unpackaged::Scenario> Scenarios() { return scenariosInner; }
+        static CppUnpackagedAppNotifications::MainPage Current() { return current; }
+        static Windows::Foundation::Collections::IVector<CppUnpackagedAppNotifications::Scenario> Scenarios() { return scenariosInner; }
         void NotifyUser(hstring const& strMessage, Microsoft::UI::Xaml::Controls::InfoBarSeverity const& severity);
         void UpdateStatus(hstring const& strMessage, Microsoft::UI::Xaml::Controls::InfoBarSeverity severity);
         void NavView_Loaded(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e);
@@ -21,11 +21,11 @@ namespace winrt::cpp_winui_unpackaged::implementation
 
     private:
         static Windows::Foundation::Collections::IVector<Scenario> scenariosInner;
-        static cpp_winui_unpackaged::MainPage current;
+        static CppUnpackagedAppNotifications::MainPage current;
     };
 }
 
-namespace winrt::cpp_winui_unpackaged::factory_implementation
+namespace winrt::CppUnpackagedAppNotifications::factory_implementation
 {
     struct MainPage : MainPageT<MainPage, implementation::MainPage>
     {

@@ -16,7 +16,7 @@ namespace winrt
     using namespace Windows::Foundation;
 }
 
-namespace winrt::cpp_winui_unpackaged::implementation
+namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     SettingsPage::SettingsPage()
     {

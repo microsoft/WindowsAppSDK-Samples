@@ -14,7 +14,7 @@ namespace winrt
     using namespace Windows::Foundation;
 }
 
-namespace winrt::cpp_winui_unpackaged::implementation
+namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     MainPage Scenario1_ShortName::rootPage{ nullptr };
 

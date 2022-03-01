@@ -12,14 +12,14 @@ namespace winrt
     using namespace Windows::Foundation::Collections;
 }
 
-namespace winrt::cpp_winui_unpackaged
+namespace winrt::CppUnpackagedAppNotifications
 {
     IVector<Scenario> implementation::MainPage::scenariosInner = single_threaded_observable_vector<Scenario>(
         {
-            Scenario{ L"Scenario 1", hstring(name_of<cpp_winui_unpackaged::Scenario1_ShortName>())},
-            Scenario{ L"Scenario 2", hstring(name_of<cpp_winui_unpackaged::Scenario2_ShortName>())}
+            Scenario{ L"Scenario 1", hstring(name_of<CppUnpackagedAppNotifications::Scenario1_ShortName>())},
+            Scenario{ L"Scenario 2", hstring(name_of<CppUnpackagedAppNotifications::Scenario2_ShortName>())}
         });
 
-    hstring SampleConfig::FeatureName{ L"cpp_winui_unpackaged" };
+    hstring SampleConfig::FeatureName{ L"CppUnpackagedAppNotifications" };
     ElementTheme SampleConfig::CurrentTheme{ ElementTheme::Default };
 }

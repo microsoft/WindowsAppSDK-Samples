@@ -7,9 +7,9 @@
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
-    <ProjectGuid>{37fb6583-3e18-47a0-80a1-4a10940886cd}</ProjectGuid>
-    <ProjectName>cpp-winui-unpackaged</ProjectName>
-    <RootNamespace>cpp_winui_unpackaged</RootNamespace>
+    <ProjectGuid>{ba5623de-515a-4d7e-9110-38d1641f5fe0}</ProjectGuid>
+    <ProjectName>CppUnpackagedAppNotifications</ProjectName>
+    <RootNamespace>CppUnpackagedAppNotifications</RootNamespace>
     <!--
       $(TargetName) should be same as $(RootNamespace) so that the produced binaries (.exe/.pri/etc.)
       have a name that matches the .winmd
