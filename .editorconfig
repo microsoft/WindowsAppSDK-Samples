@@ -116,6 +116,9 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 end_of_line = crlf
 
+# Visual Studio XML project files
+[**.{csproj,vcxproj,vcxproj.filters}]
+indent_size = 2
 
 [**.{xaml,xml}]
 indent_style = space

@@ -6,6 +6,7 @@ using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
@@ -25,17 +26,16 @@ namespace CsWinUiDesktopInstancing
         public static List<string> OutputStack { get; private set; }
 
         // Replaces the standard App.g.i.cs.
-        // We must declare Main to be async, as we want to await 
-        // another async function call.
+        // Note: We can't declare Main to be async because in a WinUI app
+        // this prevents Narrator from reading XAML elements.
         [STAThread]
-        static async Task<int> Main(string[] args)
+        static void Main(string[] args)
         {
             WinRT.ComWrappersSupport.InitializeComWrappers();
 
             OutputStack = new();
 
-            // Ensure we don't block the STA.
-            bool isRedirect = await DecideRedirection();
+            bool isRedirect = DecideRedirection();
             if (!isRedirect)
             {
                 Microsoft.UI.Xaml.Application.Start((p) =>
@@ -46,9 +46,9 @@ namespace CsWinUiDesktopInstancing
                     new App();
                 });
             }
-
-            return 0;
         }
+
+        #region Report helpers
 
         public static void ReportInfo(string message)
         {
@@ -63,60 +63,6 @@ namespace CsWinUiDesktopInstancing
             {
                 OutputStack.Add(message);
             }
-        }
-
-        private static async Task<bool> DecideRedirection()
-        {
-            bool isRedirect = false;
-
-            // Find out what kind of activation this is.
-            AppActivationArguments args = AppInstance.GetCurrent().GetActivatedEventArgs();
-            ExtendedActivationKind kind = args.Kind;
-            ReportInfo($"ActivationKind={kind}");
-            if (kind == ExtendedActivationKind.Launch)
-            {
-                // This is a launch activation.
-                ReportLaunchArgs("Main", args);
-            }
-            else if (kind == ExtendedActivationKind.File)
-            {
-                ReportFileArgs("Main", args);
-
-                try
-                {
-                    // This is a file activation: here we'll get the file information,
-                    // and register the file name as our instance key.
-                    if (args.Data is IFileActivatedEventArgs fileArgs)
-                    {
-                        IStorageItem file = fileArgs.Files[0];
-                        AppInstance keyInstance = AppInstance.FindOrRegisterForKey(file.Name);
-                        ReportInfo($"Registered key = {keyInstance.Key}");
-
-                        // If we successfully registered the file name, we must be the
-                        // only instance running that was activated for this file.
-                        if (keyInstance.IsCurrent)
-                        {
-                            // Report successful file name key registration.
-                            ReportInfo($"IsCurrent=true; registered this instance for {file.Name}");
-
-                            // Hook up the Activated event, to allow for this instance of the app
-                            // getting reactivated as a result of multi-instance redirection.
-                            keyInstance.Activated += OnActivated;
-                        }
-                        else
-                        {
-                            isRedirect = true;
-                            await keyInstance.RedirectActivationToAsync(args);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ReportInfo($"Error getting instance information: {ex.Message}");
-                }
-            }
-
-            return isRedirect;
         }
 
         private static void ReportFileArgs(string callSite, AppActivationArguments args)
@@ -195,6 +141,101 @@ namespace CsWinUiDesktopInstancing
                 }
             }
         }
+
+        #endregion
+
+
+        #region Redirection
+
+        // Decide if we want to redirect the incoming activation to another instance.
+        private static bool DecideRedirection()
+        {
+            bool isRedirect = false;
+
+            // Find out what kind of activation this is.
+            AppActivationArguments args = AppInstance.GetCurrent().GetActivatedEventArgs();
+            ExtendedActivationKind kind = args.Kind;
+            ReportInfo($"ActivationKind={kind}");
+            if (kind == ExtendedActivationKind.Launch)
+            {
+                // This is a launch activation.
+                ReportLaunchArgs("Main", args);
+            }
+            else if (kind == ExtendedActivationKind.File)
+            {
+                ReportFileArgs("Main", args);
+
+                try
+                {
+                    // This is a file activation: here we'll get the file information,
+                    // and register the file name as our instance key.
+                    if (args.Data is IFileActivatedEventArgs fileArgs)
+                    {
+                        IStorageItem file = fileArgs.Files[0];
+                        AppInstance keyInstance = AppInstance.FindOrRegisterForKey(file.Name);
+                        ReportInfo($"Registered key = {keyInstance.Key}");
+
+                        // If we successfully registered the file name, we must be the
+                        // only instance running that was activated for this file.
+                        if (keyInstance.IsCurrent)
+                        {
+                            // Report successful file name key registration.
+                            ReportInfo($"IsCurrent=true; registered this instance for {file.Name}");
+
+                            // Hook up the Activated event, to allow for this instance of the app
+                            // getting reactivated as a result of multi-instance redirection.
+                            keyInstance.Activated += OnActivated;
+                        }
+                        else
+                        {
+                            isRedirect = true;
+                            RedirectActivationTo(args, keyInstance);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ReportInfo($"Error getting instance information: {ex.Message}");
+                }
+            }
+
+            return isRedirect;
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr CreateEvent(
+            IntPtr lpEventAttributes, bool bManualReset, 
+            bool bInitialState, string lpName);
+
+        [DllImport("kernel32.dll")]
+        private static extern bool SetEvent(IntPtr hEvent);
+
+        [DllImport("ole32.dll")]
+        private static extern uint CoWaitForMultipleObjects(
+            uint dwFlags, uint dwMilliseconds, ulong nHandles, 
+            IntPtr[] pHandles, out uint dwIndex);
+
+        private static IntPtr redirectEventHandle = IntPtr.Zero;
+
+        // Do the redirection on another thread, and use a non-blocking
+        // wait method to wait for the redirection to complete.
+        public static void RedirectActivationTo(
+            AppActivationArguments args, AppInstance keyInstance)
+        {
+            redirectEventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+            Task.Run(() =>
+            {
+                keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
+                SetEvent(redirectEventHandle);
+            });
+            uint CWMO_DEFAULT = 0;
+            uint INFINITE = 0xFFFFFFFF;
+            _ = CoWaitForMultipleObjects(
+               CWMO_DEFAULT, INFINITE, 1,
+               new IntPtr[] { redirectEventHandle }, out uint handleIndex);
+        }
+
+        #endregion
 
     }
 }

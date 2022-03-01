@@ -12,7 +12,7 @@ using namespace winrt::Windows::Storage;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview2" };
+PCWSTR versionTag{ L"" };
 const PACKAGE_VERSION minVersion{};
 
 WCHAR exePath[MAX_PATH];
@@ -191,14 +191,15 @@ void UnregisterForActivation()
 
 void GetActivationInfo()
 {
-    AppActivationArguments args = AppInstance::GetCurrent().GetActivatedEventArgs();
+    AppActivationArguments args =
+        AppInstance::GetCurrent().GetActivatedEventArgs();
     ExtendedActivationKind kind = args.Kind();
     if (kind == ExtendedActivationKind::Launch)
     {
         auto launchArgs = args.Data().as<ILaunchActivatedEventArgs>();
         if (launchArgs)
         {
-            auto argString = launchArgs.Arguments();
+            winrt::hstring argString = launchArgs.Arguments();
             std::vector<std::wstring> argStrings = SplitStrings(argString);
             OutputMessage(L"Launch activation");
             for (std::wstring const& s : argStrings)
@@ -206,7 +207,7 @@ void GetActivationInfo()
                 OutputMessage(s.c_str());
             }
             // If the first argument is "Settings", we'll launch the Settings page.
-            if (wcscmp(argStrings[1].c_str(), L"Settings") == 0)
+            if (argStrings.size() > 1 && wcscmp(argStrings[1].c_str(), L"Settings") == 0)
             {
                 LaunchSettingsPage();
             }

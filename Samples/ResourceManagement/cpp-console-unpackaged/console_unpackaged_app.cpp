@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #include <windows.h>
@@ -13,24 +13,6 @@
 
 using namespace winrt;
 using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
-
-HRESULT LoadWindowsAppSDK()
-{
-    // Take a dependency on Windows App SDK 1.0 preview1.
-    const UINT32 majorMinorVersion{ 0x00010000 };
-    PCWSTR versionTag{ L"preview1" };
-    PACKAGE_VERSION minVersion{};
-
-    HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    if (FAILED(hr))
-    {
-        wprintf(L"Error 0x%08X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
-
-    return S_OK;
-}
 
 int wmain(int argc, wchar_t* argv[])
 {
@@ -58,21 +40,6 @@ int wmain(int argc, wchar_t* argv[])
             "    console_unpackaged_app.exe fallback\n";
         return 1;
     }
-
-    // Initialize dynamic dependencies so we can consume the Windows App SDK APIs in the Windows App SDK framework package from this unpackaged app. 
-    HRESULT loadWindowsAppSDKHr = LoadWindowsAppSDK();
-    if (FAILED(loadWindowsAppSDKHr))
-    {
-        std::wcout << "Could not load Windows App SDK!" << std::endl;
-        return 1;
-    }
-
-    // Uninitialize dynamic dependencies.
-    auto cleanup = wil::scope_exit([]
-        {
-            MddBootstrapShutdown();
-        });
-
 
     // Required for C++/WinRT. This call associates this thread with an apartment and initializes COM runtime.
     init_apartment();

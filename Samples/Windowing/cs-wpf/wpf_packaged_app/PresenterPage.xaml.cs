@@ -1,22 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Interop;
-using System.Runtime.InteropServices;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using WinRT;
 
@@ -24,7 +9,7 @@ namespace wpf_packaged_app
 {
     public partial class PresenterPage : Page
     {
-        AppWindow m_mainAppWindow;
+        private AppWindow _mainAppWindow = MainWindow.AppWindow;
 
         public PresenterPage()
         {
@@ -33,10 +18,8 @@ namespace wpf_packaged_app
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            m_mainAppWindow = AppWindowExtensions.GetAppWindowFromWPFWindow(Window.GetWindow(this));
-
             // Register for window changed events while on this page.
-            m_mainAppWindow.Changed += AppWindowChangedHandler;
+            _mainAppWindow.Changed += AppWindowChangedHandler;
         }
 
         private void AppWindowChangedHandler(AppWindow sender, AppWindowChangedEventArgs args)
@@ -44,7 +27,7 @@ namespace wpf_packaged_app
             // The presenter changed so we need to update the button captions to reflect the new state
             if (args.DidPresenterChange)
             {
-                switch (m_mainAppWindow.Presenter.Kind)
+                switch (_mainAppWindow.Presenter.Kind)
                 {
                     case AppWindowPresenterKind.CompactOverlay:
                         CompactoverlaytBtn.Content = "Exit CompactOverlay";
@@ -74,9 +57,8 @@ namespace wpf_packaged_app
         private void SwitchPresenter(object sender, RoutedEventArgs e)
         {
             // Bail out if we don't have an AppWindow object.
-            if (m_mainAppWindow != null)
+            if (_mainAppWindow != null)
             {
-
                 AppWindowPresenterKind newPresenterKind;
                 switch (sender.As<Button>().Name)
                 {
@@ -98,14 +80,14 @@ namespace wpf_packaged_app
                 }
 
                 // If the same presenter button was pressed as the mode we're in, toggle the window back to Default.
-                if (newPresenterKind == m_mainAppWindow.Presenter.Kind)
+                if (newPresenterKind == _mainAppWindow.Presenter.Kind)
                 {
-                    m_mainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
+                    _mainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
                 }
                 else
                 {
                     // else request a presenter of the selected kind to be created and applied to the window.
-                    m_mainAppWindow.SetPresenter(newPresenterKind);
+                    _mainAppWindow.SetPresenter(newPresenterKind);
                 }
             }
         }
