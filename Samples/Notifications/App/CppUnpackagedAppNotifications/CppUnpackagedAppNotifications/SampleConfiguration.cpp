@@ -16,8 +16,7 @@ namespace winrt::CppUnpackagedAppNotifications
 {
     IVector<Scenario> implementation::MainPage::scenariosInner = single_threaded_observable_vector<Scenario>(
         {
-            Scenario{ L"Scenario 1", hstring(name_of<CppUnpackagedAppNotifications::Scenario1_ShortName>())},
-            Scenario{ L"Scenario 2", hstring(name_of<CppUnpackagedAppNotifications::Scenario2_ShortName>())}
+            Scenario{ L"Local Toast with Avatar Image", hstring(name_of<CppUnpackagedAppNotifications::Scenario1_ToastWithAvatar>())},
         });
 
     hstring SampleConfig::FeatureName{ L"CppUnpackagedAppNotifications" };

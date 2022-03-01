@@ -7,8 +7,7 @@
     <Page Include="MainWindow.xaml" />
     <Page Include="MainPage.xaml" />
     <Page Include="SettingsPage.xaml" />
-    <Page Include="Scenario1_ShortName.xaml" />
-    <Page Include="Scenario2_ShortName.xaml" />
+    <Page Include="Scenario1_ToastWithAvatar.xaml" />
     <Page Include="Styles.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -53,5 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
 </Project>

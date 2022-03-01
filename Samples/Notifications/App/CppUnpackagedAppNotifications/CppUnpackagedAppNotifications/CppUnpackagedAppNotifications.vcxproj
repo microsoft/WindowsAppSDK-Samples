@@ -113,12 +113,8 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="SampleConfiguration.h" />
-    <ClInclude Include="Scenario1_ShortName.xaml.h">
-      <DependentUpon>Scenario1_ShortName.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="Scenario2_ShortName.xaml.h">
-      <DependentUpon>Scenario2_ShortName.xaml</DependentUpon>
+    <ClInclude Include="Scenario1_ToastWithAvatar.xaml.h">
+      <DependentUpon>Scenario1_ToastWithAvatar.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="SettingsPage.xaml.h">
@@ -132,10 +128,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml" />
-    <Page Include="Scenario1_ShortName.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Scenario2_ShortName.xaml">
+    <Page Include="Scenario1_ToastWithAvatar.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsPage.xaml">
@@ -161,12 +154,8 @@
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
-    <ClCompile Include="Scenario1_ShortName.xaml.cpp">
-      <DependentUpon>Scenario1_ShortName.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="Scenario2_ShortName.xaml.cpp">
-      <DependentUpon>Scenario2_ShortName.xaml</DependentUpon>
+    <ClCompile Include="Scenario1_ToastWithAvatar.xaml.cpp">
+      <DependentUpon>Scenario1_ToastWithAvatar.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="SettingsPage.xaml.cpp">
