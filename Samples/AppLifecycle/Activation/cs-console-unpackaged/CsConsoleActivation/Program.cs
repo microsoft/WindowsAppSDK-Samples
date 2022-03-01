@@ -15,7 +15,7 @@ namespace CsConsoleActivation
     {
         // Windows App SDK version.
         private static uint majorMinorVersion = 0x00010000;
-        private static string versionTag = "preview2";
+        private static string versionTag = "";
 
         private static string executablePath;
         private static string executablePathAndIconIndex;

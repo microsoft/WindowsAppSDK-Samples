@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 #include "framework.h"
@@ -13,7 +13,7 @@ using namespace winrt::Windows::Storage;
 
 // Windows App SDK version.
 const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"preview2" };
+PCWSTR versionTag{ L"" };
 const PACKAGE_VERSION minVersion{};
 
 #define MAX_LOADSTRING 100

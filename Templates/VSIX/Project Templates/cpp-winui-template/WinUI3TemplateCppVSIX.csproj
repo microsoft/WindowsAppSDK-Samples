@@ -48,22 +48,58 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="WinUI.Desktop.Cpp.PackagedApp.ico" />
-    <Content Include="WinUI3TemplateCpp %28Package%29\Images\logo.png" />
-    <Content Include="WinUI3TemplateCpp %28Package%29\Images\SplashScreen.png" />
-    <Content Include="WinUI3TemplateCpp %28Package%29\Images\Square150x150Logo.png" />
-    <Content Include="WinUI3TemplateCpp %28Package%29\Images\Square44x44Logo.png" />
-    <Content Include="WinUI3TemplateCpp %28Package%29\Images\Wide310x150Logo.png" />
-    <Content Include="WinUI3TemplateCpp %28Package%29\WapProjTemplate.ico" />
-    <Content Include="WinUI3TemplateCpp %28Package%29\WinUI3TemplateCppWapProj.vstemplate" />
-    <VSTemplate Include="WinUI3TemplateCpp.vstemplate" />
-    <LinkedVSTemplate Include="WinUI3TemplateCpp\WinUI3TemplateCppApp.vstemplate" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="WinUI3TemplateCpp %28Package%29\Package.appxmanifest">
+    <Content Include="app.manifest" />
+    <Content Include="App.xaml" >
       <SubType>Designer</SubType>
-    </None>
-    <None Include="WinUI3TemplateCpp %28Package%29\WinUI3TemplateCpp %28Package%29.wapproj" />
+    </Content>
+    <Content Include="App.xaml.cpp" />
+    <Content Include="App.xaml.h" />
+    <Content Include="MainPage.xaml" >
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MainPage.xaml.cpp" />
+    <Content Include="MainPage.xaml.h" />
+    <Content Include="MainWindow.xaml" >
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MainWindow.xaml.cpp" />
+    <Content Include="MainWindow.xaml.h" />
+    <Content Include="Package.appxmanifest" >
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="pch.cpp" />
+    <Content Include="pch.h" />
+    <Content Include="Project.idl" />
+    <Content Include="SampleConfiguration.cpp" />
+    <Content Include="SampleConfiguration.h" />
+    <Content Include="Scenario1_ShortName.xaml" >
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Scenario1_ShortName.xaml.cpp" />
+    <Content Include="Scenario1_ShortName.xaml.h" />
+    <Content Include="Scenario2_ShortName.xaml" >
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Scenario2_ShortName.xaml.cpp" />
+    <Content Include="Scenario2_ShortName.xaml.h" />
+    <Content Include="SettingsPage.xaml" >
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SettingsPage.xaml.cpp" />
+    <Content Include="SettingsPage.xaml.h" />
+    <Content Include="Styles.xaml" >
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WinUI3TemplateCpp.vcxproj" />
+    <Content Include="WinUI3TemplateCpp.vcxproj.filters" />
+    <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\Square150x150Logo.png" />
+    <Content Include="Assets\Square44x44Logo.png" />
+    <Content Include="Assets\logo.png" />
+    <Content Include="Assets\Wide310x150Logo.png" />
+    <Content Include="Assets\windows-sdk.ico" />
+    <Content Include="WinUI.Desktop.Cpp.PackagedApp.ico" />
+    <VSTemplate Include="WinUI3TemplateCpp.vstemplate" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

@@ -77,7 +77,6 @@ namespace winrt::SampleApp::implementation
         this->AppWindow().Destroy();
     }
 
-    // TODO: Move to WindowingInterop
     winrt::AppWindow MainWindow::GetAppWindowForCurrentWindow()
     {
         // Get access to IWindowNative

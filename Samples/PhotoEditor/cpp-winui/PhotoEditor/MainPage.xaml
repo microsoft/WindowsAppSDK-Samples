@@ -1,0 +1,139 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+ Licensed under the MIT License. -->
+
+<Page
+    x:Class="PhotoEditor.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PhotoEditor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
+    RequestedTheme="Dark">
+    <Page.Resources>
+
+        <!-- Margins for grid items -->
+        <x:Int32 x:Key="LargeItemMarginValue">4</x:Int32>
+        <Thickness x:Key="LargeItemMargin">4</Thickness>
+        <x:Int32 x:Key="DesktopWindowSidePaddingValue">16</x:Int32>
+
+        <ItemsPanelTemplate x:Key="ImageGridView_ItemsPanelTemplate">
+            <ItemsWrapGrid Orientation="Horizontal"
+                           HorizontalAlignment="Center" />
+        </ItemsPanelTemplate>
+
+        <DataTemplate x:Key="ImageGridView_DefaultItemTemplate"
+                      x:DataType="local:Photo">
+            <Image x:Name="ItemImage"
+                       Stretch="Uniform"
+                       Opacity="0" 
+                       Height="200"
+                       Width="300"
+                       Margin="{StaticResource LargeItemMargin}">
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind ImageTitle, Mode=OneWay}"/>
+                </ToolTipService.ToolTip>
+            </Image>
+        </DataTemplate>
+
+
+        <Style x:Key="ImageGridView_DefaultItemContainerStyle"
+               TargetType="GridViewItem">
+            <Setter Property="Margin"
+                    Value="{StaticResource LargeItemMargin}" />
+        </Style>
+
+        <DataTemplate x:Key="ImageGridView_MobileItemTemplate"
+                      x:DataType="local:Photo">
+            <Grid Height="100"
+                  Width="100">
+                <Image x:Name="ItemImage"
+                       Stretch="UniformToFill"
+                       Opacity="0">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Name="tooltip">
+                            <StackPanel Orientation="Vertical"
+                                        Grid.Row="1">
+                                <TextBlock Text="{x:Bind ImageTitle, Mode=OneWay}"
+                                           HorizontalAlignment="Center"
+                                           Style="{StaticResource SubtitleTextBlockStyle}" />
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text="{x:Bind ImageFileType}"
+                                               HorizontalAlignment="Center"
+                                               Style="{StaticResource CaptionTextBlockStyle}" />
+                                    <TextBlock Text="{x:Bind ImageDimensions}"
+                                               HorizontalAlignment="Center"
+                                               Style="{StaticResource CaptionTextBlockStyle}"
+                                               Margin="8,0,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </ToolTip>
+                    </ToolTipService.ToolTip>
+                </Image>
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="ImageGridView_MobileItemContainerStyle"
+               TargetType="GridViewItem" />
+
+    </Page.Resources>
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="TitleTextBlock"
+                   Text="Collection"
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Margin="24,0,0,24" />
+
+        <CommandBar x:Name="MainCommandBar"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    RelativePanel.AlignRightWithPanel="True"
+                    OverflowButtonVisibility="Collapsed"
+                    DefaultLabelPosition="Right">
+
+        </CommandBar>
+
+        <ProgressBar x:Name="LoadProgressIndicator" Margin="0,-10,0,0"
+                     IsIndeterminate="True" Visibility="Visible"
+                     RelativePanel.AlignLeftWithPanel="True"
+                     RelativePanel.AlignRightWithPanel="True"
+                     RelativePanel.Below="TitleTextBlock"/>
+
+        <Grid RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.Below="LoadProgressIndicator">
+            <ParallaxView x:Name="ParaView" VerticalShift="50">
+
+                <!--Background element-->
+                <Image x:Name="BackgroundImage" Source="Assets/bg1.png"
+               Stretch="UniformToFill"/>
+            </ParallaxView>
+
+            <!--Foreground element-->
+            <ScrollViewer x:Name="ForegroundElement">
+
+                <GridView x:Name="ImageGridView"
+                  Margin="0,0,0,8"
+                  ItemClick="ImageGridView_ItemClick"
+                  IsItemClickEnabled="True"
+                  ItemsSource="{x:Bind Photos, Mode=OneWay}"
+                  RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.Below="TitleTextBlock"
+                  Loaded="{x:Bind StartConnectedAnimationForBackNavigation}"
+                  ItemsPanel="{StaticResource ImageGridView_ItemsPanelTemplate}"
+                  ItemTemplate="{StaticResource ImageGridView_DefaultItemTemplate}"
+
+                  ContainerContentChanging="OnContainerContentChanging">
+                </GridView>
+
+            </ScrollViewer>
+
+            <TextBlock x:Name="NoPicsText" Text="Sorry, we couldn't find any images in your Pictures library. Please add some pictures to your library and relaunch the app."
+                       HorizontalAlignment="Center" Margin="0,100,0,0"
+                       Foreground="White" Visibility="Collapsed"/>
+
+        </Grid>
+    </RelativePanel>
+</Page>
