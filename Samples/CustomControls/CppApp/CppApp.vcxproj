@@ -202,7 +202,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
