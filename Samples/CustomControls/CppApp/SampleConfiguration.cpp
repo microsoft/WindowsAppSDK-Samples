@@ -16,8 +16,8 @@ namespace winrt::CppApp
 {
     IVector<Scenario> implementation::MainPage::scenariosInner = single_threaded_observable_vector<Scenario>(
         {
-            Scenario{ L"Scenario 1", hstring(name_of<CppApp::Scenario1_CustomControl>())},
-            Scenario{ L"Scenario 2", hstring(name_of<CppApp::Scenario2_UserControl>())}
+            Scenario{ L"Custom Control", hstring(name_of<CppApp::Scenario1_CustomControl>())},
+            Scenario{ L"User Control", hstring(name_of<CppApp::Scenario2_UserControl>())}
         });
 
     hstring SampleConfig::FeatureName{ L"CppApp" };

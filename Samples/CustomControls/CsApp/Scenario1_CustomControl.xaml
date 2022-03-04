@@ -16,10 +16,12 @@
 
                 <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                    Host Custom Button from C# component.
+                    Reference a Custom WinUI Button type from a C# component.
                 </TextBlock>
-                <!-- Q: why isn't the button rounded?-->
-                <custom:CustomButton x:Name="MyCustomButton">Hover</custom:CustomButton>
+
+                <!-- Reference CustomButton type -->
+                <custom:CustomButton x:Name="MyCustomButton" Content="Hover"/>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

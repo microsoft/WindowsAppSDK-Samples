@@ -13,17 +13,15 @@
     <Grid RowDefinitions="*,Auto">
         <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel Spacing="10" Margin="10,10,10,10">
-                
+
                 <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                    Host Custom Button from C# component.
+                    Reference a Custom WinUI Button type from a C# component.
                 </TextBlock>
-                <!-- Q: why isn't the button rounded?-->
-                <custom:CustomButton x:Name="MyCustomButton">Hover</custom:CustomButton>
-                <!--<Button Content="Show Success Message" Click="SuccessMessage_Click" />
-                <Button Content="Show Error Message" Click="ErrorMessage_Click" />
-                <Button Content="Show Info Message" Click="InformationalMessage_Click" />
-                <Button Content="Clear Messages" Click="ClearMessage_Click" />-->
+
+                <!-- Reference CustomButton type -->
+                <custom:CustomButton x:Name="MyCustomButton" Content="Hover"/>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

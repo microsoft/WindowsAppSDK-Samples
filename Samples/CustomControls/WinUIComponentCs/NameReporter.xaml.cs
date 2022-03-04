@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -18,11 +19,18 @@ using Windows.Foundation.Collections;
 
 namespace WinUIComponentCs
 {
-    public sealed partial class SampleFormControl : UserControl
+    public sealed partial class NameReporter : UserControl
     {
-        public SampleFormControl()
+        public NameReporter()
         {
             this.InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder displayText = new StringBuilder("Hello, ");
+            displayText.AppendFormat("{0} {1}.", firstName.Text, lastName.Text);
+            result.Text = displayText.ToString();
         }
     }
 }

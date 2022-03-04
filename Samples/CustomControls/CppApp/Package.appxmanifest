@@ -47,7 +47,7 @@
 			<InProcessServer>
 				<Path>WinRT.Host.dll</Path>
 				<ActivatableClass ActivatableClassId="WinUIComponentCs.CustomButton" ThreadingModel="both" />
-				<ActivatableClass ActivatableClassId="WinUIComponentCs.SampleFormControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="WinUIComponentCs.NameReporter" ThreadingModel="both" />
 				<ActivatableClass ActivatableClassId="WinUIComponentCs.WinUIComponentCs_XamlTypeInfo.XamlMetaDataProvider" ThreadingModel="both" />
 			</InProcessServer>
 		</Extension>
