@@ -55,12 +55,12 @@ namespace WinUIComponentCs
             Content = Text;
         }
 
-        //protected override Size MeasureOverride(Size availableSize)
-        //{
-        //    var size = new Size(160, 30);
-        //    base.MeasureOverride(size);
-        //    return size;
-        //}
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            var size = new Size(160, 30);
+            base.MeasureOverride(size);
+            return size;
+        }
 
         public string GetText()
         {

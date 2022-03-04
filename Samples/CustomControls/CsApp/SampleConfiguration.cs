@@ -17,8 +17,8 @@ namespace CsApp
     {
         private readonly List<Scenario> scenarios = new()
         {
-            new Scenario() { Title = "Scenario 1", ClassName = typeof(Scenario1_CustomControl).FullName },
-            new Scenario() { Title = "Scenario 2", ClassName = typeof(Scenario2_UserControl).FullName }
+            new Scenario() { Title = "Custom Control", ClassName = typeof(Scenario1_CustomControl).FullName },
+            new Scenario() { Title = "User Control", ClassName = typeof(Scenario2_UserControl).FullName }
         };
     }
 

@@ -9,17 +9,30 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <!--<Grid>
-        <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <StackPanel Spacing="10" Margin="10,10,10,10">
-                <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
-                <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                    Add scenario description text here.
-                </TextBlock>
-                <TextBlock>Hello from Scenario 2.</TextBlock>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>-->
-    <custom:SampleFormControl/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0">
+                <StackPanel Spacing="10" Margin="10,10,10,10">
+                    <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
+                    <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
+                    Reference a Custom User Control from a C# Component.
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <!-- Reference the NameReporter control -->
+            <custom:NameReporter Grid.Row="1"/>
+
+        </Grid>
+    </ScrollViewer>
 </Page>

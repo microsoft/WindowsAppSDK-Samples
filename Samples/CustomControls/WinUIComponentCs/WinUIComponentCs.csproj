@@ -7,7 +7,7 @@
 		<UseWinUI>true</UseWinUI>
 		<CsWinRTComponent>true</CsWinRTComponent>
 		<WindowsAppContainer>true</WindowsAppContainer>
-		<Platforms>AnyCPU;x64</Platforms>
+		<Platform>AnyCPU</Platform>
 		<!-- Workaround for .NET SDK update -->
 		<WindowsAppSDKVerifyWinrtRuntimeVersion>false</WindowsAppSDKVerifyWinrtRuntimeVersion>
 	</PropertyGroup>
@@ -16,6 +16,12 @@
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.5.0-prerelease.220214.2" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0-20220215.0-CI-experimental" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="NameReporter.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 </Project>
