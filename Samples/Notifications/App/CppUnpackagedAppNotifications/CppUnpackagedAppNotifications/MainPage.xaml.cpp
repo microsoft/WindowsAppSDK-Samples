@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-#include <winrt/Microsoft.Windows.AppNotifications.h>
 #include "MainPage.xaml.h"
 #if __has_include("MainPage.g.cpp")
 #include "MainPage.g.cpp"
 #endif
-#include <MddBootstrap.h>
 
 namespace winrt
 {
@@ -17,24 +15,6 @@ namespace winrt
     using namespace Microsoft::UI::Xaml::Media::Animation;
     using namespace Microsoft::UI::Xaml::Navigation;
     using namespace Windows::UI::Xaml::Interop;
-    using namespace Microsoft::Windows::AppNotifications;
-}
-
-HRESULT LoadWindowsAppSDK()
-{
-    // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
-    const UINT32 majorMinorVersion{ 0x00010000 }; //  { Major << 16) | Minor };
-    PCWSTR versionTag{ L"" };
-    const PACKAGE_VERSION minVersion{};
-    HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    if (FAILED(hr))
-    {
-        wprintf(L"\nError 0x%08X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
-
-    return S_OK;
 }
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
@@ -43,12 +23,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     MainPage::MainPage()
     {
-        if (SUCCEEDED(::LoadWindowsAppSDK()))
-        {
-            winrt::AppNotificationManager::Default().Register();
-            //infoBar().Message(L"Could not load WindowsAppSDK", InfoBarSeverity::Error);
-        }
-
         InitializeComponent();
         MainPage::current = *this;
     }
