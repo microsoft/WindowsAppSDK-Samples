@@ -20,7 +20,6 @@ namespace winrt
 
 HRESULT LoadWindowsAppSDK()
 {
-#if 0
     // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
     const UINT32 majorMinorVersion{ 0x00010001 }; //  { Major << 16) | Minor };
     PCWSTR versionTag{ L"" };
@@ -32,7 +31,7 @@ HRESULT LoadWindowsAppSDK()
             hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
         return hr;
     }
-#endif
+
     return S_OK;
 }
 
