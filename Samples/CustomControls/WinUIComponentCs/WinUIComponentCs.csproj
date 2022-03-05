@@ -7,7 +7,7 @@
 		<UseWinUI>true</UseWinUI>
 		<CsWinRTComponent>true</CsWinRTComponent>
 		<WindowsAppContainer>true</WindowsAppContainer>
-		<Platform>AnyCPU</Platform>
+		<Platforms>x64;x86;arm64</Platforms>
 		<!-- Workaround for .NET SDK update -->
 		<WindowsAppSDKVerifyWinrtRuntimeVersion>false</WindowsAppSDKVerifyWinrtRuntimeVersion>
 	</PropertyGroup>
