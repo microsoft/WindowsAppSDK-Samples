@@ -38,11 +38,13 @@ namespace winrt::TestCppWinUiUnpackaged::implementation
 {
     App::App()
     {
+        // no need to call LoadWinAppSDK, it's called for us by AutoInitialize
+        /*
         if (FAILED(LoadWinAppSDK()))
         {
             // Handle failure here...
         }
-
+        */
         winrt::ActivationRegistrationManager::RegisterForStartupActivation(
             L"StartupId",
             L""
