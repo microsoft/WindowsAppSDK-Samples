@@ -3,48 +3,24 @@
 
 #include "pch.h"
 #include "MainWindow.xaml.h"
-#include <winrt/Microsoft.Windows.AppNotifications.h>
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 
 #include "microsoft.ui.xaml.window.h" 
 #include "SampleConfiguration.h"
 #endif
-#include <MddBootstrap.h>
 
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::Windows::AppNotifications;
 }
 
-HRESULT LoadWindowsAppSDK()
-{
-    // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
-    const UINT32 majorMinorVersion{ 0x00010001 }; //  { Major << 16) | Minor };
-    PCWSTR versionTag{ L"" };
-    const PACKAGE_VERSION minVersion{};
-    HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    if (FAILED(hr))
-    {
-        wprintf(L"\nError 0x%08X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
 
-    return S_OK;
-}
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     MainWindow::MainWindow()
     {
-        if (SUCCEEDED(::LoadWindowsAppSDK()))
-        {
-            winrt::AppNotificationManager::Default().Register();
-            //infoBar().Message(L"Could not load WindowsAppSDK", InfoBarSeverity::Error);
-        }
-
         InitializeComponent();
 
         Title(winrt::CppUnpackagedAppNotifications::SampleConfig::FeatureName);
