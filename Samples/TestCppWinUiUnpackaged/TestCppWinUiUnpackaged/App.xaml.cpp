@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-
+#include <winrt/Windows.ApplicationModel.Activation.h>
+#include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
 #include <MddBootstrap.h>
@@ -11,6 +12,8 @@ namespace winrt
 {
     using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
+    using namespace winrt::Windows::ApplicationModel::Activation;
+    using namespace winrt::Microsoft::Windows::AppLifecycle;
 }
 
 HRESULT LoadWinAppSDK()
@@ -40,6 +43,11 @@ namespace winrt::TestCppWinUiUnpackaged::implementation
             // Handle failure here...
         }
 
+        winrt::ActivationRegistrationManager::RegisterForStartupActivation(
+            L"StartupId",
+            L""
+        );
+
         InitializeComponent();
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
@@ -54,7 +62,7 @@ namespace winrt::TestCppWinUiUnpackaged::implementation
 #endif
     }
 
-    void App::OnLaunched(winrt::LaunchActivatedEventArgs const&)
+    void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&)
     {
         window = winrt::make<MainWindow>();
         window.Activate();
