@@ -6,7 +6,6 @@
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
-#include <MddBootstrap.h>
 
 namespace winrt
 {
@@ -16,33 +15,10 @@ namespace winrt
     using namespace winrt::Microsoft::Windows::AppLifecycle;
 }
 
-HRESULT LoadWinAppSDK()
-{
-    const UINT32 majorMinorVersion{ 0x00010000 };
-    PCWSTR versionTag{ L"" };
-    const PACKAGE_VERSION minVersion{};
-    const HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-
-    // Check the return code for errors. If there is an error, display the result.
-    if (FAILED(hr))
-    {
-        wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
-
-    return S_OK;
-}
-
 namespace winrt::TestCppWinUiUnpackaged::implementation
 {
     App::App()
     {
-        if (FAILED(LoadWinAppSDK()))
-        {
-            // Handle failure here...
-        }
-
         winrt::ActivationRegistrationManager::RegisterForStartupActivation(
             L"StartupId",
             L""
