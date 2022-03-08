@@ -44,6 +44,7 @@ namespace winrt::SampleApp::implementation
         m_mainWindow.MyTitleBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 
         m_brandTitleBar = !m_brandTitleBar;
+        // Check to see if customization is supported. Currently only supported on Windows 11.
         if (AppWindowTitleBar::IsCustomizationSupported() && m_brandTitleBar)
         {
             m_appWindow.Title(L"Default titlebar with custom color customization");
@@ -71,6 +72,7 @@ namespace winrt::SampleApp::implementation
 
     void TitlebarPage::TitlebarCustomBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
+        // Check to see if customization is supported. Currently only supported on Windows 11.
         if (AppWindowTitleBar::IsCustomizationSupported() && !m_customTitleBar) {
             m_customTitleBar = true;
             m_appWindow.TitleBar().ExtendsContentIntoTitleBar(true);
