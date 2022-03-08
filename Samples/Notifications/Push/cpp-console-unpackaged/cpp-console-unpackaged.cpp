@@ -10,23 +10,25 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
+#include <winrt/Microsoft.Windows.AppNotifications.h>
 #include <winrt/Windows.Globalization.DateTimeFormatting.h>
 
 #include <MddBootstrap.h>
 
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
+using namespace winrt::Microsoft::Windows::AppNotifications;
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/push/push-quickstart#configure-your-apps-identity-in-azure-active-directory
 winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own RemoteId
-
+ 
 HRESULT LoadWindowsAppSDK()
 {
     // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
-    const UINT32 majorMinorVersion{ 0x00010000 }; //  { Major << 16) | Minor };
+    const UINT32 majorMinorVersion{ 0x00010001 }; //  { Major << 16) | Minor };
     PCWSTR versionTag{ L"" };
     const PACKAGE_VERSION minVersion{};
     HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
@@ -42,7 +44,7 @@ HRESULT LoadWindowsAppSDK()
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
-    auto channelOperation = PushNotificationManager::CreateChannelAsync(remoteId);
+    auto channelOperation = PushNotificationManager::Default().CreateChannelAsync(remoteId);
 
     // Setup the inprogress event handler
     channelOperation.Progress(
@@ -105,16 +107,13 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
 // Subscribe to an event which will get signaled whenever a foreground notification arrives.
 void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
 {
-    winrt::event_token token = channel.PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
+    winrt::event_token token = PushNotificationManager::Default().PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
         {
             auto payload = args.Payload();
 
             // Do stuff to process the raw payload
             std::string payloadString(payload.begin(), payload.end());
             std::cout << "\nPush notification content received from FOREGROUND: " << payloadString << std::endl;
-
-            // Set handled to true to prevent the same notification to pop up through background activation
-            args.Handled(true);
         });
 }
 
@@ -131,8 +130,10 @@ int main()
         return 1;
     }
 
-    PushNotificationActivationInfo info(PushNotificationRegistrationActivators::ProtocolActivator);
-    PushNotificationManager::RegisterActivator(info);
+//    AppNotificationManager::Default().Register();
+
+    PushNotificationManager::Default().Register();
+	
     // We do not call PushNotificationManager::UnregisterActivator
     // because then we wouldn't be able to receive background activations, once the app has closed.
     // Call UnregisterActivator once you don't want to receive push notifications anymore.
@@ -197,6 +198,11 @@ int main()
             break;
     }
 
+	// ELx - should we do that, or will it mess up with background activation?
+    //PushNotificationManager::Default().Unregister();
+
+    //AppNotificationManager::Default().Unregister();
+	
     // Uninitialize dynamic dependencies.
     MddBootstrapShutdown();
 }
