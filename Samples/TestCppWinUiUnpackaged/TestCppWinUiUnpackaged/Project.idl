@@ -7,15 +7,9 @@ namespace TestCppWinUiUnpackaged
     Samples authors should modify these runtime classes as appropriate. */
 
     [default_interface]
-    runtimeclass Scenario1_ShortName : Microsoft.UI.Xaml.Controls.Page
+    runtimeclass Scenario1_ToastWithAvatar : Microsoft.UI.Xaml.Controls.Page
     {
-        Scenario1_ShortName();        
-    }
-
-    [default_interface]
-    runtimeclass Scenario2_ShortName : Microsoft.UI.Xaml.Controls.Page
-    {
-        Scenario2_ShortName();
+        Scenario1_ToastWithAvatar();
     }
 
      /* The following code is template-specific IDL.
