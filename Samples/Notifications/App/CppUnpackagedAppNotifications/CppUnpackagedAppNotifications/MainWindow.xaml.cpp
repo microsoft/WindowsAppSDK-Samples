@@ -15,8 +15,6 @@ namespace winrt
     using namespace Microsoft::UI::Xaml;
 }
 
-
-
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     MainWindow::MainWindow()
