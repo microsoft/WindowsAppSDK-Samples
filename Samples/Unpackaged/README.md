@@ -19,8 +19,8 @@ These samples demonstrate how simple it is to use the Windows App SDK from a non
 
 ## List of Samples
 
-- [Basic - C++](Basic/cpp-console-unpackaged) - Console app sample showing how to set a project property that initializes access to the Windows App SDK and call a simple API.
-- [Basic - C#](Basic/cs-console-unpackaged) - Console app sample showing how to set a project property that initializes access the Windows App SDK and call a simple API.
+- [Basic - C++](cpp-console-unpackaged) - Console app sample showing how to set a project property that initializes access to the Windows App SDK and call a simple API.
+- [Basic - C#](cs-console-unpackaged) - Console app sample showing how to set a project property that initializes access the Windows App SDK and call a simple API.
 
 ## Scenarios covered in these samples
 
