@@ -10,21 +10,19 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
-#include <winrt/Microsoft.Windows.AppNotifications.h>
 #include <winrt/Windows.Globalization.DateTimeFormatting.h>
 
 #include <MddBootstrap.h>
 
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
-using namespace winrt::Microsoft::Windows::AppNotifications;
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/push/push-quickstart#configure-your-apps-identity-in-azure-active-directory
 winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own RemoteId
- 
+
 HRESULT LoadWindowsAppSDK()
 {
     // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
@@ -130,10 +128,6 @@ int main()
         return 1;
     }
 
-//    AppNotificationManager::Default().Register();
-
-    PushNotificationManager::Default().Register();
-	
     // We do not call PushNotificationManager::UnregisterActivator
     // because then we wouldn't be able to receive background activations, once the app has closed.
     // Call UnregisterActivator once you don't want to receive push notifications anymore.
@@ -155,6 +149,8 @@ int main()
             if (channel)
             {
                 SubscribeForegroundEventHandler(channel);
+
+                PushNotificationManager::Default().Register();
             }
             else
             {
