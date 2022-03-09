@@ -20,13 +20,13 @@
             <TextBlock Style="{StaticResource BasicTextStyle}">
                 First Name:
             </TextBlock>
-            <TextBox Name="firstName" Style="{StaticResource BasicTextStyle}"/>
+            <TextBox Name="firstName" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Style="{StaticResource BasicTextStyle}">
                 Last Name:
             </TextBlock>
-            <TextBox Name="lastName" Style="{StaticResource BasicTextStyle}" />
+            <TextBox Name="lastName" />
         </StackPanel>
         <Button Content="Submit" Click="Button_Click" Margin="0,0,0,10"/>
         <TextBlock Name="result" Style="{StaticResource BasicTextStyle}" Margin="0,0,0,10"/>
