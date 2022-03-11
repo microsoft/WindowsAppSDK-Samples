@@ -16,6 +16,8 @@
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
                     This example demonstrates using a raw XML payload to produce a local toast notification with an avatar image and activation.
                 </TextBlock>
+                <Button Content="Request Channel" Click="RequestChannel_Click" />
+                <Button Content="Register AppNotificationManager" Click="RegisterManager_Click" />
                 <Button Content="Send Toast" Click="SendToast_Click" />
             </StackPanel>
         </ScrollViewer>
