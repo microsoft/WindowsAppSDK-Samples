@@ -7,11 +7,14 @@
 #include "Scenario1_ToastWithAvatar.g.cpp"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
+#include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <shobjidl_core.h>
 #include <wil/result.h>
 #include <iostream>
 #include <wil/win32_helpers.h>
+#include <windows.h>
 #endif
+
 
 namespace winrt
 {
@@ -20,6 +23,7 @@ namespace winrt
     using namespace winrt::Windows::Foundation;
     using namespace winrt::Microsoft::Windows::AppNotifications;
     using namespace winrt::Microsoft::Windows::PushNotifications;
+    using namespace winrt::Microsoft::Windows::AppLifecycle;
     using namespace winrt::Windows::Foundation::Collections;
 }
 
@@ -100,6 +104,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 winrt::hstring arguments{ toastArgs.Argument() };
                 std::wcout << arguments.c_str() << L"\n\n";
 
+                OutputDebugString(L"Foreground Activated");
+
                 winrt::IMap<winrt::hstring, winrt::hstring> userInput{ toastArgs.UserInput() };
                 for (auto pair : userInput)
                 {
@@ -124,5 +130,35 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
 
         rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
+    }
+
+    void Scenario1_ToastWithAvatar::RetrieveActivationArgs_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
+    {
+        AppActivationArguments args = AppInstance::GetCurrent().GetActivatedEventArgs();
+        ExtendedActivationKind kind = args.Kind();
+        if (kind == ExtendedActivationKind::Launch)
+        {
+            OutputDebugString(L"ExtendedActivationKind::Launch");
+        }
+        else if (kind == ExtendedActivationKind::Protocol)
+        {
+            OutputDebugString(L"ExtendedActivationKind::Protocol");
+        }
+        else if (kind == ExtendedActivationKind::Push)
+        {
+            OutputDebugString(L"ExtendedActivationKind::Push");
+        }
+        else if (kind == ExtendedActivationKind::AppNotification)
+        {
+            OutputDebugString(L"ExtendedActivationKind::AppNotification");
+        }
+        else if (kind == ExtendedActivationKind::ToastNotification)
+        {
+            OutputDebugString(L"ExtendedActivationKind::ToastNotification");
+        }
+        else
+        {
+            OutputDebugString(L"LOL");
+        }
     }
 }

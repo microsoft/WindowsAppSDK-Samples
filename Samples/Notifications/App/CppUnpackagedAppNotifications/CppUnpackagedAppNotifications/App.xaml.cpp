@@ -13,6 +13,8 @@
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Windows.Foundation.Collections.h>
+#include <windows.h>
+#include <shobjidl_core.h>
 
 namespace winrt
 {
@@ -54,7 +56,27 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         window = winrt::make<MainWindow>();
         window.Activate();
 
-       // auto args = winrt::AppInstance::GetCurrent().GetActivatedEventArgs();
+        THROW_IF_FAILED(SetCurrentProcessExplicitAppUserModelID(L"TestPushAppId3")); // elx - need to get a proper app id
+
+        winrt::event_token token = winrt::AppNotificationManager::Default().NotificationInvoked([](const auto&, winrt::AppNotificationActivatedEventArgs const& toastArgs)
+            {
+                std::wcout << L"AppNotification received foreground!\n";
+                winrt::hstring arguments{ toastArgs.Argument() };
+                std::wcout << arguments.c_str() << L"\n\n";
+
+                OutputDebugString(L"Foreground Activated");
+
+                winrt::IMap<winrt::hstring, winrt::hstring> userInput{ toastArgs.UserInput() };
+                for (auto pair : userInput)
+                {
+                    std::wcout << "Key= " << pair.Key().c_str() << " " << "Value= " << pair.Value().c_str() << L"\n";
+                }
+                std::wcout << L"\n";
+            });
+
+        winrt::AppNotificationManager::Default().Register();
+
+        //auto args = winrt::AppInstance::GetCurrent().GetActivatedEventArgs();
         //auto kind = args.Kind();
     }
 }

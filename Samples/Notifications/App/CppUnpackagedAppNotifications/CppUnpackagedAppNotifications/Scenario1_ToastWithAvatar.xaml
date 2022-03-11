@@ -19,6 +19,7 @@
                 <Button Content="Request Channel" Click="RequestChannel_Click" />
                 <Button Content="Register AppNotificationManager" Click="RegisterManager_Click" />
                 <Button Content="Send Toast" Click="SendToast_Click" />
+                <Button Content="Get Activation Args" Click="RetrieveActivationArgs_Click" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
