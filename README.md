@@ -25,7 +25,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
 
 #### Notifications
-- [Push Notifications](Samples/PushNotifications): This is a sample app that showcases Push Notifications.
+- [Push Notifications](Samples/Notifications/Push): This is a sample app that showcases Push Notifications.
 
 #### User Interface and Input
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
