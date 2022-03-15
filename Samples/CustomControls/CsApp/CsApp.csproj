@@ -10,12 +10,10 @@
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
-    <!-- TODO: remove workaround for below -->
-	<CsWinRTAuthoring_SkipDependencies>false</CsWinRTAuthoring_SkipDependencies>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0-20220215.0-CI-experimental" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.588-beta" PrivateAssets="all" />
   </ItemGroup>
@@ -39,6 +37,7 @@
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\WinUIComponentCs\WinUIComponentCs.csproj" />
   </ItemGroup>
