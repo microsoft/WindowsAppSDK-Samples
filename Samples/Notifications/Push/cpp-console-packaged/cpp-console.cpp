@@ -23,9 +23,9 @@ winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this w
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
-    auto channelOperation = PushNotificationManager::CreateChannelAsync(remoteId);
+    auto channelOperation = PushNotificationManager::Default().CreateChannelAsync(remoteId);
 
-    // Setup the inprogress event handler
+    // Setup the in-progress event handler
     channelOperation.Progress(
         [](auto&& sender, auto&& args)
         {
@@ -86,29 +86,17 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
 // Subscribe to an event which will get signaled whenever a foreground notification arrives.
 void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
 {
-    winrt::event_token token = channel.PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
+    winrt::event_token token = PushNotificationManager::Default().PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
         {
             auto payload = args.Payload();
 
-            // Do stuff to process the raw payload
             std::string payloadString(payload.begin(), payload.end());
             std::cout << "\nPush notification content received from FOREGROUND: " << payloadString << std::endl;
-
-            // Set handled to true to prevent the same notification to pop up through background activation
-            args.Handled(true);
         });
 }
 
 int main()
 {
-    if (PushNotificationManager::IsActivatorSupported(PushNotificationRegistrationActivators::PushTrigger | PushNotificationRegistrationActivators::ComActivator))
-    {
-        PushNotificationActivationInfo info(
-            PushNotificationRegistrationActivators::PushTrigger | PushNotificationRegistrationActivators::ComActivator,
-            winrt::guid("ccd2ae3f-764f-4ae3-be45-9804761b28b2")); // same clsid as app manifest
-
-        PushNotificationManager::RegisterActivator(info);
-	}
 
     auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
     auto kind = args.Kind();
@@ -120,17 +108,24 @@ int main()
         case ExtendedActivationKind::Launch:
         {
             // Request a WNS ChannelURI which can be passed off to an external app to send notifications to.
-            // The WNS ChannelURI uniquely identifies, this app for this user and device.
+            // The WNS ChannelURI uniquely identifies this app for this user and device.
             PushNotificationChannel channel = RequestChannel();
 
             // Setup an event handler, so we can receive notifications in the foreground while the app is running.
             if (channel)
             {
                 SubscribeForegroundEventHandler(channel);
+
+                PushNotificationManager::Default().Register();
             }
             else
             {
                 std::cout << "\nThere was an error obtaining the WNS ChannelURI" << std::endl;
+
+                if (remoteId == winrt::guid { "00000000-0000-0000-0000-000000000000" })
+                {
+                    std::cout << "\nThe remoteId has not been set. Refer to the readme file accompanying this sample\nfor the instructions to obtain and setup a remote id" << std::endl;
+                }
             }
 
             std::cout << "\nPress 'Enter' at any time to exit App." << std::endl;
@@ -170,9 +165,7 @@ int main()
             break;
     }
 
-   if (PushNotificationManager::IsActivatorSupported(PushNotificationRegistrationActivators::ComActivator))
-    {
-        // Don't unregister PushTrigger because we still want to receive push notifications from background infrastructure.
-        PushNotificationManager::UnregisterActivator(PushNotificationRegistrationActivators::ComActivator);
-    }
+    // We do not call PushNotificationManager::UnregisterActivator
+    // because then we wouldn't be able to receive background activations, once the app has closed.
+    // Call UnregisterActivator once you don't want to receive push notifications anymore.
 }

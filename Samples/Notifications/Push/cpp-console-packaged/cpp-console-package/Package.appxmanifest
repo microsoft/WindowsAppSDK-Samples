@@ -10,7 +10,7 @@
 
   <Identity
   Name="PushNotificationsSample"
-  Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+  Publisher="CN=erlangl"
   Version="1.0.0.0" />
 
   <Properties>
