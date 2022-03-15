@@ -28,6 +28,7 @@ The sample solution includes two application projects: **CppApp** (packaged C++ 
 
 * Open the solution file (`.sln`) in Visual Studio.
 * Set either the **CppApp** or **CsApp** project as the startup project.
+* Select `x86` as the Solution platform. There is a known issue with `x64` and `arm64` (https://github.com/microsoft/CsWinRT/issues/1093).
 * From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
 ## Related Links
