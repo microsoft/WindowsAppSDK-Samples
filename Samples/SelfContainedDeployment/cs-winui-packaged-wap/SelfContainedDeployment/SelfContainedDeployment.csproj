@@ -26,7 +26,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-	<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-20220101.0-CI-experimental" />
+	<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0-20220312.0-CI-experimental" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
