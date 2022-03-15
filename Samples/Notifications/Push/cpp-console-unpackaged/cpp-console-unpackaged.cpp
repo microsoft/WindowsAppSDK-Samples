@@ -127,10 +127,6 @@ int main()
         return 1;
     }
 
-    // We do not call PushNotificationManager::UnregisterActivator
-    // because then we wouldn't be able to receive background activations, once the app has closed.
-    // Call UnregisterActivator once you don't want to receive push notifications anymore.
-
     auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
     auto kind = args.Kind();
     switch (kind)
@@ -198,11 +194,10 @@ int main()
             break;
     }
 
-	// ELx - should we do that, or will it mess up with background activation?
-    //PushNotificationManager::Default().Unregister();
+    // We do not call PushNotificationManager::UnregisterActivator
+    // because then we wouldn't be able to receive background activations, once the app has closed.
+    // Call UnregisterActivator once you don't want to receive push notifications anymore.
 
-    //AppNotificationManager::Default().Unregister();
-	
     // Uninitialize dynamic dependencies.
     MddBootstrapShutdown();
 }
