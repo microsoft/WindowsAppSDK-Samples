@@ -44,7 +44,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 {
     auto channelOperation = PushNotificationManager::Default().CreateChannelAsync(remoteId);
 
-    // Setup the inprogress event handler
+    // Setup the in-progress event handler
     channelOperation.Progress(
         [](auto&& sender, auto&& args)
         {
@@ -109,7 +109,6 @@ void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifi
         {
             auto payload = args.Payload();
 
-            // Do stuff to process the raw payload
             std::string payloadString(payload.begin(), payload.end());
             std::cout << "\nPush notification content received from FOREGROUND: " << payloadString << std::endl;
         });
@@ -117,7 +116,7 @@ void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifi
 
 int main()
 {
-    // An unpackaged app must initialize dynamic dependencies so we can consume the Windows App SDK APIs.
+    // An unpackaged app must initialize Dynamic Dependencies so we can consume the Windows App SDK APIs.
     // See https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/tutorial-unpackaged-deployment?tabs=cpp,
     // for details about using the WindowsAppSDK from an unpackaged app.
     if (FAILED(LoadWindowsAppSDK()))
@@ -142,7 +141,7 @@ int main()
         case ExtendedActivationKind::Launch:
         {
             // Request a WNS ChannelURI which can be passed off to an external app to send notifications to.
-            // The WNS ChannelURI uniquely identifies, this app for this user and device.
+            // The WNS ChannelURI uniquely identifies this app for this user and device.
             PushNotificationChannel channel = RequestChannel();
 
             // Setup an event handler, so we can receive notifications in the foreground while the app is running.
@@ -155,6 +154,11 @@ int main()
             else
             {
                 std::cout << "\nThere was an error obtaining the WNS ChannelURI" << std::endl;
+
+                if (remoteId == winrt::guid { "00000000-0000-0000-0000-000000000000" })
+                {
+                    std::cout << "\nThe remoteId has not been set. Refer to the readme file accompanying this sample\nfor the instructions to obtain and setup a remote id" << std::endl;
+                }
             }
 
             std::cout << "\nPress 'Enter' at any time to exit App." << std::endl;

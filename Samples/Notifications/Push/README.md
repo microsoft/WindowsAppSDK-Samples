@@ -33,11 +33,11 @@ winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"};
 
 The sample will display a WNS ChannelURI which uniquely identify this app, for this user on this device and thus can be used by other apps (usually a server app) to send notifications to this specific app.
 ## Receiving Notifications
-1. Follow these [instructions]() to send a notification to the sample. 
+Follow these [instructions]() to send a notification to the sample. 
    * Leave the sample running to receive notifications in the foreground.
    * Close the sample to receive notifications in the background.
 ## Related Links
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
 - [Push Notifications Doc]()
 ## Common Issues
-* If there was an error obtaining the WNS ChannelURI, make sure you've replaced the zero'ed out remote id (near the top of the sample) with your own?
+* If there was an error obtaining the WNS ChannelURI, make sure you've replaced the zero'ed out remote id (near the top of the sample) with your own remote id.
