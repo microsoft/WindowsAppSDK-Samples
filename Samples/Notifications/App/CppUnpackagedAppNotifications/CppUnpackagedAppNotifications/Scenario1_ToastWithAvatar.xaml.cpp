@@ -28,7 +28,22 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     
     void Scenario1_ToastWithAvatar::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        winrt::hstring xmlPayload{ L"<toast>message</toast>" };
+        winrt::hstring xmlPayload{
+            L"<toast>\
+                <visual>\
+                    <binding template=\"ToastGeneric\">\
+                        <text>App Notifications Sample Scenario 1</text>\
+                        <text>This is an example message using XML</text>\
+                    </binding>\
+                </visual>\
+                <actions>\
+                    <action\
+                        content = \"Activate Toast\"\
+                        arguments = \"action=viewDetails&amp;contentId=351\"\
+                        activationType = \"foreground\" />\
+                </actions>\
+            </toast>" };
+
         auto toast{ winrt::AppNotification(xmlPayload) };
         toast.Priority(winrt::AppNotificationPriority::High);
         winrt::AppNotificationManager::Default().Show(toast);
