@@ -10,7 +10,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     struct Scenario2_ToastWithTextBox : Scenario2_ToastWithTextBoxT<Scenario2_ToastWithTextBox>
     {
         Scenario2_ToastWithTextBox();
-        ~Scenario2_ToastWithTextBox();
 
         void SendToast_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
 

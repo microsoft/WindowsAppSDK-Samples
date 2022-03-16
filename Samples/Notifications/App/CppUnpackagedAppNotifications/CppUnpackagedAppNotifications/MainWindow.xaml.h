@@ -10,6 +10,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     struct MainWindow : MainWindowT<MainWindow>
     {
         MainWindow();
+        int Activate();
 
     private:
         HWND _hwnd{ nullptr };

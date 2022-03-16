@@ -66,6 +66,58 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
         SetDisplayNameAndIcon();
 
+        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
+        const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
+            {
+                std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
+
+                if (args.find(L"activateToast") != std::wstring::npos)
+                {
+                    MainPage::Current().NotifyUser(L"Successful activation from toast!", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                }
+
+                if (args.find(L"reply") != std::wstring::npos)
+                {
+                    auto input{ notificationActivatedEventArgs.UserInput() };
+                    auto text{ input.Lookup(L"tbReply") };
+
+                    std::wstring message{ L"Successful activation from toast! [" };
+                    message.append(text);
+                    message.append(L"]");
+
+                    MainPage::Current().NotifyUser(message.c_str(), Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                }
+#if 0
+                // Check if activated from background by AppNotification
+                if (args. == winrt::ExtendedActivationKind::AppNotification)
+                {
+                }
+#endif
+
+                //window.Activate();
+                //window.Content().
+                //MainPage::Current().
+                  //rootPage.NotifyUser(L"Toast Activation Received!", InfoBarSeverity::Informational);
+                    //ProcessNotificationArgs(notificationActivatedEventArgs);
+#if 0
+                winrt::Controls::Flyout flyout;
+                flyout.ShowAt(MainPage::Current());
+#endif
+#if 0
+                MainPage::Current().con
+                winrt::Controls::ContentDialog dialog()
+                dialog.Title(box_value(L"title"));
+                dialog.Content(box_value(L"content"));
+                dialog.PrimaryButtonText(L"primary");
+                dialog.CloseButtonText(L"close");
+                dialog.XamlRoot(MainPage::Current().Content().XamlRoot() /* Assuming that you're showing from the window */);
+
+                auto result = dialog.ShowAsync();
+#endif
+            });
+
+        notificationManager.Register();
+
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
         UnhandledException([](winrt::IInspectable const&, winrt::UnhandledExceptionEventArgs const& e)
             {
@@ -133,5 +185,22 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
         window = winrt::make<MainWindow>();
         window.Activate();
+    }
+
+    void App::OnActivated(winrt::IActivatedEventArgs const&)
+    {
+        auto activatedEventArgs{ winrt::AppInstance::GetCurrent().GetActivatedEventArgs() };
+
+        // Check if activated from background by AppNotification
+        if (activatedEventArgs.Kind() == winrt::ExtendedActivationKind::AppNotification)
+        {
+            winrt::Controls::ContentDialog dialog;
+            dialog.Title(box_value(L"title"));
+            dialog.Content(box_value(L"content"));
+            dialog.PrimaryButtonText(L"primary");
+            dialog.CloseButtonText(L"close");
+
+            auto result = dialog.ShowAsync();
+        }
     }
 }

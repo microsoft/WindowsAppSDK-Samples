@@ -23,30 +23,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     Scenario2_ToastWithTextBox::Scenario2_ToastWithTextBox()
     {
         InitializeComponent();
-#if 0
-        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-        const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
-            {
-                rootPage.NotifyUser(L"Toast Activation Received!", InfoBarSeverity::Informational);
-                //ProcessNotificationArgs(notificationActivatedEventArgs);
-                winrt::Controls::ContentDialog dialog;
-                dialog.Title(box_value(L"title"));
-                dialog.Content(box_value(L"content"));
-                dialog.PrimaryButtonText(L"primary");
-                dialog.CloseButtonText(L"close");
-                dialog.XamlRoot(Content().XamlRoot() /* Assuming that you're showing from the window */);
 
-                auto result = dialog.ShowAsync();
-            });
-
-        notificationManager.Register();
-#endif
         Scenario2_ToastWithTextBox::rootPage = MainPage::Current();
-    }
-
-    Scenario2_ToastWithTextBox::~Scenario2_ToastWithTextBox()
-    {
-        //winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().UnregisterAll();
     }
 
     void Scenario2_ToastWithTextBox::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
@@ -54,16 +32,20 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         winrt::hstring xmlPayload{
             L"<toast>\
                 <visual>\
-                    <binding template=\"ToastGeneric\">\
-                        <text>App Notifications Sample Scenario 1</text>\
+                    <binding template = \"ToastGeneric\">\
+                        <text>App Notifications Sample Scenario 2</text>\
                         <text>This is an example message using XML</text>\
                     </binding>\
                 </visual>\
                 <actions>\
+                    <input\
+                        id = \"tbReply\"\
+                        type = \"text\"\
+                        placeHolderContent = \"Type a reply\"/>\
                     <action\
-                        content = \"Activate Toast\"\
-                        arguments = \"action=viewDetails&amp;contentId=351\"\
-                        activationType = \"foreground\" />\
+                        content = \"Reply\"\
+                        arguments = \"action=reply&amp;contentId=351\"\
+                        activationType = \"background\" />\
                 </actions>\
             </toast>" };
 

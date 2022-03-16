@@ -10,7 +10,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     struct Scenario1_ToastWithAvatar : Scenario1_ToastWithAvatarT<Scenario1_ToastWithAvatar>
     {
         Scenario1_ToastWithAvatar();
-        ~Scenario1_ToastWithAvatar();
 
         void SendToast_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
 

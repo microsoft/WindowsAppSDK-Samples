@@ -24,29 +24,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         InitializeComponent();
 
-        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-        const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
-            {
-                rootPage.NotifyUser(L"Toast Activation Received!", InfoBarSeverity::Informational);
-                //ProcessNotificationArgs(notificationActivatedEventArgs);
-                winrt::Controls::ContentDialog dialog;
-                dialog.Title(box_value(L"title"));
-                dialog.Content(box_value(L"content"));
-                dialog.PrimaryButtonText(L"primary");
-                dialog.CloseButtonText(L"close");
-                dialog.XamlRoot(Content().XamlRoot() /* Assuming that you're showing from the window */);
-
-                auto result = dialog.ShowAsync();
-            });
-
-        notificationManager.Register();
-
         Scenario1_ToastWithAvatar::rootPage = MainPage::Current();
-    }
-
-    Scenario1_ToastWithAvatar::~Scenario1_ToastWithAvatar()
-    {
-        winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().UnregisterAll();
     }
 
     void Scenario1_ToastWithAvatar::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
@@ -54,7 +32,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         winrt::hstring xmlPayload{
             L"<toast>\
                 <visual>\
-                    <binding template=\"ToastGeneric\">\
+                    <binding template = \"ToastGeneric\">\
                         <text>App Notifications Sample Scenario 1</text>\
                         <text>This is an example message using XML</text>\
                     </binding>\
@@ -62,7 +40,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 <actions>\
                     <action\
                         content = \"Activate Toast\"\
-                        arguments = \"action=viewDetails&amp;contentId=351\"\
+                        arguments = \"action=activateToast&amp;contentId=351\"\
                         activationType = \"foreground\" />\
                 </actions>\
             </toast>" };
