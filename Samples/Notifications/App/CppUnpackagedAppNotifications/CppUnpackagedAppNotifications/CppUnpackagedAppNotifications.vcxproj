@@ -136,6 +136,9 @@
       <DependentUpon>Scenario1_ToastWithAvatar.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Scenario2_ToastWithTextBox.xaml.h">
+      <DependentUpon>Scenario2_ToastWithTextBox.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="SettingsPage.xaml.h">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -150,6 +153,7 @@
     <Page Include="Scenario1_ToastWithAvatar.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Scenario2_ToastWithTextBox.xaml" />
     <Page Include="SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -176,6 +180,9 @@
     <ClCompile Include="Scenario1_ToastWithAvatar.xaml.cpp">
       <DependentUpon>Scenario1_ToastWithAvatar.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Scenario2_ToastWithTextBox.xaml.cpp">
+      <DependentUpon>Scenario2_ToastWithTextBox.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="SettingsPage.xaml.cpp">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
