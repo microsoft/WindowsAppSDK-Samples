@@ -57,7 +57,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
             {
                 LOG_HR_MSG(
                     args.extendedError,
-                    "The WNS ChannelURI request is in back-off retry mode because of a retryable error! Expect delays in acquiring it. RetryCount = %d",
+                    "The WNS Channel URI request is in back-off retry mode because of a retryable error! Expect delays in acquiring it. RetryCount = %d",
                     args.retryCount);
             }
         });
@@ -136,13 +136,13 @@ int main()
     auto kind{ args.Kind() };
     switch (kind)
     {
-        // When it is launched normally (by the users, or from the debugger), the sample requests a WNS ChannelURI and
-        // displays it, then waits for notifications. This user can take a copy of the WNS ChannelURI and use it to send
+        // When it is launched normally (by the users, or from the debugger), the sample requests a WNS Channel URI and
+        // displays it, then waits for notifications. This user can take a copy of the WNS Channel URI and use it to send
         // notifications to the sample
         case ExtendedActivationKind::Launch:
         {
-            // Request a WNS ChannelURI which can be passed off to an external app to send notifications to.
-            // The WNS ChannelURI uniquely identifies this app for this user and device.
+            // Request a WNS Channel URI which can be passed off to an external app to send notifications to.
+            // The WNS Channel URI uniquely identifies this app for this user and device.
             PushNotificationChannel channel{ RequestChannel() };
             if (!channel)
             {
