@@ -42,7 +42,7 @@ HRESULT LoadWindowsAppSDK()
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
-    auto channelOperation = PushNotificationManager::Default().CreateChannelAsync(remoteId);
+    auto channelOperation{ PushNotificationManager::Default().CreateChannelAsync(remoteId) };
 
     // Setup the in-progress event handler
     channelOperation.Progress(
@@ -62,13 +62,13 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
             }
         });
 
-    auto result = co_await channelOperation;
+    auto result{ co_await channelOperation };
 
     if (result.Status() == PushNotificationChannelStatus::CompletedSuccess)
     {
-        auto channel = result.Channel();
+        auto channel{ result.Channel() };
 
-        DateTimeFormatter formater = DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}");
+        DateTimeFormatter formater{ DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}") };
 
         std::cout << "\nWNS ChannelURI: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
         std::wcout << L"\nThe WNS ChannelURI will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
@@ -91,27 +91,27 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 
 winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestChannel()
 {
-    auto task = RequestChannelAsync();
+    auto task{ RequestChannelAsync() };
     if (task.wait_for(std::chrono::seconds(300)) != AsyncStatus::Completed)
     {
         task.Cancel();
         return nullptr;
     }
 
-    auto result = task.GetResults();
+    auto result{ task.GetResults() };
     return result;
 }
 
 // Subscribe to an event which will get signaled whenever a foreground notification arrives.
 void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
 {
-    winrt::event_token token = PushNotificationManager::Default().PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
+    winrt::event_token token{ PushNotificationManager::Default().PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
         {
-            auto payload = args.Payload();
+        auto payload{ args.Payload() };
 
             std::string payloadString(payload.begin(), payload.end());
             std::cout << "\nPush notification content received from FOREGROUND: " << payloadString << std::endl;
-        });
+        }) };
 }
 
 int main()
@@ -127,8 +127,8 @@ int main()
         return 1;
     }
 
-    auto args = AppInstance::GetCurrent().GetActivatedEventArgs();
-    auto kind = args.Kind();
+    auto args{ AppInstance::GetCurrent().GetActivatedEventArgs() };
+    auto kind{ args.Kind() };
     switch (kind)
     {
         // When it is launched normally (by the users, or from the debugger), the sample requests a WNS ChannelURI and
@@ -138,7 +138,7 @@ int main()
         {
             // Request a WNS ChannelURI which can be passed off to an external app to send notifications to.
             // The WNS ChannelURI uniquely identifies this app for this user and device.
-            PushNotificationChannel channel = RequestChannel();
+            PushNotificationChannel channel{ RequestChannel() };
 
             // Setup an event handler, so we can receive notifications in the foreground while the app is running.
             if (channel)
@@ -167,12 +167,12 @@ int main()
         // because background activation is meant to let app perform only small tasks in order to preserve battery life.
         case ExtendedActivationKind::Push:
         {
-            PushNotificationReceivedEventArgs pushArgs = args.Data().as<PushNotificationReceivedEventArgs>();
+            PushNotificationReceivedEventArgs pushArgs{ args.Data().as<PushNotificationReceivedEventArgs>() };
 
             // Call GetDeferral to ensure that code runs in low power
-            auto deferral = pushArgs.GetDeferral();
+            auto deferral{ pushArgs.GetDeferral() };
 
-            auto payload = pushArgs.Payload();
+            auto payload{ pushArgs.Payload() } ;
 
             // Do stuff to process the raw notification payload
             std::string payloadString(payload.begin(), payload.end());
