@@ -103,7 +103,7 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
 }
 
 // Subscribe to an event which will get signaled whenever a foreground notification arrives.
-void SubscribeForegroundEventHandler(const winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel& channel)
+void SubscribeForegroundEventHandler()
 {
     winrt::event_token token{ PushNotificationManager::Default().PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
         {
@@ -127,6 +127,11 @@ int main()
         return 1;
     }
 
+    // Setup an event handler, so we can receive notifications in the foreground while the app is running.
+    SubscribeForegroundEventHandler();
+
+    PushNotificationManager::Default().Register();
+
     auto args{ AppInstance::GetCurrent().GetActivatedEventArgs() };
     auto kind{ args.Kind() };
     switch (kind)
@@ -139,15 +144,7 @@ int main()
             // Request a WNS ChannelURI which can be passed off to an external app to send notifications to.
             // The WNS ChannelURI uniquely identifies this app for this user and device.
             PushNotificationChannel channel{ RequestChannel() };
-
-            // Setup an event handler, so we can receive notifications in the foreground while the app is running.
-            if (channel)
-            {
-                SubscribeForegroundEventHandler(channel);
-
-                PushNotificationManager::Default().Register();
-            }
-            else
+            if (!channel)
             {
                 std::cout << "\nThere was an error obtaining the WNS ChannelURI" << std::endl;
 
