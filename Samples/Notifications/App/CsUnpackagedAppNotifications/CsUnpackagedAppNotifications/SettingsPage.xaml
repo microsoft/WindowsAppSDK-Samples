@@ -32,7 +32,7 @@
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
-        
+
         <StackPanel Spacing="10" Margin="10,10,10,10" Orientation="Vertical" VerticalAlignment="Bottom" Grid.Row="0">
             <TextBlock Text="&#xA9; Microsoft Corporation. All rights reserved." Style="{StaticResource CopyrightTextStyle}" TextWrapping="Wrap"/>
         </StackPanel>
