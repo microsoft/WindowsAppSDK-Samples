@@ -106,12 +106,12 @@ winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestCha
 void SubscribeForegroundEventHandler()
 {
     winrt::event_token token{ PushNotificationManager::Default().PushReceived([](auto const&, PushNotificationReceivedEventArgs const& args)
-        {
+    {
         auto payload{ args.Payload() };
 
-            std::string payloadString(payload.begin(), payload.end());
-            std::cout << "\nPush notification content received from FOREGROUND: " << payloadString << std::endl;
-        }) };
+        std::string payloadString(payload.begin(), payload.end());
+        std::cout << "\nPush notification content received from FOREGROUND: " << payloadString << std::endl;
+    }) };
 }
 
 int main()
@@ -195,6 +195,6 @@ int main()
     // because then we wouldn't be able to receive background activations, once the app has closed.
     // Call UnregisterActivator once you don't want to receive push notifications anymore.
 
-    // Uninitialize dynamic dependencies.
+    // Uninitialize Dynamic Dependencies.
     MddBootstrapShutdown();
 }
