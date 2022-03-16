@@ -65,7 +65,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         InitializeComponent();
 
         SetDisplayNameAndIcon();
-        winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Register();
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
         UnhandledException([](winrt::IInspectable const&, winrt::UnhandledExceptionEventArgs const& e)

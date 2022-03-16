@@ -23,9 +23,32 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     Scenario1_ToastWithAvatar::Scenario1_ToastWithAvatar()
     {
         InitializeComponent();
+
+        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
+        const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
+            {
+                rootPage.NotifyUser(L"Toast Activation Received!", InfoBarSeverity::Informational);
+                //ProcessNotificationArgs(notificationActivatedEventArgs);
+                winrt::Controls::ContentDialog dialog;
+                dialog.Title(box_value(L"title"));
+                dialog.Content(box_value(L"content"));
+                dialog.PrimaryButtonText(L"primary");
+                dialog.CloseButtonText(L"close");
+                dialog.XamlRoot(Content().XamlRoot() /* Assuming that you're showing from the window */);
+
+                auto result = dialog.ShowAsync();
+            });
+
+        notificationManager.Register();
+
         Scenario1_ToastWithAvatar::rootPage = MainPage::Current();
     }
-    
+
+    Scenario1_ToastWithAvatar::~Scenario1_ToastWithAvatar()
+    {
+        winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().UnregisterAll();
+    }
+
     void Scenario1_ToastWithAvatar::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
     {
         winrt::hstring xmlPayload{
