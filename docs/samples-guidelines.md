@@ -323,6 +323,7 @@ In C++ and C#, limit use of the `auto` and `var` keywords to the cases where the
     // C++/WinRT
     auto override = BrightnessOverride::GetForCurrentView();
     auto barometer = Barometer::GetDefault();
+    ```
 
 - Casts and explicit conversions (✔ Okay)
     ```csharp
@@ -330,11 +331,10 @@ In C++ and C#, limit use of the `auto` and `var` keywords to the cases where the
     var item = (ComboBoxItem)comboBox->SelectedItem;
     var item = comboBox->SelectedItem as ComboBoxItem;
     ```
-
     ```cpp
     // C++
     auto value = static_cast<int32_t>(floatValue);
-
+    ```
     ```cpp
     // C++/WinRT
     auto item = comboBox.SelectedItem().as<ComboBoxItem>();
@@ -351,7 +351,6 @@ In C++ and C#, limit use of the `auto` and `var` keywords to the cases where the
     ```
 
 - Requires domain-specific knowledge (❌ Not okay)
-
     ```csharp
     // C#
     var buffer = streamSource.AddSourceBuffer(mimeType);
