@@ -5,6 +5,9 @@
 #include <wil/result.h>
 #include <wil/cppwinrt.h>
 #include <winrt/Windows.ApplicationModel.Activation.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Windowing.h>
+#include <windows.ui.popups.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
@@ -27,7 +30,7 @@ namespace winrt
 void SetDisplayNameAndIcon() noexcept try
 {
     // Not mandatory, but it's highly recommended to specify AppUserModelId
-    THROW_IF_FAILED(SetCurrentProcessExplicitAppUserModelID(L"TestPushAppId")); // elx - need to get a proper app id
+    THROW_IF_FAILED(SetCurrentProcessExplicitAppUserModelID(L"ToastSampleAppId")); // elx - need to get a proper app id
 
     // Icon is mandatory
     winrt::com_ptr<IPropertyStore> propertyStore;
@@ -55,15 +58,14 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     App::App()
     {
         winrt::ActivationRegistrationManager::RegisterForStartupActivation(
-            L"StartupId",
+            L"ToastSampleAppId",
             L""
         );
 
         InitializeComponent();
 
-        SetDisplayNameAndIcon(); // elx - As long as this is set, then we can post toasts. // This works because it uses "TestPushAppId" and I've registered the push /toast system with another app and same id earlier... 
-        //winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Register(); // elx - this call fails :(
-        //winrt::Microsoft::Windows::PushNotifications::PushNotificationManager::Default().Register(); // elx - this call succeeds but was only used for validation as it's not likely to be needed for this sample at this time.
+        SetDisplayNameAndIcon();
+        winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Register();
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
         UnhandledException([](winrt::IInspectable const&, winrt::UnhandledExceptionEventArgs const& e)
@@ -79,6 +81,57 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&)
     {
+        auto activatedEventArgs{ winrt::AppInstance::GetCurrent().GetActivatedEventArgs() };
+
+        // Check if activated from background by AppNotification
+        if (activatedEventArgs.Kind() == winrt::ExtendedActivationKind::AppNotification)
+        {
+            winrt::Controls::ContentDialog dialog;
+            dialog.Title(box_value(L"title"));
+            dialog.Content(box_value(L"content"));
+            dialog.PrimaryButtonText(L"primary");
+            dialog.CloseButtonText(L"close");
+
+            auto result = dialog.ShowAsync();
+            //dialog.Title(L"Hello MessageDialog");
+            //dialog.XamlRoot(Content().XamlRoot() /* Assuming that you're showing from the window */);
+
+#if 0
+            winrt::Windows::UI::Popups::MessageDialog dialog1("No internet connection has been found.");
+
+            winrt::Windows::UI::Popups::MessageDialog dialog2(L"Hello MessageDialog");
+            dialog2.ShowAsync();
+#endif
+#if 0
+            ContentDialog dialog;
+            dialog.Title(box_value(L"title"));
+            dialog.Content(box_value(L"content"));
+            dialog.PrimaryButtonText(L"primary");
+            dialog.CloseButtonText(L"close");
+            //dialog.XamlRoot(myButton().XamlRoot()); // maybe needed, maybe not
+
+            auto result = co_await dialog.ShowAsync();
+
+            if (result == ContentDialogResult::Primary)
+            {
+
+            }
+#endif
+#if 0
+            std::wcout << L"Activated by AppNotification from background.\n";
+            winrt::AppNotificationActivatedEventArgs appNotificationArgs{ args.Data().as<winrt::AppNotificationActivatedEventArgs>() };
+            winrt::hstring arguments{ appNotificationArgs.Argument() };
+            std::wcout << arguments.c_str() << std::endl << std::endl;
+
+            winrt::IMap<winrt::hstring, winrt::hstring> userInput = appNotificationArgs.UserInput();
+            for (auto pair : userInput)
+            {
+                std::wcout << "Key= " << pair.Key().c_str() << " " << "Value= " << pair.Value().c_str() << L"\n";
+            }
+            std::wcout << std::endl;
+#endif
+        }
+
         window = winrt::make<MainWindow>();
         window.Activate();
     }
