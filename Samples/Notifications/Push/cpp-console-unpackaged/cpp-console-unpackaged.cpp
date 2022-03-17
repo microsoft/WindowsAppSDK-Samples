@@ -10,12 +10,10 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.PushNotifications.h>
-#include <winrt/Windows.Globalization.DateTimeFormatting.h>
 
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
 using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::Globalization::DateTimeFormatting;
 
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/push/push-quickstart#configure-your-apps-identity-in-azure-active-directory
@@ -49,10 +47,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
     {
         auto channel{ result.Channel() };
 
-        DateTimeFormatter formater{ DateTimeFormatter(L"on {month.abbreviated} {day.integer(1)}, {year.full} at {hour.integer(1)}:{minute.integer(2)}:{second.integer(2)}") };
-
         std::cout << "\nWNS ChannelURI: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
-        std::wcout << L"\nThe WNS ChannelURI will expire " << formater.Format(channel.ExpirationTime()).c_str() << std::endl;
 
         // It's the caller's responsibility to keep the channel alive
         co_return channel;
