@@ -11,10 +11,11 @@ The following are prequisites to using the sample templates:
    - Desktop development with C++
    - .NET Desktop Development
 - [Single-project MSIX Packaging tools for Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=ProjectReunion.MicrosoftSingleProjectMSIXPackagingToolsDev17)
+- [Sample template VSIX](https://github.com/microsoft/WindowsAppSDK-Samples/releases)
 
 ## Usage
 
-1. Download the Windows App SDK Sample VSIX. The VSIX will install the following templates:
+1. Download the Windows App SDK Sample VSIX from the [releases page](https://github.com/microsoft/WindowsAppSDK-Samples/releases). The VSIX will install the following templates:
 
     - Project Templates: Windows App SDK Sample C# WinUI, Windows App SDK Sample C++ WinUI
     - Item Templates: Sample C# WinUI Scenario Page, Sample C++ WinUI Scenario Page
