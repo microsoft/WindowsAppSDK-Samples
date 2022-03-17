@@ -12,8 +12,6 @@
 #include <winrt/Microsoft.Windows.PushNotifications.h>
 #include <winrt/Windows.Globalization.DateTimeFormatting.h>
 
-#include <MddBootstrap.h>
-
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
 using namespace winrt::Windows::Foundation;
@@ -22,23 +20,6 @@ using namespace winrt::Windows::Globalization::DateTimeFormatting;
 // To obtain an AAD RemoteIdentifier for your app,
 // follow the instructions on https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/push/push-quickstart#configure-your-apps-identity-in-azure-active-directory
 winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own RemoteId
-
-HRESULT LoadWindowsAppSDK()
-{
-    // Major.Minor version, MinVersion=0 to find any framework package for this major.minor version
-    const UINT32 majorMinorVersion{ 0x00010001 }; //  { Major << 16) | Minor };
-    PCWSTR versionTag{ L"" };
-    const PACKAGE_VERSION minVersion{};
-    HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    if (FAILED(hr))
-    {
-        wprintf(L"\nError 0x%08X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
-
-    return S_OK;
-}
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
@@ -116,17 +97,6 @@ void SubscribeForegroundEventHandler()
 
 int main()
 {
-    // An unpackaged app must initialize Dynamic Dependencies so we can consume the Windows App SDK APIs.
-    // See https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/tutorial-unpackaged-deployment?tabs=cpp,
-    // for details about using the WindowsAppSDK from an unpackaged app.
-    if (FAILED(LoadWindowsAppSDK()))
-    {
-        std::wcout << "\nCould not load Windows App SDK!" << std::endl;
-        std::cin.ignore();
-
-        return 1;
-    }
-
     // Setup an event handler, so we can receive notifications in the foreground while the app is running.
     SubscribeForegroundEventHandler();
 
@@ -194,7 +164,4 @@ int main()
     // We do not call PushNotificationManager::UnregisterActivator
     // because then we wouldn't be able to receive background activations, once the app has closed.
     // Call UnregisterActivator once you don't want to receive push notifications anymore.
-
-    // Uninitialize Dynamic Dependencies.
-    MddBootstrapShutdown();
 }
