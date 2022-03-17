@@ -115,7 +115,7 @@ int main()
 
                 if (remoteId == winrt::guid { "00000000-0000-0000-0000-000000000000" })
                 {
-                    std::cout << "\nThe remoteId has not been set. Refer to the readme file accompanying this sample\nfor the instructions to obtain and setup a remote id" << std::endl;
+                    std::cout << "\nThe remoteId has not been set. Refer to the readme file accompanying this sample\nfor the instructions on how to obtain and setup a remote id" << std::endl;
                 }
             }
 
