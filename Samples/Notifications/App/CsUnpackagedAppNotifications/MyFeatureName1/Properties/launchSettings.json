@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+        "MyFeatureName1 (Package)": {
+            "commandName": "MsixPackage"
+        },
+        "MyFeatureName1 (Unpackaged)": {
+            "commandName": "Project"
+        }
+    }
+}

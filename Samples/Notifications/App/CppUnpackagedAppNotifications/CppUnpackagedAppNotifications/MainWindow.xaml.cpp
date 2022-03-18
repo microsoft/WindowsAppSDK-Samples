@@ -36,6 +36,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             Window window = *this;
             window.as<IWindowNative>()->get_WindowHandle(&_hwnd);
         }
+
+        SetDisplayNameAndIcon(_hwnd);
         return _hwnd;
     }
 
