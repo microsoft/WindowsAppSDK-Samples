@@ -30,7 +30,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
             if (args.status == PushNotificationChannelStatus::InProgress)
             {
                 // This is basically a noop since it isn't really an error state
-                std::cout << "\nWNS ChannelURI request is in progress." << std::endl;
+                std::cout << "\nWNS Channel URI request is in progress." << std::endl;
             }
             else if (args.status == PushNotificationChannelStatus::InProgressRetry)
             {
@@ -47,14 +47,14 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
     {
         auto channel{ result.Channel() };
 
-        std::cout << "\nWNS ChannelURI: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
+        std::cout << "\nWNS Channel URI: " << winrt::to_string(channel.Uri().ToString()) << std::endl;
 
         // It's the caller's responsibility to keep the channel alive
         co_return channel;
     }
     else if (result.Status() == PushNotificationChannelStatus::CompletedFailure)
     {
-        LOG_HR_MSG(result.ExtendedError(), "We hit a critical non-retryable error with the WNS ChannelURI request!");
+        LOG_HR_MSG(result.ExtendedError(), "We hit a critical non-retryable error with the WNS Channel URI request!");
         co_return nullptr;
     }
     else
@@ -86,7 +86,7 @@ void SubscribeForegroundEventHandler()
         auto payload{ args.Payload() };
 
         std::string payloadString(payload.begin(), payload.end());
-        std::cout << "\nPush notification content received from FOREGROUND: " << payloadString << std::endl;
+        std::cout << "\nPush notification content received in the FOREGROUND: " << payloadString << std::endl;
     }) };
 }
 
@@ -111,7 +111,7 @@ int main()
             PushNotificationChannel channel{ RequestChannel() };
             if (!channel)
             {
-                std::cout << "\nThere was an error obtaining the WNS ChannelURI" << std::endl;
+                std::cout << "\nThere was an error obtaining the WNS Channel URI" << std::endl;
 
                 if (remoteId == winrt::guid { "00000000-0000-0000-0000-000000000000" })
                 {
@@ -138,7 +138,7 @@ int main()
 
             // Do stuff to process the raw notification payload
             std::string payloadString(payload.begin(), payload.end());
-            std::cout << "\nPush notification content received from BACKGROUND: " << payloadString.c_str() << std::endl;
+            std::cout << "\nPush notification content received in the BACKGROUND: " << payloadString.c_str() << std::endl;
             std::cout << "\nPress 'Enter' to exit the App." << std::endl;
 
             // Call Complete on the deferral when finished processing the payload.
@@ -149,7 +149,6 @@ int main()
         break;
 
         default:
-            // Unexpected activation type
             std::cout << "\nUnexpected activation type" << std::endl;
             std::cout << "\nPress 'Enter' to exit the App." << std::endl;
             std::cin.ignore();
