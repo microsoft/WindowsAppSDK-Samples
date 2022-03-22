@@ -78,58 +78,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&)
     {
-#if 0
-        auto activatedEventArgs{ winrt::AppInstance::GetCurrent().GetActivatedEventArgs() };
-
-        // Check if activated from background by AppNotification
-        if (activatedEventArgs.Kind() == winrt::ExtendedActivationKind::AppNotification)
-        {
-            winrt::Controls::ContentDialog dialog;
-            dialog.Title(box_value(L"title"));
-            dialog.Content(box_value(L"content"));
-            dialog.PrimaryButtonText(L"primary");
-            dialog.CloseButtonText(L"close");
-
-            auto result = dialog.ShowAsync();
-            //dialog.Title(L"Hello MessageDialog");
-            //dialog.XamlRoot(Content().XamlRoot() /* Assuming that you're showing from the window */);
-
-#if 0
-            winrt::Windows::UI::Popups::MessageDialog dialog1("No internet connection has been found.");
-
-            winrt::Windows::UI::Popups::MessageDialog dialog2(L"Hello MessageDialog");
-            dialog2.ShowAsync();
-#endif
-#if 0
-            ContentDialog dialog;
-            dialog.Title(box_value(L"title"));
-            dialog.Content(box_value(L"content"));
-            dialog.PrimaryButtonText(L"primary");
-            dialog.CloseButtonText(L"close");
-            //dialog.XamlRoot(myButton().XamlRoot()); // maybe needed, maybe not
-
-            auto result = co_await dialog.ShowAsync();
-
-            if (result == ContentDialogResult::Primary)
-            {
-
-            }
-#endif
-#if 0
-            std::wcout << L"Activated by AppNotification from background.\n";
-            winrt::AppNotificationActivatedEventArgs appNotificationArgs{ args.Data().as<winrt::AppNotificationActivatedEventArgs>() };
-            winrt::hstring arguments{ appNotificationArgs.Argument() };
-            std::wcout << arguments.c_str() << std::endl << std::endl;
-
-            winrt::IMap<winrt::hstring, winrt::hstring> userInput = appNotificationArgs.UserInput();
-            for (auto pair : userInput)
-            {
-                std::wcout << "Key= " << pair.Key().c_str() << " " << "Value= " << pair.Value().c_str() << L"\n";
-            }
-            std::wcout << std::endl;
-#endif
-        }
-#endif
         window = winrt::make<MainWindow>();
 
         SetDisplayNameAndIcon();
@@ -167,21 +115,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 //MainPage::Current().
                   //rootPage.NotifyUser(L"Toast Activation Received!", InfoBarSeverity::Informational);
                     //ProcessNotificationArgs(notificationActivatedEventArgs);
-#if 0
-                winrt::Controls::Flyout flyout;
-                flyout.ShowAt(MainPage::Current());
-#endif
-#if 0
-                MainPage::Current().con
-                    winrt::Controls::ContentDialog dialog()
-                    dialog.Title(box_value(L"title"));
-                dialog.Content(box_value(L"content"));
-                dialog.PrimaryButtonText(L"primary");
-                dialog.CloseButtonText(L"close");
-                dialog.XamlRoot(MainPage::Current().Content().XamlRoot() /* Assuming that you're showing from the window */);
-
-                auto result = dialog.ShowAsync();
-#endif
                 });
 
         notificationManager.Register();
@@ -222,27 +155,11 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 {
                 }
 #endif
-
                 //window.Activate();
                 //window.Content().
                 //MainPage::Current().
                   //rootPage.NotifyUser(L"Toast Activation Received!", InfoBarSeverity::Informational);
                     //ProcessNotificationArgs(notificationActivatedEventArgs);
-#if 0
-                winrt::Controls::Flyout flyout;
-                flyout.ShowAt(MainPage::Current());
-#endif
-#if 0
-                MainPage::Current().con
-                    winrt::Controls::ContentDialog dialog()
-                    dialog.Title(box_value(L"title"));
-                dialog.Content(box_value(L"content"));
-                dialog.PrimaryButtonText(L"primary");
-                dialog.CloseButtonText(L"close");
-                dialog.XamlRoot(MainPage::Current().Content().XamlRoot() /* Assuming that you're showing from the window */);
-
-                auto result = dialog.ShowAsync();
-#endif
             });
 
         notificationManager.Register();
