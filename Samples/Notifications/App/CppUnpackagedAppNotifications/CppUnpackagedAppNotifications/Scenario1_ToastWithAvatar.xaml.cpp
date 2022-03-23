@@ -8,6 +8,10 @@
 #include "Scenario1_ToastWithAvatar.g.cpp"
 #endif
 
+#include <sstream>
+#include <winrt/Microsoft.Windows.AppLifecycle.h>
+#include <winrt/Windows.Storage.h>
+
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
@@ -16,6 +20,12 @@ namespace winrt
     using namespace Microsoft::Windows::AppNotifications;
 }
 
+using namespace winrt::Windows::Foundation;
+using namespace winrt::Windows::Foundation::Collections;
+using namespace winrt::Windows::ApplicationModel::Activation;
+using namespace winrt::Microsoft::Windows::AppLifecycle;
+using namespace winrt::Windows::Storage;
+
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     MainPage Scenario1_ToastWithAvatar::rootPage{ nullptr };
@@ -23,6 +33,9 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     Scenario1_ToastWithAvatar::Scenario1_ToastWithAvatar()
     {
         InitializeComponent();
+
+        InitializeComponent();
+        this->StatusListView().ItemsSource(messages);
 
         Scenario1_ToastWithAvatar::rootPage = MainPage::Current();
     }
@@ -54,5 +67,10 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
 
         rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
+    }
+
+    void Scenario1_ToastWithAvatar::GetActivationInfo_Click(IInspectable const&, RoutedEventArgs const&)
+    {
+        GetActivationInfo();
     }
 }

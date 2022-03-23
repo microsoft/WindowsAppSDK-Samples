@@ -20,6 +20,19 @@
 
                 <Button Content="Send Toast" Click="SendToast_Click" />
 
+                <Button Content="Get Activation Info" Click="GetActivationInfo_Click" />
+
+                <ListView 
+                    x:Name="StatusListView" Background="Transparent"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Height" Value="24" />
+                            <Setter Property="MinHeight" Value="24" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                
                 <ContentDialog x:Name="myDialog" CloseButtonText="Close">
                     <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
                         Activated!

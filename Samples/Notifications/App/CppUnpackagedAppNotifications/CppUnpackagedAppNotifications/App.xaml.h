@@ -12,9 +12,16 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         App();
 
         void OnLaunched(Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
-        void App::OnActivated(winrt::Windows::ApplicationModel::Activation::IActivatedEventArgs const&);
+        void OnActivated(winrt::Windows::ApplicationModel::Activation::IActivatedEventArgs const&);
 
     private:
         Microsoft::UI::Xaml::Window window{ nullptr };
     };
 }
+
+void OutputMessage(const WCHAR* message);
+void OutputFormattedMessage(const WCHAR* fmt, ...);
+std::vector<std::wstring> split_strings(winrt::hstring argString);
+void GetActivationInfo();
+
+extern winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Foundation::IInspectable> messages;
