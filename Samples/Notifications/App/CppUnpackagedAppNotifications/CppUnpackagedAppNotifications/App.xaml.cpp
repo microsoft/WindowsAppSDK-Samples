@@ -20,6 +20,7 @@
 
 #include <sstream>
 #include <winrt/Windows.Storage.h>
+#include <Microsoft.UI.Xaml.Window.h>
 
 namespace winrt
 {
@@ -27,9 +28,10 @@ namespace winrt
     using namespace Microsoft::UI::Xaml;
     using namespace winrt::Windows::ApplicationModel::Activation;
     using namespace winrt::Microsoft::Windows::AppLifecycle;
+    using namespace winrt::Windows::Storage;
 }
 
-using namespace winrt::Windows::Storage;
+HWND hwnd;
 
 // This function is intended to be called in the unpackaged scenario.
 void SetDisplayNameAndIcon() noexcept try
@@ -39,12 +41,12 @@ void SetDisplayNameAndIcon() noexcept try
 
     // Icon is mandatory
     winrt::com_ptr<IPropertyStore> propertyStore;
-    wil::unique_hwnd hWindow{ GetConsoleWindow() };
+    //wil::unique_hwnd hWindow{ GetConsoleWindow()};
 
-    THROW_IF_FAILED(SHGetPropertyStoreForWindow(hWindow.get(), IID_PPV_ARGS(&propertyStore)));
+    THROW_IF_FAILED(SHGetPropertyStoreForWindow(hwnd /*hWindow.get()*/, IID_PPV_ARGS(&propertyStore)));
 
     wil::unique_prop_variant propVariantIcon;
-    wil::unique_cotaskmem_string sth = wil::make_unique_string<wil::unique_cotaskmem_string>(LR"(%SystemRoot%\system32\@WLOGO_96x96.png)");
+    wil::unique_cotaskmem_string sth = wil::make_unique_string<wil::unique_cotaskmem_string>(LR"("D:\WindowsAppSDK-Samples\Samples\Notifications\App\CppUnpackagedAppNotifications\CppUnpackagedAppNotifications\Assets\windows-sdk.ico")" /*LR"(%SystemRoot%\system32\@WLOGO_96x96.png)"*/);
     propVariantIcon.pwszVal = sth.release();
     propVariantIcon.vt = VT_LPWSTR;
     THROW_IF_FAILED(propertyStore->SetValue(PKEY_AppUserModel_RelaunchIconResource, propVariantIcon));
@@ -138,6 +140,9 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
 
         window = make<MainWindow>();
+        window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
+        //HWND will hold the handle to the window
+        //IntPtr windowHandle = (App.Current as App).WindowHandle; IntPtr windowHandle = (App.Current as App).WindowHandle;
         SetDisplayNameAndIcon();
 
         auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
@@ -227,7 +232,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 }
 
     // Helpers ////////////////////////////////////////////////////////////////////
-
     int activationCount = 1;
     //event_token activationToken;
     winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Foundation::IInspectable> messages = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
@@ -287,7 +291,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             auto fileArgs = args.Data().as<winrt::IFileActivatedEventArgs>();
             if (fileArgs)
             {
-                IStorageItem file = fileArgs.Files().GetAt(0);
+                winrt::IStorageItem file = fileArgs.Files().GetAt(0);
                 OutputFormattedMessage(
                     L"File activation for '%s'", file.Name().c_str());
             }
@@ -315,7 +319,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         winrt::IFileActivatedEventArgs fileArgs = args.Data().as<winrt::IFileActivatedEventArgs>();
         if (fileArgs)
         {
-            IStorageItem file = fileArgs.Files().GetAt(0);
+            winrt::IStorageItem file = fileArgs.Files().GetAt(0);
             OutputFormattedMessage(
                 L"File activation (%s) for '%s'", callLocation.c_str(), file.Name().c_str());
         }
