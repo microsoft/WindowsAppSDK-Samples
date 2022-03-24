@@ -5,48 +5,48 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
-    <Page Include="MainPage.xaml" />
-    <Page Include="SettingsPage.xaml" />
-    <Page Include="Scenario1_ToastWithAvatar.xaml" />
-    <Page Include="Scenario2_ToastWithTextBox.xaml" />
-    <Page Include="Styles.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="Project.idl" />
+    <Midl Include="App.idl" />
+    <Midl Include="MainWindow.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="SampleConfiguration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SampleConfiguration.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\Wide310x150Logo.png">
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\logo.png">
+    <Image Include="Assets\StoreLogo.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Square150x150Logo.png">
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Square44x44Logo.png">
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\SplashScreen.png">
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\windows-sdk.ico">
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">
-      <UniqueIdentifier>{$guid1}</UniqueIdentifier>
+      <UniqueIdentifier>{18b82e30-bea2-4a8e-9618-a77d73f3b3b8}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />

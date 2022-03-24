@@ -7,9 +7,9 @@
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
-    <ProjectGuid>{ba5623de-515a-4d7e-9110-38d1641f5fe0}</ProjectGuid>
-    <ProjectName>CppUnpackagedAppNotifications</ProjectName>
-    <RootNamespace>CppUnpackagedAppNotifications</RootNamespace>
+    <ProjectGuid>{e11cc630-57f2-408e-aa6c-eb094d0876c5}</ProjectGuid>
+    <ProjectName>CppPackagedAppNotifications4</ProjectName>
+    <RootNamespace>CppPackagedAppNotifications4</RootNamespace>
     <!--
       $(TargetName) should be same as $(RootNamespace) so that the produced binaries (.exe/.pri/etc.)
       have a name that matches the .winmd
@@ -88,18 +88,6 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Microsoft.WindowsAppRuntime.Bootstrap.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Microsoft.WindowsAppRuntime.Bootstrap.dll</DelayLoadDLLs>
-    </Link>
-    <Link>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">Microsoft.WindowsAppRuntime.Bootstrap.dll</DelayLoadDLLs>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">Microsoft.WindowsAppRuntime.Bootstrap.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <Link>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Microsoft.WindowsAppRuntime.Bootstrap.dll</DelayLoadDLLs>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Microsoft.WindowsAppRuntime.Bootstrap.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -108,12 +96,6 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">Microsoft.WindowsAppRuntime.Bootstrap.dll</DelayLoadDLLs>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Microsoft.WindowsAppRuntime.Bootstrap.dll</DelayLoadDLLs>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Microsoft.WindowsAppRuntime.Bootstrap.dll</DelayLoadDLLs>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Microsoft.WindowsAppRuntime.Bootstrap.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">Microsoft.WindowsAppRuntime.Bootstrap.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Microsoft.WindowsAppRuntime.Bootstrap.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -154,7 +136,9 @@
     <Page Include="Scenario1_ToastWithAvatar.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Scenario2_ToastWithTextBox.xaml" />
+    <Page Include="Scenario2_ToastWithTextBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>

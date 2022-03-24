@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace CppUnpackagedAppNotifications
+namespace CppPackagedAppNotifications4
 {
     /* The following code is scenario/feature-specific IDL.
     Samples authors should modify these runtime classes as appropriate. */

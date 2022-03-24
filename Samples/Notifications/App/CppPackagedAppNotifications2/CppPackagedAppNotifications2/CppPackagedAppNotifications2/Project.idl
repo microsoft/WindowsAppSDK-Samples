@@ -1,21 +1,21 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace CppUnpackagedAppNotifications
+namespace CppPackagedAppNotifications2
 {
     /* The following code is scenario/feature-specific IDL.
     Samples authors should modify these runtime classes as appropriate. */
 
     [default_interface]
-    runtimeclass Scenario1_ToastWithAvatar : Microsoft.UI.Xaml.Controls.Page
+    runtimeclass Scenario1_ShortName : Microsoft.UI.Xaml.Controls.Page
     {
-        Scenario1_ToastWithAvatar();
+        Scenario1_ShortName();        
     }
 
     [default_interface]
-    runtimeclass Scenario2_ToastWithTextBox : Microsoft.UI.Xaml.Controls.Page
+    runtimeclass Scenario2_ShortName : Microsoft.UI.Xaml.Controls.Page
     {
-        Scenario2_ToastWithTextBox();
+        Scenario2_ShortName();
     }
 
      /* The following code is template-specific IDL.
