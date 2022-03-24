@@ -12,9 +12,11 @@
 #include <propkey.h> //PKEY properties
 #include <propsys.h>
 #include <ShObjIdl_core.h>
+
 #include <sstream>
 #include <winrt/Windows.Storage.h>
 #include <Microsoft.UI.Xaml.Window.h>
+
 namespace winrt
 {
     using namespace Windows::Foundation;
@@ -23,8 +25,6 @@ namespace winrt
     using namespace winrt::Microsoft::Windows::AppLifecycle;
     using namespace winrt::Windows::Storage;
 }
-
-
 
 // This function is intended to be called in the unpackaged scenario.
 void SetDisplayNameAndIcon(HWND hwnd) noexcept try
@@ -53,6 +53,7 @@ void SetDisplayNameAndIcon(HWND hwnd) noexcept try
 #endif
 }
 CATCH_LOG()
+
 namespace winrt::CppPackagedAppNotifications4::implementation
 {
     App::App()

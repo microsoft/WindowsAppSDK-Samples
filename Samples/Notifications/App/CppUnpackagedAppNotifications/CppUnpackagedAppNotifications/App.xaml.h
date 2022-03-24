@@ -12,7 +12,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         App();
 
         void OnLaunched(Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
-        void OnActivated(winrt::Windows::ApplicationModel::Activation::IActivatedEventArgs const&);
 
     private:
         Microsoft::UI::Xaml::Window window{ nullptr };

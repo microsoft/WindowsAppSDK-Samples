@@ -12,7 +12,6 @@
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
-#include <winrt/Microsoft.Windows.PushNotifications.h>
 
 #include <propkey.h> //PKEY properties
 #include <propsys.h>
@@ -31,22 +30,20 @@ namespace winrt
     using namespace winrt::Windows::Storage;
 }
 
-HWND hwnd;
-
 // This function is intended to be called in the unpackaged scenario.
-void SetDisplayNameAndIcon() noexcept try
+void SetDisplayNameAndIcon(HWND hwnd) noexcept try
 {
     // Not mandatory, but it's highly recommended to specify AppUserModelId
-    THROW_IF_FAILED(SetCurrentProcessExplicitAppUserModelID(L"ToastSampleAppId"));
+    THROW_IF_FAILED(SetCurrentProcessExplicitAppUserModelID(L"ba5623de-515a-4d7e-9110-38d1641f5fe0"));
 
     // Icon is mandatory
     winrt::com_ptr<IPropertyStore> propertyStore;
-    //wil::unique_hwnd hWindow{ GetConsoleWindow()};
+    //wil::unique_hwnd hWindow{ GetConsoleWindow() };
 
     THROW_IF_FAILED(SHGetPropertyStoreForWindow(hwnd /*hWindow.get()*/, IID_PPV_ARGS(&propertyStore)));
 
     wil::unique_prop_variant propVariantIcon;
-    wil::unique_cotaskmem_string sth = wil::make_unique_string<wil::unique_cotaskmem_string>(LR"("D:\WindowsAppSDK-Samples\Samples\Notifications\App\CppUnpackagedAppNotifications\CppUnpackagedAppNotifications\Assets\windows-sdk.ico")" /*LR"(%SystemRoot%\system32\@WLOGO_96x96.png)"*/);
+    wil::unique_cotaskmem_string sth = wil::make_unique_string<wil::unique_cotaskmem_string>(LR"("Assets\Square44x44Logo.png")" /*LR"(%SystemRoot%\system32\@WLOGO_96x96.png)"*/);
     propVariantIcon.pwszVal = sth.release();
     propVariantIcon.vt = VT_LPWSTR;
     THROW_IF_FAILED(propertyStore->SetValue(PKEY_AppUserModel_RelaunchIconResource, propVariantIcon));
@@ -64,11 +61,12 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     App::App()
     {
+#if 0
         winrt::ActivationRegistrationManager::RegisterForStartupActivation(
-            L"ToastSampleAppId",
+            L"ba5623de-515a-4d7e-9110-38d1641f5fe0",
             L""
         );
-
+#endif
         InitializeComponent();
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
@@ -140,10 +138,10 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
 
         window = make<MainWindow>();
+
+        HWND hwnd;
         window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
-        //HWND will hold the handle to the window
-        //IntPtr windowHandle = (App.Current as App).WindowHandle; IntPtr windowHandle = (App.Current as App).WindowHandle;
-        SetDisplayNameAndIcon();
+        SetDisplayNameAndIcon(hwnd);
 
         auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
         const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
@@ -165,69 +163,10 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
                     MainPage::Current().NotifyUser(message.c_str(), Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
                 }
-#if 0
-                // Check if activated from background by AppNotification
-                if (args. == winrt::ExtendedActivationKind::AppNotification)
-                {
-                }
-#endif
-                //window.Activate();
-                //window.Content().
-                //MainPage::Current().
-                //rootPage.NotifyUser(L"Toast Activation Received!", InfoBarSeverity::Informational);
-                //ProcessNotificationArgs(notificationActivatedEventArgs);
             });
 
         notificationManager.Register();
         window.Activate();
-    }
-
-    void App::OnActivated(winrt::IActivatedEventArgs const& activatedEventArgs)
-    {
-        window = winrt::make<MainWindow>();
-#if 0
-        SetDisplayNameAndIcon();
-
-        //auto args{ activatedEventArgs.Kind()    .Arguments()};
-
-        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-        const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
-            {
-                std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
-
-                if (args.find(L"activateToast") != std::wstring::npos)
-                {
-                    MainPage::Current().NotifyUser(L"OnActivated: Successful activation from toast!", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
-                }
-
-                if (args.find(L"reply") != std::wstring::npos)
-                {
-                    auto input{ notificationActivatedEventArgs.UserInput() };
-                    auto text{ input.Lookup(L"tbReply") };
-
-                    std::wstring message{ L"OnActivated: Successful activation from toast! [" };
-                    message.append(text);
-                    message.append(L"]");
-
-                    MainPage::Current().NotifyUser(message.c_str(), Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
-                }
-#if 0
-                // Check if activated from background by AppNotification
-                if (args. == winrt::ExtendedActivationKind::AppNotification)
-                {
-                }
-#endif
-                //window.Activate();
-                //window.Content().
-                //MainPage::Current().
-                  //rootPage.NotifyUser(L"Toast Activation Received!", InfoBarSeverity::Informational);
-                    //ProcessNotificationArgs(notificationActivatedEventArgs);
-            });
-#endif
-        //notificationManager.Register();
-
-        window.Activate();
-        //MainPage::Current().NotifyUser(L"OnActivated!", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
     }
 }
 
@@ -324,9 +263,12 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 L"File activation (%s) for '%s'", callLocation.c_str(), file.Name().c_str());
         }
     }
-
+#if 0
     void OnActivated(const IInspectable&, const winrt::AppActivationArguments& args)
     {
+        window = make<MainWindow>();
+        window.Activate();
+
         int const arraysize = 4096;
         WCHAR szTmp[arraysize];
         size_t cbTmp = arraysize * sizeof(WCHAR);
@@ -343,3 +285,4 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             }
         }
     }
+#endif
