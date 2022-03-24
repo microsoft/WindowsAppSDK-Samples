@@ -54,9 +54,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
+    <PRIResource Include="Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Resources.resw" />
+    <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
 </Project>

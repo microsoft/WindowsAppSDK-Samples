@@ -2,16 +2,18 @@
 // Licensed under the MIT license.
 
 #include "pch.h"
+#include "winrt/Microsoft.Windows.PushNotifications.h"
 
 using namespace winrt;
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Foundation::Collections;
 using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Microsoft::Windows::AppLifecycle;
+using namespace winrt::Microsoft::Windows::PushNotifications;
 using namespace winrt::Windows::Storage;
 
 // Windows App SDK version.
-const UINT32 majorMinorVersion{ 0x00010000 };
+const UINT32 majorMinorVersion{ 0x00010001 };
 PCWSTR versionTag{ L"" };
 const PACKAGE_VERSION minVersion{};
 
@@ -21,6 +23,7 @@ WCHAR exePathAndIconIndex[MAX_PATH + 8];
 std::vector<std::wstring> SplitStrings(hstring argString);
 void RegisterForActivation();
 void UnregisterForActivation();
+void RegisterForPushNotifications();
 void GetActivationInfo();
 void LaunchSettingsPage();
 void LaunchMainPage();
@@ -62,16 +65,6 @@ int main()
 {
     init_apartment();
 
-    // Initialize Windows App SDK for unpackaged apps.
-    HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    if (FAILED(hr))
-    {
-        wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, 
-            minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
-
     // Get the current executable filesystem path, so we can
     // use it later in registering for activation kinds.
     GetModuleFileName(NULL, exePath, MAX_PATH);
@@ -87,7 +80,7 @@ int main()
         _putws(L"1 - Get activation info");
         _putws(L"2 - Register for rich activation");
         _putws(L"3 - Unregister for rich activation");
-        _putws(L"4 - Quit");
+        _putws(L"4 - Register for PushNotifications");
         wprintf(L"Select an option: ");
 
         scanf_s("%1s", charOption, (unsigned)_countof(charOption));
@@ -104,13 +97,15 @@ int main()
             UnregisterForActivation();
             break;
         case 4:
+            RegisterForPushNotifications();
+        case 5:
             break;
         default:
             printf("*** Error: %s is not a valid choice ***", charOption);
             break;
         }
     } while (intOption != 4);
-
+    
     // Uninitialize Windows App SDK.
     MddBootstrapShutdown();
     return 0;
@@ -118,6 +113,11 @@ int main()
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void RegisterForPushNotifications()
+{
+    PushNotificationManager manager{ PushNotificationManager::Default() };
+    manager.Register();
+}
 
 // Register/Unregister for rich activation ////////////////////////////////////
 

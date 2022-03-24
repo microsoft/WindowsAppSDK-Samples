@@ -26,7 +26,7 @@ namespace winrt
 int main()
 {
     // WINAPPSDK-INITIALIZE: uncomment code below to have explicit control of initialization
-    //THROW_IF_FAILED(ExplicitlyInitializeWinAppRuntime());
+    THROW_IF_FAILED(ExplicitlyInitializeWinAppRuntime());
 
     // Call a simple Windows App SDK API, and output the result
     auto dispStatus = winrt::PowerManager::DisplayStatus();
@@ -35,7 +35,7 @@ int main()
     std::cout << "Power.DisplayStatus is " << (int)dispStatus << "\n";
 
     // WINAPPSDK-INITIALIZE: uncomment code below to control initialization
-    //ExplicitlyCleanUpWinAppRuntime();
+    ExplicitlyCleanUpWinAppRuntime();
 
 }
 
@@ -59,6 +59,7 @@ HRESULT ExplicitlyInitializeWinAppRuntime()
             hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
         return hr;
     }
+    return S_OK;
 }
 
 // Method to handle any clean up required for explicity initialization of Windows App Runtime
