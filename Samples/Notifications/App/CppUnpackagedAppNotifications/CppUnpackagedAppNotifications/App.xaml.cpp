@@ -61,13 +61,36 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     App::App()
     {
-#if 0
         winrt::ActivationRegistrationManager::RegisterForStartupActivation(
             L"ba5623de-515a-4d7e-9110-38d1641f5fe0",
             L""
         );
-#endif
+
         InitializeComponent();
+
+        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
+        const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
+            {
+                std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
+                if (args.find(L"activateToast") != std::wstring::npos)
+                {
+                    MainPage::Current().NotifyUser(L"NotificationInvoked: Successful invocation from toast!", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                }
+
+                if (args.find(L"reply") != std::wstring::npos)
+                {
+                    auto input{ notificationActivatedEventArgs.UserInput() };
+                    auto text{ input.Lookup(L"tbReply") };
+
+                    std::wstring message{ L"NotificationInvoked: Successful invocation from toast! [" };
+                    message.append(text);
+                    message.append(L"]");
+
+                    MainPage::Current().NotifyUser(message.c_str(), Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                }
+            });
+        notificationManager.Register();
+        GetActivationInfo();
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
         UnhandledException([](winrt::IInspectable const&, winrt::UnhandledExceptionEventArgs const& e)
@@ -119,55 +142,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
         SetDisplayNameAndIcon(hwnd);
 
-        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-        const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
-            {
-                std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
-                if (args.find(L"activateToast") != std::wstring::npos)
-                {
-                    MainPage::Current().NotifyUser(L"NotificationInvoked: Successful invocation from toast!", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
-                }
-
-                if (args.find(L"reply") != std::wstring::npos)
-                {
-                    auto input{ notificationActivatedEventArgs.UserInput() };
-                    auto text{ input.Lookup(L"tbReply") };
-
-                    std::wstring message{ L"NotificationInvoked: Successful invocation from toast! [" };
-                    message.append(text);
-                    message.append(L"]");
-
-                    MainPage::Current().NotifyUser(message.c_str(), Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
-                }
-            });
-
-        notificationManager.Register();
         window.Activate();
-#if 0
-        // NOTE: OnLaunched will always report that the ActivationKind == Launch,
-        // even when it isn't.
-        winrt::Windows::ApplicationModel::Activation::ActivationKind kind
-            = args.UWPLaunchActivatedEventArgs().Kind();
-        OutputFormattedMessage(L"OnLaunched: Kind=%s", KindString(kind).c_str());
-
-        // NOTE: AppInstance is ambiguous between
-        // Microsoft.Windows.AppLifecycle.AppInstance and
-        // Windows.ApplicationModel.AppInstance
-        auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
-        if (currentInstance)
-        {
-            // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
-            // even in WinUI's OnLaunched.
-            winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
-                = currentInstance.GetActivatedEventArgs();
-            if (activationArgs)
-            {
-                winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
-                    = activationArgs.Kind();
-                OutputFormattedMessage(L"activationArgs.Kind=%s", KindString(extendedKind).c_str());
-            }
-        }
-#endif
     }
 }
 
@@ -235,6 +210,12 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 OutputFormattedMessage(
                     L"File activation for '%s'", file.Name().c_str());
             }
+        }
+        else if (kind == winrt::ExtendedActivationKind::AppNotification)
+        {
+            auto appNotificationArgs{ args.Data().as< winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs>() };
+            winrt::hstring arguments{ appNotificationArgs.Argument() };
+            winrt::CppUnpackagedAppNotifications::MainPage::Current().NotifyUser(arguments.c_str(), winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
         }
     }
 
