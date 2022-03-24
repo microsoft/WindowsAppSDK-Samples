@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "MainWindow.xaml.h"
+#include <winrt/Microsoft.Windows.AppNotifications.h>
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 
@@ -27,6 +28,11 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         LoadIcon(hwnd, L"Assets/windows-sdk.ico");
         SetWindowSize(hwnd, 1050, 800);
         PlacementCenterWindowInMonitorWin32(hwnd);
+    }
+
+    void MainWindow::MainWindow_Closed(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::WindowEventArgs const& e)
+    {
+        winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Unregister();
     }
 
     HWND MainWindow::GetWindowHandle()

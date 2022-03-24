@@ -10,7 +10,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     struct MainWindow : MainWindowT<MainWindow>
     {
         MainWindow();
-        int Activate();
+
+        void MainWindow_Closed(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::WindowEventArgs const& e);
 
     private:
         HWND _hwnd{ nullptr };

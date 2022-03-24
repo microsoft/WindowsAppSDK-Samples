@@ -67,8 +67,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
 
         rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
-
-        //winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Unregister();
     }
 
     void Scenario1_ToastWithAvatar::GetActivationInfo_Click(IInspectable const&, RoutedEventArgs const&)
