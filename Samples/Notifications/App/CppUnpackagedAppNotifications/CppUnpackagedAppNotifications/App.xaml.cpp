@@ -28,6 +28,7 @@ namespace winrt
     using namespace winrt::Windows::ApplicationModel::Activation;
     using namespace winrt::Microsoft::Windows::AppLifecycle;
     using namespace winrt::Windows::Storage;
+    using namespace winrt::Microsoft::Windows::AppNotifications;
 }
 
 // This function is intended to be called in the unpackaged scenario.
@@ -234,6 +235,20 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 winrt::IStorageItem file = fileArgs.Files().GetAt(0);
                 OutputFormattedMessage(
                     L"File activation for '%s'", file.Name().c_str());
+            }
+        }
+        else if (kind == winrt::ExtendedActivationKind::AppNotification)
+        {
+            auto appNotificationArgs = args.Data().as<winrt::AppNotificationActivatedEventArgs>();
+            if (appNotificationArgs)
+            {
+                auto argString{ appNotificationArgs.Argument() };
+                std::vector<std::wstring> argStrings = SplitStrings(argString);
+                OutputMessage(L"Toast activation");
+                for (std::wstring const& s : argStrings)
+                {
+                    OutputMessage(s.c_str());
+                }
             }
         }
     }
