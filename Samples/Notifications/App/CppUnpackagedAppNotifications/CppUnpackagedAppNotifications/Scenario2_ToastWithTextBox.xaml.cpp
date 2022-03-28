@@ -16,6 +16,8 @@ namespace winrt
     using namespace Microsoft::Windows::AppNotifications;
 }
 
+extern std::wstring ExePath();
+
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     MainPage Scenario2_ToastWithTextBox::rootPage{ nullptr };
@@ -29,10 +31,13 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void Scenario2_ToastWithTextBox::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
     {
+        auto path = ExePath();
+
         winrt::hstring xmlPayload{
             L"<toast>\
                 <visual>\
                     <binding template = \"ToastGeneric\">\
+                        <image placement = \"appLogoOverride\" src = \"" + path + L"\\Assets\\Square150x150Logo.png\"/>\
                         <text>App Notifications Sample Scenario 2</text>\
                         <text>This is an example message using XML</text>\
                     </binding>\

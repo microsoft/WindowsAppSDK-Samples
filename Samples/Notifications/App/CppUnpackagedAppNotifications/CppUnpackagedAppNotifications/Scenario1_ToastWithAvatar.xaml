@@ -20,8 +20,6 @@
 
                 <Button Content="Send Toast" Click="SendToast_Click" />
 
-                <Button Content="Get Activation Info" Click="GetActivationInfo_Click" />
-
                 <ListView 
                     x:Name="StatusListView" Background="Transparent"
                     ScrollViewer.VerticalScrollBarVisibility="Visible">

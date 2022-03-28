@@ -26,6 +26,17 @@ using namespace winrt::Windows::ApplicationModel::Activation;
 using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Windows::Storage;
 
+#include <windows.h>
+#include <string>
+#include <iostream>
+
+std::wstring ExePath() {
+    TCHAR buffer[MAX_PATH] = { 0 };
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
+    return std::wstring(buffer).substr(0, pos);
+}
+
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     MainPage Scenario1_ToastWithAvatar::rootPage{ nullptr };
@@ -46,10 +57,13 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void Scenario1_ToastWithAvatar::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
     {
+        auto path = ExePath();
+
         winrt::hstring xmlPayload{
             L"<toast>\
                 <visual>\
                     <binding template = \"ToastGeneric\">\
+                        <image placement = \"appLogoOverride\" src = \"" + path + L"\\Assets\\Square150x150Logo.png\"/>\
                         <text>App Notifications Sample Scenario 1</text>\
                         <text>This is an example message using XML</text>\
                     </binding>\
@@ -71,10 +85,5 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
 
         rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
-    }
-
-    void Scenario1_ToastWithAvatar::GetActivationInfo_Click(IInspectable const&, RoutedEventArgs const&)
-    {
-        GetActivationInfo();
     }
 }

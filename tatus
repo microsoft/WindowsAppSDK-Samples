@@ -1,0 +1,47 @@
+[1mdiff --git a/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml b/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml[m
+[1mindex 2a35f81..897cf79 100644[m
+[1m--- a/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml[m
+[1m+++ b/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml[m
+[36m@@ -20,8 +20,6 @@[m
+ [m
+                 <Button Content="Send Toast" Click="SendToast_Click" />[m
+ [m
+[31m-                <Button Content="Get Activation Info" Click="GetActivationInfo_Click" />[m
+[31m-[m
+                 <ListView [m
+                     x:Name="StatusListView" Background="Transparent"[m
+                     ScrollViewer.VerticalScrollBarVisibility="Visible">[m
+[1mdiff --git a/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml.cpp b/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml.cpp[m
+[1mindex d6c2095..86cac43 100644[m
+[1m--- a/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml.cpp[m
+[1m+++ b/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml.cpp[m
+[36m@@ -50,6 +50,7 @@[m [mnamespace winrt::CppUnpackagedAppNotifications::implementation[m
+             L"<toast>\[m
+                 <visual>\[m
+                     <binding template = \"ToastGeneric\">\[m
+[32m+[m[32m                        <image placement = \"appLogoOverride\" src = \"D:\\WindowsAppSDK-Samples\\Samples\\Notifications\\App\\CppUnpackagedAppNotifications\\CppUnpackagedAppNotifications\\Assets\\Square150x150Logo.png\"/>\[m
+                         <text>App Notifications Sample Scenario 1</text>\[m
+                         <text>This is an example message using XML</text>\[m
+                     </binding>\[m
+[36m@@ -72,9 +73,4 @@[m [mnamespace winrt::CppUnpackagedAppNotifications::implementation[m
+ [m
+         rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);[m
+     }[m
+[31m-[m
+[31m-    void Scenario1_ToastWithAvatar::GetActivationInfo_Click(IInspectable const&, RoutedEventArgs const&)[m
+[31m-    {[m
+[31m-        GetActivationInfo();[m
+[31m-    }[m
+ }[m
+[1mdiff --git a/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml.h b/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml.h[m
+[1mindex cb439c6..2250ce8 100644[m
+[1m--- a/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml.h[m
+[1m+++ b/Samples/Notifications/App/CppUnpackagedAppNotifications/CppUnpackagedAppNotifications/Scenario1_ToastWithAvatar.xaml.h[m
+[36m@@ -15,7 +15,6 @@[m [mnamespace winrt::CppUnpackagedAppNotifications::implementation[m
+         void Notification_received(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs);[m
+ [m
+         void SendToast_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);[m
+[31m-        void GetActivationInfo_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);[m
+ [m
+     private:[m
+         static CppUnpackagedAppNotifications::MainPage rootPage;[m
