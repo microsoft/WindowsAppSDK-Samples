@@ -115,11 +115,12 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         SetDisplayNameAndIcon(hwnd);
 
         auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-        const auto token = notificationManager.NotificationInvoked([&](const auto&, const winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs& notificationActivatedEventArgs)
+        const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
             {
                 std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
                 if (args.find(L"activateToast") != std::wstring::npos)
                 {
+                    MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario1_ToastWithAvatar");
                     MainPage::Current().NotifyUser(L"NotificationInvoked: Successful invocation from toast!", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
                 }
 
@@ -132,6 +133,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                     message.append(text);
                     message.append(L"]");
 
+                    MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario2_ToastWithTextBox");
                     MainPage::Current().NotifyUser(message.c_str(), Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
                 }
             });
@@ -280,6 +282,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 L"File activation (%s) for '%s'", callLocation.c_str(), file.Name().c_str());
         }
     }
+
 #if 0
     void OnActivated(const IInspectable&, const winrt::AppActivationArguments& args)
     {

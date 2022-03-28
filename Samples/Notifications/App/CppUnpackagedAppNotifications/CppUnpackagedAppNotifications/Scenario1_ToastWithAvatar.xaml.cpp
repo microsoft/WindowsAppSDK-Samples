@@ -40,6 +40,11 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         Scenario1_ToastWithAvatar::rootPage = MainPage::Current();
     }
 
+    void Notification_received(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
+    {
+
+    }
+
     void Scenario1_ToastWithAvatar::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
     {
         winrt::hstring xmlPayload{

@@ -27,6 +27,33 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         MainPage::current = *this;
     }
 
+    void MainPage::ActivateScenario(hstring const& navItemTag)
+    {
+        TypeName pageType;
+
+        if (navItemTag == winrt::xaml_typename<SettingsPage>().Name)
+        {
+            // Can't do that, not a valid scenario
+        }
+        else
+        {
+            pageType.Name = navItemTag;
+            pageType.Kind = TypeKind::Metadata;
+        }
+
+        // If called from the UI thread, then update immediately.
+        // Otherwise, schedule a task on the UI thread to perform the update.
+        if (this->DispatcherQueue().HasThreadAccess())
+        {
+            NavView_NavigateToPage(pageType);
+        }
+        else
+        {
+            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this, pageType]
+                { NavView_NavigateToPage(pageType); });
+        }
+    }
+
     void MainPage::NotifyUser(hstring const& strMessage, InfoBarSeverity const& severity)
     {
         // If called from the UI thread, then update immediately.
@@ -108,6 +135,11 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             pageType.Kind = TypeKind::Metadata;
         }
 
+        NavView_NavigateToPage(pageType);
+    }
+
+    void MainPage::NavView_NavigateToPage(TypeName const& pageType)
+    {
         // Get the page type before navigation so you can prevent duplicate
         // entries in the backstack.
         TypeName prePageType = ContentFrame().CurrentSourcePageType();
