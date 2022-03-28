@@ -140,7 +140,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
         notificationManager.Register();
         window.Activate();
-
+#if 0
         try
         {
             // NOTE: OnLaunched will always report that the ActivationKind == Launch,
@@ -171,7 +171,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         {
             // toast activation
         }
-
+#endif
     }
 }
 

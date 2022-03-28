@@ -25,6 +25,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         static CppUnpackagedAppNotifications::MainPage current;
 
         void NavView_NavigateToPage(winrt::Windows::UI::Xaml::Interop::TypeName const& pageType);
+        void GetActivationArgs();
     };
 }
 

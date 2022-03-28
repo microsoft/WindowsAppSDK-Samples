@@ -6,6 +6,8 @@
 #if __has_include("MainPage.g.cpp")
 #include "MainPage.g.cpp"
 #endif
+#include <winrt/Microsoft.Windows.AppLifecycle.h>
+#include <winrt/Microsoft.Windows.AppNotifications.h>
 
 namespace winrt
 {
@@ -15,6 +17,9 @@ namespace winrt
     using namespace Microsoft::UI::Xaml::Media::Animation;
     using namespace Microsoft::UI::Xaml::Navigation;
     using namespace Windows::UI::Xaml::Interop;
+    using namespace winrt::Windows::ApplicationModel::Activation;
+    using namespace winrt::Microsoft::Windows::AppLifecycle;
+    using namespace winrt::Microsoft::Windows::AppNotifications;
 }
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
@@ -25,6 +30,19 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         InitializeComponent();
         MainPage::current = *this;
+#if 0
+        // If called from the UI thread, then update immediately.
+        // Otherwise, schedule a task on the UI thread to perform the update.
+        if (this->DispatcherQueue().HasThreadAccess())
+        {
+            GetActivationArgs();
+        }
+        else
+        {
+            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this]
+                { GetActivationArgs(); });
+        }
+#endif
     }
 
     void MainPage::ActivateScenario(hstring const& navItemTag)
@@ -101,6 +119,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         {
             NavView_Navigate(Scenarios().GetAt(0).ClassName, nullptr);
         }
+
+        GetActivationArgs();
     }
 
 
@@ -183,6 +203,62 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                     break;
                 }
             }
+        }
+    }
+
+    void MainPage::GetActivationArgs()
+    {
+        try
+        {
+            // NOTE: AppInstance is ambiguous between
+            // Microsoft.Windows.AppLifecycle.AppInstance and
+            // Windows.ApplicationModel.AppInstance
+            auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
+            if (currentInstance)
+            {
+                // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
+                // even in WinUI's OnLaunched.
+                winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
+                    = currentInstance.GetActivatedEventArgs();
+                if (activationArgs)
+                {
+                    winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
+                        = activationArgs.Kind();
+                    if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
+                    {
+                        //UpdateStatus(L"AppNotification", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                        winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>();
+
+                        std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
+                        if (args.find(L"activateToast") != std::wstring::npos)
+                        {
+                            MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario1_ToastWithAvatar");
+                            MainPage::Current().NotifyUser(L"AppActivated: Successful invocation from toast!", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                        }
+
+                        if (args.find(L"reply") != std::wstring::npos)
+                        {
+                            auto input{ notificationActivatedEventArgs.UserInput() };
+                            auto text{ input.Lookup(L"tbReply") };
+
+                            std::wstring message{ L"AppActivated: Successful invocation from toast! [" };
+                            message.append(text);
+                            message.append(L"]");
+
+                            MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario2_ToastWithTextBox");
+                            MainPage::Current().NotifyUser(message.c_str(), Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                        }
+                    }
+                    else
+                    {
+                        UpdateStatus(L"Normal launch", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                    }
+                }
+            }
+        }
+        catch (...)
+        {
+            // toast activation
         }
     }
 }

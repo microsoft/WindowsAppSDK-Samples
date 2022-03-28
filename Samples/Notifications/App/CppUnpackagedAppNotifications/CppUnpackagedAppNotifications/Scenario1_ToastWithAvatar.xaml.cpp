@@ -34,7 +34,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         InitializeComponent();
 
-        InitializeComponent();
         this->StatusListView().ItemsSource(messages);
 
         Scenario1_ToastWithAvatar::rootPage = MainPage::Current();
