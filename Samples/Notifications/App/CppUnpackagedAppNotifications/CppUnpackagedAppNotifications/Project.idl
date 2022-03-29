@@ -27,6 +27,7 @@ namespace CppUnpackagedAppNotifications
         static MainPage Current();
         void NotifyUser(String strMessage, Microsoft.UI.Xaml.Controls.InfoBarSeverity severity);
         void ActivateScenario(String className);
+        void NotificationDialog();
     }
 
     // To use Scenario in a winrt::Windows::Foundation::Collections::IVector<Scenario>, Scenario should be a WinRT type

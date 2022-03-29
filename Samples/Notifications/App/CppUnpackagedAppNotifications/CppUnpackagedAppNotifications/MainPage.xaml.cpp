@@ -8,6 +8,8 @@
 #endif
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.AppNotifications.h>
+#include "ToastWithAvatar.h"
+#include "ToastWithTextBox.h"
 
 namespace winrt
 {
@@ -43,6 +45,33 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 { GetActivationArgs(); });
         }
 #endif
+    }
+
+    void MainPage::NotificationDialog()
+    {
+        // If called from the UI thread, then update immediately.
+        // Otherwise, schedule a task on the UI thread to perform the update.
+        if (this->DispatcherQueue().HasThreadAccess())
+        {
+            ShowDialog();
+        }
+        else
+        {
+            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this]
+                { ShowDialog(); });
+        }
+    }
+
+    void MainPage::ShowDialog()
+    {
+        ContentDialog noWifiDialog;// = new ContentDialog()
+            //{
+                //Title = "No wifi connection",
+                //Content = "Check connection and try again.",
+                //CloseButtonText = "Ok"
+            //};
+
+         noWifiDialog.ShowAsync();
     }
 
     void MainPage::ActivateScenario(hstring const& navItemTag)
@@ -232,21 +261,15 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                         std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
                         if (args.find(L"activateToast") != std::wstring::npos)
                         {
-                            MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario1_ToastWithAvatar");
-                            MainPage::Current().NotifyUser(L"AppActivated: Successful invocation from toast!", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                            ToastWithAvatar::NotificationReceived(notificationActivatedEventArgs);
                         }
-
-                        if (args.find(L"reply") != std::wstring::npos)
+                        else if (args.find(L"reply") != std::wstring::npos)
                         {
-                            auto input{ notificationActivatedEventArgs.UserInput() };
-                            auto text{ input.Lookup(L"tbReply") };
-
-                            std::wstring message{ L"AppActivated: Successful invocation from toast! [" };
-                            message.append(text);
-                            message.append(L"]");
-
-                            MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario2_ToastWithTextBox");
-                            MainPage::Current().NotifyUser(message.c_str(), Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                            ToastWithTextBox::NotificationReceived(notificationActivatedEventArgs);
+                        }
+                        else
+                        {
+                            MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
                         }
                     }
                     else

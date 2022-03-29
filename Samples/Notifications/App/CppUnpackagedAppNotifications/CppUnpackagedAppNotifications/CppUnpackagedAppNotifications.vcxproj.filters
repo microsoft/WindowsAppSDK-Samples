@@ -18,10 +18,22 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
+    <ClCompile Include="ToastWithAvatar.cpp">
+      <Filter>Scenarios</Filter>
+    </ClCompile>
+    <ClCompile Include="ToastWithTextBox.cpp">
+      <Filter>Scenarios</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="SampleConfiguration.h" />
+    <ClInclude Include="ToastWithAvatar.h">
+      <Filter>Scenarios</Filter>
+    </ClInclude>
+    <ClInclude Include="ToastWithTextBox.h">
+      <Filter>Scenarios</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.png">
@@ -46,6 +58,9 @@
   <ItemGroup>
     <Filter Include="Assets">
       <UniqueIdentifier>{$guid1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenarios">
+      <UniqueIdentifier>{61c8c50e-14b1-4504-b7ad-935b944692e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@
 #include <sstream>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Windows.Storage.h>
+#include "ToastWithAvatar.h"
 
 namespace winrt
 {
@@ -29,13 +30,6 @@ using namespace winrt::Windows::Storage;
 #include <windows.h>
 #include <string>
 #include <iostream>
-
-std::wstring ExePath() {
-    TCHAR buffer[MAX_PATH] = { 0 };
-    GetModuleFileName(NULL, buffer, MAX_PATH);
-    std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-    return std::wstring(buffer).substr(0, pos);
-}
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
@@ -57,33 +51,14 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void Scenario1_ToastWithAvatar::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        auto path = ExePath();
-
-        winrt::hstring xmlPayload{
-            L"<toast>\
-                <visual>\
-                    <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" src = \"" + path + L"\\Assets\\Square150x150Logo.png\"/>\
-                        <text>App Notifications Sample Scenario 1</text>\
-                        <text>This is an example message using XML</text>\
-                    </binding>\
-                </visual>\
-                <actions>\
-                    <action\
-                        content = \"Activate Toast\"\
-                        arguments = \"action=activateToast&amp;contentId=351\"\
-                        activationType = \"foreground\" />\
-                </actions>\
-            </toast>" };
-
-        auto toast{ winrt::AppNotification(xmlPayload) };
-        toast.Priority(winrt::AppNotificationPriority::High);
-        winrt::AppNotificationManager::Default().Show(toast);
-        if (toast.Id() == 0)
+        if (ToastWithAvatar::SendToast() )
+        {
+            rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
+        }
+        else
         {
             rootPage.NotifyUser(L"Could not send toast", InfoBarSeverity::Error);
         }
-
-        rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
+        myDialog().ShowAsync();
     }
 }

@@ -12,8 +12,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         Scenario1_ToastWithAvatar();
 
-        void Notification_received(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs);
-
         void SendToast_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
 
     private:

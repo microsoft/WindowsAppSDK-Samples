@@ -7,6 +7,7 @@
 #if __has_include("Scenario2_ToastWithTextBox.g.cpp")
 #include "Scenario2_ToastWithTextBox.g.cpp"
 #endif
+#include "ToastWithTextBox.h"
 
 namespace winrt
 {
@@ -31,37 +32,13 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void Scenario2_ToastWithTextBox::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        auto path = ExePath();
-
-        winrt::hstring xmlPayload{
-            L"<toast>\
-                <visual>\
-                    <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" src = \"" + path + L"\\Assets\\Square150x150Logo.png\"/>\
-                        <text>App Notifications Sample Scenario 2</text>\
-                        <text>This is an example message using XML</text>\
-                    </binding>\
-                </visual>\
-                <actions>\
-                    <input\
-                        id = \"tbReply\"\
-                        type = \"text\"\
-                        placeHolderContent = \"Type a reply\"/>\
-                    <action\
-                        content = \"Reply\"\
-                        arguments = \"action=reply&amp;contentId=351\"\
-                        activationType = \"background\" />\
-                </actions>\
-            </toast>" };
-
-        auto toast{ winrt::AppNotification(xmlPayload) };
-        toast.Priority(winrt::AppNotificationPriority::High);
-        winrt::AppNotificationManager::Default().Show(toast);
-        if (toast.Id() == 0)
+        if (ToastWithTextBox::SendToast())
+        {
+            rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
+        }
+        else
         {
             rootPage.NotifyUser(L"Could not send toast", InfoBarSeverity::Error);
         }
-
-        rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
     }
 }
