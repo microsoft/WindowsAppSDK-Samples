@@ -20,8 +20,7 @@
 #include <sstream>
 #include <winrt/Windows.Storage.h>
 #include <Microsoft.UI.Xaml.Window.h>
-#include "ToastWithAvatar.h"
-#include "ToastWithTextBox.h"
+#include "Utils.h"
 
 namespace winrt
 {
@@ -119,16 +118,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
         const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
             {
-                std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
-                if (args.find(L"activateToast") != std::wstring::npos)
-                {
-                    ToastWithAvatar::NotificationReceived(notificationActivatedEventArgs);
-                }
-                else if (args.find(L"reply") != std::wstring::npos)
-                {
-                    ToastWithTextBox::NotificationReceived(notificationActivatedEventArgs);
-                }
-                else
+                if (!Utils::DispatchNotification(notificationActivatedEventArgs))
                 {
                     MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
                 }

@@ -3,6 +3,7 @@
 #include <winrt/Microsoft.Windows.AppNotifications.h>
 #include "MainPage.xaml.h""
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include "Utils.h"
 
 namespace winrt
 {
@@ -12,22 +13,13 @@ namespace winrt
     using namespace Microsoft::Windows::AppNotifications;
 }
 
-std::wstring ExePath() {
-    TCHAR buffer[MAX_PATH] = { 0 };
-    GetModuleFileName(NULL, buffer, MAX_PATH);
-    std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-    return std::wstring(buffer).substr(0, pos);
-}
-
 bool ToastWithAvatar::SendToast()
 {
-    auto path = ExePath();
-
     winrt::hstring xmlPayload{
         L"<toast>\
                 <visual>\
                     <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" src = \"" + path + L"\\Assets\\Square150x150Logo.png\"/>\
+                        <image placement = \"appLogoOverride\" src = \"" + Utils::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
                         <text>App Notifications Sample Scenario 1</text>\
                         <text>This is an example message using XML</text>\
                     </binding>\
@@ -52,7 +44,7 @@ bool ToastWithAvatar::SendToast()
 }
 
 
-void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
+void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
     winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario1_ToastWithAvatar");
     winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"NotificationInvoked: Successful invocation from toast!", winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);

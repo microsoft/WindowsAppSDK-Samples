@@ -3,6 +3,7 @@
 #include <winrt/Microsoft.Windows.AppNotifications.h>
 #include "MainPage.xaml.h""
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include "Utils.h"
 
 namespace winrt
 {
@@ -12,17 +13,13 @@ namespace winrt
     using namespace Microsoft::Windows::AppNotifications;
 }
 
-extern std::wstring ExePath();
-
 bool ToastWithTextBox::SendToast()
 {
-    auto path = ExePath();
-
     winrt::hstring xmlPayload{
         L"<toast>\
                 <visual>\
                     <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" src = \"" + path + L"\\Assets\\Square150x150Logo.png\"/>\
+                        <image placement = \"appLogoOverride\" src = \"" + Utils::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
                         <text>App Notifications Sample Scenario 2</text>\
                         <text>This is an example message using XML</text>\
                     </binding>\
@@ -50,7 +47,7 @@ bool ToastWithTextBox::SendToast()
     return true;
 }
 
-void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
+void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
     auto input{ notificationActivatedEventArgs.UserInput() };
     auto text{ input.Lookup(L"tbReply") };

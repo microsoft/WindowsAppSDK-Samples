@@ -5,6 +5,6 @@ class ToastWithTextBox
 {
 public:
     static bool SendToast();
-    static void NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs);
+    static void NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
 };
 

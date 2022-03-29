@@ -24,6 +24,7 @@
     <ClCompile Include="ToastWithTextBox.cpp">
       <Filter>Scenarios</Filter>
     </ClCompile>
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="ToastWithTextBox.h">
       <Filter>Scenarios</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.png">
