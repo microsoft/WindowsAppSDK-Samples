@@ -6,6 +6,13 @@ namespace CppUnpackagedAppNotifications
     /* The following code is scenario/feature-specific IDL.
     Samples authors should modify these runtime classes as appropriate. */
 
+    struct Notification
+    {
+        String Originator;
+        String Action;
+        String Input;
+    };
+
     [default_interface]
     runtimeclass Scenario1_ToastWithAvatar : Microsoft.UI.Xaml.Controls.Page
     {
@@ -27,7 +34,7 @@ namespace CppUnpackagedAppNotifications
         static MainPage Current();
         void NotifyUser(String strMessage, Microsoft.UI.Xaml.Controls.InfoBarSeverity severity);
         void ActivateScenario(String className);
-        void NotificationDialog();
+        void NotificationReceived(Notification notification);
     }
 
     // To use Scenario in a winrt::Windows::Foundation::Collections::IVector<Scenario>, Scenario should be a WinRT type

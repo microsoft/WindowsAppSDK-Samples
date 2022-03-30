@@ -17,8 +17,6 @@ namespace winrt
     using namespace Microsoft::Windows::AppNotifications;
 }
 
-extern std::wstring ExePath();
-
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     MainPage Scenario2_ToastWithTextBox::rootPage{ nullptr };

@@ -32,46 +32,40 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         InitializeComponent();
         MainPage::current = *this;
-#if 0
+    }
+
+    void MainPage::NotificationReceived(Notification const& notification)
+    {
+        TypeName pageType;
+
+        if (notification.Originator == winrt::xaml_typename<SettingsPage>().Name)
+        {
+            // Can't do that, not a valid scenario
+        }
+        else
+        {
+            pageType.Name = notification.Originator;
+            pageType.Kind = TypeKind::Metadata;
+        }
+
         // If called from the UI thread, then update immediately.
         // Otherwise, schedule a task on the UI thread to perform the update.
         if (this->DispatcherQueue().HasThreadAccess())
         {
-            GetActivationArgs();
+            myDialog2().Title(winrt::box_value(notification.Originator));
+            Run2().Text(notification.Input);
+            myDialog2().ShowAsync();
         }
         else
         {
-            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this]
-                { GetActivationArgs(); });
-        }
-#endif
-    }
+            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this, pageType, notification]
+                {
+                    myDialog2().Title(winrt::box_value(notification.Originator));
+                    Run2().Text(notification.Input);
+                    myDialog2().ShowAsync();
+                });
 
-    void MainPage::NotificationDialog()
-    {
-        // If called from the UI thread, then update immediately.
-        // Otherwise, schedule a task on the UI thread to perform the update.
-        if (this->DispatcherQueue().HasThreadAccess())
-        {
-            ShowDialog();
         }
-        else
-        {
-            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this]
-                { ShowDialog(); });
-        }
-    }
-
-    void MainPage::ShowDialog()
-    {
-        ContentDialog noWifiDialog;// = new ContentDialog()
-            //{
-                //Title = "No wifi connection",
-                //Content = "Check connection and try again.",
-                //CloseButtonText = "Ok"
-            //};
-
-         noWifiDialog.ShowAsync();
     }
 
     void MainPage::ActivateScenario(hstring const& navItemTag)
@@ -149,7 +143,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             NavView_Navigate(Scenarios().GetAt(0).ClassName, nullptr);
         }
 
-        GetActivationArgs();
+        ProcessActivationArgs();
     }
 
 
@@ -235,7 +229,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
     }
 
-    void MainPage::GetActivationArgs()
+    void MainPage::ProcessActivationArgs()
     {
         try
         {
@@ -262,10 +256,12 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                         if (args.find(L"activateToast") != std::wstring::npos)
                         {
                             ToastWithAvatar::NotificationReceived(notificationActivatedEventArgs);
+                            MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
                         }
                         else if (args.find(L"reply") != std::wstring::npos)
                         {
                             ToastWithTextBox::NotificationReceived(notificationActivatedEventArgs);
+                            MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
                         }
                         else
                         {

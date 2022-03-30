@@ -39,14 +39,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         InitializeComponent();
 
-        this->StatusListView().ItemsSource(messages);
-
         Scenario1_ToastWithAvatar::rootPage = MainPage::Current();
-    }
-
-    void Notification_received(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
-    {
-
     }
 
     void Scenario1_ToastWithAvatar::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
@@ -59,6 +52,5 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         {
             rootPage.NotifyUser(L"Could not send toast", InfoBarSeverity::Error);
         }
-        myDialog().ShowAsync();
     }
 }

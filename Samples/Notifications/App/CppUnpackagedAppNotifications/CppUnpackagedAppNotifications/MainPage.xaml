@@ -25,5 +25,13 @@
                 <InfoBar x:Name="infoBar" Grid.Row="1" />
             </Grid>
         </NavigationView>
+        
+        <ContentDialog x:Name="myDialog2" CloseButtonText="Close">
+            <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
+                <Run x:Name="Run1" Text="Successful activation from toast!"/>
+                <LineBreak/>
+                <Run x:Name="Run2" Text=""/>
+            </TextBlock>
+        </ContentDialog>
     </Grid>
 </Page>

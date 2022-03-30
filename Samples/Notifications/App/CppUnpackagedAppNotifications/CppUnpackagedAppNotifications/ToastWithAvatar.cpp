@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "ToastWithAvatar.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
-#include "MainPage.xaml.h""
+#include "MainPage.xaml.h"
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include "Utils.h"
 
@@ -43,9 +43,8 @@ bool ToastWithAvatar::SendToast()
     return true;
 }
 
-
 void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario1_ToastWithAvatar");
-    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"NotificationInvoked: Successful invocation from toast!", winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+    winrt::CppUnpackagedAppNotifications::Notification notification{ L"Scenario1_ToastWithAvatar", L"click", L"" };
+    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotificationReceived(notification);
 }

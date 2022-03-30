@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "ToastWithTextBox.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
-#include "MainPage.xaml.h""
+#include "MainPage.xaml.h"
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include "Utils.h"
 
@@ -52,10 +52,6 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
     auto input{ notificationActivatedEventArgs.UserInput() };
     auto text{ input.Lookup(L"tbReply") };
 
-    std::wstring message{ L"NotificationInvoked: Successful invocation from toast! [" };
-    message.append(text);
-    message.append(L"]");
-
-    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().ActivateScenario(L"CppUnpackagedAppNotifications.Scenario2_ToastWithTextBox");
-    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(message.c_str(), winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+    winrt::CppUnpackagedAppNotifications::Notification notification{ L"Scenario2_ToastWithTextBox", L"click", text };
+    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotificationReceived(notification);
 }

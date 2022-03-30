@@ -13,7 +13,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         static CppUnpackagedAppNotifications::MainPage Current() { return current; }
         static Windows::Foundation::Collections::IVector<CppUnpackagedAppNotifications::Scenario> Scenarios() { return scenariosInner; }
         void ActivateScenario(hstring  const& navItemTag);
-        void NotificationDialog();
+        void NotificationReceived(Notification const& notification);
         void NotifyUser(hstring const& strMessage, Microsoft::UI::Xaml::Controls::InfoBarSeverity const& severity);
         void UpdateStatus(hstring const& strMessage, Microsoft::UI::Xaml::Controls::InfoBarSeverity severity);
         void NavView_Loaded(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e);
@@ -27,8 +27,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         static CppUnpackagedAppNotifications::MainPage current;
 
         void NavView_NavigateToPage(winrt::Windows::UI::Xaml::Interop::TypeName const& pageType);
-        void GetActivationArgs();
-        void ShowDialog();
+        void ProcessActivationArgs();
     };
 }
 

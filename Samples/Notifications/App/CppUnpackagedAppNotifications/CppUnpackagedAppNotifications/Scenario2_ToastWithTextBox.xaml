@@ -19,13 +19,6 @@
                 </TextBlock>
 
                 <Button Content="Send Toast" Click="SendToast_Click" />
-
-                <ContentDialog x:Name="myDialog" CloseButtonText="Close">
-                    <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                        Activated!
-                    </TextBlock>
-                </ContentDialog>
-
             </StackPanel>
         </ScrollViewer>
     </Grid>
