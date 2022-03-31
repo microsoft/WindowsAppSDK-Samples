@@ -58,4 +58,11 @@
     </Page>
   </ItemGroup>
 
+  <!--	
+	Addresses .NET 5 to 6 breaking change documented in https://docs.microsoft.com/en-us/dotnet/core/compatibility/sdk/6.0/publish-readytorun-requires-restore-change.
+  -->
+  <PropertyGroup>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
 </Project>
