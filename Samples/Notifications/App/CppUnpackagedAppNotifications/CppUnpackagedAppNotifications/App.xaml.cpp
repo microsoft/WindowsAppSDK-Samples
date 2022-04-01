@@ -22,6 +22,9 @@
 #include <Microsoft.UI.Xaml.Window.h>
 #include "Utils.h"
 
+#include "ToastWithAvatar.h"
+#include "ToastWithTextBox.h"
+
 namespace winrt
 {
     using namespace Windows::Foundation;
@@ -126,16 +129,9 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             });
 
         notificationManager.Register();
-        window.Activate();
 #if 0
-        try
+        //try
         {
-            // NOTE: OnLaunched will always report that the ActivationKind == Launch,
-            // even when it isn't.
-            winrt::Windows::ApplicationModel::Activation::ActivationKind kind
-                = args.UWPLaunchActivatedEventArgs().Kind();
-            OutputFormattedMessage(L"OnLaunched: Kind=%s", KindString(kind).c_str());
-
             // NOTE: AppInstance is ambiguous between
             // Microsoft.Windows.AppLifecycle.AppInstance and
             // Windows.ApplicationModel.AppInstance
@@ -150,14 +146,39 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 {
                     winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
                         = activationArgs.Kind();
-                    OutputFormattedMessage(L"activationArgs.Kind=%s", KindString(extendedKind).c_str());
+                    if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
+                    {
+                        //UpdateStatus(L"AppNotification", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                        winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>();
+
+                        std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
+                        if (args.find(L"activateToast") != std::wstring::npos)
+                        {
+                            ToastWithAvatar::NotificationReceived(notificationActivatedEventArgs);
+                            MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                        }
+                        else if (args.find(L"reply") != std::wstring::npos)
+                        {
+                            ToastWithTextBox::NotificationReceived(notificationActivatedEventArgs);
+                            MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+    }
+                        else
+                        {
+                            MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
+                        }
+}
+                    else
+                    {
+                        MainPage::Current().NotifyUser(L"Normal launch", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                    }
                 }
             }
         }
-        catch (...)
-        {
+        //catch (...)
+        //{
             // toast activation
-        }
+        //}
 #endif
+        window.Activate();
     }
 }
