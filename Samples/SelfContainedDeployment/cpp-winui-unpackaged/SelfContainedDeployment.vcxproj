@@ -190,6 +190,8 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Directory.Build.props" />
+    <None Include="HybridCRT.props" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
