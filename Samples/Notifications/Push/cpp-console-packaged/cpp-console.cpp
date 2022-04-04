@@ -15,9 +15,9 @@ using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
 using namespace winrt::Windows::Foundation;
 
-// To obtain an AAD RemoteIdentifier for your app,
-// follow the instructions on https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/push/push-quickstart#configure-your-apps-identity-in-azure-active-directory
-winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own RemoteId
+// "To obtain your Azure AppId,
+// follow "Configure your app's identity in Azure Active Directory" at https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/push/push-quickstart
+winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own Azure AppId
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
@@ -68,7 +68,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 winrt::Microsoft::Windows::PushNotifications::PushNotificationChannel RequestChannel()
 {
     auto task{ RequestChannelAsync() };
-    if (task.wait_for(std::chrono::seconds(300)) != AsyncStatus::Completed)
+    if (task.wait_for(std::chrono::minutes(5)) != AsyncStatus::Completed)
     {
         task.Cancel();
         return nullptr;
@@ -98,8 +98,7 @@ int main()
     PushNotificationManager::Default().Register();
 
     auto args{ AppInstance::GetCurrent().GetActivatedEventArgs() };
-    auto kind{ args.Kind() };
-    switch (kind)
+    switch (args.Kind())
     {
         // When it is launched normally (by the users, or from the debugger), the sample requests a WNS Channel URI and
         // displays it, then waits for notifications. This user can take a copy of the WNS Channel URI and use it to send
