@@ -25,10 +25,3 @@ namespace winrt::CppUnpackagedAppNotifications::factory_implementation
     {
     };
 }
-
-void OutputMessage(const WCHAR* message);
-void OutputFormattedMessage(const WCHAR* fmt, ...);
-std::vector<std::wstring> split_strings(winrt::hstring argString);
-void GetActivationInfo();
-
-extern winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Foundation::IInspectable> messages;
