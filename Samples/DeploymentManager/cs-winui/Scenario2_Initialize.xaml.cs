@@ -70,6 +70,8 @@ namespace DeploymentManagerSample
 
             if (DeploymentManager.GetStatus().Status != DeploymentStatus.Ok)
             {
+                // Set force deploy option to true. This will shut down any proccesses associated
+                // with the Main and Singleton packages if they are currently in use.
                 DeploymentInitializeOptions deploymentInitializeOptions = new() {
                     ForceDeployment = true
                 };
