@@ -192,4 +192,10 @@
     <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.1.0.0\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.1.0.0\build\native\Microsoft.WindowsAppSDK.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.1.0.0\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.1.0.0\build\native\Microsoft.WindowsAppSDK.targets'))" />
   </Target>
+
+  <!-- Each release of Visual Studio produces larger intermediate files.
+       To prevent build agents from running out of disk space, clean as we go. -->
+  <Target Name="CleanIntermediateFiles" AfterTargets="Build" Condition="'$(clean_intermediate_files)'=='true'">
+    <RemoveDir Directories="$(IntDir)" />
+  </Target>
 </Project>

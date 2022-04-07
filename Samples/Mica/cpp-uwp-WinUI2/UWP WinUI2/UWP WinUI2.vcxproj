@@ -224,4 +224,10 @@
     <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets'))" />
   </Target>
+
+  <!-- Each release of Visual Studio produces larger intermediate files.
+       To prevent build agents from running out of disk space, clean as we go. -->
+  <Target Name="CleanIntermediateFiles" AfterTargets="Build" Condition="'$(clean_intermediate_files)'=='true'">
+    <RemoveDir Directories="$(IntDir)" />
+  </Target>
 </Project>
