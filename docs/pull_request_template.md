@@ -10,6 +10,10 @@ how to best contribute to the Windows App SDK Samples repository!
 
 Please include a summary of the change and/or which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
+## Target Release
+
+Please specify which release this PR should align with. e.g., 1.0, 1.1, 1.1 Preview 1.
+
 ## Checklist
 
 - [ ] Samples build and run using the Visual Studio versions listed in the [Windows development docs](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment?tabs=stable#2-install-visual-studio).
