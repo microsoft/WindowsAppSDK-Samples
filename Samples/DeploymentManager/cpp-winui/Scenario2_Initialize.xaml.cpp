@@ -88,7 +88,7 @@ namespace winrt::DeploymentManagerSample::implementation
             // status check, Initialize can sometimes take several seconds to deploy the packages.
             // These should be run on a separate thread so as not to hang your app while the
             // packages deploy. 
-            DeploymentResult deploymentResult = DeploymentManager::Initialize(); // TODO how to run on separate thread?
+            DeploymentResult deploymentResult = DeploymentManager::Initialize(deploymentInitializeOptions); // TODO how to run on separate thread?
 
             UpdateDeploymentResultMessages(deploymentResult);
         }
