@@ -110,75 +110,109 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
     }
 
-    void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& args)
+    bool BackgroundActivation()
     {
-        window = make<MainWindow>();
-
-        HWND hwnd;
-        window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
-        SetDisplayNameAndIcon(hwnd);
-
-        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-        const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
-            {
-                if (!Utils::DispatchNotification(notificationActivatedEventArgs))
-                {
-                    MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
-                }
-                //MainPage::Current().NotificationDialog();
-            });
-
-        notificationManager.Register();
-#if 0
-        //try
+        // NOTE: AppInstance is ambiguous between
+        // Microsoft.Windows.AppLifecycle.AppInstance and
+        // Windows.ApplicationModel.AppInstance
+        auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
+        if (currentInstance)
         {
-            // NOTE: AppInstance is ambiguous between
-            // Microsoft.Windows.AppLifecycle.AppInstance and
-            // Windows.ApplicationModel.AppInstance
-            auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
-            if (currentInstance)
+            // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
+            // even in WinUI's OnLaunched.
+            winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
+                = currentInstance.GetActivatedEventArgs();
+            if (activationArgs)
             {
-                // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
-                // even in WinUI's OnLaunched.
-                winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
-                    = currentInstance.GetActivatedEventArgs();
-                if (activationArgs)
+                winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
+                    = activationArgs.Kind();
+                if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
                 {
-                    winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
-                        = activationArgs.Kind();
-                    if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
-                    {
-                        //UpdateStatus(L"AppNotification", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
-                        winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>();
+                    //UpdateStatus(L"AppNotification", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                    winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>();
 
-                        std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
-                        if (args.find(L"activateToast") != std::wstring::npos)
-                        {
-                            ToastWithAvatar::NotificationReceived(notificationActivatedEventArgs);
-                            MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
-                        }
-                        else if (args.find(L"reply") != std::wstring::npos)
-                        {
-                            ToastWithTextBox::NotificationReceived(notificationActivatedEventArgs);
-                            MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
-    }
-                        else
-                        {
-                            MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
-                        }
-}
+                    std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
+                    if (args.find(L"activateToast") != std::wstring::npos)
+                    {
+                        return false;
+                    }
+                    else if (args.find(L"reply") != std::wstring::npos)
+                    {
+                        return true;
+                    }
                     else
                     {
-                        MainPage::Current().NotifyUser(L"Normal launch", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                        return false;
                     }
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
-        //catch (...)
-        //{
-            // toast activation
-        //}
+
+        return false;
+    }
+
+    bool NotificationActivation()
+    {
+        // NOTE: AppInstance is ambiguous between
+        // Microsoft.Windows.AppLifecycle.AppInstance and
+        // Windows.ApplicationModel.AppInstance
+        auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
+        if (currentInstance)
+        {
+            // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
+            // even in WinUI's OnLaunched.
+            winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
+                = currentInstance.GetActivatedEventArgs();
+            if (activationArgs)
+            {
+                winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
+                    = activationArgs.Kind();
+                if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& args)
+    {
+#if 0 // because calling the activation stuff twice in a row will crash
+        if (BackgroundActivation())
+        {
+            // Do background work
+        }
+        else
 #endif
-        window.Activate();
+        {
+            window = make<MainWindow>();
+
+            HWND hwnd;
+            window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
+            SetDisplayNameAndIcon(hwnd);
+
+            auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
+            const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
+                {
+                    if (!Utils::DispatchNotification(notificationActivatedEventArgs))
+                    {
+                        MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
+                    }
+                });
+
+            notificationManager.Register();
+            window.Activate();
+            //ProcessActivationArgs();
+        }
     }
 }
