@@ -2,6 +2,7 @@
 page_type: sample
 languages:
 - csharp
+- cpp
 products:
 - windows
 - windows-app-sdk
