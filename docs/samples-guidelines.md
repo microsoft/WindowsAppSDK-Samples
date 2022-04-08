@@ -492,6 +492,8 @@ Go to https://dev.azure.com/ms/ProjectReunion/_build
     (Branch will be set to main later but can't be done right now because it doesn't exist on main yet)
 -> Click Run
 
+Warning: On the first run, you might need to permit resources for the pipeline to run. If you don't have the permission, please ask the repo admins to do so. 
+
 ##### Configuring the settings on the pipeline
 
 Once you have started your run on the previous step, you can click the three dots on the top right,
@@ -525,7 +527,7 @@ Click "Edit" on the main branch and add your new pipeline to the collection of o
 
 Warning: it might take a while for your new pipeline to show up. Please don't just add the the check with the individual job with a specific config and platform. Make sure to add the full "SamplesCI-<FeatureName>"
 
-If you do not have permissions to modify these settings, please ask one of the admins to help you do so. 
+If you do not have permissions to modify these settings, please ask the repo admins to help you do so. 
 
 
 ### Deploy and test
