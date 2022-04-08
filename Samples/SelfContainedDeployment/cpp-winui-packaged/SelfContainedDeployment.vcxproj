@@ -26,6 +26,7 @@
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	<UseCrtSDKReferenceStaticWarning>false</UseCrtSDKReferenceStaticWarning>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
@@ -184,6 +185,8 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Directory.Build.props" />
+    <None Include="HybridCRT.props" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
