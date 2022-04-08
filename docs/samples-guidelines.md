@@ -500,10 +500,10 @@ This will bring you to the yml itself. Click the three dots on the top right aga
 
 Triggers must have these settings below
 
-#### Continuous Integration
+##### Continuous Integration
 - Check "Override the YAML continuous integration trigger from here" 
     - Click the "Disable continuous integration" radio button
-#### Pull request validation
+##### Pull request validation
 - Check "Override the YAML pull request trigger from here"
     and click "Enable pull request validation"
     Branch Filters
@@ -520,8 +520,11 @@ Triggers must have these settings below
 
 ##### Setup status checks on https://github.com/microsoft/WindowsAppSDK-Samples/settings/branches
 In Branch Protection rules
-Click Edit on the main branch and add your new pipeline to the collection of other pipelines in "Require status checks to pass before merging"
+
+Click "Edit" on the main branch and add your new pipeline to the collection of other pipelines in "Require status checks to pass before merging"
+
 Warning: it might take a while for your new pipeline to show up. Please don't just add the the check with the individual job with a specific config and platform. Make sure to add the full "SamplesCI-<FeatureName>"
+
 If you do not have permissions to modify these settings, please ask one of the admins to help you do so. 
 
 
