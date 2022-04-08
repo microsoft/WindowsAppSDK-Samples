@@ -44,12 +44,12 @@ stages:
         command: 'restore'
         feedsToUse: 'config'
         nugetConfigPath: '.\Samples\nuget.config'
-        restoreSolution: '.\Samples\${{ FeatureDirectory }}\**\*.sln'
+        restoreSolution: '.\Samples\${{ parameters.FeatureDirectory }}\**\*.sln'
 
     - task: VSBuild@1
       displayName: 'Restore nuget packages for all solutions'
       inputs:
-        solution: .\Samples\${{ FeatureDirectory }}\**\*.sln
+        solution: .\Samples\${{ parameters.FeatureDirectory }}\**\*.sln
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/t:restore /p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
@@ -57,7 +57,7 @@ stages:
     - task: VSBuild@1
       displayName: 'Build all Sample solutions'
       inputs:
-        solution: .\Samples\${{ FeatureDirectory }}\**\*.sln
+        solution: .\Samples\${{ parameters.FeatureDirectory }}\**\*.sln
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
