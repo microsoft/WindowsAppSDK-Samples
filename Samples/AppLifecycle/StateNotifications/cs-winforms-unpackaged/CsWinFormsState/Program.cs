@@ -3,6 +3,7 @@
 
 using System;
 using System.Windows.Forms;
+using Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsWinFormsState
 {
@@ -20,13 +21,14 @@ namespace CsWinFormsState
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize Windows App SDK for unpackaged apps.            
-            int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
+            int result;
+            Bootstrap.TryInitialize(majorMinorVersion, versionTag, out result);
             if (result == 0)
             {
                 Application.Run(new MainForm());
 
                 // Uninitialize Windows App SDK.
-                MddBootstrap.Shutdown();
+                Bootstrap.Shutdown();
             }
         }
     }
