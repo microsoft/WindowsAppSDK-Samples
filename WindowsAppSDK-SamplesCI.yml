@@ -1,4 +1,8 @@
 name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+parameters:
+- name: "FeatureDirectory"
+  type: string
+  default: ''
 stages:
 - stage: BuildSamples
   jobs:
@@ -41,12 +45,12 @@ stages:
         command: 'restore'
         feedsToUse: 'config'
         nugetConfigPath: '.\Samples\nuget.config'
-        restoreSolution: '.\Samples\**\*.sln'
+        restoreSolution: '.\Samples\${{ FeatureDirectory }}\**\*.sln'
 
     - task: VSBuild@1
       displayName: 'Restore nuget packages for all solutions'
       inputs:
-        solution: .\Samples\**\*.sln
+        solution: .\Samples\${{ FeatureDirectory }}\**\*.sln
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/t:restore /p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
@@ -54,7 +58,7 @@ stages:
     - task: VSBuild@1
       displayName: 'Build all Sample solutions'
       inputs:
-        solution: .\Samples\**\*.sln
+        solution: .\Samples\${{ FeatureDirectory }}\**\*.sln
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
