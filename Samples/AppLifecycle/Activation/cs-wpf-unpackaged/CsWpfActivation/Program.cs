@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using System;
-using Microsoft.Windows.ApplicationModel.DynamicDependency;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsWpfActivation
 {
@@ -16,7 +16,7 @@ namespace CsWpfActivation
         static void Main(string[] args)
         {
             // Initialize Windows App SDK for unpackaged apps.            
-            int result;
+            int result = 0;
             Bootstrap.TryInitialize(majorMinorVersion, versionTag, out result);
             if (result == 0)
             {

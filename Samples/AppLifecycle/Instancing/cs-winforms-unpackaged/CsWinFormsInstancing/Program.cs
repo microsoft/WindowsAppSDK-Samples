@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using Microsoft.Windows.ApplicationModel.DynamicDependency;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsWinFormsInstancing
 {
@@ -38,7 +38,7 @@ namespace CsWinFormsInstancing
             executablePathAndIconIndex = $"{executablePath},0";
 
             // Initialize Windows App SDK for unpackaged apps.            
-            int result;
+            int result = 0;
             Bootstrap.TryInitialize(majorMinorVersion, versionTag, out result);
             if (result == 0)
             {

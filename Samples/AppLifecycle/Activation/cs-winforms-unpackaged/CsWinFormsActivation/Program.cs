@@ -3,7 +3,7 @@
 
 using System;
 using System.Windows.Forms;
-using Microsoft.Windows.ApplicationModel.DynamicDependency;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsWinFormsActivation
 {
@@ -21,7 +21,7 @@ namespace CsWinFormsActivation
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize Windows App SDK for unpackaged apps.
-            int result;
+            int result = 0;
 
             Bootstrap.TryInitialize(majorMinorVersion, versionTag, out result);
 
