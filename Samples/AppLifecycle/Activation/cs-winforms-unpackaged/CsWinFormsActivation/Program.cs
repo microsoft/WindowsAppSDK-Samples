@@ -20,8 +20,18 @@ namespace CsWinFormsActivation
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Initialize Windows App SDK for unpackaged apps.            
-            Bootstrap.Initialize(majorMinorVersion, versionTag);
+            // Initialize Windows App SDK for unpackaged apps.
+            int result;
+
+            Bootstrap.TryInitialize(majorMinorVersion, versionTag, out result);
+
+            if (result == 0)
+            {
+                Application.Run(new MainForm());
+
+                //Uninitialize Windows App SDK
+                Bootstrap.Shutdown();
+            }
 
         }
     }
