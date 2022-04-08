@@ -21,4 +21,5 @@ Please specify which release this PR should align with. e.g., 1.0, 1.1, 1.1 Prev
 - [ ] Samples set the minimum supported OS version to Windows 10 version 1809.
 - [ ] Samples build clean with no warnings or errors.
 - [ ] **[For new samples]**: Samples have completed the [sample guidelines checklist](https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/docs/samples-guidelines.md#checklist) and follow [standardization/naming guidelines](https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/docs/samples-guidelines.md#standardization-and-naming).
-- [ ] I have commented on my PR `/azp run` to have the CI build run on my branch. This must be done right before merging to ensure the build is up to date and accurate.
+- [ ] If I am onboarding a new feature, then I must have correctly setup a new CI pipeline for my feature with the correct triggers and path filters laid out in the "Onboarding Samples CI Pipeline for new feature" section in samples-guidelines.md.
+- [ ] I have commented on my PR `/azp run` to have the CI build run on my branch with the right feature pipeline. This must be done right before merging to ensure the build is up to date and accurate.
