@@ -1,8 +1,8 @@
 name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
 parameters:
-- name: "FeatureDirectory"
-  type: string
-  default: ''
+  - name: "FeatureDirectory"
+    type: string
+    default: ''
 stages:
 - stage: BuildSamples
   jobs:
