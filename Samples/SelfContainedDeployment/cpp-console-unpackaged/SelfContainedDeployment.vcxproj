@@ -121,6 +121,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Directory.Build.props" />
+    <None Include="HybridCRT.props" />
     <None Include="packages.config" />
     <None Include="PropertySheet.props" />
     <Text Include="readme.txt">
