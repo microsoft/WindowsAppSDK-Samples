@@ -13,17 +13,17 @@ namespace CsConsoleState
         #region Init
 
         // Windows App SDK version.
-        static uint majorMinorVersion = 0x00010000;
-        static string versionTag = "";
+        static var majorMinorVersion = global::Microsoft.WindowsAppSDK.Release.MajorMinor;
+        static var versionTag = global::Microsoft.WindowsAppSDK.Release.VersionTag;
+        static var minVersion = new global::Microsoft.Windows.ApplicationModel.DynamicDependency.PackageVersion(Microsoft.WindowsAppSDK.Runtime.Version.UInt64);
         private static bool isWorkInProgress;
 
         static void Main(string[] args)
         {
             // Initialize Windows App SDK for unpackaged apps.            
             int result = 0;
-            Bootstrap.TryInitialize(majorMinorVersion, versionTag, out result);
-
-            if (result == 0)
+            
+            if (!Bootstrap.TryInitialize(majorMinorVersion, versionTag, minVersion, out result))
             {
                 int choice = 0;
                 while (choice != 3)
