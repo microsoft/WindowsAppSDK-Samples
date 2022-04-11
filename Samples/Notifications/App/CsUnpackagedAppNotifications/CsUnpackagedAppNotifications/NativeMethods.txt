@@ -10,3 +10,4 @@ RECT
 SendMessage
 SetWindowPos
 WM_SETICON
+SetCurrentProcessExplicitAppUserModelID

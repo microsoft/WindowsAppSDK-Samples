@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 using Microsoft.Windows.AppNotifications;
+using Windows.Win32;
 
 namespace CsUnpackagedAppNotifications
 {
@@ -15,6 +16,12 @@ namespace CsUnpackagedAppNotifications
         public Scenario1_ToastWithAvatar()
         {
             this.InitializeComponent();
+
+            PInvoke.SetCurrentProcessExplicitAppUserModelID("{9E4FC10C-12DF-49C5-8756-E87DEB7F21D5}");
+
+            var appNotificationManager = AppNotificationManager.Default;
+
+            appNotificationManager.Register();
         }
 
         private void SendToast_Click(object sender, RoutedEventArgs e)
@@ -22,14 +29,11 @@ namespace CsUnpackagedAppNotifications
             var xmlPayload =
                 "<toast><visual><binding template =\"ToastGeneric\"><text>App Notifications Sample Scenario 1</text><text> This is an example message using XML</text></binding></visual></toast>";
 
-            var appNotificationManager = AppNotificationManager.Default;
-
             AppNotification appNotification = new AppNotification(xmlPayload);
             appNotification.Priority = AppNotificationPriority.High;
 
-            appNotificationManager.Register();
+            var appNotificationManager = AppNotificationManager.Default;
             appNotificationManager.Show(appNotification);
-
 
             /*        if (toast.Id() == 0)
                     {
