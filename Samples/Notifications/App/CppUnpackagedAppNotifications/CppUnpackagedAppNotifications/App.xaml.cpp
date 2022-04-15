@@ -35,6 +35,20 @@ namespace winrt
     using namespace winrt::Microsoft::Windows::AppNotifications;
 }
 
+class Unregister
+{
+public:
+    Unregister() :isRegistered(false) {};
+    ~Unregister() { if (isRegistered) winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Unregister(); };
+
+    void Register() { winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Register(); isRegistered = true; };
+
+private:
+    bool isRegistered;
+};
+
+static Unregister unregister;
+
 // This function is intended to be called in the unpackaged scenario.
 void SetDisplayNameAndIcon(HWND hwnd) noexcept try
 {
@@ -199,7 +213,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 }
             });
 
-        notificationManager.Register();
+        unregister.Register();
 //#endif
         if (BackgroundActivation())
         {
@@ -222,7 +236,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                     }
                 });
 
-            notificationManager.Register();
+            unregister.Register();
 #endif
             window.Activate();
         }

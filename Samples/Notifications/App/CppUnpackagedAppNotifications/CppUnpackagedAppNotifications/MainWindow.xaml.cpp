@@ -30,11 +30,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         PlacementCenterWindowInMonitorWin32(hwnd);
     }
 
-    void MainWindow::MainWindow_Closed(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::WindowEventArgs const& e)
-    {
-        winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Unregister();
-    }
-
     HWND MainWindow::GetWindowHandle()
     {
         if (_hwnd == nullptr)

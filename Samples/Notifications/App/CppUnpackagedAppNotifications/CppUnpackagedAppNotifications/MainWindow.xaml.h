@@ -11,8 +11,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         MainWindow();
 
-        void MainWindow_Closed(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::WindowEventArgs const& e);
-
     private:
         HWND _hwnd{ nullptr };
         void SetWindowSize(HWND hwnd, const int width, const int height);
