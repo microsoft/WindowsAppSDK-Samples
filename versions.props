@@ -2,4 +2,5 @@
   <PropertyGroup>
     <!-- Package names -->
     <WindowsAppSDKPackageVersion>1.0.1</WindowsAppSDKPackageVersion>
+  </PropertyGroup>
 </Project>
