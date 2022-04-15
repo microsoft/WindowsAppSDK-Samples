@@ -1,0 +1,62 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+ Licensed under the MIT License. -->
+    <Page
+    x:Class="UWP_WinUI2_Mica.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    
+    >
+
+    <!-- https://docs.microsoft.com/en-us/windows/apps/winui/winui2/getting-started -->
+    <!-- https://docs.microsoft.com/en-us/windows/uwp/cpp-and-winrt-apis/simple-winui-example -->
+    <Page.Resources>
+        <!--This top margin is the height of the custom TitleBar-->
+        <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+    </Page.Resources>
+    <Grid>
+        <Border x:Name="AppTitleBar"
+                IsHitTestVisible="True"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                Height="32"
+                Margin="48,0,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Image x:Name="AppFontIcon"
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Center"
+                    Source="Assets/Square44x44Logo.png" 
+                    Width="16" 
+                    Height="16"/>
+                <TextBlock x:Name="AppTitle"
+                    Text="Test App Title"
+                    VerticalAlignment="Center"
+                    Margin="12,0,0,0"
+                    Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
+        </Border>
+        <muxc:NavigationView PaneTitle="Welcome"          
+            Header="Page Title" 
+         
+            >
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="Text"/>
+                <muxc:NavigationViewItem Content="Text"/>
+                <muxc:NavigationViewItem Content="Text"/>
+                <muxc:NavigationViewItem Content="Text"/>
+                <muxc:NavigationViewItem Content="Text"/>
+            </muxc:NavigationView.MenuItems>
+            <Grid>
+                <Frame x:Name="contentFrame">
+                    <Grid>
+                        <TextBlock Padding="56,16,0,0">Page content!</TextBlock>
+                    </Grid>
+                </Frame>
+            </Grid>
+        </muxc:NavigationView>
+    </Grid>
+</Page>
