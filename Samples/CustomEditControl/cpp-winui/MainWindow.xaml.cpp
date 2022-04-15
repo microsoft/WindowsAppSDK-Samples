@@ -25,10 +25,12 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
     {
         InitializeComponent();
 
-        MyCustomEditControl().SetAppWindow(GetAppWindow());
+        MyCustomEditControl().SetAppWindow(GetAppWindowId());
+
+        Content().PointerPressed({ this, &MainWindow::PointerPressed });
     }
 
-    winrt::WindowId MainWindow::GetAppWindow()
+    winrt::WindowId MainWindow::GetAppWindowId()
     {
         winrt::AppWindow appWindow = nullptr;
 
@@ -41,7 +43,8 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
         return GetWindowIdFromWindow(hWnd);
     }
 
+    void MainWindow::PointerPressed(const winrt::IInspectable& /*sender*/, const winrt::PointerRoutedEventArgs& /*args*/)
+    {
 
-
-    
+    }
 }

@@ -7,9 +7,8 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
     struct MainWindow : MainWindowT<MainWindow>
     {
         MainWindow();
-
-        winrt::Microsoft::UI::WindowId GetAppWindow();
-
+        void PointerPressed(const winrt::Windows::Foundation::IInspectable& /*sender*/, const winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs& /*args*/);
+        winrt::Microsoft::UI::WindowId GetAppWindowId();
     };
 }
 
