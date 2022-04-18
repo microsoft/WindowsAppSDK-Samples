@@ -414,7 +414,11 @@ namespace CustomEditControlSampleCs
                 return;
             }
 
-            base.OnCharacterReceived(e);
+            if (Char.IsControl(e.Character))
+            {
+                ReplaceText(_selection, e.Character.ToString());
+                UpdateTextUI();
+            }
         }
 
         protected override void OnKeyDown(KeyRoutedEventArgs args)
