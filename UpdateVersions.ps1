@@ -10,7 +10,7 @@ Get-ChildItem -Recurse packages.config -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
     $content = $content.replace($oldVersionString, $newVersionString)
     Set-Content -Path $_.FullName -Value $content
-  }
+}
 
 Get-ChildItem -Recurse *.vcxproj -Path $PSScriptRoot | foreach-object {
     $newVersionString = 'Microsoft.WindowsAppSDK.' + $WinAppSDKVersion
@@ -18,4 +18,20 @@ Get-ChildItem -Recurse *.vcxproj -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
     $content = $content.replace($oldVersionString, $newVersionString)
     Set-Content -Path $_.FullName -Value $content
-  }
+}
+
+Get-ChildItem -Recurse *.wapproj -Path $PSScriptRoot | foreach-object {
+    $newVersionString = 'PackageReference Include="Microsoft.WindowsAppSDK" Version='+ $WinAppSDKVersion + '"'
+    $oldVersionString = 'PackageReference Include="Microsoft.WindowsAppSDK" Version='+ $WinAppSDKVersionOld + '"'
+    $content = Get-Content $_.FullName -Raw
+    $content = $content.replace($oldVersionString, $newVersionString)
+    Set-Content -Path $_.FullName -Value $content
+}
+
+Get-ChildItem -Recurse *.csproj -Path $PSScriptRoot | foreach-object {
+    $newVersionString = 'PackageReference Include="Microsoft.WindowsAppSDK" Version='+ $WinAppSDKVersion + '"'
+    $oldVersionString = 'PackageReference Include="Microsoft.WindowsAppSDK" Version='+ $WinAppSDKVersionOld + '"'
+    $content = Get-Content $_.FullName -Raw
+    $content = $content.replace($oldVersionString, $newVersionString)
+    Set-Content -Path $_.FullName -Value $content
+}
