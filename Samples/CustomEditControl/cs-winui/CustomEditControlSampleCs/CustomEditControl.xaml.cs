@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -28,12 +29,6 @@ using Windows.UI.Xaml;
 
 namespace CustomEditControlSampleCs
 {
-    public sealed class NativeMethods
-    {
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-        public static extern ushort GetKeyState(int nVirtKey);
-    }
-
     public sealed partial class CustomEditControl : UserControl
     {
         // The _editContext lets us communicate with the input system.
@@ -442,7 +437,6 @@ namespace CustomEditControlSampleCs
             // Note that this sample does not properly handle surrogate pairs
             // nor does it handle grapheme clusters.
 
-            const ushort KEY_DOWN_FLAG = 0x8000;
             switch (args.Key)
             {
                 // Backspace
@@ -466,7 +460,7 @@ namespace CustomEditControlSampleCs
                 // Left arrow
                 case VirtualKey.Left:
                     // If the shift key is down, then adjust the size of the selection.
-                    if ((NativeMethods.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_FLAG) != 0)
+                    if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
                     {
                         // If this is the start of a selection, then remember which edge we are adjusting.
                         if (!HasSelection())
@@ -499,7 +493,7 @@ namespace CustomEditControlSampleCs
                 // Right arrow
                 case VirtualKey.Right:
                     // If the shift key is down, then adjust the size of the selection.
-                    if ((NativeMethods.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_FLAG) != 0)
+                    if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
                     {
                         // If this is the start of a selection, then remember which edge we are adjusting.
                         if (!HasSelection())

@@ -413,7 +413,6 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
         // Note that this sample does not properly handle surrogate pairs
         // nor does it handle grapheme clusters.
 
-        const SHORT KEY_DOWN_FLAG = 0x8000;
         switch (args.Key())
         {
             // Backspace
@@ -438,7 +437,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
             case winrt::VirtualKey::Left:
 
                 // If the shift key is down, then adjust the size of the selection.
-                if (GetKeyState(VK_SHIFT) & KEY_DOWN_FLAG)
+                if (WI_IsFlagSet(winrt::InputKeyboardSource::GetKeyStateForCurrentThread(winrt::VirtualKey::Shift), winrt::CoreVirtualKeyStates::Down))
                 {
                     // If this is the start of a selection, then remember which edge we are adjusting.
                     if (!HasSelection())
@@ -472,7 +471,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
             case winrt::VirtualKey::Right:
 
                 // If the shift key is down, then adjust the size of the selection.
-                if (GetKeyState(VK_SHIFT) & KEY_DOWN_FLAG)
+                if (WI_IsFlagSet(winrt::InputKeyboardSource::GetKeyStateForCurrentThread(winrt::VirtualKey::Shift), winrt::CoreVirtualKeyStates::Down))
                 {
                     // If this is the start of a selection, then remember which edge we are adjusting.
                     if (!HasSelection())
