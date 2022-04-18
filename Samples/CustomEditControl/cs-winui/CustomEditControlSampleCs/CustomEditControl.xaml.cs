@@ -215,11 +215,6 @@ namespace CustomEditControlSampleCs
             RemoveInternalFocusWorker();
         }
 
-        void Element_Unloaded(object sender, RoutedEventArgs e)
-        {
-            // _coreWindow.KeyDown -= CoreWindow_KeyDown;
-            // _coreWindow.PointerPressed -= CoreWindow_PointerPressed;
-        }
         #endregion
 
         #region Text management
@@ -410,7 +405,19 @@ namespace CustomEditControlSampleCs
         {
         }
 
-        void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        protected override void OnCharacterReceived(CharacterReceivedRoutedEventArgs e)
+        {
+            // Do not process keyboard input if the custom edit control does not
+            // have focus.
+            if (!_internalFocus)
+            {
+                return;
+            }
+
+            base.OnCharacterReceived(e);
+        }
+
+        protected override void OnKeyDown(KeyRoutedEventArgs args)
         {
             // Do not process keyboard input if the custom edit control does not
             // have focus.
@@ -432,7 +439,7 @@ namespace CustomEditControlSampleCs
             // nor does it handle grapheme clusters.
 
             const ushort KEY_DOWN_FLAG = 0x8000;
-            switch (args.VirtualKey)
+            switch (args.Key)
             {
                 // Backspace
                 case VirtualKey.Back:
@@ -587,6 +594,7 @@ namespace CustomEditControlSampleCs
             Point point = transform.TransformPoint(new Point());
             return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
         }
+
         #endregion
     }
 }

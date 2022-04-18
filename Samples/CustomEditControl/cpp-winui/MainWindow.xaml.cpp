@@ -43,8 +43,33 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
         return GetWindowIdFromWindow(hWnd);
     }
 
-    void MainWindow::PointerPressed(const winrt::IInspectable& /*sender*/, const winrt::PointerRoutedEventArgs& /*args*/)
+    static winrt::Rect GetElementRect(winrt::UIElement element)
     {
+        auto transform = element.TransformToVisual(nullptr);
+        auto point = transform.TransformPoint(winrt::Point());
+        return winrt::Rect(point, element.ActualSize());
+    }
 
+    void MainWindow::PointerPressed(const winrt::IInspectable& /*sender*/, const winrt::PointerRoutedEventArgs& args)
+    {
+        winrt::Rect contentRect = GetElementRect(MyCustomEditControl());
+        if (winrt::RectHelper::Contains(contentRect, args.GetCurrentPoint(nullptr).Position()))
+        {
+            // The user tapped inside the control. Give it focus.
+            MyCustomEditControl().SetInternalFocus();
+
+            // Tell XAML that our custom element has focus, so we don't have two
+            // focous elements. That is the extent of our integration with XAML focus.
+            MyCustomEditControl().Focus(winrt::FocusState::Programmatic);
+
+            // A more complete custom control would move the caret to the
+            // pointer position. It would also provide some way to select
+            // text via touch. We do neither in this sample.
+        }
+        else
+        {
+            // The user tapped outside the control. Remove focus.
+            MyCustomEditControl().RemoveInternalFocus();
+        }
     }
 }

@@ -378,6 +378,13 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
 
     void CustomEditControl::OnCharacterReceived(winrt::Microsoft::UI::Xaml::Input::CharacterReceivedRoutedEventArgs args)
     {
+        // Do not process keyboard input if the custom edit control does not
+        // have focus.
+        if (!_internalFocus)
+        {
+            return;
+        }
+
         if (isprint(args.Character()))
         {
             ReplaceText(_selection, winrt::to_hstring(args.Character()));
