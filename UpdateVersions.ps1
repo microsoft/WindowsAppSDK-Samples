@@ -5,10 +5,11 @@ Param(
 )
 
 Write-Host "Updating"
-Get-ChildItem -Recurse packages.config -File $PSScriptRoot | foreach-object {
+Get-ChildItem -Recurse packages.config -Path $PSScriptRoot | foreach-object {
     $newVersionString = 'version="' + $WinAppSDKVersion + '"'
     $oldVersionString = 'version="' + $WinAppSDKVersionOld + '"'
-    $content = Get-Content $_ -Raw
+    $content = Get-Content $_.FullName -Raw
+    Write-Host $content
     $content = $content.replace($oldVersionString, $newVersionString)
-    Set-Content -Path $_ -Value $content
+    Set-Content -Path $_.FullName -Value $content
   }
