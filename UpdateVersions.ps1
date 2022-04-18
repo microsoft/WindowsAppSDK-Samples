@@ -1,7 +1,6 @@
 Param(
     [string]$WinAppSDKVersion = "",
-    [string]$WinAppSDKVersionOld = "1.0.0",
-    [string]$RootPath = ""
+    [string]$WinAppSDKVersionOld = "1.0.0"
 )
 
 Get-ChildItem -Recurse packages.config -Path $PSScriptRoot | foreach-object {
@@ -10,6 +9,7 @@ Get-ChildItem -Recurse packages.config -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
     $content = $content.replace($oldVersionString, $newVersionString)
     Set-Content -Path $_.FullName -Value $content
+    Write-Host "Modified " $_.FullName 
 }
 
 Get-ChildItem -Recurse *.vcxproj -Path $PSScriptRoot | foreach-object {
@@ -18,6 +18,7 @@ Get-ChildItem -Recurse *.vcxproj -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
     $content = $content.replace($oldVersionString, $newVersionString)
     Set-Content -Path $_.FullName -Value $content
+    Write-Host "Modified " $_.FullName 
 }
 
 Get-ChildItem -Recurse *.wapproj -Path $PSScriptRoot | foreach-object {
@@ -26,6 +27,7 @@ Get-ChildItem -Recurse *.wapproj -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
     $content = $content.replace($oldVersionString, $newVersionString)
     Set-Content -Path $_.FullName -Value $content
+    Write-Host "Modified " $_.FullName 
 }
 
 Get-ChildItem -Recurse *.csproj -Path $PSScriptRoot | foreach-object {
@@ -34,4 +36,5 @@ Get-ChildItem -Recurse *.csproj -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
     $content = $content.replace($oldVersionString, $newVersionString)
     Set-Content -Path $_.FullName -Value $content
+    Write-Host "Modified " $_.FullName 
 }
