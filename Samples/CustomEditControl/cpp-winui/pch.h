@@ -12,6 +12,7 @@
 #undef GetCurrentTime
 
 #include <wil/cppwinrt.h>
+#include <wil/cppwinrt_helpers.h>
 #include <winrt/Microsoft.UI.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Input.h>
@@ -38,4 +39,3 @@
 #include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.UI.WindowManagement.h>
 #include <winrt/Windows.UI.WindowManagement.Preview.h>
-#include <wil/cppwinrt_helpers.h>

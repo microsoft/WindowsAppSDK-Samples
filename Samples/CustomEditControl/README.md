@@ -6,8 +6,12 @@ languages:
 products:
 - windows
 - windows-app-sdk
+name: "Custom Edit Control"
 urlFragment: CustomEditControl
 description: "Shows how to use the CoreTextEditContext class to create a rudimentary text control."
+extendedZipContent:
+- path: LICENSE
+  target: LICENSE
 ---
 
 # Custom Edit Control sample

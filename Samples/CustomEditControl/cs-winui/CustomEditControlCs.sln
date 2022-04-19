@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomEditControlSampleCs", "CustomEditControlSampleCs\CustomEditControlSampleCs.csproj", "{3318A3E2-990F-41F7-9D09-3D1CDDA260ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomEditControlCs", "CustomEditControlCs\CustomEditControlCs.csproj", "{3318A3E2-990F-41F7-9D09-3D1CDDA260ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,7 +5,7 @@
 
 #include "MainWindow.g.h"
 
-namespace winrt::CustomEditControlWinAppSDK::implementation
+namespace winrt::CustomEditControlCpp::implementation
 {
     struct MainWindow : MainWindowT<MainWindow>
     {
@@ -15,7 +15,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
     };
 }
 
-namespace winrt::CustomEditControlWinAppSDK::factory_implementation
+namespace winrt::CustomEditControlCpp::factory_implementation
 {
     struct MainWindow : MainWindowT<MainWindow, implementation::MainWindow>
     {

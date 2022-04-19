@@ -8,8 +8,8 @@
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
     <ProjectGuid>{4f349af3-4a2d-439c-bb5e-5e899bd234ca}</ProjectGuid>
-    <ProjectName>CustomEditControlWinAppSDK</ProjectName>
-    <RootNamespace>CustomEditControlWinAppSDK</RootNamespace>
+    <ProjectName>CustomEditControlCpp</ProjectName>
+    <RootNamespace>CustomEditControlCpp</RootNamespace>
     <!--
       $(TargetName) should be same as $(RootNamespace) so that the produced binaries (.exe/.pri/etc.)
       have a name that matches the .winmd

@@ -31,7 +31,7 @@ namespace winrt
 
 // https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/advanced-scenarios-xaml-islands-cpp
 
-namespace winrt::CustomEditControlWinAppSDK::implementation
+namespace winrt::CustomEditControlCpp::implementation
 {
     CustomEditControl::CustomEditControl()
     {

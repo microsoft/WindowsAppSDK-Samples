@@ -12,7 +12,7 @@ using WinRT.Interop;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace CustomEditControlSampleCs
+namespace CustomEditControlCs
 {
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
@@ -46,15 +46,7 @@ namespace CustomEditControlSampleCs
 
                 // Tell XAML that this element has focus, so we don't have two
                 // focus elements. That is the extent of our integration with XAML focus.
-                var ret = MyCustomEditControl.Focus(FocusState.Programmatic);
-                if (ret)
-                {
-                    int i = 0; i++;
-                }
-                else
-                {
-                    int j = 0; j++;
-                }
+                MyCustomEditControl.Focus(FocusState.Programmatic);
 
                 // A more complete custom control would move the caret to the
                 // pointer position. It would also provide some way to select

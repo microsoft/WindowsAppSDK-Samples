@@ -16,13 +16,14 @@ namespace winrt
     using namespace ::winrt::Microsoft::UI::Windowing;
     using namespace ::winrt::Microsoft::UI::Xaml;
     using namespace ::winrt::Microsoft::UI::Xaml::Input;
+    using namespace ::winrt::Microsoft::UI::Xaml::Media;
     using namespace ::winrt::Windows::Foundation;
 }
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace winrt::CustomEditControlWinAppSDK::implementation
+namespace winrt::CustomEditControlCpp::implementation
 {
     MainWindow::MainWindow()
     {
@@ -48,8 +49,8 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
 
     static winrt::Rect GetElementRect(winrt::UIElement element)
     {
-        auto transform = element.TransformToVisual(nullptr);
-        auto point = transform.TransformPoint(winrt::Point());
+        winrt::GeneralTransform transform = element.TransformToVisual(nullptr);
+        winrt::Point point = transform.TransformPoint(winrt::Point());
         return winrt::Rect(point, element.ActualSize());
     }
 

@@ -18,7 +18,7 @@ using Windows.UI.ViewManagement;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace CustomEditControlSampleCs
+namespace CustomEditControlCs
 {
     public sealed partial class CustomEditControl : UserControl
     {

@@ -5,7 +5,7 @@
 
 #include "App.xaml.g.h"
 
-namespace winrt::CustomEditControlWinAppSDK::implementation
+namespace winrt::CustomEditControlCpp::implementation
 {
     struct App : AppT<App>
     {

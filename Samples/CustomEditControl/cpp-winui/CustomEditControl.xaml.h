@@ -11,7 +11,7 @@
 using namespace winrt;
 using namespace Microsoft::UI::Xaml::Input;
 
-namespace winrt::CustomEditControlWinAppSDK::implementation
+namespace winrt::CustomEditControlCpp::implementation
 {
     struct CustomEditControl : CustomEditControlT<CustomEditControl>
     {
@@ -107,7 +107,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
     };
 }
 
-namespace winrt::CustomEditControlWinAppSDK::factory_implementation
+namespace winrt::CustomEditControlCpp::factory_implementation
 {
     struct CustomEditControl : CustomEditControlT<CustomEditControl, implementation::CustomEditControl>
     {

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace CustomEditControlWinAppSDK
+namespace CustomEditControlCpp
 {
     [default_interface]
     runtimeclass MainWindow : Microsoft.UI.Xaml.Window
