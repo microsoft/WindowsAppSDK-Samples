@@ -28,6 +28,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
         void NavView_NavigateToPage(winrt::Windows::UI::Xaml::Interop::TypeName const& pageType);
         void ProcessActivationArgs();
+
+        Windows::Foundation::Collections::IVector<IInspectable> messages;
     };
 }
 

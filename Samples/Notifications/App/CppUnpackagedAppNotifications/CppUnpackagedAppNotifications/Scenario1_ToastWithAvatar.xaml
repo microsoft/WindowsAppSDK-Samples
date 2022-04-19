@@ -21,7 +21,7 @@
                 This example demonstrates using a raw XML payload to produce a local toast notification with an avatar that can handle activation with a quick reply text box.
             </TextBlock>
 
-            <Button Content="Send Toast" Click="SendToast_Click" />
+            <Button Content="Send Toast" Click="SendToast_Click"/>
         </StackPanel>
 
         <TextBlock Grid.Row="1" Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">

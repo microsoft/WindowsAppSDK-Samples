@@ -13,6 +13,10 @@
 #include <winrt/Windows.Storage.h>
 #include "ToastWithAvatar.h"
 
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Windowing.h>
+#include <windows.ui.popups.h>
+
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
@@ -44,7 +48,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void Scenario1_ToastWithAvatar::SendToast_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        if (ToastWithAvatar::SendToast() )
+        if (ToastWithAvatar::SendToast())
         {
             rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
         }

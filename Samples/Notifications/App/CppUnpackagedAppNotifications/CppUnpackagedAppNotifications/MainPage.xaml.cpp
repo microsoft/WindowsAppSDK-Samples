@@ -13,6 +13,8 @@
 
 namespace winrt
 {
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::Foundation::Collections;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::UI::Xaml::Media;
@@ -30,8 +32,11 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     MainPage::MainPage()
     {
+        messages = winrt::single_threaded_observable_vector<IInspectable>();
+
         InitializeComponent();
         MainPage::current = *this;
+        this->notificationBox().ItemsSource(messages);
     }
 
     void MainPage::NotificationReceived(Notification const& notification)
@@ -48,24 +53,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             pageType.Kind = TypeKind::Metadata;
         }
 
-        // If called from the UI thread, then update immediately.
-        // Otherwise, schedule a task on the UI thread to perform the update.
-        if (this->DispatcherQueue().HasThreadAccess())
-        {
-            myDialog2().Title(winrt::box_value(notification.Originator));
-            Run2().Text(notification.Input);
-            myDialog2().ShowAsync();
-        }
-        else
-        {
-            DispatcherQueue().TryEnqueue([strongThis = get_strong(), this, pageType, notification]
-                {
-                    myDialog2().Title(winrt::box_value(notification.Originator));
-                    Run2().Text(notification.Input);
-                    myDialog2().ShowAsync();
-                });
-
-        }
+        messages.InsertAt(0, PropertyValue::CreateString(notification.Originator));
     }
 
     void MainPage::ActivateScenario(hstring const& navItemTag)
@@ -249,19 +237,18 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                         = activationArgs.Kind();
                     if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
                     {
-                        //UpdateStatus(L"AppNotification", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+                        MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+
                         winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>();
 
                         std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
                         if (args.find(L"activateToast") != std::wstring::npos)
                         {
                             ToastWithAvatar::NotificationReceived(notificationActivatedEventArgs);
-                            MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
                         }
                         else if (args.find(L"reply") != std::wstring::npos)
                         {
                             ToastWithTextBox::NotificationReceived(notificationActivatedEventArgs);
-                            MainPage::Current().NotifyUser(L"App Notification Instanciation", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
                         }
                         else
                         {

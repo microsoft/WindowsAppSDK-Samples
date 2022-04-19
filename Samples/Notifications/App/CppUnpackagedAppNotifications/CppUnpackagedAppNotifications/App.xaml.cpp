@@ -142,7 +142,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                     = activationArgs.Kind();
                 if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
                 {
-                    //UpdateStatus(L"AppNotification", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
                     winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>();
 
                     std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
@@ -207,6 +206,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
         const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
             {
+                MainPage::Current().NotifyUser(L"Notification received", winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+
                 if (!Utils::DispatchNotification(notificationActivatedEventArgs))
                 {
                     MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
@@ -230,6 +231,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
             const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
                 {
+                    MainPage::Current().NotifyUser(L"Notification received", winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
+
                     if (!Utils::DispatchNotification(notificationActivatedEventArgs))
                     {
                         MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
