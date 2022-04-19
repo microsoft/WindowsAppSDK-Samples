@@ -1,4 +1,7 @@
-﻿#include "pch.h"
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+#include "pch.h"
 #include "CustomEditControl.xaml.h"
 #if __has_include("CustomEditControl.g.cpp")
 #include "CustomEditControl.g.cpp"
@@ -232,7 +235,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
         winrt::CoreTextTextRequest request = args.Request();
         request.Text(winrt::hstring(_text.substr(
             request.Range().StartCaretPosition,
-            min(request.Range().EndCaretPosition, _text.size()) - request.Range().StartCaretPosition)));
+            min(request.Range().EndCaretPosition, static_cast<int32_t>(_text.size())) - request.Range().StartCaretPosition)));
     }
 
     // Return the current selection.
@@ -251,7 +254,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
         // Modify the internal text store.
         _text = _text.substr(0, range.StartCaretPosition) +
             newText +
-            _text.substr(min(_text.size(), range.EndCaretPosition));
+            _text.substr(min(static_cast<int32_t>(_text.size()), range.EndCaretPosition));
 
         // You can set the proper font or direction for the updated text based on the language by checking
         // args.InputLanguage. We will not do that in this sample.
@@ -319,7 +322,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
         }
     }
 
-    static Rect ScaleRect(Rect rect, double scale)
+    static Rect ScaleRect(Rect rect, float scale)
     {
         rect.X *= scale;
         rect.Y *= scale;
@@ -349,7 +352,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
         selectionRect.Y += appWindow.Position().Y;
 
         // Finally, scale up to raw pixels.
-        double scaleFactor = XamlRoot().RasterizationScale();
+        float scaleFactor = static_cast<float>(XamlRoot().RasterizationScale());
 
         contentRect = ScaleRect(contentRect, scaleFactor);
         selectionRect = ScaleRect(selectionRect, scaleFactor);
@@ -494,7 +497,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
                     else
                     {
                         // There was no selection. Move the caret right one code unit if possible.
-                        range.StartCaretPosition = min(_text.size(), range.StartCaretPosition + 1);
+                        range.StartCaretPosition = min(static_cast<int32_t>(_text.length()), range.StartCaretPosition + 1);
                         range.EndCaretPosition = range.StartCaretPosition;
                         SetSelectionAndNotify(range);
                     }
@@ -513,7 +516,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
         }
         else
         {
-            range.EndCaretPosition = min(_text.size(), range.EndCaretPosition + direction);
+            range.EndCaretPosition = min(static_cast<int32_t>(_text.length()), range.EndCaretPosition + direction);
         }
 
         SetSelectionAndNotify(range);

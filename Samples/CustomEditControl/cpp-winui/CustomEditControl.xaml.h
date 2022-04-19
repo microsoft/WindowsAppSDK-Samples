@@ -1,4 +1,7 @@
-﻿#pragma once
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+#pragma once
 
 #include "winrt/Microsoft.UI.Xaml.h"
 #include "winrt/Microsoft.UI.Xaml.Markup.h"

@@ -1,4 +1,7 @@
-﻿<Window
+﻿<!-- Copyright (c) Microsoft Corporation.
+ Licensed under the MIT License. -->
+
+<Window
     x:Name="CustomEditControlWindow"
     x:Class="CustomEditControlWinAppSDK.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

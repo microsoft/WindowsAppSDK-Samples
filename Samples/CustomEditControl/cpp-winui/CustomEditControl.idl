@@ -1,4 +1,7 @@
-﻿namespace CustomEditControlWinAppSDK
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace CustomEditControlWinAppSDK
 {
     [default_interface]
     runtimeclass CustomEditControl : Microsoft.UI.Xaml.Controls.UserControl
