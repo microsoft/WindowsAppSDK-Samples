@@ -12,7 +12,6 @@
     IsHitTestVisible="True"
     IsEnabled="True"
     IsTabStop="True">
-    
 
     <StackPanel>
         <!-- Our custom edit control -->

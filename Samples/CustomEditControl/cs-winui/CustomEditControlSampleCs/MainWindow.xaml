@@ -8,8 +8,7 @@
     mc:Ignorable="d">
 
     <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                  Padding="12,10,12,12"
-                  PointerPressed="ScrollViewer_PointerPressed">
+                  Padding="12,10,12,12">
         <StackPanel>
             <TextBlock Text="Description:" />
             <TextBlock>

@@ -29,15 +29,50 @@ namespace CustomEditControlSampleCs
         public MainWindow()
         {
             this.InitializeComponent();
+            Content.PointerPressed += OnPointerPressed;
 
             IntPtr hWnd = WindowNative.GetWindowHandle((Window)this);
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
             MyCustomEditControl.SetAppWindow(windowId);
         }
 
-        private void ScrollViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
+        public static Rect GetElementRect(FrameworkElement element)
         {
-            MyCustomEditControl.OnWindowPointerPressed(e);
+            GeneralTransform transform = element.TransformToVisual(null);
+            Point point = transform.TransformPoint(new Point());
+            return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
+        }
+
+        private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            Rect contentRect = GetElementRect(MyCustomEditControl);
+            if (contentRect.Contains(e.GetCurrentPoint(null).Position))
+            {
+                // The user tapped inside the control. Give it focus.
+                MyCustomEditControl.SetInternalFocus();
+
+                // Tell XAML that this element has focus, so we don't have two
+                // focus elements. That is the extent of our integration with XAML focus.
+                var ret = MyCustomEditControl.Focus(FocusState.Programmatic);
+                if (ret)
+                {
+                    int i = 0; i++;
+                }
+                else
+                {
+                    int j = 0; j++;
+                }
+
+                // A more complete custom control would move the caret to the
+                // pointer position. It would also provide some way to select
+                // text via touch. We do neither in this sample.
+
+            }
+            else
+            {
+                // The user tapped outside the control. Remove focus.
+                MyCustomEditControl.RemoveInternalFocus();
+            }
         }
     }
 }

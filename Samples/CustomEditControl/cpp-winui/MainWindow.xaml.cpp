@@ -59,7 +59,7 @@ namespace winrt::CustomEditControlWinAppSDK::implementation
             MyCustomEditControl().SetInternalFocus();
 
             // Tell XAML that our custom element has focus, so we don't have two
-            // focous elements. That is the extent of our integration with XAML focus.
+            // focus elements. That is the extent of our integration with XAML focus.
             MyCustomEditControl().Focus(winrt::FocusState::Programmatic);
 
             // A more complete custom control would move the caret to the

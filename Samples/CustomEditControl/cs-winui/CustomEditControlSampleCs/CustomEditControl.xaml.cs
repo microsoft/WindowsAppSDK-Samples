@@ -134,32 +134,7 @@ namespace CustomEditControlSampleCs
         }
 
         #region Focus management
-        public void OnWindowPointerPressed(PointerRoutedEventArgs args)
-        {
-            // See whether the pointer is inside or outside the control.
-            Rect contentRect = GetElementRect(BorderPanel);
-            if (contentRect.Contains(args.GetCurrentPoint(null).Position))
-            {
-                // The user tapped inside the control. Give it focus.
-                SetInternalFocus();
-
-                // Tell XAML that this element has focus, so we don't have two
-                // focus elements. That is the extent of our integration with XAML focus.
-                Focus(FocusState.Programmatic);
-
-                // A more complete custom control would move the caret to the
-                // pointer position. It would also provide some way to select
-                // text via touch. We do neither in this sample.
-
-            }
-            else
-            {
-                // The user tapped outside the control. Remove focus.
-                RemoveInternalFocus();
-            }
-        }
-
-        void SetInternalFocus()
+        public void SetInternalFocus()
         {
             if (!_internalFocus)
             {
@@ -181,7 +156,7 @@ namespace CustomEditControlSampleCs
 
         }
 
-        void RemoveInternalFocus()
+        public void RemoveInternalFocus()
         {
             if (_internalFocus)
             {
@@ -365,8 +340,8 @@ namespace CustomEditControlSampleCs
 
             // First, get the coordinates of the edit control and the selection
             // relative to the Window.
-            Rect contentRect = GetElementRect(ContentPanel);
-            Rect selectionRect = GetElementRect(SelectionText);
+            Rect contentRect = MainWindow.GetElementRect(ContentPanel);
+            Rect selectionRect = MainWindow.GetElementRect(SelectionText);
 
             // Next, convert to screen coordinates in view pixels.
             AppWindow window = AppWindow.GetFromWindowId(_windowId);
@@ -409,7 +384,7 @@ namespace CustomEditControlSampleCs
                 return;
             }
 
-            if (Char.IsControl(e.Character))
+            if (!Char.IsControl(e.Character))
             {
                 ReplaceText(_selection, e.Character.ToString());
                 UpdateTextUI();
@@ -584,13 +559,6 @@ namespace CustomEditControlSampleCs
             FullText.Text = _text;
             SelectionStartIndexText.Text = _selection.StartCaretPosition.ToString();
             SelectionEndIndexText.Text = _selection.EndCaretPosition.ToString();
-        }
-
-        static Rect GetElementRect(FrameworkElement element)
-        {
-            GeneralTransform transform = element.TransformToVisual(null);
-            Point point = transform.TransformPoint(new Point());
-            return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
         }
 
         #endregion

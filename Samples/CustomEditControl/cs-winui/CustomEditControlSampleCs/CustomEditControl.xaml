@@ -7,7 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="30"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    AllowFocusOnInteraction="True"
+    IsHitTestVisible="True"
+    IsEnabled="True"
+    IsTabStop="True">
 
     <StackPanel>
         <!-- Our custom edit control -->
