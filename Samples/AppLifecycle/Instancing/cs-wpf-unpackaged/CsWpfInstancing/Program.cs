@@ -18,10 +18,8 @@ namespace CsWpfInstancing
     public class Program
     {
         // Windows App SDK version.
-        private static var majorMinorVersion = global::Microsoft.WindowsAppSDK.Release.MajorMinor;
-        private static var versionTag = global::Microsoft.WindowsAppSDK.Release.VersionTag;
-        private static var minVersion = new global::Microsoft.Windows.ApplicationModel.DynamicDependency.PackageVersion(Microsoft.WindowsAppSDK.Runtime.Version.UInt64);
-
+        private static uint majorMinorVersion = 0x00010000;
+     
         private static string executablePath;
         private static string executablePathAndIconIndex;
         private static int activationCount = 1;
@@ -36,7 +34,7 @@ namespace CsWpfInstancing
 
             // Initialize Windows App SDK for unpackaged apps.            
             int result = 0;
-            if (!Bootstrap.TryInitialize(majorMinorVersion, versionTag, minVersion, out result))
+            if (Bootstrap.TryInitialize(majorMinorVersion, out result))
             {
                 bool isRedirect = DecideRedirection();
                 if (!isRedirect)
