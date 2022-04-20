@@ -53,7 +53,20 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             pageType.Kind = TypeKind::Metadata;
         }
 
-        messages.InsertAt(0, PropertyValue::CreateString(notification.Originator));
+        auto s{ notification.Originator };
+        if (notification.HasInput)
+        {
+            if (notification.Input.empty())
+            {
+                s = s + L"  -- No input received --";
+            }
+            else
+            {
+                s = s + L"  -- Input received: " + notification.Input;
+
+            }
+        }
+        messages.InsertAt(0, PropertyValue::CreateString(s));
     }
 
     void MainPage::ActivateScenario(hstring const& navItemTag)

@@ -45,6 +45,8 @@ bool ToastWithAvatar::SendToast()
 
 void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    winrt::CppUnpackagedAppNotifications::Notification notification{ L"Scenario1_ToastWithAvatar", L"click", L"" };
+    winrt::CppUnpackagedAppNotifications::Notification notification{};
+    notification.Originator = L"Scenario1_ToastWithAvatar";
+    notification.Action = L"click";
     winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotificationReceived(notification);
 }

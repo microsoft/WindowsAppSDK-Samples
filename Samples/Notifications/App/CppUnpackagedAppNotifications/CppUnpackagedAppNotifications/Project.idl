@@ -8,9 +8,10 @@ namespace CppUnpackagedAppNotifications
 
     struct Notification
     {
-        String Originator;
-        String Action;
-        String Input;
+        String  Originator;
+        String  Action;
+        Boolean HasInput;
+        String  Input;
     };
 
     [default_interface]

@@ -18,7 +18,7 @@
                 <NavigationViewItemHeader x:Name="MainPagesHeader" Content="Scenarios"/>
             </NavigationView.MenuItems>
 
-            <Grid RowDefinitions="4*,*,Auto">
+            <Grid RowDefinitions="3*,*,Auto">
                 <ScrollViewer>
                     <Frame Padding="50" x:Name="ContentFrame" Navigated="ContentFrame_Navigated"/>
                 </ScrollViewer>

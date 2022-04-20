@@ -52,6 +52,10 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
     auto input{ notificationActivatedEventArgs.UserInput() };
     auto text{ input.Lookup(L"tbReply") };
 
-    winrt::CppUnpackagedAppNotifications::Notification notification{ L"Scenario2_ToastWithTextBox", L"click", text };
+    winrt::CppUnpackagedAppNotifications::Notification notification{};
+    notification.Originator = L"Scenario2_ToastWithTextBox";
+    notification.Action = L"click";
+    notification.HasInput = true;
+    notification.Input = text;
     winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotificationReceived(notification);
 }
