@@ -67,9 +67,9 @@ std::optional<std::wstring> GetScenarioId(std::wstring const& args)
 
     scenarioIdStart += wcslen(tag);
 
-    auto scenarioIdEnd{ args.find(L";", scenarioIdStart) };
+    auto scenarioIdEnd{ args.find(L"&", scenarioIdStart) };
 
-    return args.substr(scenarioIdStart, scenarioIdEnd) ;
+    return args.substr(scenarioIdStart, scenarioIdEnd - scenarioIdStart) ;
 }
 
 bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)

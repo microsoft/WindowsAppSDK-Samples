@@ -79,7 +79,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         return GetFullPathToExe() + L"\\Assets\\" + assetName;
     }
 
-    void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& args)
+    void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& /*args*/)
     {
         window = make<MainWindow>();
 

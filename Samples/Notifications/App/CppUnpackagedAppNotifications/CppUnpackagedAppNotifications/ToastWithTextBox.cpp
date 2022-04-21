@@ -49,6 +49,8 @@ bool ToastWithTextBox::SendToast()
     return true;
 }
 
+std::optional<std::wstring> GetAction(std::wstring const& args);
+
 void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
     auto input{ notificationActivatedEventArgs.UserInput() };
@@ -56,7 +58,8 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
 
     winrt::CppUnpackagedAppNotifications::Notification notification{};
     notification.Originator = L"Scenario2_ToastWithTextBox";
-    notification.Action = L"click";
+    auto action{ GetAction(notificationActivatedEventArgs.Argument().c_str()) };
+    notification.Action = action.has_value() ? action.value() : L"";
     notification.HasInput = true;
     notification.Input = text;
     winrt::MainPage::Current().NotificationReceived(notification);

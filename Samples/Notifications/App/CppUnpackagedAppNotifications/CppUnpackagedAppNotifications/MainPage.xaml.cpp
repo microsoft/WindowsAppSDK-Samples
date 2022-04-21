@@ -34,28 +34,19 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void MainPage::NotificationReceived(Notification const& notification)
     {
-        TypeName pageType;
-
-        if (notification.Originator == winrt::xaml_typename<SettingsPage>().Name)
-        {
-            // Can't do that, not a valid scenario
-        }
-        else
-        {
-            pageType.Name = notification.Originator;
-            pageType.Kind = TypeKind::Metadata;
-        }
-
         auto s{ notification.Originator };
+
+        s = s + L" -- Action: " + notification.Action;
+
         if (notification.HasInput)
         {
             if (notification.Input.empty())
             {
-                s = s + L"  -- No input received --";
+                s = s + L" -- No input received";
             }
             else
             {
-                s = s + L"  -- Input received: " + notification.Input;
+                s = s + L" -- Input received: " + notification.Input;
 
             }
         }
