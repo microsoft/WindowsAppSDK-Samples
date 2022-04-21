@@ -8,6 +8,8 @@
 		<CsWinRTComponent>true</CsWinRTComponent>
 		<WindowsAppContainer>true</WindowsAppContainer>
 		<Platform>AnyCPU</Platform>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.0.0.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

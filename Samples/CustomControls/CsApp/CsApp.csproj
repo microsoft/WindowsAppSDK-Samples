@@ -16,6 +16,7 @@
 	<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0-preview2" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22598-preview" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.588-beta" PrivateAssets="all" />
+    <PackageReference Include="WinUIComponentCs" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,9 +37,5 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
-  </ItemGroup>
-	
-  <ItemGroup>
-    <ProjectReference Include="..\WinUIComponentCs\WinUIComponentCs.csproj" />
   </ItemGroup>
 </Project>
