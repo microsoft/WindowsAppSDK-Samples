@@ -2,36 +2,20 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-#include <wil/result.h>
-#include <wil/cppwinrt.h>
-#include <winrt/Windows.ApplicationModel.Activation.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Windowing.h>
-#include <windows.ui.popups.h>
-#include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
-#include <winrt/Microsoft.Windows.AppNotifications.h>
-
-#include <propkey.h> //PKEY properties
-#include <propsys.h>
-#include <ShObjIdl_core.h>
-
-#include <sstream>
-#include <winrt/Windows.Storage.h>
-#include <Microsoft.UI.Xaml.Window.h>
-
 #include "NotificationManager.h"
-#include "ToastWithAvatar.h"
-#include "ToastWithTextBox.h"
+#include <wil/result.h>
+#include <Microsoft.UI.Xaml.Window.h>
+#include <winrt/Microsoft.Windows.AppLifecycle.h>
+#include <propkey.h> //PKEY properties
+#include <ShObjIdl_core.h>
 
 namespace winrt
 {
     using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
-    using namespace winrt::Windows::ApplicationModel::Activation;
     using namespace winrt::Microsoft::Windows::AppLifecycle;
-    using namespace winrt::Windows::Storage;
     using namespace winrt::Microsoft::Windows::AppNotifications;
 }
 
@@ -47,7 +31,7 @@ void SetDisplayNameAndIcon(HWND hwnd) noexcept try
     winrt::com_ptr<IPropertyStore> propertyStore;
     //wil::unique_hwnd hWindow{ GetConsoleWindow() };
 
-    THROW_IF_FAILED(SHGetPropertyStoreForWindow(hwnd /*hWindow.get()*/, IID_PPV_ARGS(&propertyStore)));
+    THROW_IF_FAILED(SHGetPropertyStoreForWindow(hwnd, IID_PPV_ARGS(&propertyStore)));
 
     wil::unique_prop_variant propVariantIcon;
     wil::unique_cotaskmem_string sth = wil::make_unique_string<wil::unique_cotaskmem_string>(LR"("Assets\Square44x44Logo.png")" /*LR"(%SystemRoot%\system32\@WLOGO_96x96.png)"*/);
@@ -95,36 +79,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         return GetFullPathToExe() + L"\\Assets\\" + assetName;
     }
 
-    // Enum-to-string helpers. This app only supports Launch and File activation.
-    // Note that ExtendedActivationKind is a superset of ActivationKind, so 
-    // we could reduce these 2 methods to one, and cast appropriately from
-    // ActivationKind to ExtendedActivationKind. However, this sample keeps
-    // them separate to illustrate the difference between Xaml::LaunchActivatedEventArgs
-    // and AppLifecycle::AppActivationArguments
-    winrt::hstring KindString(
-        winrt::Windows::ApplicationModel::Activation::ActivationKind kind)
-    {
-        using namespace winrt::Windows::ApplicationModel::Activation;
-        switch (kind)
-        {
-        case ActivationKind::Launch: return winrt::hstring(L"Launch");
-        case ActivationKind::File: return winrt::hstring(L"File");
-        default: return winrt::hstring(L"Unknown");
-        }
-    }
-
-    winrt::hstring KindString(
-        winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind)
-    {
-        using namespace winrt::Microsoft::Windows::AppLifecycle;
-        switch (extendedKind)
-        {
-        case ExtendedActivationKind::Launch: return winrt::hstring(L"Launch");
-        case ExtendedActivationKind::File: return winrt::hstring(L"File");
-        default: return winrt::hstring(L"Unknown");
-        }
-    }
-
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& args)
     {
         window = make<MainWindow>();
@@ -138,15 +92,15 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         // NOTE: AppInstance is ambiguous between
         // Microsoft.Windows.AppLifecycle.AppInstance and
         // Windows.ApplicationModel.AppInstance
-        auto currentInstance{ winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent() };
+        auto currentInstance{ winrt::AppInstance::GetCurrent() };
         if (currentInstance)
         {
             // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
             // even in WinUI's OnLaunched.
-            winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs{ currentInstance.GetActivatedEventArgs() };
+            winrt::AppActivationArguments activationArgs{ currentInstance.GetActivatedEventArgs() };
             if (activationArgs)
             {
-                winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind{ activationArgs.Kind() };
+                winrt::ExtendedActivationKind extendedKind{ activationArgs.Kind() };
                 if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
                 {
                     winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs{ activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>() };

@@ -3,7 +3,6 @@
 
 #pragma once
 #include "MainPage.g.h"
-#include <winrt/Microsoft.Windows.AppNotifications.h>
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {

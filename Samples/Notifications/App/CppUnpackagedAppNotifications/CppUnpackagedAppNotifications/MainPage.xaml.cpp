@@ -6,10 +6,6 @@
 #if __has_include("MainPage.g.cpp")
 #include "MainPage.g.cpp"
 #endif
-#include <winrt/Microsoft.Windows.AppLifecycle.h>
-#include <winrt/Microsoft.Windows.AppNotifications.h>
-#include "ToastWithAvatar.h"
-#include "ToastWithTextBox.h"
 
 namespace winrt
 {
@@ -21,9 +17,6 @@ namespace winrt
     using namespace Microsoft::UI::Xaml::Media::Animation;
     using namespace Microsoft::UI::Xaml::Navigation;
     using namespace Windows::UI::Xaml::Interop;
-    using namespace winrt::Windows::ApplicationModel::Activation;
-    using namespace winrt::Microsoft::Windows::AppLifecycle;
-    using namespace winrt::Microsoft::Windows::AppNotifications;
 }
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
