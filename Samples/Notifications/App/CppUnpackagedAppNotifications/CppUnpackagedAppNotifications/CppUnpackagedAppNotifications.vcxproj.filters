@@ -27,6 +27,9 @@
     <ClCompile Include="NotificationManager.cpp">
       <Filter>Notifications</Filter>
     </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Notifications</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -38,6 +41,9 @@
       <Filter>Notifications</Filter>
     </ClInclude>
     <ClInclude Include="NotificationManager.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
       <Filter>Notifications</Filter>
     </ClInclude>
   </ItemGroup>

@@ -104,7 +104,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
                 {
                     winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs{ activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>() };
-                    g_notificationManager.ProcessActivationArgs(notificationActivatedEventArgs);
+                    g_notificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
                 }
 
 

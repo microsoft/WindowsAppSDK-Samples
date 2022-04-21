@@ -8,7 +8,7 @@ public:
     ~NotificationManager();
 
     void Init();
-    void ProcessActivationArgs(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
+    void ProcessLaunchActivationArgs(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
 
  private:
      bool NotificationManager::DispatchNotification(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);

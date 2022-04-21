@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "ToastWithAvatar.h"
+#include "Common.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
@@ -44,28 +45,11 @@ bool ToastWithAvatar::SendToast()
     return true;
 }
 
-std::optional<std::wstring> GetAction(std::wstring const& args)
-{
-    auto tag{ L"action=" };
-
-    auto scenarioIdStart{ args.find(tag) };
-    if (scenarioIdStart == std::wstring::npos)
-    {
-        return std::nullopt;
-    }
-
-    scenarioIdStart += wcslen(tag);
-
-    auto scenarioIdEnd{ args.find(L"&", scenarioIdStart) };
-
-    return args.substr(scenarioIdStart, scenarioIdEnd - scenarioIdStart);
-}
-
 void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
     winrt::CppUnpackagedAppNotifications::Notification notification{};
     notification.Originator = L"Scenario1_ToastWithAvatar";
-    auto action{ GetAction(notificationActivatedEventArgs.Argument().c_str()) };
+    auto action{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"action") };
     notification.Action = action.has_value() ? action.value() : L"";
     winrt::MainPage::Current().NotificationReceived(notification);
 }

@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "ToastWithTextBox.h"
+#include "Common.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
@@ -49,8 +50,6 @@ bool ToastWithTextBox::SendToast()
     return true;
 }
 
-std::optional<std::wstring> GetAction(std::wstring const& args);
-
 void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
     auto input{ notificationActivatedEventArgs.UserInput() };
@@ -58,7 +57,7 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
 
     winrt::CppUnpackagedAppNotifications::Notification notification{};
     notification.Originator = L"Scenario2_ToastWithTextBox";
-    auto action{ GetAction(notificationActivatedEventArgs.Argument().c_str()) };
+    auto action{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"action") };
     notification.Action = action.has_value() ? action.value() : L"";
     notification.HasInput = true;
     notification.Input = text;

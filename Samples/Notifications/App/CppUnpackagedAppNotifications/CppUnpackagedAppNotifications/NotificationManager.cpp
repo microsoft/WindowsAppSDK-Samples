@@ -4,6 +4,7 @@
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include "ToastWithAvatar.h"
 #include "ToastWithTextBox.h"
+#include "Common.h"
 
 #include <map>
 #include <functional>
@@ -47,7 +48,7 @@ void NotificationManager::Init()
     m_isRegistered = true;
 }
 
-void NotificationManager::ProcessActivationArgs(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
+void NotificationManager::ProcessLaunchActivationArgs(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
     assert(m_isRegistered);
 
@@ -55,26 +56,9 @@ void NotificationManager::ProcessActivationArgs(winrt::AppNotificationActivatedE
     winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"App launched from notifications", winrt::InfoBarSeverity::Informational);
 }
 
-std::optional<std::wstring> GetScenarioId(std::wstring const& args)
-{
-    auto tag{ L"scenarioId=" };
-
-    auto scenarioIdStart{ args.find(tag) };
-    if (scenarioIdStart == std::wstring::npos)
-    {
-        return std::nullopt;
-    }
-
-    scenarioIdStart += wcslen(tag);
-
-    auto scenarioIdEnd{ args.find(L"&", scenarioIdStart) };
-
-    return args.substr(scenarioIdStart, scenarioIdEnd - scenarioIdStart) ;
-}
-
 bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    auto scenarioId{ GetScenarioId(notificationActivatedEventArgs.Argument().c_str()) };
+    auto scenarioId{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"scenarioId")};
     if (scenarioId.has_value())
     {
         try
