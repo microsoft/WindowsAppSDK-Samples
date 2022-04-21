@@ -33,7 +33,7 @@ bool ToastWithTextBox::SendToast()
                     <action\
                         id = \"something\"\
                         content = \"Reply\"\
-                        arguments = \"action=reply&amp;contentId=351\"\
+                        arguments = \"action=reply&amp;scenarioId=2\"\
                         activationType = \"background\" />\
                 </actions>\
             </toast>" };

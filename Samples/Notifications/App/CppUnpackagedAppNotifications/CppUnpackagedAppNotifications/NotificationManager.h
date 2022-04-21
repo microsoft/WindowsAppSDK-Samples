@@ -13,6 +13,5 @@ public:
      bool NotificationManager::DispatchNotification(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
 
      bool m_isRegistered;
-     //m_scenarioMap
 };
 

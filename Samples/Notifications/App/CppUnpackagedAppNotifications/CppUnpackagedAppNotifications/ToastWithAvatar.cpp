@@ -28,7 +28,7 @@ bool ToastWithAvatar::SendToast()
                 <actions>\
                     <action\
                         content = \"Activate Toast\"\
-                        arguments = \"action=activateToast&amp;contentId=351\"\
+                        arguments = \"action=activateToast&amp;scenarioId=1\"\
                         activationType = \"foreground\"/>\
                 </actions>\
             </toast>" };

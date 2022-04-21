@@ -5,10 +5,20 @@
 #include "ToastWithAvatar.h"
 #include "ToastWithTextBox.h"
 
+#include <map>
+#include <functional>
+
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::Windows::AppNotifications;
 }
+
+static const std::map<std::wstring, std::function<void (winrt::AppNotificationActivatedEventArgs const&)>> c_map
+{
+    { L"1", ToastWithAvatar::NotificationReceived },
+    { L"2", ToastWithTextBox::NotificationReceived }
+};
 
 NotificationManager::NotificationManager():m_isRegistered(false){}
 
@@ -16,14 +26,14 @@ NotificationManager::~NotificationManager()
 {
     if (m_isRegistered)
     {
-        winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Unregister();
+        winrt::AppNotificationManager::Default().Unregister();
     }
 }
 
 void NotificationManager::Init()
 {
-    auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-    const auto token{ notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
+    auto notificationManager{ winrt::AppNotificationManager::Default() };
+    const auto token{ notificationManager.NotificationInvoked([&](const auto&, winrt::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
         {
             winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"Notification received", winrt::InfoBarSeverity::Informational);
 
@@ -35,24 +45,41 @@ void NotificationManager::Init()
 
     winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Register();
     m_isRegistered = true;
-
 }
 
-bool NotificationManager::DispatchNotification(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
+std::optional<std::wstring> FindScenarioId(std::wstring const& args)
 {
-    std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
-    if (args.find(L"activateToast") != std::wstring::npos)
+    static const std::wstring tag(L"scenarioId=");
+    auto scenarioIdStart{ args.find(tag) };
+    if (scenarioIdStart == std::wstring::npos)
     {
-        ToastWithAvatar::NotificationReceived(notificationActivatedEventArgs);
+        return std::nullopt;
     }
-    else if (args.find(L"reply") != std::wstring::npos)
+
+    scenarioIdStart += tag.length();
+
+    auto scenarioIdEnd{ args.find(L";", scenarioIdStart) };
+
+    return args.substr(scenarioIdStart, scenarioIdEnd) ;
+}
+
+bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
+{
+    auto scenarioId{ FindScenarioId(notificationActivatedEventArgs.Argument().c_str()) };
+    if (scenarioId.has_value())
     {
-        ToastWithTextBox::NotificationReceived(notificationActivatedEventArgs);
+        try
+        {
+            c_map.at(scenarioId.value())(notificationActivatedEventArgs); // Will throw if out of range
+            return true;
+        }
+        catch (...)
+        {
+            return false;
+        }
     }
     else
     {
         return false;
     }
-
-    return true;
 }
