@@ -1,1 +1,2 @@
-Local source for packages. Places nupkg files in this directory to test them out before uploading.
+Local source for packages.
+This is used by the the nightly pipelines for build compat testing.
