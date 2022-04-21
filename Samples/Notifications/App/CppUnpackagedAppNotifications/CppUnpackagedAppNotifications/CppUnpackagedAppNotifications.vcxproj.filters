@@ -19,23 +19,29 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
     <ClCompile Include="ToastWithAvatar.cpp">
-      <Filter>Scenarios</Filter>
+      <Filter>Notifications</Filter>
     </ClCompile>
     <ClCompile Include="ToastWithTextBox.cpp">
-      <Filter>Scenarios</Filter>
+      <Filter>Notifications</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="NotificationManager.cpp">
+      <Filter>Notifications</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="SampleConfiguration.h" />
     <ClInclude Include="ToastWithAvatar.h">
-      <Filter>Scenarios</Filter>
+      <Filter>Notifications</Filter>
     </ClInclude>
     <ClInclude Include="ToastWithTextBox.h">
-      <Filter>Scenarios</Filter>
+      <Filter>Notifications</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="NotificationManager.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.png">
@@ -61,7 +67,7 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{$guid1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenarios">
+    <Filter Include="Notifications">
       <UniqueIdentifier>{61c8c50e-14b1-4504-b7ad-935b944692e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

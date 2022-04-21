@@ -3,25 +3,6 @@
 #include "ToastWithAvatar.h"
 #include "ToastWithTextBox.h"
 
-bool Utils::DispatchNotification(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
-{
-    std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
-    if (args.find(L"activateToast") != std::wstring::npos)
-    {
-        ToastWithAvatar::NotificationReceived(notificationActivatedEventArgs);
-    }
-    else if (args.find(L"reply") != std::wstring::npos)
-    {
-        ToastWithTextBox::NotificationReceived(notificationActivatedEventArgs);
-    }
-    else
-    {
-        return false;
-    }
-
-    return true;
-}
-
 std::wstring ExePath() {
     TCHAR buffer[MAX_PATH] = { 0 };
     GetModuleFileName(NULL, buffer, MAX_PATH);

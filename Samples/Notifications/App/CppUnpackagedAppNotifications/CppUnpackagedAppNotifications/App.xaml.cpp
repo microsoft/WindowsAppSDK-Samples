@@ -22,6 +22,7 @@
 #include <Microsoft.UI.Xaml.Window.h>
 #include "Utils.h"
 
+#include "NotificationManager.h"
 #include "ToastWithAvatar.h"
 #include "ToastWithTextBox.h"
 
@@ -35,19 +36,7 @@ namespace winrt
     using namespace winrt::Microsoft::Windows::AppNotifications;
 }
 
-class Unregister
-{
-public:
-    Unregister() :isRegistered(false) {};
-    ~Unregister() { if (isRegistered) winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Unregister(); };
-
-    void Register() { winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Register(); isRegistered = true; };
-
-private:
-    bool isRegistered;
-};
-
-static Unregister unregister;
+static NotificationManager g_notificationManager;
 
 // This function is intended to be called in the unpackaged scenario.
 void SetDisplayNameAndIcon(HWND hwnd) noexcept try
@@ -201,18 +190,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& args)
     {
         //Sleep(10000);
-        auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-        const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
-            {
-                MainPage::Current().NotifyUser(L"Notification received", winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
 
-                if (!Utils::DispatchNotification(notificationActivatedEventArgs))
-                {
-                    MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
-                }
-            });
-
-        unregister.Register();
+        g_notificationManager.Init();
         if (BackgroundActivation())
         {
             // Do background work
