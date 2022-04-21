@@ -1,9 +1,9 @@
 ﻿#include "pch.h"
 #include "ToastWithAvatar.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
+#include "App.xaml.h"
 #include "MainPage.xaml.h"
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include "Utils.h"
 
 namespace winrt
 {
@@ -11,6 +11,7 @@ namespace winrt
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Windows::Foundation;
     using namespace Microsoft::Windows::AppNotifications;
+    using namespace CppUnpackagedAppNotifications::implementation;
 }
 
 bool ToastWithAvatar::SendToast()
@@ -19,7 +20,7 @@ bool ToastWithAvatar::SendToast()
         L"<toast>\
                 <visual>\
                     <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" src = \"" + Utils::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
+                        <image placement = \"appLogoOverride\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
                         <text>App Notifications Sample Scenario 1</text>\
                         <text>This is an example message using XML</text>\
                     </binding>\
@@ -48,5 +49,5 @@ void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotific
     winrt::CppUnpackagedAppNotifications::Notification notification{};
     notification.Originator = L"Scenario1_ToastWithAvatar";
     notification.Action = L"click";
-    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotificationReceived(notification);
+    winrt::MainPage::Current().NotificationReceived(notification);
 }

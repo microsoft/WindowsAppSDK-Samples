@@ -20,7 +20,6 @@
 #include <sstream>
 #include <winrt/Windows.Storage.h>
 #include <Microsoft.UI.Xaml.Window.h>
-#include "Utils.h"
 
 #include "NotificationManager.h"
 #include "ToastWithAvatar.h"
@@ -81,6 +80,19 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 }
             });
 #endif
+    }
+
+    std::wstring App::ExePath()
+    {
+        TCHAR buffer[MAX_PATH] = { 0 };
+        GetModuleFileName(NULL, buffer, MAX_PATH);
+        std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
+        return std::wstring(buffer).substr(0, pos);
+    }
+
+    std::wstring App::GetFullPathToAsset(std::wstring const& assetName)
+    {
+        return ExePath() + L"\\Assets\\" + assetName;
     }
 
     // Enum-to-string helpers. This app only supports Launch and File activation.

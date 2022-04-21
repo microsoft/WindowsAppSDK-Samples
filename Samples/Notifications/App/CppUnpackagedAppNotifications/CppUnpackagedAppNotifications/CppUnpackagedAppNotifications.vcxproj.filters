@@ -24,7 +24,6 @@
     <ClCompile Include="ToastWithTextBox.cpp">
       <Filter>Notifications</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="NotificationManager.cpp">
       <Filter>Notifications</Filter>
     </ClCompile>
@@ -38,7 +37,6 @@
     <ClInclude Include="ToastWithTextBox.h">
       <Filter>Notifications</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h" />
     <ClInclude Include="NotificationManager.h">
       <Filter>Notifications</Filter>
     </ClInclude>
