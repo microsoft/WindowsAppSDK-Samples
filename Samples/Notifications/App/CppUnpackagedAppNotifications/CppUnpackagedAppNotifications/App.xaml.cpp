@@ -82,7 +82,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 #endif
     }
 
-    std::wstring App::ExePath()
+    std::wstring App::GetFullPathToExe()
     {
         TCHAR buffer[MAX_PATH] = { 0 };
         GetModuleFileName(NULL, buffer, MAX_PATH);
@@ -92,7 +92,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     std::wstring App::GetFullPathToAsset(std::wstring const& assetName)
     {
-        return ExePath() + L"\\Assets\\" + assetName;
+        return GetFullPathToExe() + L"\\Assets\\" + assetName;
     }
 
     // Enum-to-string helpers. This app only supports Launch and File activation.

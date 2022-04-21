@@ -47,16 +47,17 @@ void NotificationManager::Init()
     m_isRegistered = true;
 }
 
-std::optional<std::wstring> FindScenarioId(std::wstring const& args)
+std::optional<std::wstring> GetScenarioId(std::wstring const& args)
 {
-    static const std::wstring tag(L"scenarioId=");
+    auto tag{ L"scenarioId=" };
+
     auto scenarioIdStart{ args.find(tag) };
     if (scenarioIdStart == std::wstring::npos)
     {
         return std::nullopt;
     }
 
-    scenarioIdStart += tag.length();
+    scenarioIdStart += wcslen(tag);
 
     auto scenarioIdEnd{ args.find(L";", scenarioIdStart) };
 
@@ -65,7 +66,7 @@ std::optional<std::wstring> FindScenarioId(std::wstring const& args)
 
 bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    auto scenarioId{ FindScenarioId(notificationActivatedEventArgs.Argument().c_str()) };
+    auto scenarioId{ GetScenarioId(notificationActivatedEventArgs.Argument().c_str()) };
     if (scenarioId.has_value())
     {
         try
