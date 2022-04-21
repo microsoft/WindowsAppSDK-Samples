@@ -1,4 +1,7 @@
-﻿#include "pch.h"
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+#include "pch.h"
 #include "Common.h"
 
 std::optional<std::wstring> Common::ExtractParam(std::wstring const& args, std::wstring const& paramName)

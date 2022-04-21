@@ -1,4 +1,7 @@
-﻿#pragma once
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+#pragma once
 #include <winrt/Microsoft.Windows.AppNotifications.h>
 
 class NotificationManager

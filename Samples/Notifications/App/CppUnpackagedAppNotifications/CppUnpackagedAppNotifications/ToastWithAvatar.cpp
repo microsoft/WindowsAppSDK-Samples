@@ -1,4 +1,7 @@
-﻿#include "pch.h"
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+#include "pch.h"
 #include "ToastWithAvatar.h"
 #include "Common.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
