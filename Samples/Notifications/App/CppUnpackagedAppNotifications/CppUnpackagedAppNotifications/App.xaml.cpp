@@ -201,8 +201,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& args)
     {
         //Sleep(10000);
-        auto a{ args.Arguments().c_str() };
-//#if 0 // because calling the activation stuff twice in a row will crash
         auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
         const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
             {
@@ -215,7 +213,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             });
 
         unregister.Register();
-//#endif
         if (BackgroundActivation())
         {
             // Do background work
@@ -227,20 +224,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             HWND hwnd;
             window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
             SetDisplayNameAndIcon(hwnd);
-#if 0
-            auto notificationManager{ winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default() };
-            const auto token = notificationManager.NotificationInvoked([&](const auto&, winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
-                {
-                    MainPage::Current().NotifyUser(L"Notification received", winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Informational);
-
-                    if (!Utils::DispatchNotification(notificationActivatedEventArgs))
-                    {
-                        MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
-                    }
-                });
-
-            unregister.Register();
-#endif
             window.Activate();
         }
     }
