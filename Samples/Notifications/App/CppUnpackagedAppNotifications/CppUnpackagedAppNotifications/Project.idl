@@ -34,7 +34,6 @@ namespace CppUnpackagedAppNotifications
         MainPage();
         static MainPage Current();
         void NotifyUser(String strMessage, Microsoft.UI.Xaml.Controls.InfoBarSeverity severity);
-        void ActivateScenario(String className);
         void NotificationReceived(Notification notification);
     }
 

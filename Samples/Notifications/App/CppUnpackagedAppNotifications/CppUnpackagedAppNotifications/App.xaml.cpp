@@ -125,97 +125,38 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         }
     }
 
-    bool BackgroundActivation()
-    {
-        // NOTE: AppInstance is ambiguous between
-        // Microsoft.Windows.AppLifecycle.AppInstance and
-        // Windows.ApplicationModel.AppInstance
-        auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
-        if (currentInstance)
-        {
-            // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
-            // even in WinUI's OnLaunched.
-            winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
-                = currentInstance.GetActivatedEventArgs();
-            if (activationArgs)
-            {
-                winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
-                    = activationArgs.Kind();
-                if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
-                {
-                    winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>();
-
-                    std::wstring args{ notificationActivatedEventArgs.Argument().c_str() };
-                    if (args.find(L"activateToast") != std::wstring::npos)
-                    {
-                        return false;
-                    }
-                    else if (args.find(L"reply") != std::wstring::npos)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    bool NotificationActivation()
-    {
-        // NOTE: AppInstance is ambiguous between
-        // Microsoft.Windows.AppLifecycle.AppInstance and
-        // Windows.ApplicationModel.AppInstance
-        auto currentInstance = winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent();
-        if (currentInstance)
-        {
-            // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
-            // even in WinUI's OnLaunched.
-            winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs
-                = currentInstance.GetActivatedEventArgs();
-            if (activationArgs)
-            {
-                winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind
-                    = activationArgs.Kind();
-                if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
-        return false;
-    }
-
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& args)
     {
-        //Sleep(10000);
+        window = make<MainWindow>();
+
+        HWND hwnd;
+        window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
+        SetDisplayNameAndIcon(hwnd);
 
         g_notificationManager.Init();
-        if (BackgroundActivation())
-        {
-            // Do background work
-        }
-        else
-        {
-            window = make<MainWindow>();
 
-            HWND hwnd;
-            window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
-            SetDisplayNameAndIcon(hwnd);
-            window.Activate();
+        // NOTE: AppInstance is ambiguous between
+        // Microsoft.Windows.AppLifecycle.AppInstance and
+        // Windows.ApplicationModel.AppInstance
+        auto currentInstance{ winrt::Microsoft::Windows::AppLifecycle::AppInstance::GetCurrent() };
+        if (currentInstance)
+        {
+            // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
+            // even in WinUI's OnLaunched.
+            winrt::Microsoft::Windows::AppLifecycle::AppActivationArguments activationArgs{ currentInstance.GetActivatedEventArgs() };
+            if (activationArgs)
+            {
+                winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind extendedKind{ activationArgs.Kind() };
+                if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
+                {
+                    winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs{ activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>() };
+                    g_notificationManager.ProcessActivationArgs(notificationActivatedEventArgs);
+                }
+
+
+            }
         }
+
+        window.Activate();
     }
 }

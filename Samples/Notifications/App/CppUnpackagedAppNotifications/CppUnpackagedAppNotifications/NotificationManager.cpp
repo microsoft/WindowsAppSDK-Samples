@@ -43,8 +43,16 @@ void NotificationManager::Init()
             }
         }) };
 
-    winrt::Microsoft::Windows::AppNotifications::AppNotificationManager::Default().Register();
+    winrt::AppNotificationManager::Default().Register();
     m_isRegistered = true;
+}
+
+void NotificationManager::ProcessActivationArgs(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
+{
+    assert(m_isRegistered);
+
+    DispatchNotification(notificationActivatedEventArgs);
+    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"App launched from notifications", winrt::InfoBarSeverity::Informational);
 }
 
 std::optional<std::wstring> GetScenarioId(std::wstring const& args)
