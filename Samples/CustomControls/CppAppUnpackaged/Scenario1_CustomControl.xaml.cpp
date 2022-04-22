@@ -14,7 +14,7 @@ namespace winrt
     using namespace Windows::Foundation;
 }
 
-namespace winrt::CppApp::implementation
+namespace winrt::CppAppUnpackaged::implementation
 {
     MainPage Scenario1_CustomControl::rootPage{ nullptr };
 
