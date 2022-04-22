@@ -8,8 +8,6 @@
 #include <wil/result.h>
 #include <Microsoft.UI.Xaml.Window.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
-#include <propkey.h> //PKEY properties
-#include <ShObjIdl_core.h>
 
 namespace winrt
 {
