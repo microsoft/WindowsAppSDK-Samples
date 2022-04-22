@@ -21,33 +21,6 @@ namespace winrt
 
 static NotificationManager g_notificationManager;
 
-// This function is intended to be called in the unpackaged scenario.
-void SetDisplayNameAndIcon(HWND hwnd) noexcept try
-{
-    // Not mandatory, but it's highly recommended to specify AppUserModelId
-    THROW_IF_FAILED(SetCurrentProcessExplicitAppUserModelID(L"ba5623de-515a-4d7e-9110-38d1641f5fe0"));
-
-    // Icon is mandatory
-    winrt::com_ptr<IPropertyStore> propertyStore;
-    //wil::unique_hwnd hWindow{ GetConsoleWindow() };
-
-    THROW_IF_FAILED(SHGetPropertyStoreForWindow(hwnd, IID_PPV_ARGS(&propertyStore)));
-
-    wil::unique_prop_variant propVariantIcon;
-    wil::unique_cotaskmem_string sth = wil::make_unique_string<wil::unique_cotaskmem_string>(LR"("Assets\Square44x44Logo.png")" /*LR"(%SystemRoot%\system32\@WLOGO_96x96.png)"*/);
-    propVariantIcon.pwszVal = sth.release();
-    propVariantIcon.vt = VT_LPWSTR;
-    THROW_IF_FAILED(propertyStore->SetValue(PKEY_AppUserModel_RelaunchIconResource, propVariantIcon));
-
-    // App name is not mandatory, but it's highly recommended to specify it
-    wil::unique_prop_variant propVariantAppName;
-    wil::unique_cotaskmem_string prodName = wil::make_unique_string<wil::unique_cotaskmem_string>(L"CppUnpackagedAppNotifications");
-    propVariantAppName.pwszVal = prodName.release();
-    propVariantAppName.vt = VT_LPWSTR;
-    THROW_IF_FAILED(propertyStore->SetValue(PKEY_AppUserModel_RelaunchDisplayNameResource, propVariantAppName));
-}
-CATCH_LOG()
-
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
     App::App()
@@ -82,10 +55,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& /*args*/)
     {
         window = make<MainWindow>();
-
-        HWND hwnd;
-        window.try_as<IWindowNative>()->get_WindowHandle(&hwnd);
-        SetDisplayNameAndIcon(hwnd);
 
         g_notificationManager.Init();
 
