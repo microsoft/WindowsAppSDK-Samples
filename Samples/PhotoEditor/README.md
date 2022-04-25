@@ -3,6 +3,7 @@ page_type: sample
 languages:
 - cppwinrt
 - cpp
+- csharp
 products:
 - windows
 - windows-app-sdk
@@ -24,7 +25,12 @@ A mini-app for viewing and editing image files, demonstrating XAML layout, data 
 
 > **Note**. This sample is targeted and tested for the Windows App SDK [version 1.0 Stable](https://docs.microsoft.com/windows/apps/windows-app-sdk/stable-channel) and Visual Studio 2022.
 
-![Photo Editor sample showing the image collection page, editing page, and editing controls](images/photo_editor_banner.png)
+### PhotoEditor C++ Sample Application
+![Photo Editor cpp sample showing the image collection page, editing page, and editing controls](images/photo_editor_banner.png)
+
+
+### PhotoEditor C# Sample Application
+![Photo Editor csharp sample showing the image collection page, and editing controls](images/CS_Picture1.png)
 
 ## Features
 
@@ -33,7 +39,7 @@ Photo Editor demonstrates:
 * XAML layout ranging from basics to adaptive and tailored layouts.
 * XAML data binding including the [{x:Bind} markup extension](https://docs.microsoft.com/windows/uwp/xaml-platform/x-bind-markup-extension).
 * XAML styling and UI customization, including [connected animations](https://docs.microsoft.com/windows/uwp/design/motion/connected-animation).
-* Image effects from [**Windows::UI::Composition**](https://docs.microsoft.com/uwp/api/windows.ui.composition).
+* Image effects from [**Windows.UI.Composition**](https://docs.microsoft.com/uwp/api/windows.ui.composition).
 * Loading images from the **Pictures** library using data virtualization to increase performance when there are numerous files.
 * The [**Microsoft.Graphics.Win2D**](https://microsoft.github.io/Win2D/WinUI3/html/Introduction.htm) NuGet package (an easy-to-use Windows Runtime API for immediate-mode 2D graphics rendering).
 For WinUI).
@@ -83,6 +89,15 @@ Tapping a photo from the **MainPage** thumbnail view takes you to the photo edit
   * [DetailPage.idl](PhotoEditor/cpp-winui/PhotoEditor/DetailPage.idl)
   * [DetailPage.h](PhotoEditor/cpp-winui/PhotoEditor/DetailPage.h)
   * [DetailPage.cpp](PhotoEditor/cpp-winui/PhotoEditor/DetailPage.cpp)
+
+## Code at a glance (C#)
+
+If you're just interested in code snippets for certain areas and don't want to browse or run the full sample, check out the following files for examples of some highlighted features:
+
+* Layout: see [MainPage.xaml](PhotoEditor/cs-winui/MainPage.xaml) and [DetailPage.xaml](PhotoEditor/cs-winui/DetailPage.xaml)
+* Data binding with x:Bind: see ImageGridView_DefaultItemTemplate in [MainPage.xaml](PhotoEditor/cs-winui/MainPage.xaml)
+* Styling and customization: see FancySliderControlTemplate in [DetailPage.xaml](PhotoEditor/cs-winui/DetailPage.xaml)
+* Image effects: see code starting with  InitializeEffects in [DetailPage.xaml.cs](PhotoEditor/cs-winui/DetailPage.xaml.cs)
 
 ## Related documentation and code samples
 
