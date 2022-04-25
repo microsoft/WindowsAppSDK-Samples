@@ -8,12 +8,12 @@
 
   <Identity
     Name="52949e17-5002-4ee6-b739-adeecd7dc28f"
-    Publisher="CN=tyduck"
+    Publisher="CN=Microsoft Corporation"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>CustomEditControlCpp</DisplayName>
-    <PublisherDisplayName>tyduck</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
