@@ -20,15 +20,21 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" ></RowDefinition>
                         <RowDefinition Height="Auto" ></RowDefinition>
+                        <RowDefinition Height="Auto" ></RowDefinition>
+                        <RowDefinition Height="Auto" ></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Spacing="10" Margin="0,0,0,10"  Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBox Width="200" x:Name="TitleTextBox" Text="WinUI ❤️ AppWindow"/>
                         <Button Content="Set Window Title" Click="TitleBtn_Click"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Spacing ="10" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Grid.Row="1" Margin="0,0,10,0" ><Bold>AppWindow Resize:</Bold></TextBlock>
+                    <TextBlock Grid.Row="2" Style="{StaticResource ScenarioDescriptionTextStyle }" Margin="0,0,0,10" TextWrapping="Wrap">Developers can both specify their window's size using <Bold>AppWindow.Resize(size)</Bold>, and set a desired client area size using <Bold>AppWindow.ResizeClient(size)</Bold>.
+                    </TextBlock>
+                    <StackPanel Grid.Row="3" Spacing ="10" Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBox Width="50" x:Name="WidthTextBox" InputScope="Number"></TextBox>
                         <TextBox Width="50" x:Name="HeightTextBox" InputScope="Number"></TextBox>
                         <Button x:Name="SizeBtn" Click="SizeBtn_Click">Resize window</Button>
+                        <Button x:Name="ClientSizeBtn" Click="SizeBtn_Click">Resize client area</Button>
                     </StackPanel>
                 </Grid>
             </StackPanel>
