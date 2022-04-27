@@ -39,13 +39,20 @@ stages:
       displayName: 'Retrieve VC tools directory'
 
     #====================================================================================================================
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        feedsToUse: 'config'
+        nugetConfigPath: '.\Samples\nuget.config'
+        restoreSolution: '.\Samples\${{ parameters.FeatureDirectory }}\**\*.sln'
+
     - task: VSBuild@1
       displayName: 'Restore nuget packages for all solutions'
       inputs:
         solution: .\Samples\${{ parameters.FeatureDirectory }}\**\*.sln
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-        msbuildArgs: '/t:restore /p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
+        msbuildArgs: '/t:restore /p:PublishReadyToRun=true /p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
 
     - task: VSBuild@1
       displayName: 'Build all Sample solutions'
