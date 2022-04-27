@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Microsoft.Windows.AppLifecycle;
 using static CsConsoleActivation.NativeHelpers;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsConsoleActivation
 {
@@ -15,7 +16,6 @@ namespace CsConsoleActivation
     {
         // Windows App SDK version.
         private static uint majorMinorVersion = 0x00010000;
-        private static string versionTag = "";
 
         private static string executablePath;
         private static string executablePathAndIconIndex;
@@ -23,8 +23,8 @@ namespace CsConsoleActivation
         static void Main(string[] args)
         {
             // Initialize Windows App SDK for unpackaged apps.            
-            int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
-            if (result == 0)
+            int result = 0;
+            if (Bootstrap.TryInitialize(majorMinorVersion, out result))
             {
                 StringBuilder builder = new StringBuilder(MAX_PATH);
                 GetModuleFileName(IntPtr.Zero, builder, builder.Capacity);
@@ -65,7 +65,7 @@ namespace CsConsoleActivation
                 }
 
                 // Uninitialize Windows App SDK.
-                MddBootstrap.Shutdown();
+                Bootstrap.Shutdown();
             }
         }
 

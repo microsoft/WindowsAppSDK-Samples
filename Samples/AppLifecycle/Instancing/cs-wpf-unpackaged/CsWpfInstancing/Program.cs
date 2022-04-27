@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsWpfInstancing
 {
@@ -18,8 +19,7 @@ namespace CsWpfInstancing
     {
         // Windows App SDK version.
         private static uint majorMinorVersion = 0x00010000;
-        private static string versionTag = "";
-
+     
         private static string executablePath;
         private static string executablePathAndIconIndex;
         private static int activationCount = 1;
@@ -33,8 +33,8 @@ namespace CsWpfInstancing
             executablePathAndIconIndex = $"{executablePath},0";
 
             // Initialize Windows App SDK for unpackaged apps.            
-            int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
-            if (result == 0)
+            int result = 0;
+            if (Bootstrap.TryInitialize(majorMinorVersion, out result))
             {
                 bool isRedirect = DecideRedirection();
                 if (!isRedirect)
@@ -47,7 +47,7 @@ namespace CsWpfInstancing
                 }
 
                 // Uninitialize Windows App SDK.
-                MddBootstrap.Shutdown();
+                Bootstrap.Shutdown();
             }
             return 0;
         }
