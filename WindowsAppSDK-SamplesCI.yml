@@ -52,7 +52,7 @@ stages:
         solution: .\Samples\${{ parameters.FeatureDirectory }}\**\*.sln
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-        msbuildArgs: '/t:restore /p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
+        msbuildArgs: '/t:restore /p:PublishReadyToRun=true /p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
 
     - task: VSBuild@1
       displayName: 'Build all Sample solutions'
