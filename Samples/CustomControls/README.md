@@ -6,18 +6,24 @@ languages:
 products:
 - windows
 - windows-app-sdk
-name: "WinUI Custom Controls C# Authoring Sample"
-urlFragment: cswinrtauthoring
-description: "Shows how to author WinUI controls with C#/WinRT and consume them from C++ and C#."
+name: "C# Windows Runtime Component WinUI Controls Sample"
+urlFragment: csruntimecomponent
+description: "Shows how to author a Windows Runtime Component in C# with WinUI controls and how to consume it from C++ and C#."
 extendedZipContent:
 - path: LICENSE
   target: LICENSE
 ---
-# Custom Controls Sample (C#/WinRT Authoring)
+# Custom Controls Sample (C# Windows Runtime Component)
 
 This sample demonstrates how to author C# components with WinUI controls (User Control and Custom Control) using C#/WinRT, and how to consume these components from C++ and C# apps.
 
-The sample solution includes two application projects: **CppApp** (packaged C++ WinUI app) and **CsApp** (packaged C# WinUI app). Both of the application projects have a project reference to the C# component, **WinUICsComponent**. The C# component uses the *Microsoft.Windows.CsWinRT* NuGet package to generate a Windows Runtime Component with custom WinUI controls.
+The sample solution includes the following application projects: 
+
+- **CppApp** (packaged C++ WinUI app)
+- **CppAppUnpackaged** (unpackaged C++ WinUI app)
+- **CsApp** (packaged C# WinUI app)
+
+All the application projects have a project reference to the C# Windows Runtime component library project, **WinUICsComponent**. The C# component uses the *Microsoft.Windows.CsWinRT* NuGet package to generate a Windows Runtime Component with custom WinUI controls.
 
 ## Prerequisites
 
@@ -27,7 +33,7 @@ The sample solution includes two application projects: **CppApp** (packaged C++ 
 ## Building and running the sample
 
 * Open the solution file (`.sln`) in Visual Studio.
-* Set either the **CppApp** or **CsApp** project as the startup project.
+* Set one of the application projects as the startup project.
 * Select `x86` as the Solution platform. There is a known issue with `x64` and `arm64` (https://github.com/microsoft/CsWinRT/issues/1093).
 * From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
