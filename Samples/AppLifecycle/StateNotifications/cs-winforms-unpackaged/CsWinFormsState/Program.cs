@@ -3,6 +3,7 @@
 
 using System;
 using System.Windows.Forms;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsWinFormsState
 {
@@ -10,8 +11,7 @@ namespace CsWinFormsState
     {
         // Windows App SDK version.
         static uint majorMinorVersion = 0x00010000;
-        static string versionTag = "";
-
+  
         [STAThread]
         static void Main()
         {
@@ -20,13 +20,13 @@ namespace CsWinFormsState
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize Windows App SDK for unpackaged apps.            
-            int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
-            if (result == 0)
+            int result = 0;
+            if (Bootstrap.TryInitialize(majorMinorVersion, out result))
             {
                 Application.Run(new MainForm());
 
                 // Uninitialize Windows App SDK.
-                MddBootstrap.Shutdown();
+                Bootstrap.Shutdown();
             }
         }
     }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsWpfActivation
 {
@@ -9,14 +10,13 @@ namespace CsWpfActivation
     {
         // Windows App SDK version.
         static uint majorMinorVersion = 0x00010000;
-        static string versionTag = "";
 
         [STAThread]
         static void Main(string[] args)
         {
             // Initialize Windows App SDK for unpackaged apps.            
-            int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
-            if (result == 0)
+            int result = 0;
+            if (Bootstrap.TryInitialize(majorMinorVersion, out result))
             {
                 App app = new()
                 {
@@ -25,7 +25,7 @@ namespace CsWpfActivation
                 app.Run();
 
                 // Uninitialize Windows App SDK.
-                MddBootstrap.Shutdown();
+                Bootstrap.Shutdown();
             }
         }
     }
