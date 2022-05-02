@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsWinFormsInstancing
 {
@@ -16,7 +17,6 @@ namespace CsWinFormsInstancing
     {
         // Windows App SDK version.
         private static uint majorMinorVersion = 0x00010000;
-        private static string versionTag = "";
 
         private static string executablePath;
         private static string executablePathAndIconIndex;
@@ -37,8 +37,8 @@ namespace CsWinFormsInstancing
             executablePathAndIconIndex = $"{executablePath},0";
 
             // Initialize Windows App SDK for unpackaged apps.            
-            int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
-            if (result == 0)
+            int result = 0;
+            if (Bootstrap.TryInitialize(majorMinorVersion, out result))
             {
                 // Ensure we don't block the STA.
                 bool isRedirect = await DecideRedirection();
@@ -49,7 +49,7 @@ namespace CsWinFormsInstancing
                 }
 
                 // Uninitialize Windows App SDK.
-                MddBootstrap.Shutdown();
+                Bootstrap.Shutdown();
             }
             return 0;
         }
