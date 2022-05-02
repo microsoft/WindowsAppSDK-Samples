@@ -17,7 +17,8 @@ namespace CsUnpackagedAppNotifications
     {
         private readonly List<Scenario> scenarios = new()
         {
-            new Scenario() { Title = "Scenario 1", ClassName = typeof(Scenario1_ToastWithAvatar).FullName }
+            new Scenario() { Title = "Scenario 1", ClassName = typeof(Scenario1_ToastWithAvatar).FullName },
+            new Scenario() { Title = "Scenario 2", ClassName = typeof(Scenario2_ToastWithTextBox).FullName }
         };
     }
 

@@ -18,11 +18,28 @@
                 <NavigationViewItemHeader x:Name="MainPagesHeader" Content="Scenarios"/>
             </NavigationView.MenuItems>
 
-            <Grid RowDefinitions="*,Auto">
+            <Grid RowDefinitions="3*,*,Auto">
                 <ScrollViewer>
-                    <Frame Padding="50" x:Name="ContentFrame" Navigated="ContentFrame_Navigated" />
+                    <Frame Padding="50" x:Name="ContentFrame" Navigated="ContentFrame_Navigated"/>
                 </ScrollViewer>
-                <InfoBar x:Name="infoBar" Grid.Row="1" />
+                <Grid RowDefinitions="Auto,*" Grid.Row="1" Margin="10,10,10,10" Background="LightGray">
+                    <TextBlock Grid.Row="0" Margin="10,10,10,10" Style="{StaticResource SectionHeaderTextStyle}">
+                        Received Notifications
+                    </TextBlock>
+                    <ListView x:Name="notificationBox"
+                        Grid.Row="1"
+                        Background="Transparent"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Height" Value="24" />
+                                <Setter Property="MinHeight" Value="24" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
+                <InfoBar x:Name="infoBar" Grid.Row="2">
+                </InfoBar>
             </Grid>
         </NavigationView>
     </Grid>

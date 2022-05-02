@@ -1,7 +1,7 @@
 ﻿<!-- Copyright (c) Microsoft Corporation.
      Licensed under the MIT License. -->
 <Page
-    x:Class="CsUnpackagedAppNotifications.Scenario1_ToastWithAvatar"
+    x:Class="CsUnpackagedAppNotifications.Scenario2_ToastWithTextBox"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CsUnpackagedAppNotifications"
@@ -18,15 +18,15 @@
             <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
 
             <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                This example demonstrates using a raw XML payload to produce a local toast notification with an avatar that can handle activation with a quick reply text box.
+                This example demonstrates using a raw XML payload to produce a local toast notification with an avatar image and activation.
             </TextBlock>
 
-            <Button Content="Send Toast" Click="SendToast_Click"/>
+            <Button Content="Send Toast" Click="SendToast_Click" />
         </StackPanel>
-
-        <TextBlock Grid.Row="1" Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                Find more information on sending a toast notification at
-                <Hyperlink NavigateUri="https://docs.microsoft.com/windows/apps/design/shell/tiles-and-notifications/adaptive-interactive-toasts?tabs=xml">Toast content | Microsoft Docs</Hyperlink>
+        
+        <TextBlock  Grid.Row="1" Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
+            Find more information on sending a toast notification at
+            <Hyperlink NavigateUri="https://docs.microsoft.com/windows/apps/design/shell/tiles-and-notifications/adaptive-interactive-toasts?tabs=xml">Toast content | Microsoft Docs</Hyperlink>
         </TextBlock>
     </Grid>
 </Page>
