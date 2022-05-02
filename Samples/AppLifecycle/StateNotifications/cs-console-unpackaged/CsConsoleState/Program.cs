@@ -3,6 +3,7 @@
 
 using System;
 using Microsoft.Windows.System.Power;
+using global::Microsoft.Windows.ApplicationModel.DynamicDependency;
 
 namespace CsConsoleState
 {
@@ -13,15 +14,14 @@ namespace CsConsoleState
 
         // Windows App SDK version.
         static uint majorMinorVersion = 0x00010000;
-        static string versionTag = "";
         private static bool isWorkInProgress;
 
         static void Main(string[] args)
         {
             // Initialize Windows App SDK for unpackaged apps.            
-            int result = MddBootstrap.Initialize(majorMinorVersion, versionTag);
-
-            if (result == 0)
+            int result = 0;
+            
+            if (Bootstrap.TryInitialize(majorMinorVersion, out result))
             {
                 int choice = 0;
                 while (choice != 3)
@@ -52,7 +52,7 @@ namespace CsConsoleState
                 }
 
                 // Uninitialize Windows App SDK.
-                MddBootstrap.Shutdown();
+                Bootstrap.Shutdown();
             }
         }
 
