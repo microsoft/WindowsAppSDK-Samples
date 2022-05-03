@@ -24,6 +24,7 @@
             <TextBox  Margin="5,5,5,5" x:Name="WidthTextBox" InputScope="Number"></TextBox>
             <TextBox  Margin="5,5,5,5" x:Name="HeightTextBox" InputScope="Number"></TextBox>
             <Button   Margin="5,5,5,5" x:Name="SizeBtn" Click="SizeBtn_Click">Resize window</Button>
+            <Button   Margin="5,5,5,5" x:Name="ClientSizeBtn" Click="ClientSizeBtn_Click">Resize client area</Button>
         </StackPanel>
     </Grid>
 </Page>
