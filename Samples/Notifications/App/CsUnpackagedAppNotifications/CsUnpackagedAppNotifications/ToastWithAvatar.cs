@@ -40,24 +40,23 @@ class ToastWithAvatar
         +       "</actions>"
         +   "</toast>" );
 
-            AppNotification toast = new AppNotification(xmlPayload);
-            toast.Priority = AppNotificationPriority.High;
-            AppNotificationManager.Default.Show(toast);
-            if (toast.Id == 0)
-            {
-                return false;
-            }
-
-            return true;
+        AppNotification toast = new AppNotification(xmlPayload);
+        toast.Priority = AppNotificationPriority.High;
+        AppNotificationManager.Default.Show(toast);
+        if (toast.Id == 0)
+        {
+            return false;
         }
+
+        return true;
     }
-#if false
-    void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
-{
-    winrt::CppUnpackagedAppNotifications::Notification notification{};
-    notification.Originator = L"Scenario1_ToastWithAvatar";
-    auto action{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"action") };
-    notification.Action = action.has_value() ? action.value() : L"";
-    winrt::MainPage::Current().NotificationReceived(notification);
+
+    void NotificationReceived(Microsoft.Windows.AppNotifications.AppNotificationActivatedEventArgs notificationActivatedEventArgs)
+    {
+        CsUnpackagedAppNotifications.Notification notification{};
+        notification.Originator = L"Scenario1_ToastWithAvatar";
+        auto action{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"action") };
+        notification.Action = action.has_value() ? action.value() : L"";
+        MainPage.Current.NotificationReceived(notification);
+    }
 }
-#endif
