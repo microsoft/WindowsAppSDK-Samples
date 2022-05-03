@@ -27,32 +27,11 @@ class ToastWithAvatar
 {
     public static bool SendToast()
     {
-#if false
-        winrt::hstring xmlPayload{
-            L"<toast>\
-                    < visual >\
-                    < binding template = \"ToastGeneric\">\
-                         < image placement = \"appLogoOverride\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
-                          < text > App Notifications Sample Scenario 1 </ text >\
-                        < text > This is an example message using XML</ text >\
-                    </ binding >\
-                </ visual >\
-                < actions >\
-                    < action\
-                        content = \"Activate Toast\"\
-                            arguments = \"action=activateToast&amp;scenarioId=1\"\
-                            activationType = \"foreground\"/>\
-                </ actions >\
-            </ toast > " };
-    
-    auto toast{ AppNotification(xmlPayload) };
-#endif
-
         string xmlPayload = new string(
             "<toast>"
         +       "<visual>"
-        +           "<binding template = \"ToastGeneric\">"        +               "<image placement = \"appLogoOverride\" src = \"" + App.GetFullPathToAsset("Square150x150Logo.png") + "\"/>"        +                   "<text>App Notifications Sample Scenario 1</text>"
-        +                   "<text>This is an example message using XML</text>"
+        +           "<binding template = \"ToastGeneric\">"        +               "<image placement = \"appLogoOverride\" src = \"" + App.GetFullPathToAsset("Square150x150Logo.png") + "\"/>"        +               "<text>App Notifications Sample Scenario 1</text>"
+        +               "<text>This is an example message using XML</text>"
         +           "</binding>"
         +       "</visual>"
         +       "<actions>"

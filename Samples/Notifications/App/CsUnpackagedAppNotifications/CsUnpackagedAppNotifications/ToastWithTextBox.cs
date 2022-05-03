@@ -20,38 +20,36 @@ namespace winrt
 }
 #endif
 
+using CsUnpackagedAppNotifications;
 using Microsoft.Windows.AppNotifications;
 
 class ToastWithTextBox
 {
     public static bool SendToast()
     {
-#if false
-        winrt::hstring xmlPayload{
-        L"<toast>\
-                <visual>\
-                    <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
-                        <text>App Notifications Sample Scenario 2</text>\
-                        <text>This is an example message using XML</text>\
-                    </binding>\
-                </visual>\
-                <actions>\
-                    <input\
-                        id = \"tbReply\"\
-                        type = \"text\"\
-                        placeHolderContent = \"Type a reply\"/>\
-                    <action\
-                        id = \"something\"\
-                        content = \"Reply\"\
-                        arguments = \"action=reply&amp;scenarioId=2\"\
-                        activationType = \"background\" />\
-                </actions>\
-            </toast>" };
+        string xmlPayload = new string(
+            "<toast>"
+        +       "<visual>"
+        +           "<binding template = \"ToastGeneric\">"
+        +               "<image placement = \"appLogoOverride\" src = \"" + App.GetFullPathToAsset("Square150x150Logo.png") + "\"/>"
+        +               "<text>App Notifications Sample Scenario 2</text>"
+        +               "<text>This is an example message using XML</text>"
+        +           "</binding>"
+        +       "</visual>"
+        +       "<actions>"
+        +            "<input "
+        +                "id = \"tbReply\" "
+        +                "type = \"text\" "
+        +                "placeHolderContent = \"Type a reply\"/>"
+        +           "<action "
+        +               "content = \"Reply\" "
+        +               "id = \"something\" "
+        +               "arguments = \"action=reply&amp;scenarioId=2\" "
+        +               "activationType = \"background\"/>"
+        +       "</actions>"
+        + "</toast>");
 
-    auto toast{ winrt::AppNotification(xmlPayload) };
-#endif
-        AppNotification toast = new AppNotification("");
+        AppNotification toast = new AppNotification(xmlPayload);
         toast.Priority = AppNotificationPriority.High;
         AppNotificationManager.Default.Show(toast);
         if (toast.Id == 0)
@@ -62,6 +60,7 @@ class ToastWithTextBox
         return true;
     }
 }
+
 #if false
     void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
