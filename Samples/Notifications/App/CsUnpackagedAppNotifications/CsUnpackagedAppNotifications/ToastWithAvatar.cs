@@ -50,7 +50,7 @@ class ToastWithAvatar
 
         return true;
     }
-
+#if false
     void NotificationReceived(Microsoft.Windows.AppNotifications.AppNotificationActivatedEventArgs notificationActivatedEventArgs)
     {
         CsUnpackagedAppNotifications.Notification notification{};
@@ -59,4 +59,5 @@ class ToastWithAvatar
         notification.Action = action.has_value() ? action.value() : L"";
         MainPage.Current.NotificationReceived(notification);
     }
+#endif
 }
