@@ -104,7 +104,7 @@ int main()
     else
     {
         // Here, the app should handle the case where push notifications are not supported, for example:
-        // - maintian its own persistent connection with an App Service or
+        // - maintain its own persistent connection with an App Service or
         // - use polling over a scheduled interval to synchronize the client.
         std::cout << "\nPush Notifications aren't supported." << std::endl;
     }
@@ -135,7 +135,7 @@ int main()
             else
             {
                 // Here, the app should handle the case where push notifications are not supported, for example:
-                // - maintian its own persistent connection with an App Service or
+                // - maintain its own persistent connection with an App Service or
                 // - use polling over a scheduled interval to synchronize the client.
                 std::cout << "\nPush Notifications aren't supported." << std::endl;
             }
