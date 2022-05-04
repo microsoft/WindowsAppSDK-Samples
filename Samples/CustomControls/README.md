@@ -40,3 +40,4 @@ All the application projects have a project reference to the C# Windows Runtime 
 ## Related Links
 
 - [C#/WinRT Authoring](https://github.com/microsoft/CsWinRT/blob/master/docs/authoring.md)
+- [Walkthrough—Create a C# component with WinUI 3 controls, and consume it from a C++/WinRT app that uses the Windows App SDK](https://docs.microsoft.com/windows/apps/develop/platform/csharp-winrt/create-winrt-component-winui-cswinrt)
