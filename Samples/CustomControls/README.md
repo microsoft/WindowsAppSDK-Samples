@@ -34,7 +34,6 @@ All the application projects have a project reference to the C# Windows Runtime 
 
 * Open the solution file (`.sln`) in Visual Studio.
 * Set one of the application projects as the startup project.
-* Select `x86` as the Solution platform. There is a known issue with `x64` and `arm64` (https://github.com/microsoft/CsWinRT/issues/1093).
 * From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
 ## Related Links
