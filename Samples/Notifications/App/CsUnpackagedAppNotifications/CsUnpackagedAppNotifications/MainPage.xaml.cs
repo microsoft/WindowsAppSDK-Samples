@@ -12,18 +12,56 @@ namespace CsUnpackagedAppNotifications
 {
     public partial class MainPage : Page
     {
+        public struct Notification
+        {
+            public string Originator;
+            public string Action;
+            public bool   HasInput;
+            public string Input;
+        };
+
         public static MainPage Current;
         public List<Scenario> Scenarios => this.scenarios;
+
+        //Windows::Foundation::Collections::IVector<IInspectable> messages;
+        private List<string> messages;// => this.messages;
 
         public MainPage()
         {
             InitializeComponent();
 
+            DataContext = this;
+
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
             Current = this;
+
+            this.messages = new List<string>();
+            this.notificationBox.ItemsSource = messages;
+            //notificationBox.
         }
 
+        public void NotificationReceived(Notification notification)
+        {
+            var s = notification.Originator;
+
+            s = s + " -- Action: " + notification.Action;
+
+            if (notification.HasInput)
+            {
+                if (notification.Input.Length == 0)
+                {
+                    s = s + " -- No input received";
+                }
+                else
+                {
+                    s = s + " -- Input received: " + notification.Input;
+                }
+            }
+
+            messages.Insert(0, s);
+        }
+	
         public void NotifyUser(string strMessage, InfoBarSeverity severity, bool isOpen = true)
         {
             // If called from the UI thread, then update immediately.

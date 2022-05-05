@@ -62,17 +62,15 @@ class ToastWithTextBox
 
     public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
     {
-#if false
-    auto input{ notificationActivatedEventArgs.UserInput() };
-    auto text{ input.Lookup(L"tbReply") };
-
-    winrt::CppUnpackagedAppNotifications::Notification notification{};
-    notification.Originator = L"Scenario2_ToastWithTextBox";
-    auto action{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"action") };
-    notification.Action = action.has_value() ? action.value() : L"";
-    notification.HasInput = true;
-    notification.Input = text;
-    winrt::MainPage::Current().NotificationReceived(notification);
-#endif
+        var input = notificationActivatedEventArgs.UserInput;
+        var text = input["tbReply"];
+        
+        var notification = new MainPage.Notification();
+        notification.Originator = "Scenario2_ToastWithTextBox";
+        var action = Common.ExtractParam(notificationActivatedEventArgs.Argument, "action");
+        notification.Action = action == null ? "" : action;
+        notification.HasInput = true;
+        notification.Input = text;
+        MainPage.Current.NotificationReceived(notification);
     }
 }

@@ -57,12 +57,10 @@ class ToastWithAvatar
 
     public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
     {
-#if false
-        CsUnpackagedAppNotifications.Notification notification{};
-        notification.Originator = L"Scenario1_ToastWithAvatar";
-        auto action{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"action") };
-        notification.Action = action.has_value() ? action.value() : L"";
+        var notification = new MainPage.Notification();
+        notification.Originator = "Scenario1_ToastWithAvatar";
+        var action = Common.ExtractParam(notificationActivatedEventArgs.Argument, "action");
+        notification.Action = action == null ? "" : action;
         MainPage.Current.NotificationReceived(notification);
-#endif
     }
 }
