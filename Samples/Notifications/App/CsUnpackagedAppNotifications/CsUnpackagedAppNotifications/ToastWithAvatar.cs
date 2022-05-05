@@ -30,15 +30,20 @@ class ToastWithAvatar
         string xmlPayload = new string(
             "<toast>"
         +       "<visual>"
-        +           "<binding template = \"ToastGeneric\">"        +               "<image placement = \"appLogoOverride\" src = \"" + App.GetFullPathToAsset("Square150x150Logo.png") + "\"/>"        +               "<text>App Notifications Sample Scenario 1</text>"
+        +           "<binding template = \"ToastGeneric\">"
+        +               "<image placement = \"appLogoOverride\" src = \"" + App.GetFullPathToAsset("Square150x150Logo.png") + "\"/>"
+        +               "<text>App Notifications Sample Scenario 1</text>"
         +               "<text>This is an example message using XML</text>"
         +           "</binding>"
         +       "</visual>"
         +       "<actions>"
         +           "<action "
-        +               "content = \"Activate Toast\" "        +               "arguments = \"action=activateToast&amp;scenarioId=1\" "        +               "activationType = \"foreground\"/>"
+        +               "content = \"Activate Toast\" "
+        +               "arguments = \"action=activateToast&amp;scenarioId=1\" "
+        +               "activationType = \"foreground\"/>"
         +       "</actions>"
         +   "</toast>" );
+
 
         AppNotification toast = new AppNotification(xmlPayload);
         toast.Priority = AppNotificationPriority.High;
@@ -47,7 +52,7 @@ class ToastWithAvatar
         {
             return false;
         }
-
+        AppNotificationManager.Default.Unregister();
         return true;
     }
 #if false

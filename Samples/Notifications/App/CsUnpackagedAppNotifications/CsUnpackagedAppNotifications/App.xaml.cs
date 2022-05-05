@@ -36,27 +36,27 @@ namespace CsUnpackagedAppNotifications
             mainWindow = new MainWindow();
 
             NotificationManager.Init();
-#if false
+
             // NOTE: AppInstance is ambiguous between
             // Microsoft.Windows.AppLifecycle.AppInstance and
             // Windows.ApplicationModel.AppInstance
             AppInstance currentInstance = AppInstance.GetCurrent();
-            if (currentInstance)
+            if (currentInstance.IsCurrent)
             {
                 // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
                 // even in WinUI's OnLaunched.
                 AppActivationArguments activationArgs = currentInstance.GetActivatedEventArgs();
-                if (activationArgs)
+                //if (activationArgs)
                 {
                     ExtendedActivationKind extendedKind = activationArgs.Kind;
                     if (extendedKind == ExtendedActivationKind.AppNotification)
                     {
-                        AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as< winrt::AppNotificationActivatedEventArgs > ();
-                        g_notificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
+                        //AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as< winrt::AppNotificationActivatedEventArgs > ();
+                        //g_notificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
                     }
                 }
             }
-#endif
+
             mainWindow.Activate();
         }
     }
