@@ -56,9 +56,6 @@
     <None Include="Directory.Build.props" />
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
-  </ItemGroup>
-  <ItemGroup>
     <PRIResource Include="Resources.resw" />
   </ItemGroup>
 </Project>
