@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="WinUIComponentCs.NameReporter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinUIComponentCs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel HorizontalAlignment="Center">
+
+        <StackPanel.Resources>
+            <Style x:Key="BasicTextStyle" TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+                <Setter Property="Margin" Value="10,10,10,10"/>
+            </Style>
+        </StackPanel.Resources>
+        
+        <TextBlock Text="Enter your name." Margin="0,0,0,10"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Style="{StaticResource BasicTextStyle}">
+                First Name:
+            </TextBlock>
+            <TextBox Name="firstName" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Style="{StaticResource BasicTextStyle}">
+                Last Name:
+            </TextBlock>
+            <TextBox Name="lastName" />
+        </StackPanel>
+        <Button Content="Submit" Click="Button_Click" Margin="0,0,0,10"/>
+        <TextBlock Name="result" Style="{StaticResource BasicTextStyle}" Margin="0,0,0,10"/>
+    </StackPanel>
+</UserControl>
