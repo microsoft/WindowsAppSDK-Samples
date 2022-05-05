@@ -44,7 +44,6 @@ class ToastWithAvatar
         +       "</actions>"
         +   "</toast>" );
 
-
         AppNotification toast = new AppNotification(xmlPayload);
         toast.Priority = AppNotificationPriority.High;
         AppNotificationManager.Default.Show(toast);
@@ -52,17 +51,18 @@ class ToastWithAvatar
         {
             return false;
         }
-        AppNotificationManager.Default.Unregister();
+
         return true;
     }
-#if false
-    void NotificationReceived(Microsoft.Windows.AppNotifications.AppNotificationActivatedEventArgs notificationActivatedEventArgs)
+
+    public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
     {
+#if false
         CsUnpackagedAppNotifications.Notification notification{};
         notification.Originator = L"Scenario1_ToastWithAvatar";
         auto action{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"action") };
         notification.Action = action.has_value() ? action.value() : L"";
         MainPage.Current.NotificationReceived(notification);
-    }
 #endif
+    }
 }

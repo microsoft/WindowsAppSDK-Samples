@@ -37,17 +37,17 @@ class ToastWithTextBox
         +           "</binding>"
         +       "</visual>"
         +       "<actions>"
-        +            "<input "
-        +                "id = \"tbReply\" "
-        +                "type = \"text\" "
-        +                "placeHolderContent = \"Type a reply\"/>"
-        +           "<action "
-        +               "content = \"Reply\" "
-        +               "id = \"something\" "
-        +               "arguments = \"action=reply&amp;scenarioId=2\" "
-        +               "activationType = \"background\"/>"
+        +           "<input "
+        +               "id = \"tbReply\" "
+        +               "type = \"text\" "
+        +               "placeHolderContent = \"Type a reply\"/>"
+        +       "<action "
+        +           "content = \"Reply\" "
+        +           "id = \"something\" "
+        +           "arguments = \"action=reply&amp;scenarioId=2\" "
+        +           "activationType = \"background\"/>"
         +       "</actions>"
-        + "</toast>");
+        +   "</toast>");
 
         AppNotification toast = new AppNotification(xmlPayload);
         toast.Priority = AppNotificationPriority.High;
@@ -59,11 +59,10 @@ class ToastWithTextBox
 
         return true;
     }
-}
 
+    public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
+    {
 #if false
-    void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
-{
     auto input{ notificationActivatedEventArgs.UserInput() };
     auto text{ input.Lookup(L"tbReply") };
 
@@ -74,5 +73,6 @@ class ToastWithTextBox
     notification.HasInput = true;
     notification.Input = text;
     winrt::MainPage::Current().NotificationReceived(notification);
-}
 #endif
+    }
+}

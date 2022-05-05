@@ -28,7 +28,7 @@ namespace CsUnpackagedAppNotifications
 
         public static string GetFullPathToAsset(string assetName)
         {
-            return GetFullPathToExe() + "\\Assets\\" + assetName;
+            return ""; // GetFullPathToExe() + "\\Assets\\" + assetName;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)

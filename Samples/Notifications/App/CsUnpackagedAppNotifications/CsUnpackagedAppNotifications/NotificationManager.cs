@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Windows.AppNotifications;
 using Windows.Foundation;
+using Microsoft.UI.Xaml.Controls;
 
 namespace CsUnpackagedAppNotifications
 {
@@ -14,7 +15,9 @@ namespace CsUnpackagedAppNotifications
         private static readonly Destructor Finalise = new Destructor();
         private static bool m_isRegistered;
 
-        private sealed class Destructor
+        private static Dictionary<string, Action<AppNotificationActivatedEventArgs>> c_map = new Dictionary<string, Action<AppNotificationActivatedEventArgs>>();
+
+        public sealed class Destructor
         {
             ~Destructor()
             {
@@ -28,6 +31,9 @@ namespace CsUnpackagedAppNotifications
         static NotificationManager()
         {
             m_isRegistered = false;
+
+            c_map.Add("1", ToastWithAvatar.NotificationReceived);
+            c_map.Add("2", ToastWithTextBox.NotificationReceived);
         }
 #if false
         ~NotificationManager()
@@ -45,7 +51,7 @@ namespace CsUnpackagedAppNotifications
             //const TypedEventHandler<AppNotificationManager, AppNotificationActivatedArgumentArgs> token = 
             notificationManager.NotificationInvoked += MyEvent;
 
-            //notificationManager.Register();
+            notificationManager.Register();
             m_isRegistered = true;
         }
 #if false
@@ -56,38 +62,34 @@ namespace CsUnpackagedAppNotifications
         DispatchNotification(notificationActivatedEventArgs);
         winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"App launched from notifications", winrt::InfoBarSeverity::Informational);
     }
-
-    bool DispatchNotification(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
-    {
-        auto scenarioId{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"scenarioId") };
-        if (scenarioId.has_value())
+#endif
+        public static bool DispatchNotification(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
+            string scenarioId = Common.ExtractParam(notificationActivatedEventArgs.Argument, "scenarioId");
+            if (scenarioId == null)
+            {
+                return false;
+            }
+
             try
             {
-                c_map.at(scenarioId.value())(notificationActivatedEventArgs); // Will throw if out of range
+                c_map[scenarioId](notificationActivatedEventArgs);
                 return true;
             }
-            catch (...)
+            catch
             {
                 return false;
             }
         }
-        else
+
+        static void MyEvent(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
-            return false;
+            MainPage.Current.NotifyUser("Notification received", InfoBarSeverity.Informational);
+
+            if (!DispatchNotification(notificationActivatedEventArgs))
+            {
+                MainPage.Current.NotifyUser("Unrecognized Toast Originator", InfoBarSeverity.Error);
+            }
         }
     }
-#endif
-        static void MyEvent(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)
-                {
-#if false
-                winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"Notification received", winrt::InfoBarSeverity::Informational);
-
-                    if (!DispatchNotification(notificationActivatedEventArgs))
-                    {
-                        winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", winrt::InfoBarSeverity::Error);
-                    }
-#endif
-                }
-}
 }

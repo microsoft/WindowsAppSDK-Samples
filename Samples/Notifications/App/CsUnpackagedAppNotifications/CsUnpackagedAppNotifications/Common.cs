@@ -1,25 +1,32 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#if Eric
+#if false
 //#include "pch.h"
 //#include "Common.h"
-
-std::optional<std::wstring> Common::ExtractParam(std::wstring const& args, std::wstring const& paramName)
-{
-    auto tag{ paramName };
-    tag.append(L"=");
-
-    auto scenarioIdStart{ args.find(tag) };
-    if (scenarioIdStart == std::wstring::npos)
-    {
-        return std::nullopt;
-    }
-
-    scenarioIdStart += tag.length();
-
-    auto scenarioIdEnd{ args.find(L"&", scenarioIdStart) };
-
-    return args.substr(scenarioIdStart, scenarioIdEnd - scenarioIdStart);
-}
 #endif
+
+class Common
+{
+    public static string ExtractParam(string args, string paramName)
+    {
+        string tag = paramName;
+        tag += "=";
+
+        int scenarioIdStart = args.IndexOf(tag);
+        if (scenarioIdStart == -1)
+        {
+            return null;
+        }
+
+        scenarioIdStart += tag.Length;
+
+        int scenarioIdEnd = args.IndexOf("&", scenarioIdStart);
+        if (scenarioIdEnd == -1)
+        {
+            scenarioIdEnd = args.Length;
+        }
+
+        return args.Substring(scenarioIdStart, scenarioIdEnd - scenarioIdStart);
+    }
+}
