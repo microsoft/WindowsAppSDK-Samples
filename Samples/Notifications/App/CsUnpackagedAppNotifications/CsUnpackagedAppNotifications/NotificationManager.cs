@@ -54,15 +54,15 @@ namespace CsUnpackagedAppNotifications
             notificationManager.Register();
             m_isRegistered = true;
         }
-#if false
-    void ProcessLaunchActivationArgs(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
-    {
-        assert(m_isRegistered);
 
-        DispatchNotification(notificationActivatedEventArgs);
-        winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"App launched from notifications", winrt::InfoBarSeverity::Informational);
-    }
-#endif
+        public static void ProcessLaunchActivationArgs(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
+        {
+            //assert(m_isRegistered);
+
+            DispatchNotification(notificationActivatedEventArgs);
+            MainPage.Current.NotifyUser("App launched from notifications", InfoBarSeverity.Informational);
+        }
+
         public static bool DispatchNotification(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
             string scenarioId = Common.ExtractParam(notificationActivatedEventArgs.Argument, "scenarioId");

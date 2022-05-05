@@ -3,6 +3,12 @@
 
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppNotifications;
+
+//debugging
+using System;
+using System.Diagnostics;
+using System.Threading;
 
 namespace CsUnpackagedAppNotifications
 {
@@ -33,6 +39,12 @@ namespace CsUnpackagedAppNotifications
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
+#if false
+            while (!Debugger.IsAttached)
+            {
+                Thread.Sleep(100);
+            }
+#endif
             mainWindow = new MainWindow();
 
             NotificationManager.Init();
@@ -46,13 +58,13 @@ namespace CsUnpackagedAppNotifications
                 // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,
                 // even in WinUI's OnLaunched.
                 AppActivationArguments activationArgs = currentInstance.GetActivatedEventArgs();
-                //if (activationArgs)
+                if (activationArgs != null)
                 {
                     ExtendedActivationKind extendedKind = activationArgs.Kind;
                     if (extendedKind == ExtendedActivationKind.AppNotification)
                     {
-                        //AppNotificationActivatedEventArgs notificationActivatedEventArgs = activationArgs.Data().as< winrt::AppNotificationActivatedEventArgs > ();
-                        //g_notificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
+                        var notificationActivatedEventArgs = (AppNotificationActivatedEventArgs)activationArgs.Data;//    .Data().as< winrt::AppNotificationActivatedEventArgs > ();
+                        NotificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
                     }
                 }
             }
