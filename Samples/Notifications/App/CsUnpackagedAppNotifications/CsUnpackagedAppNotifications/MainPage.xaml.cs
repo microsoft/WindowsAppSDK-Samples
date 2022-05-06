@@ -60,6 +60,22 @@ namespace CsUnpackagedAppNotifications
             }
 
             messages.Insert(0, s);
+
+            // Workaround for ListView not automatically refreshing when the list is changed.
+            // Will replacce the ListView with a DataView soon
+            if (DispatcherQueue.HasThreadAccess)
+            {
+                this.notificationBox.ItemsSource = null;
+                this.notificationBox.ItemsSource = messages;
+            }
+            else
+            {
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    this.notificationBox.ItemsSource = null;
+                    this.notificationBox.ItemsSource = messages;
+                });
+            }
         }
 	
         public void NotifyUser(string strMessage, InfoBarSeverity severity, bool isOpen = true)
