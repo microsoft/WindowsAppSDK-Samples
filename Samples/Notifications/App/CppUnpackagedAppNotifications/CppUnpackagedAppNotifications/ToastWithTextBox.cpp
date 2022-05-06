@@ -35,10 +35,9 @@ bool ToastWithTextBox::SendToast()
                         type = \"text\"\
                         placeHolderContent = \"Type a reply\"/>\
                     <action\
-                        id = \"something\"\
                         content = \"Reply\"\
                         arguments = \"action=reply&amp;scenarioId=2\"\
-                        activationType = \"background\" />\
+                        hint-inputId=\"tbReply\"/>\
                 </actions>\
             </toast>" };
 
