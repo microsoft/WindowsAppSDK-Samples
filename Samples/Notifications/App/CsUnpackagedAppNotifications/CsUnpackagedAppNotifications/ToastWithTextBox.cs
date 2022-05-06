@@ -43,9 +43,8 @@ class ToastWithTextBox
         +               "placeHolderContent = \"Type a reply\"/>"
         +       "<action "
         +           "content = \"Reply\" "
-        +           "id = \"something\" "
         +           "arguments = \"action=reply&amp;scenarioId=2\" "
-        +           "activationType = \"background\"/>"
+        +           "hint-inputId = \"tbReply\"/>"
         +       "</actions>"
         +   "</toast>");
 
