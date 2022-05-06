@@ -1,0 +1,49 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace CppAppUnpackaged
+{
+    /* The following code is scenario/feature-specific IDL.
+    Samples authors should modify these runtime classes as appropriate. */
+
+    [default_interface]
+    runtimeclass Scenario1_CustomControl : Microsoft.UI.Xaml.Controls.Page
+    {
+        Scenario1_CustomControl();        
+    }
+
+    [default_interface]
+    runtimeclass Scenario2_UserControl : Microsoft.UI.Xaml.Controls.Page
+    {
+        Scenario2_UserControl();
+    }
+
+     /* The following code is template-specific IDL.
+     These runtime classes are the same across all C++/WinRT WinUI samples. */
+
+    runtimeclass MainPage : Microsoft.UI.Xaml.Controls.Page
+    {
+        MainPage();
+        static MainPage Current();
+        void NotifyUser(String strMessage, Microsoft.UI.Xaml.Controls.InfoBarSeverity severity);
+    }
+
+    // To use Scenario in a winrt::Windows::Foundation::Collections::IVector<Scenario>, Scenario should be a WinRT type
+    struct Scenario
+    {
+        String Title;
+        String ClassName;
+    };
+
+    [default_interface]
+    runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+    }
+
+    [default_interface]
+    runtimeclass SettingsPage : Microsoft.UI.Xaml.Controls.Page
+    {
+        SettingsPage();
+    }
+}
