@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WinAppSDKMicaSample (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WinAppSDKMicaSample (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
