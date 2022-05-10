@@ -26,15 +26,14 @@ namespace CsUnpackagedAppNotifications
 
     public static string GetFullPathToExe()
         {
-            //TCHAR buffer[MAX_PATH] = { 0 };
-            //GetModuleFileName(NULL, buffer, MAX_PATH);
-            //std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-            return ""; //std::wstring(buffer).substr(0, pos);
+            var path = AppDomain.CurrentDomain.BaseDirectory;
+            var pos = path.LastIndexOf("\\");
+            return path.Substring(0, pos);
         }
 
         public static string GetFullPathToAsset(string assetName)
         {
-            return ""; // GetFullPathToExe() + "\\Assets\\" + assetName;
+            return GetFullPathToExe() + "\\Assets\\" + assetName;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
