@@ -64,7 +64,7 @@ namespace CsUnpackagedAppNotifications
                     ExtendedActivationKind extendedKind = activationArgs.Kind;
                     if (extendedKind == ExtendedActivationKind.AppNotification)
                     {
-                        var notificationActivatedEventArgs = (AppNotificationActivatedEventArgs)activationArgs.Data;//    .Data().as< winrt::AppNotificationActivatedEventArgs > ();
+                        var notificationActivatedEventArgs = (AppNotificationActivatedEventArgs)activationArgs.Data;
                         notificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
                     }
                 }

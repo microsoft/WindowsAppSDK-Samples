@@ -34,8 +34,7 @@ namespace CsUnpackagedAppNotifications
         {
             AppNotificationManager notificationManager = AppNotificationManager.Default;
 
-            //const TypedEventHandler<AppNotificationManager, AppNotificationActivatedArgumentArgs> token = 
-            notificationManager.NotificationInvoked += MyEvent;
+            notificationManager.NotificationInvoked += OnNotificationInvoked;
 
             notificationManager.Register();
             m_isRegistered = true;
@@ -77,7 +76,7 @@ namespace CsUnpackagedAppNotifications
             }
         }
 
-        void MyEvent(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)
+        void OnNotificationInvoked(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
             MainPage.Current.NotifyUser("Notification received", InfoBarSeverity.Informational);
 
