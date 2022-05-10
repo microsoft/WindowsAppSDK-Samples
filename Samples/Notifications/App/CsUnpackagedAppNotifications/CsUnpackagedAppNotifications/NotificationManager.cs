@@ -10,41 +10,27 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace CsUnpackagedAppNotifications
 {
-    internal static class NotificationManager
+    internal class NotificationManager
     {
-        private static readonly Destructor Finalise = new Destructor();
-        private static bool m_isRegistered;
+        private bool m_isRegistered;
 
-        private static Dictionary<string, Action<AppNotificationActivatedEventArgs>> c_map = new Dictionary<string, Action<AppNotificationActivatedEventArgs>>();
+        private Dictionary<string, Action<AppNotificationActivatedEventArgs>> c_map;
 
-        public sealed class Destructor
-        {
-            ~Destructor()
-            {
-                if (m_isRegistered)
-                {
-                    AppNotificationManager.Default.Unregister();
-                }
-            }
-        }
-
-        static NotificationManager()
+        public NotificationManager()
         {
             m_isRegistered = false;
 
+            c_map = new Dictionary<string, Action<AppNotificationActivatedEventArgs>>();
             c_map.Add("1", ToastWithAvatar.NotificationReceived);
             c_map.Add("2", ToastWithTextBox.NotificationReceived);
         }
-#if false
+
         ~NotificationManager()
         {
-            if (m_isRegistered)
-            {
-                AppNotificationManager.Default.Unregister();
-            }
+            Unregister();
         }
-#endif
-        public static void Init()
+
+        public void Init()
         {
             AppNotificationManager notificationManager = AppNotificationManager.Default;
 
@@ -55,7 +41,16 @@ namespace CsUnpackagedAppNotifications
             m_isRegistered = true;
         }
 
-        public static void ProcessLaunchActivationArgs(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
+        public void Unregister()
+        {
+            if (m_isRegistered)
+            {
+                AppNotificationManager.Default.Unregister();
+                m_isRegistered = false;
+            }
+        }
+
+        public void ProcessLaunchActivationArgs(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
             //assert(m_isRegistered);
 
@@ -63,7 +58,7 @@ namespace CsUnpackagedAppNotifications
             MainPage.Current.NotifyUser("App launched from notifications", InfoBarSeverity.Informational);
         }
 
-        public static bool DispatchNotification(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
+        public bool DispatchNotification(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
             string scenarioId = Common.ExtractParam(notificationActivatedEventArgs.Argument, "scenarioId");
             if (scenarioId == null)
@@ -82,7 +77,7 @@ namespace CsUnpackagedAppNotifications
             }
         }
 
-        static void MyEvent(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)
+        void MyEvent(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
             MainPage.Current.NotifyUser("Notification received", InfoBarSeverity.Informational);
 

@@ -16,15 +16,17 @@ namespace CsUnpackagedAppNotifications
     public partial class App : Application
     {
         private Window mainWindow;
-        //private NotificationManager notificationManager;
+        private NotificationManager notificationManager;
 
         public App()
         {
             //notificationManager = new NotificationManager();
             this.InitializeComponent();
+            notificationManager = new NotificationManager();
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
         }
 
-    public static string GetFullPathToExe()
+        public static string GetFullPathToExe()
         {
             var path = AppDomain.CurrentDomain.BaseDirectory;
             var pos = path.LastIndexOf("\\");
@@ -46,7 +48,7 @@ namespace CsUnpackagedAppNotifications
 #endif
             mainWindow = new MainWindow();
 
-            NotificationManager.Init();
+            notificationManager.Init();
 
             // NOTE: AppInstance is ambiguous between
             // Microsoft.Windows.AppLifecycle.AppInstance and
@@ -63,12 +65,17 @@ namespace CsUnpackagedAppNotifications
                     if (extendedKind == ExtendedActivationKind.AppNotification)
                     {
                         var notificationActivatedEventArgs = (AppNotificationActivatedEventArgs)activationArgs.Data;//    .Data().as< winrt::AppNotificationActivatedEventArgs > ();
-                        NotificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
+                        notificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
                     }
                 }
             }
 
             mainWindow.Activate();
+        }
+
+        void OnProcessExit(object sender, EventArgs e)
+        {
+            notificationManager.Unregister();
         }
     }
 }
