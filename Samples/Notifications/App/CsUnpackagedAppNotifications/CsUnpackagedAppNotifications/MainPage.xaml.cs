@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace CsUnpackagedAppNotifications
 {
@@ -23,8 +24,7 @@ namespace CsUnpackagedAppNotifications
         public static MainPage Current;
         public List<Scenario> Scenarios => this.scenarios;
 
-        //Windows::Foundation::Collections::IVector<IInspectable> messages;
-        private List<string> messages;// => this.messages;
+        private ObservableCollection<string> messages;
 
         public MainPage()
         {
@@ -36,9 +36,8 @@ namespace CsUnpackagedAppNotifications
             // in order to call methods that are in this class.
             Current = this;
 
-            this.messages = new List<string>();
+            this.messages = new ObservableCollection<string>();
             this.notificationBox.ItemsSource = messages;
-            //notificationBox.
         }
 
         public void NotificationReceived(Notification notification)
@@ -59,21 +58,18 @@ namespace CsUnpackagedAppNotifications
                 }
             }
 
-            messages.Insert(0, s);
-
-            // Workaround for ListView not automatically refreshing when the list is changed.
-            // Will replacce the ListView with a DataView soon
+            // Messages need to be updatred from the UI thread so the
+            // corresponding control will stay in sync.
             if (DispatcherQueue.HasThreadAccess)
             {
-                this.notificationBox.ItemsSource = null;
-                this.notificationBox.ItemsSource = messages;
+                messages.Insert(0, s);
+
             }
             else
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    this.notificationBox.ItemsSource = null;
-                    this.notificationBox.ItemsSource = messages;
+                    messages.Insert(0, s);
                 });
             }
         }
