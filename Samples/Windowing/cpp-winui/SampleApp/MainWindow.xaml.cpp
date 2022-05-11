@@ -12,7 +12,7 @@ using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
 
-    
+
 namespace winrt::SampleApp::implementation
 {
 
@@ -31,13 +31,13 @@ namespace winrt::SampleApp::implementation
     }
 
 
-    void MainWindow::NavigationView_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& args)
+    void MainWindow::NavigationView_Loaded(winrt::IInspectable const& /*sender*/, winrt::RoutedEventArgs const& /*args*/)
     {
         ContentFrame().Navigate(xaml_typename<winrt::SampleApp::DemoPage>(), *this);
     }
 
 
-    void MainWindow::NavigationView_ItemInvoked(winrt::IInspectable const& sender, winrt::NavigationViewItemInvokedEventArgs const& args)
+    void MainWindow::NavigationView_ItemInvoked(winrt::IInspectable const& /*sender*/, winrt::NavigationViewItemInvokedEventArgs const& args)
     {
         if (args.InvokedItemContainer() != nullptr)
         {
@@ -64,7 +64,7 @@ namespace winrt::SampleApp::implementation
     }
 
 
-    void MainWindow::NavigationView_BackRequested(winrt::NavigationView const& sender, winrt::NavigationViewBackRequestedEventArgs const& args)
+    void MainWindow::NavigationView_BackRequested(winrt::NavigationView const& /*sender*/, winrt::NavigationViewBackRequestedEventArgs const& /*args*/)
     {
         if (ContentFrame().CanGoBack())
         {
@@ -72,7 +72,7 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void MainWindow::MyWindowIcon_DoubleTapped(winrt::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::DoubleTappedRoutedEventArgs const& e)
+    void MainWindow::MyWindowIcon_DoubleTapped(winrt::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::Input::DoubleTappedRoutedEventArgs const& /*e*/)
     {
         this->AppWindow().Destroy();
     }
@@ -93,7 +93,7 @@ namespace winrt::SampleApp::implementation
 
         // Get the AppWindow for the WindowId
         Microsoft::UI::Windowing::AppWindow appWindow = Microsoft::UI::Windowing::AppWindow::GetFromWindowId(windowId);
-    
+
         return appWindow;
     }
 }
