@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+        "CsApp (Package)": {
+            "commandName": "MsixPackage"
+        },
+        "CsApp (Unpackaged)": {
+            "commandName": "Project"
+        }
+    }
+}
