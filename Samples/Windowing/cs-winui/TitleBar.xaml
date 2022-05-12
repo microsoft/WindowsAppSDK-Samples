@@ -16,9 +16,13 @@
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
                     Create custom title bar experiences with the Windows App SDK AppWindowTitleBar class. 
                 </TextBlock>
-                <Button x:Name="TitlebarBrandingBtn" Click="TitlebarBrandingBtn_Click">Toggle TitleBar color branding</Button>
-                <Button x:Name="TitlebarCustomBtn" Click="TitlebarCustomBtn_Click">Toggle custom TitleBar</Button>
-                <Button x:Name="ResetTitlebarBtn" Click="ResetTitlebarBtn_Click">Reset Titlebar</Button>
+                <Button x:Name="TitlebarBrandingBtn" Click="TitlebarBrandingBtn_Click">Toggle title bar color branding</Button>
+                <Button x:Name="TitlebarCustomBtn" Click="TitlebarCustomBtn_Click">Toggle custom title bar</Button>
+                <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
+                    Choose between <Bold>standard or tall title bar height only when implementing a custom title bar </Bold> to make room for interactive content such as a searchbox or person picture. Enable custom title bar first then enable custom title bar height. 
+                </TextBlock>
+                <Button x:Name="TitlebarHeightBtn" Click="TitlebarHeightBtn_Click" IsEnabled="False">Toggle custom title bar height</Button>
+                <Button x:Name="ResetTitlebarBtn" Click="ResetTitlebarBtn_Click">Reset title bar</Button>
             </StackPanel>
         </ScrollViewer>
         <InfoBar x:Name="infoBar" Grid.Row="1"/>
