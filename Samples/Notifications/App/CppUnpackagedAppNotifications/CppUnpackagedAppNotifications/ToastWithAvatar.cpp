@@ -14,26 +14,28 @@ namespace winrt
     using namespace CppUnpackagedAppNotifications::implementation;
 }
 
-
-auto scenarioName = L"ToastWithAvatar";
+const wchar_t* ToastWithAvatar::ScenarioName{ L"Local Toast with Avatar Image" };
 
 bool ToastWithAvatar::SendToast()
 {
+    // The ScenarioIdToken uniquely identify a scenario and is used to route the response received when the user clicks on a toast to the correct scenario.
+    auto ScenarioIdToken{ Common::MakeScenarioIdToken(ToastWithAvatar::ScenarioId) };
+
     winrt::hstring xmlPayload{
         L"<toast>\
-                <visual>\
-                    <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
-                        <text>App Notifications Sample Scenario 1</text>\
-                        <text>This is an example message using XML</text>\
-                    </binding>\
-                </visual>\
-                <actions>\
-                    <action\
-                        content = \"Open App\"\
-                        arguments = \"action=activateToast&amp;" + Common::MakeScenarioIdToken(ToastWithAvatar::ScenarioId) + L"\"/>\
-                </actions>\
-            </toast>" };
+            <visual>\
+                <binding template = \"ToastGeneric\">\
+                    <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
+                    <text>" + ScenarioName + L"</text>\
+                    <text>This is an example message using XML</text>\
+                </binding>\
+            </visual>\
+            <actions>\
+                <action\
+                    content = \"Open App\"\
+                    arguments = \"action=OpenApp&amp;" + ScenarioIdToken + L"\"/>\
+            </actions>\
+        </toast>" };
 
     auto toast{ winrt::AppNotification(xmlPayload) };
     toast.Priority(winrt::AppNotificationPriority::High);
@@ -49,7 +51,7 @@ bool ToastWithAvatar::SendToast()
 void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
     winrt::CppUnpackagedAppNotifications::Notification notification{};
-    notification.Originator = L"Scenario1_ToastWithAvatar";
+    notification.Originator = ScenarioName;
     auto action{ Common::ExtractParamFromArgs(notificationActivatedEventArgs.Argument().c_str(), L"action") };
     notification.Action = action.has_value() ? action.value() : L"";
     winrt::MainPage::Current().NotificationReceived(notification);

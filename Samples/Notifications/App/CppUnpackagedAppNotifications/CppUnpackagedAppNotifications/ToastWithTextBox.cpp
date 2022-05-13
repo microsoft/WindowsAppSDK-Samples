@@ -14,26 +14,32 @@ namespace winrt
     using namespace CppUnpackagedAppNotifications::implementation;
 }
 
+const wchar_t* ToastWithTextBox::ScenarioName{ L"Local Toast with Avatar and Text Box" };
+auto textboxReplyId{ L"textboxReply" };
+
 bool ToastWithTextBox::SendToast()
 {
+    // The ScenarioIdToken uniquely identify a scenario and is used to route the response received when the user clicks on a toast to the correct scenario.
+    auto ScenarioIdToken{ Common::MakeScenarioIdToken(ToastWithTextBox::ScenarioId) };
+
     winrt::hstring xmlPayload{
         L"<toast>\
-                <visual>\
-                    <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
-                        <text>App Notifications Sample Scenario 2</text>\
-                        <text>This is an example message using XML</text>\
-                    </binding>\
-                </visual>\
+            <visual>\
+                <binding template = \"ToastGeneric\">\
+                    <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
+                    <text>" + ScenarioName + L"</text>\
+                    <text>This is an example message using XML</text>\
+                </binding>\
+            </visual>\
                 <actions>\
                     <input\
-                        id = \"tbReply\"\
+                        id = \"" + textboxReplyId + L"\"\
                         type = \"text\"\
                         placeHolderContent = \"Type a reply\"/>\
                     <action\
                         content = \"Reply\"\
-                        arguments = \"action=reply&amp;" + Common::MakeScenarioIdToken(ToastWithTextBox::ScenarioId) + L"\"\
-                        hint-inputId=\"tbReply\"/>\
+                        arguments = \"action=Reply&amp;" + ScenarioIdToken + L"\"\
+                        hint-inputId=\"" + textboxReplyId + L"\"/>\
                 </actions>\
             </toast>" };
 
@@ -51,10 +57,10 @@ bool ToastWithTextBox::SendToast()
 void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
     auto input{ notificationActivatedEventArgs.UserInput() };
-    auto text{ input.Lookup(L"tbReply") };
+    auto text{ input.Lookup(textboxReplyId) };
 
     winrt::CppUnpackagedAppNotifications::Notification notification{};
-    notification.Originator = L"Scenario2_ToastWithTextBox";
+    notification.Originator = ScenarioName;
     auto action{ Common::ExtractParamFromArgs(notificationActivatedEventArgs.Argument().c_str(), L"action") };
     notification.Action = action.has_value() ? action.value() : L"";
     notification.HasInput = true;

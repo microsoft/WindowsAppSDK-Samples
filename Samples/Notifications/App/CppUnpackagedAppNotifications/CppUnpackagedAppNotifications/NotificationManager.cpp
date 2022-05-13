@@ -8,7 +8,7 @@
 #include "ToastWithAvatar.h"
 #include "ToastWithTextBox.h"
 #include "Common.h"
-
+#include "NotifyUser.h"
 #include <map>
 #include <functional>
 
@@ -20,8 +20,9 @@ namespace winrt
 
 static const std::map<unsigned, std::function<void (winrt::AppNotificationActivatedEventArgs const&)>> c_map
 {
+    // When adding new a scenario, be sure to add its notification handler here.
     { ToastWithAvatar::ScenarioId, ToastWithAvatar::NotificationReceived },
-    { ToastWithAvatar::ScenarioId, ToastWithTextBox::NotificationReceived }
+    { ToastWithTextBox::ScenarioId, ToastWithTextBox::NotificationReceived }
 };
 
 NotificationManager::NotificationManager():m_isRegistered(false){}
@@ -37,13 +38,15 @@ NotificationManager::~NotificationManager()
 void NotificationManager::Init()
 {
     auto notificationManager{ winrt::AppNotificationManager::Default() };
+
+    // Always setup the notification hanlder before registering your App, otherwise notifications may get lost.
     const auto token{ notificationManager.NotificationInvoked([&](const auto&, winrt::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
         {
-            winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"Notification received", winrt::InfoBarSeverity::Informational);
+            NotifyUser::NotificationReceived();
 
             if (!DispatchNotification(notificationActivatedEventArgs))
             {
-                winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"Unrecognized Toast Originator", winrt::InfoBarSeverity::Error);
+                NotifyUser::UnrecognizedToastOriginator();
             }
         }) };
 
@@ -56,7 +59,7 @@ void NotificationManager::ProcessLaunchActivationArgs(winrt::AppNotificationActi
     assert(m_isRegistered);
 
     DispatchNotification(notificationActivatedEventArgs);
-    winrt::CppUnpackagedAppNotifications::implementation::MainPage::Current().NotifyUser(L"App launched from notifications", winrt::InfoBarSeverity::Informational);
+    NotifyUser::AppLaunchedFromNotification();
 }
 
 bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)

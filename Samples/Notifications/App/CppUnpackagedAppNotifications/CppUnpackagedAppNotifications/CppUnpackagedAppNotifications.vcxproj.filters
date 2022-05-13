@@ -30,6 +30,7 @@
     <ClCompile Include="Common.cpp">
       <Filter>Notifications</Filter>
     </ClCompile>
+    <ClCompile Include="NotifyUser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="Common.h">
       <Filter>Notifications</Filter>
     </ClInclude>
+    <ClInclude Include="NotifyUser.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.png">

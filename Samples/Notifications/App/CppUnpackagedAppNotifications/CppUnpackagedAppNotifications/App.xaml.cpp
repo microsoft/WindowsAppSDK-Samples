@@ -8,6 +8,7 @@
 #include <wil/result.h>
 #include <Microsoft.UI.Xaml.Window.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
+#include <winrt/Microsoft.Windows.AppNotifications.h>
 
 namespace winrt
 {
@@ -17,6 +18,10 @@ namespace winrt
     using namespace winrt::Microsoft::Windows::AppNotifications;
 }
 
+// NotificationManager is responsible for registering and unregistering the Sample for App Notifications as well as
+// dispatching actionned notifications to the appropriate scenario.
+// Registration will happen when Init() is called and Unregistration will happen when this
+// instance variable goes out of scope, i.e.: when the App is terminated.
 static NotificationManager g_notificationManager;
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
@@ -73,8 +78,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                     winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs{ activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>() };
                     g_notificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
                 }
-
-
             }
         }
 

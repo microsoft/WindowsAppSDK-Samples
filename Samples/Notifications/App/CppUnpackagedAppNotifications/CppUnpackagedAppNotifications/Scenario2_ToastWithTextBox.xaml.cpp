@@ -8,12 +8,11 @@
 #include "Scenario2_ToastWithTextBox.g.cpp"
 #endif
 #include "ToastWithTextBox.h"
+#include "NotifyUser.h"
 
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Windows::Foundation;
     using namespace Microsoft::Windows::AppNotifications;
 }
 
@@ -32,11 +31,11 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         if (ToastWithTextBox::SendToast())
         {
-            rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
+            NotifyUser::ToastSentSuccessfully();
         }
         else
         {
-            rootPage.NotifyUser(L"Could not send toast", InfoBarSeverity::Error);
+            NotifyUser::CouldNotSendToast();
         }
     }
 }

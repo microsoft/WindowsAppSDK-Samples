@@ -7,33 +7,14 @@
 #if __has_include("Scenario1_ToastWithAvatar.g.cpp")
 #include "Scenario1_ToastWithAvatar.g.cpp"
 #endif
-
-#include <sstream>
-#include <winrt/Microsoft.Windows.AppLifecycle.h>
-#include <winrt/Windows.Storage.h>
+#include "NotifyUser.h"
 #include "ToastWithAvatar.h"
-
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Windowing.h>
-#include <windows.ui.popups.h>
 
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Windows::Foundation;
     using namespace Microsoft::Windows::AppNotifications;
 }
-
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::Foundation::Collections;
-using namespace winrt::Windows::ApplicationModel::Activation;
-using namespace winrt::Microsoft::Windows::AppLifecycle;
-using namespace winrt::Windows::Storage;
-
-#include <windows.h>
-#include <string>
-#include <iostream>
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
@@ -50,11 +31,11 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     {
         if (ToastWithAvatar::SendToast())
         {
-            rootPage.NotifyUser(L"Toast sent successfully!", InfoBarSeverity::Success);
+            NotifyUser::ToastSentSuccessfully();
         }
         else
         {
-            rootPage.NotifyUser(L"Could not send toast", InfoBarSeverity::Error);
+            NotifyUser::CouldNotSendToast();
         }
     }
 }

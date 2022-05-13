@@ -120,6 +120,7 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="NotificationManager.h" />
+    <ClInclude Include="NotifyUser.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -169,6 +170,7 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="NotificationManager.cpp" />
+    <ClCompile Include="NotifyUser.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

@@ -10,7 +10,6 @@
 namespace winrt
 {
     using namespace winrt::Windows::Foundation;
-    using namespace winrt::Windows::Foundation::Collections;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::UI::Xaml::Media;
@@ -34,23 +33,23 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     void MainPage::NotificationReceived(Notification const& notification)
     {
-        auto s{ notification.Originator };
+        std::wstring text{ notification.Originator };
 
-        s = s + L" -- Action: " + notification.Action;
+        text.append(L"\t- Action: " + notification.Action);
 
         if (notification.HasInput)
         {
             if (notification.Input.empty())
             {
-                s = s + L" -- No input received";
+                text.append(L"\t- No input received");
             }
             else
             {
-                s = s + L" -- Input received: " + notification.Input;
+                text.append(L"\t- Input received: " + notification.Input);
 
             }
         }
-        messages.InsertAt(0, PropertyValue::CreateString(s));
+        messages.InsertAt(0, PropertyValue::CreateString(text));
     }
 
     void MainPage::NotifyUser(hstring const& strMessage, InfoBarSeverity const& severity)

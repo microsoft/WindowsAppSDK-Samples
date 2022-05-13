@@ -4,12 +4,11 @@
 #pragma once
 #include <winrt/Microsoft.Windows.AppNotifications.h>
 
-class ToastWithTextBox
+struct ToastWithTextBox
 {
 public:
-    static const unsigned ScenarioId{ 1 };
-
-    ToastWithTextBox() = delete;
+    static const unsigned ScenarioId{ 2 };
+    static const wchar_t* ScenarioName;
 
     static bool SendToast();
     static void NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
