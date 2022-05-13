@@ -7,13 +7,9 @@
 #include <winrt/Microsoft.Windows.AppNotifications.h>
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
 
 namespace winrt
 {
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Windows::Foundation;
     using namespace Microsoft::Windows::AppNotifications;
     using namespace CppUnpackagedAppNotifications::implementation;
 }
@@ -24,7 +20,7 @@ bool ToastWithTextBox::SendToast()
         L"<toast>\
                 <visual>\
                     <binding template = \"ToastGeneric\">\
-                        <image placement = \"appLogoOverride\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
+                        <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
                         <text>App Notifications Sample Scenario 2</text>\
                         <text>This is an example message using XML</text>\
                     </binding>\
@@ -36,7 +32,7 @@ bool ToastWithTextBox::SendToast()
                         placeHolderContent = \"Type a reply\"/>\
                     <action\
                         content = \"Reply\"\
-                        arguments = \"action=reply&amp;scenarioId=2\"\
+                        arguments = \"action=reply&amp;" + Common::MakeScenarioIdToken(ToastWithTextBox::ScenarioId) + L"\"\
                         hint-inputId=\"tbReply\"/>\
                 </actions>\
             </toast>" };
@@ -59,7 +55,7 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
 
     winrt::CppUnpackagedAppNotifications::Notification notification{};
     notification.Originator = L"Scenario2_ToastWithTextBox";
-    auto action{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"action") };
+    auto action{ Common::ExtractParamFromArgs(notificationActivatedEventArgs.Argument().c_str(), L"action") };
     notification.Action = action.has_value() ? action.value() : L"";
     notification.HasInput = true;
     notification.Input = text;

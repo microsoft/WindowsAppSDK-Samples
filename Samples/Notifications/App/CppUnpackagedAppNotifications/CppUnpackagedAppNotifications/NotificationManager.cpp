@@ -18,10 +18,10 @@ namespace winrt
     using namespace Microsoft::Windows::AppNotifications;
 }
 
-static const std::map<std::wstring, std::function<void (winrt::AppNotificationActivatedEventArgs const&)>> c_map
+static const std::map<unsigned, std::function<void (winrt::AppNotificationActivatedEventArgs const&)>> c_map
 {
-    { L"1", ToastWithAvatar::NotificationReceived },
-    { L"2", ToastWithTextBox::NotificationReceived }
+    { ToastWithAvatar::ScenarioId, ToastWithAvatar::NotificationReceived },
+    { ToastWithAvatar::ScenarioId, ToastWithTextBox::NotificationReceived }
 };
 
 NotificationManager::NotificationManager():m_isRegistered(false){}
@@ -61,7 +61,7 @@ void NotificationManager::ProcessLaunchActivationArgs(winrt::AppNotificationActi
 
 bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    auto scenarioId{ Common::ExtractParam(notificationActivatedEventArgs.Argument().c_str(), L"scenarioId")};
+    auto scenarioId{ Common::ExtractScenarioIdFromArgs(notificationActivatedEventArgs.Argument().c_str())};
     if (scenarioId.has_value())
     {
         try

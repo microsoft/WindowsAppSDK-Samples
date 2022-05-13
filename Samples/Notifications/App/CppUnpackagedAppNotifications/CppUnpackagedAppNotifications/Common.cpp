@@ -4,20 +4,38 @@
 #include "pch.h"
 #include "Common.h"
 
-std::optional<std::wstring> Common::ExtractParam(std::wstring const& args, std::wstring const& paramName)
+static auto scenarioTag{ L"scenarioId" };
+
+std::optional<std::wstring> Common::ExtractParamFromArgs(std::wstring const& args, std::wstring const& paramName)
 {
     auto tag{ paramName };
     tag.append(L"=");
 
-    auto scenarioIdStart{ args.find(tag) };
-    if (scenarioIdStart == std::wstring::npos)
+    auto tagStart{ args.find(tag) };
+    if (tagStart == std::wstring::npos)
     {
         return std::nullopt;
     }
 
-    scenarioIdStart += tag.length();
+    auto paramStart{ tagStart + tag.length() };
+    auto paramEnd{ args.find(L"&", paramStart) };
 
-    auto scenarioIdEnd{ args.find(L"&", scenarioIdStart) };
+    return args.substr(paramStart, paramEnd - paramStart);
+}
 
-    return args.substr(scenarioIdStart, scenarioIdEnd - scenarioIdStart);
+std::wstring Common::MakeScenarioIdToken(unsigned id)
+{
+    return std::wstring(scenarioTag) + L"=" + std::to_wstring(id);
+}
+
+std::optional <unsigned> Common::ExtractScenarioIdFromArgs(std::wstring const& args)
+{
+    auto scenarioId{ ExtractParamFromArgs(args, scenarioTag) };
+
+    if (!scenarioId.has_value())
+    {
+        return std::nullopt;
+    }
+
+    return std::stoul(scenarioId.value());
 }
