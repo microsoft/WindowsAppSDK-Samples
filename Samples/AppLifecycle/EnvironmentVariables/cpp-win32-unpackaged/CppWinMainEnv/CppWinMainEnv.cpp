@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 #include "framework.h"
@@ -71,16 +71,6 @@ int APIENTRY wWinMain(
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
-    // Initialize Windows App SDK for unpackaged apps.
-    HRESULT hr{ MddBootstrapInitialize(majorMinorVersion, versionTag, minVersion) };
-    if (FAILED(hr))
-    {
-        wprintf(L"Error 0x%X in MddBootstrapInitialize(0x%08X, %s, %hu.%hu.%hu.%hu)\n",
-            hr, majorMinorVersion, versionTag, 
-			minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
-        return hr;
-    }
    
     LoadStringW(hInstance, IDS_APP_TITLE, windowTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_CLASSNAME, windowClass, MAX_LOADSTRING);
@@ -97,8 +87,6 @@ int APIENTRY wWinMain(
         DispatchMessage(&msg);
     }
 
-    // Uninitialize Windows App SDK.
-    MddBootstrapShutdown();
     return (int) msg.wParam;
 }
 
