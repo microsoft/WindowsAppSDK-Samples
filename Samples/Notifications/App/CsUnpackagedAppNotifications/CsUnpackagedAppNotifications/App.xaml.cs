@@ -9,6 +9,7 @@ using Microsoft.Windows.AppNotifications;
 using System;
 using System.Diagnostics;
 using System.Threading;
+using CsUnpackagedAppNotifications.Notifications;
 
 namespace CsUnpackagedAppNotifications
 {

@@ -42,34 +42,34 @@ namespace CsUnpackagedAppNotifications
 
         public void NotificationReceived(Notification notification)
         {
-            var s = notification.Originator;
+            var text = notification.Originator;
 
-            s = s + " -- Action: " + notification.Action;
+            text += "\t- Action: " + notification.Action;
 
             if (notification.HasInput)
             {
                 if (notification.Input.Length == 0)
                 {
-                    s = s + " -- No input received";
+                    text +="\t- No input received";
                 }
                 else
                 {
-                    s = s + " -- Input received: " + notification.Input;
+                    text += "\t- Input received: " + notification.Input;
                 }
             }
 
-            // Messages need to be updatred from the UI thread so the
+            // Messages need to be updated from the UI thread so the
             // corresponding control will stay in sync.
             if (DispatcherQueue.HasThreadAccess)
             {
-                messages.Insert(0, s);
+                messages.Insert(0, text);
 
             }
             else
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    messages.Insert(0, s);
+                    messages.Insert(0, text);
                 });
             }
         }

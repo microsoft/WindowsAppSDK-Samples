@@ -22,8 +22,8 @@
                 <ScrollViewer>
                     <Frame Padding="50" x:Name="ContentFrame" Navigated="ContentFrame_Navigated"/>
                 </ScrollViewer>
-                <Grid RowDefinitions="Auto,*" Grid.Row="1" Margin="10,10,10,10" Background="LightGray">
-                    <TextBlock Grid.Row="0" Margin="10,10,10,10" Style="{StaticResource SectionHeaderTextStyle}">
+                <Grid RowDefinitions="Auto,*" Grid.Row="1" Margin="50,0,50,40" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <TextBlock Grid.Row="0" Margin="10,10,10,0" Style="{StaticResource SectionHeaderTextStyle}">
                         Received Notifications
                     </TextBlock>
                     <ListView x:Name="notificationBox"

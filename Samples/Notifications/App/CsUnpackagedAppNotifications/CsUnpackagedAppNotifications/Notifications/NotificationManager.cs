@@ -8,21 +8,22 @@ using Microsoft.Windows.AppNotifications;
 using Windows.Foundation;
 using Microsoft.UI.Xaml.Controls;
 
-namespace CsUnpackagedAppNotifications
+namespace CsUnpackagedAppNotifications.Notifications
 {
     internal class NotificationManager
     {
         private bool m_isRegistered;
 
-        private Dictionary<string, Action<AppNotificationActivatedEventArgs>> c_map;
+        private Dictionary<int, Action<AppNotificationActivatedEventArgs>> c_map;
 
         public NotificationManager()
         {
             m_isRegistered = false;
 
-            c_map = new Dictionary<string, Action<AppNotificationActivatedEventArgs>>();
-            c_map.Add("1", ToastWithAvatar.NotificationReceived);
-            c_map.Add("2", ToastWithTextBox.NotificationReceived);
+            // When adding new a scenario, be sure to add its notification handler here.
+            c_map = new Dictionary<int, Action<AppNotificationActivatedEventArgs>>();
+            c_map.Add(ToastWithAvatar.ScenarioId, ToastWithAvatar.NotificationReceived);
+            c_map.Add(ToastWithTextBox.ScenarioId, ToastWithTextBox.NotificationReceived);
         }
 
         ~NotificationManager()
@@ -54,13 +55,13 @@ namespace CsUnpackagedAppNotifications
             //assert(m_isRegistered);
 
             DispatchNotification(notificationActivatedEventArgs);
-            MainPage.Current.NotifyUser("App launched from notifications", InfoBarSeverity.Informational);
+            NotifyUser.AppLaunchedFromNotification();
         }
 
         public bool DispatchNotification(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
-            string scenarioId = Common.ExtractParam(notificationActivatedEventArgs.Argument, "scenarioId");
-            if (scenarioId == null)
+            var scenarioId = Common.ExtractScenarioIdFromArgs(notificationActivatedEventArgs.Argument);
+            if (scenarioId == 0)
             {
                 return false;
             }
@@ -78,11 +79,11 @@ namespace CsUnpackagedAppNotifications
 
         void OnNotificationInvoked(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
-            MainPage.Current.NotifyUser("Notification received", InfoBarSeverity.Informational);
+            NotifyUser.NotificationReceived();
 
             if (!DispatchNotification(notificationActivatedEventArgs))
             {
-                MainPage.Current.NotifyUser("Unrecognized Toast Originator", InfoBarSeverity.Error);
+                NotifyUser.UnrecognizedToastOriginator();
             }
         }
     }
