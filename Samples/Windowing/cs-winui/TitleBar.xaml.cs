@@ -80,8 +80,10 @@ namespace Windowing
             {
                 // Show the custom titlebar
                 _mainPage.MyTitleBar.Visibility = Visibility.Visible;
-                // Enable the tall title bar toggle button
-                this.TitlebarHeightBtn.IsEnabled = true;
+
+                // Enable title bar height toggle buttons
+                this.StandardHeightBtn.IsEnabled = true;
+                this.TallHeightBtn.IsEnabled = true;
 
                 // Set Button colors to match the custom title bar
                 _mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.AliceBlue;
@@ -100,8 +102,9 @@ namespace Windowing
             {
                 // Bring back the default titlebar
                 _mainPage.MyTitleBar.Visibility = Visibility.Collapsed;
-                // Disable tall title bar toggle button
-                this.TitlebarHeightBtn.IsEnabled = false;
+                // Disable title bar height toggle buttons
+                this.StandardHeightBtn.IsEnabled = false;
+                this.TallHeightBtn.IsEnabled = false;
                 // reset the title bar to default state
                 _mainAppWindow.TitleBar.ResetToDefault();
             }
@@ -132,14 +135,19 @@ namespace Windowing
             appWindow.TitleBar.SetDragRectangles(dragRects.Append(dragRect).ToArray());
         }
 
-        private void TitlebarHeightBtn_Click(object sender, RoutedEventArgs e)
+        private void StandardHeightBtn_Click(object sender, RoutedEventArgs e)
         {
+            _isTallTitleBar = false;
+            toggleTitlebarHeightOption();
+        }
+        private void TallHeightBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _isTallTitleBar = true;
             toggleTitlebarHeightOption();
         }
 
         private void toggleTitlebarHeightOption()
         {
-            _isTallTitleBar = !_isTallTitleBar;
             // A taller title bar is only supported when drawing a fully custom title bar
             if (AppWindowTitleBar.IsCustomizationSupported() && _mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
             {
@@ -158,7 +166,8 @@ namespace Windowing
             }
             else
             {
-                this.TitlebarHeightBtn.IsEnabled = false;
+                this.StandardHeightBtn.IsEnabled = false;
+                this.TallHeightBtn.IsEnabled = false;
             }
         }
     }
