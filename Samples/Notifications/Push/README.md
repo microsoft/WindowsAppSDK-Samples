@@ -42,7 +42,7 @@ Follow these [instructions]() to send a notification to the sample.
    * Close the sample to receive notifications in the background.
 
 ## Packaged and Unpackaged Apps Considerations
-In addition to making the right API calls,WindowsAppSDK Apps that want to receive Push Notifications must correctly configure their project.
+In addition to making the right API calls, WindowsAppSDK Apps that want to receive Push Notifications must correctly configure their project.
 The type of configuration will depend upon whether the APp is packaged or unpackaged.
 
 ### Unpackaged App
