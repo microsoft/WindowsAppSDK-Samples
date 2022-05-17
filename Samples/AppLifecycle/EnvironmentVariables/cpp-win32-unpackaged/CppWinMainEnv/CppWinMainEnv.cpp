@@ -9,11 +9,6 @@ using namespace winrt;
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Microsoft::Windows::System;
 
-// Windows App SDK version.
-const UINT32 majorMinorVersion{ 0x00010000 };
-PCWSTR versionTag{ L"" };
-const PACKAGE_VERSION minVersion{};
-
 #define MAX_LOADSTRING 256
 WCHAR windowTitle[MAX_LOADSTRING];
 WCHAR windowClass[MAX_LOADSTRING];
