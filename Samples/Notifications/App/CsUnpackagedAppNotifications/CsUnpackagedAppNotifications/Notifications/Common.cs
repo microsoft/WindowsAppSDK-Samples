@@ -12,7 +12,7 @@ class Common
 
     public static string ExtractParamFromArgs(string args, string paramName)
     {
-        string tag = paramName;
+        var tag = paramName;
         tag += "=";
 
         var tagStart = args.IndexOf(tag);

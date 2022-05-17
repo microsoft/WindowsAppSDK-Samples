@@ -1,25 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#if Eric
-//#include "pch.h"
-//#include "ToastWithTextBox.h"
-//#include "Common.h"
-//#include <winrt/Microsoft.Windows.AppNotifications.h>
-//#include "App.xaml.h"
-//#include "MainPage.xaml.h"
-//#include <winrt/Microsoft.UI.Xaml.Controls.h>
-
-namespace winrt
-{
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Windows::Foundation;
-    using namespace Microsoft::Windows::AppNotifications;
-    using namespace CppUnpackagedAppNotifications::implementation;
-}
-#endif
-
 using CsUnpackagedAppNotifications;
 using Microsoft.Windows.AppNotifications;
 
@@ -34,7 +15,7 @@ class ToastWithTextBox
         // The ScenarioIdToken uniquely identify a scenario and is used to route the response received when the user clicks on a toast to the correct scenario.
         var ScenarioIdToken = Common.MakeScenarioIdToken(ScenarioId);
 
-        string xmlPayload = new string(
+        var xmlPayload = new string(
             "<toast>"
         +       "<visual>"
         +           "<binding template = \"ToastGeneric\">"
@@ -55,7 +36,7 @@ class ToastWithTextBox
         +       "</actions>"
         +   "</toast>");
 
-        AppNotification toast = new AppNotification(xmlPayload);
+        var toast = new AppNotification(xmlPayload);
         toast.Priority = AppNotificationPriority.High;
         AppNotificationManager.Default.Show(toast);
         if (toast.Id == 0)
