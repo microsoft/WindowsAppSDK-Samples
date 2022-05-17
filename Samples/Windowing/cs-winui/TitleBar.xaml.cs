@@ -102,9 +102,11 @@ namespace Windowing
             {
                 // Bring back the default titlebar
                 _mainPage.MyTitleBar.Visibility = Visibility.Collapsed;
+
                 // Disable title bar height toggle buttons
                 this.StandardHeightBtn.IsEnabled = false;
                 this.TallHeightBtn.IsEnabled = false;
+
                 // reset the title bar to default state
                 _mainAppWindow.TitleBar.ResetToDefault();
             }
