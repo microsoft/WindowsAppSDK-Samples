@@ -48,10 +48,11 @@ Thes Windows App SDK samples have the following system requirements:
     - Desktop development with C++ (needed even if you're only building .NET apps)
     - Windows SDK version 2004 (build 19041) or later. This is installed with Visual Studio by default.
 
-- Building .NET apps also requires:
-
-    - .NET 5 SDK version 5.0.400 or later if you're using Visual Studio 2019 version 16.11
-    - .NET 5 SDK version 5.0.205 or later if you're using Visual Studio 2019 version 16.9
+- Building .NET C# samples with Windows App SDK 1.1 also requires one of the following .NET SDK versions or later:
+    - 6.0.202
+    - 6.0.104
+    - 5.0.407
+    - 5.0.213
 
 Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) and [tools for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment) for a detalied list of requirements for developing apps with the Windows App SDK.
 
