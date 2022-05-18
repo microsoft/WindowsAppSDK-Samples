@@ -49,7 +49,7 @@ class ToastWithAvatar
         +       "</actions>"
         +   "</toast>" );
 
-        AppNotification toast = new AppNotification(xmlPayload);
+        var toast = new AppNotification(xmlPayload);
         toast.Priority = AppNotificationPriority.High;
         AppNotificationManager.Default.Show(toast);
         if (toast.Id == 0)

@@ -48,10 +48,10 @@ class ToastWithTextBox
         +               "id = \"" + textboxReplyId + "\" "
         +               "type = \"text\" "
         +               "placeHolderContent = \"Type a reply\"/>"
-        +       "<action "
-        +           "content = \"Reply\" "
-        +           "arguments = \"action=Reply&amp;" + ScenarioIdToken + "\" "
-        +           "hint-inputId = \"" + textboxReplyId + "\"/>"
+        +           "<action "
+        +               "content = \"Reply\" "
+        +               "arguments = \"action=Reply&amp;" + ScenarioIdToken + "\" "
+        +               "hint-inputId = \"" + textboxReplyId + "\"/>"
         +       "</actions>"
         +   "</toast>");
 
