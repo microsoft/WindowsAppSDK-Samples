@@ -1,0 +1,3 @@
+[submodule "Samples/WinUI"]
+	path = Samples/WinUI
+	url = https://github.com/microsoft/WinUI-Samples
