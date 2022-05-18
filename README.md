@@ -35,6 +35,14 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Windows Input and Composition Gallery](https://github.com/microsoft/WindowsCompositionSamples): This collection of samples showcases Microsoft.UI.Composition and Microsoft.UI.Input APIs.
 - [XAML Controls Gallery](https://github.com/microsoft/Xaml-Controls-Gallery/tree/winui3): This is a sample app that showcases all of the WinUI 3 controls in action.
 
+#### WinUI Samples
+- [WinUI Gallery](Samples/WinUI/WinUIGallery.sln): Demostrates how to build a complex WinUI using github actions.
+- [Xaml Islands](Samples/WinUI/WinUIGallery.sln): Demostrates experimental Xaml Islands APIs.
+- [UI Testing](Samples/WinUI/UITests.sln): Demostrates integration with Test Explorer and WinUI tests.
+- [WinUI Toolkit](Samples/WinUI/Package.sln): Demostrates a sample nuget package in C++ that extends WinUI functionality.
+- [Misc Sample](Samples/WinUI/AllSamples.sln): Demostrates use of the WinUI toolkit and a custom title bar.
+- [Custom Cursors](Samples/WinUI/CustomCursors.sln): Demostrates how to use a custom Win32 icon in WinUI.
+
 ## Requirements
 
 Thes Windows App SDK samples have the following system requirements:
