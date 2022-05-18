@@ -33,7 +33,7 @@ namespace CsUnpackagedAppNotifications.Notifications
 
         public void Init()
         {
-            AppNotificationManager notificationManager = AppNotificationManager.Default;
+            var notificationManager = AppNotificationManager.Default;
 
             notificationManager.NotificationInvoked += OnNotificationInvoked;
 
