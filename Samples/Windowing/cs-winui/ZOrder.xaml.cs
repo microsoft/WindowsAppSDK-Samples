@@ -73,31 +73,25 @@ namespace Windowing
 
         private void myFromIndexToTopBtn_Click(object sender, RoutedEventArgs e)
         {
-            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
-            Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-            if (appWindow != null)
+            if (_mainAppWindow != null & myListBox.SelectedIndex != -1 & windowList.Any())
             {
                 Window OtherWindow = windowList[myListBox.SelectedIndex];
                 var otherhWnd = WinRT.Interop.WindowNative.GetWindowHandle(OtherWindow);
                 Microsoft.UI.WindowId otherWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(otherhWnd);
                 Microsoft.UI.Windowing.AppWindow otherAppWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(otherWindowId);
-                otherAppWindow.MoveInZOrderBelow(windowId);
+                otherAppWindow.MoveInZOrderBelow(_mainAppWindow.Id);
             }
-
         }
 
         private void myMoveBelowIndexBtn_Click(object sender, RoutedEventArgs e)
         {
-            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
-            Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-            if (appWindow != null)
+            if (_mainAppWindow != null & myOtherListBox.SelectedIndex != -1 & windowList.Any())
             {
                 Window OtherWindow = windowList[myOtherListBox.SelectedIndex];
                 var otherhWnd = WinRT.Interop.WindowNative.GetWindowHandle(OtherWindow);
                 Microsoft.UI.WindowId otherWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(otherhWnd);
-                appWindow.MoveInZOrderBelow(otherWindowId);
+                _mainAppWindow.MoveInZOrderBelow(otherWindowId);
+
             }
         }
     }
