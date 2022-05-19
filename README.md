@@ -27,6 +27,9 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 #### Notifications
 - [Push Notifications](Samples/Notifications/Push): This is a sample app that showcases Push Notifications.
 
+#### Runtime Components
+- [Custom Controls](Samples/CustomControls): This sample shows how to author a Windows Runtime Component in C# with custom WinUI controls.
+
 #### User Interface and Input
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
 - [Windows Input and Composition Gallery](https://github.com/microsoft/WindowsCompositionSamples): This collection of samples showcases Microsoft.UI.Composition and Microsoft.UI.Input APIs.
@@ -45,10 +48,11 @@ Thes Windows App SDK samples have the following system requirements:
     - Desktop development with C++ (needed even if you're only building .NET apps)
     - Windows SDK version 2004 (build 19041) or later. This is installed with Visual Studio by default.
 
-- Building .NET apps also requires:
-
-    - .NET 5 SDK version 5.0.400 or later if you're using Visual Studio 2019 version 16.11
-    - .NET 5 SDK version 5.0.205 or later if you're using Visual Studio 2019 version 16.9
+- Building .NET C# samples with Windows App SDK 1.1 also requires one of the following .NET SDK versions or later:
+    - 6.0.202
+    - 6.0.104
+    - 5.0.407
+    - 5.0.213
 
 Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) and [tools for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment) for a detalied list of requirements for developing apps with the Windows App SDK.
 
@@ -62,6 +66,7 @@ The easiest way to use these samples without Git is to download the ZIP file. Se
 
 The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes the latest samples, which may also include experimental or preview features. Specific release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
 
+- [release/1.0](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.0)
 - [release/0.8](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/0.8)
 - [release/0.5](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/0.5)
 
