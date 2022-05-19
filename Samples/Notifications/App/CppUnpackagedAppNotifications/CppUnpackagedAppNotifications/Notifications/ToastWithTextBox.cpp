@@ -59,7 +59,7 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
     // In a real life scenario, this type of action would usually be processed in the background. Your App would process the payload in
     // the brackground (sending the payload back to your App Server) without ever showing the App's UI.
     // This is no not  something that can easily be demonstrated in a sample such as this one, as we need to show the UI to demonstrate how
-    // the payload is routed internally 
+    // the payload is routed internally
 
     auto input{ notificationActivatedEventArgs.UserInput() };
     auto text{ input.Lookup(textboxReplyId) };

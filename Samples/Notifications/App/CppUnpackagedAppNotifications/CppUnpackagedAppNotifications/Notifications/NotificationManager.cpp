@@ -16,6 +16,7 @@ namespace winrt
 {
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::Windows::AppNotifications;
+    using namespace CppUnpackagedAppNotifications::implementation;
 }
 
 static const std::map<unsigned, std::function<void (winrt::AppNotificationActivatedEventArgs const&)>> c_notificationHandlers
@@ -74,11 +75,20 @@ bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEv
         }
         catch (...)
         {
-            return false;
+            return false; // Couldn't find a NotificationHandler for scenarioId.
         }
     }
     else
     {
-        return false;
+        NotificationManager::HandleBackgroundClick(); // User has clicked on the background of the toast instead of taking a specific action (like clicking a button).
+        return true;
     }
+}
+
+void NotificationManager::HandleBackgroundClick()
+{
+    winrt::CppUnpackagedAppNotifications::Notification notification{};
+    notification.Originator = L"Local Toast: no specific scenario";
+    notification.Action = L"background click";
+    winrt::MainPage::Current().NotificationReceived(notification);
 }

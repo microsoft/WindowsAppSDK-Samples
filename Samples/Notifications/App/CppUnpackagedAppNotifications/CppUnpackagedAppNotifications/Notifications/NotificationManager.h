@@ -14,8 +14,8 @@ public:
     void ProcessLaunchActivationArgs(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
 
  private:
-     bool NotificationManager::DispatchNotification(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
+     bool DispatchNotification(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
+     void HandleBackgroundClick();
 
      bool m_isRegistered;
 };
-
