@@ -14,16 +14,16 @@ namespace CsUnpackagedAppNotifications.Notifications
     {
         private bool m_isRegistered;
 
-        private Dictionary<int, Action<AppNotificationActivatedEventArgs>> c_map;
+        private Dictionary<int, Action<AppNotificationActivatedEventArgs>> c_notificationHandlers;
 
         public NotificationManager()
         {
             m_isRegistered = false;
 
             // When adding new a scenario, be sure to add its notification handler here.
-            c_map = new Dictionary<int, Action<AppNotificationActivatedEventArgs>>();
-            c_map.Add(ToastWithAvatar.ScenarioId, ToastWithAvatar.NotificationReceived);
-            c_map.Add(ToastWithTextBox.ScenarioId, ToastWithTextBox.NotificationReceived);
+            c_notificationHandlers = new Dictionary<int, Action<AppNotificationActivatedEventArgs>>();
+            c_notificationHandlers.Add(ToastWithAvatar.ScenarioId, ToastWithAvatar.NotificationReceived);
+            c_notificationHandlers.Add(ToastWithTextBox.ScenarioId, ToastWithTextBox.NotificationReceived);
         }
 
         ~NotificationManager()
@@ -68,7 +68,7 @@ namespace CsUnpackagedAppNotifications.Notifications
 
             try
             {
-                c_map[scenarioId](notificationActivatedEventArgs);
+                c_notificationHandlers[scenarioId](notificationActivatedEventArgs);
                 return true;
             }
             catch
