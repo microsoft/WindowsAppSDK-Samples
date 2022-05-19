@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
-#include "NotificationManager.h"
+#include "Notifications\NotificationManager.h"
 #include <wil/result.h>
 #include <Microsoft.UI.Xaml.Window.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>

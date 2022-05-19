@@ -18,36 +18,36 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
-    <ClCompile Include="ToastWithAvatar.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
-    <ClCompile Include="ToastWithTextBox.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
-    <ClCompile Include="NotificationManager.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
-    <ClCompile Include="Common.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
     <ClCompile Include="NotifyUser.cpp" />
+    <ClCompile Include="Notifications\Common.cpp">
+      <Filter>Notifications</Filter>
+    </ClCompile>
+    <ClCompile Include="Notifications\NotificationManager.cpp">
+      <Filter>Notifications</Filter>
+    </ClCompile>
+    <ClCompile Include="Notifications\ToastWithAvatar.cpp">
+      <Filter>Notifications</Filter>
+    </ClCompile>
+    <ClCompile Include="Notifications\ToastWithTextBox.cpp">
+      <Filter>Notifications</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="SampleConfiguration.h" />
-    <ClInclude Include="ToastWithAvatar.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
-    <ClInclude Include="ToastWithTextBox.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
-    <ClInclude Include="NotificationManager.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
     <ClInclude Include="NotifyUser.h" />
+    <ClInclude Include="Notifications\Common.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
+    <ClInclude Include="Notifications\NotificationManager.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
+    <ClInclude Include="Notifications\ToastWithAvatar.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
+    <ClInclude Include="Notifications\ToastWithTextBox.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.png">

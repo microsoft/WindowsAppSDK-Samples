@@ -5,8 +5,8 @@
 #include "pch.h"
 #include "SampleConfiguration.h"
 #include "MainPage.xaml.h"
-#include "ToastWithAvatar.h"
-#include "ToastWithTextBox.h"
+#include "Notifications\ToastWithAvatar.h"
+#include "Notifications\ToastWithTextBox.h"
 
 namespace winrt
 {

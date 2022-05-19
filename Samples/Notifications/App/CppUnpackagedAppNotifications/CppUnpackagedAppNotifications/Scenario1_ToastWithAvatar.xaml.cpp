@@ -8,7 +8,7 @@
 #include "Scenario1_ToastWithAvatar.g.cpp"
 #endif
 #include "NotifyUser.h"
-#include "ToastWithAvatar.h"
+#include "Notifications\ToastWithAvatar.h"
 
 namespace winrt
 {

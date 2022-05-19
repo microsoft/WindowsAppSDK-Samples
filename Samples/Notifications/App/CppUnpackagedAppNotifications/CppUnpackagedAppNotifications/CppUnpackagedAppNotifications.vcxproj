@@ -114,12 +114,14 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common.h" />
     <ClInclude Include="MainPage.xaml.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="NotificationManager.h" />
+    <ClInclude Include="Notifications\Common.h" />
+    <ClInclude Include="Notifications\NotificationManager.h" />
+    <ClInclude Include="Notifications\ToastWithAvatar.h" />
+    <ClInclude Include="Notifications\ToastWithTextBox.h" />
     <ClInclude Include="NotifyUser.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
@@ -129,12 +131,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="SampleConfiguration.h" />
-    <ClInclude Include="ToastWithAvatar.h" />
     <ClInclude Include="Scenario1_ToastWithAvatar.xaml.h">
       <DependentUpon>Scenario1_ToastWithAvatar.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="ToastWithTextBox.h" />
     <ClInclude Include="Scenario2_ToastWithTextBox.xaml.h">
       <DependentUpon>Scenario2_ToastWithTextBox.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -164,12 +164,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Common.cpp" />
     <ClCompile Include="MainPage.xaml.cpp">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="NotificationManager.cpp" />
+    <ClCompile Include="Notifications\Common.cpp" />
+    <ClCompile Include="Notifications\NotificationManager.cpp" />
+    <ClCompile Include="Notifications\ToastWithAvatar.cpp" />
+    <ClCompile Include="Notifications\ToastWithTextBox.cpp" />
     <ClCompile Include="NotifyUser.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -182,12 +184,10 @@
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
-    <ClCompile Include="ToastWithAvatar.cpp" />
     <ClCompile Include="Scenario1_ToastWithAvatar.xaml.cpp">
       <DependentUpon>Scenario1_ToastWithAvatar.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="ToastWithTextBox.cpp" />
     <ClCompile Include="Scenario2_ToastWithTextBox.xaml.cpp">
       <DependentUpon>Scenario2_ToastWithTextBox.xaml</DependentUpon>
       <SubType>Code</SubType>

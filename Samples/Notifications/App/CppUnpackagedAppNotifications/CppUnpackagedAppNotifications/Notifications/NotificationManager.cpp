@@ -18,7 +18,7 @@ namespace winrt
     using namespace Microsoft::Windows::AppNotifications;
 }
 
-static const std::map<unsigned, std::function<void (winrt::AppNotificationActivatedEventArgs const&)>> c_NotificationHandlers
+static const std::map<unsigned, std::function<void (winrt::AppNotificationActivatedEventArgs const&)>> c_notificationHandlers
 {
     // When adding new a scenario, be sure to add its notification handler here.
     { ToastWithAvatar::ScenarioId, ToastWithAvatar::NotificationReceived },
@@ -69,7 +69,7 @@ bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEv
     {
         try
         {
-            c_NotificationHandlers.at(scenarioId.value())(notificationActivatedEventArgs); // Will throw if out of range
+            c_notificationHandlers.at(scenarioId.value())(notificationActivatedEventArgs); // Will throw if out of range
             return true;
         }
         catch (...)

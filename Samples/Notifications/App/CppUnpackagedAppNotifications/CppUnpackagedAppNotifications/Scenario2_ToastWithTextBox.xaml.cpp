@@ -7,7 +7,7 @@
 #if __has_include("Scenario2_ToastWithTextBox.g.cpp")
 #include "Scenario2_ToastWithTextBox.g.cpp"
 #endif
-#include "ToastWithTextBox.h"
+#include "Notifications\ToastWithTextBox.h"
 #include "NotifyUser.h"
 
 namespace winrt
