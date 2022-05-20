@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "NotificationManager.h"
+#include "App.xaml.h"
 #include "MainPage.xaml.h"
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include "ToastWithAvatar.h"
@@ -91,4 +92,5 @@ void NotificationManager::HandleBackgroundClick()
     notification.Originator = L"Local Toast: no specific scenario";
     notification.Action = L"background click";
     winrt::MainPage::Current().NotificationReceived(notification);
+    winrt::App::ToForeground();
 }

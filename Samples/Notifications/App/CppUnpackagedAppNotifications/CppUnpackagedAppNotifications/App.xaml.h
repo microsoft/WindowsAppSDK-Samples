@@ -13,6 +13,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
         static std::wstring GetFullPathToExe();
         static std::wstring GetFullPathToAsset(std::wstring const& assetName);
+        static void ToForeground();
 
         void OnLaunched(Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
 

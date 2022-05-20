@@ -26,9 +26,12 @@ static NotificationManager g_notificationManager;
 
 namespace winrt::CppUnpackagedAppNotifications::implementation
 {
+    static App* app{ nullptr };
+
     App::App()
     {
         InitializeComponent();
+        app = this;
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
         UnhandledException([](winrt::IInspectable const&, winrt::UnhandledExceptionEventArgs const& e)
@@ -40,6 +43,19 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
                 }
             });
 #endif
+    }
+
+    void App::ToForeground()
+    {
+        assert(app != nullptr);
+
+        HWND hwnd;
+        auto WindowNative{ app->window.as<IWindowNative>() };
+        if (WindowNative != nullptr && WindowNative->get_WindowHandle(&hwnd) == S_OK)
+        {
+            SwitchToThisWindow(hwnd, FALSE);
+            ShowWindow(hwnd, SW_SHOWNORMAL);
+        }
     }
 
     std::wstring App::GetFullPathToExe()

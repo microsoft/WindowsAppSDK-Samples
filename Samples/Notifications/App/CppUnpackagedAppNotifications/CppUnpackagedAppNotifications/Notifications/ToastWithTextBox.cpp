@@ -71,4 +71,5 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
     notification.HasInput = true;
     notification.Input = text;
     winrt::MainPage::Current().NotificationReceived(notification);
+    winrt::App::ToForeground();
 }

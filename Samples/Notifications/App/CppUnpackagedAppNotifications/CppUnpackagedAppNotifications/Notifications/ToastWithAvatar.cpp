@@ -55,4 +55,6 @@ void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotific
     auto action{ Common::ExtractParamFromArgs(notificationActivatedEventArgs.Argument().c_str(), L"action") };
     notification.Action = action.has_value() ? action.value() : L"";
     winrt::MainPage::Current().NotificationReceived(notification);
+    winrt::App::ToForeground();
+
 }
