@@ -92,10 +92,18 @@ namespace Windowing
                 windowList.RemoveAt(index);
                 myListBox.Items.RemoveAt(index);
                 myOtherListBox.Items.RemoveAt(index);
-                if(index == windowList.Count)
+
+                for (int i = 0; i < windowList.Count; i++)
                 {
-                    m_windowCount--;
+                    var new_title = i + 1;
+                    WindowId windowId = windowList[i];
+                    AppWindow iteratedAppWindow = AppWindow.GetFromWindowId(windowId);
+                    iteratedAppWindow.Title = "Window #" + new_title.ToString();
+                    myListBox.Items[i] = "Window #" + new_title.ToString();
+                    myOtherListBox.Items[i] = "Window #" + new_title.ToString();
                 }
+
+                m_windowCount = windowList.Count;
             }
         }
 
