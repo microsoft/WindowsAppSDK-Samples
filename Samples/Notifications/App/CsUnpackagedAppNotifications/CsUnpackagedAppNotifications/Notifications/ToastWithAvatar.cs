@@ -31,14 +31,10 @@ class ToastWithAvatar
         +   "</toast>" );
 
         var toast = new AppNotification(xmlPayload);
-        toast.Priority = AppNotificationPriority.High;
         AppNotificationManager.Default.Show(toast);
-        if (toast.Id == 0)
-        {
-            return false;
-        }
 
-        return true;
+    	return toast.Id != 0; // return true (indicating success) if the toast was sent (if it has an Id)
+
     }
 
     public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)

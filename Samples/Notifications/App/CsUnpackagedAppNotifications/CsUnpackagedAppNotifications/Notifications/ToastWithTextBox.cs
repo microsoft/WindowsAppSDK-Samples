@@ -37,18 +37,17 @@ class ToastWithTextBox
         +   "</toast>");
 
         var toast = new AppNotification(xmlPayload);
-        toast.Priority = AppNotificationPriority.High;
         AppNotificationManager.Default.Show(toast);
-        if (toast.Id == 0)
-        {
-            return false;
-        }
-
-        return true;
+ 
+    	return toast.Id != 0; // return true (indicating success) if the toast was sent (if it has an Id)
     }
 
     public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
     {
+    // In a real-life scenario, this type of action would usually be processed in the background. Your App would process the payload in
+    // the background (sending the payload back to your App Server) without ever showing the App's UI.
+    // This is not something that can easily be demonstrated in a sample such as this one, as we need to show the UI to demonstrate how
+    // the payload is routed internally
         var input = notificationActivatedEventArgs.UserInput;
         var text = input[textboxReplyId];
 
