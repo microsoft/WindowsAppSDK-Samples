@@ -31,7 +31,8 @@ namespace Windowing
     public sealed partial class ZOrder : Page
     {
         private AppWindow _mainAppWindow = MainWindow.AppWindow;
-        List<Window> windowList = new List<Window>();
+        private int m_windowCount = 0;
+        List<WindowId> windowList = new List<WindowId>();
 
         public ZOrder()
         {
@@ -62,23 +63,44 @@ namespace Windowing
 
         private void myNewWindowButton_Click(object sender, RoutedEventArgs e)
         {
+            // Count up the number of windows created so far, this is just used for Title generation so we don't collide
+            m_windowCount++;
             Window nextWindow = new Window();
             nextWindow.Content = new TextBlock() { Text = "A wild window appears!" };
-            nextWindow.Title = "Window #" + windowList.Count.ToString();
+            nextWindow.Title = "Window #" + m_windowCount.ToString();
             nextWindow.Activate();
-            windowList.Add(nextWindow);
+            
+            // Get the WindowId for the new XAML Window and store it in a list of known "secondary" windows for the app.
+            var nextWindowHWnd = WinRT.Interop.WindowNative.GetWindowHandle(nextWindow);
+            Microsoft.UI.WindowId nextWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(nextWindowHWnd);
+
+            windowList.Add(nextWindowId);
             myListBox.Items.Add(nextWindow.Title);
             myOtherListBox.Items.Add(nextWindow.Title);
+
+            Microsoft.UI.Windowing.AppWindow nextAppWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(nextWindowId);
+            nextAppWindow.Closing += NextAppWindow_Closing;
+        }
+
+        private void NextAppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+        {
+            // Find the window that is closing in our list of WindowIds and remove it from
+            // that list as well as the listboxes to prevent the user from selecting a window that is no longer available.
+            int index = windowList.FindIndex(x => x == sender.Id);
+            if(index != -1)
+            {
+                windowList.RemoveAt(index);
+                myListBox.Items.RemoveAt(index);
+                myOtherListBox.Items.RemoveAt(index);
+            }
         }
 
         private void myFromIndexToTopBtn_Click(object sender, RoutedEventArgs e)
         {
             if (_mainAppWindow != null & myListBox.SelectedIndex != -1 & windowList.Any())
             {
-                Window OtherWindow = windowList[myListBox.SelectedIndex];
-                var otherhWnd = WinRT.Interop.WindowNative.GetWindowHandle(OtherWindow);
-                Microsoft.UI.WindowId otherWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(otherhWnd);
-                Microsoft.UI.Windowing.AppWindow otherAppWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(otherWindowId);
+                WindowId otherWindowId = windowList[myListBox.SelectedIndex];
+                AppWindow otherAppWindow = AppWindow.GetFromWindowId(otherWindowId);
                 otherAppWindow.MoveInZOrderBelow(_mainAppWindow.Id);
             }
         }
@@ -87,9 +109,7 @@ namespace Windowing
         {
             if (_mainAppWindow != null & myOtherListBox.SelectedIndex != -1 & windowList.Any())
             {
-                Window OtherWindow = windowList[myOtherListBox.SelectedIndex];
-                var otherhWnd = WinRT.Interop.WindowNative.GetWindowHandle(OtherWindow);
-                Microsoft.UI.WindowId otherWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(otherhWnd);
+                WindowId otherWindowId = windowList[myOtherListBox.SelectedIndex];
                 _mainAppWindow.MoveInZOrderBelow(otherWindowId);
 
             }
