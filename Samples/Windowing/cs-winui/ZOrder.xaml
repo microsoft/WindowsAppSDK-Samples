@@ -14,17 +14,20 @@
             <StackPanel Spacing="10" Margin="10,10,10,10">
                 <TextBlock Text="Description:" Style="{StaticResource ScenarioHeaderTextStyle}"/>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                    Something about Z-Order here.
+                    Z-Order allows you to control where your windows lies in the Z-Order stack. Windows higher up the Z-Order stack are in the forefront of your screen, while windows lower in the stack are hidden behind other windows. 
                 </TextBlock>
-                <Button x:Name="TopZOrderBtn" Click="SwitchZOrder">Top of Z-Order</Button>
-                <Button x:Name="BottomZOrderBtn" Click="SwitchZOrder">Bottom of Z-Order</Button>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="TopZOrderBtn" Click="SwitchZOrder">Make this window on top of Z-Order</Button>
+                    <Button x:Name="BottomZOrderBtn" Click="SwitchZOrder">Make this window on the bottom of Z-Order</Button>
+                </StackPanel>
+                
                 <Button x:Name="myNewWindowButton" Click="myNewWindowButton_Click">New Window</Button>
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="myFromIndexToTopBtn" Click="myFromIndexToTopBtn_Click">Move window to top (right below this window):</Button>
+                    <Button x:Name="myFromIndexToTopBtn" Click="myFromIndexToTopBtn_Click">Move chosen window right below this window:</Button>
                     <ListBox x:Name="myListBox"></ListBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="myMoveBelowIndexBtn" Click="myMoveBelowIndexBtn_Click">Move window below:</Button>
+                    <Button x:Name="myMoveBelowIndexBtn" Click="myMoveBelowIndexBtn_Click">Move this window right below chosen window:</Button>
                     <ListBox x:Name="myOtherListBox"></ListBox>
                 </StackPanel>
             </StackPanel>
