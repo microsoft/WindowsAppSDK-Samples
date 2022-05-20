@@ -73,8 +73,7 @@ namespace CsUnpackagedAppNotifications.Notifications
 			}
 			else
     		{
-        		HandleBackgroundClick(); // User has clicked on the background of the toast instead of taking a specific action (like clicking a button).
-        		return true;
+        		return false; // No scenario specified in the notification
     		}
         }
 
@@ -86,15 +85,6 @@ namespace CsUnpackagedAppNotifications.Notifications
             {
                 NotifyUser.UnrecognizedToastOriginator();
             }
-        }
-
-        void HandleBackgroundClick()
-        {
-            var notification = new MainPage.Notification();
-            notification.Originator = "Local Toast: no specific scenario";
-            notification.Action = "background click";
-            MainPage.Current.NotificationReceived(notification);
-            App.ToForeground();
         }
     }
 }

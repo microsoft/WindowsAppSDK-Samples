@@ -15,7 +15,7 @@ class ToastWithAvatar
         var ScenarioIdToken = Common.MakeScenarioIdToken(ScenarioId);
 	
         var xmlPayload = new string(
-            "<toast>"
+        	"<toast launch = \"action=ToastClick&amp;" + ScenarioIdToken + "\">"
         +       "<visual>"
         +           "<binding template = \"ToastGeneric\">"
         +               "<image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + App.GetFullPathToAsset("Square150x150Logo.png") + "\"/>"
