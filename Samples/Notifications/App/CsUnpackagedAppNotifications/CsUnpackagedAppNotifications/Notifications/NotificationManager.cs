@@ -52,8 +52,6 @@ namespace CsUnpackagedAppNotifications.Notifications
 
         public void ProcessLaunchActivationArgs(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
-            //assert(m_isRegistered);
-
             DispatchNotification(notificationActivatedEventArgs);
             NotifyUser.AppLaunchedFromNotification();
         }
@@ -61,20 +59,23 @@ namespace CsUnpackagedAppNotifications.Notifications
         public bool DispatchNotification(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
             var scenarioId = Common.ExtractScenarioIdFromArgs(notificationActivatedEventArgs.Argument);
-            if (scenarioId == 0)
-            {
-                return false;
-            }
-
-            try
-            {
-                c_notificationHandlers[scenarioId](notificationActivatedEventArgs);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            if (scenarioId != 0)
+			{
+            	try
+            	{
+                	c_notificationHandlers[scenarioId](notificationActivatedEventArgs);
+                	return true;
+            	}
+            	catch
+            	{
+            		return false; // Couldn't find a NotificationHandler for scenarioId.
+            	}
+			}
+			else
+    		{
+        		HandleBackgroundClick(); // User has clicked on the background of the toast instead of taking a specific action (like clicking a button).
+        		return true;
+    		}
         }
 
         void OnNotificationInvoked(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)
@@ -85,6 +86,15 @@ namespace CsUnpackagedAppNotifications.Notifications
             {
                 NotifyUser.UnrecognizedToastOriginator();
             }
+        }
+
+        void HandleBackgroundClick()
+        {
+            var notification = new MainPage.Notification();
+            notification.Originator = "Local Toast: no specific scenario";
+            notification.Action = "background click";
+            MainPage.Current.NotificationReceived(notification);
+            App.ToForeground();
         }
     }
 }

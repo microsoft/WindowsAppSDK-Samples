@@ -4,11 +4,9 @@
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
-
-//debugging
+using Windows.Win32.Foundation;
 using System;
-using System.Diagnostics;
-using System.Threading;
+using System.Runtime.InteropServices;
 using CsUnpackagedAppNotifications.Notifications;
 
 namespace CsUnpackagedAppNotifications
@@ -16,7 +14,10 @@ namespace CsUnpackagedAppNotifications
 
     public partial class App : Application
     {
-        private Window mainWindow;
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern void SwitchToThisWindow(IntPtr hWnd, bool turnOn);
+
+        private static Window mainWindow = null;
         private NotificationManager notificationManager;
 
         public App()
@@ -27,6 +28,15 @@ namespace CsUnpackagedAppNotifications
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
         }
 
+    	public static void ToForeground()
+    	{
+            if (mainWindow != null)
+            {
+                HWND hwnd = (HWND)WinRT.Interop.WindowNative.GetWindowHandle(mainWindow);
+                SwitchToThisWindow(hwnd, true);
+            }
+        }
+	
         public static string GetFullPathToExe()
         {
             var path = AppDomain.CurrentDomain.BaseDirectory;
@@ -41,12 +51,6 @@ namespace CsUnpackagedAppNotifications
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-#if false
-            while (!Debugger.IsAttached)
-            {
-                Thread.Sleep(100);
-            }
-#endif
             mainWindow = new MainWindow();
 
             notificationManager.Init();
@@ -54,7 +58,7 @@ namespace CsUnpackagedAppNotifications
             // NOTE: AppInstance is ambiguous between
             // Microsoft.Windows.AppLifecycle.AppInstance and
             // Windows.ApplicationModel.AppInstance
-            AppInstance currentInstance = AppInstance.GetCurrent();
+            var currentInstance = AppInstance.GetCurrent();
             if (currentInstance.IsCurrent)
             {
                 // AppInstance.GetActivatedEventArgs will report the correct ActivationKind,

@@ -19,11 +19,11 @@ namespace CsUnpackagedAppNotifications
         {
             if (ToastWithAvatar.SendToast())
             {
-            NotifyUser.ToastSentSuccessfully();
+                NotifyUser.ToastSentSuccessfully();
             }
             else
             {
-            NotifyUser.CouldNotSendToast();
+                NotifyUser.CouldNotSendToast();
             }
         }
     }

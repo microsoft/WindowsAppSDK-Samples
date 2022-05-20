@@ -51,7 +51,7 @@ class ToastWithTextBox
     {
         var input = notificationActivatedEventArgs.UserInput;
         var text = input[textboxReplyId];
-        
+
         var notification = new MainPage.Notification();
         notification.Originator = ScenarioName;
         var action = Common.ExtractParamFromArgs(notificationActivatedEventArgs.Argument, "action");
@@ -59,5 +59,6 @@ class ToastWithTextBox
         notification.HasInput = true;
         notification.Input = text;
         MainPage.Current.NotificationReceived(notification);
+        App.ToForeground();
     }
 }

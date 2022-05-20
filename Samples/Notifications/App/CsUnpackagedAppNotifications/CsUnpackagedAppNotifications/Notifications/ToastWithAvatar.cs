@@ -48,5 +48,6 @@ class ToastWithAvatar
         var action = Common.ExtractParamFromArgs(notificationActivatedEventArgs.Argument, "action");
         notification.Action = action == null ? "" : action;
         MainPage.Current.NotificationReceived(notification);
+        App.ToForeground();
     }
 }
