@@ -92,6 +92,10 @@ namespace Windowing
                 windowList.RemoveAt(index);
                 myListBox.Items.RemoveAt(index);
                 myOtherListBox.Items.RemoveAt(index);
+                if(index == windowList.Count)
+                {
+                    m_windowCount--;
+                }
             }
         }
 
