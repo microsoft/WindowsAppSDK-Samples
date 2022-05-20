@@ -35,6 +35,9 @@ namespace CsUnpackagedAppNotifications.Notifications
         {
             var notificationManager = AppNotificationManager.Default;
 
+            // To ensure all Notification handling happens in this process instance, register for
+            // NotificationInvoked before calling Register(). Without this a new process will
+            // be launched to handle the notification.
             notificationManager.NotificationInvoked += OnNotificationInvoked;
 
             notificationManager.Register();
