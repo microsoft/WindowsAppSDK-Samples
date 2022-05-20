@@ -15,7 +15,6 @@ public:
 
  private:
      bool DispatchNotification(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs);
-     void HandleBackgroundClick();
 
      bool m_isRegistered;
 };

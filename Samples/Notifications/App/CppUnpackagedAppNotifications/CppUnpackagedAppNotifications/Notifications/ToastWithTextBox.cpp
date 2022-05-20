@@ -23,7 +23,7 @@ bool ToastWithTextBox::SendToast()
     auto ScenarioIdToken{ Common::MakeScenarioIdToken(ToastWithTextBox::ScenarioId) };
 
     winrt::hstring xmlPayload{
-        L"<toast>\
+        L"<toast launch = \"action=ToastClick&amp;" + ScenarioIdToken + L"\">\
             <visual>\
                 <binding template = \"ToastGeneric\">\
                     <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\

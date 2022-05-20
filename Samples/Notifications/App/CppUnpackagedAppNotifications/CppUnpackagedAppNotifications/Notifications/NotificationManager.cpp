@@ -81,16 +81,6 @@ bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEv
     }
     else
     {
-        NotificationManager::HandleBackgroundClick(); // User has clicked on the background of the toast instead of taking a specific action (like clicking a button).
-        return true;
+        return false; // No scenario specified in the notification
     }
-}
-
-void NotificationManager::HandleBackgroundClick()
-{
-    winrt::CppUnpackagedAppNotifications::Notification notification{};
-    notification.Originator = L"Local Toast: no specific scenario";
-    notification.Action = L"background click";
-    winrt::MainPage::Current().NotificationReceived(notification);
-    winrt::App::ToForeground();
 }

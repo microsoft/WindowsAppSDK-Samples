@@ -53,8 +53,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         auto WindowNative{ app->window.as<IWindowNative>() };
         if (WindowNative != nullptr && WindowNative->get_WindowHandle(&hwnd) == S_OK)
         {
-            SwitchToThisWindow(hwnd, FALSE);
-            ShowWindow(hwnd, SW_SHOWNORMAL);
+            SwitchToThisWindow(hwnd, TRUE);
         }
     }
 
