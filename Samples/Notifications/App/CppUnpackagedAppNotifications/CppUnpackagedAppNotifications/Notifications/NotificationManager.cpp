@@ -41,7 +41,9 @@ void NotificationManager::Init()
 {
     auto notificationManager{ winrt::AppNotificationManager::Default() };
 
-    // Always setup the notification hanlder before registering your App, otherwise notifications may get lost.
+    // To ensure all Notification handling happens in this process instance, register for
+    // NotificationInvoked before calling Register(). Without this a new process will
+    // be launched to handle the notification.
     const auto token{ notificationManager.NotificationInvoked([&](const auto&, winrt::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
         {
             NotifyUser::NotificationReceived();
