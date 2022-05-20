@@ -19,7 +19,7 @@ namespace winrt
 }
 
 // NotificationManager is responsible for registering and unregistering the Sample for App Notifications as well as
-// dispatching actionned notifications to the appropriate scenario.
+// dispatching actioned notifications to the appropriate scenario.
 // Registration will happen when Init() is called and Unregistration will happen when this
 // instance variable goes out of scope, i.e.: when the App is terminated.
 static NotificationManager g_notificationManager;
@@ -51,7 +51,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
         HWND hwnd;
         auto WindowNative{ app->window.as<IWindowNative>() };
-        if (WindowNative != nullptr && WindowNative->get_WindowHandle(&hwnd) == S_OK)
+        if (WindowNative != nullptr && SUCCEEDED(WindowNative->get_WindowHandle(&hwnd)))
         {
             SwitchToThisWindow(hwnd, TRUE);
         }

@@ -58,8 +58,6 @@ void NotificationManager::Init()
 
 void NotificationManager::ProcessLaunchActivationArgs(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    assert(m_isRegistered);
-
     DispatchNotification(notificationActivatedEventArgs);
     NotifyUser::AppLaunchedFromNotification();
 }
