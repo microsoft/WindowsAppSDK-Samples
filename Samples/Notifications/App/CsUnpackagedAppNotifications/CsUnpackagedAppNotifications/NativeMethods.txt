@@ -9,4 +9,5 @@ MonitorFromRect
 RECT
 SendMessage
 SetWindowPos
+SwitchToThisWindow
 WM_SETICON

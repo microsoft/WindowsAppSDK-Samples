@@ -6,26 +6,23 @@ using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using Windows.Win32.Foundation;
 using System;
-using System.Runtime.InteropServices;
 using CsUnpackagedAppNotifications.Notifications;
+using static Windows.Win32.PInvoke;
 
 namespace CsUnpackagedAppNotifications
 {
 
     public partial class App : Application
     {
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern void SwitchToThisWindow(IntPtr hWnd, bool turnOn);
-
         private static Window mainWindow = null;
         private NotificationManager notificationManager;
 
         public App()
         {
-            //notificationManager = new NotificationManager();
             this.InitializeComponent();
-            notificationManager = new NotificationManager();
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+
+            notificationManager = new NotificationManager();
         }
 
     	public static void ToForeground()
