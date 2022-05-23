@@ -9,6 +9,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
     - [Activation](Samples/AppLifecycle/Activation): These samples demonstrate support for rich activation kinds.
     - [Instancing](Samples/AppLifecycle/Instancing): These samples demonstrate support for single and selective multi-instancing.
     - [Power Notifications](Samples/AppLifecycle/StateNotifications): These samples demonstrate the power/system state notifications for managing app workload.
+    - [Restart](Samples/AppLifecycle/Restart): These samples demonstrate synchronously restarting an app with command-line restart arguments.
 
 #### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
