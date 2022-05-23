@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+        "CsUnpackagedAppNotifications (Package)": {
+            "commandName": "MsixPackage"
+        },
+        "CsUnpackagedAppNotifications (Unpackaged)": {
+            "commandName": "Project"
+        }
+    }
+}
