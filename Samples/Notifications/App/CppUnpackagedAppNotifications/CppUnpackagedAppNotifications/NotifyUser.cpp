@@ -22,7 +22,6 @@ void NotifyUser::ToastSentSuccessfully()
 void NotifyUser::AppLaunchedFromNotification()
 {
     winrt::MainPage::Current().NotifyUser(L"App launched from notifications", winrt::InfoBarSeverity::Informational);
-
 }
 
 void NotifyUser::NotificationReceived()

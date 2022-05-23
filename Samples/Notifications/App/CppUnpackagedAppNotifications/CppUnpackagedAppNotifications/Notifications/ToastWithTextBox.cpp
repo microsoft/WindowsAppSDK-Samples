@@ -44,21 +44,16 @@ bool ToastWithTextBox::SendToast()
             </toast>" };
 
     auto toast{ winrt::AppNotification(xmlPayload) };
-    toast.Priority(winrt::AppNotificationPriority::High);
     winrt::AppNotificationManager::Default().Show(toast);
-    if (toast.Id() == 0)
-    {
-        return false;
-    }
 
-    return true;
+    return toast.Id() != 0; // return true (indicating success) if the toast was sent (if it has an Id)
 }
 
 void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    // In a real life scenario, this type of action would usually be processed in the background. Your App would process the payload in
-    // the brackground (sending the payload back to your App Server) without ever showing the App's UI.
-    // This is no not  something that can easily be demonstrated in a sample such as this one, as we need to show the UI to demonstrate how
+    // In a real-life scenario, this type of action would usually be processed in the background. Your App would process the payload in
+    // the background (sending the payload back to your App Server) without ever showing the App's UI.
+    // This is not something that can easily be demonstrated in a sample such as this one, as we need to show the UI to demonstrate how
     // the payload is routed internally
 
     auto input{ notificationActivatedEventArgs.UserInput() };

@@ -38,14 +38,9 @@ bool ToastWithAvatar::SendToast()
         </toast>" };
 
     auto toast{ winrt::AppNotification(xmlPayload) };
-    toast.Priority(winrt::AppNotificationPriority::High);
     winrt::AppNotificationManager::Default().Show(toast);
-    if (toast.Id() == 0)
-    {
-        return false;
-    }
 
-    return true;
+    return toast.Id() != 0; // return true (indicating success) if the toast was sent (if it has an Id)
 }
 
 void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
@@ -56,5 +51,4 @@ void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotific
     notification.Action = action.has_value() ? action.value() : L"";
     winrt::MainPage::Current().NotificationReceived(notification);
     winrt::App::ToForeground();
-
 }
