@@ -28,7 +28,7 @@ All samples in this directory should be kept in-sync, meaning that if you add a 
 The samples in this directory are differenciated by the language the use C++ vs C# or the type of packaging but not by their functionality.
 
 1. **Implement the UI** -
-Each secenario is implemented in its own distinct set of files. The UI is Modify the xmal, UI implementation and notification implementation files as needed, adding removing and changing controls to suit your needs.
+Each secenario is implemented in its own distinct set of files. The UI is Modify the xaml, UI implementation and notification implementation files as needed, adding removing and changing controls to suit your needs.
    - **For a C++ sample** -
    That means adding three 3 new files to the VS project: <NewScenario>.xaml, <NewScenario>.xaml.cpp and <NewScenario>.xaml.h then adding an entry for the new scenario in the Project.idl and the SampleConfiguration.cpp files.
    - **For a C# sample** -
@@ -51,7 +51,7 @@ Update the documentation for the sample (this document) with the information per
 At the very least, that means adding an entry to describe your scenario, near the top of this document.
 
 5. **Open a PR.** -
-Verify your new scenario builds (withoug warnings), that it works as expected and has been implemented for all flavors of the sample (C++/C#, Packaged/Unpackaged, etc.).
+Verify your new scenario builds (without warnings), that it works as expected and has been implemented for all flavors of the sample (C++/C#, Packaged/Unpackaged, etc.).
 Go to the [WindowsAppSDK-Samples](https://github.com/microsoft/WindowsAppSDK-Samples) GitHub and follow the Contributing Guidelines (at the bottom of the readme) and submit ytour code changes for peer review.
 
 ## Notes

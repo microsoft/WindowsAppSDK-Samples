@@ -46,7 +46,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             else
             {
                 text.append(L"\t- Input received: " + notification.Input);
-
             }
         }
         messages.InsertAt(0, PropertyValue::CreateString(text));

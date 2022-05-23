@@ -8,6 +8,6 @@ public:
     static std::optional<std::wstring> ExtractParamFromArgs(std::wstring const& args, std::wstring const& paramName);
 
     static std::wstring MakeScenarioIdToken(unsigned Id);
-    static std::optional <unsigned> ExtractScenarioIdFromArgs(std::wstring const& string);
+    static std::optional<unsigned> ExtractScenarioIdFromArgs(std::wstring const& args);
 };
 
