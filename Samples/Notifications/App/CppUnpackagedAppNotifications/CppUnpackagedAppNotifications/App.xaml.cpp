@@ -50,8 +50,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         assert(app != nullptr);
 
         HWND hwnd;
-        auto WindowNative{ app->window.as<IWindowNative>() };
-        if (WindowNative != nullptr && SUCCEEDED(WindowNative->get_WindowHandle(&hwnd)))
+        auto windowNative{ app->window.as<IWindowNative>() };
+        if (windowNative && SUCCEEDED(windowNative->get_WindowHandle(&hwnd)))
         {
             SwitchToThisWindow(hwnd, TRUE);
         }
