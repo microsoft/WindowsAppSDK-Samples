@@ -44,10 +44,11 @@ class ToastWithTextBox
 
     public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
     {
-    // In a real-life scenario, this type of action would usually be processed in the background. Your App would process the payload in
-    // the background (sending the payload back to your App Server) without ever showing the App's UI.
-    // This is not something that can easily be demonstrated in a sample such as this one, as we need to show the UI to demonstrate how
-    // the payload is routed internally
+        // In a real-life scenario, this type of action would usually be processed in the background. Your App would process the payload in
+        // the background (sending the payload back to your App Server) without ever showing the App's UI.
+        // This is not something that can easily be demonstrated in a sample such as this one, as we need to show the UI to demonstrate how
+        // the payload is routed internally
+        
         var input = notificationActivatedEventArgs.UserInput;
         var text = input[textboxReplyId];
 

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
 using Microsoft.Windows.AppNotifications;
-using Windows.Foundation;
-using Microsoft.UI.Xaml.Controls;
 
 namespace CsUnpackagedAppNotifications.Notifications
 {
@@ -63,21 +60,21 @@ namespace CsUnpackagedAppNotifications.Notifications
         {
             var scenarioId = Common.ExtractScenarioIdFromArgs(notificationActivatedEventArgs.Argument);
             if (scenarioId != 0)
-			{
-            	try
-            	{
-                	c_notificationHandlers[scenarioId](notificationActivatedEventArgs);
-                	return true;
-            	}
-            	catch
-            	{
-            		return false; // Couldn't find a NotificationHandler for scenarioId.
-            	}
-			}
-			else
-    		{
-        		return false; // No scenario specified in the notification
-    		}
+            {
+                try
+                {
+                    c_notificationHandlers[scenarioId](notificationActivatedEventArgs);
+                    return true;
+                }
+                catch
+                {
+                    return false; // Couldn't find a NotificationHandler for scenarioId.
+                }
+            }
+            else
+            {
+                return false; // No scenario specified in the notification
+            }
         }
 
         void OnNotificationInvoked(object sender, AppNotificationActivatedEventArgs notificationActivatedEventArgs)

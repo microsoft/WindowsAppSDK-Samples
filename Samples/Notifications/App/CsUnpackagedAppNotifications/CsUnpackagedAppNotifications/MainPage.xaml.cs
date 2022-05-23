@@ -63,7 +63,6 @@ namespace CsUnpackagedAppNotifications
             if (DispatcherQueue.HasThreadAccess)
             {
                 messages.Insert(0, text);
-
             }
             else
             {
