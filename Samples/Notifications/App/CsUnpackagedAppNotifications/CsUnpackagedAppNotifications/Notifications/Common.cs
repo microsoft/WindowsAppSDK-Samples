@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#if false
-//#include "pch.h"
-//#include "Common.h"
-#endif
-
 class Common
 {
 	const string scenarioTag = "scenarioId";
@@ -32,20 +27,20 @@ class Common
         return args.Substring(paramStart, paramEnd - paramStart);
     }
 
-	public static string MakeScenarioIdToken(int id)
-	{
-    	return scenarioTag + "=" + id.ToString();
-	}
+    public static string MakeScenarioIdToken(int id)
+    {
+        return scenarioTag + "=" + id.ToString();
+    }
 
-	public static int ExtractScenarioIdFromArgs(string args)
-	{
-    	var scenarioId = ExtractParamFromArgs(args, scenarioTag);
+    public static int ExtractScenarioIdFromArgs(string args)
+    {
+        var scenarioId = ExtractParamFromArgs(args, scenarioTag);
 
-    	if (scenarioId == null)
-    	{
-        	return 0;
-    	}
+        if (scenarioId == null)
+        {
+            return 0;
+        }
 
         return int.Parse(scenarioId);
-	}
+    }
 }
