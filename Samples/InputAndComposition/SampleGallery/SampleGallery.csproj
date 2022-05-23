@@ -1,0 +1,133 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>CompositionSampleGallery</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+		<DefineConstants>USING_CSWINRT</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>1701;1702;CA1416</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="SampleGallery %28Package%29\**" />
+    <Compile Remove="Samples\SDK 14393\SwipeScroller\**" />
+    <Compile Remove="Samples\SDK 14393\VideoPlayground\**" />
+    <Compile Remove="Samples\SDK 15063\ShowHideImplicitWebview\**" />
+    <Content Remove="SampleGallery %28Package%29\**" />
+    <EmbeddedResource Remove="SampleGallery %28Package%29\**" />
+    <EmbeddedResource Remove="Samples\SDK 14393\SwipeScroller\**" />
+    <EmbeddedResource Remove="Samples\SDK 14393\VideoPlayground\**" />
+    <EmbeddedResource Remove="Samples\SDK 15063\ShowHideImplicitWebview\**" />
+    <None Remove="SampleGallery %28Package%29\**" />
+    <None Remove="Samples\SDK 14393\SwipeScroller\**" />
+    <None Remove="Samples\SDK 14393\VideoPlayground\**" />
+    <None Remove="Samples\SDK 15063\ShowHideImplicitWebview\**" />
+    <Page Remove="SampleGallery %28Package%29\**" />
+    <Page Remove="Samples\SDK 14393\SwipeScroller\**" />
+    <Page Remove="Samples\SDK 14393\VideoPlayground\**" />
+    <Page Remove="Samples\SDK 15063\ShowHideImplicitWebview\**" />
+    <PRIResource Remove="SampleGallery %28Package%29\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ExtendedSplashScreen.xaml" />
+    <None Remove="MainPage.xaml" />
+    <None Remove="Pages\BaseCategoryPage.xaml" />
+    <None Remove="Pages\HomePage.xaml" />
+    <None Remove="SampleGalleryNavViewHost.xaml" />
+    <None Remove="Samples\Input\InputCursor.xaml" />
+    <None Remove="Shared\BodyAppList.xaml" />
+    <None Remove="Shared\FeaturedSamples.xaml" />
+    <None Remove="Shared\FeaturedSamplesHomePage.xaml" />
+    <None Remove="Shared\FlipViewIndicator.xaml" />
+    <None Remove="Shared\Footer.xaml" />
+    <None Remove="Shared\SampleHost.xaml" />
+    <None Remove="Shared\SharedResourceDictionaries.xaml" />
+    <None Remove="Shared\Social.xaml" />
+    <None Remove="Settings.xaml" />
+    <None Remove="ExtendedSplashScreen.xaml" />
+    <None Remove="Pages\SearchResultsPage.xaml" />
+    <None Remove="Pages\HomePage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0-preview3" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExpressionBuilder\ExpressionBuilder\ExpressionBuilder.csproj" />
+    <ProjectReference Include="..\SamplesCommon\SamplesCommon\SamplesCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Settings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="SampleGalleryNavViewHost.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\BodyAppList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\FeaturedSamples.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\FeaturedSamplesHomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\FlipViewIndicator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\Footer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\SampleHost.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\SharedResourceDictionaries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\Social.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SearchResultsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\BaseCategoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Samples\Input\InputCursor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+</Project>

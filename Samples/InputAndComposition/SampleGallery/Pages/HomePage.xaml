@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="CompositionSampleGallery.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CompositionSampleGallery"
+    xmlns:common="using:SamplesCommon"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" x:Name="MainScrollViewer">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CategoryDescriptionVisualStateGroup">
+
+                <!-- WIDE -->
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideScreenWidthTrigger}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="CategoryDescriptionTextBlock.Style" Value="{StaticResource CategoryDescriptionTextBlockStyleWide}" />
+                    </VisualState.Setters>
+                </VisualState>
+
+
+                <!-- NARROW -->
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowScreenWidthTrigger}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="CategoryDescriptionTextBlock.Style" Value="{StaticResource CategoryDescriptionTextBlockStyleNarrow}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel>
+
+            <!-- Headline carousel -->
+            <local:FlipViewIndicator />
+            <!-- End headline carousel -->
+
+            <!-- Category description -->
+            <RichTextBlock x:Name="CategoryDescriptionTextBlock" OverflowContentTarget="{Binding ElementName=CategoryDescriptionTextBlockOverflow}" MaxWidth="1296">
+                <Paragraph Margin="15">
+                    Create more engaging experiences, and make your users more productive with new and emerging features in Windows UI.
+                </Paragraph>
+                <Paragraph Margin="15">
+                    Learn how to take your existing XAML based Windows Store app to the next level by leveraging the core platform building blocks that power Fluent Design to innovate upon and improve your UI.
+                </Paragraph>
+                <Paragraph Margin="15">
+                    All of the samples shown here are available on Microsoft's
+                    <Hyperlink NavigateUri="https://github.com/microsoft/WindowsAppSDK-Samples">Windows App SDK Samples</Hyperlink> repo on GitHub.
+                </Paragraph>
+                <Paragraph Margin="15">
+                    Want to preview and experiment with the very latest pre-release samples demonstrating visual effects, animations and interactions?  Become a Windows Insider and rebuild the Windows Composition Samples project against the latest Insider SDK and OS build to get samples that are otherwise hidden on major OS release builds.
+                </Paragraph>
+            </RichTextBlock>
+
+            <!-- End category description -->
+            
+            <!-- Featured samples -->
+            <local:FeaturedSampleHomePage x:Name="FeaturedSampleList" />
+            <!-- end featured samples -->
+
+            <!-- Social -->
+            <local:Social />
+            <!-- End Social -->
+          </StackPanel>
+    </ScrollViewer>
+</Page>
