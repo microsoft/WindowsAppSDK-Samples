@@ -4,7 +4,7 @@
 #include "MyAppWindow.h"
 using namespace winrt::Microsoft::UI::Windowing;
 
-//Global Variables:
+// global
 winrt::Microsoft::UI::Windowing::AppWindow appWindow{ nullptr };
 
 namespace winrt
@@ -16,7 +16,7 @@ namespace winrt
 }
 
 // static
-const std::wstring MyAppWindow::ClassName = L"MicaWindow";
+const std::wstring MyAppWindow::ClassName = L"MyAppWindow";
 
 // static
 void MyAppWindow::RegisterWindowClass()
@@ -34,7 +34,7 @@ void MyAppWindow::RegisterWindowClass()
     winrt::check_bool(RegisterClassExW(&wcex)); // check if the window class was registered succesfully
 }
 
-// Create the main window and enable MICA
+// Create the AppWindow and enable Mica
 MyAppWindow::MyAppWindow(const winrt::Compositor& compositor, const std::wstring& windowTitle)
 {
     auto instance = winrt::check_pointer(GetModuleHandleW(nullptr));
@@ -43,7 +43,7 @@ MyAppWindow::MyAppWindow(const winrt::Compositor& compositor, const std::wstring
         // Window Properties
         CreateWindowExW(
             WS_EX_COMPOSITED,
-            ClassName.c_str(), // declared in MicaWindow.h and defined above
+            ClassName.c_str(), // declared in MyAppWindow.h and defined above
             windowTitle.c_str(),
             WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT,
@@ -55,15 +55,12 @@ MyAppWindow::MyAppWindow(const winrt::Compositor& compositor, const std::wstring
             this
         ));
 
-    //create AppWindow from existing hWnd)
+    //Create AppWindow from existing hWnd)
     winrt::WindowId windowId{ (UINT64) m_window };
     windowId = winrt::GetWindowIdFromWindow(m_window);
+
     // Get the AppWindow for the WindowId
     appWindow = winrt::Microsoft::UI::Windowing::AppWindow::GetFromWindowId(windowId);
-
-    // Check that the window was created succesfully
-    WINRT_ASSERT(appWindow);
-    WINRT_ASSERT(m_window);
 
     //Create Compact Overlay Presenter
     winrt::Microsoft::UI::Windowing::AppWindowPresenterKind newPresenterKind = winrt::Microsoft::UI::Windowing::AppWindowPresenterKind::CompactOverlay;
@@ -72,9 +69,6 @@ MyAppWindow::MyAppWindow(const winrt::Compositor& compositor, const std::wstring
     appWindow.Create();
     appWindow.Show();
 
-    //ShowWindow(m_window, SW_SHOWDEFAULT);
-    //UpdateWindow(m_window);
-    
     // The Mica controller needs to set a target with a root to recognize the visual base layer
     m_target = CreateWindowTarget(compositor);
 
