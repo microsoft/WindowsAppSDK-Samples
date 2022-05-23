@@ -19,7 +19,8 @@ namespace Windowing
         {
             new Scenario() { Title = "Window Basics", ClassName = typeof(WindowBasics).FullName },
             new Scenario() { Title = "Title Bar", ClassName = typeof(TitleBar).FullName },
-            new Scenario() { Title = "Presenters", ClassName = typeof(Presenters).FullName }
+            new Scenario() { Title = "Presenters", ClassName = typeof(Presenters).FullName },
+            new Scenario() { Title = "Z-Order", ClassName = typeof(ZOrder).FullName}
         };
     }
 
