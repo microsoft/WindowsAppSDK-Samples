@@ -17,14 +17,19 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Titlebar Basics</TextBlock>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="TitlebarBrandingBtn" Click="TitlebarBrandingBtn_Click">Toggle TitleBar color branding</Button>
-            <Button x:Name="TitlebarCustomBtn" Click="TitlebarCustomBtn_Click" Margin="12,0,0,0">Toggle custom TitleBar</Button>
+        <TextBlock Grid.Row="0" Foreground="Red" Margin="20,0,0,0" VerticalAlignment="Center">Title bar basics</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20,0,0,0" VerticalAlignment="Center">
+            <Button x:Name="TitlebarBrandingBtn" Click="TitlebarBrandingBtn_Click">Toggle Title bar color branding</Button>
+            <Button x:Name="TitlebarCustomBtn" Click="TitlebarCustomBtn_Click" Margin="12,0,0,0">Toggle custom title bar</Button>
         </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="ResetTitlebarBtn" Click="ResetTitlebarBtn_Click">Reset Titlebar</Button>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="20,0,0,0" VerticalAlignment="Center">
+            <Button x:Name="StandardHeightBtn" Click="StandardHeightBtn_Click" IsEnabled="False" >Standard height title bar</Button>
+            <Button x:Name="TallHeightBtn" Click="TallHeightBtn_Click" IsEnabled="False" Margin="12,0,0,0">Taller title bar</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="20,0,0,0" VerticalAlignment="Center">
+            <Button x:Name="ResetTitlebarBtn" Click="ResetTitlebarBtn_Click">Reset title bar</Button>
         </StackPanel>
     </Grid>
 </Page>

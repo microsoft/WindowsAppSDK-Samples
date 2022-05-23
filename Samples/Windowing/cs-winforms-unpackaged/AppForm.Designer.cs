@@ -42,6 +42,9 @@ namespace winforms_unpackaged_app
         private System.Windows.Forms.FlowLayoutPanel MyTitleBar;
         private System.Windows.Forms.PictureBox MyWindowIcon;
         private System.Windows.Forms.Label MyWindowTitle;
+        private System.Windows.Forms.Button clientResizeButton;
+        private System.Windows.Forms.Button standardHeight;
+        private System.Windows.Forms.Button tallHeight;
     }
 }
 

@@ -15,17 +15,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Column="0" Grid.Row="0" Margin="20,0,0,0" Orientation="Horizontal"  VerticalAlignment="Center">
             <TextBox x:Name="TitleTextBox" Text="WPF ❤️ AppWindow"/>
             <Button x:Name="TitleBtn" Click="TitleBtn_Click">Set Window Title</Button>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="20,0,0,0" Orientation="Horizontal"  VerticalAlignment="Center">
             <TextBox x:Name="WidthTextBox" InputScope="Number" Width="30px"></TextBox>
             <TextBox x:Name="HeightTextBox" InputScope="Number" Width="30px"></TextBox>
-            <Button x:Name="sizeBtn" Click="SizeBtn_Click">Resize window</Button>
+            <Button x:Name="SizeBtn" Click="SizeBtn_Click">Resize window</Button>
+            <Button x:Name="ClientSizeBtn" Click="SizeBtn_Click">Resize client area</Button>
         </StackPanel>
     </Grid>
 </Page>
