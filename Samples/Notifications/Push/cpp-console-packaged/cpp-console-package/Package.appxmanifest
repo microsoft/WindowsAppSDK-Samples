@@ -6,18 +6,22 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   IgnorableNamespaces="uap uap5 rescap com">
+  
   <Identity
-  Name="PushNotificationsSample"
-  Publisher="CN=Microsoft"
-  Version="1.0.0.0" />
+    Name="PushNotificationsSample"
+    Publisher="CN=Microsoft"
+    Version="1.0.0.0" />
+
   <Properties>
-  	<DisplayName>Push Notifications Sample</DisplayName>
-  	<PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
-  	<Logo>Images\StoreLogo.png</Logo>
+    <DisplayName>Push Notifications Sample</DisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
   </Properties>
+
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
   </Dependencies>
+
   <Resources>
     <Resource Language="x-generate"/>
   </Resources>
@@ -36,15 +40,16 @@
       </uap:VisualElements>
       <Extensions>
       	<com:Extension Category="windows.comServer">
-		  <com:ComServer>
-		    <com:ExeServer Executable="cpp-console\cpp-console.exe" DisplayName="SampleBackgroundApp" Arguments="----WindowsAppRuntimePushServer:">
+          <com:ComServer>
+            <com:ExeServer Executable="cpp-console\cpp-console.exe" DisplayName="SampleBackgroundApp" Arguments="----WindowsAppRuntimePushServer:">
               <com:Class Id="ccd2ae3f-764f-4ae3-be45-9804761b28b2" DisplayName="Windows App SDK Push" />
-	        </com:ExeServer>
+            </com:ExeServer>
           </com:ComServer>
         </com:Extension>
       </Extensions>
     </Application>
   </Applications>
+
   <Capabilities>
     <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
