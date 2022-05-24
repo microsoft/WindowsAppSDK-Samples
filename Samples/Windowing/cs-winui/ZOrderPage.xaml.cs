@@ -31,7 +31,6 @@ namespace Windowing
     public sealed partial class ZOrder : Page
     {
         private AppWindow _mainAppWindow = MainWindow.AppWindow;
-        private int m_windowCount = 0;
         List<WindowId> windowList = new List<WindowId>();
 
         public ZOrder()
@@ -61,24 +60,29 @@ namespace Windowing
             }
         }
 
+        // Creates a new window 
         private void myNewWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            // Count up the number of windows created so far, this is just used for Title generation so we don't collide
-            m_windowCount++;
-            Window nextWindow = new Window();
-            nextWindow.Content = new TextBlock() { Text = "A wild window appears!" };
-            nextWindow.Title = "Window #" + m_windowCount.ToString();
-            nextWindow.Activate();
+         
+            Window secondaryWindow = new Window();
+            secondaryWindow.Content = new TextBlock() { Text = "This window is intentionally left blank, it is only used to illustrate z-order management using the controls available in the app's main window" };
+            secondaryWindow.Title = "Window #" + (windowList.Count + 1).ToString();
+            secondaryWindow.Activate();
             
             // Get the WindowId for the new XAML Window and store it in a list of known "secondary" windows for the app.
-            var nextWindowHWnd = WinRT.Interop.WindowNative.GetWindowHandle(nextWindow);
-            Microsoft.UI.WindowId nextWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(nextWindowHWnd);
+            var secondaryWindowHWnd = WinRT.Interop.WindowNative.GetWindowHandle(secondaryWindow);
+            Microsoft.UI.WindowId secondaryWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(secondaryWindowHWnd);
 
-            windowList.Add(nextWindowId);
-            myListBox.Items.Add(nextWindow.Title);
-            myOtherListBox.Items.Add(nextWindow.Title);
+            // Adds a window to the windowList struct 
+            windowList.Add(secondaryWindowId);
 
-            Microsoft.UI.Windowing.AppWindow nextAppWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(nextWindowId);
+            // Adds the window title to the myListBox XAML Stackbox 
+            myListBox.Items.Add(secondaryWindow.Title);
+
+            // Adds the window title to the myOtherListBox XAML Stackbox
+            myOtherListBox.Items.Add(secondaryWindow.Title);
+
+            Microsoft.UI.Windowing.AppWindow nextAppWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(secondaryWindowId);
             nextAppWindow.Closing += NextAppWindow_Closing;
         }
 
@@ -102,11 +106,10 @@ namespace Windowing
                     myListBox.Items[i] = "Window #" + new_title.ToString();
                     myOtherListBox.Items[i] = "Window #" + new_title.ToString();
                 }
-
-                m_windowCount = windowList.Count;
             }
         }
 
+        // Takes selected window and places it directly below the main window in the zorder stack
         private void myFromIndexToTopBtn_Click(object sender, RoutedEventArgs e)
         {
             if (_mainAppWindow != null & myListBox.SelectedIndex != -1 & windowList.Any())
@@ -117,6 +120,7 @@ namespace Windowing
             }
         }
 
+        // Takes main window and places it directly below selected window in the zorder stack
         private void myMoveBelowIndexBtn_Click(object sender, RoutedEventArgs e)
         {
             if (_mainAppWindow != null & myOtherListBox.SelectedIndex != -1 & windowList.Any())

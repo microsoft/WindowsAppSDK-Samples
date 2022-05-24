@@ -12,7 +12,7 @@
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="ZOrder.xaml" />
+    <None Remove="ZOrderPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +41,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="ZOrder.xaml">
+    <Page Update="ZOrderPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>

@@ -61,10 +61,7 @@ namespace Windowing
                         break;
                 }
             }
-            //if (windowHeight > 0 && windowWidth > 0)
-            //{
-            //    _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
-            //}
+            
         }
     }
 }
