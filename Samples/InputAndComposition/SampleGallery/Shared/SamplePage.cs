@@ -24,7 +24,7 @@ namespace CompositionSampleGallery
     {
         public abstract string SampleDescription { get; }
         public abstract string SampleName { get; }
-        public virtual string SampleCodeUri { get { return "https://github.com/Microsoft/composition/";} }
+        public virtual string SampleCodeUri { get { return "https://github.com/microsoft/WindowsAppSDK-Samples/tree/main/Samples/InputAndComposition";} }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
