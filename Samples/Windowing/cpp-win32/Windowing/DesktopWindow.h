@@ -6,6 +6,7 @@
 
 #include <winrt/Windows.UI.Composition.Desktop.h>
 
+// DesktopWindow class defines a window, extended by MyAppWindow class
 template <typename T>
 struct DesktopWindow
 {

@@ -33,7 +33,6 @@ int __stdcall WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE,  _In_ PSTR, _In_ int)
 
     auto compositor = winrt::Compositor();
 
-    // Mica windows is inherited from the Mica Window class, which is an extension of the DesktopWindow Class.
     // Here we initialize the main window and set the title
     auto window = MyAppWindow(compositor, L"Hello, AppWindow");
 

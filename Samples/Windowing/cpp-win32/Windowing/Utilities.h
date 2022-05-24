@@ -29,9 +29,9 @@ namespace Utilities
     {
         WindowsAppSDKBootstrapperContext()
         {
-            // Take a dependency on Windows App SDK 1.0, if using 1.0 Experimental,
-            // replace with versionTag{ L"experimental1" }. If using version 0.8 Preview, 
-            // replace with majorMinorVersion{ 0x00000008 } and  versionTag{ L"preview" }.
+            // Take a dependency on Windows App SDK 1.1
+            // If using version 1.1 Preview, 
+            // replace with majorMinorVersion{ 0x00010001 } and  versionTag{ L"preview" }.
             const UINT32 majorMinorVersion{ 0x00010000 };
             PCWSTR versionTag{ L"" };
             const PACKAGE_VERSION minVersion{};
