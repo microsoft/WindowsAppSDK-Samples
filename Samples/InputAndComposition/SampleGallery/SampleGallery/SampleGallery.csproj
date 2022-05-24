@@ -129,5 +129,6 @@
 
   <PropertyGroup>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>
