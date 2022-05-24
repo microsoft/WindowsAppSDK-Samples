@@ -32,31 +32,25 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-      	DisplayName="Push Notifications Sample"
-	Description="Push Notifications Sample App"
+        DisplayName="Push Notifications Sample"
+        Description="Push Notifications Sample App"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
-	<uap:SplashScreen Image="Images\SplashScreen.png" uap5:Optional="true"/>
+        <uap:SplashScreen Image="Images\SplashScreen.png" uap5:Optional="true"/>
       </uap:VisualElements>
       <Extensions>
       	<com:Extension Category="windows.comServer">
-		<com:ComServer>
-			<com:ExeServer Executable="cpp-console\cpp-console.exe" DisplayName="SampleBackgroundApp" Arguments="----WindowsAppRuntimePushServer:">
-				<com:Class Id="ccd2ae3f-764f-4ae3-be45-9804761b28b2" DisplayName="Windows App SDK Push" />
-			</com:ExeServer>
-		</com:ComServer>
-	</com:Extension>
-	<uap:Extension Category="windows.protocol" EntryPoint="Windows.FullTrustApplication">
-		<uap:Protocol Name="windowsappruntimetestprotocol-packaged">
-			<uap:DisplayName>WindowsAppRuntimeTestProtocol</uap:DisplayName>
-		</uap:Protocol>
-	</uap:Extension>
+		  <com:ComServer>
+		    <com:ExeServer Executable="cpp-console\cpp-console.exe" DisplayName="SampleBackgroundApp" Arguments="----WindowsAppRuntimePushServer:">
+              <com:Class Id="ccd2ae3f-764f-4ae3-be45-9804761b28b2" DisplayName="Windows App SDK Push" />
+	        </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
       </Extensions>
     </Application>
   </Applications>
-
   <Capabilities>
     <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
