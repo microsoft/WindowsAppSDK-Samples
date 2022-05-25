@@ -1,0 +1,13 @@
+﻿GetDpiForWindow
+GetModuleHandle
+GetMonitorInfo
+GetSystemMetrics
+GetWindowRect
+LoadImage
+MONITORINFO
+MonitorFromRect
+RECT
+SendMessage
+SetWindowPos
+SwitchToThisWindow
+WM_SETICON

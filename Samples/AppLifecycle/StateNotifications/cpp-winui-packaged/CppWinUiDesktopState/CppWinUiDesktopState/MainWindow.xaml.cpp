@@ -28,13 +28,13 @@ namespace winrt::CppWinUiDesktopState::implementation
 }
 
 void winrt::CppWinUiDesktopState::implementation::MainWindow::RegisterButton_Click(
-    winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
 {
     RegisterPowerManagerCallbacks();
 }
 
 void winrt::CppWinUiDesktopState::implementation::MainWindow::UnregisterButton_Click(
-    winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
 {
     UnregisterPowerManagerCallbacks();
 }
@@ -268,7 +268,7 @@ void winrt::CppWinUiDesktopState::implementation::MainWindow::DetermineWorkloads
         || (powerSource == PowerSourceKind::AC
             && powerStatus == PowerSupplyStatus::Inadequate))
     {
-        // The device is not in a good battery/power state, 
+        // The device is not in a good battery/power state,
         // so we should pause any non-critical work.
         PauseNonCriticalWork();
     }

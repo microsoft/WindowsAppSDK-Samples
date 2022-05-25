@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="f63bbab0-0346-42fc-83de-d0f5e3b80371"
+    Name="64cb0bd8-8abe-4403-8395-dc9bde236070"
     Publisher="CN=Microsoft Corporation"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>SelfContainedDeployment</DisplayName>
+    <DisplayName>CsUnpackagedAppNotifications</DisplayName>
     <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
     <Logo>Assets\logo.png</Logo>
   </Properties>
@@ -31,10 +31,11 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="SelfContainedDeployment Windows App SDK C++ WinUI Sample"
-        Description="SelfContainedDeployment Windows App SDK C++ WinUI Sample"
+        DisplayName="CsUnpackagedAppNotifications Windows App SDK C# WinUI Sample"
+        Description="CsUnpackagedAppNotifications Windows App SDK C# WinUI Sample"
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
