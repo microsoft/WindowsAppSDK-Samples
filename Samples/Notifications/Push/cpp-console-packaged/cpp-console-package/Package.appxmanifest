@@ -25,6 +25,7 @@
   <Resources>
     <Resource Language="x-generate"/>
   </Resources>
+
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
