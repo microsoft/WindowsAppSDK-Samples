@@ -77,10 +77,7 @@ namespace Windowing
             windowList.Add(secondaryWindowId);
 
             // Adds the window title to the myListBox XAML Stackbox 
-            myListBox.Items.Add(secondaryWindow.Title);
-
-            // Adds the window title to the myOtherListBox XAML Stackbox
-            myOtherListBox.Items.Add(secondaryWindow.Title);
+            secondaryWindowsListBox.Items.Add(secondaryWindow.Title);
 
             Microsoft.UI.Windowing.AppWindow nextAppWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(secondaryWindowId);
             nextAppWindow.Closing += NextAppWindow_Closing;
@@ -94,8 +91,7 @@ namespace Windowing
             if(index != -1)
             {
                 windowList.RemoveAt(index);
-                myListBox.Items.RemoveAt(index);
-                myOtherListBox.Items.RemoveAt(index);
+                secondaryWindowsListBox.Items.RemoveAt(index);
 
                 for (int i = 0; i < windowList.Count; i++)
                 {
@@ -103,8 +99,7 @@ namespace Windowing
                     WindowId windowId = windowList[i];
                     AppWindow iteratedAppWindow = AppWindow.GetFromWindowId(windowId);
                     iteratedAppWindow.Title = "Window #" + new_title.ToString();
-                    myListBox.Items[i] = "Window #" + new_title.ToString();
-                    myOtherListBox.Items[i] = "Window #" + new_title.ToString();
+                    secondaryWindowsListBox.Items[i] = "Window #" + new_title.ToString();
                 }
             }
         }
@@ -112,9 +107,9 @@ namespace Windowing
         // Takes selected window and places it directly below the main window in the zorder stack
         private void myFromIndexToTopBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (_mainAppWindow != null & myListBox.SelectedIndex != -1 & windowList.Any())
+            if (_mainAppWindow != null & secondaryWindowsListBox.SelectedIndex != -1 & windowList.Any())
             {
-                WindowId otherWindowId = windowList[myListBox.SelectedIndex];
+                WindowId otherWindowId = windowList[secondaryWindowsListBox.SelectedIndex];
                 AppWindow otherAppWindow = AppWindow.GetFromWindowId(otherWindowId);
                 otherAppWindow.MoveInZOrderBelow(_mainAppWindow.Id);
             }
@@ -123,9 +118,9 @@ namespace Windowing
         // Takes main window and places it directly below selected window in the zorder stack
         private void myMoveBelowIndexBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (_mainAppWindow != null & myOtherListBox.SelectedIndex != -1 & windowList.Any())
+            if (_mainAppWindow != null & secondaryWindowsListBox.SelectedIndex != -1 & windowList.Any())
             {
-                WindowId otherWindowId = windowList[myOtherListBox.SelectedIndex];
+                WindowId otherWindowId = windowList[secondaryWindowsListBox.SelectedIndex];
                 _mainAppWindow.MoveInZOrderBelow(otherWindowId);
 
             }
