@@ -46,7 +46,7 @@
 		<!--Register the OM CLSID for Push Notifications-->
 		<com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:ExeServer Executable="cpp-console\cpp-console.exe" DisplayName="SampleBackgroundApp" Arguments="----WindowsAppRuntimePushServer:">
+            <com:ExeServer Executable="CppPackagedAppNotifications.exe" DisplayName="SampleBackgroundApp" Arguments="----WindowsAppRuntimePushServer:">
               <com:Class Id="4e7bdd5e-c13e-405b-9f4e-6462002dda2e" DisplayName="Windows App SDK Push" />
             </com:ExeServer>
           </com:ComServer>
@@ -60,7 +60,7 @@
 	    <!--Register the COM CLSID for App Notifications-->
 	    <com:Extension Category="windows.comServer">
 		  <com:ComServer>
-		    <com:ExeServer Executable="CppPackagedAppNotificatioons.exe" Arguments="-ToastActivated" DisplayName="Toast activator">
+		    <com:ExeServer Executable="CppPackagedAppNotifications.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
 		      <com:Class Id="4e1cdfbb-7bdc-48e3-8fb5-4451897781f9" DisplayName="Toast activator"/>
 		    </com:ExeServer>
 		  </com:ComServer>

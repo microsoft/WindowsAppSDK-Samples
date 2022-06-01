@@ -67,7 +67,7 @@ namespace winrt::CppPackagedAppNotifications::implementation
 
     std::wstring App::GetFullPathToAsset(std::wstring const& assetName)
     {
-        return GetFullPathToExe() + L"\\Assets\\" + assetName;
+        return GetFullPathToExe() + L"\\Images\\" + assetName;
     }
 
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& /*args*/)

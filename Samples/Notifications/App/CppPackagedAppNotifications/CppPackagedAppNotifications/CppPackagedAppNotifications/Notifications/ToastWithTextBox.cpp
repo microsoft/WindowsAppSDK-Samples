@@ -26,7 +26,7 @@ bool ToastWithTextBox::SendToast()
         L"<toast launch = \"action=ToastClick&amp;" + ScenarioIdToken + L"\">\
             <visual>\
                 <binding template = \"ToastGeneric\">\
-                    <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
+                    <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.scale-100.png") + L"\"/>\
                     <text>" + ScenarioName + L"</text>\
                     <text>This is an example message using XML</text>\
                 </binding>\
