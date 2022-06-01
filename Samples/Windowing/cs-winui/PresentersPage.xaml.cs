@@ -35,16 +35,19 @@ namespace Windowing
                     case AppWindowPresenterKind.CompactOverlay:
                         CompactoverlaytBtn.Content = "Exit CompactOverlay";
                         FullscreenBtn.Content = "Enter FullScreen";
+                        OverlappedBtn.IsEnabled = true;
                         break;
 
                     case AppWindowPresenterKind.FullScreen:
                         CompactoverlaytBtn.Content = "Enter CompactOverlay";
                         FullscreenBtn.Content = "Exit FullScreen";
+                        OverlappedBtn.IsEnabled = true;
                         break;
 
                     case AppWindowPresenterKind.Overlapped:
                         CompactoverlaytBtn.Content = "Enter CompactOverlay";
                         FullscreenBtn.Content = "Enter FullScreen";
+                        OverlappedBtn.IsEnabled = false;
                         break;
 
                     default:

@@ -31,13 +31,13 @@
 
                     <TextBlock Grid.Row="0" Margin="0,10,10,0" TextWrapping="Wrap"><Bold>Apply color customizations </Bold> to the defaut title bar </TextBlock>
                     <StackPanel Grid.Row="1" Spacing="10" Margin="0,0,0,10"  Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="TitlebarBrandingBtn" Click="TitlebarBrandingBtn_Click">Toggle title bar color customizations</Button> 
+                        <ToggleSwitch x:Name="titleBarBrandingSwitch" OnContent="Custom app color selection" OffContent="System default colors" Toggled="titleBarBrandingSwitch_Toggled"  IsEnabled="True"></ToggleSwitch>
                     </StackPanel>
 
 
                     <TextBlock Grid.Row="2" Margin="0,10,10,0" TextWrapping="Wrap"><Bold>Implement a fully custom title bar</Bold> with AppWindowTitleBar.ExtendsContentIntoTitleBar = True </TextBlock>
                     <StackPanel Grid.Row="3" Spacing="10" Margin="0,0,0,10"  Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="TitlebarCustomBtn" Click="TitlebarCustomBtn_Click">Toggle fully custom title bar</Button>
+                        <ToggleSwitch x:Name="titleCustomSwitch" OnContent="Fully custom title bar enabled" OffContent="System default title bar" Toggled="titleCustomSwitch_Toggled"  IsEnabled="True"></ToggleSwitch>
                     </StackPanel>
 
                     <TextBlock Grid.Row="4" Margin="0,10,10,0" TextWrapping="Wrap">
@@ -45,8 +45,7 @@
                         You can choose between standard or tall title bar heights with AppWindowTitleBar.PreferredHeightOption API when AppWindowTitleBar.ExtendsContentIntoTitleBar = True to create more room for interactive content such as a searchbox or person picture. <Italic>Toggle the fully custom titlebar first to enable tall titlebar support</Italic>.
                     </TextBlock>
                     <StackPanel Grid.Row="5" Spacing ="10" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="StandardHeightBtn" IsEnabled="False" Click="StandardHeightBtn_Click" MinWidth="100">Standard height title bar</Button>
-                        <Button x:Name="TallHeightBtn" IsEnabled="False" Click="TallHeightBtn_Click" MinWidth="100">Taller title bar</Button>
+                        <ToggleSwitch x:Name="tallTitleBarSwitch" OnContent="Taller height title bar" OffContent="Standard height title bar" Toggled="tallTitleBarSwitch_Toggled" IsEnabled="False"></ToggleSwitch>
                     </StackPanel>
 
                     <TextBlock Grid.Row="6" Margin="0,10,10,0" TextWrapping="Wrap"><Bold>Reset to default:</Bold> Use this button to bring back the default system-drawn title bar.</TextBlock>

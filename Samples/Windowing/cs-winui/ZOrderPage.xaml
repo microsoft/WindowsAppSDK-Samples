@@ -21,13 +21,31 @@
                     <Button x:Name="BottomZOrderBtn" Click="SwitchZOrder">Make this window on the bottom of Z-Order</Button>
                 </StackPanel>
 
-                <Button x:Name="myNewWindowButton" Click="myNewWindowButton_Click">New Window</Button>
+                <TextBlock>List of open windows</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox x:Name="windowsListBox" MinHeight="130" MaxHeight="130" BorderThickness="1">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Title, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <ListBox x:Name="windowsListBox2" MinHeight="130" MaxHeight="130" BorderThickness="1">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Title, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <Button x:Name="myNewWindowButton" Click="myNewWindowButton_Click" VerticalAlignment="Top">New Window</Button>
+                </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="myFromIndexToTopBtn" Click="myFromIndexToTopBtn_Click">Move chosen window below this window</Button>
                         <Button x:Name="myMoveBelowIndexBtn" Click="myMoveBelowIndexBtn_Click">Move this window below chosen window</Button>
                     </StackPanel>
-                    <ListBox x:Name="secondaryWindowsListBox"></ListBox>
                 </StackPanel>
 
             </StackPanel>
