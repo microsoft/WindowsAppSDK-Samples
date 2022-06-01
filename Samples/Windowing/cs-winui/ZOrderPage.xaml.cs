@@ -36,7 +36,7 @@ namespace Windowing
         // This is used give our windows unique titles.
         private int windowCount = 1;
         // We need an observable collection as we are databinding this to a ListBox.
-        ObservableCollection<WindowInfo> windowList = new ObservableCollection<WindowInfo>();
+        ObservableCollection<AppWindow> windowList = new ObservableCollection<AppWindow>();
 
         public ZOrder()
         {
@@ -48,7 +48,7 @@ namespace Windowing
             windowsListBox.SelectionChanged += MyListBox_SelectionChanged;
 
             // Add our main window to our list of windows and set up a databinding from the list to the ListBox.
-            windowList.Add(new WindowInfo() { Id = _mainAppWindow.Id, Title=_mainAppWindow.Title });
+            windowList.Add(_mainAppWindow);
             windowsListBox.ItemsSource = windowList;
         }
 
@@ -93,17 +93,14 @@ namespace Windowing
             // Bail out if we don't have an item selected.
             if (windowsListBox.SelectedIndex != -1)
             {
-                // Get the AppWindow object that corresponds to the ListBox item selected.
-                AppWindow appWindow = AppWindow.GetFromWindowId(windowList[windowsListBox.SelectedIndex].Id);
-
                 switch (sender.As<Button>().Name)
                 {
                     case "BottomZOrderBtn":
-                        appWindow.MoveInZOrderAtBottom();
+                        windowList[windowsListBox.SelectedIndex].MoveInZOrderAtBottom();
                         break;
 
                     case "TopZOrderBtn":
-                        appWindow.MoveInZOrderAtTop();
+                        windowList[windowsListBox.SelectedIndex].MoveInZOrderAtTop();
                         break;
 
                     default:
@@ -126,15 +123,15 @@ namespace Windowing
             // Get the WindowId for the new XAML Window and store it in a list of known "secondary" windows for the app.
             Microsoft.UI.WindowId secondaryWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(WinRT.Interop.WindowNative.GetWindowHandle(secondaryWindow));
 
-            // Adds the information about our window to the windowList
-            windowList.Add(new WindowInfo() { Id = secondaryWindowId, Title = secondaryWindow.Title });
-
             // Get the AppWindow and register for the closing event so we can clean up our list of windows
-            Microsoft.UI.Windowing.AppWindow nextAppWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(secondaryWindowId);
-            
-            nextAppWindow.Closing += appWindow_Closing;
+            Microsoft.UI.Windowing.AppWindow secondaryAppWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(secondaryWindowId);
+
+            // Add our window to the windowList
+            windowList.Add(secondaryAppWindow);
+
+            secondaryAppWindow.Closing += appWindow_Closing;
             // Set a more reasonable window size than the default one used by WinUI/XAML. ;)
-            nextAppWindow.ResizeClient(new Windows.Graphics.SizeInt32(500, 500));
+            secondaryAppWindow.ResizeClient(new Windows.Graphics.SizeInt32(500, 500));
             
             // And activate our window
             secondaryWindow.Activate();
@@ -152,8 +149,7 @@ namespace Windowing
         {
             if (_mainAppWindow != null & windowsListBox.SelectedIndex != -1 & windowList.Any())
             {
-                AppWindow otherAppWindow = AppWindow.GetFromWindowId(windowList[windowsListBox.SelectedIndex].Id);
-                otherAppWindow.MoveInZOrderBelow(_mainAppWindow.Id);
+                windowList[windowsListBox.SelectedIndex].MoveInZOrderBelow(_mainAppWindow.Id);
             }
         }
 

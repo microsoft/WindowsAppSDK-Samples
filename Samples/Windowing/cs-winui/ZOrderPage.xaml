@@ -31,13 +31,6 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <ListBox x:Name="windowsListBox2" MinHeight="130" MaxHeight="130" BorderThickness="1">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Title, Mode=OneWay}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
                     </StackPanel>
                     <Button x:Name="myNewWindowButton" Click="myNewWindowButton_Click" VerticalAlignment="Top">New Window</Button>
                 </StackPanel>
