@@ -26,12 +26,12 @@ namespace winrt::SampleApp::implementation
         m_mainAppWindow = appWindow;
     }
 
-    void DemoPage::TitleBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void DemoPage::TitleBtn_Click(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
     {
         m_mainAppWindow.Title(TitleTextBox().Text());
     }
 
-    void DemoPage::SizeBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void DemoPage::SizeBtn_Click(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
     {
         int windowWidth = 0;
         int windowHeight = 0;
@@ -47,5 +47,5 @@ namespace winrt::SampleApp::implementation
             m_mainAppWindow.Resize(windowSize);
         }
     }
-  
+
 }

@@ -92,10 +92,22 @@ void SubscribeForegroundEventHandler()
 
 int main()
 {
-    // Setup an event handler, so we can receive notifications in the foreground while the app is running.
-    SubscribeForegroundEventHandler();
+    auto pushNotificationManager{ PushNotificationManager::Default() };
 
-    PushNotificationManager::Default().Register();
+    if (pushNotificationManager.IsSupported())
+    {
+        // Setup an event handler, so we can receive notifications in the foreground while the app is running.
+        SubscribeForegroundEventHandler();
+
+        pushNotificationManager.Register();
+    }
+    else
+    {
+        // Here, the app should handle the case where push notifications are not supported, for example:
+        // - maintain its own persistent connection with an App Service or
+        // - use polling over a scheduled interval to synchronize the client.
+        std::cout << "\nPush Notifications aren't supported." << std::endl;
+    }
 
     auto args{ AppInstance::GetCurrent().GetActivatedEventArgs() };
     switch (args.Kind())
@@ -105,17 +117,27 @@ int main()
         // notifications to the sample
         case ExtendedActivationKind::Launch:
         {
-            // Request a WNS Channel URI which can be passed off to an external app to send notifications to.
-            // The WNS Channel URI uniquely identifies this app for this user and device.
-            PushNotificationChannel channel{ RequestChannel() };
-            if (!channel)
+            if (pushNotificationManager.IsSupported())
             {
-                std::cout << "\nThere was an error obtaining the WNS Channel URI" << std::endl;
-
-                if (remoteId == winrt::guid { "00000000-0000-0000-0000-000000000000" })
+                // Request a WNS Channel URI which can be passed off to an external app to send notifications to.
+                // The WNS Channel URI uniquely identifies this app for this user and device.
+                PushNotificationChannel channel{ RequestChannel() };
+                if (!channel)
                 {
-                    std::cout << "\nThe remoteId has not been set. Refer to the readme file accompanying this sample\nfor the instructions on how to obtain and setup a remote id" << std::endl;
+                    std::cout << "\nThere was an error obtaining the WNS Channel URI" << std::endl;
+
+                    if (remoteId == winrt::guid{ "00000000-0000-0000-0000-000000000000" })
+                    {
+                        std::cout << "\nThe remoteId has not been set. Refer to the readme file accompanying this sample\nfor the instructions on how to obtain and setup a remote id" << std::endl;
+                    }
                 }
+            }
+            else
+            {
+                // Here, the app should handle the case where push notifications are not supported, for example:
+                // - maintain its own persistent connection with an App Service or
+                // - use polling over a scheduled interval to synchronize the client.
+                std::cout << "\nPush Notifications aren't supported." << std::endl;
             }
 
             std::cout << "\nPress 'Enter' at any time to exit App." << std::endl;

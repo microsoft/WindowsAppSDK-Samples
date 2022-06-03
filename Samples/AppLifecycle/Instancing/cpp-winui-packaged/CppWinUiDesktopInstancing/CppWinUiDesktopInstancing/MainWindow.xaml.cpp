@@ -22,8 +22,8 @@ namespace winrt::CppWinUiDesktopInstancing::implementation
 }
 
 void winrt::CppWinUiDesktopInstancing::implementation::MainWindow::ActivationInfoButton_Click(
-    winrt::Windows::Foundation::IInspectable const& sender, 
-    winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    winrt::Windows::Foundation::IInspectable const& /*sender*/,
+    winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
 {
     GetActivationInfo();
 }
