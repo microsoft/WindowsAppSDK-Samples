@@ -13,6 +13,7 @@
         <TextBlock x:Name="scenario"></TextBlock>
         <Button x:Name="getStatusScenarioButton" Click="getStatusScenarioButton_Click" Margin="3">Scenario 1: DeploymentManager.GetStatus()</Button>
         <Button x:Name="initializeScenarioButton" Click="initializeScenarioButton_Click" Margin="3,3,7,3">Scenario 2: DeploymentManager.Initialize()</Button>
+        <Button x:Name="initializeWithForceDeploymentScenarioButton" Click="initializeWithForceDeploymentScenarioButton_Click" Margin="3,3,7,3">Scenario 3: DeploymentManager.Initialize(DeploymentInitializationOptions)</Button>
         <TextBlock x:Name="resultStatus" Margin="3"></TextBlock>
         <TextBlock x:Name="resultExtendedError" Margin="3"></TextBlock>
         <TextBlock x:Name="resultImplication" Margin="3"></TextBlock>
