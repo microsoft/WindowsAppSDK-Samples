@@ -15,11 +15,9 @@
                 <TextBlock Text="Description:" Style="{StaticResource ScenarioHeaderTextStyle}"/>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
                     Z-Order allows you to control where your windows lies in the Z-Order stack. Windows higher up the Z-Order stack are in the forefront of your screen, while windows lower in the stack are hidden behind other windows.
+                    <LineBreak/>
+                    Please select a window in the list of open windows, then press one of the buttons in order to change the Z-Order accordingly.
                 </TextBlock>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="TopZOrderBtn" Click="SwitchZOrder">Make this window on top of Z-Order</Button>
-                    <Button x:Name="BottomZOrderBtn" Click="SwitchZOrder">Make this window on the bottom of Z-Order</Button>
-                </StackPanel>
 
                 <TextBlock>List of open windows</TextBlock>
                 <StackPanel Orientation="Horizontal">
@@ -36,8 +34,12 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="myFromIndexToTopBtn" Click="myFromIndexToTopBtn_Click">Move chosen window below this window</Button>
-                        <Button x:Name="myMoveBelowIndexBtn" Click="myMoveBelowIndexBtn_Click">Move this window below chosen window</Button>
+                        <Button x:Name="TopZOrderBtn" Click="SwitchZOrder" IsEnabled="false">Move selected window to top of Z-Order</Button>
+                        <Button x:Name="BottomZOrderBtn" Click="SwitchZOrder" IsEnabled="false">Move selected window to the bottom of Z-Order</Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="myFromIndexToTopBtn" Click="myFromIndexToTopBtn_Click" IsEnabled="false">Move chosen window below this window</Button>
+                        <Button x:Name="myMoveBelowIndexBtn" Click="myMoveBelowIndexBtn_Click" IsEnabled="false">Move this window below chosen window</Button>
                     </StackPanel>
                 </StackPanel>
 

@@ -71,20 +71,13 @@ namespace Windowing
                 TopZOrderBtn.IsEnabled = true;
                 BottomZOrderBtn.IsEnabled = true;
             }
-            else if (windowsListBox.SelectedIndex != -1)
+            else // if (windowsListBox.SelectedIndex != -1)
             {
+                // User has selected a "secondary window", enable all buttons.
                 myMoveBelowIndexBtn.IsEnabled = true;
                 myFromIndexToTopBtn.IsEnabled = true;
                 TopZOrderBtn.IsEnabled = true;
                 BottomZOrderBtn.IsEnabled = true;
-            }
-            else
-            {
-                // User has selected a "secondary window", enable all buttons.
-                myFromIndexToTopBtn.IsEnabled = false;
-                myMoveBelowIndexBtn.IsEnabled = false;
-                TopZOrderBtn.IsEnabled = false;
-                BottomZOrderBtn.IsEnabled = false;
             }
         }
 
