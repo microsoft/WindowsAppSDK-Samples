@@ -90,5 +90,46 @@ namespace SampleApp
                 resultImplication.Text = "The WindowsAppRuntime was already in an Ok status, no action taken.";
             }
         }
+
+        private void initializeWithForceDeploymentScenarioButton_Click(object sender, RoutedEventArgs e)
+        {
+            scenario.Text = "Scenario: DeploymentManager.Initialize() while passing in DeploymentInitializationOptions object with ForceDeployment set to true";
+            resultStatus.Text = "Result Status: Running Initialize() with ForceDeployment option...";
+            resultExtendedError.Text = "Result ExtendedError:";
+            resultImplication.Text = "";
+
+            if (DeploymentManager.GetStatus().Status != DeploymentStatus.Ok)
+            {
+                // Force
+                var deploymentInitializationOptions = new DeploymentInitializeOptions();
+                deploymentInitializationOptions.ForceDeployment = true;
+
+                // Initialize does a status check, and if the status is not Ok it will attempt to get
+                // the WindowsAppRuntime into a good state by deploying packages. Unlike a simple
+                // status check, Initialize can sometimes take several seconds to deploy the packages.
+                // These should be run on a separate thread so as not to hang your app while the
+                // packages deploy.
+                var initializeTask = Task.Run(() => DeploymentManager.Initialize(deploymentInitializationOptions));
+                initializeTask.Wait();
+                resultStatus.Text = "Result Status: " + initializeTask.Result.Status.ToString();
+                if (initializeTask.Result.Status == DeploymentStatus.Ok)
+                {
+                    resultImplication.Text = "The WindowsAppRuntime was successfully initialized and is now ready for use!";
+                }
+                else
+                {
+                    resultExtendedError.Text = "Result ExtendedError: " + initializeTask.Result.ExtendedError.ToString();
+                    // The WindowsAppRuntime is in a bad state which Initialize() did not fix.
+                    // Do error reporting or gather information for submitting a bug.
+                    // Gracefully exit the program or carry on without using the WindowsAppRuntime.
+                    resultImplication.Text = "Initialize(DeploymentInitializationOptions) failed to ensure the WindowsAppRuntime.";
+                }
+            }
+            else
+            {
+                resultImplication.Text = "The WindowsAppRuntime was already in an Ok status, no action taken.";
+            }
+        }
+
     }
 }
