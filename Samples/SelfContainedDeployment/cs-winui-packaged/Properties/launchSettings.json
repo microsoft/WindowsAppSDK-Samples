@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+        "SelfContainedDeployment (Package)": {
+            "commandName": "MsixPackage"
+        },
+        "SelfContainedDeployment (Unpackaged)": {
+            "commandName": "Project"
+        }
+    }
+}

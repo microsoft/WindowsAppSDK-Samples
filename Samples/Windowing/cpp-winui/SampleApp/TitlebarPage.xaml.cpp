@@ -38,7 +38,7 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void TitlebarPage::TitlebarBrandingBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void TitlebarPage::TitlebarBrandingBtn_Click(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
     {
         m_appWindow.TitleBar().ResetToDefault();
         m_mainWindow.MyTitleBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
@@ -70,14 +70,14 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void TitlebarPage::TitlebarCustomBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void TitlebarPage::TitlebarCustomBtn_Click(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
     {
         // Check to see if customization is supported. Currently only supported on Windows 11.
         if (AppWindowTitleBar::IsCustomizationSupported() && !m_customTitleBar) {
             m_customTitleBar = true;
             m_appWindow.TitleBar().ExtendsContentIntoTitleBar(true);
 
-            // Show the custom titlebar           
+            // Show the custom titlebar
             m_mainWindow.MyTitleBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
 
             // Set Button colors to match the custom titlebar
@@ -102,7 +102,7 @@ namespace winrt::SampleApp::implementation
         }
     }
 
-    void TitlebarPage::ResetTitlebarBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void TitlebarPage::ResetTitlebarBtn_Click(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
     {
         m_mainWindow.MyTitleBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
         m_appWindow.TitleBar().ResetToDefault();
@@ -120,8 +120,8 @@ namespace winrt::SampleApp::implementation
         double CaptionButtonOcclusionWidth = m_appWindow.TitleBar().RightInset();
 
         // Define your drag Regions
-        int windowIconWidthAndPadding = (int)m_mainWindow.MyWindowIcon().ActualWidth() + (int)m_mainWindow.MyWindowIcon().Margin().Right;
-        int dragRegionWidth = m_appWindow.Size().Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding);
+        int windowIconWidthAndPadding = static_cast<int>(m_mainWindow.MyWindowIcon().ActualWidth() + static_cast<int>(m_mainWindow.MyWindowIcon().Margin().Right));
+        int dragRegionWidth = static_cast<int>(m_appWindow.Size().Width - (CaptionButtonOcclusionWidth + windowIconWidthAndPadding));
 
         std::vector<Windows::Graphics::RectInt32> dragRects;
         Windows::Graphics::RectInt32 dragRect;

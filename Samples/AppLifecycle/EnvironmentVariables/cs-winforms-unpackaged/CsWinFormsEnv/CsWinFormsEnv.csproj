@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Platforms>x64;x86;ARM64</Platforms>
+    <RuntimeIdentifiers>win10-x64;win10-x86</RuntimeIdentifiers>
+	<WindowsPackageType>None</WindowsPackageType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0-preview3" />
+  </ItemGroup>
+
+</Project>

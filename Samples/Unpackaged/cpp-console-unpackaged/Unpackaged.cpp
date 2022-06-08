@@ -1,7 +1,7 @@
 ﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 //
-// DynamicDependenciesBasic.cpp : 
+// DynamicDependenciesBasic.cpp :
 // This file shows the headers and usings required to call apis in the Windows App SDK.
 // To run with auto-initialization of the Windows App Runtime, run as-is
 // To explicitly control initialization:
@@ -22,7 +22,7 @@ namespace winrt
 {
     using namespace winrt::Microsoft::Windows::System::Power;
 }
- 
+
 int main()
 {
     // WINAPPSDK-INITIALIZE: uncomment code below to have explicit control of initialization
@@ -59,6 +59,8 @@ HRESULT ExplicitlyInitializeWinAppRuntime()
             hr, majorMinorVersion, versionTag, minVersion.Major, minVersion.Minor, minVersion.Build, minVersion.Revision);
         return hr;
     }
+
+    return S_OK;
 }
 
 // Method to handle any clean up required for explicity initialization of Windows App Runtime
