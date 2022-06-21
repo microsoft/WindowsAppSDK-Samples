@@ -46,7 +46,6 @@
     <None Remove="Pages\BaseCategoryPage.xaml" />
     <None Remove="Pages\HomePage.xaml" />
     <None Remove="SampleGalleryNavViewHost.xaml" />
-    <None Remove="Samples\Input\InputCursor.xaml" />
     <None Remove="Shared\BodyAppList.xaml" />
     <None Remove="Shared\FeaturedSamples.xaml" />
     <None Remove="Shared\FeaturedSamplesHomePage.xaml" />
@@ -119,12 +118,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Samples\Input\InputCursor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 
   <PropertyGroup>
