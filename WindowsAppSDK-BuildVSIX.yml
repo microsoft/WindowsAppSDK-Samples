@@ -37,11 +37,37 @@ parameters:
     displayName: "IsPrelease: \n Indicate whether the release should be marked as a pre-release. (Effective only in 'create','edit' actions)" 
     type: boolean
     default: False
+  # alam start
+  - name: "RunSDLAnalysis"
+    displayName: "Run SDL's Static Analysis (PREFast, BinSkim, etc.)" 
+    type: boolean
+    default: False
+
+  - name: "EnablePreFast"
+    displayName: "Run PreFast as part of Static Analysis" 
+    type: boolean
+    default: True
+
+resources:
+  repositories:
+  - repository: templates_onebranch
+    type: git
+    name: OneBranch.Pipelines/GovernedTemplates
+    ref: refs/heads/main
+  # alam end
 
 stages:
 - stage: BuildAndReleaseVSIX
   jobs:
+  # alam start
+  - ${{ if eq(parameters.RunSDLAnalysis, 'True') }}:
+    template: WindowsAppSDK-SourceAnalysis-job.yml
+  # alam end
+
   - job: BuildAndReleaseVSIX
+    # alam start
+    dependsOn: []
+    # alam end
     pool:
       vmImage: 'windows-2022'
     steps:
@@ -78,6 +104,13 @@ stages:
           solution: $(Build.SourcesDirectory)\Templates\VSIX\WindowsAppSDKSampleVSIX.sln
           platform: 'Any CPU'
           configuration: 'Release'
+
+      # alam start
+      - ${{ if eq(parameters.RunSDLAnalysis, 'True') }}:
+        template: WindowsAppSDK-BinaryAnalysis-steps.yml
+        parameters:
+          enablePREFast: ${{ parameters.EnablePreFast }}
+      # alam end
 
       - task: CopyFiles@2
         displayName: 'Extract files for Nuget Package from Full: DWriteCorePackageName'
