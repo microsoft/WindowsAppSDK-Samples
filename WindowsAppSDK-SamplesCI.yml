@@ -2,22 +2,6 @@ parameters:
 - name: FeatureDirectory
   type: string
   default: ''
-# alam start
-- name: RunSDLAnalysis
-  type: boolean
-  default: False
-- name: EnablePreFast
-  type: boolean
-  default: True
-
-resources:
-  repositories:
-  - repository: templates_onebranch
-    type: git
-    name: OneBranch.Pipelines/GovernedTemplates
-    ref: refs/heads/main
-# alam end
-
 stages:
 - stage: BuildSamples
   jobs:
@@ -77,10 +61,3 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
-
-    # alam start
-    - ${{ if eq(parameters.RunSDLAnalysis, 'True') }}:
-      template: WindowsAppSDK-BinaryAnalysis-steps.yml
-      parameters:
-        EnablePreFast: ${{ parameters.EnablePreFast }}
-    # alam end
