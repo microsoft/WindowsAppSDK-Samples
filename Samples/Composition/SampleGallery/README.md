@@ -1,13 +1,14 @@
 ---
-name: "Composition samples"
+name: "Composition Sample Gallery"
 page_type: sample
 languages:
 - csharp
+- cpp
 products:
 - windows
 - windows-app-sdk
 urlFragment: rendering
-description: "Showcases different use cases for the rendering APIs within Microsoft.UI.Composition."
+description: "Sample Gallery that showcases different use cases for the rendering APIs within Microsoft.UI.Composition."
 extendedZipContent:
 - path: LICENSE
   target: LICENSE
