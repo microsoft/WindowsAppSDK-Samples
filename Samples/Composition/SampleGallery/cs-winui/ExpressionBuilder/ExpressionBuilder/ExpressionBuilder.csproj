@@ -7,7 +7,7 @@
     <RootNamespace>ExpressionBuilder</RootNamespace>
 
     <Platforms>AnyCPU;x86;x64</Platforms>
-    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64;win10-x86</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;8305</NoWarn>

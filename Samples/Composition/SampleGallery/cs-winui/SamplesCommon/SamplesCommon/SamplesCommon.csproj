@@ -7,7 +7,7 @@
 		<RootNamespace>SamplesCommon</RootNamespace>
 
 		<Platforms>AnyCPU;x86;x64</Platforms>
-		<RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+		<RuntimeIdentifiers>win-x86;win-x64;win10-x86</RuntimeIdentifiers>
 		<DefineConstants>USING_CSWINRT</DefineConstants>
 	</PropertyGroup>
 
