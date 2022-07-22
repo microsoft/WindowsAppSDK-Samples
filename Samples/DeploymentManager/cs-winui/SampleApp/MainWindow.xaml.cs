@@ -72,16 +72,13 @@ namespace SampleApp
                 var initializeTask = Task.Run(() => DeploymentManager.Initialize());
                 initializeTask.Wait();
                 resultStatus.Text = "Result Status: " + initializeTask.Result.Status.ToString();
-                resultExtendedError.Text = "Result ExtendedError: " + initializeTask.Result.ExtendedError.ToString();
-
-                // Check the result.
                 if (initializeTask.Result.Status == DeploymentStatus.Ok)
                 {
                     resultImplication.Text = "The WindowsAppRuntime was successfully initialized and is now ready for use!";
-
                 }
                 else
                 {
+                    resultExtendedError.Text = "Result ExtendedError: " + initializeTask.Result.ExtendedError.ToString();
                     // The WindowsAppRuntime is in a bad state which Initialize() did not fix.
                     // Do error reporting or gather information for submitting a bug.
                     // Gracefully exit the program or carry on without using the WindowsAppRuntime.

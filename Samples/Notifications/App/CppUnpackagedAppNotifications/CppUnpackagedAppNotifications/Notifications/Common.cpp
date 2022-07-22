@@ -28,7 +28,7 @@ std::wstring Common::MakeScenarioIdToken(unsigned id)
     return std::wstring(scenarioTag) + L"=" + std::to_wstring(id);
 }
 
-std::optional <unsigned> Common::ExtractScenarioIdFromArgs(std::wstring const& args)
+std::optional<unsigned> Common::ExtractScenarioIdFromArgs(std::wstring const& args)
 {
     auto scenarioId{ ExtractParamFromArgs(args, scenarioTag) };
 
