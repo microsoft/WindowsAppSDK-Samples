@@ -450,6 +450,7 @@ description: "Shows how to retrieve photos from the Pictures library, and then e
 extendedZipContent:
 - path: LICENSE
   target: LICENSE
+---
 ```
 
 ## Sample Templates
