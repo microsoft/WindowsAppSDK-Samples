@@ -4,6 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using WinRT;
 
 namespace Windowing
 {
@@ -47,11 +48,20 @@ namespace Windowing
             {
                 // Silently ignore invalid input...
             }
-
-            if (windowHeight > 0 && windowWidth > 0)
+            if (_mainAppWindow != null)
             {
-                _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                switch (sender.As<Button>().Name)
+                {
+                    case "SizeBtn":
+                        _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                        break;
+
+                    case "ClientSizeBtn":
+                        _mainAppWindow.ResizeClient(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                        break;
+                }
             }
+            
         }
     }
 }

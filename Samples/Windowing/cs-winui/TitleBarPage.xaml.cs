@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Windowing;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System;
 
 namespace Windowing
 {
@@ -13,6 +14,7 @@ namespace Windowing
     {
         private AppWindow _mainAppWindow = MainWindow.AppWindow;
         private bool _isBrandedTitleBar;
+        private bool _isTallTitleBar = false;
         private MainPage _mainPage = MainPage.Current;
         public TitleBar()
         {
@@ -66,6 +68,7 @@ namespace Windowing
             _mainAppWindow.TitleBar.ResetToDefault();
             _mainAppWindow.Title = Settings.FeatureName;
             _mainPage.MyTitleBar.Visibility = Visibility.Collapsed;
+            toggleTitlebarHeightOption();
         }
 
         private void TitlebarCustomBtn_Click(object sender, RoutedEventArgs e)
@@ -78,23 +81,33 @@ namespace Windowing
                 // Show the custom titlebar
                 _mainPage.MyTitleBar.Visibility = Visibility.Visible;
 
-                // Set Button colors to match the custom titlebar
-                _mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.Blue;
-                _mainAppWindow.TitleBar.ButtonForegroundColor = Colors.White;
-                _mainAppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Blue;
-                _mainAppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.White;
+                // Enable title bar height toggle buttons
+                this.StandardHeightBtn.IsEnabled = true;
+                this.TallHeightBtn.IsEnabled = true;
+
+                // Set Button colors to match the custom title bar
+                _mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.AliceBlue;
+                _mainAppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+                _mainAppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.LightGray;
+                _mainAppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.Gray;
                 _mainAppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Green;
                 _mainAppWindow.TitleBar.ButtonHoverForegroundColor = Colors.White;
                 _mainAppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Green;
                 _mainAppWindow.TitleBar.ButtonPressedForegroundColor = Colors.White;
 
-                // Set the drag region for the custom TitleBar
+                // Set the drag region for the custom title bar
                 SetDragRegionForCustomTitleBar(_mainAppWindow);
             }
             else
             {
                 // Bring back the default titlebar
                 _mainPage.MyTitleBar.Visibility = Visibility.Collapsed;
+
+                // Disable title bar height toggle buttons
+                this.StandardHeightBtn.IsEnabled = false;
+                this.TallHeightBtn.IsEnabled = false;
+
+                // reset the title bar to default state
                 _mainAppWindow.TitleBar.ResetToDefault();
             }
         }
@@ -122,6 +135,42 @@ namespace Windowing
             dragRect.Width = dragRegionWidth;
 
             appWindow.TitleBar.SetDragRectangles(dragRects.Append(dragRect).ToArray());
+        }
+
+        private void StandardHeightBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _isTallTitleBar = false;
+            toggleTitlebarHeightOption();
+        }
+        private void TallHeightBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _isTallTitleBar = true;
+            toggleTitlebarHeightOption();
+        }
+
+        private void toggleTitlebarHeightOption()
+        {
+            // A taller title bar is only supported when drawing a fully custom title bar
+            if (AppWindowTitleBar.IsCustomizationSupported() && _mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
+            {
+                if (_isTallTitleBar)
+                {
+                    // Choose a tall title bar to provide more room for interactive elements like searchboxes, person pictures e.t.c
+                    _mainAppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+                }
+                else
+                {
+                    _mainAppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
+                }
+                // Reset the drag region for the custom title bar
+                SetDragRegionForCustomTitleBar(_mainAppWindow);
+
+            }
+            else
+            {
+                this.StandardHeightBtn.IsEnabled = false;
+                this.TallHeightBtn.IsEnabled = false;
+            }
         }
     }
 }
