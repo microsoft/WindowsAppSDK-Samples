@@ -6,12 +6,11 @@ an interactive user experience.
 ## Building & Running the sample
 
 This sample uses experimental API's first published in WindowsAppSdk 1.2 Experimental release. 
-You should just be able to build the sample in Visual Studio by opening up the Squares.sln
-solution file. 
-Since this is an unpackaged app, the WindowsAppSdk 1.2 Experimental Runtime will need to be 
-installed manually before executing the sample. 
+You should just be able to build the sample in Visual Studio by opening Squares.sln. 
+Since this is an unpackaged application, WindowsAppSdk 1.2 Experimental Runtime will need to be 
+installed manually before running the sample. 
 
-Here are the links for the installer installer packages:
+Here are the links for the installer packages for WindowsAppSdk 1.2 Experimental Runtime:
 
 - [AMD64](https://aka.ms/windowsappsdk/1.2/1.2.220727.1-experimental1/windowsappruntimeinstall-x64.exe)
 - [ARM64](https://aka.ms/windowsappsdk/1.2/1.2.220727.1-experimental1/windowsappruntimeinstall-arm64.exe)
