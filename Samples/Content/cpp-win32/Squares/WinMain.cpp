@@ -62,9 +62,9 @@ int __stdcall WinMain(
     // Run the event loop until somebody posts a quit message.
     dispatcherQueue.RunEventLoop();
 
-    dispatcherQueueController.ShutdownQueue();
-
     appWindow.Destroying(destroyingEventToken);
+
+    dispatcherQueueController.ShutdownQueue();
 
     return 0;
 }
