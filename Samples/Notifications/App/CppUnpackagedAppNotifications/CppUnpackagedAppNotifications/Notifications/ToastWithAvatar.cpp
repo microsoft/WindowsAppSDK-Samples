@@ -23,7 +23,7 @@ const wchar_t* ToastWithAvatar::ScenarioName{ L"Local Toast with Avatar Image" }
 bool ToastWithAvatar::SendToast()
 {
     winrt::Microsoft::Windows::AppNotifications::Builder::AppNotificationBuilder();
-    auto appNotification{ winrt::AppNotification(winrt::AppNotificationBuilder()
+    auto appNotification{ winrt::AppNotificationBuilder()
         .AddArgument(L"action", L"ToastClick")
         .AddArgument(L"scenarioId", std::to_wstring(ToastWithAvatar::ScenarioId))
         .SetAppLogoOverride(winrt::Windows::Foundation::Uri(L"file://" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png")), winrt::AppNotificationImageCrop::Circle)
@@ -32,7 +32,7 @@ bool ToastWithAvatar::SendToast()
         .AddButton(winrt::AppNotificationButton(L"Open App")
             .AddArgument(L"action", L"OpenApp")
             .AddArgument(L"scenarioId", std::to_wstring(ToastWithAvatar::ScenarioId)))
-        .GetXmlPayload()) };
+        .BuildNotification() };
 
     winrt::AppNotificationManager::Default().Show(appNotification);
 

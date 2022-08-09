@@ -12,7 +12,7 @@ class ToastWithAvatar
 
     public static bool SendToast()
     {
-        var appNotification = new AppNotification(new AppNotificationBuilder()
+        var appNotification = new AppNotificationBuilder()
             .AddArgument("action", "ToastClick")
             .AddArgument("scenarioId", ToastWithAvatar.ScenarioId.ToString())
             .SetAppLogoOverride(new System.Uri("file://" + App.GetFullPathToAsset("Square150x150Logo.png")), AppNotificationImageCrop.Circle)
@@ -21,7 +21,7 @@ class ToastWithAvatar
             .AddButton(new AppNotificationButton("Open App")
                 .AddArgument("action", "OpenApp")
                 .AddArgument("scenarioId", ToastWithAvatar.ScenarioId.ToString()))
-            .GetXmlPayload());
+            .BuildNotification();
 
         AppNotificationManager.Default.Show(appNotification);
 
