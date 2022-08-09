@@ -3,6 +3,7 @@
 
 using CsUnpackagedAppNotifications;
 using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
 
 class ToastWithAvatar
 {
@@ -11,29 +12,20 @@ class ToastWithAvatar
 
     public static bool SendToast()
     {
-        // The ScenarioIdToken uniquely identify a scenario and is used to route the response received when the user clicks on a toast to the correct scenario.
-        var ScenarioIdToken = Common.MakeScenarioIdToken(ScenarioId);
-	
-        var xmlPayload = new string(
-        	"<toast launch = \"action=ToastClick&amp;" + ScenarioIdToken + "\">"
-        +       "<visual>"
-        +           "<binding template = \"ToastGeneric\">"
-        +               "<image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + App.GetFullPathToAsset("Square150x150Logo.png") + "\"/>"
-        +               "<text>" + ScenarioName + "</text>"
-        +               "<text>This is an example message using XML</text>"
-        +           "</binding>"
-        +       "</visual>"
-        +       "<actions>"
-        +           "<action "
-        +               "content = \"Open App\" "
-        +               "arguments = \"action=OpenApp&amp;" + ScenarioIdToken + "\"/>"
-        +       "</actions>"
-        +   "</toast>" );
+        var appNotification = new AppNotification(new AppNotificationBuilder()
+            .AddArgument("action", "ToastClick")
+            .AddArgument("scenarioId", ToastWithAvatar.ScenarioId.ToString())
+            .SetAppLogoOverride(new System.Uri("file://" + App.GetFullPathToAsset("Square150x150Logo.png")), AppNotificationImageCrop.Circle)
+            .AddText(ScenarioName)
+            .AddText("This is an example message using XML")
+            .AddButton(new AppNotificationButton("Open App")
+                .AddArgument("action", "OpenApp")
+                .AddArgument("scenarioId", ToastWithAvatar.ScenarioId.ToString()))
+            .GetXmlPayload());
 
-        var toast = new AppNotification(xmlPayload);
-        AppNotificationManager.Default.Show(toast);
+        AppNotificationManager.Default.Show(appNotification);
 
-        return toast.Id != 0; // return true (indicating success) if the toast was sent (if it has an Id)
+        return appNotification.Id != 0; // return true (indicating success) if the toast was sent (if it has an Id)
     }
 
     public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
