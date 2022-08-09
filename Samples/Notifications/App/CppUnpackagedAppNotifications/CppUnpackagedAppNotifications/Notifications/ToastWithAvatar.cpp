@@ -22,27 +22,6 @@ const wchar_t* ToastWithAvatar::ScenarioName{ L"Local Toast with Avatar Image" }
 
 bool ToastWithAvatar::SendToast()
 {
-    // The ScenarioIdToken uniquely identify a scenario and is used to route the response received when the user clicks on a toast to the correct scenario.
-    //auto ScenarioIdToken{ Common::MakeScenarioIdToken(ToastWithAvatar::ScenarioId) };
-#if 0
-    winrt::hstring xmlPayload{
-        L"<toast launch = \"action=ToastClick&amp;" + ScenarioIdToken + L"\">\
-            <visual>\
-                <binding template = \"ToastGeneric\">\
-                    <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
-                    <text>" + ScenarioName + L"</text>\
-                    <text>This is an example message using XML</text>\
-                </binding>\
-            </visual>\
-            <actions>\
-                <action\
-                    content = \"Open App\"\
-                    arguments = \"action=OpenApp&amp;" + ScenarioIdToken + L"\"/>\
-            </actions>\
-        </toast>" };
-
-    auto toast{ winrt::AppNotification(xmlPayload) };
-#endif
     winrt::Microsoft::Windows::AppNotifications::Builder::AppNotificationBuilder();
     auto appNotification{ winrt::AppNotification(winrt::AppNotificationBuilder()
         .AddArgument(L"action", L"ToastClick")
