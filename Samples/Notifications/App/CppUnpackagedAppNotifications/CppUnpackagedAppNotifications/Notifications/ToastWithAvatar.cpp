@@ -14,7 +14,6 @@ namespace winrt
 {
     using namespace Microsoft::Windows::AppNotifications;
     using namespace Microsoft::Windows::AppNotifications::Builder;
-
     using namespace CppUnpackagedAppNotifications::implementation;
 }
 
@@ -22,16 +21,15 @@ const wchar_t* ToastWithAvatar::ScenarioName{ L"Local Toast with Avatar Image" }
 
 bool ToastWithAvatar::SendToast()
 {
-    winrt::Microsoft::Windows::AppNotifications::Builder::AppNotificationBuilder();
     auto appNotification{ winrt::AppNotificationBuilder()
         .AddArgument(L"action", L"ToastClick")
-        .AddArgument(L"scenarioId", std::to_wstring(ToastWithAvatar::ScenarioId))
+        .AddArgument(Common::scenarioTag, std::to_wstring(ToastWithAvatar::ScenarioId))
         .SetAppLogoOverride(winrt::Windows::Foundation::Uri(L"file://" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png")), winrt::AppNotificationImageCrop::Circle)
         .AddText(ScenarioName)
         .AddText(L"This is an example message using XML")
         .AddButton(winrt::AppNotificationButton(L"Open App")
             .AddArgument(L"action", L"OpenApp")
-            .AddArgument(L"scenarioId", std::to_wstring(ToastWithAvatar::ScenarioId)))
+            .AddArgument(Common::scenarioTag, std::to_wstring(ToastWithAvatar::ScenarioId)))
         .BuildNotification() };
 
     winrt::AppNotificationManager::Default().Show(appNotification);
@@ -43,8 +41,7 @@ void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotific
 {
     winrt::CppUnpackagedAppNotifications::Notification notification{};
     notification.Originator = ScenarioName;
-    auto action{ Common::ExtractParamFromArgs(notificationActivatedEventArgs.Argument().c_str(), L"action") };
-    notification.Action = action.has_value() ? action.value() : L"";
+    notification.Action = notificationActivatedEventArgs.Arguments().Lookup(L"action");
     winrt::MainPage::Current().NotificationReceived(notification);
     winrt::App::ToForeground();
 }

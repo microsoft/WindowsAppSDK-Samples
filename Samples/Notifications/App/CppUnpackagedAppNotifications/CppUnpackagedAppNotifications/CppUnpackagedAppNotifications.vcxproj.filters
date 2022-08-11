@@ -19,9 +19,6 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
     <ClCompile Include="NotifyUser.cpp" />
-    <ClCompile Include="Notifications\Common.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
     <ClCompile Include="Notifications\NotificationManager.cpp">
       <Filter>Notifications</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SampleConfiguration.h" />
     <ClInclude Include="NotifyUser.h" />
-    <ClInclude Include="Notifications\Common.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
     <ClInclude Include="Notifications\NotificationManager.h">
       <Filter>Notifications</Filter>
     </ClInclude>
@@ -46,6 +40,9 @@
       <Filter>Notifications</Filter>
     </ClInclude>
     <ClInclude Include="Notifications\ToastWithTextBox.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
+    <ClInclude Include="Notifications\Common.h">
       <Filter>Notifications</Filter>
     </ClInclude>
   </ItemGroup>

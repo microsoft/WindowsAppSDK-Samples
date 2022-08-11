@@ -14,13 +14,13 @@ class ToastWithAvatar
     {
         var appNotification = new AppNotificationBuilder()
             .AddArgument("action", "ToastClick")
-            .AddArgument("scenarioId", ToastWithAvatar.ScenarioId.ToString())
+            .AddArgument(Common.scenarioTag, ScenarioId.ToString())
             .SetAppLogoOverride(new System.Uri("file://" + App.GetFullPathToAsset("Square150x150Logo.png")), AppNotificationImageCrop.Circle)
             .AddText(ScenarioName)
             .AddText("This is an example message using XML")
             .AddButton(new AppNotificationButton("Open App")
                 .AddArgument("action", "OpenApp")
-                .AddArgument("scenarioId", ToastWithAvatar.ScenarioId.ToString()))
+                .AddArgument(Common.scenarioTag, ScenarioId.ToString()))
             .BuildNotification();
 
         AppNotificationManager.Default.Show(appNotification);
@@ -32,8 +32,7 @@ class ToastWithAvatar
     {
         var notification = new MainPage.Notification();
         notification.Originator = ScenarioName;
-        var action = Common.ExtractParamFromArgs(notificationActivatedEventArgs.Argument, "action");
-        notification.Action = action == null ? "" : action;
+        notification.Action = notificationActivatedEventArgs.Arguments["action"];
         MainPage.Current.NotificationReceived(notification);
         App.ToForeground();
     }
