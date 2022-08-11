@@ -45,9 +45,6 @@
     <ClInclude Include="Notifications\ToastWithTextBox.h">
       <Filter>Notifications</Filter>
     </ClInclude>
-    <ClInclude Include="Notifications\Common.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.png">
