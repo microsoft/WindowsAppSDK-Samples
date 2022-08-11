@@ -33,10 +33,10 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SampleConfiguration.h" />
     <ClInclude Include="NotifyUser.h" />
-    <ClInclude Include="Notifications\NotificationManager.h">
+    <ClInclude Include="Notifications\Common.h">
       <Filter>Notifications</Filter>
     </ClInclude>
-    <ClInclude Include="Notifications\Common.h">
+    <ClInclude Include="Notifications\NotificationManager.h">
       <Filter>Notifications</Filter>
     </ClInclude>
     <ClInclude Include="Notifications\ToastWithAvatar.h">
