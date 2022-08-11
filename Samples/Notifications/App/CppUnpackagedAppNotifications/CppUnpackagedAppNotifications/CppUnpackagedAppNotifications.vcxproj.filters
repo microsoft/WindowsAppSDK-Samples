@@ -36,6 +36,9 @@
     <ClInclude Include="Notifications\NotificationManager.h">
       <Filter>Notifications</Filter>
     </ClInclude>
+    <ClInclude Include="Notifications\Common.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
     <ClInclude Include="Notifications\ToastWithAvatar.h">
       <Filter>Notifications</Filter>
     </ClInclude>
