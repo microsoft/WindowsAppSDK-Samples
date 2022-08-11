@@ -1,0 +1,29 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page
+    x:Class="Input.GestureRecognizerManipulation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Input"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="grid" Margin="30, 0, 30, 0" Background="Transparent" RowDefinitions="100, *">
+        <TextBlock Grid.Row="0" Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
+                    Demonstrates the GestureRecognizer's Rotation, Scale and X/Y translate through pinching,
+                        two finger touch rotation, and dragging gestures on the image. Rotation and Scale
+                        only support touch, whereas X/Y translate supports mouse, touch, and pen.
+        </TextBlock>
+        <Image
+            x:Name="ImageVisual"
+            Grid.Row="1"
+            Width="100"
+            Height="100"
+            PointerPressed="OnPointerPressed"
+            PointerMoved="OnPointerMoved"
+            PointerReleased="OnPointerReleased"
+            PointerCanceled="OnPointerCanceled"
+            Source="ms-appx:///Assets/Landscape.jpg"></Image>
+    </Grid>
+</Page>

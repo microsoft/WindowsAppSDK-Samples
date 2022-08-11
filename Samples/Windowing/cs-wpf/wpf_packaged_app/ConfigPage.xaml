@@ -19,22 +19,22 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Window Templates</TextBlock>
-        <StackPanel Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Margin="5,5,5,5" x:Name="MainWindowBtn" Click="ChangeWindowStyle">Main Window</Button>
+        <TextBlock Grid.Row="0" Foreground="Red" Margin="20,0,0,0" VerticalAlignment="Center">Window Templates</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20,0,0,0" VerticalAlignment="Center">
+            <Button Margin="0,5,5,5" x:Name="MainWindowBtn" Click="ChangeWindowStyle">Main Window</Button>
             <Button Margin="5,5,5,5" x:Name="ContextMenuBtn" Click="ChangeWindowStyle">Context Menu</Button>
             <Button Margin="5,5,5,5" x:Name="DialogWindowBtn" Click="ChangeWindowStyle">Dialog Window</Button>
             <Button Margin="5,5,5,5" x:Name="ToolWindowBtn" Click="ChangeWindowStyle">Tool Window</Button>
         </StackPanel>
-        <TextBlock Grid.Row="2" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Window Configurations</TextBlock>
-        <StackPanel Grid.Row="3" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Margin="5,5,5,5" x:Name="FrameToggle" Click="ChangeConfiguration" >Has Frame</Button>
+        <TextBlock Grid.Row="2" Foreground="Red" Margin="20,0,0,0" VerticalAlignment="Center">Window Configurations</TextBlock>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="20,0,0,0" VerticalAlignment="Center">
+            <Button Margin="0,5,5,5" x:Name="FrameToggle" Click="ChangeConfiguration" >Has Frame</Button>
             <Button Margin="5,5,5,5" x:Name="TitleBarToggle" Click="ChangeConfiguration" >Has Title Bar</Button>
             <Button Margin="5,5,5,5" x:Name="MaxToggle" Click="ChangeConfiguration" >Is Maximizable</Button>
             <Button Margin="5,5,5,5" x:Name="MinToggle" Click="ChangeConfiguration" >Is Minimizable</Button>
         </StackPanel>
-        <StackPanel Grid.Row="4" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Margin="5,5,5,5" x:Name="AlwaysOnTopToggle" Click="ChangeConfiguration">Is not Always on Top</Button>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="20,0,0,0" VerticalAlignment="Center">
+            <Button Margin="0,5,5,5" x:Name="AlwaysOnTopToggle" Click="ChangeConfiguration">Is not Always on Top</Button>
             <Button Margin="5,5,5,5" x:Name="ResizableToggle" Click="ChangeConfiguration">Is Resizable</Button>
             <Button Margin="5,5,5,5" x:Name="InUxToggle" Click="ChangeConfiguration">Is Shown in UX</Button>
         </StackPanel>

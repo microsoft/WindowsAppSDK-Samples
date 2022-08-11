@@ -45,6 +45,9 @@ namespace winforms_unpackaged_app
             this.MyTitleBar = new System.Windows.Forms.FlowLayoutPanel();
             this.MyWindowIcon = new System.Windows.Forms.PictureBox();
             this.MyWindowTitle = new System.Windows.Forms.Label();
+            this.clientResizeButton = new System.Windows.Forms.Button();
+            this.standardHeightButton = new System.Windows.Forms.Button();
+            this.tallHeightButton = new System.Windows.Forms.Button();
             this.MyTitleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MyWindowIcon)).BeginInit();
             this.SuspendLayout();
@@ -75,7 +78,7 @@ namespace winforms_unpackaged_app
             this.presenterHeader.ForeColor = System.Drawing.Color.DodgerBlue;
             this.presenterHeader.Location = new System.Drawing.Point(12, 200);
             this.presenterHeader.Name = "presenterHeader";
-            this.presenterHeader.Size = new System.Drawing.Size(244, 20);
+            this.presenterHeader.Size = new System.Drawing.Size(196, 15);
             this.presenterHeader.TabIndex = 3;
             this.presenterHeader.Text = "Change your AppWindow Presenter";
             // 
@@ -96,7 +99,7 @@ namespace winforms_unpackaged_app
             this.customizeWindowHeader.ForeColor = System.Drawing.Color.DodgerBlue;
             this.customizeWindowHeader.Location = new System.Drawing.Point(12, 97);
             this.customizeWindowHeader.Name = "customizeWindowHeader";
-            this.customizeWindowHeader.Size = new System.Drawing.Size(137, 20);
+            this.customizeWindowHeader.Size = new System.Drawing.Size(110, 15);
             this.customizeWindowHeader.TabIndex = 5;
             this.customizeWindowHeader.Text = "Customize Window";
             // 
@@ -104,7 +107,7 @@ namespace winforms_unpackaged_app
             // 
             this.windowTitleTextBox.Location = new System.Drawing.Point(12, 120);
             this.windowTitleTextBox.Name = "windowTitleTextBox";
-            this.windowTitleTextBox.Size = new System.Drawing.Size(191, 27);
+            this.windowTitleTextBox.Size = new System.Drawing.Size(191, 23);
             this.windowTitleTextBox.TabIndex = 6;
             this.windowTitleTextBox.Text = "WinForms ❤️ AppWindow";
             // 
@@ -122,14 +125,14 @@ namespace winforms_unpackaged_app
             // 
             this.widthTextBox.Location = new System.Drawing.Point(12, 153);
             this.widthTextBox.Name = "widthTextBox";
-            this.widthTextBox.Size = new System.Drawing.Size(50, 27);
+            this.widthTextBox.Size = new System.Drawing.Size(50, 23);
             this.widthTextBox.TabIndex = 9;
             // 
             // heightTextBox
             // 
             this.heightTextBox.Location = new System.Drawing.Point(68, 153);
             this.heightTextBox.Name = "heightTextBox";
-            this.heightTextBox.Size = new System.Drawing.Size(50, 27);
+            this.heightTextBox.Size = new System.Drawing.Size(50, 23);
             this.heightTextBox.TabIndex = 10;
             // 
             // resizeButton
@@ -148,7 +151,7 @@ namespace winforms_unpackaged_app
             this.customTitleBarHeader.ForeColor = System.Drawing.Color.DodgerBlue;
             this.customTitleBarHeader.Location = new System.Drawing.Point(12, 264);
             this.customTitleBarHeader.Name = "customTitleBarHeader";
-            this.customTitleBarHeader.Size = new System.Drawing.Size(114, 20);
+            this.customTitleBarHeader.Size = new System.Drawing.Size(91, 15);
             this.customTitleBarHeader.TabIndex = 12;
             this.customTitleBarHeader.Text = "Custom TitleBar";
             // 
@@ -174,7 +177,7 @@ namespace winforms_unpackaged_app
             // 
             // resetTitlebarBtn
             // 
-            this.resetTitlebarBtn.Location = new System.Drawing.Point(12, 322);
+            this.resetTitlebarBtn.Location = new System.Drawing.Point(12, 365);
             this.resetTitlebarBtn.Name = "resetTitlebarBtn";
             this.resetTitlebarBtn.Size = new System.Drawing.Size(114, 29);
             this.resetTitlebarBtn.TabIndex = 15;
@@ -209,17 +212,53 @@ namespace winforms_unpackaged_app
             // 
             this.MyWindowTitle.AutoSize = true;
             this.MyWindowTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MyWindowTitle.Location = new System.Drawing.Point(36, 0);
+            this.MyWindowTitle.Location = new System.Drawing.Point(36, 5);
+            this.MyWindowTitle.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.MyWindowTitle.Name = "MyWindowTitle";
-            this.MyWindowTitle.Size = new System.Drawing.Size(270, 32);
+            this.MyWindowTitle.Size = new System.Drawing.Size(217, 27);
             this.MyWindowTitle.TabIndex = 1;
             this.MyWindowTitle.Text = "Custom titlebar with interactive content";
             this.MyWindowTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // clientResizeButton
+            // 
+            this.clientResizeButton.Location = new System.Drawing.Point(249, 153);
+            this.clientResizeButton.Name = "clientResizeButton";
+            this.clientResizeButton.Size = new System.Drawing.Size(119, 27);
+            this.clientResizeButton.TabIndex = 17;
+            this.clientResizeButton.Text = "Resize Client Area";
+            this.clientResizeButton.UseVisualStyleBackColor = true;
+            this.clientResizeButton.Click += new System.EventHandler(this.resizeButton_Click);
+            // 
+            // standardHeightButton
+            // 
+            this.standardHeightButton.Enabled = false;
+            this.standardHeightButton.Location = new System.Drawing.Point(13, 329);
+            this.standardHeightButton.Name = "standardHeightButton";
+            this.standardHeightButton.Size = new System.Drawing.Size(190, 30);
+            this.standardHeightButton.TabIndex = 18;
+            this.standardHeightButton.Text = "Standard height title bar";
+            this.standardHeightButton.UseVisualStyleBackColor = true;
+            this.standardHeightButton.Click += new System.EventHandler(this.standardHeightButton_Click);
+            // 
+            // tallHeightButton
+            // 
+            this.tallHeightButton.Enabled = false;
+            this.tallHeightButton.Location = new System.Drawing.Point(209, 329);
+            this.tallHeightButton.Name = "tallHeightButton";
+            this.tallHeightButton.Size = new System.Drawing.Size(150, 30);
+            this.tallHeightButton.TabIndex = 19;
+            this.tallHeightButton.Text = "Taller title bar";
+            this.tallHeightButton.UseVisualStyleBackColor = true;
+            this.tallHeightButton.Click += new System.EventHandler(this.tallHeightButton_Click);
             // 
             // AppForm
             // 
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(682, 453);
+            this.Controls.Add(this.tallHeightButton);
+            this.Controls.Add(this.standardHeightButton);
+            this.Controls.Add(this.clientResizeButton);
             this.Controls.Add(this.MyTitleBar);
             this.Controls.Add(this.resetTitlebarBtn);
             this.Controls.Add(this.titlebarCustomBtn);
@@ -353,9 +392,18 @@ namespace winforms_unpackaged_app
                 // Silently ignore invalid input...
             }
 
-            if (windowHeight > 0 && windowWidth > 0)
+            if (_mainAppWindow != null)
             {
-                _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                switch (sender.As<Button>().Name)
+                {
+                    case "resizeButton":
+                        _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                        break;
+
+                    case "clientResizeButton":
+                        _mainAppWindow.ResizeClient(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                        break;
+                }
             }
         }
 
@@ -400,6 +448,10 @@ namespace winforms_unpackaged_app
                 // Show the custom titlebar
                 MyTitleBar.Visible = true;
 
+                // Enable title bar height toggle buttons
+                this.standardHeightButton.Enabled = true;
+                this.tallHeightButton.Enabled = true;
+
                 // Set Button colors to match the custom titlebar
                 _mainAppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 _mainAppWindow.TitleBar.ButtonForegroundColor = Colors.White;
@@ -417,6 +469,12 @@ namespace winforms_unpackaged_app
             {
                 // Bring back the default titlebar
                 MyTitleBar.Visible = false;
+
+                // Disable title bar height toggle buttons
+                this.standardHeightButton.Enabled = false;
+                this.tallHeightButton.Enabled = false;
+
+                // reset the title bar to default state
                 _mainAppWindow.TitleBar.ResetToDefault();
             }
         }
@@ -451,6 +509,46 @@ namespace winforms_unpackaged_app
             _mainAppWindow.TitleBar.ResetToDefault();
             _mainAppWindow.Title = WindowTitle;
             MyTitleBar.Visible = false;
+        }
+
+        private void standardHeightButton_Click(object sender, EventArgs e)
+        {
+            if (AppWindowTitleBar.IsCustomizationSupported() && _mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
+            {
+                // Set the title bar height to standard height
+                _mainAppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
+
+                // Adjust title and icon margins
+                this.MyWindowTitle.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+                this.MyWindowIcon.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+
+                // Reset the drag region for the custom title bar
+                SetDragRegionForCustomTitleBar(_mainAppWindow);
+            }
+            else
+            {
+                this.standardHeightButton.Enabled = false;
+            }
+        }
+        private void tallHeightButton_Click(object sender, EventArgs e)
+        {
+            if (AppWindowTitleBar.IsCustomizationSupported() && _mainAppWindow.TitleBar.ExtendsContentIntoTitleBar)
+            {
+                // Use a tall title bar to provide more room for interactive elements like searchboxes, person pictures e.t.c
+                _mainAppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+
+                // Adjust title and icon top margin
+                this.MyWindowTitle.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+                this.MyWindowIcon.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
+
+                // Reset the drag region for the custom title bar
+                SetDragRegionForCustomTitleBar(_mainAppWindow);
+
+            }
+            else
+            {
+                this.tallHeightButton.Enabled = false;
+            }
         }
     }
 }

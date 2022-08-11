@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.UI.Windowing;
+using WinRT;
 
 namespace wpf_packaged_app
 {
@@ -40,9 +41,18 @@ namespace wpf_packaged_app
                 // Silently ignore invalid input...
             }
 
-            if (windowHeight > 0 && windowWidth > 0)
+            if (_mainAppWindow != null)
             {
-                _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                switch (sender.As<Button>().Name)
+                {
+                    case "SizeBtn":
+                        _mainAppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                        break;
+
+                    case "ClientSizeBtn":
+                        _mainAppWindow.ResizeClient(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+                        break;
+                }
             }
         }
     }
