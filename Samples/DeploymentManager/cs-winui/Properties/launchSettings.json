@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+        "DeploymentManagerSample (Package)": {
+            "commandName": "MsixPackage"
+        },
+        "DeploymentManagerSample (Unpackaged)": {
+            "commandName": "Project"
+        }
+    }
+}
