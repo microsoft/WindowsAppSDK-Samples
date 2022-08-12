@@ -25,7 +25,6 @@ namespace DeploymentManagerSample
         private void updateDeploymentResultMessages(DeploymentResult deploymentResult)
         {
             resultStatus.Text = "Result Status: " + deploymentResult.Status.ToString();
-            resultExtendedError.Text = "Result ExtendedError: " + deploymentResult.ExtendedError.ToString();
 
             // Check the result.
             if (deploymentResult.Status == DeploymentStatus.Ok)
@@ -35,6 +34,8 @@ namespace DeploymentManagerSample
             }
             else
             {
+                resultExtendedError.Text = "Result ExtendedError: " + deploymentResult.ExtendedError.ToString();
+
                 // The WindowsAppRuntime is in a bad state which Initialize() did not fix.
                 // Do error reporting or gather information for submitting a bug.
                 // Gracefully exit the program or carry on without using the WindowsAppRuntime.
