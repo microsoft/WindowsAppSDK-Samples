@@ -1,18 +1,8 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-#pragma once
+﻿#pragma once
 #include <windows.h>
 #include <unknwn.h>
 #include <restrictederrorinfo.h>
 #include <hstring.h>
-
-#include <stdlib.h>
-#include <malloc.h>
-#include <memory.h>
-#include <tchar.h>
-#include <sstream>
-#include "strsafe.h"
 
 // Undefine GetCurrentTime macro to prevent
 // conflict with Storyboard::GetCurrentTime
@@ -32,8 +22,4 @@
 #include <winrt/Microsoft.UI.Xaml.Navigation.h>
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
-
-#include <winrt/Microsoft.Windows.AppLifecycle.h>
-#include <winrt/Windows.Storage.h>
-
-#include <wil/resource.h>
+#include <wil/cppwinrt_helpers.h>

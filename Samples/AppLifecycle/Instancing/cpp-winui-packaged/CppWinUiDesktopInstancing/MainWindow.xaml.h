@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-#pragma once
+﻿#pragma once
 #include "MainWindow.g.h"
 
 namespace winrt::CppWinUiDesktopInstancing::implementation
@@ -9,10 +6,7 @@ namespace winrt::CppWinUiDesktopInstancing::implementation
     struct MainWindow : MainWindowT<MainWindow>
     {
         MainWindow();
-
-        void ActivationInfoButton_Click(
-            winrt::Windows::Foundation::IInspectable const& sender, 
-            winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
+        void activationTrackerButton_Click(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
     };
 }
 

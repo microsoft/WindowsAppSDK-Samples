@@ -1,7 +1,4 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-namespace CppWinUiDesktopInstancing
+﻿namespace CppWinUiDesktopInstancing
 {
     [default_interface]
     runtimeclass MainWindow : Microsoft.UI.Xaml.Window
