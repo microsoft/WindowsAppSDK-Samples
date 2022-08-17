@@ -7,13 +7,13 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="c4a3b17f-0039-493a-a7b5-a82222ffe041"
-    Publisher="CN=Microsoft Corporation"
+    Name="f8c5e307-5152-4d80-988f-dae40dc3356a"
+    Publisher="CN=dahoehna"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>CsWinUiDesktopInstancing</DisplayName>
-    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <DisplayName>CsWinUiDesktopInstancing (Package)</DisplayName>
+    <PublisherDisplayName>dahoehna</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
@@ -31,26 +31,14 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="CsWinUiDesktopInstancing"
-        Description="CsWinUiDesktopInstancing"
+        DisplayName="CsWinUiDesktopInstancing (Package)"
+        Description="CsWinUiDesktopInstancing (Package)"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
-
-      <Extensions>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="moo">
-            <uap:Logo>Images\StoreLogo.png</uap:Logo>
-            <uap:SupportedFileTypes>
-              <uap:FileType>.moo</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-      </Extensions>
-      
     </Application>
   </Applications>
 
