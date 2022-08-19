@@ -29,7 +29,6 @@ namespace DeploymentManagerSample
             // error code. The Status is usually the property of interest, as the ExtendedError is
             // typically used for diagnostic purposes or troubleshooting. 
             resultStatus.Text = "Result Status: " + result.Status.ToString();
-            resultExtendedError.Text = "Result ExtendedError: " + result.ExtendedError.ToString();
 
             // Check the resulting Status.
             if (result.Status == DeploymentStatus.Ok)
@@ -38,6 +37,7 @@ namespace DeploymentManagerSample
             }
             else
             {
+                resultExtendedError.Text = "Result ExtendedError: " + result.ExtendedError.ToString();
                 // A not-Ok status means it is not ready for us. The Status will indicate the
                 // reason it is not Ok, such as some packages need to be installed.
                 resultImplication.Text = "The Windows App Runtime is not ready for use.";
