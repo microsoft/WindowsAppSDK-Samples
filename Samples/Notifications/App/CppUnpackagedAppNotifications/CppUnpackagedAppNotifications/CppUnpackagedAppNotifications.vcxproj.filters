@@ -19,9 +19,6 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
     <ClCompile Include="NotifyUser.cpp" />
-    <ClCompile Include="Notifications\Common.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
     <ClCompile Include="Notifications\NotificationManager.cpp">
       <Filter>Notifications</Filter>
     </ClCompile>
