@@ -18,9 +18,9 @@ namespace winrt
     using namespace Windows::UI::Xaml::Interop;
 }
 
-namespace winrt::CppUnpackagedAppNotifications::implementation
+namespace winrt::CppAppNotifications::implementation
 {
-    CppUnpackagedAppNotifications::MainPage MainPage::current{ nullptr };
+    CppAppNotifications::MainPage MainPage::current{ nullptr };
 
     MainPage::MainPage()
     {

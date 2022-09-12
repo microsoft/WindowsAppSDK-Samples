@@ -13,7 +13,7 @@ namespace winrt
 {
     using namespace Microsoft::Windows::AppNotifications;
     using namespace Microsoft::Windows::AppNotifications::Builder;
-    using namespace CppUnpackagedAppNotifications::implementation;
+    using namespace CppAppNotifications::implementation;
 }
 
 const wchar_t* ToastWithTextBox::ScenarioName{ L"Local Toast with Avatar and Text Box" };
@@ -48,7 +48,7 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
 
 
 
-    winrt::CppUnpackagedAppNotifications::Notification notification{};
+    winrt::CppAppNotifications::Notification notification{};
     notification.Originator = ScenarioName;
     notification.Action = notificationActivatedEventArgs.Arguments().Lookup(L"action");
     notification.HasInput = true;

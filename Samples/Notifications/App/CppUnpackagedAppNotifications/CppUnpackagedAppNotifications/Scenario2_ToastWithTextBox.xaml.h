@@ -5,7 +5,7 @@
 
 #include "Scenario2_ToastWithTextBox.g.h"
 
-namespace winrt::CppUnpackagedAppNotifications::implementation
+namespace winrt::CppAppNotifications::implementation
 {
     struct Scenario2_ToastWithTextBox : Scenario2_ToastWithTextBoxT<Scenario2_ToastWithTextBox>
     {
@@ -14,11 +14,11 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
         void SendToast_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
 
     private:
-        static CppUnpackagedAppNotifications::MainPage rootPage;
+        static CppAppNotifications::MainPage rootPage;
     };
 }
 
-namespace winrt::CppUnpackagedAppNotifications::factory_implementation
+namespace winrt::CppAppNotifications::factory_implementation
 {
     struct Scenario2_ToastWithTextBox : Scenario2_ToastWithTextBoxT<Scenario2_ToastWithTextBox, implementation::Scenario2_ToastWithTextBox>
     {
