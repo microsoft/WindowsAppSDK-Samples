@@ -47,7 +47,7 @@
 		</desktop:Extension>
 		<com:Extension Category="windows.comServer">
 			<com:ComServer>
-				<com:ExeServer Executable="CppUnpackagedAppNotifications\CppUnpackagedAppNotifications.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
+				<com:ExeServer Executable="CppUnpackagedAppNotifications\CppAppNotifications.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
 					<com:Class Id="FE8C7374-A28F-4CBE-8D28-4288CBDFD431" DisplayName="Toast activator"/>
 				</com:ExeServer>
 			</com:ComServer>
