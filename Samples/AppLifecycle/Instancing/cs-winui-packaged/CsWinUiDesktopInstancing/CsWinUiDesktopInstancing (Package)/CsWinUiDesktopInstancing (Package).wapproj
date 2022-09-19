@@ -67,7 +67,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196">
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>
