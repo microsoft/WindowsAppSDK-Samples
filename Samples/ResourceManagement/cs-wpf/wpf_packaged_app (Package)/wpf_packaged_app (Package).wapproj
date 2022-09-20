@@ -64,7 +64,7 @@
     <EntryPointProjectUniqueName>..\wpf_packaged_app\wpf_packaged_app.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0-preview1" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
