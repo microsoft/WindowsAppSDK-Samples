@@ -41,9 +41,9 @@ Follow these [instructions]() to send a notification to the sample.
    * Leave the sample running to receive notifications in the foreground.
    * Close the sample to receive notifications in the background.
 
-## Packaged and Unpackaged Apps Considerations
+## Packaged vs. Unpackaged Apps Considerations
 In addition to making the right API calls, WindowsAppSDK Apps that want to receive Push Notifications must correctly configure their project.
-The type of configuration will depend upon whether the APp is packaged or unpackaged.
+The type of configuration will depend upon whether the App is packaged or unpackaged.
 
 ### Unpackaged App
 ```xml
@@ -77,9 +77,9 @@ COM Server
 Take notice that the Packaged sample has a special extension to the COM server and protocol used to deliver the notification to the app.
 
 ---
-**How is an upackaged sample get the notification?**
+**How does an upackaged sample get the notification?**
 
-*If the packaged sample requires the extensions for the COM server and protocol in order to receive notifications, how does the unpackage sample manages to receive notification has it does not have an appxmanifest?*
+*If the packaged sample requires the extensions for the COM server and protocol in order to receive notifications, how does the "unpackaged" sample manage to receive notifications as it does not have an appxmanifest file?*
 
 ## Related Links
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
