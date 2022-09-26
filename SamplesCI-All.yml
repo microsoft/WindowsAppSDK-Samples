@@ -1,0 +1,63 @@
+# Please see https://www.osgwiki.com/wiki/Windows_App_SDK_-_How_to_build_and_use_the_pipelines
+# for information on how to use the pipelines
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+stages:
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "AppLifecycle"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Content"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "CustomControls"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "DeploymentManager"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Input"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Insights"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Installer"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Mica"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Notifications"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "PhotoEditor"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "ResourceManagement"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "SelfContainedDeployment"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "TextRendering"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Unpackaged"
+
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Windowing"
