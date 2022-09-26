@@ -16,9 +16,9 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">Presenters</TextBlock>
-        <StackPanel Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Margin="5,5,5,5" x:Name="CompactoverlaytBtn" Click="SwitchPresenter">Enter CompactOverlay</Button>
+        <TextBlock Grid.Row="0" Foreground="Red" Margin="20,0,0,0" VerticalAlignment="Center">Presenters</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal"  Margin="20,0,0,0" VerticalAlignment="Center">
+            <Button Margin="0,5,5,5" x:Name="CompactoverlaytBtn" Click="SwitchPresenter">Enter CompactOverlay</Button>
             <Button Margin="5,5,5,5" x:Name="FullscreenBtn" Click="SwitchPresenter">Enter FullScreen</Button>
             <Button Margin="5,5,5,5" x:Name="OverlappedBtn" Click="SwitchPresenter">Revert to default (Overlapped)</Button>
         </StackPanel>    

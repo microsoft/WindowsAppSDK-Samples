@@ -58,12 +58,12 @@ namespace CsUnpackagedAppNotifications.Notifications
 
         public bool DispatchNotification(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
         {
-            var scenarioId = Common.ExtractScenarioIdFromArgs(notificationActivatedEventArgs.Argument);
-            if (scenarioId != 0)
+            var scenarioId = notificationActivatedEventArgs.Arguments[Common.scenarioTag];
+            if (scenarioId.Length != 0)
             {
                 try
                 {
-                    c_notificationHandlers[scenarioId](notificationActivatedEventArgs);
+                    c_notificationHandlers[int.Parse(scenarioId)](notificationActivatedEventArgs);
                     return true;
                 }
                 catch

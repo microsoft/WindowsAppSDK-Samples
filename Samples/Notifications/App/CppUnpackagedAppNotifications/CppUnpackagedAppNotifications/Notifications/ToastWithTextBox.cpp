@@ -5,12 +5,14 @@
 #include "ToastWithTextBox.h"
 #include "Common.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
+#include <winrt/Microsoft.Windows.AppNotifications.Builder.h>
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
 
 namespace winrt
 {
     using namespace Microsoft::Windows::AppNotifications;
+    using namespace Microsoft::Windows::AppNotifications::Builder;
     using namespace CppUnpackagedAppNotifications::implementation;
 }
 
@@ -19,34 +21,22 @@ auto textboxReplyId{ L"textboxReply" };
 
 bool ToastWithTextBox::SendToast()
 {
-    // The ScenarioIdToken uniquely identify a scenario and is used to route the response received when the user clicks on a toast to the correct scenario.
-    auto ScenarioIdToken{ Common::MakeScenarioIdToken(ToastWithTextBox::ScenarioId) };
+    auto appNotification{ winrt::AppNotificationBuilder()
+        .AddArgument(L"action", L"ToastClick")
+        .AddArgument(Common::scenarioTag, std::to_wstring(ToastWithTextBox::ScenarioId))
+        .SetAppLogoOverride(winrt::Windows::Foundation::Uri(L"file://" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png")), winrt::AppNotificationImageCrop::Circle)
+        .AddText(ScenarioName)
+        .AddText(L"This is an example message using XML")
+        .AddTextBox(textboxReplyId, L"Type a reply", L"Reply box")
+        .AddButton(winrt::AppNotificationButton(L"Reply")
+            .AddArgument(L"action", L"Reply")
+            .AddArgument(Common::scenarioTag, std::to_wstring(ToastWithTextBox::ScenarioId))
+            .SetInputId(textboxReplyId))
+        .BuildNotification() };
 
-    winrt::hstring xmlPayload{
-        L"<toast launch = \"action=ToastClick&amp;" + ScenarioIdToken + L"\">\
-            <visual>\
-                <binding template = \"ToastGeneric\">\
-                    <image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + winrt::App::GetFullPathToAsset(L"Square150x150Logo.png") + L"\"/>\
-                    <text>" + ScenarioName + L"</text>\
-                    <text>This is an example message using XML</text>\
-                </binding>\
-            </visual>\
-                <actions>\
-                    <input\
-                        id = \"" + textboxReplyId + L"\"\
-                        type = \"text\"\
-                        placeHolderContent = \"Type a reply\"/>\
-                    <action\
-                        content = \"Reply\"\
-                        arguments = \"action=Reply&amp;" + ScenarioIdToken + L"\"\
-                        hint-inputId=\"" + textboxReplyId + L"\"/>\
-                </actions>\
-            </toast>" };
+    winrt::AppNotificationManager::Default().Show(appNotification);
 
-    auto toast{ winrt::AppNotification(xmlPayload) };
-    winrt::AppNotificationManager::Default().Show(toast);
-
-    return toast.Id() != 0; // return true (indicating success) if the toast was sent (if it has an Id)
+    return appNotification.Id() != 0; // return true (indicating success) if the toast was sent (if it has an Id)
 }
 
 void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
@@ -56,15 +46,13 @@ void ToastWithTextBox::NotificationReceived(winrt::Microsoft::Windows::AppNotifi
     // This is not something that can easily be demonstrated in a sample such as this one, as we need to show the UI to demonstrate how
     // the payload is routed internally
 
-    auto input{ notificationActivatedEventArgs.UserInput() };
-    auto text{ input.Lookup(textboxReplyId) };
+
 
     winrt::CppUnpackagedAppNotifications::Notification notification{};
     notification.Originator = ScenarioName;
-    auto action{ Common::ExtractParamFromArgs(notificationActivatedEventArgs.Argument().c_str(), L"action") };
-    notification.Action = action.has_value() ? action.value() : L"";
+    notification.Action = notificationActivatedEventArgs.Arguments().Lookup(L"action");
     notification.HasInput = true;
-    notification.Input = text;
+    notification.Input = notificationActivatedEventArgs.UserInput().Lookup(textboxReplyId);
     winrt::MainPage::Current().NotificationReceived(notification);
     winrt::App::ToForeground();
 }

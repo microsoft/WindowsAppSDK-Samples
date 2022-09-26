@@ -33,11 +33,8 @@ namespace winrt::SampleApp::implementation
 
     void DemoPage::SizeBtn_Click(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
     {
-        int windowWidth = 0;
-        int windowHeight = 0;
-
-        windowWidth = _wtoi(WidthTextBox().Text().c_str());
-        windowHeight = _wtoi(HeightTextBox().Text().c_str());
+        int windowWidth = _wtoi(WidthTextBox().Text().c_str());
+        int windowHeight = _wtoi(HeightTextBox().Text().c_str());
 
         if (windowHeight > 0 && windowWidth > 0)
         {
@@ -47,5 +44,17 @@ namespace winrt::SampleApp::implementation
             m_mainAppWindow.Resize(windowSize);
         }
     }
+    void DemoPage::ClientSizeBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    {
+        int windowWidth = _wtoi(WidthTextBox().Text().c_str());
+        int windowHeight = _wtoi(HeightTextBox().Text().c_str());
 
+        if (windowHeight > 0 && windowWidth > 0)
+        {
+            winrt::Windows::Graphics::SizeInt32 windowSize;
+            windowSize.Height = windowHeight;
+            windowSize.Width = windowWidth;
+            m_mainAppWindow.ResizeClient(windowSize);
+        }
+    }
 }

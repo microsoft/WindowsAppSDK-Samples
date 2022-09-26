@@ -1,0 +1,29 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page
+    x:Class="DeploymentManagerSample.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DeploymentManagerSample"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <NavigationView x:Name="NavView"
+                         Loaded="NavView_Loaded"
+                         ItemInvoked="NavView_ItemInvoked"
+                         BackRequested="NavView_BackRequested">
+            <NavigationView.MenuItems>
+                <NavigationViewItemHeader x:Name="MainPagesHeader" Content="Scenarios"/>
+            </NavigationView.MenuItems>
+
+            <Grid RowDefinitions="*,Auto">
+                <ScrollViewer>
+                    <Frame Padding="50" x:Name="ContentFrame" Navigated="ContentFrame_Navigated" />
+                </ScrollViewer>
+                <InfoBar x:Name="infoBar" Grid.Row="1" />
+            </Grid>
+        </NavigationView>
+    </Grid>
+</Page>
