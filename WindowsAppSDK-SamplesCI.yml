@@ -61,3 +61,10 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
+
+    - task: DeleteFiles@1
+      displayName: 'Clean directory after build'
+      inputs: 
+        contents: |
+          **/bin/*
+          **/obj/*
