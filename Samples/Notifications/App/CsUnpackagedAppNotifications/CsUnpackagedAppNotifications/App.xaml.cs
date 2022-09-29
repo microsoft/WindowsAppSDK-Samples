@@ -19,10 +19,11 @@ namespace CsUnpackagedAppNotifications
 
         public App()
         {
+            notificationManager = new NotificationManager();
+            notificationManager.Init();
+
             this.InitializeComponent();
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
-
-            notificationManager = new NotificationManager();
         }
 
     	public static void ToForeground()
@@ -49,8 +50,6 @@ namespace CsUnpackagedAppNotifications
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             mainWindow = new MainWindow();
-
-            notificationManager.Init();
 
             // NOTE: AppInstance is ambiguous between
             // Microsoft.Windows.AppLifecycle.AppInstance and

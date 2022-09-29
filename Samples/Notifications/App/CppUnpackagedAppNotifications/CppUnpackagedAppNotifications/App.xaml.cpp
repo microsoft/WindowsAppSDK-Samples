@@ -30,6 +30,8 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
 
     App::App()
     {
+        g_notificationManager.Init();
+
         InitializeComponent();
         app = this;
 
@@ -73,8 +75,6 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const& /*args*/)
     {
         window = make<MainWindow>();
-
-        g_notificationManager.Init();
 
         // NOTE: AppInstance is ambiguous between
         // Microsoft.Windows.AppLifecycle.AppInstance and
