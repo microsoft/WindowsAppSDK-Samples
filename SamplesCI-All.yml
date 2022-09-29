@@ -36,7 +36,7 @@ parameters:
   - 'x86'
 
 jobs: 
-- job: 'Build all samples'
+- job: 'BuildAllSamples'
   pool: 'ProjectReunionSamplesESPool-MS'
   timeoutInMinutes: 120
   strategy:
