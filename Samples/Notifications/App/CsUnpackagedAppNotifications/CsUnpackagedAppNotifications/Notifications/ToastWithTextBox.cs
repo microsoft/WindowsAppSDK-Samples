@@ -3,6 +3,7 @@
 
 using CsUnpackagedAppNotifications;
 using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
 
 class ToastWithTextBox
 {
@@ -12,34 +13,22 @@ class ToastWithTextBox
 
     public static bool SendToast()
     {
-        // The ScenarioIdToken uniquely identify a scenario and is used to route the response received when the user clicks on a toast to the correct scenario.
-        var ScenarioIdToken = Common.MakeScenarioIdToken(ScenarioId);
+        var appNotification = new AppNotificationBuilder()
+            .AddArgument("action", "ToastClick")
+            .AddArgument(Common.scenarioTag, ScenarioId.ToString())
+            .SetAppLogoOverride(new System.Uri("file://" + App.GetFullPathToAsset("Square150x150Logo.png")), AppNotificationImageCrop.Circle)
+            .AddText(ScenarioName)
+            .AddText("This is an example message using XML")
+            .AddTextBox(textboxReplyId, "Type a reply", "Reply box")
+            .AddButton(new AppNotificationButton("Reply")
+                .AddArgument("action", "Reply")
+                .AddArgument(Common.scenarioTag, ScenarioId.ToString())
+                .SetInputId(textboxReplyId))
+            .BuildNotification();
 
-        var xmlPayload = new string(
-        	"<toast launch = \"action=ToastClick&amp;" + ScenarioIdToken + "\">"
-        +       "<visual>"
-        +           "<binding template = \"ToastGeneric\">"
-        +               "<image placement = \"appLogoOverride\" hint-crop=\"circle\" src = \"" + App.GetFullPathToAsset("Square150x150Logo.png") + "\"/>"
-        +               "<text>" + ScenarioName + "</text>"
-        +               "<text>This is an example message using XML</text>"
-        +           "</binding>"
-        +       "</visual>"
-        +       "<actions>"
-        +           "<input "
-        +               "id = \"" + textboxReplyId + "\" "
-        +               "type = \"text\" "
-        +               "placeHolderContent = \"Type a reply\"/>"
-        +           "<action "
-        +               "content = \"Reply\" "
-        +               "arguments = \"action=Reply&amp;" + ScenarioIdToken + "\" "
-        +               "hint-inputId = \"" + textboxReplyId + "\"/>"
-        +       "</actions>"
-        +   "</toast>");
+        AppNotificationManager.Default.Show(appNotification);
 
-        var toast = new AppNotification(xmlPayload);
-        AppNotificationManager.Default.Show(toast);
- 
-    	return toast.Id != 0; // return true (indicating success) if the toast was sent (if it has an Id)
+        return appNotification.Id != 0; // return true (indicating success) if the toast was sent (if it has an Id)
     }
 
     public static void NotificationReceived(AppNotificationActivatedEventArgs notificationActivatedEventArgs)
@@ -49,15 +38,11 @@ class ToastWithTextBox
         // This is not something that can easily be demonstrated in a sample such as this one, as we need to show the UI to demonstrate how
         // the payload is routed internally
         
-        var input = notificationActivatedEventArgs.UserInput;
-        var text = input[textboxReplyId];
-
         var notification = new MainPage.Notification();
         notification.Originator = ScenarioName;
-        var action = Common.ExtractParamFromArgs(notificationActivatedEventArgs.Argument, "action");
-        notification.Action = action == null ? "" : action;
+        notification.Action = notificationActivatedEventArgs.Arguments["action"];
         notification.HasInput = true;
-        notification.Input = text;
+        notification.Input = notificationActivatedEventArgs.UserInput[textboxReplyId];
         MainPage.Current.NotificationReceived(notification);
         App.ToForeground();
     }
