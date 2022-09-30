@@ -121,6 +121,9 @@
       <DependentUpon>Scenario2_Initialize.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Scenario3_Repair.xaml.h">
+      <DependentUpon>Scenario3_Repair.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="SettingsPage.xaml.h">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -136,6 +139,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Scenario2_Initialize.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Scenario3_Repair.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsPage.xaml">
@@ -168,6 +174,9 @@
     <ClCompile Include="Scenario2_Initialize.xaml.cpp">
       <DependentUpon>Scenario2_Initialize.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Scenario3_Repair.xaml.cpp">
+      <DependentUpon>Scenario3_Repair.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="SettingsPage.xaml.cpp">
       <DependentUpon>SettingsPage.xaml</DependentUpon>

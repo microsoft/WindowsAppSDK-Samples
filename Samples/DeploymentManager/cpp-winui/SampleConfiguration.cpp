@@ -17,7 +17,8 @@ namespace winrt::DeploymentManagerSample
     IVector<Scenario> implementation::MainPage::scenariosInner = single_threaded_observable_vector<Scenario>(
         {
             Scenario{ L"Get Status", hstring(name_of<DeploymentManagerSample::Scenario1_GetStatus>())},
-            Scenario{ L"Initialize", hstring(name_of<DeploymentManagerSample::Scenario2_Initialize>())}
+            Scenario{ L"Initialize", hstring(name_of<DeploymentManagerSample::Scenario2_Initialize>())},
+            Scenario{ L"Repair", hstring(name_of<DeploymentManagerSample::Scenario3_Repair>())}
         });
 
     hstring SampleConfig::FeatureName{ L"DeploymentManager" };

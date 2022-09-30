@@ -10,6 +10,7 @@
     <Page Include="Styles.xaml" />
     <Page Include="Scenario1_GetStatus.xaml" />
     <Page Include="Scenario2_Initialize.xaml" />
+    <Page Include="Scenario3_Repair.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Project.idl" />
