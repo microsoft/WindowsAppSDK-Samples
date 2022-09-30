@@ -482,6 +482,9 @@ stages:
   parameters:
     FeatureDirectory: "<FeatureName>"
 ```
+
+Be sure to add the new `<FeatureName>` to the `FeatureAreas` parameter in `SamplesCI-All.yml`.
+
 ##### Creating the pipeline
 
 Go to https://dev.azure.com/ms/ProjectReunion/_build
