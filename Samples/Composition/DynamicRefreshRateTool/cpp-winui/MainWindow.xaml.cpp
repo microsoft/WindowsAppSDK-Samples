@@ -34,6 +34,11 @@ namespace winrt::DynamicRefreshRateTool::implementation
 		ExtendsContentIntoTitleBar(true);
 		SetTitleBar(AppTitleBar());
 
+        // ===================================================================================
+        // Disable the virtualization for the application before the main SwapChain is created
+        // ===================================================================================
+		DXGIDisableVBlankVirtualization();
+
 		m_updateFuture = std::async(std::launch::async | std::launch::deferred,
 			[this]()
 			{
@@ -96,7 +101,11 @@ namespace winrt::DynamicRefreshRateTool::implementation
 
 	void MainWindow::BoostToggled(IInspectable const& sender, RoutedEventArgs const& args)
 	{
+		// =================================================
+		// Request system to switch to a higher refresh rate
+		// =================================================
 		DCompositionBoostCompositorClock(BoostToggleSwitch().IsOn());
+		
 		if (IsLogging())
 		{
 			m_logger->BoostStateChanged(BoostToggleSwitch().IsOn());
