@@ -1,0 +1,125 @@
+﻿<Window
+    x:Class="DynamicRefreshRateTool.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DynamicRefreshRateTool"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid KeyDown="Page_KeyUp">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" x:Name="AppTitleBar">
+            <Image Source="ms-appx:///Assets/LockScreenLogo.scale-200.png"
+           HorizontalAlignment="Left" 
+           Width="16" Height="16" 
+           Margin="12,0"/>
+            <TextBlock x:Name="AppTitleTextBlock" Text="Windows FPS Monitor"
+               TextWrapping="NoWrap"
+               Style="{StaticResource CaptionTextBlockStyle}" 
+               VerticalAlignment="Center"
+               Margin="0,0,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Padding="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Column="0" Grid.Row="0" BorderBrush="{ThemeResource BorderBrush}" BorderThickness="1" CornerRadius="4"  Margin="0, 0, 8, 0">
+                <StackPanel Background="{ThemeResource ForegroundBrush}" Padding="8">
+
+                    <Border BorderThickness="0 0 0 1" BorderBrush="{ThemeResource BorderBrush}">
+                        <Grid Width="Auto">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="8">
+                                <TextBlock Text="&#xEC4A;" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="0,0,8,0"/>
+                                <TextBlock Text="Boost (B Key)" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <ToggleSwitch Grid.Row="0" Grid.Column="2" Toggled="BoostToggled" FlowDirection="RightToLeft" Name="BoostToggleSwitch"></ToggleSwitch>
+
+                        </Grid>
+                    </Border>
+
+                    <Grid Width="Auto">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="8">
+                            <TextBlock Text="&#xE792;" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="0,0,8,0"/>
+                            <TextBlock Text="Logging (L Key)" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <ToggleSwitch Grid.Column="2" Toggled="LoggingToggleSwitch_Toggled" FlowDirection="RightToLeft" IsEnabled="False" Name="LoggingToggleSwitch"></ToggleSwitch>
+
+                    </Grid>
+
+                    <Grid Width="Auto">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="8,0,0,0" Foreground="#BB4422" Name="FolderNotSelected">Folder is not selected</TextBlock>
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="8,0,0,0" Foreground="{StaticResource SystemAccentColor}" Name="FolderPath" Visibility="Collapsed"></TextBlock>
+
+                        <Button Grid.Column="2" Click="ChooseFolder_Click">Choose Folder</Button>
+
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="0" BorderBrush="{ThemeResource BorderBrush}" BorderThickness="1" CornerRadius="4">
+                <StackPanel Background="{ThemeResource ForegroundBrush}" Padding="8" MinWidth="300">
+                    <Border BorderThickness="0 0 0 1" BorderBrush="{ThemeResource BorderBrush}">
+                        <TextBlock Text="Frames per second" FontSize="20"></TextBlock>
+                    </Border>
+                    <TextBlock Text="FPS" Name="FpsText" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="40" Margin="0,8,0,0" Foreground="{ThemeResource SystemAccentColor}"></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="{ThemeResource BorderBrush}" BorderThickness="1" CornerRadius="4" Margin="0,8,0,0">
+                <muxc:TabView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource BackgroundBrush}" IsAddTabButtonVisible="False">
+                    <muxc:TabView.TabItems>
+                        <muxc:TabViewItem Header="Chart" IsClosable="False">
+                            <muxc:TabViewItem.IconSource>
+                                <muxc:SymbolIconSource Symbol="Bookmarks" />
+                            </muxc:TabViewItem.IconSource>
+                            <local:ChartPage x:Name="Chart"/>
+                        </muxc:TabViewItem>
+                        <muxc:TabViewItem  Header="Test Animation" IsClosable="False">
+                            <muxc:TabViewItem.IconSource>
+                                <muxc:SymbolIconSource Symbol="SlideShow" />
+                            </muxc:TabViewItem.IconSource>
+                            <local:AnimationPage />
+                        </muxc:TabViewItem>
+                    </muxc:TabView.TabItems>
+                </muxc:TabView>
+            </Border>
+
+        </Grid>
+    </Grid>
+</Window>
