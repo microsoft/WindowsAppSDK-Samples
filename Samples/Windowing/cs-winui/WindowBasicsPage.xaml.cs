@@ -10,7 +10,7 @@ namespace Windowing
 {
     public partial class WindowBasics : Page
     {
-        private AppWindow _mainAppWindow = MainWindow.AppWindow;
+        private AppWindow _mainAppWindow = MainWindow.MyAppWindow;
         public WindowBasics()
         {
             this.InitializeComponent();

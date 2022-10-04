@@ -12,8 +12,8 @@ struct MainWindow : MainWindowT<MainWindow>
 {
 public:
     MainWindow();
-
-    winrt::AppWindow AppWindow();
+    // to avoid name conflict with future Microsoft.UI.Xaml.Window.AppWindow property
+    winrt::AppWindow MyAppWindow(); 
 
     void NavigationView_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& args);
     void NavigationView_ItemInvoked(winrt::IInspectable const& sender, winrt::NavigationViewItemInvokedEventArgs const& args);

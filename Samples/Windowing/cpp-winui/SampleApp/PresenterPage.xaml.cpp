@@ -23,7 +23,7 @@ namespace winrt::SampleApp::implementation
     {
         Window window = e.Parameter().as<Window>();
         MainWindow mainWindow = window.as<MainWindow>();
-        m_mainAppWindow = mainWindow.AppWindow();
+        m_mainAppWindow = mainWindow.MyAppWindow();
     }
 
     void PresenterPage::SwitchPresenter(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
