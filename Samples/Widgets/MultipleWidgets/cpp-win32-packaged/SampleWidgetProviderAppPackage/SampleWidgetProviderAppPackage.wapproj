@@ -46,8 +46,7 @@
     <TargetPlatformVersion>10.0.22000.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateKeyFile>SampleWidgetProviderAppPackage_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\SampleWidgetProviderApp\SampleWidgetProviderApp.vcxproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
@@ -56,7 +55,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SampleWidgetProviderAppPackage_TemporaryKey.pfx" />
     <Content Include="Templates\WeatherWidgetTemplate.json" />
     <Content Include="Templates\CountingWidgetTemplate.json" />
     <Content Include="Images\SplashScreen.scale-200.png" />
