@@ -22,7 +22,7 @@ namespace winrt::SampleApp::implementation
     {
         Window window = e.Parameter().as<Window>();
         MainWindow mainWindow = window.as<MainWindow>();
-        AppWindow appWindow = mainWindow.AppWindow();
+        AppWindow appWindow = mainWindow.MyAppWindow();
         m_mainAppWindow = appWindow;
     }
 

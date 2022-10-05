@@ -12,7 +12,7 @@ namespace Windowing
 {
     public partial class TitleBar : Page
     {
-        private AppWindow _mainAppWindow = MainWindow.AppWindow;
+        private AppWindow _mainAppWindow = MainWindow.MyAppWindow;
         private bool _isBrandedTitleBar;
         private bool _isTallTitleBar = false;
         private MainPage _mainPage = MainPage.Current;

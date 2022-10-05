@@ -17,7 +17,7 @@ namespace Windowing
     /// </summary>
     public sealed partial class Presenters : Page
     {
-        private AppWindow _mainAppWindow = MainWindow.AppWindow;
+        private AppWindow _mainAppWindow = MainWindow.MyAppWindow;
         public Presenters()
         {
             this.InitializeComponent();

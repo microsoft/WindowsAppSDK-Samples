@@ -25,7 +25,7 @@ namespace winrt::SampleApp::implementation
     }
 
 
-    winrt::AppWindow MainWindow::AppWindow()
+    winrt::AppWindow MainWindow::MyAppWindow()
     {
         return m_mainAppWindow;
     }
@@ -74,7 +74,7 @@ namespace winrt::SampleApp::implementation
 
     void MainWindow::MyWindowIcon_DoubleTapped(winrt::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::Input::DoubleTappedRoutedEventArgs const& /*e*/)
     {
-        this->AppWindow().Destroy();
+        this->MyAppWindow().Destroy();
     }
 
     winrt::AppWindow MainWindow::GetAppWindowForCurrentWindow()

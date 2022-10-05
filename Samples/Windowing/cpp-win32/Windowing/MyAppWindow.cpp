@@ -5,7 +5,7 @@
 using namespace winrt::Microsoft::UI::Windowing;
 
 // global
-winrt::Microsoft::UI::Windowing::AppWindow appWindow{ nullptr };
+winrt::Microsoft::UI::Windowing::AppWindow myAppWindow{ nullptr };
 
 namespace winrt
 {
@@ -60,14 +60,14 @@ MyAppWindow::MyAppWindow(const winrt::Compositor& compositor, const std::wstring
     windowId = winrt::GetWindowIdFromWindow(m_window);
 
     // Get the AppWindow for the WindowId
-    appWindow = winrt::Microsoft::UI::Windowing::AppWindow::GetFromWindowId(windowId);
+    myAppWindow = winrt::Microsoft::UI::Windowing::AppWindow::GetFromWindowId(windowId);
 
     //Create Compact Overlay Presenter
     winrt::Microsoft::UI::Windowing::AppWindowPresenterKind newPresenterKind = winrt::Microsoft::UI::Windowing::AppWindowPresenterKind::CompactOverlay;
-    appWindow.SetPresenter(newPresenterKind);
+    myAppWindow.SetPresenter(newPresenterKind);
 
-    appWindow.Create();
-    appWindow.Show();
+    myAppWindow.Create();
+    myAppWindow.Show();
 
     // The Mica controller needs to set a target with a root to recognize the visual base layer
     m_target = CreateWindowTarget(compositor);

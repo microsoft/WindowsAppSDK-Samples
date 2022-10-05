@@ -1,4 +1,4 @@
-
+﻿
 namespace SampleApp
 {
     [default_interface]
@@ -6,7 +6,7 @@ namespace SampleApp
     {
         MainWindow();
 
-        Microsoft.UI.Windowing.AppWindow AppWindow { get; };
+        Microsoft.UI.Windowing.AppWindow MyAppWindow { get; };
         Microsoft.UI.Xaml.Controls.Grid MyTitleBar{ get; };
         Microsoft.UI.Xaml.Controls.Image MyWindowIcon{ get; };
 

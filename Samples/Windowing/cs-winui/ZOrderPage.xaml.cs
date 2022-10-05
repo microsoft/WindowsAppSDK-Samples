@@ -30,7 +30,7 @@ namespace Windowing
     /// </summary>
     public sealed partial class ZOrder : Page
     {
-        private AppWindow _mainAppWindow = MainWindow.AppWindow;
+        private AppWindow _mainAppWindow = MainWindow.MyAppWindow;
         List<WindowId> windowList = new List<WindowId>();
 
         public ZOrder()
