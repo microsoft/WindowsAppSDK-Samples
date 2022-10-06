@@ -1,0 +1,316 @@
+﻿<UserControl
+  x:Class="WinUI3App.Controls"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="using:WinUI3App"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+  mc:Ignorable="d">
+  <ScrollViewer>
+
+    <Grid ColumnSpacing="30" RowSpacing="30">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Grid
+        x:Name="Control1"
+        Grid.Row="0"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        ColumnSpacing="30"
+        RowSpacing="12">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <Button
+          x:Name="Button1"
+          Grid.Row="0"
+          Grid.Column="0"
+          Click="Button_Click"
+          Content="Standard XAML button"
+          ToolTipService.ToolTip="This is tooltip" />
+
+        <TextBlock
+          x:Name="TextBlock1"
+          Grid.Row="0"
+          Grid.Column="1"
+          VerticalAlignment="Center"
+          Text="I am a TextBlock next to Button" />
+
+        <ComboBox
+          x:Name="ComboBox1"
+          Grid.Row="1"
+          Grid.Column="0"
+          Width="200"
+          Header="ComboBox1"
+          PlaceholderText="Pick item"
+          SelectionChanged="ComboBox_SelectionChanged">
+          <x:String>Item1</x:String>
+          <x:String>Item2</x:String>
+          <x:String>Item3</x:String>
+          <x:String>Item4</x:String>
+        </ComboBox>
+        <TextBlock
+          x:Name="TextBlock2"
+          Grid.Row="1"
+          Grid.Column="1"
+          VerticalAlignment="Center"
+          Text="I am a TextBlock next to ComboBox" />
+
+        <CheckBox
+          x:Name="CheckBox1"
+          Grid.Row="2"
+          Grid.Column="0"
+          Checked="CheckBox1_Checked"
+          Content="Two-state CheckBox"
+          Unchecked="CheckBox1_Unchecked" />
+        <TextBlock
+          x:Name="TextBlock3"
+          Grid.Row="2"
+          Grid.Column="1"
+          Text="I am a TextBlock next to CheckBox" />
+
+
+        <TextBlock
+          Grid.Row="3"
+          Grid.Column="0"
+          Margin="5"
+          Text="Group1:" />
+        <RadioButton
+          x:Name="RadioButton1"
+          Grid.Row="4"
+          Grid.Column="0"
+          Margin="5"
+          Content="RadioButton1 Group1"
+          GroupName="Group1" />
+        <RadioButton
+          x:Name="RadioButton2"
+          Grid.Row="5"
+          Grid.Column="0"
+          Margin="5"
+          Content="RadioButton2 Group1"
+          GroupName="Group1" />
+        <TextBlock
+          Grid.Row="6"
+          Grid.Column="0"
+          Margin="5"
+          Text="Ungrouped:" />
+        <RadioButton
+          x:Name="RadioButton3"
+          Grid.Row="7"
+          Grid.Column="0"
+          Margin="5"
+          Content="RadioButton3 Ungrouped" />
+        <RadioButton
+          x:Name="RadioButton4"
+          Grid.Row="8"
+          Grid.Column="0"
+          Margin="5"
+          Content="RadioButton4 Ungrouped" />
+
+        <TextBox
+          x:Name="TextBoxInput"
+          Grid.Row="0"
+          Grid.Column="3"
+          Width="300"
+          HorizontalAlignment="Left"
+          Header="Enter your text:"
+          PlaceholderText="Text"
+          TextChanged="TextBoxInput_TextChanged" />
+        <TextBlock
+          x:Name="TextBlockOutput"
+          Grid.Row="0"
+          Grid.Column="4"
+          Text="I am a TextBlock next to TextBoxInput" />
+
+        <StackPanel Grid.Row="1" Grid.Column="3">
+          <TextBox
+          x:Name="BrowseTextBox"
+          
+          PlaceholderText="Browse (no hwnd)"
+          TextWrapping="Wrap" />
+          <Button
+          x:Name="BrowseButton1"
+          Click="BrowseButtonClickNoHwnd"
+          Content="Browse (no hwnd)" />
+
+          <TextBox
+          x:Name="BrowseTextBox1"
+          PlaceholderText="Browse"
+          TextWrapping="Wrap" />
+          <Button
+          x:Name="BrowseButton"
+          Click="BrowseButtonClick"
+            Content="Browse" />
+        </StackPanel>
+
+        <NumberBox
+          x:Name="NumberBox1"
+          Grid.Row="2"
+          Grid.Column="3"
+          Minimum="0"
+          SmallChange="1"
+          SpinButtonPlacementMode="Compact"
+          ToolTipService.ToolTip="This is tooltip"
+          Value="0" />
+
+        <Slider
+          x:Name="Slider1"
+          Grid.Row="3"
+          Grid.Column="3"
+          Width="200"
+          ValueChanged="Slider1_ValueChanged" />
+        <TextBlock
+          x:Name="TextBlock4"
+          Grid.Row="3"
+          Grid.Column="4"
+          Text="I am a TextBlock next to Slider" />
+
+        <Slider
+          x:Name="ProgressSlider"
+          Grid.Row="4"
+          Grid.Column="3"
+          Header="Progress ring slider"
+          ValueChanged="ProgressSlider_ValueChanged" />
+        <muxc:ProgressRing
+          x:Name="ProgressRing1"
+          Grid.Row="4"
+          Grid.Column="4"
+          Width="60"
+          Height="60"
+          IsIndeterminate="False"
+          Value="0" />
+
+
+        <TextBlock
+          x:Name="TextBlock5"
+          Grid.Row="5"
+          Grid.Column="3"
+          Text="ProgressBar" />
+        <muxc:ProgressBar
+          Grid.Row="5"
+          Grid.Column="4"
+          IsIndeterminate="True"
+          ShowError="False"
+          ShowPaused="False" />
+        <TextBlock
+          x:Name="TextBlock6"
+          Grid.Row="6"
+          Grid.Column="3"
+          Text="ProgressBar Warning" />
+        <muxc:ProgressBar
+          Grid.Row="6"
+          Grid.Column="4"
+          IsIndeterminate="True"
+          ShowError="False"
+          ShowPaused="True" />
+        <TextBlock
+          x:Name="TextBlock7"
+          Grid.Row="7"
+          Grid.Column="3"
+          Text="ProgressBar Error" />
+        <muxc:ProgressBar
+          Grid.Row="7"
+          Grid.Column="4"
+          IsIndeterminate="True"
+          ShowError="True"
+          ShowPaused="False" />
+
+        <Image
+          Grid.Row="8"
+          Grid.Column="3"
+          Width="100"
+          Height="100"
+          Source="/Assets/test.jpg"
+          Stretch="Fill" />
+
+        <Image
+          Grid.Row="8"
+          Grid.Column="4"
+          Width="100"
+          Height="100"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          Source="/Assets/error.svg"
+          Stretch="Fill" />
+
+
+        <ListBox
+          x:Name="ListBox1"
+          Grid.Row="0"
+          Grid.Column="5"
+          Width="200"
+          SelectionChanged="ListBox1_SelectionChanged">
+          <x:String>Blue</x:String>
+          <x:String>Green</x:String>
+          <x:String>Red</x:String>
+          <x:String>Yellow</x:String>
+        </ListBox>
+        <Border
+          x:Name="Border1"
+          Grid.Row="0"
+          Grid.Column="6"
+          Height="50"
+          Margin="0,10,0,10"
+          Background="#FFFFFFFF"
+          BorderBrush="#FFFFD700"
+          BorderThickness="10" />
+
+
+        <muxc:RadioButtons
+          x:Name="RadioButtons1"
+          Grid.Row="1"
+          Grid.Column="5"
+          Header="Background"
+          MaxColumns="3"
+          SelectedIndex="0"
+          SelectionChanged="RadioButtons1_SelectionChanged">
+          <x:String>Green</x:String>
+          <x:String>Yellow</x:String>
+          <x:String>White</x:String>
+        </muxc:RadioButtons>
+        <Border
+          x:Name="Border2"
+          Grid.Row="1"
+          Grid.Column="6"
+          Width="50"
+          Height="50"
+          Margin="0,10,0,10"
+          Background="#FFFFFFFF"
+          BorderBrush="#AADF0700"
+          BorderThickness="10" />
+
+        <!--<TextBox
+        x:Name="TextBox1"
+        Grid.Row="8"
+        Grid.Column="5"
+        VerticalAlignment="Center"
+        Text="I am a TextBox" />-->
+        <local:TextEditControl Grid.Row="8" Grid.Column="5" />
+      </Grid>
+    </Grid>
+  </ScrollViewer>
+</UserControl>

@@ -1,0 +1,13 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass NumericControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        NumericControl();
+        Int32 MyProperty;
+
+        Double value();
+        void setMinValue(Double val);
+        void setMaxValue(Double val);
+    }
+}

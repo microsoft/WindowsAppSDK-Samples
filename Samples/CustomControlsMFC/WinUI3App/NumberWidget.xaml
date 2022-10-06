@@ -1,0 +1,112 @@
+﻿<UserControl
+    x:Class="WinUI3App.NumberWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:local="using:WinUI3App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media">
+
+  <StackPanel x:Name="NumberWidgetPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Button x:Name="Down" Click="Down_Click" Height="30" Width="30">
+      <Button.Shadow>
+        <ThemeShadow/>
+      </Button.Shadow>
+      <Button.Template>
+        <ControlTemplate>
+          <Grid>
+            <Border x:Name="DownBorder" BorderBrush="LightGray" BorderThickness="1" Background="White" Width="auto" Height="auto" CornerRadius="5">
+              <Polyline x:Name="DownImg" Fill="Black" Points="0,0 5,10 10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                  <VisualState.Setters>
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="DownImg.Fill" Value="Black" />
+                    <Setter Target="DownBorder.Opacity" Value="0.3" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="DownBorder.BorderBrush" Value="Black" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="DownBorder.Background" Value="LightBlue" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Selected">
+                  <VisualState.Setters>
+                    <Setter Target="DownBorder.Background" Value="DarkBlue" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Uneditabled">
+                  <VisualState.Setters>
+                    <Setter Target="DownBorder.Fill" Value="Olive" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Button.Template>
+    </Button>
+      <controls:NumberBox x:Name="NumberBoxWidget" ValueChanged="NumberBoxWidget_ValueChanged" Value="0" Minimum="0"/>
+      <Button x:Name="Up" Click="Up_Click" Height="30" Width="30">
+      <Button.Shadow>
+        <ThemeShadow/>
+      </Button.Shadow>
+      <Button.Template>
+        <ControlTemplate>
+          <Grid>
+            <Border x:Name="UpBorder" BorderBrush="LightGray" BorderThickness="1" Background="White" Width="auto" Height="auto" CornerRadius="5">
+              <Polyline x:Name="UpImg" Fill="Black" Points="0,10 5,0 10,10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                  <VisualState.Setters>
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="UpImg.Fill" Value="Black" />
+                    <Setter Target="UpBorder.Opacity" Value="0.3" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="UpBorder.BorderBrush" Value="Black" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="UpBorder.Background" Value="LightBlue" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Selected">
+                  <VisualState.Setters>
+                    <Setter Target="UpBorder.Background" Value="DarkBlue" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Uneditabled">
+                  <VisualState.Setters>
+                    <Setter Target="UpBorder.Fill" Value="Olive" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Button.Template>
+    </Button>
+  </StackPanel>
+</UserControl>

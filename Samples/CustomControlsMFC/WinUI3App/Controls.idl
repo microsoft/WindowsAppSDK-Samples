@@ -1,0 +1,9 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass Controls : Microsoft.UI.Xaml.Controls.Page
+    {
+        Controls();
+        Int32 MyProperty;
+    }
+}

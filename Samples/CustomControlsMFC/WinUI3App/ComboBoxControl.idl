@@ -1,0 +1,20 @@
+import "IEnumWidgetBase.idl";
+
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass ComboBoxControl : Microsoft.UI.Xaml.Controls.UserControl//IEnumWidgetBase
+    {
+        ComboBoxControl();
+        Int32 MyProperty;
+
+        String text;
+        Int32 index;
+
+        void addItem(String item);
+        void clearItems();
+
+        event Windows.Foundation.EventHandler<Boolean> changed;
+
+    }
+}

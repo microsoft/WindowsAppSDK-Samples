@@ -1,0 +1,9 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass ContentButton : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        ContentButton();
+        Int32 MyProperty;
+    }
+}

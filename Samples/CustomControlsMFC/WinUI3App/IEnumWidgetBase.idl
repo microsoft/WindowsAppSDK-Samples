@@ -1,0 +1,14 @@
+#pragma once
+namespace WinUI3App
+{
+    /*unsealed runtimeclass IEnumWidgetBase : Microsoft.UI.Xaml.Controls.UserControl
+    {
+      String text;
+      Int32 index;
+
+      void addItem(String item);
+      void clearItems();
+
+      event Windows.Foundation.EventHandler<Boolean> changed;
+    } */
+}

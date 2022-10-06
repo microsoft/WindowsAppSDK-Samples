@@ -1,0 +1,15 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass TextEditControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        TextEditControl();
+        Int32 MyProperty;
+
+        String text;
+        void setPlaceholderText(String str);
+        event Windows.Foundation.EventHandler<Boolean> changed;
+        //TODO
+        //virtual void applyAttributes(const std::map<std::string, std::string>& attributes, ITranslate* translator) override;
+    }
+}

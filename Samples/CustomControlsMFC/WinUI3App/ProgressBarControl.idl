@@ -1,0 +1,12 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass ProgressBarControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        ProgressBarControl();
+        Int32 MyProperty;
+
+        //TODO
+        //setTimer
+    }
+}

@@ -1,0 +1,12 @@
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+namespace WinUIClassLibraryExp
+{
+    [default_interface]
+    runtimeclass TestUserControl : Windows.UI.Xaml.Controls.UserControl
+    {
+        TestUserControl();
+        Int32 MyProperty;
+    }
+}

@@ -1,0 +1,16 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass ListBoxControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        ListBoxControl();
+        Int32 MyProperty;
+
+        event Windows.Foundation.EventHandler<Boolean> changed;
+        //String text;
+        //Int32 index;
+
+        void addItem(String item);
+        //void clearItems();
+    }
+}

@@ -1,0 +1,13 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass ButtonControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        ButtonControl();
+        Int32 MyProperty;
+
+        void text(String str);
+        void icon(String str);
+        event Windows.Foundation.EventHandler<Boolean> clicked;
+    }
+}

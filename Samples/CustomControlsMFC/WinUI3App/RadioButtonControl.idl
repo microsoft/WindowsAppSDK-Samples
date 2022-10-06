@@ -1,0 +1,17 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass RadioButtonControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        RadioButtonControl();
+        Int32 MyProperty;
+
+        Boolean isChecked;
+        String text();
+        event Windows.Foundation.EventHandler<Boolean> clicked;
+        event Windows.Foundation.EventHandler<Boolean> changed;
+        event Windows.Foundation.EventHandler<Boolean> checked;
+        //TODO
+        //virtual void addToGroup(BOPT::AbstractWidgets::IButtonGroup* group) = 0;
+    }
+}

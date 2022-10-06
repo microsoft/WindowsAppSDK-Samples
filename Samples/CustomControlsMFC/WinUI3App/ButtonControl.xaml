@@ -1,0 +1,18 @@
+﻿<UserControl
+  x:Class="WinUI3App.ButtonControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="using:WinUI3App"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d">
+
+  <StackPanel>
+    <Button x:Name="ButtonWidget" Click="ButtonWidget_Click">Click</Button>
+    <Image
+      x:Name="ImageWidget"
+      Width="100"
+      Source="/Assets/test.jpg"
+      Stretch="Fill" />
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,11 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass ImageControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        ImageControl();
+        Int32 MyProperty;
+
+        String imageLink;
+    }
+}

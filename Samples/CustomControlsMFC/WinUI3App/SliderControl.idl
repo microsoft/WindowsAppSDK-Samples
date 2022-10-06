@@ -1,0 +1,14 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass SliderControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        SliderControl();
+        Int32 MyProperty;
+
+        Int32 value;
+        void setMinValue(Int32 value);
+        void setMaxValue(Int32 value);
+        event Windows.Foundation.EventHandler<Boolean> changed;
+    }
+}

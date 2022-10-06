@@ -1,0 +1,66 @@
+﻿<UserControl
+    x:Class="WinUI3App.DropdownButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinUI3App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+  <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <ComboBox x:Name="Main" SelectionChanged="Main_SelectionChanged" Height="30" Width="auto">      
+      <ComboBox.Shadow>
+        <ThemeShadow/>
+      </ComboBox.Shadow>
+      <ComboBox.Template>
+        <ControlTemplate>
+          <Grid>
+            <Border x:Name="ContentBorder" BorderBrush="LightGray" BorderThickness="1" Background="White" Width="auto" Height="auto" CornerRadius="3">
+              <ComboBox x:Name="ComboBoxGroup" VerticalAlignment="Center" PlaceholderText="Dropdown">
+                <x:String>Item1</x:String>
+                <x:String>Item2</x:String>
+                <x:String>Item3</x:String>
+                <x:String>Item4</x:String>
+              </ComboBox>
+            </Border>
+
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                  <VisualState.Setters>
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="ContentBorder.Opacity" Value="0.3" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="ContentBorder.BorderBrush" Value="Black" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="ContentBorder.Background" Value="DarkBlue" />
+                    <Setter Target="ComboBoxGroup.Background" Value="LightBlue" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Selected">
+                  <VisualState.Setters>
+                    <Setter Target="ComboBoxGroup.Background" Value="DarkBlue" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Uneditabled">
+                  <VisualState.Setters>
+                    <Setter Target="ContentImg.Fill" Value="Olive" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </ComboBox.Template>
+    </ComboBox>
+  </StackPanel>
+</UserControl>

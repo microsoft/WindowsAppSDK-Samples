@@ -1,0 +1,12 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass CheckBoxControl : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        CheckBoxControl();
+        Int32 MyProperty;
+
+        Boolean checked;
+        event Windows.Foundation.EventHandler<Boolean> changed;
+    }
+}

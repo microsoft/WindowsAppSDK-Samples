@@ -1,0 +1,9 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass NumberWidget : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        NumberWidget();
+        Int32 MyProperty;
+    }
+}

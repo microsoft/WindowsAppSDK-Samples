@@ -1,0 +1,9 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass DropdownButton : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        DropdownButton();
+        Int32 MyProperty;
+    }
+}

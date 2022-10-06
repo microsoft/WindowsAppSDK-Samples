@@ -1,0 +1,9 @@
+namespace CppApp
+{
+    [default_interface]
+    runtimeclass NameReporterWrapper : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        NameReporterWrapper();
+        Int32 MyProperty;
+    }
+}

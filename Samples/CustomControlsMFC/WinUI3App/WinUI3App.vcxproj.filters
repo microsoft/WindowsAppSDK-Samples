@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml" />
+    <Page Include="ComboBoxControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="TextEditControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="Controls.xaml">
+      <Filter>Tabs</Filter>
+    </Page>
+    <Page Include="OFCExample.xaml">
+      <Filter>Tabs</Filter>
+    </Page>
+    <Page Include="LabelControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="CheckBoxControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="ButtonControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="OFCDynamic.xaml">
+      <Filter>Tabs</Filter>
+    </Page>
+    <Page Include="ProgressBarControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="NumericControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="RadioButtonControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="SliderControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="ImageControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="ListBoxControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="ContainerControl.xaml">
+      <Filter>Widgets</Filter>
+    </Page>
+    <Page Include="DictionaryDark.xaml" />
+    <Page Include="DictionaryLight.xaml" />
+    <Page Include="NumberWidget.xaml">
+      <Filter>WidgetsNew</Filter>
+    </Page>
+    <Page Include="ContentButton.xaml">
+      <Filter>WidgetsNew</Filter>
+    </Page>
+    <Page Include="InputButton.xaml">
+      <Filter>WidgetsNew</Filter>
+    </Page>
+    <Page Include="StatusButton.xaml">
+      <Filter>WidgetsNew</Filter>
+    </Page>
+    <Page Include="DropdownButton.xaml">
+      <Filter>WidgetsNew</Filter>
+    </Page>
+    <Page Include="IconButton.xaml">
+      <Filter>WidgetsNew</Filter>
+    </Page>
+    <Page Include="Icon.xaml">
+      <Filter>WidgetsNew</Filter>
+    </Page>
+    <Page Include="FilterButton.xaml">
+      <Filter>WidgetsNew</Filter>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="App.idl" />
+    <Midl Include="MainWindow.idl" />
+    <Midl Include="IEnumWidgetBase.idl">
+      <Filter>Widgets\Base</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="Widgets\Label.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Widgets\Label.h" />
+    <ClInclude Include="IEnumWidgetBase.h">
+      <Filter>Widgets\Base</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\derivative.png" />
+    <Image Include="Assets\test.jpg" />
+    <Image Include="Assets\down.png" />
+    <Image Include="Assets\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{ba92fa2d-1155-4a24-870d-5bb5a553f9a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widgets">
+      <UniqueIdentifier>{abeacfa1-04fa-4802-a933-56f9ecd0d39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tabs">
+      <UniqueIdentifier>{71af473a-70d0-440d-8b96-d7dcabf255d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widgets\Base">
+      <UniqueIdentifier>{e208e4a3-7ad4-4380-93d5-8f1c1eae6f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WidgetsNew">
+      <UniqueIdentifier>{22da3845-4802-4af6-b9c6-7ecce26db8c0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Assets\derivative.svg" />
+  </ItemGroup>
+</Project>

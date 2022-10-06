@@ -1,0 +1,9 @@
+namespace WinUI3App
+{
+    [default_interface]
+    runtimeclass Icon : Microsoft.UI.Xaml.Controls.UserControl
+    {
+        Icon();
+        Int32 MyProperty;
+    }
+}

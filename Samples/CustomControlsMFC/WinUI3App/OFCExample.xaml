@@ -1,0 +1,130 @@
+﻿<UserControl
+  x:Class="WinUI3App.OFCExample"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="using:WinUI3App"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:muxc="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  mc:Ignorable="d">
+
+
+  <muxc:TabView MinHeight="475" SelectedIndex="0">
+    <muxc:TabView.TabItems>
+      <muxc:TabViewItem Header="Search">
+        <muxc:TabViewItem.IconSource>
+          <muxc:SymbolIconSource Symbol="Placeholder" />
+        </muxc:TabViewItem.IconSource>
+
+        <Grid
+          x:Name="Control1"
+          Grid.Row="0"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          ColumnSpacing="30"
+          RowSpacing="12">
+
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:ContentButton/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:InputButton/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:DropdownButton/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:StatusButton/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:NumberWidget/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:IconButton/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:Icon/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:FilterButton/>
+              </StackPanel>
+              
+              
+
+              <StackPanel Orientation="Horizontal">
+                <local:LabelControl x:Name="SearchTextLabel" Margin="0,0,50,0" />
+                <local:TextEditControl x:Name="SearchTextTextBox" Width="100" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:CheckBoxControl x:Name="AdvancedCheckBox" />
+                <local:LabelControl x:Name="AdvancedLabel" Margin="0,0,50,0" />
+                <local:ButtonControl x:Name="ClearAll" HorizontalAlignment="Right" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:LabelControl x:Name="AllOfLabel" Margin="0,0,50,0" />
+                <local:TextEditControl x:Name="AllOfTextBox" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:LabelControl x:Name="OneOfLabel" Margin="0,0,50,0" />
+                <local:TextEditControl x:Name="OneOfTextBox" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:LabelControl x:Name="NoneOfLabel" Margin="0,0,50,0" />
+                <local:TextEditControl x:Name="NoneOfTextBox" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:LabelControl x:Name="NumbersInTheRangeFromLabel" Margin="0,0,50,0" />
+                <local:TextEditControl x:Name="NumbersInTheRangeFromTextBox" Margin="0,0,50,0" />
+                <local:LabelControl x:Name="NumbersInTheRangeToLabel" Margin="0,0,50,0" />
+                <local:TextEditControl x:Name="NumbersInTheRangeToTextBox" Margin="0,0,50,0" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:LabelControl x:Name="MaximumNumberOfHitsLabel" Margin="0,0,50,0" />
+                <local:TextEditControl x:Name="MaximumNumberOfHitsTextBox" Margin="0,0,50,0" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <local:ButtonControl x:Name="Execute" Margin="0,0,50,0" />
+                <local:ButtonControl x:Name="Cancel" />
+              </StackPanel>
+            </StackPanel>
+          </StackPanel>
+
+        </Grid>
+
+      </muxc:TabViewItem>
+      <muxc:TabViewItem Header="Libraries">
+        <muxc:TabViewItem.IconSource>
+          <muxc:SymbolIconSource Symbol="Placeholder" />
+        </muxc:TabViewItem.IconSource>
+
+        <Grid
+          x:Name="Control2"
+          Grid.Row="0"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          RowSpacing="12">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+
+          <local:TextEditControl Grid.Row="0" />
+          <!--<local:ComboBoxControl Grid.Row="1" />-->
+
+        </Grid>
+
+      </muxc:TabViewItem>
+    </muxc:TabView.TabItems>
+  </muxc:TabView>
+
+</UserControl>
