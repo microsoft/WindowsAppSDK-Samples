@@ -1,0 +1,64 @@
+﻿<Page
+    x:Class="DynamicRefreshRateTool.AnimationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DynamicRefreshRateTool"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ForegroundBrush}">
+        <Grid.Clip>
+            <RectangleGeometry Rect="0,0,9999,9999" />
+        </Grid.Clip>
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <Ellipse HorizontalAlignment="Center" Height="25" VerticalAlignment="Center" Width="25" Fill="{ThemeResource SystemAccentColorLight2}" Stroke="{ThemeResource SystemAccentColorDark2}">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform TranslateX="150"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+
+            <Ellipse HorizontalAlignment="Center" Height="25" VerticalAlignment="Center" Width="25" Fill="{ThemeResource SystemAccentColorLight2}" Stroke="{ThemeResource SystemAccentColorDark2}">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform TranslateY="150"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+
+            <Ellipse HorizontalAlignment="Center" Height="25" VerticalAlignment="Center" Width="25" Fill="{ThemeResource SystemAccentColorLight2}" Stroke="{ThemeResource SystemAccentColorDark2}">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform TranslateX="-150"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+
+            <Ellipse HorizontalAlignment="Center" Height="25" VerticalAlignment="Center" Width="25" Fill="{ThemeResource SystemAccentColorLight2}" Stroke="{ThemeResource SystemAccentColorDark2}">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform TranslateY="-150"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+
+            <Grid.RenderTransform>
+                <CompositeTransform x:Name="globalTrnsform"/>
+            </Grid.RenderTransform>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <ToggleButton Margin="10" Name="Button1" Click="Button_Click">x0.5 Speed</ToggleButton>
+            <ToggleButton Margin="10" Name="Button2" Click="Button_Click" IsChecked="True">x1 Speed</ToggleButton>
+            <ToggleButton Margin="10" Name="Button3" Click="Button_Click">x2 Speed</ToggleButton>
+        </StackPanel>
+
+
+        <Grid.Resources>
+            <Storyboard x:Name="myStoryBoard">
+                <DoubleAnimation Storyboard.TargetName="globalTrnsform"
+                                 Storyboard.TargetProperty="Rotation"
+                                 From="0.0"
+                                 To="3600.0"
+                                 Duration="0:0:6.66666"
+                                 RepeatBehavior="Forever"
+                                 x:Name="RotationAnimation"/>
+            </Storyboard>
+        </Grid.Resources>
+    </Grid>
+</Page>

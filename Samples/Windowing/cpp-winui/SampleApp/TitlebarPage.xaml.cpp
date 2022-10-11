@@ -25,7 +25,7 @@ namespace winrt::SampleApp::implementation
     void TitlebarPage::OnNavigatedTo(NavigationEventArgs const& e)
     {
         m_mainWindow = e.Parameter().as<MainWindow>();
-        AppWindow appWindow = m_mainWindow.AppWindow();
+        AppWindow appWindow = m_mainWindow.MyAppWindow();
         m_appWindow = appWindow;
         m_changedToken = m_appWindow.Changed({ this, &TitlebarPage::AppWindowChangedHandler });
     }

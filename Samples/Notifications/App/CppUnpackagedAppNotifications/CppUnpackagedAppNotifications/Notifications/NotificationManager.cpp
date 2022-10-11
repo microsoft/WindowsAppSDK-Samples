@@ -66,12 +66,12 @@ void NotificationManager::ProcessLaunchActivationArgs(winrt::AppNotificationActi
 
 bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    auto scenarioId{ Common::ExtractScenarioIdFromArgs(notificationActivatedEventArgs.Argument().c_str())};
-    if (scenarioId.has_value())
+    auto scenarioId{ notificationActivatedEventArgs.Arguments().Lookup(Common::scenarioTag) };
+    if (!scenarioId.empty())
     {
         try
         {
-            c_notificationHandlers.at(scenarioId.value())(notificationActivatedEventArgs); // Will throw if out of range
+            c_notificationHandlers.at(std::stoul(std::wstring(scenarioId.c_str())))(notificationActivatedEventArgs); // Will throw if out of range
             return true;
         }
         catch (...)

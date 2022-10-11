@@ -34,7 +34,6 @@ namespace winrt::DeploymentManagerSample::implementation
     void Scenario2_Initialize::UpdateDeploymentResultMessages(DeploymentResult deploymentResult)
     {
         resultStatus().Text(L"Result Status: "); // TODO DeploymentStatus to string
-        resultExtendedError().Text(L"Result ExtendedError: " + to_hstring(deploymentResult.ExtendedError()));
 
         // Check the result.
         if (deploymentResult.Status() == DeploymentStatus::Ok)
@@ -44,6 +43,8 @@ namespace winrt::DeploymentManagerSample::implementation
         }
         else
         {
+            resultExtendedError().Text(L"Result ExtendedError: " + to_hstring(deploymentResult.ExtendedError()));
+
             // The WindowsAppRuntime is in a bad state which Initialize() did not fix.
             // Do error reporting or gather information for submitting a bug.
             // Gracefully exit the program or carry on without using the WindowsAppRuntime.

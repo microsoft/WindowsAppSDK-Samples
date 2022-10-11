@@ -24,7 +24,7 @@ namespace winrt::SampleApp::implementation
     {
         Window window = e.Parameter().as<Window>();
         MainWindow mainWindow = window.as<MainWindow>();
-        m_mainAppWindow = mainWindow.AppWindow();
+        m_mainAppWindow = mainWindow.MyAppWindow();
 
         // Disable the switches that control properties only available when Overlapped if we're in any other Presenter state
         if (m_mainAppWindow.Presenter().Kind() != AppWindowPresenterKind::Overlapped)

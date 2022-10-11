@@ -1,0 +1,88 @@
+# Please see https://www.osgwiki.com/wiki/Windows_App_SDK_-_How_to_build_and_use_the_pipelines
+# for information on how to use the pipelines
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+parameters:
+- name: FeatureAreas
+  type: object
+  default:
+  - 'AppLifecycle\Activation'
+  - 'AppLifecycle\EnvironmentVariables'
+  - 'AppLifecycle\Restart'
+  - 'AppLifecycle\Instancing'
+  - 'AppLifecycle\StateNotifications'
+  - 'DeploymentManager'
+  - 'CustomControls'
+  - 'Insights'
+  - 'Input/cs-winui'
+  - 'Installer'
+  - 'Mica'
+  - 'Notifications'
+  - 'PhotoEditor'
+  - 'ResourceManagement'
+  - 'SelfContainedDeployment'
+  - 'TextRendering'
+  - 'Unpackaged'
+  - 'Windowing'
+- name: "BuildConfig"
+  type: object
+  default:
+  - 'Release'
+  - 'Debug'
+- name: "BuildPlatform"
+  type: object
+  default:
+  - 'x64'
+  - 'x86'
+
+jobs: 
+- job: 'BuildAllSamples'
+  pool: 'ProjectReunionSamplesESPool-MS'
+  timeoutInMinutes: 120
+  strategy:
+    maxParallel: 10
+    matrix:
+      ${{ each featureArea in parameters.FeatureAreas }}:
+        ${{ featureArea }}:
+          feature: ${{ featureArea }}
+  
+  steps:
+  - task: NuGetToolInstaller@1
+    displayName: 'Use NuGet 5.11.0'
+    inputs:
+      versionSpec: 5.11.0
+
+  # The environment variable VCToolsInstallDir isn't defined on lab machines, so we need to retrieve it ourselves.
+  - script: |
+      "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -Latest -prerelease -requires Microsoft.Component.MSBuild -property InstallationPath > %TEMP%\vsinstalldir.txt
+      set /p _VSINSTALLDIR15=<%TEMP%\vsinstalldir.txt
+      del %TEMP%\vsinstalldir.txt
+      call "%_VSINSTALLDIR15%\Common7\Tools\VsDevCmd.bat"
+      echo VCToolsInstallDir = %VCToolsInstallDir%
+      echo ##vso[task.setvariable variable=VCToolsInstallDir]%VCToolsInstallDir%
+    displayName: 'Retrieve VC tools directory'
+
+  #====================================================================================================================
+  - task: NuGetCommand@2
+    inputs:
+      command: 'restore'
+      feedsToUse: 'config'
+      nugetConfigPath: '.\Samples\nuget.config'
+      restoreSolution: '.\Samples\$(feature)\**\*.sln'
+
+  - ${{ each config in parameters.BuildConfig }}:
+    - ${{ each platform in parameters.BuildPlatform }}:
+      - task: VSBuild@1
+        displayName: 'Restore nuget packages for all solutions'
+        inputs:
+          solution: .\Samples\$(feature)\**\*.sln
+          platform: '${{ platform }}'
+          configuration: '${{ config }}'
+          msbuildArgs: '/t:restore /p:PublishReadyToRun=true /p:VCToolsInstallDir="$(VCToolsInstallDir)\"'
+
+      - task: VSBuild@1
+        displayName: 'Build all Sample solutions'
+        inputs:
+          solution: .\Samples\$(feature)\**\*.sln
+          platform: '${{ platform }}'
+          configuration: '${{ config }}'
+          msbuildArgs: '/p:VCToolsInstallDir="$(VCToolsInstallDir)\"'

@@ -15,12 +15,13 @@ namespace Windowing
 {
     public partial class MainWindow : Window
     {
-        public static AppWindow AppWindow;
+        // to avoid name conflict with future Microsoft.UI.Xaml.Window.AppWindow property
+        public static AppWindow MyAppWindow;
         public string WindowTitle;
         public MainWindow()
         {
             this.InitializeComponent();
-            AppWindow = AppWindowExtensions.GetAppWindow(this);
+            MyAppWindow = AppWindowExtensions.GetAppWindow(this);
             Title = Settings.FeatureName;
             
             HWND hwnd = (HWND)WinRT.Interop.WindowNative.GetWindowHandle(this);
