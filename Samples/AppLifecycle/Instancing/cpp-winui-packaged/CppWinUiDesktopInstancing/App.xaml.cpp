@@ -43,7 +43,7 @@ App::App()
 /// <param name="e">Details about the launch request and process.</param>
 void App::OnLaunched(LaunchActivatedEventArgs const&)
 {
-    auto numberOfActivations{ IncrementAndSetNumberOfRedirectionsReturnNewNumber() };
+    auto numberOfActivations{ IncrementNumberOfRedirections() };
     window = make<MainWindow>();
 
     // GetInstances also gets the current instance.

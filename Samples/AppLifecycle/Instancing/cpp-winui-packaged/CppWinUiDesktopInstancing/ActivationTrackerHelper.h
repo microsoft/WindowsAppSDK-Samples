@@ -44,7 +44,7 @@ inline DWORD GetNumberOfActivations()
     return numberOfActivations;
 }
 
-inline DWORD IncrementAndSetNumberOfRedirectionsReturnNewNumber()
+inline DWORD IncrementNumberOfRedirections()
 {
     auto numberOfActivations{GetNumberOfActivations()};
     numberOfActivations++;
