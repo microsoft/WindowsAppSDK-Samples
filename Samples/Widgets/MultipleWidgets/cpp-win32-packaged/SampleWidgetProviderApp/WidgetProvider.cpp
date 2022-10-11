@@ -1,69 +1,73 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 #include "pch.h"
 #include "WidgetProvider.h"
 #include "WidgetImpl.h"
 
-typedef std::function<std::shared_ptr<WidgetImpl>(winrt::WidgetContext, winrt::hstring)> CreateWidgetImplFn;
+using CreateWidgetImplFn = std::function<std::shared_ptr<WidgetImplBase>(winrt::WidgetContext, winrt::hstring)>;
+
 struct WidgetImplCreationInfo
 {
-	CreateWidgetImplFn factoryFn;
+    const wchar_t* const widgetName;
+    CreateWidgetImplFn factoryFn;
 };
 
 template<typename T>
-std::shared_ptr<WidgetImpl> CreateWidgetFn(winrt::WidgetContext widgetContext, winrt::hstring state)
+std::shared_ptr<WidgetImplBase> CreateWidgetFn(winrt::WidgetContext widgetContext, winrt::hstring state)
 {
-	auto widgetId = widgetContext.Id();
-	auto newWidget = std::make_shared<T>(widgetId, state);
+    auto widgetId = widgetContext.Id();
+    auto newWidget = std::make_shared<T>(widgetId, state);
 
-	// Call UpdateWidget() to send data/template to the newly created widget.
-	winrt::WidgetUpdateRequestOptions updateOptions{ widgetId };
-	updateOptions.Template(newWidget->GetTemplateForWidget());
-	updateOptions.Data(newWidget->GetDataForWidget());
-	// You can store some custom state in the widget service that you will be able to query at any time.
-	updateOptions.CustomState(newWidget->State());
-	// Update the widget
-	winrt::WidgetManager::GetDefault().UpdateWidget(updateOptions);
-	return newWidget;
+    // Call UpdateWidget() to send data/template to the newly created widget.
+    winrt::WidgetUpdateRequestOptions updateOptions{ widgetId };
+    updateOptions.Template(newWidget->GetTemplateForWidget());
+    updateOptions.Data(newWidget->GetDataForWidget());
+    // You can store some custom state in the widget service that you will be able to query at any time.
+    updateOptions.CustomState(newWidget->State());
+    // Update the widget
+    winrt::WidgetManager::GetDefault().UpdateWidget(updateOptions);
+    return newWidget;
 }
-
 
 #include "CountingWidgetImpl.h"
 #include "WeatherWidgetImpl.h"
-// Register all widget types here, optionally specify an is enabled function
-static auto s_widgetImplRegistry = std::unordered_map<winrt::hstring, WidgetImplCreationInfo>{
-	// { WIDGET_NAME, { &WIDGET_FACTORYFN }}
-	{ L"Counting_Widget",			{ &CreateWidgetFn<CountingWidget>}},
-	{ L"Weather_Widget",			{ &CreateWidgetFn<WeatherWidget>}},
-};
 
-std::unordered_map<winrt::hstring, std::shared_ptr<WidgetImpl>> WidgetProvider::m_runningWidgetImpl{};
+// Register all widget types here, optionally specify an is enabled function
+const static std::array<WidgetImplCreationInfo, 2> s_widgetImplRegistry = { { {L"Counting_Widget", &CreateWidgetFn<CountingWidget>}, {L"Weather_Widget", &CreateWidgetFn<WeatherWidget>} } };
+
+std::unordered_map<winrt::hstring, std::shared_ptr<WidgetImplBase>> WidgetProvider::m_runningWidgetImpl{};
 
 WidgetProvider::WidgetProvider()
 {
-	RecoverRunningWidgets();
+    RecoverRunningWidgets();
 }
 
-std::shared_ptr<WidgetImpl> WidgetProvider::InitializeWidgetInternal(winrt::Microsoft::Windows::Widgets::Providers::WidgetContext widgetContext, winrt::hstring state)
+std::shared_ptr<WidgetImplBase> WidgetProvider::InitializeWidgetInternal(winrt::Microsoft::Windows::Widgets::Providers::WidgetContext widgetContext, winrt::hstring state)
 {
-	auto widgetName = widgetContext.DefinitionId();
-	auto widgetId = widgetContext.Id();
-	if (s_widgetImplRegistry.find(widgetName) != s_widgetImplRegistry.end())
-	{
-		auto widgetImpl = s_widgetImplRegistry[widgetName].factoryFn(widgetContext, state);
-		m_runningWidgetImpl[widgetId] = widgetImpl;
-		return widgetImpl;
-	}
-	return nullptr;
+    auto widgetName = widgetContext.DefinitionId();
+    auto widgetId = widgetContext.Id();
+    auto lookUpFunction = [widgetName](WidgetImplCreationInfo widgetCreationInfo) { return widgetName == widgetCreationInfo.widgetName; };
+    auto creationInfoIt = std::find_if(s_widgetImplRegistry.begin(), s_widgetImplRegistry.end(), lookUpFunction);
+    if (creationInfoIt != s_widgetImplRegistry.end())
+    {
+        auto widgetImpl = creationInfoIt->factoryFn(widgetContext, state);
+        m_runningWidgetImpl[widgetId] = widgetImpl;
+        return widgetImpl;
+    }
+    return nullptr;
 }
 
-std::shared_ptr<WidgetImpl> WidgetProvider::FindRunningWidget(winrt::hstring widgetId)
+std::shared_ptr<WidgetImplBase> WidgetProvider::FindRunningWidget(winrt::hstring widgetId)
 {
-	if (m_runningWidgetImpl.find(widgetId) != m_runningWidgetImpl.end())
-		return m_runningWidgetImpl[widgetId];
-	else
-		return nullptr;
+    if (m_runningWidgetImpl.find(widgetId) != m_runningWidgetImpl.end())
+    {
+        return m_runningWidgetImpl[widgetId];
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 // Handle the CreateWidget call. During this function call you should store
@@ -72,8 +76,8 @@ std::shared_ptr<WidgetImpl> WidgetProvider::FindRunningWidget(winrt::hstring wid
 // and you should start pushing updates.
 void WidgetProvider::CreateWidget(winrt::WidgetContext widgetContext)
 {
-	// Since it's a new widget - there's no cached state and we pass an empty string instead.
-	InitializeWidgetInternal(widgetContext, L"");
+    // Since it's a new widget - there's no cached state and we pass an empty string instead.
+    InitializeWidgetInternal(widgetContext, L"");
 }
 
 // Handle the DeleteWidget call. This is notifying you that
@@ -82,7 +86,7 @@ void WidgetProvider::CreateWidget(winrt::WidgetContext widgetContext)
 // for any other reason.
 void WidgetProvider::DeleteWidget(winrt::hstring const& widgetId, [[maybe_unused]] winrt::hstring const& customState)
 {
-	m_runningWidgetImpl.erase(widgetId);
+    m_runningWidgetImpl.erase(widgetId);
 }
 
 // Handle the OnActionInvoked call. This function call is fired when the user's
@@ -91,12 +95,11 @@ void WidgetProvider::DeleteWidget(winrt::hstring const& widgetId, [[maybe_unused
 // For example: clicking a button or submitting input.
 void WidgetProvider::OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvokedArgs)
 {
-	auto widgetId = actionInvokedArgs.WidgetContext().Id();
-	auto runningWidget = FindRunningWidget(widgetId);
-	if (runningWidget)
-	{
-		runningWidget->OnActionInvoked(actionInvokedArgs);
-	}
+    auto widgetId = actionInvokedArgs.WidgetContext().Id();
+    if (auto runningWidget = FindRunningWidget(widgetId))
+    {
+        runningWidget->OnActionInvoked(actionInvokedArgs);
+    }
 }
 
 // Handle the WidgetContextChanged call. This function is called when the context a widget
@@ -106,15 +109,14 @@ void WidgetProvider::OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvoke
 // 2) If previously sent data/template accounts for various sizes based on $host.widgetSize - you can use this event solely for telemtry.
 void WidgetProvider::OnWidgetContextChanged(winrt::WidgetContextChangedArgs contextChangedArgs)
 {
-	auto widgetContext = contextChangedArgs.WidgetContext();
-	auto widgetId = widgetContext.Id();
-	auto runningWidget = FindRunningWidget(widgetId);
-	if (runningWidget)
-	{
-		runningWidget->OnWidgetContextChanged(contextChangedArgs);
-		// Optionally: if the data/template for the new context is different
-		// from the previously sent data/template - send an update.
-	}
+    auto widgetContext = contextChangedArgs.WidgetContext();
+    auto widgetId = widgetContext.Id();
+    if (auto runningWidget = FindRunningWidget(widgetId))
+    {
+        runningWidget->OnWidgetContextChanged(contextChangedArgs);
+        // Optionally: if the data/template for the new context is different
+        // from the previously sent data/template - send an update.
+    }
 }
 
 // Handle the Activate call. This function is called when widgets host starts listening
@@ -123,12 +125,11 @@ void WidgetProvider::OnWidgetContextChanged(winrt::WidgetContextChangedArgs cont
 // until Deactivate function was called.
 void WidgetProvider::Activate(winrt::Microsoft::Windows::Widgets::Providers::WidgetContext widgetContext)
 {
-	auto widgetId = widgetContext.Id();
-	auto runningWidget = FindRunningWidget(widgetId);
-	if (runningWidget)
-	{
-		runningWidget->Activate(widgetContext);
-	}
+    auto widgetId = widgetContext.Id();
+    if (auto runningWidget = FindRunningWidget(widgetId))
+    {
+        runningWidget->Activate(widgetContext);
+    }
 }
 
 // Handle the Deactivate call. This function is called when widgets host stops listening
@@ -137,11 +138,10 @@ void WidgetProvider::Activate(winrt::Microsoft::Windows::Widgets::Providers::Wid
 // It's recommended to stop sending updates until Activate function was called.
 void WidgetProvider::Deactivate(winrt::hstring widgetId)
 {
-	auto runningWidget = FindRunningWidget(widgetId);
-	if (runningWidget)
-	{
-		runningWidget->Deactivate(widgetId);
-	}
+    if (auto runningWidget = FindRunningWidget(widgetId))
+    {
+        runningWidget->Deactivate(widgetId);
+    }
 }
 
 // This function will be called in WidgetProvider Constructor
@@ -150,26 +150,26 @@ void WidgetProvider::Deactivate(winrt::hstring widgetId)
 // subsequent launches to restore the previous state of the running widgets.
 void WidgetProvider::RecoverRunningWidgets()
 {
-	try
-	{
-		winrt::WidgetManager widgetManager = winrt::WidgetManager::GetDefault();
-		for (auto widgetInfo : widgetManager.GetWidgetInfos())
-		{
-			auto widgetContext = widgetInfo.WidgetContext();
-			auto widgetId = widgetContext.Id();
-			auto customState = widgetInfo.CustomState();
+    try
+    {
+        winrt::WidgetManager widgetManager = winrt::WidgetManager::GetDefault();
+        for (auto widgetInfo : widgetManager.GetWidgetInfos())
+        {
+            auto widgetContext = widgetInfo.WidgetContext();
+            auto widgetId = widgetContext.Id();
+            auto customState = widgetInfo.CustomState();
 
-			// Check if this widgetId is known
-			if (!FindRunningWidget(widgetId))
-			{
-				// Hook up an instance with this context
-				// Ignore the return result if this widget is not supported
-				InitializeWidgetInternal(widgetContext, customState);
-			}
-		}
-	}
-	catch (...)
-	{
+            // Check if this widgetId is known
+            if (!FindRunningWidget(widgetId))
+            {
+                // Hook up an instance with this context
+                // Ignore the return result if this widget is not supported
+                InitializeWidgetInternal(widgetContext, customState);
+            }
+        }
+    }
+    catch (...)
+    {
 
-	}
+    }
 }

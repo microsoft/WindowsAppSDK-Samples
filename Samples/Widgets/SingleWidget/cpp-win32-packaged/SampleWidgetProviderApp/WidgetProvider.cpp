@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 #include "pch.h"
@@ -32,7 +32,7 @@ std::shared_ptr<CountingWidgetInfo> WidgetProvider::FindRunningWidget(winrt::hst
 void WidgetProvider::CreateWidget(winrt::WidgetContext widgetContext)
 {
 	auto widgetId = widgetContext.Id();
-	auto countingWidget = std::make_shared<CountingWidgetInfo>(widgetId, 0, false );
+	auto countingWidget = std::make_shared<CountingWidgetInfo>(widgetId, 0, false);
 	m_runningWidgets[widgetId] = countingWidget;
 
 	winrt::WidgetUpdateRequestOptions updateOptions{ widgetId };
@@ -97,6 +97,7 @@ void WidgetProvider::OnWidgetContextChanged(winrt::WidgetContextChangedArgs cont
 	{
 		// Optionally: if the data/template for the new context is different
 		// from the previously sent data/template - send an update.
+        return;
 	}
 	throw winrt::hresult_invalid_argument{ L"WidgetContextChanged invoked for unknown widget with id: " + widgetId };
 }

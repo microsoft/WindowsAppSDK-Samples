@@ -1,11 +1,11 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 #include "pch.h"
 #include "WidgetProvider.h"
 #include <mutex>
 
-// This GUID is the same GUID thas was provided in the 
+// This GUID is the same GUID that was provided in the 
 // registration of the COM Server and Class Id in the .appxmanifest.
 static constexpr GUID widget_provider_clsid
 { /* 101D03A3-6FC8-4887-9B64-310A7B164319 */

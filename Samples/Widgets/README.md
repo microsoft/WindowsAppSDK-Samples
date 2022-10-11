@@ -15,7 +15,7 @@ extendedZipContent:
 ---
 # Windows Widgets samples
 
-These samples demonstrate how to author Windows Widgets with WindowsAppSDK.
+These samples demonstrate how to author Windows Widgets with the Windows App SDK.
 
 ## Prerequisites
 
@@ -33,15 +33,15 @@ These samples demonstrate how to author Windows Widgets with WindowsAppSDK.
 Inside this sample folder you will find 2 different projects:
 - Sample project that demonstrates authoring of only 1 widget within the same app.
 - Sample project that demonstrates authoring >=1 widgets within the same app.
-  
+
 To get familiar with the implementation steps and API details it's recommended to start with the single widget authoring sample.
 
 Once the widgets ideology and implementation steps are understood, you may examine the MultipleWidgets sample to get an idea on how to create an application that will be able to serve multiple widgets at a time.
 
-Relevant documentation and full walkthrough of a similar sample may be found [here](https://learn.microsoft.com/en-us/windows/apps/develop/widgets/implement-widget-provider-win32).
+Relevant documentation and full walkthrough of a similar sample may be found [here](https://learn.microsoft.com/windows/apps/develop/widgets/implement-widget-provider-win32).
 
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [Learn more about Windows Widgets](https://learn.microsoft.com/en-us/windows/apps/design/widgets/)
-- [Implement a Win32 widget provider](https://learn.microsoft.com/en-us/windows/apps/develop/widgets/implement-widget-provider-win32)
+- [Learn more about Windows Widgets](https://learn.microsoft.com/windows/apps/design/widgets/)
+- [Implement a Win32 widget provider](https://learn.microsoft.com/windows/apps/develop/widgets/implement-widget-provider-win32)
