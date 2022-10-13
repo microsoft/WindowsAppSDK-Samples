@@ -18,16 +18,15 @@ namespace cs_winui_packaged
     public partial class S2_CrashRecovery : Page
     {
         private DispatcherTimer _timer;
-        private uint _seconds = 0;
+        private uint _counter;
 
         public S2_CrashRecovery()
         {
             this.InitializeComponent();
-
             setRecoveredSecondsCount();
 
             // Register for crash and hang restart.
-            Kernel32.RegisterApplicationRestart(_seconds.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
+            Kernel32.RegisterApplicationRestart(_counter.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
 
             // Register recovery callback to update restart arguments with the latest seconds counter value.
             Kernel32.RegisterApplicationRecoveryCallback(new RecoveryDelegate(p =>
@@ -38,7 +37,7 @@ namespace cs_winui_packaged
                     Environment.Exit(2);
                 }
 
-                Kernel32.RegisterApplicationRestart(_seconds.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
+                Kernel32.RegisterApplicationRestart(_counter.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
 
                 ApplicationRecoveryFinished(true);
                 return 0;
@@ -49,14 +48,25 @@ namespace cs_winui_packaged
 
         private void setRecoveredSecondsCount()
         {
-            // Using Environment.GetCommandLineArgs() to retrieve the command line arguments
             string[] commandLineArguments = Environment.GetCommandLineArgs();
             if (commandLineArguments.Length > 1)
             {
                 commandLineArguments = commandLineArguments.Skip(1).ToArray();
-                counter.Text = commandLineArguments[0];
-                _seconds = Convert.ToUInt32(commandLineArguments[0]);
+                try
+                {
+                    _counter = Convert.ToUInt32(commandLineArguments[0]);
+                }
+                catch
+                {
+                    _counter = 0;
+                }
             }
+            else
+            {
+                _counter = 0;
+            }
+
+            counterTextBlock.Text = _counter.ToString();
         }
 
         private void startTimer()
@@ -69,8 +79,8 @@ namespace cs_winui_packaged
 
         private void timer_TickEvent(object sender, object e)
         {
-            _seconds++;
-            counter.Text = _seconds.ToString();
+            _counter++;
+            counterTextBlock.Text = _counter.ToString();
         }
 
         private void crash_Click(object sender, RoutedEventArgs e)

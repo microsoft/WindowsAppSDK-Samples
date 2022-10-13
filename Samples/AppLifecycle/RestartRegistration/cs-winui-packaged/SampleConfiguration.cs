@@ -58,7 +58,7 @@ namespace cs_winui_packaged
         {
             new Scenario() { Title = "Update reboot registration", ClassName = typeof(S1_UpdateReboot).FullName },
             new Scenario() { Title = "Crash recovery registration", ClassName = typeof(S2_CrashRecovery).FullName },
-            new Scenario() { Title = "Reboot scenario detection", ClassName = typeof(S3_RebootScenarioDetection).FullName }
+            new Scenario() { Title = "Reboot type detection", ClassName = typeof(S3_RebootScenarioDetection).FullName }
         };
     }
 

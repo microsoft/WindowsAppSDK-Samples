@@ -14,9 +14,14 @@
             <StackPanel Spacing="10" Margin="10,10,10,10">
                 <TextBlock Text="Description:" Style="{StaticResource ScenarioHeaderTextStyle}"/>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                    Add scenario description text here.
+                    Auto-registers for recovery and restart and shows previous reboot type message if the app was automatically restarted.
                 </TextBlock>
-                <TextBlock>Hello from Scenario3_ShortName.</TextBlock>
+
+                <StackPanel Spacing="10" Margin="10,10,10,10" VerticalAlignment="Center">
+                    <Button x:Name="crashButton" Content="Crash the application" Click="crash_Click"/>
+                    <Button x:Name="restartButton" Content="Simulate regular application restart" Click="restart_Click"/>
+                    <TextBlock x:Name="restartTypeTextBlock">App was not automatically restarted from this scenario.</TextBlock>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

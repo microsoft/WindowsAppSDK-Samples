@@ -14,12 +14,15 @@
             <StackPanel Spacing="10" Margin="10,10,10,10">
                 <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                    Register for update and patch reboot types and recover user data
+                    Register for update and patch reboot types and recover latest user data.
                 </TextBlock>
-                <TextBox x:Name="messageInput" Header="Message to recover in case of restart:" PlaceholderText="" TextChanged="message_TextChanged"/>
-                <Button x:Name="registerButton" Content="Register for restart" Click="register_Click" />
-                <Button x:Name="unregisterButton" Content="Unregister from restart" Click="unregister_Click" IsEnabled="False"/>
 
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Padding="10,10,10,10">
+                    <TextBox x:Name="messageInput" Header="Message to recover in case of restart:" PlaceholderText="" TextChanged="message_TextChanged"/>
+                    <Button x:Name="registerButton" Content="Register for restart" Click="register_Click" />
+                    <Button x:Name="unregisterButton" Content="Unregister from restart" Click="unregister_Click" IsEnabled="False"/>
+                </StackPanel>
+                
                 <StackPanel x:Name="recoveryArea" Orientation="Vertical" VerticalAlignment="Center" Padding="10,10,10,10" Visibility="Collapsed">
                     <TextBlock FontWeight="Bold">
                         Recovered message:

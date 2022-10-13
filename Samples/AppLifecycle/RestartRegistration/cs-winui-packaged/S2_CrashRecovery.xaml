@@ -14,11 +14,14 @@
             <StackPanel Spacing="10" Margin="10,10,10,10">
                 <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                    Register for recovery and restart in cases of abnormal reboot (app crash or hang)).
+                    Auto-register for recovery and restart in cases of abnormal reboot (app crash or hang)).
                 </TextBlock>
-                <TextBlock>Counter:</TextBlock>
-                <TextBlock x:Name="counter" FontWeight="Bold"/>
-                <Button x:Name="crashButtom" Content="Crash the application" Click="crash_Click"/>
+                
+                <StackPanel Spacing="10" Margin="10,10,10,10" VerticalAlignment="Center">
+                    <TextBlock>Counter:</TextBlock>
+                    <TextBlock x:Name="counterTextBlock" FontWeight="Bold"/>
+                    <Button x:Name="crashButton" Content="Crash the application" Click="crash_Click"/>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
