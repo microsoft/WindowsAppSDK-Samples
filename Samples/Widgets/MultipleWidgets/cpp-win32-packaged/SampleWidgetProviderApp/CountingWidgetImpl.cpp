@@ -46,7 +46,7 @@ void CountingWidget::OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvoke
         auto widgetData = GetDataForWidget();
 
         // Build update options and update the widget
-        winrt::WidgetUpdateRequestOptions updateOptions{ m_id };
+        winrt::WidgetUpdateRequestOptions updateOptions{ Id()};
         updateOptions.Data(widgetData);
         updateOptions.CustomState(State());
 
@@ -70,7 +70,7 @@ void CountingWidget::Activate()
     // there's nothing to do here. However, for widgets that
     // constantly push updates this is the signal to start
     // pushing those updates since widget is now visible.
-    IsActivated(true);
+    m_isActivated = true;
 }
 
 // This function will be invoked when widget is Deactivated.
@@ -78,18 +78,20 @@ void CountingWidget::Deactivate()
 {
     // This is the moment to stop sending all further updates until
     // Activate() was called again.
-    IsActivated(false);
+    m_isActivated = false;
+}
+
+static winrt::hstring GetDefaultTemplate()
+{
+    auto uri = Uri(L"ms-appx:///Templates/CountingWidgetTemplate.json");
+    auto storageFile = StorageFile::GetFileFromApplicationUriAsync(uri).get();
+    return FileIO::ReadTextAsync(storageFile).get();
 }
 
 winrt::hstring CountingWidget::GetTemplateForWidget()
 {
     // This widget has the same template for all the sizes/themes so we load it only once.
-    static winrt::hstring widgetTemplate;
-    if (widgetTemplate.empty())
-    {
-        auto storageFile = StorageFile::GetFileFromApplicationUriAsync(Uri(L"ms-appx:///Templates/CountingWidgetTemplate.json")).get();
-        widgetTemplate = FileIO::ReadTextAsync(storageFile).get();
-    }
+    static winrt::hstring widgetTemplate = GetDefaultTemplate();
     return widgetTemplate;
 }
 

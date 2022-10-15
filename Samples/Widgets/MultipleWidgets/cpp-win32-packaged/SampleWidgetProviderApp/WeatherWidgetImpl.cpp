@@ -29,7 +29,7 @@ void WeatherWidget::Activate()
     // there's nothing to do here. However, for widgets that
     // constantly push updates this is the signal to start
     // pushing those updates since widget is now visible.
-    IsActivated(true);
+    m_isActivated = true;
 }
 
 // This function will be invoked when widget is Deactivated.
@@ -37,7 +37,7 @@ void WeatherWidget::Deactivate()
 {
     // This is the moment to stop sending all further updates until
     // Activate() was called again.
-    IsActivated(false);
+    m_isActivated = false;
 }
 
 winrt::hstring WeatherWidget::GetTemplateForWidget()

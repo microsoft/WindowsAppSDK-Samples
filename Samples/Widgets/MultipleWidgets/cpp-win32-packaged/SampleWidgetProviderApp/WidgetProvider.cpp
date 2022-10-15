@@ -96,7 +96,7 @@ void WidgetProvider::DeleteWidget(winrt::hstring const& widgetId, [[maybe_unused
 void WidgetProvider::OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvokedArgs)
 {
     auto widgetId = actionInvokedArgs.WidgetContext().Id();
-    if (auto runningWidget = FindRunningWidget(widgetId))
+    if (const auto& runningWidget = FindRunningWidget(widgetId))
     {
         runningWidget->OnActionInvoked(actionInvokedArgs);
     }
@@ -111,7 +111,7 @@ void WidgetProvider::OnWidgetContextChanged(winrt::WidgetContextChangedArgs cont
 {
     auto widgetContext = contextChangedArgs.WidgetContext();
     auto widgetId = widgetContext.Id();
-    if (auto runningWidget = FindRunningWidget(widgetId))
+    if (const auto& runningWidget = FindRunningWidget(widgetId))
     {
         runningWidget->OnWidgetContextChanged(contextChangedArgs);
         // Optionally: if the data/template for the new context is different
@@ -126,7 +126,7 @@ void WidgetProvider::OnWidgetContextChanged(winrt::WidgetContextChangedArgs cont
 void WidgetProvider::Activate(winrt::Microsoft::Windows::Widgets::Providers::WidgetContext widgetContext)
 {
     auto widgetId = widgetContext.Id();
-    if (auto runningWidget = FindRunningWidget(widgetId))
+    if (const auto& runningWidget = FindRunningWidget(widgetId))
     {
         runningWidget->Activate(widgetContext);
     }
@@ -138,7 +138,7 @@ void WidgetProvider::Activate(winrt::Microsoft::Windows::Widgets::Providers::Wid
 // It's recommended to stop sending updates until Activate function was called.
 void WidgetProvider::Deactivate(winrt::hstring widgetId)
 {
-    if (auto runningWidget = FindRunningWidget(widgetId))
+    if (const auto& runningWidget = FindRunningWidget(widgetId))
     {
         runningWidget->Deactivate(widgetId);
     }
@@ -153,7 +153,7 @@ void WidgetProvider::RecoverRunningWidgets()
     try
     {
         winrt::WidgetManager widgetManager = winrt::WidgetManager::GetDefault();
-        for (auto widgetInfo : widgetManager.GetWidgetInfos())
+        for (const auto& widgetInfo : widgetManager.GetWidgetInfos())
         {
             auto widgetContext = widgetInfo.WidgetContext();
             auto widgetId = widgetContext.Id();
