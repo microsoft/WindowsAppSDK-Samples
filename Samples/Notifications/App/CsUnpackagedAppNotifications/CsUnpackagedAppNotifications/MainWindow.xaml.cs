@@ -2,13 +2,10 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
-using System;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
-using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.WindowsAndMessaging;
-using static Windows.Win32.Constants;
 using static Windows.Win32.PInvoke;
 
 namespace CsUnpackagedAppNotifications
