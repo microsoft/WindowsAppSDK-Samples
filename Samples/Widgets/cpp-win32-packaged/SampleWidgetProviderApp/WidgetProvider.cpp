@@ -3,7 +3,6 @@
 
 #include "pch.h"
 #include "WidgetProvider.h"
-#include "WidgetImpl.h"
 
 using CreateWidgetImplFn = std::function<std::shared_ptr<WidgetImplBase>(winrt::WidgetContext, winrt::hstring)>;
 

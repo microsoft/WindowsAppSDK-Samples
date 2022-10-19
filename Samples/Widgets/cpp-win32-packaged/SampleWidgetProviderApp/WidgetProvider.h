@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #pragma once
-#include "WidgetImpl.h"
+#include "WidgetImplBase.h"
 
 struct WidgetProvider : winrt::implements<WidgetProvider, winrt::Microsoft::Windows::Widgets::Providers::IWidgetProvider>
 {

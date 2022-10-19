@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-#include "WidgetImpl.h"
 #include "WeatherWidgetImpl.h"
 
 WeatherWidget::WeatherWidget(winrt::hstring const& id, winrt::hstring const& state) : WidgetImplBase(id, state) {}
@@ -40,15 +39,17 @@ void WeatherWidget::Deactivate()
     m_isActivated = false;
 }
 
+winrt::hstring WeatherWidget::GetDefaultTemplate()
+{
+    auto uri = winrt::Uri(L"ms-appx:///Templates/WeatherWidgetTemplate.json");
+    auto storageFile = winrt::StorageFile::GetFileFromApplicationUriAsync(uri).get();
+    return winrt::FileIO::ReadTextAsync(storageFile).get();
+}
+
 winrt::hstring WeatherWidget::GetTemplateForWidget()
 {
     // This widget has the same template for all the sizes/themes so we load it only once.
-    static winrt::hstring widgetTemplate;
-    if (widgetTemplate.empty())
-    {
-        auto storageFile = winrt::Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(winrt::Windows::Foundation::Uri(L"ms-appx:///Templates/WeatherWidgetTemplate.json")).get();
-        widgetTemplate = winrt::Windows::Storage::FileIO::ReadTextAsync(storageFile).get();
-    }
+    static winrt::hstring widgetTemplate = GetDefaultTemplate();
     return widgetTemplate;
 }
 

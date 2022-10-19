@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #pragma once
-#include "WidgetImpl.h"
+#include "WidgetImplBase.h"
 
 class WeatherWidget : public WidgetImplBase
 {
@@ -16,5 +16,7 @@ public:
     void Deactivate();
     winrt::hstring GetTemplateForWidget();
     winrt::hstring GetDataForWidget();
+private:
+    winrt::hstring GetDefaultTemplate();
 };
 

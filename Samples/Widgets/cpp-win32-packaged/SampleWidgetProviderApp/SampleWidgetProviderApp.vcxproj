@@ -10,7 +10,7 @@
     <CppWinRTGenerateWindowsMetadata>true</CppWinRTGenerateWindowsMetadata>
     <MinimalCoreWin>true</MinimalCoreWin>
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{CB8A8DD7-1134-45CF-8F9F-F548EE75BB6A}</ProjectGuid>
+    <ProjectGuid>{E1AA8CF0-6EA5-469A-8895-5299227F859D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DevTestWidgetProviderApp</RootNamespace>
     <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0</WindowsTargetPlatformVersion>
@@ -80,7 +80,7 @@
       <PreprocessorDefinitions>_CONSOLE;WIN32_LEAN_AND_MEAN;WINRT_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
       <AdditionalOptions>%(AdditionalOptions) /permissive- /bigobj</AdditionalOptions>
-	  <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -113,14 +113,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CountingWidgetImpl.h" />
+    <ClInclude Include="WeatherWidgetImpl.h" />
+    <ClInclude Include="WidgetImplBase.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="WidgetProvider.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CountingWidgetImpl.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="WeatherWidgetImpl.cpp" />
     <ClCompile Include="WidgetProvider.cpp" />
   </ItemGroup>
   <ItemGroup>

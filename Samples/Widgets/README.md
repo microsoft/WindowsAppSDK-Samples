@@ -28,15 +28,12 @@ These samples demonstrate how to author Windows Widgets with the Windows App SDK
 * Open the solution file (`.sln`) from the subfolder of your preferred sample in Visual Studio.
 * From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
-## SingleWidget and MultpleWidgets sample
+## WidgetProvider sample
 
-Inside this sample folder you will find 2 different projects:
-- Sample project that demonstrates authoring of only 1 widget within the same app.
-- Sample project that demonstrates authoring >=1 widgets within the same app.
-
-To get familiar with the implementation steps and API details it's recommended to start with the single widget authoring sample.
-
-Once the widgets ideology and implementation steps are understood, you may examine the MultipleWidgets sample to get an idea on how to create an application that will be able to serve multiple widgets at a time.
+This project includes a sample of a 3rd party widget provider. At this point, it's only possible to author widgets in C++ and Widgetprovider application must be a packaged application.
+The widget provider can be distributed in 2 ways:
+- With the Developer Mode turned on on the machine you can sideload the packaged widget provider application.
+- Distrubute it through Microsoft Store.
 
 Relevant documentation and full walkthrough of a similar sample may be found [here](https://learn.microsoft.com/windows/apps/develop/widgets/implement-widget-provider-win32).
 

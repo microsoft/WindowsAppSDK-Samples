@@ -1,15 +1,16 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 #include "pch.h"
 #include "WidgetProvider.h"
 #include <mutex>
+#include <winstring.h>
 
-// This GUID is the same GUID thas was provided in the 
+// This GUID is the same GUID that was provided in the 
 // registration of the COM Server and Class Id in the .appxmanifest.
 static constexpr GUID widget_provider_clsid
-{ /* 8AFD9DB6-84A7-4425-BD7E-761D9C063B40 */
-    0x8afd9db6, 0x84a7, 0x4425, { 0xbd, 0x7e, 0x76, 0x1d, 0x9c, 0x6, 0x3b, 0x40 }
+{ /* 101D03A3-6FC8-4887-9B64-310A7B164319 */
+    0x101d03a3, 0x6fc8, 0x4887, {0x9b, 0x64, 0x31, 0x0a, 0x7b, 0x16, 0x43, 0x19}
 };
 
 // This is implementation of a ClassFactory that will instantiate WidgetProvider
@@ -52,6 +53,7 @@ private:
 int main()
 {
     winrt::init_apartment();
+
     wil::unique_com_class_object_cookie widgetProviderFactory;
     // Create WidgetProvider factory
     auto factory = winrt::make<SingletonClassFactory<WidgetProvider>>();

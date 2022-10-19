@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-#include "WidgetImpl.h"
 #include "CountingWidgetImpl.h"
-
-using namespace winrt::Windows::Storage;
-using namespace winrt::Windows::Foundation;
 
 CountingWidget::CountingWidget(winrt::hstring const& id, winrt::hstring const& state) : WidgetImplBase(id, state)
 {
@@ -81,11 +77,11 @@ void CountingWidget::Deactivate()
     m_isActivated = false;
 }
 
-static winrt::hstring GetDefaultTemplate()
+winrt::hstring CountingWidget::GetDefaultTemplate()
 {
-    auto uri = Uri(L"ms-appx:///Templates/CountingWidgetTemplate.json");
-    auto storageFile = StorageFile::GetFileFromApplicationUriAsync(uri).get();
-    return FileIO::ReadTextAsync(storageFile).get();
+    auto uri = winrt::Uri(L"ms-appx:///Templates/CountingWidgetTemplate.json");
+    auto storageFile = winrt::StorageFile::GetFileFromApplicationUriAsync(uri).get();
+    return winrt::FileIO::ReadTextAsync(storageFile).get();
 }
 
 winrt::hstring CountingWidget::GetTemplateForWidget()

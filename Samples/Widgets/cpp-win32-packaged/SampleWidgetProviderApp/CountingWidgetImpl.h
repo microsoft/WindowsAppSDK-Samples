@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #pragma once
-#include "WidgetImpl.h"
+#include "WidgetImplBase.h"
 
 class CountingWidget : public WidgetImplBase
 {
@@ -17,5 +17,6 @@ public:
     winrt::hstring GetTemplateForWidget();
     winrt::hstring GetDataForWidget();
 private:
-    int m_clickCount{};
+    int m_clickCount{0};
+    winrt::hstring GetDefaultTemplate();
 };
