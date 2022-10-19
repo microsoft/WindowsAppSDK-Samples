@@ -23,21 +23,19 @@ namespace cs_winui_packaged
         public S2_CrashRecovery()
         {
             this.InitializeComponent();
-            setRecoveredSecondsCount();
+            setRecoveredCounter();
 
-            // Register for crash and hang restart.
+            // Bsst effort to register for crash and hang restart.
             Kernel32.RegisterApplicationRestart(_counter.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
 
-            // Register recovery callback to update restart arguments with the latest seconds counter value.
+            // Best effort to register recovery callback to update restart arguments with the latest seconds counter value.
             Kernel32.RegisterApplicationRecoveryCallback(new RecoveryDelegate(p =>
             {
                 Kernel32.ApplicationRecoveryInProgress(out bool canceled);
-                if (canceled)
+                if (!canceled)
                 {
-                    Environment.Exit(2);
+                    Kernel32.RegisterApplicationRestart(_counter.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
                 }
-
-                Kernel32.RegisterApplicationRestart(_counter.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
 
                 ApplicationRecoveryFinished(true);
                 return 0;
@@ -46,7 +44,7 @@ namespace cs_winui_packaged
             startTimer(); 
         }
 
-        private void setRecoveredSecondsCount()
+        private void setRecoveredCounter()
         {
             string[] commandLineArguments = Environment.GetCommandLineArgs();
             if (commandLineArguments.Length > 1)
@@ -72,12 +70,12 @@ namespace cs_winui_packaged
         private void startTimer()
         {
             _timer = new DispatcherTimer();
-            _timer.Tick += timer_TickEvent;
+            _timer.Tick += timer_OnTick;
             _timer.Interval = new TimeSpan(0, 0, 1);
             _timer.Start();
         }
 
-        private void timer_TickEvent(object sender, object e)
+        private void timer_OnTick(object sender, object e)
         {
             _counter++;
             counterTextBlock.Text = _counter.ToString();
@@ -85,6 +83,7 @@ namespace cs_winui_packaged
 
         private void crash_Click(object sender, RoutedEventArgs e)
         {
+            // Cause application to be unresponsive
             for (int i = 60; i >= 0; i--)
             {
                 System.Threading.Thread.Sleep(1000);

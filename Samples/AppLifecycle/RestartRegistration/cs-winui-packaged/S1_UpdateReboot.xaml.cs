@@ -47,11 +47,8 @@ namespace cs_winui_packaged
 
         private void register_Click(object sender, RoutedEventArgs e)
         {
-            // Note that even after successful registration, the application will only recover if running for more than 60 seconds
-            String restartArgsInput = messageInput.Text;
-            int exitCode = Kernel32.RegisterApplicationRestart(restartArgsInput, Kernel32.RestartRestrictions.NotOnCrash | Kernel32.RestartRestrictions.NotOnHang);
-
-            if (exitCode == 0)
+            // Note that even after successful registration, the application will only recover if running for more than 60 seconds.
+            if (Kernel32.RegisterApplicationRestart(messageInput.Text, Kernel32.RestartRestrictions.NotOnCrash | Kernel32.RestartRestrictions.NotOnHang) == 0)
             {
                 unregisterButton.IsEnabled = true;
                 MainPage.Current.NotifyUser("Registered for restart", InfoBarSeverity.Success);
@@ -64,9 +61,7 @@ namespace cs_winui_packaged
 
         private void unregister_Click(object sender, RoutedEventArgs e)
         {
-            int exitCode = Kernel32.UnregisterApplicationRestart();
-
-            if (exitCode == 0)
+            if (Kernel32.UnregisterApplicationRestart() == 0)
             {
                 unregisterButton.IsEnabled = false;
                 MainPage.Current.NotifyUser("Unregistered from restart", InfoBarSeverity.Success);

@@ -12,7 +12,7 @@
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="S3_RebootScenarioDetection.xaml" />
+    <None Remove="S3_RebootTypeDetection.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +41,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="S3_RebootScenarioDetection.xaml">
+    <Page Update="S3_RebootTypeDetection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
