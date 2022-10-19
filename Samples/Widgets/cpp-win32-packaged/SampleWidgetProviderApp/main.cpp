@@ -5,6 +5,8 @@
 #include "WidgetProvider.h"
 #include <mutex>
 #include <winstring.h>
+#include <iostream>
+#include <objidl.h>
 
 // This GUID is the same GUID that was provided in the 
 // registration of the COM Server and Class Id in the .appxmanifest.
@@ -32,28 +34,48 @@ struct SingletonClassFactory : winrt::implements<SingletonClassFactory<T>, IClas
             return CLASS_E_NOAGGREGATION;
         }
 
-        if (!instance)
-        {
-            instance = winrt::make_self<T>();
-        }
-
-        return instance.as(iid, result);
+        return winrt::make_self<T>().as(iid, result);
     }
 
-    STDMETHODIMP LockServer(BOOL) noexcept final
+    STDMETHODIMP LockServer(BOOL flock) noexcept final
     {
         return S_OK;
     }
 
 private:
-    winrt::com_ptr<T> instance{ nullptr };
+    //winrt::com_ptr<T> instance{ nullptr };
     std::mutex mutex;
 };
+
+#include <windows.h>
+
+inline HMODULE GetComBaseModuleHandle()
+{
+    /*
+    CoGetSharedServiceId @66 NONAME PRIVATE_API
+    CoAddRefSharedService @67 NONAME PRIVATE_API
+    CoReleaseSharedService @68 NONAME PRIVATE_API
+    CoRegisterServerShutdownDelay @69 NONAME PRIVATE_API
+*/
+    static HMODULE s_hmod = LoadLibraryW(L"ComBase.dll");
+    return s_hmod;
+}
+
+inline HRESULT __stdcall CoRegisterServerShutdownDelay(HANDLE stopEvent, DWORD milliseconds)
+{
+    static auto s_fn = reinterpret_cast<decltype(CoRegisterServerShutdownDelay)*>(GetProcAddress(GetComBaseModuleHandle(), MAKEINTRESOURCEA(69)));
+    return s_fn ? s_fn(stopEvent, milliseconds) : E_UNEXPECTED;
+}
 
 int main()
 {
     winrt::init_apartment();
-
+    winrt::com_ptr<IGlobalOptions> globalOptions;
+    if (SUCCEEDED(CoCreateInstance(CLSID_GlobalOptions, nullptr, CLSCTX_INPROC, IID_PPV_ARGS(&globalOptions))))
+    {
+        globalOptions->Set(COMGLB_EXCEPTION_HANDLING, COMGLB_EXCEPTION_DONOT_HANDLE_ANY);
+        globalOptions->Set(COMGLB_RO_SETTINGS, COMGLB_FAST_RUNDOWN);
+    }
     wil::unique_com_class_object_cookie widgetProviderFactory;
     // Create WidgetProvider factory
     auto factory = winrt::make<SingletonClassFactory<WidgetProvider>>();
@@ -66,12 +88,12 @@ int main()
         REGCLS_MULTIPLEUSE,
         widgetProviderFactory.put()));
 
-    MSG msg;
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
+    wil::unique_event shudownEvent(wil::EventOptions::None);
+    winrt::check_hresult(CoRegisterServerShutdownDelay(shudownEvent.get(), 1 * 1000)); // 5 seconds
+
+    DWORD index{};
+    HANDLE events[] = { shudownEvent.get() };
+    winrt::check_hresult(CoWaitForMultipleObjects(CWMO_DISPATCH_CALLS | CWMO_DISPATCH_WINDOW_MESSAGES, INFINITE, std::size(events), events, &index));
 
     return 0;
 }
