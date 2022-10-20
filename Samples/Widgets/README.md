@@ -50,7 +50,7 @@ In order to do that:
 - Observe it on the widgets board.
 
 After you have pinned your widgets, the Widget Platform will start your widget provider application in order to receive and send relevant information about the widget. 
-To debug the running widget you can either attach to a debugger to the running widget provider application or you can set the provider to automatically attach to the widget provider process once it spins up.
+To debug the running widget you can either attach to a debugger to the running widget provider application or you can set the Visual Studio to automatically attach a debugger to the widget provider process once it's started.
 
 In order to attach to the running process:
 - In Visual Studio click Debug -> Attach to process.
@@ -58,7 +58,7 @@ In order to attach to the running process:
 - Attach the debugger.
 
 In order to automatically attach the debugger to the process when it's initially started:
-- In Visual Studio click Debug -> Other Debug Targets -> Debug Installed App Package
+- In Visual Studio click Debug -> Other Debug Targets -> Debug Installed App Package.
 - Filter the packages and find your desired widget provider package.
 - Select it and check the box that says `Do not launch, but debug my code when it sarts`.
 - Click Attach. 
@@ -67,7 +67,7 @@ In order to automatically attach the debugger to the process when it's initially
 
 The widget provider app can be distributed in 2 ways:
 - With the Developer Mode turned on the machine the packaged widget provider application can be sideloaded.
-- Otherwise, it can be distributed through the Microsoft Store.
+- Without the Developer Mode turned on the machine the package can be distributed through the Microsoft Store.
 
 Relevant documentation and full walkthrough of a similar sample may be found [here](https://learn.microsoft.com/windows/apps/develop/widgets/implement-widget-provider-win32).
 
