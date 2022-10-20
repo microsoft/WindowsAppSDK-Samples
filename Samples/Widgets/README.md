@@ -36,13 +36,13 @@ This project includes a sample of a 3rd party widget provider. At this point, it
 
 If the widget providing application doesn't have any UI - it's a good idea to convert the app to windows application so the console doesn't show to the end user.
 These are the required steps to convert the sample to windows application:
-1) Right click on the SampleWidgetProviderApp in Visual Studio and open Properties. Navigate to Linker -> System and change SubSystem from Console to Windows. It can also be done by adding `<SubSystem>Console</SubSystem>` to the `<Link>..</Link>` section of the .vcxproj.
-2) Substitute `int main()` in `main.cpp` with `int WINAPI wWinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInstance*/, _In_ PWSTR pCmdLine, _In_ int /*nCmdShow*/)`.
+- Right click on the SampleWidgetProviderApp in Visual Studio and open Properties. Navigate to Linker -> System and change SubSystem from Console to Windows. It can also be done by adding `<SubSystem>Console</SubSystem>` to the `<Link>..</Link>` section of the .vcxproj.
+- Substitute `int main()` in `main.cpp` with `int WINAPI wWinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInstance*/, _In_ PWSTR pCmdLine, _In_ int /*nCmdShow*/)`.
 
 ## WidgetProvider app distribution
 
 The widget provider app can be distributed in 2 ways:
-- With the Developer Mode turned on on the machine the packaged widget provider application can be sideloaded.
+- With the Developer Mode turned on the machine the packaged widget provider application can be sideloaded.
 - Otherwise, it can be distributed through the Microsoft Store.
 
 Relevant documentation and full walkthrough of a similar sample may be found [here](https://learn.microsoft.com/windows/apps/develop/widgets/implement-widget-provider-win32).
