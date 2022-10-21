@@ -36,7 +36,7 @@ This project includes a sample of a 3rd party widget provider. At this point, it
 
 If the widget providing application doesn't have any UI - it's a good idea to convert the app to windows application so the console doesn't show to the end user.
 These are the required steps to convert the sample to windows application:
-- Right click on the SampleWidgetProviderApp in Visual Studio and open Properties. Navigate to Linker -> System and change SubSystem from Console to Windows. It can also be done by adding `<SubSystem>Console</SubSystem>` to the `<Link>..</Link>` section of the .vcxproj.
+- Right click on the SampleWidgetProviderApp in Visual Studio and open Properties. Navigate to Linker -> System and change SubSystem from Console to Windows. It can also be done by adding `<SubSystem>Windows</SubSystem>` to the `<Link>..</Link>` section of the .vcxproj.
 - Substitute `int main()` in `main.cpp` with `int WINAPI wWinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInstance*/, _In_ PWSTR pCmdLine, _In_ int /*nCmdShow*/)`.
 
 ## Debugging WidgetProvider
