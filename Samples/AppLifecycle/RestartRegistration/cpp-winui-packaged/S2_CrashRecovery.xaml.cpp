@@ -47,11 +47,6 @@ namespace winrt::cpp_winui_packaged::implementation
         const auto cmdLineArgs = CommandLineToArgvW(cmdLineString.c_str(), &numArgs);
         if (numArgs > 1)
         {
-           /* std::wstring argWString(to_hstring(cmdLineArgs[1]));
-            int size = ::WideCharToMultiByte(CP_UTF8, 0, argWString.c_str(), -1, nullptr, 0, nullptr, nullptr);
-            std::vector<char> buffer(size);
-            ::WideCharToMultiByte(CP_UTF8, 0, argWString.c_str(), -1, buffer.data(), static_cast<int>(buffer.capacity()), nullptr, nullptr);*/
-
             auto argString(to_string(cmdLineArgs[1]));
             _counter = strtoul(argString.c_str(), nullptr, 10);
         }
