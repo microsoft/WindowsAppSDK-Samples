@@ -9,9 +9,9 @@ public:
     WidgetImplBase() = default;
     virtual ~WidgetImplBase() = default;
 
-    winrt::hstring Id() { return m_id; };
-    winrt::hstring State() { return m_state; };
-    bool IsActivated() { return m_isActivated; };
+    winrt::hstring Id() const noexcept { return m_id; };
+    winrt::hstring State() const noexcept { return m_state; };
+    bool IsActivated() const noexcept { return m_isActivated; };
 
     void State(winrt::hstring const& state) { m_state = state; };
 
