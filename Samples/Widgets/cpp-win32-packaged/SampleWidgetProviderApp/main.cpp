@@ -4,7 +4,6 @@
 #include "pch.h"
 #include "WidgetProvider.h"
 #include <mutex>
-#include <winstring.h>
 
 // This GUID is the same GUID that was provided in the 
 // registration of the COM Server and Class Id in the .appxmanifest.
