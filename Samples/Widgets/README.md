@@ -49,7 +49,7 @@ Once you've done that, you may navigate to the Widgets Dashboard and pin your wi
 - Observe it on the widgets board.
 
 After you have pinned your widgets, the Widget Platform will start your widget provider application in order to receive and send relevant information about the widget. 
-To debug the running widget you can either attach to a debugger to the running widget provider application or you can set the Visual Studio to automatically attach a debugger to the widget provider process once it's started.
+To debug the running widget you can either attach a debugger to the running widget provider application or you can set up Visual Studio to automatically start debugging the widget provider process once it's started.
 
 In order to attach to the running process:
 - In Visual Studio click Debug -> Attach to process.
