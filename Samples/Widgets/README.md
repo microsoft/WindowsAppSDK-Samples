@@ -65,8 +65,10 @@ In order to automatically attach the debugger to the process when it's initially
 ## WidgetProvider app distribution
 
 The widget provider app can be distributed in 2 ways:
-- With the Developer Mode turned on the machine the packaged widget provider application can be sideloaded.
-- Without the Developer Mode turned on the machine the package can be distributed through the Microsoft Store.
+- Sideloading - this requires Developer Mode to be turned on.
+- Through the Microsoft Store.
+
+For more information see [Distribute your packaged desktop app](https://learn.microsoft.com/windows/apps/desktop/modernize/desktop-to-uwp-distribute).
 
 Relevant documentation and full walkthrough of a similar sample may be found [here](https://learn.microsoft.com/windows/apps/develop/widgets/implement-widget-provider-win32).
 
