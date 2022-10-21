@@ -30,7 +30,7 @@ These samples demonstrate how to author Windows Widgets with the Windows App SDK
 
 ## WidgetProvider sample
 
-This project includes a sample of a 3rd party widget provider. At this point, it's only possible to author widgets in C++ and Widgetprovider application must be a packaged application.
+This project includes a sample of a 3rd party widget provider. At this point, it's only possible to author widgets in C++ and Widget provider application must be a packaged application.
 
 ## Converting sample from Console to Windows application
 
