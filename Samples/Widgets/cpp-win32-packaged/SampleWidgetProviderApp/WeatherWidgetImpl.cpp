@@ -6,12 +6,6 @@
 
 WeatherWidget::WeatherWidget(winrt::hstring const& id, winrt::hstring const& state) : WidgetImplBase(id, state) {}
 
-WeatherWidget::~WeatherWidget()
-{
-    int m = 5;
-    // we're in destructor
-}
-
 // This function wil be invoked when the Increment button was clicked by the user.
 void WeatherWidget::OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvokedArgs)
 {
