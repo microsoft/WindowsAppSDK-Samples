@@ -6,7 +6,8 @@
 class WidgetImplBase
 {
 public:
-    WidgetImplBase() {};
+    WidgetImplBase() = default;
+    virtual ~WidgetImplBase() = default;
 
     winrt::hstring Id() { return m_id; };
     winrt::hstring State() { return m_state; };
