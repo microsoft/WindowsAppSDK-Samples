@@ -46,8 +46,7 @@ std::shared_ptr<WidgetImplBase> WidgetProvider::InitializeWidgetInternal(winrt::
 {
     auto widgetName = widgetContext.DefinitionId();
     auto widgetId = widgetContext.Id();
-    auto lookUpFunction = [widgetName](WidgetImplCreationInfo widgetCreationInfo) { return widgetName == widgetCreationInfo.widgetName; };
-    auto creationInfoIt = std::find_if(s_widgetImplRegistry.begin(), s_widgetImplRegistry.end(), lookUpFunction);
+    auto creationInfoIt = std::find_if(s_widgetImplRegistry.begin(), s_widgetImplRegistry.end(), [widgetName](const auto&& e) { return widgetName == e.widgetName; });
     if (creationInfoIt != s_widgetImplRegistry.end())
     {
         auto widgetImpl = creationInfoIt->factoryFn(widgetContext, state);
