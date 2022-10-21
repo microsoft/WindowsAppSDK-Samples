@@ -42,11 +42,10 @@ These are the required steps to convert the sample to windows application:
 ## Debugging WidgetProvider
 
 After the solution has been built, you will need to deploy the `SampleWidgetProviderAppPackage`. In order to do that, right click on the `SampleWidgetProviderAppPackage` and click Deploy. 
-Once you've done that, you may navigate to the Widgets Dashboard (hower over/click the widgets icon in the left bottom corner of the taskbar or use the shortcut `WIN + W`) and pin your widget.
-In order to do that:
-- Open Widgets Dashboard.
-- Click `+` sign next to your user avatar.
-- Find your widget and click `+` sign next to it.
+Once you've done that, you may navigate to the Widgets Dashboard and pin your widget:
+- Open Widgets Dashboard by hovering over or clicking the widgets icon in the left bottom corner of the taskbar, or by using the shortcut `WIN + W`.
+- Click the `+` sign next to your user avatar.
+- Find your widget and click the `+` sign next to it.
 - Observe it on the widgets board.
 
 After you have pinned your widgets, the Widget Platform will start your widget provider application in order to receive and send relevant information about the widget. 
