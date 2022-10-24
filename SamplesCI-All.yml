@@ -22,6 +22,8 @@ parameters:
   - 'SelfContainedDeployment'
   - 'TextRendering'
   - 'Unpackaged'
+  - 'Widgets\SingleWidget'
+  - 'Widgets\MultipleWidgets'
   - 'Windowing'
 - name: "BuildConfig"
   type: object

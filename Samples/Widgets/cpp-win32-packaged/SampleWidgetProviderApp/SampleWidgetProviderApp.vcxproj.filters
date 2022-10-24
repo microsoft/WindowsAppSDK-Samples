@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="CountingWidgetImpl.cpp">
+      <Filter>WidgetImplementations</Filter>
+    </ClCompile>
+    <ClCompile Include="WidgetProvider.cpp" />
+    <ClCompile Include="WeatherWidgetImpl.cpp">
+      <Filter>WidgetImplementations</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="WidgetImplBase.h" />
+    <ClInclude Include="CountingWidgetImpl.h">
+      <Filter>WidgetImplementations</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetProvider.h" />
+    <ClInclude Include="WeatherWidgetImpl.h">
+      <Filter>WidgetImplementations</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="PropertySheet.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="WidgetImplementations">
+      <UniqueIdentifier>{6631e18a-745d-4d25-bfb5-a8c377b47a07}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
