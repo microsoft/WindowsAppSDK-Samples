@@ -120,6 +120,7 @@
     </ClInclude>
     <ClInclude Include="Notifications\Common.h" />
     <ClInclude Include="Notifications\NotificationManager.h" />
+    <ClInclude Include="Notifications\PushToastWithAvatar.h" />
     <ClInclude Include="Notifications\ToastWithAvatar.h" />
     <ClInclude Include="Notifications\ToastWithTextBox.h" />
     <ClInclude Include="NotifyUser.h" />
@@ -139,6 +140,9 @@
       <DependentUpon>Scenario2_ToastWithTextBox.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Scenario3_PushToastWithAvatar.xaml.h">
+      <DependentUpon>Scenario3_PushToastWithAvatar.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="SettingsPage.xaml.h">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -156,6 +160,7 @@
     <Page Include="Scenario2_ToastWithTextBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Scenario3_PushToastWithAvatar.xaml" />
     <Page Include="SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -169,6 +174,7 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Notifications\NotificationManager.cpp" />
+    <ClCompile Include="Notifications\PushToastWithAvatar.cpp" />
     <ClCompile Include="Notifications\ToastWithAvatar.cpp" />
     <ClCompile Include="Notifications\ToastWithTextBox.cpp" />
     <ClCompile Include="NotifyUser.cpp" />
@@ -190,6 +196,9 @@
     <ClCompile Include="Scenario2_ToastWithTextBox.xaml.cpp">
       <DependentUpon>Scenario2_ToastWithTextBox.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Scenario3_PushToastWithAvatar.xaml.cpp">
+      <DependentUpon>Scenario3_PushToastWithAvatar.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="SettingsPage.xaml.cpp">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
