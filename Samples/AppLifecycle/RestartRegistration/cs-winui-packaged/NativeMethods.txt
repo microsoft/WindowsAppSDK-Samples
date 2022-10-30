@@ -10,3 +10,10 @@ RECT
 SendMessage
 SetWindowPos
 WM_SETICON
+RegisterApplicationRestart
+UnregisterApplicationRestart
+RegisterApplicationRecoveryCallback
+UnregisterApplicationRecoveryCallback
+ApplicationRecoveryInProgress
+ApplicationRecoveryFinished
+GetApplicationRestartSettings

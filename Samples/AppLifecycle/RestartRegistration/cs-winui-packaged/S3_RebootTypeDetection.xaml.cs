@@ -15,13 +15,22 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using static cs_winui_packaged.Kernel32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Recovery;
+using Windows.Win32.System.WindowsProgramming;
+using static Windows.Win32.PInvoke;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace cs_winui_packaged
 {
+    enum RebootType
+    {
+        Normal,
+        Abnormal
+    };
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -32,22 +41,25 @@ namespace cs_winui_packaged
             this.InitializeComponent();
             setRestartTypeText();
 
-            Kernel32.RegisterApplicationRestart("normal", Kernel32.RestartRestrictions.None);
+            RegisterApplicationRestart(RebootType.Normal.ToString().ToLower(), 0);
 
-            // Register recovery callback to update restart argument in case of abnormal restart
-            Kernel32.RegisterApplicationRecoveryCallback(new RecoveryDelegate(p =>
+            unsafe
             {
-                Kernel32.ApplicationRecoveryInProgress(out bool canceled);
-                if (canceled)
+                // Register recovery callback to update restart argument in case of abnormal restart
+                RegisterApplicationRecoveryCallback(new APPLICATION_RECOVERY_CALLBACK(p =>
                 {
-                    Environment.Exit(2);
-                }
+                    ApplicationRecoveryInProgress(out BOOL canceled);
+                    if (canceled)
+                    {
+                        Environment.Exit(2);
+                    }
 
-                Kernel32.RegisterApplicationRestart("abnormal", Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
+                    RegisterApplicationRestart(RebootType.Abnormal.ToString().ToLower(), REGISTER_APPLICATION_RESTART_FLAGS.RESTART_NO_PATCH | REGISTER_APPLICATION_RESTART_FLAGS.RESTART_NO_REBOOT);
 
-                ApplicationRecoveryFinished(true);
-                return 0;
-            }), IntPtr.Zero, 5000, 0);
+                    ApplicationRecoveryFinished(true);
+                    return 0;
+                }), null, 5000, 0);
+            }
         }
 
         private void setRestartTypeText()
@@ -56,7 +68,11 @@ namespace cs_winui_packaged
             if (commandLineArguments.Length > 1)
             {
                 commandLineArguments = commandLineArguments.Skip(1).ToArray();
-                restartTypeTextBlock.Text = "App recovered from " + commandLineArguments[0] + " restart.";
+                if (commandLineArguments[0] == RebootType.Normal.ToString().ToLower() || 
+                    commandLineArguments[0] == RebootType.Abnormal.ToString().ToLower())
+                {
+                    restartTypeTextBlock.Text = "App recovered from " + commandLineArguments[0] + " restart.";
+                }
             }
         }
 
@@ -72,7 +88,7 @@ namespace cs_winui_packaged
 
         private void restart_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Windows.AppLifecycle.AppInstance.Restart("normal");
+            Microsoft.Windows.AppLifecycle.AppInstance.Restart(RebootType.Normal.ToString().ToLower());
         }
     }
 }

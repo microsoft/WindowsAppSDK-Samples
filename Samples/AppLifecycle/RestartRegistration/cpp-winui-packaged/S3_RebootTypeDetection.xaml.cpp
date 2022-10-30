@@ -11,6 +11,27 @@
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
+
+    enum RebootType
+    {
+        Normal,
+        Abnormal
+    };
+
+    hstring to_hstring(RebootType value)
+    {
+        switch (value)
+        {
+        case RebootType::Normal:
+            return L"normal";
+
+        case RebootType::Abnormal:
+            return L"abnormal";
+
+        default:
+            return L"";
+        }
+    }
 }
 
 // To learn more about WinUI, the WinUI project structure,
@@ -24,14 +45,14 @@ namespace winrt::cpp_winui_packaged::implementation
         SetRestartTypeText();
 
         // Best effort to register for crash and hang restart.
-        RegisterApplicationRestart(L"normal", 0);
+        RegisterApplicationRestart(to_hstring(RebootType::Normal).c_str(), 0);
 
         // Best effort to register recovery callback to update restart arguments with the latest seconds counter value.
         RegisterApplicationRecoveryCallback(APPLICATION_RECOVERY_CALLBACK([](PVOID) {
             BOOL canceled;
             if (SUCCEEDED(ApplicationRecoveryInProgress(&canceled)) && !canceled)
             {
-                RegisterApplicationRestart(L"abnormal", RESTART_NO_PATCH | RESTART_NO_REBOOT);
+                RegisterApplicationRestart(to_hstring(RebootType::Abnormal).c_str(), RESTART_NO_PATCH | RESTART_NO_REBOOT);
             }
 
             ApplicationRecoveryFinished(true);
@@ -46,7 +67,12 @@ namespace winrt::cpp_winui_packaged::implementation
         const auto cmdLineArgs = CommandLineToArgvW(cmdLineString.c_str(), &numArgs);
         if (numArgs > 1)
         {
-            restartTypeTextBlock().Text(std::wstring(L"App recovered from " + to_hstring(cmdLineArgs[1]) + L" restart"));
+            std::wstring_view rebootTypeArg(cmdLineArgs[1]);
+            if (rebootTypeArg == to_hstring(RebootType::Normal) ||
+                rebootTypeArg == to_hstring(RebootType::Abnormal))
+            {
+                restartTypeTextBlock().Text(L"App recovered from " + rebootTypeArg + L" restart");
+            }
         }
     }
 
@@ -63,6 +89,6 @@ namespace winrt::cpp_winui_packaged::implementation
 
     void S3_RebootTypeDetection::Restart_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        winrt::Microsoft::Windows::AppLifecycle::AppInstance::Restart(to_hstring("normal"));
+        winrt::Microsoft::Windows::AppLifecycle::AppInstance::Restart(to_hstring(RebootType::Normal));
     }
 }

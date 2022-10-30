@@ -6,7 +6,8 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;
 using System.Reflection.Emit;
-using static cs_winui_packaged.Kernel32;
+using Windows.Win32.System.Recovery;
+using static Windows.Win32.PInvoke;
 
 namespace cs_winui_packaged
 {
@@ -32,15 +33,18 @@ namespace cs_winui_packaged
 
         private void message_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Update registration with new arguments (only if already registered)
-            RestartRestrictions flags;
-            uint size = 0;
-            if (Kernel32.GetApplicationRestartSettings(System.Diagnostics.Process.GetCurrentProcess().SafeHandle, IntPtr.Zero, ref size, out flags) == 0)
+            unsafe
             {
-                String restartArgsInput = messageInput.Text;
-                if (Kernel32.RegisterApplicationRestart(restartArgsInput, flags) == 0)
+                // Update registration with new arguments (only if already registered)
+                uint flags;
+                uint size = 0;
+                if (GetApplicationRestartSettings(System.Diagnostics.Process.GetCurrentProcess().SafeHandle, null, ref size, &flags) == 0)
                 {
-                    MainPage.Current.NotifyUser("Updated registration", InfoBarSeverity.Informational);
+                    String restartArgsInput = messageInput.Text;
+                    if (RegisterApplicationRestart(restartArgsInput, (REGISTER_APPLICATION_RESTART_FLAGS)flags) == 0)
+                    {
+                        MainPage.Current.NotifyUser("Updated registration", InfoBarSeverity.Informational);
+                    }
                 }
             }
         }
@@ -48,7 +52,7 @@ namespace cs_winui_packaged
         private void register_Click(object sender, RoutedEventArgs e)
         {
             // Note that even after successful registration, the application will only recover if running for more than 60 seconds.
-            if (Kernel32.RegisterApplicationRestart(messageInput.Text, Kernel32.RestartRestrictions.NotOnCrash | Kernel32.RestartRestrictions.NotOnHang) == 0)
+            if (RegisterApplicationRestart(messageInput.Text, REGISTER_APPLICATION_RESTART_FLAGS.RESTART_NO_CRASH | REGISTER_APPLICATION_RESTART_FLAGS.RESTART_NO_HANG) == 0)
             {
                 unregisterButton.IsEnabled = true;
                 MainPage.Current.NotifyUser("Registered for restart", InfoBarSeverity.Success);
@@ -61,7 +65,7 @@ namespace cs_winui_packaged
 
         private void unregister_Click(object sender, RoutedEventArgs e)
         {
-            if (Kernel32.UnregisterApplicationRestart() == 0)
+            if (UnregisterApplicationRestart() == 0)
             {
                 unregisterButton.IsEnabled = false;
                 MainPage.Current.NotifyUser("Unregistered from restart", InfoBarSeverity.Success);

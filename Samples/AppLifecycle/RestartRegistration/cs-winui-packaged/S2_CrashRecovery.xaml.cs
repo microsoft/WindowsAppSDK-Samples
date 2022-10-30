@@ -11,7 +11,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Reflection;
-using static cs_winui_packaged.Kernel32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Recovery;
+using Windows.Win32.System.WindowsProgramming;
+using static Windows.Win32.PInvoke;
 
 namespace cs_winui_packaged
 {
@@ -26,20 +29,23 @@ namespace cs_winui_packaged
             setRecoveredCounter();
 
             // Bsst effort to register for crash and hang restart.
-            Kernel32.RegisterApplicationRestart(_counter.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
+            RegisterApplicationRestart(_counter.ToString(), REGISTER_APPLICATION_RESTART_FLAGS.RESTART_NO_PATCH | REGISTER_APPLICATION_RESTART_FLAGS.RESTART_NO_REBOOT);
 
-            // Best effort to register recovery callback to update restart arguments with the latest seconds counter value.
-            Kernel32.RegisterApplicationRecoveryCallback(new RecoveryDelegate(p =>
+            unsafe
             {
-                Kernel32.ApplicationRecoveryInProgress(out bool canceled);
-                if (!canceled)
+                // Best effort to register recovery callback to update restart arguments with the latest seconds counter value.
+                RegisterApplicationRecoveryCallback(new APPLICATION_RECOVERY_CALLBACK(p =>
                 {
-                    Kernel32.RegisterApplicationRestart(_counter.ToString(), Kernel32.RestartRestrictions.NotOnPatch | Kernel32.RestartRestrictions.NotOnReboot);
-                }
+                    ApplicationRecoveryInProgress(out BOOL canceled);
+                    if (!canceled)
+                    {
+                        RegisterApplicationRestart(_counter.ToString(), REGISTER_APPLICATION_RESTART_FLAGS.RESTART_NO_PATCH | REGISTER_APPLICATION_RESTART_FLAGS.RESTART_NO_REBOOT);
+                    }
 
-                ApplicationRecoveryFinished(true);
-                return 0;
-            }), IntPtr.Zero, 5000, 0);
+                    ApplicationRecoveryFinished(true);
+                    return 0;
+                }), null, 5000, 0);
+            }
 
             startTimer(); 
         }
