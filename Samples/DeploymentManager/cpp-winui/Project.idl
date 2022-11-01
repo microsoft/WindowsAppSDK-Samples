@@ -18,6 +18,12 @@ namespace DeploymentManagerSample
         Scenario2_Initialize();
     }
 
+    [default_interface]
+    runtimeclass Scenario3_Repair : Microsoft.UI.Xaml.Controls.Page
+    {
+        Scenario3_Repair();
+    }
+
      /* The following code is template-specific IDL.
      These runtime classes are the same across all C++/WinRT WinUI samples. */
 

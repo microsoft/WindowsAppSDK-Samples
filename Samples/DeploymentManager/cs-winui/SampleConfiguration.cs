@@ -18,7 +18,9 @@ namespace DeploymentManagerSample
         private readonly List<Scenario> scenarios = new()
         {
             new Scenario() { Title = "Get Status", ClassName = typeof(Scenario1_GetStatus).FullName },
-            new Scenario() { Title = "Initialize", ClassName = typeof(Scenario2_Initialize).FullName }
+            new Scenario() { Title = "Initialize", ClassName = typeof(Scenario2_Initialize).FullName },
+            new Scenario() { Title = "Repair", ClassName = typeof(Scenario3_Repair).FullName }
+
         };
     }
 
