@@ -202,19 +202,6 @@ namespace CsWinUiDesktopInstancing
             return isRedirect;
         }
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-        private static extern IntPtr CreateEvent(
-            IntPtr lpEventAttributes, bool bManualReset, 
-            bool bInitialState, string lpName);
-
-        [DllImport("kernel32.dll")]
-        private static extern bool SetEvent(IntPtr hEvent);
-
-        [DllImport("ole32.dll")]
-        private static extern uint CoWaitForMultipleObjects(
-            uint dwFlags, uint dwMilliseconds, ulong nHandles, 
-            IntPtr[] pHandles, out uint dwIndex);
-
         private static IntPtr redirectEventHandle = IntPtr.Zero;
 
         // Do the redirection on another thread, and use a non-blocking
@@ -222,17 +209,13 @@ namespace CsWinUiDesktopInstancing
         public static void RedirectActivationTo(
             AppActivationArguments args, AppInstance keyInstance)
         {
-            redirectEventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+            var redirectSemaphore = new Semaphore(0, 1);
             Task.Run(() =>
             {
                 keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-                SetEvent(redirectEventHandle);
+                redirectSemaphore.Release();
             });
-            uint CWMO_DEFAULT = 0;
-            uint INFINITE = 0xFFFFFFFF;
-            _ = CoWaitForMultipleObjects(
-               CWMO_DEFAULT, INFINITE, 1,
-               new IntPtr[] { redirectEventHandle }, out uint handleIndex);
+            redirectSemaphore.WaitOne();
         }
 
         #endregion

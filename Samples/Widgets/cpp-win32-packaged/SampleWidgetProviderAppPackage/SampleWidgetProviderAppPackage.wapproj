@@ -45,6 +45,7 @@
     <ProjectGuid>7C9DBD64-9DC7-4706-8FDA-8Df2A43184FE</ProjectGuid>
     <TargetPlatformVersion>10.0.22000.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <AssetTargetFallback>net6.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\SampleWidgetProviderApp\SampleWidgetProviderApp.vcxproj</EntryPointProjectUniqueName>
@@ -74,7 +75,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleWidgetProviderApp\SampleWidgetProviderApp.vcxproj" />

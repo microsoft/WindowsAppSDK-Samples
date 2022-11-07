@@ -12,9 +12,9 @@ installed manually before running the sample.
 
 Here are the links for the installer packages for WindowsAppSdk 1.2 Experimental Runtime:
 
-- [AMD64](https://aka.ms/windowsappsdk/1.2/1.2.220727.1-experimental1/windowsappruntimeinstall-x64.exe)
-- [ARM64](https://aka.ms/windowsappsdk/1.2/1.2.220727.1-experimental1/windowsappruntimeinstall-arm64.exe)
-- [X86](https://aka.ms/windowsappsdk/1.2/1.2.220727.1-experimental1/windowsappruntimeinstall-x86.exe)
+- [AMD64](https://aka.ms/windowsappsdk/1.2/1.2.220909.2-experimental2/windowsappruntimeinstall-x64.exe)
+- [ARM64](https://aka.ms/windowsappsdk/1.2/1.2.220909.2-experimental2/windowsappruntimeinstall-arm64.exe)
+- [X86](https://aka.ms/windowsappsdk/1.2/1.2.220909.2-experimental2/windowsappruntimeinstall-x86.exe)
 
 
 ## Conceptual elements
