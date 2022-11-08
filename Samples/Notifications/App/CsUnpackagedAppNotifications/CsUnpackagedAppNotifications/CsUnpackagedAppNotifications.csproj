@@ -15,13 +15,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.63-beta">
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.104-beta">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25211-preview" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221025.2" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25231-preview" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221107.1" />
   </ItemGroup>
 
   <ItemGroup>
