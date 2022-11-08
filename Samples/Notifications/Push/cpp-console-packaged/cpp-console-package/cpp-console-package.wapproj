@@ -78,7 +78,7 @@
     <PackageReference Include="Microsoft.Windows.CppWinRT" Version="2.0.221104.6" />
     <PackageReference Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.220914.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25231-preview" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221025.2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221107.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cpp-console.vcxproj" />
