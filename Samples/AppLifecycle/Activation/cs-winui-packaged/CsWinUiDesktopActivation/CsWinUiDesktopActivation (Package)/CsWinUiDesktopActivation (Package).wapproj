@@ -38,7 +38,7 @@
     <ProjectGuid>75f5a3a4-5821-42a6-96a8-85fea269b1e9</ProjectGuid>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
+    <AssetTargetFallback>net6.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\CsWinUiDesktopActivation\CsWinUiDesktopActivation.csproj</EntryPointProjectUniqueName>
@@ -64,10 +64,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196">
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>

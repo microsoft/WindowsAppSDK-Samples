@@ -2,10 +2,10 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <CppWinRTVersion Condition="'$(CppWinRTVersion)' == ''">2.0.210922.5</CppWinRTVersion>
+    <CppWinRTVersion Condition="'$(CppWinRTVersion)' == ''">2.0.220929.3</CppWinRTVersion>
     <CsWin32Version Condition="'$(CsWin32Version)' == ''">0.1.588-beta</CsWin32Version>
-    <WindowsSDKBuildToolsVersion Condition="'$(WindowsSDKBuildToolsVersion)' == ''">10.0.22000.194</WindowsSDKBuildToolsVersion>
-    <WindowsAppSdkVersion Condition="'$(WindowsAppSdkVersion)' == ''">1.0.0</WindowsAppSdkVersion>
+    <WindowsSDKBuildToolsVersion Condition="'$(WindowsSDKBuildToolsVersion)' == ''">10.0.22621.755</WindowsSDKBuildToolsVersion>
+    <WindowsAppSdkVersion Condition="'$(WindowsAppSdkVersion)' == ''">1.2.220930.4-preview2</WindowsAppSdkVersion>
   </PropertyGroup>
 
 </Project>
