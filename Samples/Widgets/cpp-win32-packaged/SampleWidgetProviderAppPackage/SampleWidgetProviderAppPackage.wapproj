@@ -72,7 +72,7 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" PrivateAssets="all" />

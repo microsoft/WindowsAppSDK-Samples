@@ -21,7 +21,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25211-preview" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
   </ItemGroup>
 
   <ItemGroup>
