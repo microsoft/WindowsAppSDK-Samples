@@ -72,6 +72,11 @@ All the constraints for packaged apps also apply to WinUI apps (because they are
 - Unpackaged apps: Fully usable.
 - Packaged apps: Fully usable.
 
+### Application Recovery and Restart APIs
+
+- Unpackaged apps: Fully usable.
+- Packaged apps: Fully usable.
+
 ## Related Links
 
 - [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
@@ -81,6 +86,8 @@ All the constraints for packaged apps also apply to WinUI apps (because they are
 - [App Instancing](https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/applifecycle/applifecycle-instancing)
 
 - [Power/state notifications](https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/applifecycle/applifecycle-power)
+
+- [Application Recovery and Restart](https://learn.microsoft.com/en-us/windows/win32/api/_recovery/)
 
 
 
