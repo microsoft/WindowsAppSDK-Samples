@@ -72,6 +72,10 @@ The samples will be updated with GA releases of the Windows App SDK. The `main` 
 - [release/0.8](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/0.8)
 - [release/0.5](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/0.5)
 
+## 3D Party samples
+#### Unigram
+- [Unigram for Windows](https://github.com/UnigramDev/Unigram): This sample is a messaging app with a focus on speed and security.
+
 ## Contributing
 
 These samples are provided by feature teams and we welcome your input on issues and suggestions for new samples. We encourage you to [file a new issue](https://github.com/microsoft/WindowsAppSDK-Samples/issues/new) for any feedback or questions!
