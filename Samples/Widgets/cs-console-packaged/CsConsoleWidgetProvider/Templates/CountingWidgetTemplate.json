@@ -1,0 +1,33 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "You have clicked the button ${count} times"
+    },
+    {
+      "text": "Rendering Only if Medium",
+      "type": "TextBlock",
+      "$when": "${$host.widgetSize==\"medium\"}"
+    },
+    {
+      "text": "Rendering Only if Small",
+      "type": "TextBlock",
+      "$when": "${$host.widgetSize==\"small\"}"
+    },
+    {
+      "text": "Rendering Only if Large",
+      "type": "TextBlock",
+      "$when": "${$host.widgetSize==\"large\"}"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Execute",
+      "title": "Increment",
+      "verb": "inc"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.5"
+}
