@@ -27,6 +27,7 @@ namespace CsConsoleWidgetProvider
 
         public override string GetDataForWidget()
         {
+            // Return empty JSON since we don't have any data that we want to use.
             return "{}";
         }
     }
