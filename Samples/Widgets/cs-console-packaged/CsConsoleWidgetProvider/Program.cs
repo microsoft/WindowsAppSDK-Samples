@@ -3,7 +3,6 @@
 
 using Microsoft.Windows.Widgets.Providers;
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using WidgetHelper;
 
@@ -44,8 +43,7 @@ namespace CsConsoleWidgetProvider
                     }
                     else
                     {
-                        // While provider is still active, i.e. at least 1 widget is being served -
-                        // the provider keeps running.
+                        // Wait until the manager has disposed of the last widget provider.
                         using (var disposedEvent = manager.GetDisposedEvent())
                         {
                             disposedEvent.WaitOne();
