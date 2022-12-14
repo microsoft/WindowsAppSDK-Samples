@@ -3,6 +3,8 @@
 
 using Microsoft.Windows.Widgets.Providers;
 using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using WidgetHelper;
 
 namespace CsConsoleWidgetProvider
@@ -12,6 +14,9 @@ namespace CsConsoleWidgetProvider
     /// </summary>
     public static class Program
     {
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
         [MTAThread]
         static void Main(string[] args)
         {
@@ -32,9 +37,20 @@ namespace CsConsoleWidgetProvider
                             Console.WriteLine($"  {widgetId}");
                         }
                     }
-
-                    Console.WriteLine("Press ENTER to exit.");
-                    Console.ReadLine();
+                    if (GetConsoleWindow() != IntPtr.Zero)
+                    {
+                        Console.WriteLine("Press ENTER to exit.");
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        // While provider is still active, i.e. at least 1 widget is being served -
+                        // the provider keeps running.
+                        using (var disposedEvent = manager.GetDisposedEvent())
+                        {
+                            disposedEvent.WaitOne();
+                        }
+                    }
                 }
             }
             else

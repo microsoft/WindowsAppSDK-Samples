@@ -3,13 +3,15 @@
 
 using Microsoft.Windows.Widgets.Providers;
 using System;
+using System.Threading;
 
 namespace WidgetHelper
 {
     public class RegistrationManager<TWidgetProvider> : IDisposable
         where TWidgetProvider : IWidgetProvider, new()
     {
-        private bool disposedValue;
+        private bool disposedValue = false;
+        private ManualResetEvent disposedEvent = new ManualResetEvent(false);
 
         private class ClassLifetimeUnregister : IDisposable
         {
@@ -49,6 +51,7 @@ namespace WidgetHelper
             {
                 registeredProvider.Dispose();
                 disposedValue = true;
+                disposedEvent.Set();
             }
         }
 
@@ -57,6 +60,10 @@ namespace WidgetHelper
             Dispose(disposing: false);
         }
 
+        public ManualResetEvent GetDisposedEvent()
+        {
+            return disposedEvent;
+        }
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
