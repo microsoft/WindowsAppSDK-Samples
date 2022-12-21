@@ -8,9 +8,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <ClCompile>
       <!-- /Qspectre Specifies compiler generation of instructions to mitigate certain Spectre variant 1 
       security vulnerabilities. BinSkim asks for this. -->
-      <!-- /Zm200 doubles the precompiled header memory allocation limit to 4x the default, to prevent PreFast
+      <!-- /Zm1000 doubles the precompiled header memory allocation limit to 10x the default, to prevent PreFast
       from hitting 'out of heap space' errors. -->
-      <AdditionalOptions>%(AdditionalOptions) /Zm400 /Qspectre</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /Zm1000 /Qspectre</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
 
