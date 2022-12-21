@@ -8,9 +8,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <ClCompile>
       <!-- /Qspectre Specifies compiler generation of instructions to mitigate certain Spectre variant 1 
       security vulnerabilities. BinSkim asks for this. -->
-      <!-- /Zm200 doubles the precompiled header memory allocation limit to 2x the default, to prevent PreFast
+      <!-- /Zm200 doubles the precompiled header memory allocation limit to 4x the default, to prevent PreFast
       from hitting 'out of heap space' errors. -->
-      <AdditionalOptions>%(AdditionalOptions) /Zm200 /Qspectre</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /Zm400 /Qspectre</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
 
@@ -30,6 +30,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='15'">v141</AutoDetectedPlatformToolset>
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='16'">v142</AutoDetectedPlatformToolset>
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='17'">v143</AutoDetectedPlatformToolset>
+    <!-- Favors x64 toolset. The x86 toolset is known to hit error C1060 at times when doing PreFast scans. -->
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Label="EmptyDefaultPlatformToolset">
     <DefaultPlatformToolset Condition=" '$(DefaultPlatformToolset)' == '' ">$(AutoDetectedPlatformToolset)</DefaultPlatformToolset>
