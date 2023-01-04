@@ -17,6 +17,11 @@ extendedZipContent:
 
 These samples demonstrate how to use the AppWindow class to manage your application's window.
 
+## Limitations
+
+Please note that customization of a window's TitleBar using the AppWindowTitleBar APIs is only supported on Windows 11 or later. This is illustrated in the sample by using the (IsCustomizationSupported)[https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.windowing.appwindowtitlebar.iscustomizationsupported] method. Please see the [Title bar
+  customization](https://docs.microsoft.com/windows/apps/develop/title-bar) article for more details.
+
 ## Prerequisites
 
 * See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
