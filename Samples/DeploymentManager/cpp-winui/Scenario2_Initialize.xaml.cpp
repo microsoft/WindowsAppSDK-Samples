@@ -54,6 +54,9 @@ namespace winrt::DeploymentManagerSample::implementation
 
     void Scenario2_Initialize::InitializeScenarioButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
     {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
         UpdateInitializeMessages();
 
         if (DeploymentManager::GetStatus().Status() != DeploymentStatus::Ok)
@@ -75,6 +78,9 @@ namespace winrt::DeploymentManagerSample::implementation
 
     void Scenario2_Initialize::ForceInitializeScenarioButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
     {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
         UpdateInitializeMessages();
 
         if (DeploymentManager::GetStatus().Status() != DeploymentStatus::Ok)

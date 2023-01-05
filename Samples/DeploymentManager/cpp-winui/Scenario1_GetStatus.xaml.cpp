@@ -26,6 +26,9 @@ namespace winrt::DeploymentManagerSample::implementation
 
 	void Scenario1_GetStatus::GetStatusButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
+		UNREFERENCED_PARAMETER(sender);
+		UNREFERENCED_PARAMETER(e);
+
 		resultStatus().Text(L"Result Status");
 		resultExtendedError().Text(L"Result ExtendedError:");
 		resultImplication().Text(L"");

@@ -19,7 +19,7 @@ namespace winrt::CppWinUiDesktopState::implementation
 {
     MainWindow::MainWindow()
     {
-        dispatcherQueue = &(DispatcherQueue::GetForCurrentThread());
+        dispatcherQueue = DispatcherQueue::GetForCurrentThread();
         messages = winrt::single_threaded_observable_vector<IInspectable>();
         InitializeComponent();
         this->StatusListView().ItemsSource(messages);

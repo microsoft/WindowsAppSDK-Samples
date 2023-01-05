@@ -66,7 +66,7 @@ int main()
 	RemoveFromPathExt();
 
 	_putws(L"...press any key to exit...");
-	int _ = getwchar();
+	getwchar();
 
 	return 0;
 }
