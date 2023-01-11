@@ -30,18 +30,20 @@ These samples demonstrate how to author Windows Widgets with the Windows App SDK
 
 ## WidgetProvider sample
 
-This project includes a sample of a 3rd party widget provider. At this point, it's only possible to author widgets in C++ and Widget provider application must be a packaged application.
-
+This project includes a sample of a 3rd party widget provider. The sample is a packaged application that is authored in both C++ and C#.
 ## Converting sample from Console to Windows application
 
 If the widget providing application doesn't have any UI - it's a good idea to convert the app to windows application so the console doesn't show to the end user.
 These are the required steps to convert the sample to windows application:
-- Right click on the SampleWidgetProviderApp in Visual Studio and open Properties. Navigate to Linker -> System and change SubSystem from Console to Windows. It can also be done by adding `<SubSystem>Windows</SubSystem>` to the `<Link>..</Link>` section of the .vcxproj.
-- Substitute `int main()` in `main.cpp` with `int WINAPI wWinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInstance*/, _In_ PWSTR pCmdLine, _In_ int /*nCmdShow*/)`.
+- For C++
+  - Right click on the SampleWidgetProviderApp in Visual Studio and open Properties. Navigate to Linker -> System and change SubSystem from Console to Windows. It can also be done by adding `<SubSystem>Windows</SubSystem>` to the `<Link>..</Link>` section of the .vcxproj.
+  - Substitute `int main()` in `main.cpp` with `int WINAPI wWinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInstance*/, _In_ PWSTR pCmdLine, _In_ int /*nCmdShow*/)`.
+- For C#
+  - Right click on CsConsoleWidgetProvider in Visual Studio and open Properties. In the Output type dropdown choose `Windows Application`.
 
 ## Debugging WidgetProvider
 
-After the solution has been built, you will need to deploy the `SampleWidgetProviderAppPackage`. In order to do that, right click on the `SampleWidgetProviderAppPackage` and click Deploy. 
+After the solution has been built, you will need to deploy the `SampleWidgetProviderAppPackage(C++)` or `CsConsoleWidgetProvider(C#)`. In order to do that, right click on the desired project and click Deploy. 
 Once you've done that, you may navigate to the Widgets Dashboard and pin your widget:
 - Open Widgets Dashboard by hovering over or clicking the widgets icon in the left bottom corner of the taskbar, or by using the shortcut `WIN + W`.
 - Click the `+` sign next to your user avatar.
