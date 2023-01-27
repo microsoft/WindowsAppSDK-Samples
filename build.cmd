@@ -17,8 +17,10 @@ if "%configuration%"=="" set configuration=Release
 if not exist ".\.nuget" mkdir ".\.nuget"
 if not exist ".\.nuget\nuget.exe" powershell -Command "Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile .\.nuget\nuget.exe"
 
+set NUGET_RESTORE_MSBUILD_ARGS=/p:PublishReadyToRun=true
+
 for /f "delims=" %%D in ('dir /s/b samples\%sample_filter%*.sln') do (
-    call .nuget\nuget.exe restore "%%D" -configfile Samples\nuget.config -PackagesDirectory ".\packages"
+    call .nuget\nuget.exe restore "%%D" -configfile Samples\nuget.config -PackagesDirectory %~dp0packages
     call msbuild /p:platform=%platform% /p:configuration=%configuration% /p:NugetPackageDirectory=%~dp0packages /bl:"%%~nD.binlog" "%%D"
 
     if ERRORLEVEL 1 goto :eof
