@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+  <PropertyGroup>
+    <!-- When building centrally, this will define a single nuget package location for all samples -->
+    <NugetPackageDirectory Condition="'$(NugetPackageDirectory)'==''">..\packages</NugetPackageDirectory>
+  </PropertyGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{a43e7229-bd86-4886-bd84-dd066d89d0ff}</ProjectGuid>
     <RootNamespace>UWP_WinUI2</RootNamespace>
@@ -214,15 +218,15 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets')" />
-    <Import Project="..\packages\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('..\packages\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets')" />
+    <Import Project="$(NugetPackageDirectory)\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('$(NugetPackageDirectory)\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="$(NugetPackageDirectory)\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('$(NugetPackageDirectory)\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets'))" />
+    <Error Condition="!Exists('$(NugetPackageDirectory)\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(NugetPackageDirectory)\Microsoft.Web.WebView2.1.0.1018-prerelease\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('$(NugetPackageDirectory)\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(NugetPackageDirectory)\Microsoft.UI.Xaml.2.8.0-prerelease.210927001\build\native\Microsoft.UI.Xaml.targets'))" />
   </Target>
 
   <!-- Each release of Visual Studio produces larger intermediate files.
