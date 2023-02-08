@@ -13,7 +13,7 @@ Get-ChildItem -Recurse packages.config -Path $PSScriptRoot | foreach-object {
 
 Get-ChildItem -Recurse *.vcxproj -Path $PSScriptRoot | foreach-object {
     $newVersionString = '$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.' + $WinAppSDKVersion + '\'
-    $oldVersionString = '$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.[-.0-9a-zA-Z]*\\'
+    $oldVersionString = '$\(NugetPackageDirectory\)\\Microsoft.WindowsAppSDK.[-.0-9a-zA-Z]*\\'
     $content = Get-Content $_.FullName -Raw
     $content = $content -replace $oldVersionString, $newVersionString
     Set-Content -Path $_.FullName -Value $content
