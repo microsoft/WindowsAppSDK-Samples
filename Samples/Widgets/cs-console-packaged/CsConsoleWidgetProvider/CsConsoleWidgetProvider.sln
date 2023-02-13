@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33027.239
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsConsoleWidgetProvider", "CsConsoleWidgetProvider.csproj", "{005BBB74-34DC-42FA-9D88-5237E3CD920F}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WidgetHelper", "..\WidgetHelper\WidgetHelper.shproj", "{2F76105F-682C-4B53-B6E9-1403A6B6046E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|arm64 = Debug|arm64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|arm64 = Release|arm64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|Any CPU.Build.0 = Debug|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|arm64.ActiveCfg = Debug|arm64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|arm64.Build.0 = Debug|arm64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|arm64.Deploy.0 = Debug|arm64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|x64.ActiveCfg = Debug|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|x64.Build.0 = Debug|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|x64.Deploy.0 = Debug|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|x86.ActiveCfg = Debug|x86
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|x86.Build.0 = Debug|x86
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Debug|x86.Deploy.0 = Debug|x86
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|Any CPU.ActiveCfg = Release|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|Any CPU.Build.0 = Release|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|Any CPU.Deploy.0 = Release|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|arm64.ActiveCfg = Release|arm64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|arm64.Build.0 = Release|arm64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|arm64.Deploy.0 = Release|arm64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|x64.ActiveCfg = Release|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|x64.Build.0 = Release|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|x64.Deploy.0 = Release|x64
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|x86.ActiveCfg = Release|x86
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|x86.Build.0 = Release|x86
+		{005BBB74-34DC-42FA-9D88-5237E3CD920F}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20CF7CCB-71E5-4795-A066-E05ECCE6EAE7}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\WidgetHelper\WidgetHelper.projitems*{005bbb74-34dc-42fa-9d88-5237e3cd920f}*SharedItemsImports = 5
+		..\WidgetHelper\WidgetHelper.projitems*{2f76105f-682c-4b53-b6e9-1403a6b6046e}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

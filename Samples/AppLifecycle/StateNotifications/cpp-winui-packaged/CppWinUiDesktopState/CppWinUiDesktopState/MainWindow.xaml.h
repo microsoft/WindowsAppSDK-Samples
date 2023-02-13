@@ -22,7 +22,7 @@ namespace winrt::CppWinUiDesktopState::implementation
         winrt::event_token userPresenceToken;
         winrt::event_token systemSuspendToken;
         Windows::Foundation::Collections::IVector<IInspectable> messages;
-        Windows::System::DispatcherQueue* dispatcherQueue;
+        Windows::System::DispatcherQueue dispatcherQueue { nullptr };
 
         void RegisterPowerManagerCallbacks();
         void UnregisterPowerManagerCallbacks();
