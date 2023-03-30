@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 #include "Main.h"
@@ -221,90 +221,21 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
 {
     try
     {
-        OrientationTransform orentation(
+        OrientationTransform orientation(
             this,
             orientationAngle,
             !!glyphRun->isSideways,
             D2D_POINT_2F{ baselineOriginX, baselineOriginY }
         );
 
-        HRESULT hr = DWRITE_E_NOCOLOR;
-        wil::com_ptr<IDWriteColorGlyphRunEnumerator> colorLayers;
-
-        wil::com_ptr<IDWriteFontFace2> fontFace2;
-        if (SUCCEEDED(glyphRun->fontFace->QueryInterface(&fontFace2)))
-        {
-            uint32_t paletteCount = fontFace2->GetColorPaletteCount();
-            if (paletteCount > 0)
-            {
-                DWRITE_MATRIX transform;
-                hr = m_renderTarget->GetCurrentTransform(&transform);
-                if (FAILED(hr))
-                {
-                    return hr;
-                }
-
-                transform.m11 *= m_dpiScale;
-                transform.m12 *= m_dpiScale;
-                transform.m21 *= m_dpiScale;
-                transform.m22 *= m_dpiScale;
-                transform.dx *= m_dpiScale;
-                transform.dy *= m_dpiScale;
-
-                // Perform color translation.
-                // Fall back to the default palette if the current palette index is out of range.
-                hr = g_factory->TranslateColorGlyphRun(
-                    baselineOriginX,
-                    baselineOriginY,
-                    glyphRun,
-                    nullptr,
-                    measuringMode,
-                    &transform,
-                    m_colorPaletteIndex < paletteCount ? m_colorPaletteIndex : 0,
-                    & colorLayers
-                );
-            }
-        }
-
-        if (hr == DWRITE_E_NOCOLOR)
-        {
-            THROW_IF_FAILED(m_renderTarget->DrawGlyphRun(
-                baselineOriginX,
-                baselineOriginY,
-                measuringMode,
-                glyphRun,
-                m_renderingParams.get(),
-                m_textColor
-            ));
-        }
-        else
-        {
-            THROW_IF_FAILED(hr);
-
-            for (;;)
-            {
-                BOOL haveRun;
-                THROW_IF_FAILED(colorLayers->MoveNext(&haveRun));
-                if (!haveRun)
-                {
-                    break;
-                }
-
-                DWRITE_COLOR_GLYPH_RUN const* colorRun;
-                THROW_IF_FAILED(colorLayers->GetCurrentRun(&colorRun));
-
-                COLORREF runColor = (colorRun->paletteIndex == 0xFFFF) ? m_textColor : ToCOLORREF(colorRun->runColor);
-
-                THROW_IF_FAILED(m_renderTarget->DrawGlyphRun(
-                    colorRun->baselineOriginX,
-                    colorRun->baselineOriginY,
-                    measuringMode,
-                    &colorRun->glyphRun,
-                    m_renderingParams.get(),
-                    runColor
-                ));
-            }
-        }
+        RETURN_IF_FAILED(m_renderTarget->DrawGlyphRunWithColorSupport(
+            baselineOriginX,
+            baselineOriginY,
+            measuringMode,
+            glyphRun,
+            m_renderingParams.get(),
+            m_textColor
+        ));
 
         return S_OK;
     }

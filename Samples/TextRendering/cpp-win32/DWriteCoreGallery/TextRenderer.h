@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 #pragma once
@@ -147,13 +147,13 @@ private:
 
     private:
         IDWriteBitmapRenderTarget1* m_renderTarget = nullptr;
-        DWRITE_MATRIX m_oldTransform;
+        DWRITE_MATRIX m_oldTransform = {};
     };
 
     uint32_t m_refCount = 0;
     float m_dpiScale = 1.0f;
     wil::com_ptr<IDWriteRenderingParams> m_renderingParams;
-    wil::com_ptr<IDWriteBitmapRenderTarget1> m_renderTarget;
+    wil::com_ptr<IDWriteBitmapRenderTarget3> m_renderTarget;
     wil::com_ptr<IDWriteTextAnalyzer2> m_textAnalyzer;
     HDC m_targetHdc = nullptr;
     SIZE m_targetPixelSize = {};
