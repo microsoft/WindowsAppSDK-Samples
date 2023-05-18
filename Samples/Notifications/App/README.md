@@ -24,7 +24,7 @@ Before building the sample, make sure to set up your environment correctly by fo
 For the unpackaged sample apps, in addition to the steps for setting up the environment for the Windows App SDK, make sure to follow the instructions [here](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps).
 
 # Adding a New Scenario to the Sample
-All samples in this directory should be kept in-sync, meaning that if you add a scenario to one (say the C++ unpackaged sample), you should also add it ti all the others.
+All samples in this directory should be kept in-sync, meaning that if you add a scenario to one (say the C++ unpackaged sample), you should also add it to all the others.
 The samples in this directory are differenciated by the language the use C++ vs C# or the type of packaging but not by their functionality.
 
 1. **Implement the UI** -
