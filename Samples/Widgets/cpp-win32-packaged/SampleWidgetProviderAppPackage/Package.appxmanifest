@@ -8,6 +8,18 @@
 	xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
 	IgnorableNamespaces="uap uap3 rescap">
 
+	<Extensions>
+		<Extension Category="windows.activatableClass.proxyStub">
+			<ProxyStub ClassId="00000355-0000-0000-C000-000000000046">
+				<Path>Microsoft.Windows.Widgets.winmd</Path>
+				<Interface Name="Microsoft.Windows.Widgets.Providers.IWidgetProvider" InterfaceId="5C5774CC-72A0-452D-B9ED-075C0DD25EED" />
+				<Interface Name="Microsoft.Windows.Widgets.Providers.IWidgetProvider2" InterfaceId="38C3A963-DD93-479D-9276-04BF84EE1816" />
+				<Interface Name="Microsoft.Windows.Widgets.Providers.IWidgetProviderErrors" InterfaceId="90C1B5F0-0D3A-4AC6-ABB7-C97B367B8FCC" />
+				<Interface Name="Microsoft.Windows.Widgets.Providers.IWidgetProviderAnalytics" InterfaceId="661985A5-D187-482D-9EEF-6FDA05D21845" />
+			</ProxyStub>
+		</Extension>
+	</Extensions>
+
 	<Identity
 		Name="SampleWidgetProviderAppPackage"
 		Publisher="CN=Microsoft Corporation"

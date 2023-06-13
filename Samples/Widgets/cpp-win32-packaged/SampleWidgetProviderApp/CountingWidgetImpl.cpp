@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "CountingWidgetImpl.h"
+#include <iostream>
 
 CountingWidget::CountingWidget(winrt::hstring const& id, winrt::hstring const& state) : WidgetImplBase(id, state)
 {
@@ -75,6 +76,11 @@ void CountingWidget::Deactivate()
     // This is the moment to stop sending all further updates until
     // Activate() was called again.
     m_isActivated = false;
+}
+
+void CountingWidget::OnCustomizationRequested(winrt::WidgetCustomizationRequestedArgs args)
+{
+    std::wcout << args.CustomState().c_str() << std::endl;
 }
 
 winrt::hstring CountingWidget::GetDefaultTemplate()

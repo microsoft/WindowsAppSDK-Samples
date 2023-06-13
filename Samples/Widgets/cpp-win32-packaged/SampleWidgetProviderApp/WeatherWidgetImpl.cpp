@@ -39,6 +39,10 @@ void WeatherWidget::Deactivate()
     m_isActivated = false;
 }
 
+void WeatherWidget::OnCustomizationRequested(winrt::WidgetCustomizationRequestedArgs args)
+{
+}
+
 winrt::hstring WeatherWidget::GetDefaultTemplate()
 {
     auto uri = winrt::Uri(L"ms-appx:///Templates/WeatherWidgetTemplate.json");

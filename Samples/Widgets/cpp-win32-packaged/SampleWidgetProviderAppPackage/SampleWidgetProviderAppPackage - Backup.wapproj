@@ -49,7 +49,6 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\SampleWidgetProviderApp\SampleWidgetProviderApp.vcxproj</EntryPointProjectUniqueName>
-    <UserSecretsId>46dcaee8-712c-4246-88c2-4e8e9d01d721</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -71,9 +70,11 @@
     <Content Include="ProviderAssets\Weather_Icon.png" />
     <Content Include="ProviderAssets\Weather_Screenshot.png" />
   </ItemGroup>
+  <!--
   <ItemGroup>
     <AppxSystemBinary Include="Microsoft.Windows.Widgets.winmd" />
   </ItemGroup>
+  -->
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" PrivateAssets="all" />

@@ -19,6 +19,9 @@ public:
     virtual void Deactivate(winrt::hstring) {};
     virtual void OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvokedArgs) {};
     virtual void OnWidgetContextChanged(winrt::WidgetContextChangedArgs contextChangedArgs) {};
+
+    virtual void OnCustomizationRequested(winrt::WidgetCustomizationRequestedArgs args) {};
+
     virtual winrt::hstring GetTemplateForWidget() = 0;
     virtual winrt::hstring GetDataForWidget() = 0;
 

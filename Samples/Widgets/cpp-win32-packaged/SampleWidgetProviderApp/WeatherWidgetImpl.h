@@ -14,6 +14,7 @@ public:
     void OnWidgetContextChanged(winrt::WidgetContextChangedArgs contextChangedArgs);
     void Activate();
     void Deactivate();
+    void OnCustomizationRequested(winrt::WidgetCustomizationRequestedArgs args);
     winrt::hstring GetTemplateForWidget();
     winrt::hstring GetDataForWidget();
 private:
