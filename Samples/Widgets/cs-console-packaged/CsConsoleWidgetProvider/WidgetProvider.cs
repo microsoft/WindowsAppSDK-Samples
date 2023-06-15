@@ -6,11 +6,12 @@ using Microsoft.Windows.Widgets.Providers;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using WinRT;
 
 [ComVisible(true)]
 [ComDefaultInterface(typeof(IWidgetProvider))]
 [Guid("80DAE84C-DE3C-4F02-8ECD-DCDD1CDECC15")]
-public sealed class WidgetProvider : IWidgetProvider
+public sealed class WidgetProvider : IWidgetProvider, IWidgetProvider2
 {
     public WidgetProvider()
     {
@@ -161,4 +162,43 @@ public sealed class WidgetProvider : IWidgetProvider
         Console.WriteLine($"Deactivate id: {widgetId}");
         WidgetInstances[widgetId].Deactivate();
     }
+
+    public void OnCustomizationRequested(WidgetCustomizationRequestedArgs customizationRequestedArgs)
+    {
+        var m = 5;
+    }
+
+    public CustomQueryInterfaceResult GetInterface(ref Guid iid, out IntPtr ppv)
+    {
+        //ppv = WinRT.MarshalInspectable<IWidgetProvider>.FromManaged(this);
+        //ppv = Marshal.GetComInterfaceForObject(this, typeof(IWidgetProvider));
+        if(iid == typeof(WinRT.IInspectable).GUID)
+        {
+            //ppv = GCHandle.ToIntPtr(GCHandle.Alloc(this));
+            //return CustomQueryInterfaceResult.Handled;
+            ppv = IntPtr.Zero;
+            return CustomQueryInterfaceResult.NotHandled;
+        }
+        if (iid == typeof(IWidgetProvider).GUID)
+        {
+            ppv = MarshalInspectable<IWidgetProvider>.FromManaged(this);
+            return CustomQueryInterfaceResult.Handled;
+        }
+        if (iid == typeof(IWidgetProvider2).GUID)
+        {
+            
+            var myRef = ComWrappersSupport.CreateCCWForObject(this.As<IWidgetProvider2>());
+            ppv = myRef.GetRef();
+            return CustomQueryInterfaceResult.Handled;
+        }
+
+        ppv = IntPtr.Zero;
+        return CustomQueryInterfaceResult.NotHandled;
+    }
+
+    //public void OnCustomizationRequested(WidgetCustomizationRequestedArgs customizationRequestedArgs)
+    //{
+    //    var m = 5;
+    //    m++;
+    //}
 }
