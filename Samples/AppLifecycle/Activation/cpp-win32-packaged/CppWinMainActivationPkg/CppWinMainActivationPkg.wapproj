@@ -74,7 +74,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230331000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230602002" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CppWinMainActivation\CppWinMainActivation.vcxproj" />
