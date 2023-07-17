@@ -80,8 +80,8 @@ Sample authors should follow the [samples guidelines](docs/samples-guidelines.md
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
 
-Once a new sample app has been added, Microsoft shall consider updating the internal Aggregator pipeline to:
-- Build the new sample app regularly.
-- Add a new test case to verify successful launchng of the sample app against the latest Windows App SDK version regularly.
+Once a new sample app has been added, Microsoft developers shall consider updating the internal Aggregator pipeline to:
+- Enable building of the new sample app regularly.
+- Add a new test case to the existing SampleTests TAEF test driver to regularly verify successful launchng of the sample app against the latest Windows App SDK version.
 
-Refer to the documentation on the internal Aggregator repository for instructions.
+Refer to the documentation on the internal Aggregator repository for instructions, in the BuildSampleApps and TestSampleApps Stages.
