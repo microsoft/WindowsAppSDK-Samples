@@ -79,3 +79,9 @@ These samples are provided by feature teams and we welcome your input on issues 
 Sample authors should follow the [samples guidelines](docs/samples-guidelines.md) to begin developing their samples. For WinUI-based Windows App SDK samples, use the [sample templates](Templates/README.md). The VSIX file is available for download in the Github releases page [here](https://github.com/microsoft/WindowsAppSDK-Samples/releases).
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
+
+Once a new sample app has been added, Microsoft shall consider updating the internal Aggregator pipeline to:
+- Build the new sample app regularly.
+- Add a new test case to verify successful launchng of the sample app against the latest Windows App SDK version regularly.
+
+Refer to the documentation on the internal Aggregator repository for instructions.
