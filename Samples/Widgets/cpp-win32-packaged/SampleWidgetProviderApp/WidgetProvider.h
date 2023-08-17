@@ -4,7 +4,10 @@
 #pragma once
 #include "WidgetImplBase.h"
 
-struct WidgetProvider : winrt::implements<WidgetProvider, winrt::Microsoft::Windows::Widgets::Providers::IWidgetProvider>
+struct WidgetProvider : winrt::implements<WidgetProvider, winrt::Microsoft::Windows::Widgets::Providers::IWidgetProvider,
+    winrt::Microsoft::Windows::Widgets::Providers::IWidgetProvider2,
+    winrt::Microsoft::Windows::Widgets::Providers::IWidgetProviderAnalytics,
+    winrt::Microsoft::Windows::Widgets::Providers::IWidgetProviderErrors>
 {
     WidgetProvider();
 
@@ -16,6 +19,18 @@ struct WidgetProvider : winrt::implements<WidgetProvider, winrt::Microsoft::Wind
     void Activate(winrt::Microsoft::Windows::Widgets::Providers::WidgetContext widgetContext);
     void Deactivate(winrt::hstring widgetId);
     /* IWidgetProvider required functions that need to be implemented */
+
+    /* IWidgetProvider2 required functions that need to be implemented */
+    void OnCustomizationRequested(winrt::WidgetCustomizationRequestedArgs const& args);
+    /* IWidgetProvider2 required functions that need to be implemented */
+
+    /* IWidgetProviderAnalytics required functions that need to be implemented */
+    void OnAnalyticsInfoReported(winrt::WidgetAnalyticsInfoReportedArgs const& eventNotifiedArgs);
+    /* IWidgetProviderAnalytics required functions that need to be implemented */
+
+    /* IWidgetProviderErrors required functions that need to be implemented */
+    void OnErrorInfoReported(winrt::WidgetErrorInfoReportedArgs const& eventNotifiedArgs);
+    /* IWidgetProviderErrors required functions that need to be implemented */
 
 private:
     void RecoverRunningWidgets();

@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "WidgetProvider.h"
+#include <iostream>
 
 using CreateWidgetImplFn = std::function<std::shared_ptr<WidgetImplBase>(winrt::WidgetContext, winrt::hstring)>;
 
@@ -140,6 +141,36 @@ void WidgetProvider::Deactivate(winrt::hstring widgetId)
     {
         runningWidget->Deactivate(widgetId);
     }
+}
+
+// Handle the OnCustomizationRequested call. This function is called when widgets host stops listening
+// to the widget updates. It generally happens when the widget is not visible to the user
+// anymore and any further updates won't be displayed until the widget is visible again.
+// It's recommended to stop sending updates until Activate function was called.
+void WidgetProvider::OnCustomizationRequested(winrt::WidgetCustomizationRequestedArgs const& args)
+{
+    if (const auto& runningWidget = FindRunningWidget(args.WidgetContext().Id()))
+    {
+        runningWidget->OnCustomizationRequested(args);
+    }
+}
+
+// Handle the OnCustomizationRequested call. This function is called when widgets host stops listening
+// to the widget updates. It generally happens when the widget is not visible to the user
+// anymore and any further updates won't be displayed until the widget is visible again.
+// It's recommended to stop sending updates until Activate function was called.
+void WidgetProvider::OnAnalyticsInfoReported(winrt::WidgetAnalyticsInfoReportedArgs const& args)
+{
+    std::wcout << args.AnalyticsJson().c_str() << std::endl;
+}
+
+// Handle the OnCustomizationRequested call. This function is called when widgets host stops listening
+// to the widget updates. It generally happens when the widget is not visible to the user
+// anymore and any further updates won't be displayed until the widget is visible again.
+// It's recommended to stop sending updates until Activate function was called.
+void WidgetProvider::OnErrorInfoReported(winrt::WidgetErrorInfoReportedArgs const& args)
+{
+    std::wcout << args.ErrorJson().c_str() << std::endl;
 }
 
 // This function will be called in WidgetProvider Constructor
