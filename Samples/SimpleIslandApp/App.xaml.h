@@ -8,7 +8,9 @@ namespace winrt::SimpleIslandApp::implementation
 {
     struct App : AppT<App>
     {
-        App();
+        App()
+            : m_windowsXamlManager(winrt::Microsoft::UI::Xaml::Hosting::WindowsXamlManager::InitializeForCurrentThread())
+        { }
 
         void OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
 
