@@ -1,8 +1,20 @@
-// SimpleIslandApp.cpp : Defines the entry point for the application.
+﻿// SimpleIslandApp.cpp : Defines the entry point for the application.
 //
 
-#include "framework.h"
+#include "pch.h"
 #include "SimpleIslandApp.h"
+
+#include <App.xaml.h>
+#include <MainPage.h>
+
+namespace winrt
+{
+    using namespace winrt::Microsoft::UI;
+    using namespace winrt::Microsoft::UI::Dispatching;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Xaml::Hosting;
+    using namespace winrt::Microsoft::UI::Xaml::Markup;
+}
 
 #define MAX_LOADSTRING 100
 
@@ -10,6 +22,10 @@
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+
+HWND g_button1{ NULL };
+HWND g_button2{ NULL };
+winrt::DesktopWindowXamlSource g_desktopWindowXamlSource {nullptr};
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -25,7 +41,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Place code here.
+    winrt::init_apartment(winrt::apartment_type::single_threaded);
+
+    // We must start a DispatcherQueueController before we can create an island or use Xaml.
+    auto dispatcherQueueController {winrt::DispatcherQueueController::CreateOnCurrentThread()};
+
+    // Create our custom Xaml App object.
+    auto simpleIslandApp {winrt::make<winrt::SimpleIslandApp::implementation::App>()};
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -39,20 +61,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SIMPLEISLANDAPP));
+    // TODO: What should we do with hAccelTable?
 
-    MSG msg;
+    // This takes the place of the message loop, it does the message loop for us.
+    dispatcherQueueController.DispatcherQueue().RunEventLoop();
 
-    // Main message loop:
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
+    dispatcherQueueController.ShutdownQueue();
 
-    return (int) msg.wParam;
+    return 0;
 }
 
 
@@ -125,6 +141,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_CREATE:
+        {
+            g_button1 = ::CreateWindow(L"BUTTON", L"Win32 Button 1", WS_TABSTOP | WS_VISIBLE | WS_CHILD, 10, 10, 150, 40, hWnd, (HMENU)101, hInst, NULL);
+            g_button2 = ::CreateWindow(L"BUTTON", L"Win32 Button 2", WS_TABSTOP | WS_VISIBLE | WS_CHILD, 10, 400, 150, 40, hWnd, (HMENU)102, hInst, NULL);
+
+            // Create our DesktopWindowXamlSource and attach it to our hwnd.  This is our "island".
+            g_desktopWindowXamlSource = winrt::DesktopWindowXamlSource{};
+            g_desktopWindowXamlSource.Initialize(winrt::GetWindowIdFromWindow(hWnd));
+
+            // Put a new instance of our Xaml "MainPage" into our island.  This is our UI content.
+            g_desktopWindowXamlSource.Content(winrt::make<winrt::SimpleIslandApp::implementation::MainPage>());
+        }
+        break;
+    case WM_SIZE:
+        {
+            const int width = LOWORD(lParam);
+            const int height = HIWORD(lParam);
+
+            ::SetWindowPos(g_button1, NULL, 10, 10, 150, 40, SWP_NOZORDER);
+            ::SetWindowPos(g_button2, NULL, 10, height - 50, 150, 40, SWP_NOZORDER);
+
+            if (g_desktopWindowXamlSource)
+            {
+                g_desktopWindowXamlSource.SiteBridge().MoveAndResize({ 10, 60, width - 20, height - 120 });
+            }
+        }
+        break;
+
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
