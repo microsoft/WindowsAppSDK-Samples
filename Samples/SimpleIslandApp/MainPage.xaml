@@ -6,10 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <StackPanel>
-        <Button x:Name="Button" Click="ClickHandler">Click Me</Button>
-        <TextBox Text="Text goes here" />
-        <WebView2 Source="http://bing.com" Width="800" Height="600"/>
-    </StackPanel>
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button x:Name="Button" Click="ClickHandler">Click Me</Button>
+            <TextBox Text="Text goes here" />
+        </StackPanel>
+        <WebView2 Grid.Row="1" Source="http://bing.com" />
+    </Grid>
 </Page>
