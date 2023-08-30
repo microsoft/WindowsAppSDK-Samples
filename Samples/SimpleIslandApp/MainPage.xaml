@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button x:Name="Button" Click="ClickHandler">Click Me</Button>
-            <TextBox Text="Text goes here" />
+            <TextBox Text="Text goes here" Margin="10" />
         </StackPanel>
         <WebView2 Grid.Row="1" Source="http://bing.com" />
     </Grid>

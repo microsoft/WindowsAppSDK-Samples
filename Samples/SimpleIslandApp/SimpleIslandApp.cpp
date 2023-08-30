@@ -6,6 +6,7 @@
 
 #include <App.xaml.h>
 #include <MainPage.h>
+#include <Microsoft.UI.Dispatching.Interop.h> // For ContentPreTranslateMessage
 
 namespace winrt
 {
@@ -54,10 +55,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         InitInstance(hInstance, nCmdShow, szTitle, szWindowClass);
 
         HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SIMPLEISLANDAPP));
-        // TODO: What should we do with hAccelTable?
 
-        // This takes the place of the message loop, it does the message loop for us.
-        dispatcherQueueController.DispatcherQueue().RunEventLoop();
+        MSG msg{};
+
+        // Main message loop:
+        while (GetMessage(&msg, nullptr, 0, 0))
+        {
+            // It's important to call ContentPreTranslateMessage in the event loop so that WinAppSDK can be aware of
+            // the messages.  If you don't need to use an accelerator table, you could just call DispatcherQueue.RunEventLoop
+            // to do the message pump for you (it will call ContentPreTranslateMessage automatically).
+            if (!::ContentPreTranslateMessage(&msg) && !TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+        }
 
         dispatcherQueueController.ShutdownQueue();
     }
