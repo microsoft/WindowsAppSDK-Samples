@@ -1,0 +1,7 @@
+# Please see https://www.osgwiki.com/wiki/Windows_App_SDK_-_How_to_build_and_use_the_pipelines
+# for information on how to use the pipelines
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+stages:
+- template: WindowsAppSDK-SamplesCI.yml
+  parameters:
+    FeatureDirectory: "Islands"
