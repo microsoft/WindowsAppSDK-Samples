@@ -33,12 +33,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     try
     {
+        // Island-support: Call init_apartment to initialize COM and WinRT for the thread.
         winrt::init_apartment(winrt::apartment_type::single_threaded);
 
-        // We must start a DispatcherQueueController before we can create an island or use Xaml.
+        // Island-support: We must start a DispatcherQueueController before we can create an island or use Xaml.
         auto dispatcherQueueController{ winrt::DispatcherQueueController::CreateOnCurrentThread() };
 
-        // Create our custom Xaml App object. This is needed to properly use the controls and metadata in Microsoft.ui.xaml.controls.dll.
+        // Island-support: Create our custom Xaml App object. This is needed to properly use the controls and metadata
+        // in Microsoft.ui.xaml.controls.dll.
         auto simpleIslandApp{ winrt::make<winrt::SimpleIslandApp::implementation::App>() };
 
         // The title bar text
@@ -61,7 +63,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         // Main message loop:
         while (GetMessage(&msg, nullptr, 0, 0))
         {
-            // It's important to call ContentPreTranslateMessage in the event loop so that WinAppSDK can be aware of
+            // Island-support: It's important to call ContentPreTranslateMessage in the event loop so that WinAppSDK can be aware of
             // the messages.  If you don't need to use an accelerator table, you could just call DispatcherQueue.RunEventLoop
             // to do the message pump for you (it will call ContentPreTranslateMessage automatically).
             if (!::ContentPreTranslateMessage(&msg) && !TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
@@ -71,6 +73,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
 
+        // Island-support: To properly shut down after using a DispatcherQueue, call ShutdownQueue[Aysnc]().
         dispatcherQueueController.ShutdownQueue();
     }
     catch (const winrt::hresult_error& exception)
