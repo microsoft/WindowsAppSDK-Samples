@@ -53,6 +53,7 @@
     <ProjectGuid>c24a1b1d-cbce-4433-b08a-4a9311f127ba</ProjectGuid>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <AssetTargetFallback>net6.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\CsWpfInstancing\CsWpfInstancing.csproj</EntryPointProjectUniqueName>
@@ -71,12 +72,13 @@
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
-  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" PrivateAssets="all" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CsWpfInstancing\CsWpfInstancing.csproj" />
-  </ItemGroup>
+    <ProjectReference Include="..\CsWpfInstancing\CsWpfInstancing.csproj">
+        <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+    </ProjectReference></ItemGroup>
+  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
