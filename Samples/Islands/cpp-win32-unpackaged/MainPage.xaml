@@ -10,11 +10,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button x:Name="Button" Click="ClickHandler">Click Me</Button>
             <TextBox Text="Text goes here" Margin="10" />
         </StackPanel>
         <WebView2 Grid.Row="1" Source="http://bing.com" />
+        <Button Grid.Row="2">Last Button</Button>
     </Grid>
 </Page>
