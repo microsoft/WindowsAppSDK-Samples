@@ -32,7 +32,7 @@ namespace winrt::DynamicRefreshRateTool::implementation
         myStoryBoard().Begin();
     }
 
-    void AnimationPage::Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void AnimationPage::Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
     {
         auto buttonClicked = sender.try_as<ToggleButton>();
 

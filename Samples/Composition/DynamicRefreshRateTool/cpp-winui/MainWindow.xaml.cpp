@@ -68,7 +68,7 @@ namespace winrt::DynamicRefreshRateTool::implementation
 		);
 	}
 
-	void MainWindow::Page_KeyUp(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const& e)
+	void MainWindow::Page_KeyUp(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const& e)
 	{
 		if (e.Key() == winrt::Windows::System::VirtualKey::B)
 		{
@@ -99,7 +99,7 @@ namespace winrt::DynamicRefreshRateTool::implementation
 
 	}
 
-	void MainWindow::BoostToggled(IInspectable const& sender, RoutedEventArgs const& args)
+	void MainWindow::BoostToggled(IInspectable const& /*sender*/, RoutedEventArgs const& /*args*/)
 	{
 		// =================================================
 		// Request system to switch to a higher refresh rate
@@ -127,7 +127,7 @@ namespace winrt::DynamicRefreshRateTool::implementation
 		return LoggingToggleSwitch().IsOn() && m_logger;
 	}
 
-	void MainWindow::LoggingToggleSwitch_Toggled(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+	void MainWindow::LoggingToggleSwitch_Toggled(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
 	{
 		if (LoggingToggleSwitch().IsOn())
 		{
