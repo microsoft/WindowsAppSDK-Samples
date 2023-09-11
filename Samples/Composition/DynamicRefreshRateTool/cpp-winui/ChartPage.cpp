@@ -51,14 +51,14 @@ namespace winrt::DynamicRefreshRateTool::implementation
 	void ChartPage::RefreshChart()
 	{
 
-		m_fpsHistory = RefreshRateMeter::Instance().GetRecentHistory(0, m_displayHistorySeconds * RefreshRateMeter::Instance().GetFrequency(), m_aggregationSize);
+		m_fpsHistory = RefreshRateMeter::Instance().GetRecentHistory(0, static_cast<int64_t>(m_displayHistorySeconds) * RefreshRateMeter::Instance().GetFrequency(), m_aggregationSize);
 
 		if (m_fpsHistory.empty())
 		{
 			return;
 		}
 
-		m_maxFps *= 0.95;
+		m_maxFps *= 0.95f;
 		for (auto& fpsValue : m_fpsHistory)
 		{
 			m_maxFps = max(m_maxFps, fpsValue.refreshRate);
@@ -137,25 +137,25 @@ namespace winrt::DynamicRefreshRateTool::implementation
 		FpsTooltipText().Text(winrt::to_hstring(RefreshRateMeter::RefreshRateToString(nearestFpsValue.refreshRate)) + winrt::to_hstring(" FPS"));
 	}
 
-	void ChartPage::FpsCanvas_PointerMoved(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs const& e)
+	void ChartPage::FpsCanvas_PointerMoved(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs const& e)
 	{
 		m_mousePosition = e.GetCurrentPoint(*this).Position();
 		RefreshTooltip();
 	}
 
-	void ChartPage::FpsCanvas_PointerExited(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs const& e)
+	void ChartPage::FpsCanvas_PointerExited(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::Input::PointerRoutedEventArgs const& /*e*/)
 	{
 		m_mousePosition = std::nullopt;
 		RefreshTooltip();
 	}
 
-	void ChartPage::Slider_ValueChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs const& e)
+	void ChartPage::Slider_ValueChanged(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs const& e)
 	{
-		m_displayHistorySeconds = e.NewValue();
+		m_displayHistorySeconds = static_cast<float>(e.NewValue());
 	}
 
-	void ChartPage::Slider_ValueChanged_1(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs const& e)
+	void ChartPage::Slider_ValueChanged_1(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs const& e)
 	{
-		m_aggregationSize = e.NewValue();
+		m_aggregationSize = static_cast<int>(e.NewValue());
 	}
 }
