@@ -1,5 +1,7 @@
-﻿// SimpleIslandApp.cpp : Defines the entry point for the application.
-//
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// SimpleIslandApp.cpp : Defines the entry point for the application.
 
 #include "pch.h"
 #include "SimpleIslandApp.h"
@@ -85,6 +87,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 continue;
             }
 
+            // Island-support: This is needed so that the user can correctly tab and shift+tab into islands.
             if (ProcessMessageForTabNavigation(topLevelWindow, &msg))
             {
                 continue;
@@ -187,7 +190,7 @@ void MyRegisterClass(HINSTANCE hInstance, const wchar_t* szWindowClass)
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-HWND InitInstance(HINSTANCE hInstance, int nCmdShow, const wchar_t* szTitle, const wchar_t* szWindowClass)
+HWND InitInstance(HINSTANCE /*hInstance*/, int nCmdShow, const wchar_t* szTitle, const wchar_t* szWindowClass)
 {
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, ::GetModuleHandle(NULL), nullptr);
@@ -239,7 +242,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             // Subscribe to the TakeFocusRequested event, which will be raised when Xaml wants to move keyboard focus back to our window.
             windowInfo->TakeFocusRequestedToken = windowInfo->DesktopWindowXamlSource.TakeFocusRequested(
-                [hWnd](winrt::DesktopWindowXamlSource const& sender, winrt::DesktopWindowXamlSourceTakeFocusRequestedEventArgs const& args) {
+                [hWnd](winrt::DesktopWindowXamlSource const& /*sender*/, winrt::DesktopWindowXamlSourceTakeFocusRequestedEventArgs const& args) {
                     if (args.Request().Reason() == winrt::XamlSourceFocusNavigationReason::First)
                     {
                         // The reason "First" means the user is tabbing forward, so put the focus on the button in the tab order
@@ -308,6 +311,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
+            UNREFERENCED_PARAMETER(hdc);
             EndPaint(hWnd, &ps);
         }
         break;
