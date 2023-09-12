@@ -6,7 +6,7 @@
 		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
 		<UseWinUI>true</UseWinUI>
 		<CsWinRTComponent>true</CsWinRTComponent>
-		<Platforms>x64;x86;arm64</Platforms>
+		<Platforms>x64;x86;ARM64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
