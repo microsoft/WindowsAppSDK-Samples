@@ -473,7 +473,7 @@ Samples should build on all supported platforms (x64, x86, ARM64) and configurat
 PRs with new features must be setup with a new CI pipeline specific to each feature. 
 
 #### Steps:
-##### Create a new yml file at the root named SamplesCI-<FeatureName>.yml. 
+##### Create a new yml file at the root named SamplesCI-`<FeatureName>`.yml. 
 It should have the contents below:
 ```
 name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
@@ -489,10 +489,14 @@ Be sure to add the new `<FeatureName>` to the `FeatureAreas` parameter in `Sampl
 
 Go to https://dev.azure.com/ms/ProjectReunion/_build
 -> Click New Pipeline 
+
+At the "Select your repository" page, you'll see a link near the bottom called "native Azure DevOps experience".
+Click that link so you can set up your pipeline against a GitHub repo.
+
 -> GitHub 
 -> Select Repository "microsoft/WindowsAppSDK-Samples" 
 -> Configure your pipeline: Select "Existing Azure Pipelines YAML File"
--> Branch: "<YourPRBranch>" and Path: "SamplesCI-<FeatureName>.yml" -> Continue
+-> Branch: `<YourPRBranch>` and Path: "SamplesCI-`<FeatureName>`.yml" -> Continue
     (Branch will be set to main later but can't be done right now because it doesn't exist on main yet)
 -> Click Run
 
@@ -512,24 +516,28 @@ Triggers must have these settings below
 ##### Pull request validation
 - Check "Override the YAML pull request trigger from here"
     and click "Enable pull request validation"
-    Branch Filters
-    - Include "refs/heads/main"
-    Path Filters
-    - Include "Samples/<FeatureName>"
-    Forks
-    - Check "Build pull requests from forks of this repository"
-    Comments
-    - Check "Require a team member's comment before building a pull request"
-        - Click the "On all pull requests" radio button
+    - Branch Filters
+        - Include "refs/heads/main"
+    - Path Filters
+        - Include "Samples/`<FeatureName>`"
+    - Forks
+        - Check "Build pull requests from forks of this repository"
+    - Comments
+        - Check "Require a team member's comment before building a pull request"
+            - Click the "On all pull requests" radio button
 
-##### Lastly rename the pipeline to "SamplesCI-<FeatureName>". That can be done by clicking on the name on top of the page. 
+##### Lastly rename the pipeline to "SamplesCI-`<FeatureName>`". That can be done by clicking on the name on top of the page. 
 
-##### Setup status checks on https://github.com/microsoft/WindowsAppSDK-Samples/settings/branches
+##### Setup status checks
+Navigate to: https://github.com/microsoft/WindowsAppSDK-Samples/settings/branches 
+
+If you get a 404, you likely don't have the necessary permissions, you'll need to request access.
+
 In Branch Protection rules
 
 Click "Edit" on the main branch and add your new pipeline to the collection of other pipelines in "Require status checks to pass before merging"
 
-Warning: it might take a while for your new pipeline to show up. Please don't just add the the check with the individual job with a specific config and platform. Make sure to add the full "SamplesCI-<FeatureName>"
+Warning: it might take a while for your new pipeline to show up. Please don't just add the the check with the individual job with a specific config and platform. Make sure to add the full "SamplesCI-`<FeatureName>`"
 
 If you do not have permissions to modify these settings, please ask the repo admins to help you do so. 
 
