@@ -44,7 +44,7 @@ namespace winrt::SampleApp::implementation
             m_mainAppWindow.Resize(windowSize);
         }
     }
-    void DemoPage::ClientSizeBtn_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    void DemoPage::ClientSizeBtn_Click(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& /*e*/)
     {
         int windowWidth = _wtoi(WidthTextBox().Text().c_str());
         int windowHeight = _wtoi(HeightTextBox().Text().c_str());

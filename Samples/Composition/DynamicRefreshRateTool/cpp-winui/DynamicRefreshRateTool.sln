@@ -7,26 +7,26 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicRefreshRateTool", "D
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|arm64 = Debug|arm64
+		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Release|arm64 = Release|arm64
+		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|arm64.ActiveCfg = Debug|arm64
-		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|arm64.Build.0 = Debug|arm64
-		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|arm64.Deploy.0 = Debug|arm64
+		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|ARM64.Build.0 = Debug|ARM64
+		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|ARM64.Deploy.0 = Debug|ARM64
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|x64.ActiveCfg = Debug|x64
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|x64.Build.0 = Debug|x64
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|x64.Deploy.0 = Debug|x64
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|x86.ActiveCfg = Debug|Win32
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|x86.Build.0 = Debug|Win32
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Debug|x86.Deploy.0 = Debug|Win32
-		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|arm64.ActiveCfg = Release|arm64
-		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|arm64.Build.0 = Release|arm64
-		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|arm64.Deploy.0 = Release|arm64
+		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|ARM64.ActiveCfg = Release|ARM64
+		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|ARM64.Build.0 = Release|ARM64
+		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|ARM64.Deploy.0 = Release|ARM64
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|x64.ActiveCfg = Release|x64
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|x64.Build.0 = Release|x64
 		{FDBC6BD5-F2E8-46BC-89D7-324B16E872B2}.Release|x64.Deploy.0 = Release|x64
