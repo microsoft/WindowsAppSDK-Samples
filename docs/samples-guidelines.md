@@ -528,7 +528,11 @@ Triggers must have these settings below
 
 ##### Lastly rename the pipeline to "SamplesCI-`<FeatureName>`". That can be done by clicking on the name on top of the page. 
 
-##### Setup status checks on https://github.com/microsoft/WindowsAppSDK-Samples/settings/branches
+##### Setup status checks
+Navigate to: https://github.com/microsoft/WindowsAppSDK-Samples/settings/branches 
+
+If you get a 404, you likely don't have the necessary permissions, you'll need to request access.
+
 In Branch Protection rules
 
 Click "Edit" on the main branch and add your new pipeline to the collection of other pipelines in "Require status checks to pass before merging"
