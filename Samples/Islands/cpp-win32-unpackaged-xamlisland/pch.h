@@ -20,6 +20,7 @@
 // to already be included.  Let's just include a bunch of stuff we know we'll need here in the PCH.
 #include <winrt/Microsoft.UI.Content.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Input.h>
 #include <winrt/Microsoft.UI.Interop.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <winrt/Microsoft.UI.Xaml.h>
