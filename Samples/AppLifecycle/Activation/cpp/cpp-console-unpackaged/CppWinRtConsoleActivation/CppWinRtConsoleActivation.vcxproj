@@ -7,7 +7,7 @@
   <Import Project="$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.4.230822000\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.4.230822000\build\native\Microsoft.WindowsAppSDK.props')" />
   <Import Project="$(NugetPackageDirectory)\Microsoft.Windows.SDK.BuildTools.10.0.22621.756\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('$(NugetPackageDirectory)\Microsoft.Windows.SDK.BuildTools.10.0.22621.756\build\Microsoft.Windows.SDK.BuildTools.props')" />
   <Import Project="$(NugetPackageDirectory)\Microsoft.Windows.CppWinRT.2.0.221104.6\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('$(NugetPackageDirectory)\Microsoft.Windows.CppWinRT.2.0.221104.6\build\native\Microsoft.Windows.CppWinRT.props')" />
-  <Import Project="..\..\..\..\Build.Common.Cpp.props" Condition="Exists('..\..\..\..\Build.Common.Cpp.props')" />
+  <Import Project="..\..\..\..\..\Build.Common.Cpp.props" Condition="Exists('..\..\..\..\..\Build.Common.Cpp.props')" />
   <PropertyGroup Label="Globals">
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
