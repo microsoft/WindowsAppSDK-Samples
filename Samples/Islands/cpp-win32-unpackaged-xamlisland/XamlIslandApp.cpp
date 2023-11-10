@@ -261,7 +261,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         // Put a new instance of our Xaml Content into our island.  This is our UI content.
         // TODO: Once input and layout work properly with the XamlIsland, put an instance of the MainPage instead.
-        // Currently, the layout required by a Page object doesn't work without an HWND.
+        // Currently, the layout required by a XAML Page doesn't work without an HWND.
 
         windowInfo->XamlIsland.Content(CreateXamlContent());
 
