@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Platforms>x64;x86;ARM64</Platforms>
+    <RuntimeIdentifiers>win10-x64;win10-x86;win10-arm64;win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <StartupObject>CsWpfActivation.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Remove="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
+  </ItemGroup>
+
+</Project>
