@@ -24,7 +24,8 @@ namespace Windowing
                 {
                     Title = "Single line text only!",
                     Content = "Only a single line of text is supported for a window titlebar. Please modify your text accordingly.",
-                    CloseButtonText = "Ok"
+                    CloseButtonText = "Ok",
+                    XamlRoot = this.XamlRoot
                 };
                 ContentDialogResult result = await errorDialog.ShowAsync();
             }
