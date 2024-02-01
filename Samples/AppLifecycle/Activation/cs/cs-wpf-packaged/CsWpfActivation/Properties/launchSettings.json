@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "CsWpfActivation": {
-      "commandName": "Project",
-      "commandLineArgs": "London Paris Vienna"
-    }
-  }
-}
