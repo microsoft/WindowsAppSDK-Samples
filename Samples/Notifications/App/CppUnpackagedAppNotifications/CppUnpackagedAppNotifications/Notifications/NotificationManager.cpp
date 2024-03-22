@@ -17,7 +17,7 @@ namespace winrt
 {
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::Windows::AppNotifications;
-    using namespace CppUnpackagedAppNotifications::implementation;
+    using namespace CppAppNotifications::implementation;
 }
 
 static const std::map<unsigned, std::function<void (winrt::AppNotificationActivatedEventArgs const&)>> c_notificationHandlers
