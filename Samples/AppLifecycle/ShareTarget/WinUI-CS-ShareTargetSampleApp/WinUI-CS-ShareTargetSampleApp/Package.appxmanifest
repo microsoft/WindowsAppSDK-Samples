@@ -8,7 +8,7 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="8c298c12-e597-4963-915f-8a7ebd5c2021"
+    Name="WinUI-CS-ShareTargetSampleApp"
     Publisher="CN=Microsoft Corporation"
     Version="1.0.0.0" />
 
