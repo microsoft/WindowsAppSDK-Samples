@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WinUI-CS-ShareTargetSampleApp (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WinUI-CS-ShareTargetSampleApp (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

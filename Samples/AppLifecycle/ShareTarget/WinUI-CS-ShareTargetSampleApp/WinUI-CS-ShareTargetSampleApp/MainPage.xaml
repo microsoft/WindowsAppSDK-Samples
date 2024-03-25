@@ -1,0 +1,23 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page
+    x:Class="WinUI_CS_ShareTargetSampleApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinUI_CS_ShareTargetSampleApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel HorizontalAlignment="Center"
+                Spacing="32"
+                Margin="32">
+
+        <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="WinUI C# ShareTarget Sample App" />
+
+        <TextBlock Text="This app can be launched as a Share Target by right clicking on a file in Windows Explorer and choosing Share and then selecting this app."
+                   TextWrapping="Wrap" />
+        <TextBlock x:Name="outputTextBlock" />
+    </StackPanel>
+</Page>
