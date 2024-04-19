@@ -192,13 +192,16 @@ void MyRegisterClass(HINSTANCE hInstance, const wchar_t* szWindowClass)
 //
 HWND InitInstance(HINSTANCE /*hInstance*/, int nCmdShow, const wchar_t* szTitle, const wchar_t* szWindowClass)
 {
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, ::GetModuleHandle(NULL), nullptr);
-   winrt::check_bool(hWnd != NULL);
-
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
-   return hWnd;
+    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, ::GetModuleHandle(NULL), nullptr);
+    winrt::check_bool(hWnd != NULL);
+    if(!hWnd)
+    {
+        throw new Exception("Fatal crash!");
+    }
+    ShowWindow(hWnd, nCmdShow);
+    UpdateWindow(hWnd);
+    return hWnd;
 }
 
 //
