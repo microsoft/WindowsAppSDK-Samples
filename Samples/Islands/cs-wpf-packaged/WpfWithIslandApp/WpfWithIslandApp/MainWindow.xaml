@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:WpfWithIslandApp"
         mc:Ignorable="d"
         Title="WPF + WinAppSDK Islands App" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <StackPanel x:Name="_rootPanel">
+        <Button Margin="20" FontSize="18" Click="ShowAppWindowClick">Show WinAppSDK AppWindow</Button>
+        <Button Margin="20" FontSize="18" Click="CreateIslandClick">Create Island</Button>
+        
+    </StackPanel>
 </Window>

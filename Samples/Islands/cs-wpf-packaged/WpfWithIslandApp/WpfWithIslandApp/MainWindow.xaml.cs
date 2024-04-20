@@ -20,5 +20,20 @@ namespace WpfWithIslandApp
         {
             InitializeComponent();
         }
+
+        private void ShowAppWindowClick(object sender, RoutedEventArgs e)
+        {
+            var appWindow = Microsoft.UI.Windowing.AppWindow.Create();
+            appWindow.Title = "I am an AppWindow";
+            appWindow.Show();
+        }
+
+        private void CreateIslandClick(object sender, RoutedEventArgs e)
+        {
+            var wpfIslandHost = new WpfIslandHost();
+            wpfIslandHost.Width = 400;
+            wpfIslandHost.Height = 400;
+            _rootPanel.Children.Add(wpfIslandHost);
+        }
     }
 }
