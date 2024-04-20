@@ -2,10 +2,24 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+
+    <!--
+      NOTE: Normally in net8 one wouldn't set a speficic Windows version, but
+      If we leave this as "net8.0-windows", we get an error because TargetPlatformVersion
+      is not set in this file: Microsoft.InteractiveExperiences.Common.targets
+    -->
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+
+    <!--
+      NOTE: This seems to be required when we use the version number in the TargetFramework
+      property.
+      TODO: Figure out if there's a more correct way.
+      -->
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
