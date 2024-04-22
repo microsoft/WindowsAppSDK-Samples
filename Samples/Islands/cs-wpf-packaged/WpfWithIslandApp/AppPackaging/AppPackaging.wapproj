@@ -71,9 +71,14 @@
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\LottieLogo1.json" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinAppSDK.LottieIsland" Version="0.1.1-prerelease.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230818-rc-FHL.4.gb41d8fdcc0" />
+    <PackageReference Include="LottieWinRT" Version="0.1.1-prerelease.1" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>

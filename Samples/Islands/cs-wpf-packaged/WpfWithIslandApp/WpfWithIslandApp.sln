@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfWithIslandApp", "WpfWithIslandApp\WpfWithIslandApp.csproj", "{A917DD32-C27E-4EB0-AC8E-826661150DB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfWithIslandApp", "WpfWithIslandApp\WpfWithIslandApp.csproj", "{A917DD32-C27E-4EB0-AC8E-826661150DB4}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "AppPackaging", "AppPackaging\AppPackaging.wapproj", "{BF52209E-8E16-4913-88FA-6C4074510C89}"
 EndProject
@@ -27,10 +27,10 @@ Global
 		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|ARM.Build.0 = Debug|Any CPU
 		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|x64.Build.0 = Debug|Any CPU
-		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|x86.Build.0 = Debug|Any CPU
+		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|x64.ActiveCfg = Debug|x64
+		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|x64.Build.0 = Debug|x64
+		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|x86.ActiveCfg = Debug|x86
+		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Debug|x86.Build.0 = Debug|x86
 		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A917DD32-C27E-4EB0-AC8E-826661150DB4}.Release|ARM.ActiveCfg = Release|Any CPU

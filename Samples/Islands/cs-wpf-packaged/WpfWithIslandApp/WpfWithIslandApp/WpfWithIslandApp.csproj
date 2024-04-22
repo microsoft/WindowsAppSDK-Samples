@@ -20,9 +20,14 @@
       TODO: Figure out if there's a more correct way.
       -->
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinAppSDK.LottieIsland" Version="0.1.1-prerelease.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230818-rc-FHL.4.gb41d8fdcc0" />
+    <PackageReference Include="LottieWinRT" Version="0.1.1-prerelease.1" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
   </ItemGroup>
 

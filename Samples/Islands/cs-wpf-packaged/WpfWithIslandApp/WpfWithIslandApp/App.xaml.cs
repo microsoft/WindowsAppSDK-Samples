@@ -33,7 +33,7 @@ namespace WpfWithIslandApp
         {
             base.OnExit(e);
             _dispacherQueueController?.ShutdownQueue();
-            _dispacherQueueController = null;
+            _dispacherQueueController = null;   
         }
 
         [StructLayout(LayoutKind.Sequential)]
