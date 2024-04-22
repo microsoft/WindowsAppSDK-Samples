@@ -197,7 +197,7 @@ HWND InitInstance(HINSTANCE /*hInstance*/, int nCmdShow, const wchar_t* szTitle,
     winrt::check_bool(hWnd != NULL);
     if(!hWnd)
     {
-        throw E_FAIL;
+        throw E_HANDLE;
     }
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
