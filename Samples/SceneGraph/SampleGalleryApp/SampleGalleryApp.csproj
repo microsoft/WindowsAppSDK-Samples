@@ -1,0 +1,282 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>CompositionSampleGallery</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+		<DefineConstants>USING_CSWINRT</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>1701;1702;CA1416</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="SampleGalleryPackage\**" />
+    <Compile Remove="Samples\SwipeScroller\**" />
+    <Compile Remove="Samples\VideoPlayground\**" />
+    <Compile Remove="Samples\ShowHideImplicitWebview\**" />
+    <Content Remove="SampleGalleryPackage\**" />
+    <EmbeddedResource Remove="SampleGalleryPackage\**" />
+    <EmbeddedResource Remove="Samples\SwipeScroller\**" />
+    <EmbeddedResource Remove="Samples\VideoPlayground\**" />
+    <EmbeddedResource Remove="Samples\ShowHideImplicitWebview\**" />
+    <None Remove="SampleGalleryPackage\**" />
+    <None Remove="Samples\SwipeScroller\**" />
+    <None Remove="Samples\VideoPlayground\**" />
+    <None Remove="Samples\ShowHideImplicitWebview\**" />
+    <Page Remove="SampleGalleryPackage\**" />
+    <Page Remove="Samples\SwipeScroller\**" />
+    <Page Remove="Samples\VideoPlayground\**" />
+    <Page Remove="Samples\ShowHideImplicitWebview\**" />
+    <PRIResource Remove="SampleGalleryPackage\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\Abstract\Abstract-1.jpg" />
+    <None Remove="Assets\Abstract\Abstract-2.jpg" />
+    <None Remove="Assets\Abstract\Abstract-3.jpg" />
+    <None Remove="Assets\Abstract\Abstract-4.jpg" />
+    <None Remove="Assets\Abstract\Abstract-5.jpg" />
+    <None Remove="Assets\Abstract\Abstract-6.jpg" />
+    <None Remove="Assets\Abstract\Abstract-7.jpg" />
+    <None Remove="Assets\BannerImages\BrushInterop.PNG" />
+    <None Remove="Assets\BannerImages\IneractionTrackerBanner.png" />
+    <None Remove="Assets\BannerImages\PullToAnimateBanner.PNG" />
+    <None Remove="Assets\BannerImages\ShyHeader.png" />
+    <None Remove="Assets\CategoryIcons\table_depth_icon_bw.png" />
+    <None Remove="Assets\CategoryIcons\table_home_icon.png" />
+    <None Remove="Assets\CategoryIcons\table_light_icon_bw.png" />
+    <None Remove="Assets\CategoryIcons\table_material_icon_bw.png" />
+    <None Remove="Assets\CategoryIcons\table_motion_icon_bw.png" />
+    <None Remove="Assets\CategoryIcons\table_reference_icon.png" />
+    <None Remove="Assets\CategoryIcons\table_scale_icon_bw.png" />
+    <None Remove="Assets\Landscapes\Landscape-1.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-10.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-11.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-12.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-13.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-2.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-3.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-4.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-5.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-6.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-7.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-8.jpg" />
+    <None Remove="Assets\Landscapes\Landscape-9.jpg" />
+    <None Remove="Assets\Nature\Nature-1.jpg" />
+    <None Remove="Assets\Nature\Nature-10.jpg" />
+    <None Remove="Assets\Nature\Nature-11.jpg" />
+    <None Remove="Assets\Nature\Nature-12.jpg" />
+    <None Remove="Assets\Nature\Nature-13.jpg" />
+    <None Remove="Assets\Nature\Nature-2.jpg" />
+    <None Remove="Assets\Nature\Nature-3.jpg" />
+    <None Remove="Assets\Nature\Nature-4.jpg" />
+    <None Remove="Assets\Nature\Nature-5.jpg" />
+    <None Remove="Assets\Nature\Nature-6.jpg" />
+    <None Remove="Assets\Nature\Nature-7.jpg" />
+    <None Remove="Assets\Nature\Nature-8.jpg" />
+    <None Remove="Assets\Nature\Nature-9.jpg" />
+    <None Remove="Assets\NormalMapsAndMasks\BeveledEdges.jpg" />
+    <None Remove="Assets\NormalMapsAndMasks\bubblenm.jpg" />
+    <None Remove="Assets\NormalMapsAndMasks\conemap.jpg" />
+    <None Remove="Assets\NormalMapsAndMasks\ForegroundFocusMask.png" />
+    <None Remove="Assets\NormalMapsAndMasks\pointmap.jpg" />
+    <None Remove="Assets\NormalMapsAndMasks\SphericalWithMask.png" />
+    <None Remove="Assets\Other\110Strawberry.png" />
+    <None Remove="Assets\Other\60Banana.png" />
+    <None Remove="Assets\Other\60Lemon.png" />
+    <None Remove="Assets\Other\60Mint.png" />
+    <None Remove="Assets\Other\60Orange.png" />
+    <None Remove="Assets\Other\60SprinklesRainbow.png" />
+    <None Remove="Assets\Other\60Strawberry.png" />
+    <None Remove="Assets\Other\60Vanilla.png" />
+    <None Remove="Assets\Other\Appointment.png" />
+    <None Remove="Assets\Other\BlueBall.png" />
+    <None Remove="Assets\Other\Calendar.png" />
+    <None Remove="Assets\Other\Checkerboard.png" />
+    <None Remove="Assets\Other\CircleMask.png" />
+    <None Remove="Assets\Other\FirstGear.png" />
+    <None Remove="Assets\Other\Gear.png" />
+    <None Remove="Assets\Other\MissingThumbnail.png" />
+    <None Remove="Assets\Other\Noise.jpg" />
+    <None Remove="Assets\Other\RedBall.png" />
+    <None Remove="Assets\Other\RoundedRect.png" />
+    <None Remove="Assets\Other\stage.jpg" />
+    <None Remove="Assets\Other\Twitter_Logo_White_On_Blue.png" />
+    <None Remove="Assets\Other\WeatherInfo.png" />
+    <None Remove="Assets\SampleThumbnails\AdvancedShadows.PNG" />
+    <None Remove="Assets\SampleThumbnails\AnimationController.PNG" />
+    <None Remove="Assets\SampleThumbnails\BackDropControlSample.PNG" />
+    <None Remove="Assets\SampleThumbnails\BasicLayoutAndTransitions.PNG" />
+    <None Remove="Assets\SampleThumbnails\BasicXAMLInterop.PNG" />
+    <None Remove="Assets\SampleThumbnails\BlurPlayground.PNG" />
+    <None Remove="Assets\SampleThumbnails\BorderEffects.PNG" />
+    <None Remove="Assets\SampleThumbnails\BrushInterop.png" />
+    <None Remove="Assets\SampleThumbnails\ColorBloom.jpg" />
+    <None Remove="Assets\SampleThumbnails\ColorSlide.png" />
+    <None Remove="Assets\SampleThumbnails\CompositionCapabilities.PNG" />
+    <None Remove="Assets\SampleThumbnails\ContinuityAnimations.jpg" />
+    <None Remove="Assets\SampleThumbnails\Curtain.PNG" />
+    <None Remove="Assets\SampleThumbnails\ExpressionsAndPropertySets.PNG" />
+    <None Remove="Assets\SampleThumbnails\FlipToReveal.png" />
+    <None Remove="Assets\SampleThumbnails\ForegroundFocusEffects.PNG" />
+    <None Remove="Assets\SampleThumbnails\Gears.PNG" />
+    <None Remove="Assets\SampleThumbnails\ImplicitAnimations.PNG" />
+    <None Remove="Assets\SampleThumbnails\Interaction3D.PNG" />
+    <None Remove="Assets\SampleThumbnails\LayerDepth.PNG" />
+    <None Remove="Assets\SampleThumbnails\LayerVisualSample.PNG" />
+    <None Remove="Assets\SampleThumbnails\LayoutAnimations.PNG" />
+    <None Remove="Assets\SampleThumbnails\LightInterop.png" />
+    <None Remove="Assets\SampleThumbnails\LightSpheres.PNG" />
+    <None Remove="Assets\SampleThumbnails\lineargradients.PNG" />
+    <None Remove="Assets\SampleThumbnails\Lottie.png" />
+    <None Remove="Assets\SampleThumbnails\NavigationFlow.PNG" />
+    <None Remove="Assets\SampleThumbnails\NineGridResizing.PNG" />
+    <None Remove="Assets\SampleThumbnails\NowPlaying.PNG" />
+    <None Remove="Assets\SampleThumbnails\OffsetStompingFix.PNG" />
+    <None Remove="Assets\SampleThumbnails\ParallaxingListviewItem.PNG" />
+    <None Remove="Assets\SampleThumbnails\Perspective.png" />
+    <None Remove="Assets\SampleThumbnails\PhotoPopupViewer.PNG" />
+    <None Remove="Assets\SampleThumbnails\PointerEnterExitEffects.PNG" />
+    <None Remove="Assets\SampleThumbnails\PointerRotate.PNG" />
+    <None Remove="Assets\SampleThumbnails\PullToAnimate.jpg" />
+    <None Remove="Assets\SampleThumbnails\PullToRefresh.png" />
+    <None Remove="Assets\SampleThumbnails\SceneNodePlayground.png" />
+    <None Remove="Assets\SampleThumbnails\ShadowInterop.PNG" />
+    <None Remove="Assets\SampleThumbnails\ShadowPlayground.jpg" />
+    <None Remove="Assets\SampleThumbnails\ShowHideImplicitWebview.PNG" />
+    <None Remove="Assets\SampleThumbnails\ShyHeader.PNG" />
+    <None Remove="Assets\SampleThumbnails\SpringyImage.PNG" />
+    <None Remove="Assets\SampleThumbnails\&#xD;&#xA;		  .png" />
+    <None Remove="Assets\SampleThumbnails\TextShimmer.png" />
+    <None Remove="Assets\SampleThumbnails\ThumbnailLighting.jpg" />
+    <None Remove="Assets\SampleThumbnails\TransparentWindow.PNG" />
+    <None Remove="Assets\SampleThumbnails\TreeEffect.PNG" />
+    <None Remove="Assets\SampleThumbnails\VideoPlayground.PNG" />
+    <None Remove="Assets\SampleThumbnails\Z-OrderScrolling.PNG" />
+    <None Remove="Assets\SampleThumbnails\ZoomWithPerspective.PNG" />
+    <None Remove="Assets\StoreAssets\AppIcon.scale-150.png" />
+    <None Remove="Assets\StoreAssets\AppIcon.scale-200.png" />
+    <None Remove="Assets\StoreAssets\AppIcon.scale-300.png" />
+    <None Remove="Assets\StoreAssets\AppIcon.scale-400.png" />
+    <None Remove="Assets\StoreAssets\SplashScreen.scale-150.png" />
+    <None Remove="Assets\StoreAssets\SplashScreen.scale-200.png" />
+    <None Remove="Assets\StoreAssets\SplashScreen.scale-300.png" />
+    <None Remove="Assets\StoreAssets\SplashScreen.scale-400.png" />
+    <None Remove="Assets\StoreAssets\Square150.scale-150.png" />
+    <None Remove="Assets\StoreAssets\Square150.scale-200.png" />
+    <None Remove="Assets\StoreAssets\Square150.scale-300.png" />
+    <None Remove="Assets\StoreAssets\Square150.scale-400.png" />
+    <None Remove="Assets\StoreAssets\StoreLogo.scale-100.png" />
+    <None Remove="Assets\StoreAssets\StoreLogo.scale-150.png" />
+    <None Remove="Assets\StoreAssets\StoreLogo.scale-200.png" />
+    <None Remove="Assets\StoreAssets\StoreLogo.scale-300.png" />
+    <None Remove="Assets\StoreAssets\StoreLogo.scale-400.png" />
+    <None Remove="Assets\StoreAssets\Wide.scale-150.png" />
+    <None Remove="Assets\StoreAssets\Wide.scale-200.png" />
+    <None Remove="Assets\StoreAssets\Wide.scale-300.png" />
+    <None Remove="Assets\StoreAssets\Wide.scale-400.png" />
+    <None Remove="ExtendedSplashScreen.xaml" />
+    <None Remove="MainPage.xaml" />
+    <None Remove="Pages\BaseCategoryPage.xaml" />
+    <None Remove="Pages\HomePage.xaml" />
+    <None Remove="SampleGalleryNavViewHost.xaml" />
+    <None Remove="Samples\Input\InputCursor.xaml" />
+    <None Remove="Shared\BodyAppList.xaml" />
+    <None Remove="Shared\FeaturedSamples.xaml" />
+    <None Remove="Shared\FeaturedSamplesHomePage.xaml" />
+    <None Remove="Shared\FlipViewIndicator.xaml" />
+    <None Remove="Shared\Footer.xaml" />
+    <None Remove="Shared\SampleHost.xaml" />
+    <None Remove="Shared\SharedResourceDictionaries.xaml" />
+    <None Remove="Shared\Social.xaml" />
+    <None Remove="Settings.xaml" />
+    <None Remove="ExtendedSplashScreen.xaml" />
+    <None Remove="Pages\SearchResultsPage.xaml" />
+    <None Remove="Pages\HomePage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExpressionBuilder\ExpressionBuilder\ExpressionBuilder.csproj" />
+    <ProjectReference Include="..\SamplesCommon\SamplesCommon\SamplesCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Settings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="SampleGalleryNavViewHost.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\BodyAppList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\FeaturedSamples.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\FeaturedSamplesHomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\FlipViewIndicator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\Footer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\SampleHost.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\SharedResourceDictionaries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Shared\Social.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SearchResultsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\BaseCategoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Samples\Input\InputCursor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>
