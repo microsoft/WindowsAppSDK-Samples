@@ -477,8 +477,12 @@ namespace CompositionSampleGallery
 
         private void ScopeBatch_Completed(object sender, CompositionBatchCompletedEventArgs args)
         {
-            // Scope batch completion event has fired, hide the destination sprite and cleanup the batch
-            _destinationSprite.IsVisible = false;
+            if (_destinationSprite != null)
+            {
+                // Scope batch completion event has fired, hide the destination sprite and cleanup
+                // the batch
+                _destinationSprite.IsVisible = false;
+            }
 
             CleanupScopeBatch();
         }

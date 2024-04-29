@@ -42,27 +42,17 @@ namespace CompositionSampleGallery
 
         private static bool                     _areEffectsSupported = true;
         private static bool                     _areEffectsFast = true;
-        private static RuntimeSupportedSDKs     _runtimeCapabilities;
         private MainNavigationViewModel         _mainNavigation;        
 
         public MainPage()
         {
-            _runtimeCapabilities = new RuntimeSupportedSDKs();
-
             // Get hardware capabilities and register changed event listener only when targeting the 
             // appropriate SDK version and the runtime supports this version
-            if (_runtimeCapabilities.IsSdkVersionRuntimeSupported(RuntimeSupportedSDKs.SDKVERSION._15063))
-            {
-                _capabilities = new CompositionCapabilities();
-                _capabilities.Changed += HandleCapabilitiesChangedAsync;
-                _areEffectsSupported = _capabilities.AreEffectsSupported();
-                _areEffectsFast = _capabilities.AreEffectsFast();
-            }
-            else
-            {
-                _areEffectsSupported = true;
-                _areEffectsFast = true;
-            }
+            _capabilities = new CompositionCapabilities();
+            _capabilities.Changed += HandleCapabilitiesChangedAsync;
+            _areEffectsSupported = _capabilities.AreEffectsSupported();
+            _areEffectsFast = _capabilities.AreEffectsFast();
+
             this.InitializeComponent();
             _mainNavigation = new MainNavigationViewModel(GalleryUI);
 
@@ -83,11 +73,6 @@ namespace CompositionSampleGallery
         public static bool AreEffectsFast
         {
             get { return _areEffectsFast; }
-        }
-
-        public static RuntimeSupportedSDKs RuntimeCapabilities
-        {
-            get { return _runtimeCapabilities; }
         }
 
         private async void HandleCapabilitiesChangedAsync(CompositionCapabilities sender, object args)
@@ -234,56 +219,6 @@ namespace CompositionSampleGallery
         }
     }
 
-    // This class caches and provides information about the supported 
-    // Windows.Foundation.UniversalApiContract of the runtime
-    public class RuntimeSupportedSDKs
-    {
-        List<SDKVERSION> _supportedSDKs;
-
-        public enum SDKVERSION
-        {
-            _10586 = 2,   // November Update (1511)
-            _14393,       // Anniversary Update (1607)
-            _15063,       // Creators Update (1703)
-            _16299,       // Fall Creators Update
-            _17134,       // Version 1803
-            _17763        // Version 1810
-        };
-
-        public RuntimeSupportedSDKs()
-        {
-            _supportedSDKs = new List<SDKVERSION>();
-
-            // Determine which versions of the SDK are supported on the runtime
-            foreach(SDKVERSION v in Enum.GetValues(typeof(SDKVERSION)))
-            {
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", (ushort)Convert.ToInt32(v)))
-                {
-                    _supportedSDKs.Add(v);
-                }
-            }
-        }
-
-        public bool IsSdkVersionRuntimeSupported(SDKVERSION sdkVersion)
-        {
-            if(_supportedSDKs.Contains(sdkVersion))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public List<SDKVERSION> AllSupportedSdkVersions
-        {
-            get
-            {
-                return _supportedSDKs;
-            }
-        }
-    }
 
     public class IsPaneOpenToVisibilityConverter : Microsoft.UI.Xaml.Data.IValueConverter
     {

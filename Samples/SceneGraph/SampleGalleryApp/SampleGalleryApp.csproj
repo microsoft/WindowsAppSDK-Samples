@@ -31,22 +31,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="SampleGalleryPackage\**" />
-    <Compile Remove="Samples\SDK 14393\SwipeScroller\**" />
-    <Compile Remove="Samples\SDK 14393\VideoPlayground\**" />
-    <Compile Remove="Samples\SDK 15063\ShowHideImplicitWebview\**" />
+    <Compile Remove="Samples\SwipeScroller\**" />
+    <Compile Remove="Samples\VideoPlayground\**" />
+    <Compile Remove="Samples\ShowHideImplicitWebview\**" />
     <Content Remove="SampleGalleryPackage\**" />
     <EmbeddedResource Remove="SampleGalleryPackage\**" />
-    <EmbeddedResource Remove="Samples\SDK 14393\SwipeScroller\**" />
-    <EmbeddedResource Remove="Samples\SDK 14393\VideoPlayground\**" />
-    <EmbeddedResource Remove="Samples\SDK 15063\ShowHideImplicitWebview\**" />
+    <EmbeddedResource Remove="Samples\SwipeScroller\**" />
+    <EmbeddedResource Remove="Samples\VideoPlayground\**" />
+    <EmbeddedResource Remove="Samples\ShowHideImplicitWebview\**" />
     <None Remove="SampleGalleryPackage\**" />
-    <None Remove="Samples\SDK 14393\SwipeScroller\**" />
-    <None Remove="Samples\SDK 14393\VideoPlayground\**" />
-    <None Remove="Samples\SDK 15063\ShowHideImplicitWebview\**" />
+    <None Remove="Samples\SwipeScroller\**" />
+    <None Remove="Samples\VideoPlayground\**" />
+    <None Remove="Samples\ShowHideImplicitWebview\**" />
     <Page Remove="SampleGalleryPackage\**" />
-    <Page Remove="Samples\SDK 14393\SwipeScroller\**" />
-    <Page Remove="Samples\SDK 14393\VideoPlayground\**" />
-    <Page Remove="Samples\SDK 15063\ShowHideImplicitWebview\**" />
+    <Page Remove="Samples\SwipeScroller\**" />
+    <Page Remove="Samples\VideoPlayground\**" />
+    <Page Remove="Samples\ShowHideImplicitWebview\**" />
     <PRIResource Remove="SampleGalleryPackage\**" />
   </ItemGroup>
   <ItemGroup>
