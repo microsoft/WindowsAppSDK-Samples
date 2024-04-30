@@ -4,9 +4,9 @@
     <OutputType>WinExe</OutputType>
 
     <!--
-      NOTE: Normally in net8 one wouldn't set a speficic Windows version, but
-      If we leave this as "net8.0-windows", we get an error because TargetPlatformVersion
-      is not set in this file: Microsoft.InteractiveExperiences.Common.targets
+      Changed_from_original_app
+      The lowest version of Windows that WinAppSDK supports is 17763.
+      But Lottie requires Windows 10.0.19041.0 or higher, so we target this one.
     -->
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 
@@ -15,21 +15,27 @@
     <UseWPF>true</UseWPF>
 
     <!--
-      NOTE: This seems to be required when we use the version number in the TargetFramework
-      property.
-      TODO: Figure out if there's a more correct way.
-      -->
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <Platforms>AnyCPU;x86;x64</Platforms>
+      Changed_from_original_app
+      Set RuntimeIdentifiers explicitly to portable RIDs.
+      Set the Platforms property as well.  We don't support AnyCPU because WinAppSDK contains native code.
+    -->
+    <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
+    <Platforms>x64;x86;ARM64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- These packages aren't currently publicly available. -->
+    <!-- 
+      Changed_from_original_app: These packages are required for Lottie.
+      FIX BEFORE COMPLETING PR: These packages aren't currently publicly available. 
+    -->
     <PackageReference Include="CommunityToolkit.WinAppSDK.LottieIsland" Version="0.1.1-prerelease.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230818-rc-FHL.4.gb41d8fdcc0" />
     <PackageReference Include="LottieWinRT" Version="0.1.1-prerelease.1" />
-
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
+
+    <!-- 
+      Changed_from_original_app: Pull in WinAppSDK.
+    -->
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
   </ItemGroup>
 
