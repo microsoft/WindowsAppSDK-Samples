@@ -6,11 +6,77 @@
 
 TextRenderer::TextRenderer()
 {
+    // Create the DWriteCore factory object.
     THROW_IF_FAILED(DWriteCoreCreateFactory(
         DWRITE_FACTORY_TYPE_SHARED,
         __uuidof(decltype(*m_dwriteFactory)),
         reinterpret_cast<IUnknown**>(m_dwriteFactory.put())
     ));
+
+    // Create an object that encapsulates text formatting properties.
+    constexpr float defaultFontSize = 16;
+    THROW_IF_FAILED(m_dwriteFactory->CreateTextFormat(
+        L"Segoe UI",
+        nullptr,
+        DWRITE_FONT_WEIGHT_NORMAL,
+        DWRITE_FONT_STYLE_NORMAL,
+        DWRITE_FONT_STRETCH_NORMAL,
+        defaultFontSize,
+        L"en-US",
+        m_textFormat.put()
+    ));
+    THROW_IF_FAILED(m_textFormat->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP));
+
+    // The bitmap render target is created through the IDWriteGdiInterop
+    // interface.
+    winrt::com_ptr<IDWriteGdiInterop> gdiInterop;
+    THROW_IF_FAILED(m_dwriteFactory->GetGdiInterop(gdiInterop.put()));
+
+    // Create the bitmap render target and get a pointer to the bitmap data.
+    winrt::com_ptr<IDWriteBitmapRenderTarget> renderTarget;
+    THROW_IF_FAILED(gdiInterop->CreateBitmapRenderTarget(nullptr, 1, 1, renderTarget.put()));
+
+    m_renderTarget = renderTarget.as<IDWriteBitmapRenderTarget3>();
+    m_renderTarget->GetBitmapData(/*out*/ &m_bitmapData);
+
+    // Create the rendering params object.
+    m_dwriteFactory->CreateRenderingParams(m_renderingParams.put());
+}
+
+void TextRenderer::Render(_In_z_ WCHAR const* text)
+{
+    winrt::com_ptr<IDWriteTextLayout> textLayout;
+    THROW_IF_FAILED(m_dwriteFactory->CreateTextLayout(
+        text,
+        static_cast<uint32_t>(wcslen(text)),
+        m_textFormat.get(),
+        /*maxWidth*/ 0,
+        /*maxHeight*/ 0,
+        /*out*/ textLayout.put()
+    ));
+
+    DWRITE_TEXT_METRICS textMetrics;
+    THROW_IF_FAILED(textLayout->GetMetrics(/*out*/ &textMetrics));
+
+    uint32_t pixelWidth = static_cast<uint32_t>(ceilf(textMetrics.width * m_dpiScale));
+    uint32_t pixelHeight = static_cast<uint32_t>(ceilf(textMetrics.height * m_dpiScale));
+
+    Resize(pixelWidth, pixelHeight);
+
+    ClearBackground();
+
+    THROW_IF_FAILED(textLayout->Draw(nullptr, this, 0, 0));
+}
+
+void TextRenderer::Resize(uint32_t pixelWidth, uint32_t pixelHeight)
+{
+    THROW_IF_FAILED(m_renderTarget->Resize(pixelWidth, pixelHeight));
+    m_renderTarget->GetBitmapData(/*out*/ &m_bitmapData);
+}
+
+void TextRenderer::ClearBackground() noexcept
+{
+    std::fill_n(m_bitmapData.pixels, m_bitmapData.width * m_bitmapData.height, m_backgroundColor);
 }
 
 // IUnknown method

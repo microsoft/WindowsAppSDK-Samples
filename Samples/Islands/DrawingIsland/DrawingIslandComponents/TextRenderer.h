@@ -82,6 +82,43 @@ public:
         return winrt::com_ptr<TextRenderer>(new TextRenderer(), winrt::take_ownership_from_abi);
     }
 
+    void SetDpiScale(float scale)
+    {
+        m_dpiScale = scale;
+    }
+
+    // Convert GDI COLORREF value (from RGB macro) to BGRA32.
+    static constexpr uint32_t Bgra32FromColorRef(COLORREF color) noexcept
+    {
+        // Swap the red and blue channel (bytes 1 and 3) and set the alpha to 0xFF.
+        return
+            ((color & 0x0000FF) << 16) |    // b
+            (color & 0x00FF00) |            // g
+            ((color & 0xFF0000) >> 16) |    // r
+            0xFF000000;                     // a
+    }
+
+    void SetBackgroundColor(COLORREF color) noexcept
+    {
+        m_backgroundColor = Bgra32FromColorRef(color);
+    }
+
+    void SetTextColor(COLORREF color) noexcept
+    {
+        m_textColor = color;
+    }
+
+    void Render(_In_z_ WCHAR const* text);
+
+    void Resize(uint32_t pixelWidth, uint32_t pixelHeight);
+
+    void ClearBackground() noexcept;
+
+    DWRITE_BITMAP_DATA_BGRA32 const& GetBitapData() const noexcept
+    {
+        return m_bitmapData;
+    }
+
 private:
     TextRenderer();
 
@@ -90,10 +127,13 @@ private:
     LONG m_refCount = 1;
 
     float m_dpiScale = 1.0f;
+    uint32_t m_backgroundColor = Bgra32FromColorRef(RGB(64, 64, 128));
     uint32_t m_textColor = RGB(0, 0, 0);
 
     // DWrite API objects.
     winrt::com_ptr<IDWriteFactory8> m_dwriteFactory;
+    winrt::com_ptr<IDWriteTextFormat> m_textFormat;
     winrt::com_ptr<IDWriteBitmapRenderTarget3> m_renderTarget;
+    DWRITE_BITMAP_DATA_BGRA32 m_bitmapData;
     winrt::com_ptr<IDWriteRenderingParams> m_renderingParams;
 };
