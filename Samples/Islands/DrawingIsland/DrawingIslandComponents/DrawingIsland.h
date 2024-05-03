@@ -5,6 +5,7 @@
 
 #include "DrawingIsland.g.h"
 #include "NodeSimpleFragment.h"
+#include "TextRenderer.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
@@ -249,6 +250,8 @@ namespace winrt::DrawingIslandComponents::implementation
         boolean m_useSystemBackdrop = false;
         float m_prevRasterizationScale = 0;
         winrt::ContentLayoutDirection m_prevLayout = winrt::ContentLayoutDirection::LeftToRight;
+
+        winrt::com_ptr<TextRenderer> m_textRenderer = TextRenderer::Create();
 
 #if TRUE
         std::map<winrt::Visual, winrt::com_ptr<NodeSimpleFragment>> m_visualToFragmentMap;

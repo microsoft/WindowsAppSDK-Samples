@@ -24,6 +24,7 @@
     <ClCompile Include="NodeSimpleFragment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="IslandFragmentRoot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Components.idl" />
