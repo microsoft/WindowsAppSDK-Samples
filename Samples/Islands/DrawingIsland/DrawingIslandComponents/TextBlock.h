@@ -7,9 +7,20 @@ namespace winrt::DrawingIslandComponents::implementation
     class TextBlock
     {
     public:
-        TextBlock(winrt::com_ptr<TextRenderer> const& textRenderer);
+        TextBlock(
+            winrt::Compositor compositor,
+            std::shared_ptr<TextRenderer> const& textRenderer,
+            std::wstring&& text
+        );
+
+        float2 GetSize() const noexcept
+        {
+            return m_size;
+        }
 
     private:
-        winrt::com_ptr<TextRenderer> m_textRenderer;
+        std::shared_ptr<TextRenderer> m_textRenderer;
+        std::wstring m_text;
+        float2 m_size;
     };
 }

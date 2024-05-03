@@ -252,7 +252,7 @@ namespace winrt::DrawingIslandComponents::implementation
         float m_prevRasterizationScale = 0;
         winrt::ContentLayoutDirection m_prevLayout = winrt::ContentLayoutDirection::LeftToRight;
 
-        winrt::com_ptr<TextRenderer> m_textRenderer = TextRenderer::Create();
+        std::shared_ptr<TextRenderer> m_textRenderer = std::make_shared<TextRenderer>();
 
 #if TRUE
         std::map<winrt::Visual, winrt::com_ptr<NodeSimpleFragment>> m_visualToFragmentMap;

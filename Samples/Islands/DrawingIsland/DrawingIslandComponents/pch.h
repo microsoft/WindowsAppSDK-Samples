@@ -9,6 +9,11 @@
 #include <UIAutomationCoreApi.h>
 #include <UIAutomationClient.h>
 
+// DWriteWrite and Direct2D for rendering text
+#include <d2d1_3.h>
+#include <d2d1_3helper.h>
+#include <dwrite_3.h>
+
 // WIL
 #include <wil/cppwinrt.h>
 #include <wil/Result.h>

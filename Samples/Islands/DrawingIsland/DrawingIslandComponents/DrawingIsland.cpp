@@ -699,26 +699,37 @@ namespace winrt::DrawingIslandComponents::implementation
         Output_UpdateCurrentColorVisual();
     }
 
+    static std::wstring GetTimeString()
+    {
+        SYSTEMTIME time;
+        GetLocalTime(&time);
+        wchar_t buffer[16];
+        size_t length = swprintf_s(buffer, L"%d:%02d:%02d", time.wHour, time.wMinute, time.wSecond);
+        return std::wstring(buffer, length);
+    }
 
     void
     DrawingIsland::Output_AddVisual(
         float2 const point,
         bool halfTransparent)
     {
+        // TODO
+        auto textBlock = std::make_unique<TextBlock>(m_compositor, m_textRenderer, GetTimeString());
+        float2 size = textBlock->GetSize();
+
         winrt::SpriteVisual visual = m_compositor.CreateSpriteVisual();
         visual.Brush(halfTransparent ? 
             m_halfTransparentColorBrushes[m_currentColorIndex] : 
             m_colorBrushes[m_currentColorIndex]);
 
-        float const BlockSize = 30.0f;
-        visual.Size({ BlockSize, BlockSize });
-        visual.Offset({ point.x - BlockSize / 2.0f, point.y - BlockSize / 2.0f, 0.0f });
+        visual.Size(size);
+        visual.Offset({ point.x - size.x / 2.0f, point.y - size.y / 2.0f, 0.0f });
 
         m_visuals.InsertAtTop(visual);
 
         m_selectedVisual = visual;
-        m_offset.x = -BlockSize / 2.0f;
-        m_offset.y = -BlockSize / 2.0f;
+        m_offset.x = -size.x / 2.0f;
+        m_offset.y = -size.y / 2.0f;
 
 #if TRUE
         CreateUIAProviderForVisual();
