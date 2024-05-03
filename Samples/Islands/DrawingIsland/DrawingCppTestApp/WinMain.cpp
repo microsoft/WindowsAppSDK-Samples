@@ -29,7 +29,7 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
             queue.EnqueueEventLoopExit();
         });
 
-    window.Title(L"Drawing Island");
+    window.Title(L"Drawing C++ TestApp");
     window.Show();
 
     auto compositor = winrt::Compositor();

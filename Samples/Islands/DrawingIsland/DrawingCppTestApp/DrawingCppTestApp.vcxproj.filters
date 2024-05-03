@@ -38,10 +38,10 @@
     <Text Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="DrawingIslandApp.exe.manifest" />
+    <Manifest Include="DrawingCppTestApp.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DrawingIslandApp.rc">
+    <ResourceCompile Include="DrawingCppTestApp.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

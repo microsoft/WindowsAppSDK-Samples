@@ -34,13 +34,13 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <ProjectGuid>3099b355-5306-4814-bc1c-08ab3f29b32e</ProjectGuid>
+    <ProjectGuid>3ed80af8-0d53-4568-8a9a-bcb852b85dc7</ProjectGuid>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
-    <EntryPointProjectUniqueName>..\DrawingIslandApp\DrawingIslandApp.vcxproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\DrawingCsTestApp\DrawingCsTestApp.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -59,9 +59,8 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DrawingIslandApp\DrawingIslandApp.vcxproj" />
+    <ProjectReference Include="..\DrawingCsTestApp\DrawingCsTestApp.csproj" />
   </ItemGroup>
 </Project>
