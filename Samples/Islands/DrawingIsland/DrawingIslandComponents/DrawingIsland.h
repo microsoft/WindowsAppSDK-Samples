@@ -6,6 +6,7 @@
 #include "DrawingIsland.g.h"
 #include "NodeSimpleFragment.h"
 #include "TextRenderer.h"
+#include "TextBlock.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
