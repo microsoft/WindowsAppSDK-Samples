@@ -8,7 +8,7 @@ namespace winrt::DrawingIslandComponents::implementation
     class TextRenderer final
     {
     public:
-        TextRenderer();
+        TextRenderer(winrt::Compositor compositor);
 
         void SetDpiScale(float scale)
         {
@@ -33,7 +33,14 @@ namespace winrt::DrawingIslandComponents::implementation
             return m_size;
         }
 
+        winrt::Compositor GetCompositor() const noexcept
+        {
+            return m_compositor;
+        }
+
     private:
+        winrt::Compositor m_compositor;
+
         float m_dpiScale = 1.0f;
         D2D_COLOR_F m_backgroundColor = { 1, 1, 1, 1 };
         D2D_COLOR_F m_textColor = { 0, 0, 0, 1 };

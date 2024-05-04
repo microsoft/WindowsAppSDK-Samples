@@ -6,7 +6,7 @@
 
 namespace winrt::DrawingIslandComponents::implementation
 {
-    TextRenderer::TextRenderer()
+    TextRenderer::TextRenderer(winrt::Compositor compositor) : m_compositor(compositor)
     {
         // Create the DWrite factory object.
         THROW_IF_FAILED(DWriteCreateFactory(

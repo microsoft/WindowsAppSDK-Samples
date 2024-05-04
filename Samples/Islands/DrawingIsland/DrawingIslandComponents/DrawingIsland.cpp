@@ -14,6 +14,7 @@ namespace winrt::DrawingIslandComponents::implementation
         const winrt::Compositor& compositor)
     {
         m_compositor = compositor;
+        m_textRenderer = std::make_shared<TextRenderer>(m_compositor);
 
         // Create the Compositor and the Content:
         // - The Bridge's connection to the Window will keep everything alive, and perform an orderly
@@ -89,7 +90,8 @@ namespace winrt::DrawingIslandComponents::implementation
     DrawingIsland::Close()
     {
         m_visuals = nullptr;
-        m_selectedVisual = nullptr;
+        m_textBlocks.clear();
+        m_selectedTextBlock = nullptr;
         m_backgroundBrushDefault = nullptr;
         m_backgroundBrushA = nullptr;
         m_backgroundBrushB = nullptr;
@@ -394,6 +396,7 @@ namespace winrt::DrawingIslandComponents::implementation
             case winrt::Windows::System::VirtualKey::Escape:
             {
                 m_visuals.RemoveAll();
+                m_textBlocks.clear();
                 handled = true;
                 break;
             }
@@ -491,13 +494,14 @@ namespace winrt::DrawingIslandComponents::implementation
 #endif
 
 
-    winrt::Visual
+    TextBlock*
     DrawingIsland::HitTestVisual(
         float2 const point)
     {
-        winrt::Visual selectedVisual{ nullptr };
-        for (winrt::Visual visual : m_visuals)
+        TextBlock* selectedTextBlock{ nullptr };
+        for (auto& textBlock : m_textBlocks)
         {
+            auto visual = textBlock->GetVisual();
             winrt::float3 const offset = visual.Offset();
             float2 const size = visual.Size();
 
@@ -506,11 +510,11 @@ namespace winrt::DrawingIslandComponents::implementation
                 point.y >= offset.y &&
                 point.y < offset.y + size.y)
             {
-                selectedVisual = visual;
+                selectedTextBlock = textBlock.get();
             }
         }
 
-        return selectedVisual;
+        return selectedTextBlock;
     }
 
 
@@ -536,7 +540,7 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::Input_OnPointerReleased()
     {
-        m_selectedVisual = nullptr;
+        m_selectedTextBlock = nullptr;
     }
 
     void
@@ -560,17 +564,33 @@ namespace winrt::DrawingIslandComponents::implementation
         const float2 point,
         bool controlPressed)
     {
-        m_selectedVisual = HitTestVisual(point);
+        m_selectedTextBlock = HitTestVisual(point);
         
-        if (m_selectedVisual)
+        if (m_selectedTextBlock != nullptr)
         {
-            winrt::float3 const offset = m_selectedVisual.Offset();
+            auto& visual = m_selectedTextBlock->GetVisual();
+            winrt::float3 const offset = visual.Offset();
 
             m_offset.x = offset.x - point.x;
             m_offset.y = offset.y - point.y;
 
-            m_visuals.Remove(m_selectedVisual);
-            m_visuals.InsertAtTop(m_selectedVisual);
+            m_visuals.Remove(visual);
+            m_visuals.InsertAtTop(visual);
+
+            // Move the selected text block to the end of the vector if it isn't already.
+            if (!m_textBlocks.empty() && m_textBlocks.back().get() != m_selectedTextBlock)
+            {
+                auto p = m_selectedTextBlock;
+                auto i = std::find_if(
+                    m_textBlocks.begin(),
+                    m_textBlocks.end(),
+                    [p](auto& elem) { return elem.get() == p; }
+                );
+                if (i != m_textBlocks.end())
+                {
+                    std::rotate(i, i + 1, m_textBlocks.end());
+                }
+            }
 
             // TODO: The m_fragmentRoots child should be removed and added to the end as well.
         }
@@ -602,17 +622,19 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::OnRightClick(const float2 point)
     {
-        winrt::Visual selectedVisual = HitTestVisual(point);
+        // TODO - what is meant to happen here?
+        UNREFERENCED_PARAMETER(point);
+        //TextBlock* selectedTextBlock = HitTestVisual(point);
     }
 
     void
     DrawingIsland::Input_OnPointerMoved(
         const winrt::PointerEventArgs& args)
     {
-        if (m_selectedVisual)
+        if (m_selectedTextBlock != nullptr)
         {
             float2 const point = args.CurrentPoint().Position();
-            m_selectedVisual.Offset({ point.x + m_offset.x, point.y + m_offset.y, 0.0f });
+            m_selectedTextBlock->GetVisual().Offset({ point.x + m_offset.x, point.y + m_offset.y, 0.0f });
         }
     }
 
@@ -713,37 +735,63 @@ namespace winrt::DrawingIslandComponents::implementation
         float2 const point,
         bool halfTransparent)
     {
-        // TODO
-        auto textBlock = std::make_unique<TextBlock>(m_compositor, m_textRenderer, GetTimeString());
+        // Determine the visual background and text colors.
+        Color backgroundColor = s_colors[m_currentColorIndex];
+        Color textColor = { 0xFF, 0, 0, 0 };
+        if (halfTransparent)
+        {
+            backgroundColor.A /= 2;
+            textColor.A /= 2;
+        }
+
+        // Get the visual brush.
+        // TODO - this will go away later
+        auto visualBrush = halfTransparent ?
+            m_halfTransparentColorBrushes[m_currentColorIndex] :
+            m_colorBrushes[m_currentColorIndex];
+
+        // Create a text block object.
+        auto textBlock = std::make_unique<TextBlock>(
+            m_textRenderer,
+            visualBrush,
+            backgroundColor,
+            textColor,
+            GetTimeString()
+        );
+
+        // Get the visual and its size in DIPs.
+        auto visual = textBlock->GetVisual();
         float2 size = textBlock->GetSize();
 
-        winrt::SpriteVisual visual = m_compositor.CreateSpriteVisual();
-        visual.Brush(halfTransparent ? 
-            m_halfTransparentColorBrushes[m_currentColorIndex] : 
-            m_colorBrushes[m_currentColorIndex]);
-
-        visual.Size(size);
+        // Set the visual's offset.
         visual.Offset({ point.x - size.x / 2.0f, point.y - size.y / 2.0f, 0.0f });
 
+        // Add the new text block to the vector of the text blocks.
+        m_textBlocks.push_back(std::move(textBlock));
+
+        // Add the visual as a child of the container visual.
         m_visuals.InsertAtTop(visual);
 
-        m_selectedVisual = visual;
+        m_selectedTextBlock = m_textBlocks.back().get();
         m_offset.x = -size.x / 2.0f;
         m_offset.y = -size.y / 2.0f;
 
 #if TRUE
         CreateUIAProviderForVisual();
 
-        Accessibility_UpdateScreenCoordinates(m_selectedVisual);
+        Accessibility_UpdateScreenCoordinates(m_selectedTextBlock);
 #endif
     }
 
 
 #if TRUE
     void
-    DrawingIsland::Accessibility_UpdateScreenCoordinates(
-        const winrt::Visual & visual)
+    DrawingIsland::Accessibility_UpdateScreenCoordinates(TextBlock* textBlock)
     {
+        // TODO - we could store the fragment directly on the text block and
+        // get rid of m_visualtoFragmentMap
+        auto& visual = textBlock->GetVisual();
+
         winrt::Rect logicalRect;
         logicalRect.X = visual.Offset().x;
         logicalRect.Y = visual.Offset().y;
@@ -771,9 +819,9 @@ namespace winrt::DrawingIslandComponents::implementation
     {
         winrt::com_ptr<NodeSimpleFragment> fragment = m_fragmentFactory->Create(s_colorNames[m_currentColorIndex].c_str(), m_fragmentRoot);
 
-        m_visualToFragmentMap[m_selectedVisual] = fragment;
+        m_visualToFragmentMap[m_selectedTextBlock->GetVisual()] = fragment;
 
-        fragment->SetVisual(m_selectedVisual);
+        fragment->SetVisual(m_selectedTextBlock->GetVisual());
         // Set up children roots
         m_fragmentRoot->AddChild(fragment);
 

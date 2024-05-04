@@ -102,8 +102,7 @@ namespace winrt::DrawingIslandComponents::implementation
             const winrt::ContentIsland& island,
             const winrt::ContentIslandAutomationProviderRequestedEventArgs& args);
 
-        void Accessibility_UpdateScreenCoordinates(
-            const winrt::Visual& visual);
+        void Accessibility_UpdateScreenCoordinates(TextBlock* textBlock);
 
         void CreateUIAProviderForVisual();
 #endif
@@ -112,7 +111,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void EvaluateUseSystemBackdrop();
 
-        winrt::Visual HitTestVisual(
+        TextBlock* HitTestVisual(
             float2 const point);
 
         void Input_Initialize();
@@ -232,10 +231,13 @@ namespace winrt::DrawingIslandComponents::implementation
 
         // Drawing squares
         winrt::VisualCollection m_visuals{ nullptr };
-        winrt::Visual m_selectedVisual{ nullptr };
+        TextBlock* m_selectedTextBlock{ nullptr };
         winrt::SpriteVisual m_currentColorVisual{ nullptr };
         float2 m_offset{};
         float m_backgroundOpacity = 0.5f;
+
+        std::shared_ptr<TextRenderer> m_textRenderer;
+        std::vector<std::unique_ptr<TextBlock>> m_textBlocks;
 
         unsigned int m_currentColorIndex = 0;
         winrt::CompositionColorBrush m_colorBrushes[_countof(s_colors)]{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
@@ -251,8 +253,6 @@ namespace winrt::DrawingIslandComponents::implementation
         boolean m_useSystemBackdrop = false;
         float m_prevRasterizationScale = 0;
         winrt::ContentLayoutDirection m_prevLayout = winrt::ContentLayoutDirection::LeftToRight;
-
-        std::shared_ptr<TextRenderer> m_textRenderer = std::make_shared<TextRenderer>();
 
 #if TRUE
         std::map<winrt::Visual, winrt::com_ptr<NodeSimpleFragment>> m_visualToFragmentMap;
