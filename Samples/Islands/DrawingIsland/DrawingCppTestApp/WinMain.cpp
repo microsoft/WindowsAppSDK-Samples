@@ -15,7 +15,7 @@ namespace winrt
     using namespace DrawingIslandComponents;
 }
 
-int __stdcall wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
+int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
     winrt::init_apartment(winrt::apartment_type::single_threaded);
 

@@ -1,11 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+
+    <!-- TODO: Why do we need to specify a specific Windows version? -->
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>x64;ARM64;x86</Platforms>
+
+    <!-- TODO: Why do we need to specify the explicit RIDs? -->   
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -21,18 +26,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Added CsWinRT reference to avoid WinMD error as a result of WinMD leaking via project reference. -->
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
+
+    <!-- Reference WASDK for types -->
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DrawingIslandCsProjection\DrawingIslandCsProjection.csproj" />
-  </ItemGroup>
-
-  <!-- Workaround for "error NETSDK1082: There was no runtime pack for Microsoft.NETCore.App available for the specified RuntimeIdentifier 'win10-arm'." -->
-  <ItemGroup>
-    <KnownRuntimePack Update="@(KnownRuntimePack)">
-      <LatestRuntimeFrameworkVersion Condition="'%(TargetFramework)' == 'TARGETFRAMEWORK'">EXISTINGVERSION</LatestRuntimeFrameworkVersion>
-    </KnownRuntimePack>
   </ItemGroup>
 
 </Project>
