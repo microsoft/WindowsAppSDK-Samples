@@ -645,6 +645,13 @@ namespace winrt::DrawingIslandComponents::implementation
         if (m_prevRasterizationScale != m_island.RasterizationScale())
         {
             m_prevRasterizationScale = m_island.RasterizationScale();
+
+            m_textRenderer->SetDpiScale(m_prevRasterizationScale);
+
+            for (auto& element : m_visualElements)
+            {
+                element->OnDpiScaleChanged();
+            }
         }
 
         if (m_prevLayout != m_island.LayoutDirection())

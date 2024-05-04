@@ -8,7 +8,7 @@
 
 namespace winrt::DrawingIslandComponents::implementation
 {
-    class TextElement : public VisualElement
+    class TextElement final : public VisualElement
     {
     public:
         TextElement(
