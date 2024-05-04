@@ -4,7 +4,6 @@
 #pragma once
 
 #include "DrawingIsland.g.h"
-#include "NodeSimpleFragment.h"
 #include "TextRenderer.h"
 #include "TextBlock.h"
 
@@ -103,8 +102,6 @@ namespace winrt::DrawingIslandComponents::implementation
             const winrt::ContentIslandAutomationProviderRequestedEventArgs& args);
 
         void Accessibility_UpdateScreenCoordinates(TextBlock* textBlock);
-
-        void CreateUIAProviderForVisual();
 #endif
 
         void EnqueueFromBackgroundThread();
@@ -253,10 +250,6 @@ namespace winrt::DrawingIslandComponents::implementation
         boolean m_useSystemBackdrop = false;
         float m_prevRasterizationScale = 0;
         winrt::ContentLayoutDirection m_prevLayout = winrt::ContentLayoutDirection::LeftToRight;
-
-#if TRUE
-        std::map<winrt::Visual, winrt::com_ptr<NodeSimpleFragment>> m_visualToFragmentMap;
-#endif
     };
 }
 

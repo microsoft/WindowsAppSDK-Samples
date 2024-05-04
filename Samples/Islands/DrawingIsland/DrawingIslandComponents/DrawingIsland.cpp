@@ -753,6 +753,10 @@ namespace winrt::DrawingIslandComponents::implementation
         // Create a text block object.
         auto textBlock = std::make_unique<TextBlock>(
             m_textRenderer,
+#if TRUE
+            m_fragmentFactory,
+            m_fragmentRoot,
+#endif
             visualBrush,
             backgroundColor,
             textColor,
@@ -777,8 +781,6 @@ namespace winrt::DrawingIslandComponents::implementation
         m_offset.y = -size.y / 2.0f;
 
 #if TRUE
-        CreateUIAProviderForVisual();
-
         Accessibility_UpdateScreenCoordinates(m_selectedTextBlock);
 #endif
     }
@@ -788,17 +790,14 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::Accessibility_UpdateScreenCoordinates(TextBlock* textBlock)
     {
-        // TODO - we could store the fragment directly on the text block and
-        // get rid of m_visualtoFragmentMap
         auto& visual = textBlock->GetVisual();
+        auto& fragment = textBlock->GetFragment();
 
         winrt::Rect logicalRect;
         logicalRect.X = visual.Offset().x;
         logicalRect.Y = visual.Offset().y;
         logicalRect.Width = visual.Size().x;
         logicalRect.Height = visual.Size().y;
-
-        auto fragment = m_visualToFragmentMap[visual];
 
         // This will convert from the logical coordinate space of the ContentIsland to
         // Win32 screen coordinates that are needed by Accesibility.
@@ -811,22 +810,6 @@ namespace winrt::DrawingIslandComponents::implementation
         uiaRect.height = screenRect.Height;
         
         fragment->SetBoundingRects(uiaRect);
-    }
-
-
-    void
-    DrawingIsland::CreateUIAProviderForVisual()
-    {
-        winrt::com_ptr<NodeSimpleFragment> fragment = m_fragmentFactory->Create(s_colorNames[m_currentColorIndex].c_str(), m_fragmentRoot);
-
-        m_visualToFragmentMap[m_selectedTextBlock->GetVisual()] = fragment;
-
-        fragment->SetVisual(m_selectedTextBlock->GetVisual());
-        // Set up children roots
-        m_fragmentRoot->AddChild(fragment);
-
-        // Finally set up parent chain
-        fragment->SetParent(m_fragmentRoot);
     }
 #endif
 
