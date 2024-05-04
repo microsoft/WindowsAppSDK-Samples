@@ -47,21 +47,6 @@ namespace winrt::DrawingIslandComponents::implementation
         // Just adding EnqueueFromBackgroundThread method for testing.
         EnqueueFromBackgroundThread();
 
-#if FALSE
-        // Get notifications for island disconnection.
-        (void)m_island.Connected(
-            [&](auto&& ...)
-        {
-            return Island_OnConnected();
-        });
-
-        (void)m_island.Disconnected(
-            [&](auto&& ...)
-        {
-            return Island_OnDisconnected();
-        });
-#endif
-
         (void)m_island.Closed(
             [&]()
         {
@@ -74,13 +59,8 @@ namespace winrt::DrawingIslandComponents::implementation
 
     DrawingIsland::~DrawingIsland()
     {
-#if FALSE
-        m_siteBridge = nullptr;
-#endif
-#if TRUE
         m_fragmentRoot = nullptr;
         m_fragmentFactory = nullptr;
-#endif
         m_compositor = nullptr;
     }
 
@@ -96,6 +76,7 @@ namespace winrt::DrawingIslandComponents::implementation
         m_backgroundBrushC = nullptr;
         m_backgroundVisual = nullptr;
 
+        // TODO: Enable Mica on Win 11
 #if FALSE
         // Destroy SystemBackdropController objects.
         if (m_backdropController != nullptr)
@@ -149,6 +130,7 @@ namespace winrt::DrawingIslandComponents::implementation
         updateThread1.join();
     }
 
+
     IFACEMETHODIMP
     DrawingIsland::OnDirectMessage(
         IInputPreTranslateKeyboardSourceInterop* /*source*/,
@@ -174,6 +156,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         return S_OK;
     }
+
 
     IFACEMETHODIMP
     DrawingIsland::OnTreeMessage(
@@ -239,6 +222,7 @@ namespace winrt::DrawingIslandComponents::implementation
             m_ignoreLeftButtonPressed = value;
         }
     }
+
 
     void
     DrawingIsland::Input_Initialize()
@@ -445,7 +429,6 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 
 
-#if TRUE
     void
     DrawingIsland::Accessibility_Initialize()
     {
@@ -453,25 +436,6 @@ namespace winrt::DrawingIslandComponents::implementation
         m_fragmentRoot->SetName(L"Drawing Squares");
 
         m_fragmentFactory = winrt::make_self<NodeSimpleFragmentFactory>();
-
-#if FALSE
-        if (m_crossProcUIA)
-        {
-            m_fragmentRoot->SetName(L"CrossProc Island");
-        }
-        else if (m_siteBridge != nullptr)
-        {
-            auto desktopChildBridge = m_siteBridge.try_as<winrt::IDesktopChildSiteBridge>();
-            if (desktopChildBridge != nullptr)
-            {
-                m_fragmentRoot->SetName(L"Child Island");
-            }
-            else
-            {
-                m_fragmentRoot->SetName(L"Popup Island");
-            }
-        }
-#endif
 
         (void)m_island.AutomationProviderRequested({ this, &DrawingIsland::Accessibility_OnAutomationProviderRequested });
     }
@@ -488,7 +452,6 @@ namespace winrt::DrawingIslandComponents::implementation
 
         args.Handled(true);
     }
-#endif
 
 
     winrt::Visual
@@ -514,8 +477,6 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 
 
-    // Continue converting to inspect CTRL key.
-
     void
     DrawingIsland::Input_OnLeftButtonPressed(
         const winrt::PointerEventArgs& args)
@@ -533,11 +494,13 @@ namespace winrt::DrawingIslandComponents::implementation
         }
     }
 
+
     void
     DrawingIsland::Input_OnPointerReleased()
     {
         m_selectedVisual = nullptr;
     }
+
 
     void
     DrawingIsland::LeftClickAndRelease(
@@ -547,6 +510,7 @@ namespace winrt::DrawingIslandComponents::implementation
         Input_OnPointerReleased();
     }
 
+
     void
     DrawingIsland::RightClickAndRelease(
         const float2 currentPoint)
@@ -554,6 +518,7 @@ namespace winrt::DrawingIslandComponents::implementation
         OnRightClick(currentPoint);
         Input_OnPointerReleased();
     }
+
 
     void
     DrawingIsland::OnLeftClick(
@@ -578,17 +543,6 @@ namespace winrt::DrawingIslandComponents::implementation
         {
             Output_AddVisual(point, controlPressed);
         }
-
-#if FALSE
-        // Only transfer focus when we are hosted inside a DesktopChildSiteBridge. When we are
-        // hosted inside a PopupWindowSiteBridge, we expect to control focus and activaton by 
-        // setting InputPointerSource->ActivationBehavior.
-        auto desktopChildBridge = m_siteBridge.try_as<winrt::IDesktopChildSiteBridge>();
-        if (desktopChildBridge != nullptr)
-        {
-            m_focusController.TrySetFocus();
-        }
-#endif
     }
 
 
@@ -633,13 +587,6 @@ namespace winrt::DrawingIslandComponents::implementation
         Output_UpdateCurrentColorVisual();
     }
 
-#if FALSE
-    void
-    DrawingIsland::Island_OnConnected()
-    {
-        SetLayoutDirectionForVisuals();
-    }
-#endif
 
     void
     DrawingIsland::SetLayoutDirectionForVisuals()
@@ -660,19 +607,13 @@ namespace winrt::DrawingIslandComponents::implementation
         m_prevLayout = m_island.LayoutDirection();
     }
 
-#if FALSE
-    void
-    DrawingIsland::Island_OnDisconnected()
-    {
-
-    }
-#endif
 
     void
     DrawingIsland::Island_OnClosed()
     {
 
     }
+
 
     void
     DrawingIsland::Output_Initialize()
@@ -720,15 +661,12 @@ namespace winrt::DrawingIslandComponents::implementation
         m_offset.x = -BlockSize / 2.0f;
         m_offset.y = -BlockSize / 2.0f;
 
-#if TRUE
         CreateUIAProviderForVisual();
 
         Accessibility_UpdateScreenCoordinates(m_selectedVisual);
-#endif
     }
 
 
-#if TRUE
     void
     DrawingIsland::Accessibility_UpdateScreenCoordinates(
         const winrt::Visual & visual)
@@ -769,7 +707,6 @@ namespace winrt::DrawingIslandComponents::implementation
         // Finally set up parent chain
         fragment->SetParent(m_fragmentRoot);
     }
-#endif
 
 
     void 
@@ -781,6 +718,7 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 
 
+    // TODO: Enable Mica on Win 11
 #if FALSE
     void
     DrawingIsland::SystemBackdrop_Initialize()

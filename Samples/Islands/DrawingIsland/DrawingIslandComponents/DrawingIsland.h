@@ -52,16 +52,6 @@ namespace winrt::DrawingIslandComponents::implementation
         void RightClickAndRelease(
             const float2 currentPoint);
 
-#if FALSE
-        void SetHostBridge(
-            const winrt::IContentSiteBridge& bridge)
-        {
-            m_siteBridge = bridge;
-
-            Accessibility_Initialize();
-        }
-#endif
-
         void SetBackroundOpacity(float backgroundOpacity)
         {
             m_backgroundOpacity = backgroundOpacity;
@@ -93,7 +83,6 @@ namespace winrt::DrawingIslandComponents::implementation
             _Inout_ bool* handled);
 
     private:
-#if TRUE
         void Accessibility_Initialize();
 
         void Accessibility_OnAutomationProviderRequested(
@@ -104,7 +93,6 @@ namespace winrt::DrawingIslandComponents::implementation
             const winrt::Visual& visual);
 
         void CreateUIAProviderForVisual();
-#endif
 
         void EnqueueFromBackgroundThread();
 
@@ -134,15 +122,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void Island_OnStateChanged();
 
-#if FALSE
-        void Island_OnConnected();
-
-        void Island_OnDisconnected();
-#endif
-
         void Island_OnClosed();
-
-        void LightDismiss_Initialize();
 
         void OnLeftClick(
             const float2 point,
@@ -159,6 +139,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void Output_UpdateCurrentColorVisual();
 
+        // TODO: Enable Mica on Win 11
 #if FALSE
         void SystemBackdrop_Initialize();
 #endif
@@ -203,10 +184,8 @@ namespace winrt::DrawingIslandComponents::implementation
             L"LightSkyBlue",
         };
 
-#if TRUE
         winrt::com_ptr<NodeSimpleFragmentFactory> m_fragmentFactory{ nullptr };
         winrt::com_ptr<IslandFragmentRoot> m_fragmentRoot{ nullptr };
-#endif
 
         winrt::Compositor m_compositor{ nullptr };
         winrt::ContentIsland m_island{ nullptr };
@@ -223,6 +202,8 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::SpriteVisual m_backgroundVisual{ nullptr };
         winrt::RectangleClip m_backgroundClip{ nullptr };
         winrt::RectangleClip m_backdropClip{ nullptr };
+
+        // TODO: Enable Mica on Win 11
 #if FALSE
         winrt::ContentExternalBackdropLink m_backdropLink{ nullptr };
         winrt::ICompositionSupportsSystemBackdrop m_backdropTarget{ nullptr };
@@ -239,20 +220,12 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::CompositionColorBrush m_colorBrushes[_countof(s_colors)]{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
         winrt::CompositionColorBrush m_halfTransparentColorBrushes[_countof(s_colors)]{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
-#if FALSE
-        // Popups
-        // https://task.ms/32440118: Add ContentIsland.SiteBridge to avoid this workaround
-        winrt::IContentSiteBridge m_siteBridge{ nullptr };
-#endif
-
         boolean m_ignoreLeftButtonPressed = false;
         boolean m_useSystemBackdrop = false;
         float m_prevRasterizationScale = 0;
         winrt::ContentLayoutDirection m_prevLayout = winrt::ContentLayoutDirection::LeftToRight;
 
-#if TRUE
         std::map<winrt::Visual, winrt::com_ptr<NodeSimpleFragment>> m_visualToFragmentMap;
-#endif
     };
 }
 
