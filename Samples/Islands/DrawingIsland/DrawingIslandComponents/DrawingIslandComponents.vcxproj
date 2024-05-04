@@ -125,16 +125,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="VisualElement.h" />
     <ClInclude Include="IslandFragmentRoot.h" />
     <ClInclude Include="NodeSimpleFragment.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="DrawingIsland.h">
       <DependentUpon>Components.idl</DependentUpon>
     </ClInclude>
-    <ClInclude Include="TextBlock.h" />
+    <ClInclude Include="TextElement.h" />
     <ClInclude Include="TextRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="VisualElement.cpp" />
     <ClCompile Include="IslandFragmentRoot.cpp" />
     <ClCompile Include="NodeSimpleFragment.cpp" />
     <ClCompile Include="pch.cpp">
@@ -144,7 +146,7 @@
       <DependentUpon>Components.idl</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="TextBlock.cpp" />
+    <ClCompile Include="TextElement.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>

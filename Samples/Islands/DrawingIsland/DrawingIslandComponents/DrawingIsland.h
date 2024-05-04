@@ -5,7 +5,7 @@
 
 #include "DrawingIsland.g.h"
 #include "TextRenderer.h"
-#include "TextBlock.h"
+#include "TextElement.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
@@ -101,14 +101,14 @@ namespace winrt::DrawingIslandComponents::implementation
             const winrt::ContentIsland& island,
             const winrt::ContentIslandAutomationProviderRequestedEventArgs& args);
 
-        void Accessibility_UpdateScreenCoordinates(TextBlock* textBlock);
+        void Accessibility_UpdateScreenCoordinates(VisualElement* textBlock);
 #endif
 
         void EnqueueFromBackgroundThread();
 
         void EvaluateUseSystemBackdrop();
 
-        TextBlock* HitTestVisual(
+        VisualElement* HitTestVisual(
             float2 const point);
 
         void Input_Initialize();
@@ -228,13 +228,13 @@ namespace winrt::DrawingIslandComponents::implementation
 
         // Drawing squares
         winrt::VisualCollection m_visuals{ nullptr };
-        TextBlock* m_selectedTextBlock{ nullptr };
+        VisualElement* m_selectedVisual{ nullptr };
         winrt::SpriteVisual m_currentColorVisual{ nullptr };
         float2 m_offset{};
         float m_backgroundOpacity = 0.5f;
 
         std::shared_ptr<TextRenderer> m_textRenderer;
-        std::vector<std::unique_ptr<TextBlock>> m_textBlocks;
+        std::vector<std::unique_ptr<VisualElement>> m_visualElements;
 
         unsigned int m_currentColorIndex = 0;
         winrt::CompositionColorBrush m_colorBrushes[_countof(s_colors)]{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };

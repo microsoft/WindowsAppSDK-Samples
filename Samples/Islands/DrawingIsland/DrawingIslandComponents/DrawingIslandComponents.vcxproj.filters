@@ -25,7 +25,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp" />
-    <ClCompile Include="TextBlock.cpp" />
+    <ClCompile Include="TextElement.cpp" />
+    <ClCompile Include="VisualElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -36,7 +37,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderer.h" />
-    <ClInclude Include="TextBlock.h" />
+    <ClInclude Include="TextElement.h" />
+    <ClInclude Include="VisualElement.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Components.idl" />

@@ -1,24 +1,31 @@
-﻿#pragma once
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-#include "TextRenderer.h"
+#pragma once
+
 #include "NodeSimpleFragment.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
-    class TextBlock
+    class VisualElement
     {
     public:
-        TextBlock(
-            std::shared_ptr<TextRenderer> const& textRenderer,
+        VisualElement(
 #if TRUE
             winrt::com_ptr<NodeSimpleFragmentFactory> const& fragmentFactory,
             winrt::com_ptr<IslandFragmentRoot> const& fragmentRoot,
+            _In_z_ wchar_t const* name,
 #endif
-            CompositionColorBrush visualBrush,
-            Windows::UI::Color backgroundColor,
-            Windows::UI::Color textColor,
-            std::wstring&& text
+            winrt::Compositor const& compositor
         );
+
+        virtual ~VisualElement()
+        {
+        }
+
+        virtual void OnDpiScaleChanged()
+        {
+        }
 
         winrt::SpriteVisual const& GetVisual() const noexcept
         {
@@ -30,19 +37,8 @@ namespace winrt::DrawingIslandComponents::implementation
             return m_fragment;
         }
 
-        float2 GetSize() const noexcept
-        {
-            return m_size;
-        }
-
     private:
-        std::shared_ptr<TextRenderer> m_textRenderer;
-        Windows::UI::Color m_backgroundColor;
-        Windows::UI::Color m_textColor;
-        std::wstring m_text;
-        float2 m_size;
         winrt::SpriteVisual m_visual;
-
 #if TRUE
         winrt::com_ptr<NodeSimpleFragment> m_fragment;
 #endif

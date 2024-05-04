@@ -33,7 +33,7 @@ namespace winrt::DrawingIslandComponents::implementation
             return m_size;
         }
 
-        winrt::Compositor GetCompositor() const noexcept
+        winrt::Compositor const& GetCompositor() const noexcept
         {
             return m_compositor;
         }
