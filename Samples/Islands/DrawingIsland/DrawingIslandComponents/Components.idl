@@ -9,15 +9,10 @@ namespace DrawingIslandComponents
         DrawingIsland(
             Microsoft.UI.Composition.Compositor compositor);
 
-        Boolean UseSystemBackdrop { get; set; };
-
+        // TODO: Enable Mica on Win 11
 #if FALSE
-        Boolean InputActivatePopup { get; set; };
-
-        Boolean LightDismissPopup { get; set; };
+        Boolean UseSystemBackdrop { get; set; };
 #endif
-
-        Boolean IgnoreLeftButtonPressed{ get; set; };
 
         Microsoft.UI.Content.ContentIsland Island { get; };
 
@@ -26,14 +21,6 @@ namespace DrawingIslandComponents
 
         void RightClickAndRelease(
             Windows.Foundation.Numerics.Vector2 currentPoint);
-
-#if FALSE
-        // https://task.ms/32440118: Add ContentIsland.SiteBridge to avoid this workaround
-        void SetHostBridge(
-            Microsoft.UI.Content.IContentSiteBridge bridge);
-
-        void InitializeForCrossProc();
-#endif
 
         void SetBackroundOpacity(Single backgroundOpacity);
 

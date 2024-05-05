@@ -23,6 +23,8 @@ namespace winrt::DrawingIslandComponents::implementation
         void Close();
 
         // Properties 
+        // TODO: Enable Mica on Win 11
+#if FALSE
         boolean UseSystemBackdrop()
         {
             return m_useSystemBackdrop;
@@ -30,14 +32,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void UseSystemBackdrop(
             boolean value);
-
-        boolean IgnoreLeftButtonPressed()
-        {
-            return m_ignoreLeftButtonPressed;
-        }
-
-        void IgnoreLeftButtonPressed(
-            boolean value);
+#endif
 
         winrt::ContentIsland Island() const
         {
@@ -54,17 +49,18 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void SetBackroundOpacity(float backgroundOpacity)
         {
-            m_backgroundOpacity = backgroundOpacity;
+            m_background.Opacity = backgroundOpacity;
         }
 
         void SetColorIndex(std::uint32_t colorIndex)
         {
-            m_currentColorIndex = std::clamp<std::uint32_t>(colorIndex, 0, _countof(s_colors) - 1);
-            if (m_currentColorIndex >= 4)
+            m_output.CurrentColorIndex = std::clamp<std::uint32_t>(colorIndex, 0, _countof(s_colors) - 1);
+            if (m_output.CurrentColorIndex >= 4)
             {
-                m_backgroundBrushDefault = m_compositor.CreateColorBrush(s_colors[m_currentColorIndex]);
+                m_background.BrushDefault =
+                    m_output.Compositor.CreateColorBrush(s_colors[m_output.CurrentColorIndex]);
 
-                m_backgroundVisual.Brush(m_backgroundBrushDefault);
+                m_background.Visual.Brush(m_background.BrushDefault);
             }
             Output_UpdateCurrentColorVisual();
         }
@@ -93,8 +89,6 @@ namespace winrt::DrawingIslandComponents::implementation
             const winrt::Visual& visual);
 
         void CreateUIAProviderForVisual();
-
-        void EnqueueFromBackgroundThread();
 
         void EvaluateUseSystemBackdrop();
 
@@ -184,48 +178,88 @@ namespace winrt::DrawingIslandComponents::implementation
             L"LightSkyBlue",
         };
 
-        winrt::com_ptr<NodeSimpleFragmentFactory> m_fragmentFactory{ nullptr };
-        winrt::com_ptr<IslandFragmentRoot> m_fragmentRoot{ nullptr };
-
-        winrt::Compositor m_compositor{ nullptr };
+        // The underlying Island holding everything together.
         winrt::ContentIsland m_island{ nullptr };
-        winrt::InputKeyboardSource m_keyboardSource{ nullptr };
-        winrt::InputPreTranslateKeyboardSource m_pretranslateSource{ nullptr };
-        winrt::InputPointerSource m_pointerSource{ nullptr };
-        winrt::InputFocusController m_focusController{ nullptr };
 
-        // Background
-        winrt::CompositionColorBrush m_backgroundBrushDefault{ nullptr };
-        winrt::CompositionColorBrush m_backgroundBrushA{ nullptr };
-        winrt::CompositionColorBrush m_backgroundBrushB{ nullptr };
-        winrt::CompositionColorBrush m_backgroundBrushC{ nullptr };
-        winrt::SpriteVisual m_backgroundVisual{ nullptr };
-        winrt::RectangleClip m_backgroundClip{ nullptr };
-        winrt::RectangleClip m_backdropClip{ nullptr };
+        // Output
+        struct
+        {
+            winrt::Compositor Compositor{ nullptr };
+
+            // Current color used for new items
+            unsigned int CurrentColorIndex = 0;
+
+            // Cached brushes for items
+            winrt::CompositionColorBrush ColorBrushes[_countof(s_colors)]
+            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+
+            winrt::CompositionColorBrush HalfTransparentColorBrushes[_countof(s_colors)]
+            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+        } m_output;
+
+        // Input handling
+        struct
+        {
+            // Keyboard input handling
+            winrt::InputKeyboardSource KeyboardSource{ nullptr };
+
+            // Message loop integration
+            winrt::InputPreTranslateKeyboardSource PretranslateSource{ nullptr };
+
+            // Spatial input handling (mouse, pen, touch, etc.)
+            winrt::InputPointerSource PointerSource{ nullptr };
+
+            // Focus navigation handling
+            winrt::InputFocusController FocusController{ nullptr };
+        } m_input;
+
+        // Background behind the items
+        struct Background
+        {
+            winrt::CompositionColorBrush BrushDefault{ nullptr };
+            winrt::CompositionColorBrush BrushA{ nullptr };
+            winrt::CompositionColorBrush BrushB{ nullptr };
+            winrt::CompositionColorBrush BrushC{ nullptr };
+            winrt::SpriteVisual Visual{ nullptr };
+            winrt::RectangleClip Clip{ nullptr };
+            float Opacity = 0.5f;
+        } m_background;
 
         // TODO: Enable Mica on Win 11
 #if FALSE
         winrt::ContentExternalBackdropLink m_backdropLink{ nullptr };
         winrt::ICompositionSupportsSystemBackdrop m_backdropTarget{ nullptr };
+        boolean m_useSystemBackdrop = false;
 #endif
 
-        // Drawing squares
-        winrt::VisualCollection m_visuals{ nullptr };
-        winrt::Visual m_selectedVisual{ nullptr };
-        winrt::SpriteVisual m_currentColorVisual{ nullptr };
-        float2 m_offset{};
-        float m_backgroundOpacity = 0.5f;
+        // Drawing items being manipulated.
+        struct 
+        {
+            winrt::VisualCollection Visuals{ nullptr };
+            winrt::Visual SelectedVisual{ nullptr };
+            winrt::SpriteVisual CurrentColorVisual{ nullptr };
+            float2 Offset{};
+        } m_items;
 
-        unsigned int m_currentColorIndex = 0;
-        winrt::CompositionColorBrush m_colorBrushes[_countof(s_colors)]{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
-        winrt::CompositionColorBrush m_halfTransparentColorBrushes[_countof(s_colors)]{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+        struct
+        {
+            float RasterizationScale = 0;
 
-        boolean m_ignoreLeftButtonPressed = false;
-        boolean m_useSystemBackdrop = false;
-        float m_prevRasterizationScale = 0;
-        winrt::ContentLayoutDirection m_prevLayout = winrt::ContentLayoutDirection::LeftToRight;
+            winrt::ContentLayoutDirection LayoutDirection =
+                winrt::ContentLayoutDirection::LeftToRight;
+        } m_prevState;
 
-        std::map<winrt::Visual, winrt::com_ptr<NodeSimpleFragment>> m_visualToFragmentMap;
+        struct
+        {
+            // Our UIA object to create fragments
+            winrt::com_ptr<NodeSimpleFragmentFactory> FragmentFactory{ nullptr };
+
+            // The UIA parent Root for this Island that contains the fragment children.
+            winrt::com_ptr<IslandFragmentRoot> FragmentRoot{ nullptr };
+
+            // Map a given square (Visual) to its UIA fragment object
+            std::map<winrt::Visual, winrt::com_ptr<NodeSimpleFragment>> VisualToFragmentMap;
+        } m_uia;
     };
 }
 
