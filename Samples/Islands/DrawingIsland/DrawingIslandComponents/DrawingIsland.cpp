@@ -728,15 +728,6 @@ namespace winrt::DrawingIslandComponents::implementation
         Output_UpdateCurrentColorVisual();
     }
 
-    static std::wstring GetTimeString()
-    {
-        SYSTEMTIME time;
-        GetLocalTime(&time);
-        wchar_t buffer[16];
-        size_t length = swprintf_s(buffer, L"%d:%02d:%02d", time.wHour, time.wMinute, time.wSecond);
-        return std::wstring(buffer, length);
-    }
-
     void
     DrawingIsland::Output_AddVisual(
         float2 const point,
@@ -767,7 +758,7 @@ namespace winrt::DrawingIslandComponents::implementation
             visualBrush,
             backgroundColor,
             textColor,
-            GetTimeString()
+            s_colorNames[m_currentColorIndex]
         );
 
         // Get the visual and its size in DIPs.

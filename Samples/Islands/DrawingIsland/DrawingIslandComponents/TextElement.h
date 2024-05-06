@@ -20,7 +20,7 @@ namespace winrt::DrawingIslandComponents::implementation
             CompositionColorBrush visualBrush,
             Windows::UI::Color backgroundColor,
             Windows::UI::Color textColor,
-            std::wstring&& text
+            std::wstring const& text
         );
 
         void OnDpiScaleChanged() override;
@@ -30,6 +30,5 @@ namespace winrt::DrawingIslandComponents::implementation
         Windows::UI::Color m_backgroundColor;
         Windows::UI::Color m_textColor;
         std::wstring m_text;
-        float2 m_size;
     };
 }

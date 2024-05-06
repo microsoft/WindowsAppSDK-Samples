@@ -16,7 +16,7 @@ namespace winrt::DrawingIslandComponents::implementation
         CompositionColorBrush visualBrush,
         Windows::UI::Color backgroundColor,
         Windows::UI::Color textColor,
-        std::wstring&& text
+        std::wstring const& text
     ) :
         VisualElement(
 #if TRUE
@@ -29,16 +29,14 @@ namespace winrt::DrawingIslandComponents::implementation
         m_textRenderer(textRenderer),
         m_backgroundColor(backgroundColor),
         m_textColor(textColor),
-        m_text(std::move(text))
+        m_text(text)
     {
-        // Render the text to determine the size.
-        // TODO - this should create a composition brush
-        m_textRenderer->Render(m_text.c_str());
-        m_size = m_textRenderer->GetSize();
-
-        // Set the visual size and brush.
+        // Set the visual brush.
+        // TODO - this will go away when we implement text
         GetVisual().Brush(visualBrush);
-        GetVisual().Size(m_size);
+
+        // Render the text to determine the size.
+        m_textRenderer->Render(m_text.c_str(), GetVisual());
     }
 
     void TextElement::OnDpiScaleChanged()

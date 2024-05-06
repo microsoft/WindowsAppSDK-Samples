@@ -32,7 +32,7 @@ namespace winrt::DrawingIslandComponents::implementation
         // TODO - create D2D objects
     }
 
-    void TextRenderer::Render(_In_z_ WCHAR const* text)
+    void TextRenderer::Render(_In_z_ WCHAR const* text, SpriteVisual const& visual)
     {
         winrt::com_ptr<IDWriteTextLayout> textLayout;
         THROW_IF_FAILED(m_dwriteFactory->CreateTextLayout(
@@ -47,8 +47,14 @@ namespace winrt::DrawingIslandComponents::implementation
         DWRITE_TEXT_METRICS textMetrics;
         THROW_IF_FAILED(textLayout->GetMetrics(/*out*/ &textMetrics));
 
-        m_size = { textMetrics.width, textMetrics.height };
+        visual.Size(float2(textMetrics.width, textMetrics.height));
 
         // TODO - draw the text
+        // auto surfaceBrush = m_compositor.CreateSurfaceBrush();
+
+        
+
+
+
     }
 }
