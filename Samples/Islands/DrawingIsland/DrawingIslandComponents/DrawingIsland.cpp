@@ -387,8 +387,7 @@ namespace winrt::DrawingIslandComponents::implementation
                 Input_OnPointerReleased();
             });
 
-        // Set up the keyboard source. We store this in a member variable so we can easily call 
-        // TrySetFocus() in response to left clicks in the content later on.
+        // Set up the keyboard source.
         m_input.KeyboardSource = winrt::InputKeyboardSource::GetForIsland(m_island);
 
         m_input.KeyboardSource.KeyDown(
@@ -508,6 +507,11 @@ namespace winrt::DrawingIslandComponents::implementation
             case winrt::Windows::System::VirtualKey::Escape:
             {
                 m_items.Visuals.RemoveAll();
+
+                // Update accessibility.
+                m_uia.FragmentRoot->RemoveAllChildren();
+                m_uia.AutomationPeers.clear();
+
                 handled = true;
                 break;
             }

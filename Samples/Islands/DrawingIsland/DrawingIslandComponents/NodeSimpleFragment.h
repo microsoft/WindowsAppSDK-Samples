@@ -32,6 +32,8 @@ namespace winrt::DrawingIslandComponents
         void RemoveChild(
             _In_ winrt::com_ptr<NodeSimpleFragment> const& child);
 
+        void RemoveAllChildren();
+
         void SetCallbackHandler(
             _In_opt_ IAutomationCallbackHandler const* const owner);
 

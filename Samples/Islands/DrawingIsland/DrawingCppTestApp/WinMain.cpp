@@ -40,6 +40,11 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     siteBridge.Show();
     siteBridge.Connect(drawing.Island());
 
+    // Move initial focus to the island.
+    auto focusNavigationHost = winrt::InputFocusNavigationHost::GetForSiteBridge(siteBridge);
+    focusNavigationHost.NavigateFocus(winrt::FocusNavigationRequest::Create(
+        winrt::FocusNavigationReason::Programmatic));
+
     queue.RunEventLoop();
 
     controller.ShutdownQueue();

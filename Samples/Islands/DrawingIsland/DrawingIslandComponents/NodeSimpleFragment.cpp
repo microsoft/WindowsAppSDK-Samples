@@ -48,7 +48,8 @@ namespace winrt::DrawingIslandComponents
             return;
         }
 
-        auto iterator = std::find_if(m_children.begin(), m_children.end(), [&child](auto const& childEntry)
+        auto iterator = std::find_if(
+            m_children.begin(), m_children.end(), [&child](auto const& childEntry)
             {
                 // See if we find a matching child entry in our children.
                 return (childEntry.get() == child.get());
@@ -76,6 +77,22 @@ namespace winrt::DrawingIslandComponents
 
         // Finally, remove the child.
         m_children.erase(iterator);
+    }
+
+    void NodeSimpleFragment::RemoveAllChildren()
+    {
+        std::unique_lock lock{ m_mutex };
+
+        for (auto& child : m_children)
+        {
+            // Disconnect the relationships from all our children.
+            child->SetParent(nullptr);
+            child->SetPreviousSibling(nullptr);
+            child->SetNextSibling(nullptr);
+        }
+
+        // Remove all the children.
+        m_children.clear();
     }
 
     void NodeSimpleFragment::SetCallbackHandler(
