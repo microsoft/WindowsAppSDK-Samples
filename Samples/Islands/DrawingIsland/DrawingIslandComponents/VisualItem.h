@@ -5,12 +5,12 @@
 
 namespace winrt::DrawingIslandComponents::implementation
 {
-    class VisualElement
+    class VisualItem
     {
     public:
-        VisualElement(winrt::Compositor const& compositor);
+        VisualItem(winrt::Compositor const& compositor);
 
-        virtual ~VisualElement()
+        virtual ~VisualItem()
         {
         }
 

@@ -24,13 +24,13 @@
     <ClCompile Include="NodeSimpleFragment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextElement.cpp">
+    <ClCompile Include="TextItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VisualElement.cpp">
+    <ClCompile Include="VisualItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,13 +42,13 @@
     <ClInclude Include="IslandFragmentRoot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextElement.h">
+    <ClInclude Include="TextItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VisualElement.h">
+    <ClInclude Include="VisualItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

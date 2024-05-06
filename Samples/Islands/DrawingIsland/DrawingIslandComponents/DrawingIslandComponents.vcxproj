@@ -131,9 +131,9 @@
     <ClInclude Include="DrawingIsland.h">
       <DependentUpon>Components.idl</DependentUpon>
     </ClInclude>
-    <ClInclude Include="TextElement.h" />
+    <ClInclude Include="TextItem.h" />
     <ClInclude Include="TextRenderer.h" />
-    <ClInclude Include="VisualElement.h" />
+    <ClInclude Include="VisualItem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IslandFragmentRoot.cpp" />
@@ -145,9 +145,9 @@
       <DependentUpon>Components.idl</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="TextElement.cpp" />
+    <ClCompile Include="TextItem.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
-    <ClCompile Include="VisualElement.cpp" />
+    <ClCompile Include="VisualItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Components.idl" />

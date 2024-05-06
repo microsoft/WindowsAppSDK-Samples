@@ -4,14 +4,14 @@
 #pragma once
 
 #include "TextRenderer.h"
-#include "VisualElement.h"
+#include "VisualItem.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
-    class TextElement final : public VisualElement
+    class TextItem final : public VisualItem
     {
     public:
-        TextElement(
+        TextItem(
             std::shared_ptr<TextRenderer> const& textRenderer,
             Windows::UI::Color backgroundColor,
             Windows::UI::Color textColor,

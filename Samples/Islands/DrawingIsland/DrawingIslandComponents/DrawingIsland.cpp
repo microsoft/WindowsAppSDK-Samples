@@ -76,8 +76,8 @@ namespace winrt::DrawingIslandComponents::implementation
         m_background.Visual = nullptr;
 
         m_items.Visuals = nullptr;
-        m_items.VisualElements.clear();
-        m_items.SelectedVisual = nullptr;
+        m_items.VisualItems.clear();
+        m_items.SelectedItem = nullptr;
 
         // TODO: Enable Mica on Win 11
 #if FALSE
@@ -236,7 +236,7 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::Windows::Graphics::RectInt32 screenRect{ static_cast<int>(x + 0.5), static_cast<int>(y + 0.5), 0, 0 };
         auto logicalRect = m_island.CoordinateConverter().ConvertScreenToLocal(screenRect);
         float2 localPoint{ logicalRect.X, logicalRect.Y };
-        auto hitTestElement = HitTestVisual(localPoint);
+        auto hitTestElement = HitTestItem(localPoint);
 
         // Find the automation peer for the hit test visual if any.
         if (nullptr != hitTestElement)
@@ -263,9 +263,9 @@ namespace winrt::DrawingIslandComponents::implementation
     winrt::com_ptr<IRawElementProviderFragment>
     DrawingIsland::GetFragmentInFocus() const
     {
-        if (m_items.SelectedVisual != nullptr)
+        if (m_items.SelectedItem != nullptr)
         {
-            auto& visual = m_items.SelectedVisual->GetVisual();
+            auto& visual = m_items.SelectedItem->GetVisual();
 
             // Find the currently selected visual's automation peer.
             auto iterator = std::find_if(
@@ -285,15 +285,15 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 
 
-    VisualElement*
-    DrawingIsland::HitTestVisual(
+    VisualItem*
+    DrawingIsland::HitTestItem(
         float2 const& point) const
     {
         // Iterate from the end of the vector, i.e., from front to back.
-        for (size_t i = m_items.VisualElements.size(); i != 0; i--)
+        for (size_t i = m_items.VisualItems.size(); i != 0; i--)
         {
-            VisualElement* element = m_items.VisualElements[i - 1].get();
-            auto& visual = element->GetVisual();
+            VisualItem* item = m_items.VisualItems[i - 1].get();
+            auto& visual = item->GetVisual();
 
             winrt::float3 const offset = visual.Offset();
             float2 const size = visual.Size();
@@ -303,7 +303,7 @@ namespace winrt::DrawingIslandComponents::implementation
                 point.y >= offset.y &&
                 point.y < offset.y + size.y)
             {
-                return element;
+                return item;
             }
         }
         return nullptr;
@@ -518,7 +518,7 @@ namespace winrt::DrawingIslandComponents::implementation
             case winrt::Windows::System::VirtualKey::Escape:
             {
                 m_items.Visuals.RemoveAll();
-                m_items.VisualElements.clear();
+                m_items.VisualItems.clear();
 
                 // Update accessibility.
                 m_uia.FragmentRoot->RemoveAllChildren();
@@ -593,7 +593,7 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::Input_OnPointerReleased()
     {
-        m_items.SelectedVisual = nullptr;
+        m_items.SelectedItem = nullptr;
     }
 
 
@@ -620,12 +620,12 @@ namespace winrt::DrawingIslandComponents::implementation
         const float2 point,
         bool controlPressed)
     {
-        m_items.SelectedVisual = HitTestVisual(point);
+        m_items.SelectedItem = HitTestItem(point);
         
-        if (m_items.SelectedVisual != nullptr)
+        if (m_items.SelectedItem != nullptr)
         {
-            VisualElement* element = m_items.SelectedVisual;
-            auto& visual = m_items.SelectedVisual->GetVisual();
+            VisualItem* item = m_items.SelectedItem;
+            auto& visual = m_items.SelectedItem->GetVisual();
             winrt::float3 const offset = visual.Offset();
 
             m_items.Offset.x = offset.x - point.x;
@@ -636,16 +636,16 @@ namespace winrt::DrawingIslandComponents::implementation
             m_items.Visuals.InsertAtTop(visual);
 
             // Move the VisualElement to the end of the vector if it isn't already.
-            if (!m_items.VisualElements.empty() && m_items.VisualElements.back().get() != element)
+            if (!m_items.VisualItems.empty() && m_items.VisualItems.back().get() != item)
             {
                 auto i = std::find_if(
-                    m_items.VisualElements.begin(),
-                    m_items.VisualElements.end(),
-                    [element](auto& elem) { return elem.get() == element; }
+                    m_items.VisualItems.begin(),
+                    m_items.VisualItems.end(),
+                    [item](auto& elem) { return elem.get() == item; }
                 );
-                if (i != m_items.VisualElements.end())
+                if (i != m_items.VisualItems.end())
                 {
-                    std::rotate(i, i + 1, m_items.VisualElements.end());
+                    std::rotate(i, i + 1, m_items.VisualItems.end());
                 }
             }
 
@@ -689,9 +689,9 @@ namespace winrt::DrawingIslandComponents::implementation
     DrawingIsland::Input_OnPointerMoved(
         const winrt::PointerEventArgs& args)
     {
-        if (m_items.SelectedVisual)
+        if (m_items.SelectedItem)
         {
-            auto& visual = m_items.SelectedVisual->GetVisual();
+            auto& visual = m_items.SelectedItem->GetVisual();
             float2 const point = args.CurrentPoint().Position();
 
             visual.Offset(
@@ -720,9 +720,9 @@ namespace winrt::DrawingIslandComponents::implementation
 
             m_output.TextRenderer->SetDpiScale(newScale);
 
-            for (auto& element : m_items.VisualElements)
+            for (auto& item : m_items.VisualItems)
             {
-                element->OnDpiScaleChanged();
+                item->OnDpiScaleChanged();
             }
         }
 
@@ -797,7 +797,7 @@ namespace winrt::DrawingIslandComponents::implementation
         }
 
         // Create a TextElement object.
-        auto textElement = std::make_unique<TextElement>(
+        auto textItem = std::make_unique<TextItem>(
             m_output.TextRenderer,
             backgroundColor,
             textColor,
@@ -805,19 +805,19 @@ namespace winrt::DrawingIslandComponents::implementation
         );
 
         // Get the visual and its size in DIPs.
-        auto& visual = textElement->GetVisual();
+        auto& visual = textItem->GetVisual();
         float2 size = visual.Size();
 
         // Set the visual's offset.
         visual.Offset({ point.x - size.x / 2.0f, point.y - size.y / 2.0f, 0.0f });
 
         // Add the new text element to the vector.
-        m_items.VisualElements.push_back(std::move(textElement));
+        m_items.VisualItems.push_back(std::move(textItem));
 
         // Add the visual as a child of the container visual.
         m_items.Visuals.InsertAtTop(visual);
 
-        m_items.SelectedVisual = m_items.VisualElements.back().get();
+        m_items.SelectedItem = m_items.VisualItems.back().get();
         m_items.Offset.x = -size.x / 2.0f;
         m_items.Offset.y = -size.y / 2.0f;
 
