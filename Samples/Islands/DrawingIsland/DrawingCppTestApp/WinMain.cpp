@@ -13,6 +13,7 @@ namespace winrt
     using namespace Microsoft::UI::Windowing;
 
     using namespace DrawingIslandComponents;
+    using namespace CommunityToolkit::WinAppSDK::LottieIsland;
 }
 
 int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
@@ -34,6 +35,8 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 
     auto compositor = winrt::Compositor();
     auto drawing = winrt::DrawingIsland(compositor);
+
+    auto lottie = winrt::
 
     auto siteBridge = winrt::DesktopChildSiteBridge::Create(compositor, window.Id());
     siteBridge.ResizePolicy(winrt::ContentSizePolicy::ResizeContentToParentWindow);

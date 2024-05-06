@@ -110,8 +110,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="LottieIslandScenario.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
+    <ClCompile Include="LottieIslandScenario.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -134,6 +136,7 @@
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.240405.15\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.240405.15\build\native\Microsoft.Windows.CppWinRT.targets')" />
     <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.targets" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.targets')" />
     <Import Project="..\packages\Microsoft.WindowsAppSDK.1.5.240428000\build\native\Microsoft.WindowsAppSDK.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.1.5.240428000\build\native\Microsoft.WindowsAppSDK.targets')" />
+    <Import Project="..\packages\CommunityToolkit.WinAppSDK.LottieIsland.0.2.7-prerelease\build\native\CommunityToolkit.WinAppSDK.LottieIsland.targets" Condition="Exists('..\packages\CommunityToolkit.WinAppSDK.LottieIsland.0.2.7-prerelease\build\native\CommunityToolkit.WinAppSDK.LottieIsland.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -145,5 +148,6 @@
     <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.1.5.240428000\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.1.5.240428000\build\native\Microsoft.WindowsAppSDK.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.1.5.240428000\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.1.5.240428000\build\native\Microsoft.WindowsAppSDK.targets'))" />
+    <Error Condition="!Exists('..\packages\CommunityToolkit.WinAppSDK.LottieIsland.0.2.7-prerelease\build\native\CommunityToolkit.WinAppSDK.LottieIsland.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CommunityToolkit.WinAppSDK.LottieIsland.0.2.7-prerelease\build\native\CommunityToolkit.WinAppSDK.LottieIsland.targets'))" />
   </Target>
 </Project>

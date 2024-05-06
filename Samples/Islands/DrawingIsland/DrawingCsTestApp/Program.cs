@@ -35,7 +35,7 @@ siteBridge.Show();
 if (args.Contains("Lottie"))
 {
     // LottieIsland
-    LottieIslandProgram.CreateLottieIsland(compositor, siteBridge);
+    LottieIslandScenario.CreateLottieIsland(compositor, siteBridge);
 }
 else
 {
