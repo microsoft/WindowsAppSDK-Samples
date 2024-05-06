@@ -5,6 +5,8 @@
 
 #include "DrawingIsland.g.h"
 #include "IslandFragmentRoot.h"
+#include "TextRenderer.h"
+#include "TextElement.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
@@ -90,7 +92,7 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::com_ptr<IRawElementProviderFragment> GetFragmentInFocus() const override;
 
     private:
-        winrt::Visual HitTestVisual(
+        VisualElement* HitTestVisual(
             float2 const& point) const;
 
         void Accessibility_Initialize();
@@ -194,6 +196,8 @@ namespace winrt::DrawingIslandComponents::implementation
         {
             winrt::Compositor Compositor{ nullptr };
 
+            std::shared_ptr<TextRenderer> TextRenderer;
+
             // Current color used for new items
             unsigned int CurrentColorIndex = 0;
 
@@ -244,7 +248,8 @@ namespace winrt::DrawingIslandComponents::implementation
         struct 
         {
             winrt::VisualCollection Visuals{ nullptr };
-            winrt::Visual SelectedVisual{ nullptr };
+            std::vector<std::unique_ptr<VisualElement>> VisualElements;
+            VisualElement* SelectedVisual{ nullptr };
             winrt::SpriteVisual CurrentColorVisual{ nullptr };
             float2 Offset{};
         } m_items;
