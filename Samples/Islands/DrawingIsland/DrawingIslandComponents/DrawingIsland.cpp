@@ -616,7 +616,19 @@ namespace winrt::DrawingIslandComponents::implementation
             m_items.Visuals.Remove(m_items.SelectedVisual);
             m_items.Visuals.InsertAtTop(m_items.SelectedVisual);
 
-            // TODO: The m_uia.FragmentRoots child should be removed and added to the end as well.
+            // Update automation.
+            // First find the existing automation peer.
+            auto iterator = std::find_if(
+                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [visual = m_items.SelectedVisual](auto const& automationPeer)
+                {
+                    return automationPeer.Match(visual);
+                });
+            if (m_uia.AutomationPeers.end() != iterator)
+            {
+                // Mirror the change to the visuals above.
+                m_uia.FragmentRoot->RemoveChild(iterator->GetAutomationProvider());
+                m_uia.FragmentRoot->AddChildToEnd(iterator->GetAutomationProvider());
+            }
         }
         else
         {
