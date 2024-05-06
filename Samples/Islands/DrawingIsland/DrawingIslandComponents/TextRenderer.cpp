@@ -148,6 +148,14 @@ namespace winrt::DrawingIslandComponents::implementation
 
         deviceContext->SetDpi(m_dpiScale * 96, m_dpiScale * 96);
 
+        // Use ClearType antialiasing if rendering onto an opaque background.
+        // Otherwise use grayscale.
+        deviceContext->SetTextAntialiasMode(
+            backgroundColor.A == 255 ?
+            D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE :
+            D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE
+        );
+
         winrt::com_ptr<ID2D1SolidColorBrush> textBrush;
         winrt::check_hresult(deviceContext->CreateSolidColorBrush(ToColorF(textColor), textBrush.put()));
 
