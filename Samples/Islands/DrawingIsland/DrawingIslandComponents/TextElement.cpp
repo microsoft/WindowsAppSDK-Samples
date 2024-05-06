@@ -13,7 +13,6 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::com_ptr<IslandFragmentRoot> const& fragmentRoot,
 #endif
         std::shared_ptr<TextRenderer> const& textRenderer,
-        CompositionColorBrush visualBrush,
         Windows::UI::Color backgroundColor,
         Windows::UI::Color textColor,
         std::wstring const& text
@@ -31,16 +30,17 @@ namespace winrt::DrawingIslandComponents::implementation
         m_textColor(textColor),
         m_text(text)
     {
-        // Set the visual brush.
-        // TODO - this will go away when we implement text
-        GetVisual().Brush(visualBrush);
+        InitializeVisual();
+    }
 
+    void TextElement::InitializeVisual()
+    {
         // Render the text to determine the size.
-        m_textRenderer->Render(m_text.c_str(), GetVisual());
+        m_textRenderer->Render(m_text.c_str(), m_backgroundColor, m_textColor, GetVisual());
     }
 
     void TextElement::OnDpiScaleChanged()
     {
-        // TODO - re-render the text
+        InitializeVisual();
     }
 }

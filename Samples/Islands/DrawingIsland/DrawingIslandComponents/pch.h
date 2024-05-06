@@ -10,6 +10,7 @@
 #include <UIAutomationClient.h>
 
 // DWriteWrite and Direct2D for rendering text
+#include <d3d11_4.h>
 #include <d2d1_3.h>
 #include <d2d1_3helper.h>
 #include <dwrite_3.h>
@@ -30,6 +31,7 @@
 #include <winrt/Microsoft.UI.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Composition.SystemBackdrops.h>
+#include <winrt/Microsoft.UI.Composition.Interop.h>
 #include <winrt/Microsoft.UI.Content.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
 #include <winrt/Microsoft.UI.Input.h>

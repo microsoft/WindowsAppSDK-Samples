@@ -17,7 +17,6 @@ namespace winrt::DrawingIslandComponents::implementation
             winrt::com_ptr<IslandFragmentRoot> const& fragmentRoot,
 #endif
             std::shared_ptr<TextRenderer> const& textRenderer,
-            CompositionColorBrush visualBrush,
             Windows::UI::Color backgroundColor,
             Windows::UI::Color textColor,
             std::wstring const& text
@@ -26,6 +25,8 @@ namespace winrt::DrawingIslandComponents::implementation
         void OnDpiScaleChanged() override;
 
     private:
+        void InitializeVisual();
+
         std::shared_ptr<TextRenderer> m_textRenderer;
         Windows::UI::Color m_backgroundColor;
         Windows::UI::Color m_textColor;

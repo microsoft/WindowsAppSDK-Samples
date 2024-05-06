@@ -12,11 +12,15 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void SetDpiScale(float scale)
         {
-            // TODO
             m_dpiScale = scale;
         }
 
-        void Render(_In_z_ WCHAR const* text, SpriteVisual const& visual);
+        void Render(
+            _In_z_ WCHAR const* text,
+            Windows::UI::Color backgroundColor,
+            Windows::UI::Color textColor,
+            SpriteVisual const& visual
+        );
 
         winrt::Compositor const& GetCompositor() const noexcept
         {
@@ -24,12 +28,25 @@ namespace winrt::DrawingIslandComponents::implementation
         }
 
     private:
+        static inline D2D_COLOR_F ToColorF(Windows::UI::Color color)
+        {
+            return D2D_COLOR_F{ color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f };
+        }
+
+        void ClearGraphicsDevice();
+        void CreateGraphicsDevice();
+
         winrt::Compositor m_compositor;
 
-        float m_dpiScale = 1.0f;
-
-        // DWrite API objects.
+        // Device-independent resources.
         winrt::com_ptr<IDWriteFactory7> m_dwriteFactory;
         winrt::com_ptr<IDWriteTextFormat> m_textFormat;
+        winrt::com_ptr<ID2D1Factory7> m_d2dFactory;
+
+        // Device-dependent resources.
+        winrt::com_ptr<ID2D1Device6> m_d2dDevice;
+        CompositionGraphicsDevice m_compositionGraphicsDevice{ nullptr };
+
+        float m_dpiScale = 1.0f;
     };
 }

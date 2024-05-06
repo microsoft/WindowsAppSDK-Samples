@@ -742,12 +742,6 @@ namespace winrt::DrawingIslandComponents::implementation
             textColor.A /= 2;
         }
 
-        // Get the visual brush.
-        // TODO - this will go away later
-        auto visualBrush = halfTransparent ?
-            m_halfTransparentColorBrushes[m_currentColorIndex] :
-            m_colorBrushes[m_currentColorIndex];
-
         // Create a text block object.
         auto textBlock = std::make_unique<TextElement>(
 #if TRUE
@@ -755,7 +749,6 @@ namespace winrt::DrawingIslandComponents::implementation
             m_fragmentRoot,
 #endif
             m_textRenderer,
-            visualBrush,
             backgroundColor,
             textColor,
             s_colorNames[m_currentColorIndex]
