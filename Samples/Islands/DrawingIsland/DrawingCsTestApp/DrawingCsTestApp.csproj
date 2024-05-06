@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <!-- Added CsWinRT reference to avoid WinMD error as a result of WinMD leaking via project reference. -->
+    <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
+    <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
 
     <!-- Reference WASDK for types -->
@@ -35,6 +37,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DrawingIslandCsProjection\DrawingIslandCsProjection.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Assets\LottieLogo1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
