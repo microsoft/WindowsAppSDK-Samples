@@ -105,6 +105,11 @@ namespace winrt::DrawingIslandComponents::implementation
         SpriteVisual const& visual
     )
     {
+        constexpr float marginLeft = 5;
+        constexpr float marginRight = 5;
+        constexpr float marginTop = 5;
+        constexpr float marginBottom = 5;
+
         winrt::com_ptr<IDWriteTextLayout> textLayout;
         winrt::check_hresult(m_dwriteFactory->CreateTextLayout(
             text,
@@ -117,8 +122,10 @@ namespace winrt::DrawingIslandComponents::implementation
 
         DWRITE_TEXT_METRICS textMetrics;
         winrt::check_hresult(textLayout->GetMetrics(/*out*/ &textMetrics));
+        const float width = textMetrics.width + (marginLeft + marginRight);
+        const float height = textMetrics.height + (marginTop + marginBottom);
 
-        visual.Size(float2(textMetrics.width, textMetrics.height));
+        visual.Size(float2(width, height));
 
         if (m_compositionGraphicsDevice == nullptr)
         {
@@ -127,7 +134,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         // Create a composition surface to draw to.
         CompositionDrawingSurface drawingSurface = m_compositionGraphicsDevice.CreateDrawingSurface(
-            winrt::Windows::Foundation::Size(textMetrics.width * m_dpiScale, textMetrics.height * m_dpiScale),
+            winrt::Windows::Foundation::Size(width * m_dpiScale, height * m_dpiScale),
             winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
             winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied
         );
@@ -160,7 +167,7 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::check_hresult(deviceContext->CreateSolidColorBrush(ToColorF(textColor), textBrush.put()));
 
         deviceContext->DrawTextLayout(
-            D2D_POINT_2F{ offset.x / m_dpiScale, offset.y / m_dpiScale },
+            D2D_POINT_2F{ offset.x / m_dpiScale + marginLeft, offset.y / m_dpiScale + marginTop },
             textLayout.get(),
             textBrush.get()
             );
