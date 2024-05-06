@@ -1,6 +1,6 @@
-﻿using System;
-﻿
-using Microsoft.UI;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Microsoft.UI.Composition;
 using Microsoft.UI.Content;
 using Microsoft.UI.Dispatching;
@@ -29,6 +29,11 @@ var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
 siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
 siteBridge.Show();
 siteBridge.Connect(drawing.Island);
+
+// Move initial focus to the island.
+var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
+focusNavigationHost.NavigateFocus(FocusNavigationRequest.Create(
+    FocusNavigationReason.Programmatic));
 
 queue.RunEventLoop();
 

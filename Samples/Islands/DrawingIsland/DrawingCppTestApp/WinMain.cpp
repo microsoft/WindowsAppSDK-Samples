@@ -5,7 +5,6 @@
 
 namespace winrt
 {
-    using namespace Microsoft::UI;
     using namespace Microsoft::UI::Composition;
     using namespace Microsoft::UI::Content;
     using namespace Microsoft::UI::Dispatching;
