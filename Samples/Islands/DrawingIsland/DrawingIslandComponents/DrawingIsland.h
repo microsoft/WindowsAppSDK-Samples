@@ -79,21 +79,16 @@ namespace winrt::DrawingIslandComponents::implementation
             _Inout_ bool* handled);
 
     private:
+        winrt::Visual HitTestVisual(
+            float2 const point);
+
         void Accessibility_Initialize();
+
+        void Accessibility_CreateItemFragment();
 
         void Accessibility_OnAutomationProviderRequested(
             const winrt::ContentIsland& island,
             const winrt::ContentIslandAutomationProviderRequestedEventArgs& args);
-
-        void Accessibility_UpdateScreenCoordinates(
-            const winrt::Visual& visual);
-
-        void CreateUIAProviderForVisual();
-
-        void EvaluateUseSystemBackdrop();
-
-        winrt::Visual HitTestVisual(
-            float2 const point);
 
         void Input_Initialize();
 
@@ -114,16 +109,16 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void Input_OnPointerReleased();
 
-        void Island_OnStateChanged();
-
-        void Island_OnClosed();
-
         void OnLeftClick(
             const float2 point,
             bool controlPressed);
 
         void OnRightClick(
             const float2 currentPoint);
+
+        void Island_OnClosed();
+
+        void Island_OnStateChanged();
 
         void Output_Initialize();
 
@@ -137,15 +132,16 @@ namespace winrt::DrawingIslandComponents::implementation
 #if FALSE
         void SystemBackdrop_Initialize();
 #endif
+        void SystemBackdrop_EvaluateUsage();
 
-        void SetLayoutDirectionForVisuals();
+        void Environment_Initialize();
 
-        void Window_Initialize();
-
-        void Window_OnSettingChanged(
+        void Environment_OnSettingChanged(
             const winrt::ContentEnvironmentSettingChangedEventArgs& args);
 
-        void Window_OnStateChanged(winrt::ContentIslandEnvironment const& sender);
+        void Environment_OnStateChanged(winrt::ContentIslandEnvironment const& sender);
+
+        void Environment_SetLayoutDirection();
 
     private:
         static inline winrt::Color s_colors[] =

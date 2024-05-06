@@ -45,13 +45,6 @@ namespace winrt::DrawingIslandComponents
         m_parent = (parent);
     }
 
-    void
-    NodeSimpleFragment::SetBoundingRects(
-        UiaRect rect)
-    {
-        m_boundingRect = rect;
-    }
-
     // IRawElementProviderSimple methods
     IFACEMETHODIMP
     NodeSimpleFragment::get_ProviderOptions(
@@ -240,6 +233,14 @@ namespace winrt::DrawingIslandComponents
         _Out_ UiaRect* retVal)
     {
         if (retVal == NULL) return E_INVALIDARG;
+
+
+        // Convert from local coordinates to screen coordinates for UIA:
+        // - The computation is done in real-time rather than caching because most of the time,
+        //   UIA won't be executing, or won't be asking for updated coordinates on every object
+        //   move.
+        // - This could use a more elaborate caching mechanism to detect dirtiness if performance
+        //   was an issue.
 
         winrt::ContentIsland island = m_parent->GetIsland();
 

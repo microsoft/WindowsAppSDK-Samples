@@ -25,9 +25,6 @@ namespace winrt::DrawingIslandComponents
         void SetId(
             int id);
 
-        void SetBoundingRects(
-            UiaRect rect);
-
         void SetVisual(
             const winrt::Visual & visual);
 
@@ -91,7 +88,6 @@ namespace winrt::DrawingIslandComponents
         winrt::Visual m_visual = nullptr;
         int m_id = 0xff;
         std::wstring m_name;
-        UiaRect m_boundingRect = { 0, 0, 0, 0 };
     };
 
     // A helper class that creates Fragments that are part of the same hierarchy. Most importantly,

@@ -32,7 +32,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         Output_Initialize();
         Input_Initialize();
-        Window_Initialize();
+        Environment_Initialize();
         Accessibility_Initialize();
 
         m_prevState.RasterizationScale = m_island.RasterizationScale();
@@ -65,13 +65,19 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::Close()
     {
-        m_items.Visuals = nullptr;
-        m_items.SelectedVisual = nullptr;
+        m_input.KeyboardSource = nullptr;
+        m_input.PretranslateSource = nullptr;
+        m_input.PointerSource = nullptr;
+        m_input.FocusController = nullptr;
+
         m_background.BrushDefault = nullptr;
         m_background.BrushA = nullptr;
         m_background.BrushB = nullptr;
         m_background.BrushC = nullptr;
         m_background.Visual = nullptr;
+
+        m_items.Visuals = nullptr;
+        m_items.SelectedVisual = nullptr;
 
         // TODO: Enable Mica on Win 11
 #if FALSE
@@ -98,6 +104,11 @@ namespace winrt::DrawingIslandComponents::implementation
         }
 #endif
 
+        m_uia.FragmentFactory = nullptr;
+        m_uia.FragmentRoot = nullptr;
+        m_uia.VisualToFragmentMap.clear();
+
+
         // Destroy Content:
         // - This handles if the ContentIsland has already started destruction and is notifying the
         //   app.
@@ -110,6 +121,8 @@ namespace winrt::DrawingIslandComponents::implementation
         // event.
         // 2. We are testing the potential final Release() of ContentIsland while inside the Closed
         // event.
+
+        m_output.Compositor = nullptr;
     }
 
 
@@ -160,53 +173,82 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 
 
-    void 
-    DrawingIsland::EvaluateUseSystemBackdrop()
+    winrt::Visual
+    DrawingIsland::HitTestVisual(
+        float2 const point)
     {
-        BYTE backgroundBrushOpacity = 0xFF;
-
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        // If we use system backdrops, it will be behind our background visual. Make sure we can
-        // see through the background visual to reveal the system backdrop.
-        // reveal the system backdrop underneath.
-        if (m_useSystemBackdrop)
+        winrt::Visual selectedVisual{ nullptr };
+        for (winrt::Visual visual : m_items.Visuals)
         {
-            backgroundBrushOpacity = 0x30;
+            winrt::float3 const offset = visual.Offset();
+            float2 const size = visual.Size();
+
+            if (point.x >= offset.x &&
+                point.x < offset.x + size.x &&
+                point.y >= offset.y &&
+                point.y < offset.y + size.y)
+            {
+                selectedVisual = visual;
+            }
         }
-#endif
 
-        // Create the background parent Visual that the individual square will be added into.
-        m_background.BrushDefault = m_output.Compositor.CreateColorBrush(
-            winrt::Color{ backgroundBrushOpacity, 0x20, 0x20, 0x20 });
-
-        m_background.BrushA = m_output.Compositor.CreateColorBrush(
-            winrt::Color{ backgroundBrushOpacity, 0x99, 0x20, 0x20 });
-
-        m_background.BrushB = m_output.Compositor.CreateColorBrush(
-            winrt::Color{ backgroundBrushOpacity, 0x20, 0x99, 0x20 });
-
-        m_background.BrushC = m_output.Compositor.CreateColorBrush(
-            winrt::Color{ backgroundBrushOpacity, 0x20, 0x20, 0x99 });
-
-        m_background.Visual.Brush(m_background.BrushDefault);
+        return selectedVisual;
     }
 
 
-    // TODO: Enable Mica on Win 11
-#if FALSE
     void
-    DrawingIsland::UseSystemBackdrop(
-        boolean value)
+    DrawingIsland::Accessibility_Initialize()
     {
-        if (m_useSystemBackdrop != value)
-        {
-            m_useSystemBackdrop = value;
+        m_uia.FragmentRoot = winrt::make_self<IslandFragmentRoot>(m_island);
+        m_uia.FragmentRoot->SetName(L"Drawing Squares");
 
-            EvaluateUseSystemBackdrop();
-        }
+        m_uia.FragmentFactory = winrt::make_self<NodeSimpleFragmentFactory>();
+
+        (void)m_island.AutomationProviderRequested(
+            { this, &DrawingIsland::Accessibility_OnAutomationProviderRequested });
     }
-#endif
+
+
+    void
+    DrawingIsland::Accessibility_CreateItemFragment()
+    {
+        // Create a new fragment for the new item.
+        winrt::com_ptr<NodeSimpleFragment> fragment = m_uia.FragmentFactory->Create(
+            s_colorNames[m_output.CurrentColorIndex].c_str(), m_uia.FragmentRoot);
+
+        // Store the mapping between the Visual and the Fragment:
+        // - This is keeping the UIA objects alive.
+        // - Although not used yet, the lookup would be used to get back to the item Fragment for
+        //   specific operations, such as hit-testing or tree walking.  This avoids adding to more
+        //   expensive data storage, such as the Visual.CustomProperties map.
+
+        m_uia.VisualToFragmentMap[m_items.SelectedVisual] = fragment;
+
+        // Give the fragment a backpointer to the Visual to get real-time information.
+        fragment->SetVisual(m_items.SelectedVisual);
+
+        // Add the new fragment into the UIA tree.
+        m_uia.FragmentRoot->AddChild(fragment);
+
+        // Finally set up parent chain
+        fragment->SetParent(m_uia.FragmentRoot);
+    }
+
+
+    void
+    DrawingIsland::Accessibility_OnAutomationProviderRequested(
+        const winrt::ContentIsland& /*island*/,
+        const winrt::ContentIslandAutomationProviderRequestedEventArgs& args)
+    {
+        IInspectable providerAsIInspectable;
+        m_uia.FragmentRoot->QueryInterface(
+            winrt::guid_of<IInspectable>(),
+            winrt::put_abi(providerAsIInspectable));
+
+        args.AutomationProvider(std::move(providerAsIInspectable));
+
+        args.Handled(true);
+    }
 
 
     void
@@ -417,58 +459,6 @@ namespace winrt::DrawingIslandComponents::implementation
 
 
     void
-    DrawingIsland::Accessibility_Initialize()
-    {
-        m_uia.FragmentRoot = winrt::make_self<IslandFragmentRoot>(m_island);
-        m_uia.FragmentRoot->SetName(L"Drawing Squares");
-
-        m_uia.FragmentFactory = winrt::make_self<NodeSimpleFragmentFactory>();
-
-        (void)m_island.AutomationProviderRequested(
-            { this, &DrawingIsland::Accessibility_OnAutomationProviderRequested });
-    }
-
-
-    void
-    DrawingIsland::Accessibility_OnAutomationProviderRequested(
-        const winrt::ContentIsland& /*island*/,
-        const winrt::ContentIslandAutomationProviderRequestedEventArgs& args)
-    {
-        IInspectable providerAsIInspectable;
-        m_uia.FragmentRoot->QueryInterface(
-            winrt::guid_of<IInspectable>(),
-            winrt::put_abi(providerAsIInspectable));
-
-        args.AutomationProvider(std::move(providerAsIInspectable));
-
-        args.Handled(true);
-    }
-
-
-    winrt::Visual
-    DrawingIsland::HitTestVisual(
-        float2 const point)
-    {
-        winrt::Visual selectedVisual{ nullptr };
-        for (winrt::Visual visual : m_items.Visuals)
-        {
-            winrt::float3 const offset = visual.Offset();
-            float2 const size = visual.Size();
-
-            if (point.x >= offset.x &&
-                point.x < offset.x + size.x &&
-                point.y >= offset.y &&
-                point.y < offset.y + size.y)
-            {
-                selectedVisual = visual;
-            }
-        }
-
-        return selectedVisual;
-    }
-
-
-    void
     DrawingIsland::Input_OnLeftButtonPressed(
         const winrt::PointerEventArgs& args)
     {
@@ -564,6 +554,13 @@ namespace winrt::DrawingIslandComponents::implementation
 
 
     void
+    DrawingIsland::Island_OnClosed()
+    {
+
+    }
+
+
+    void
     DrawingIsland::Island_OnStateChanged()
     {
         if (m_prevState.RasterizationScale != m_island.RasterizationScale())
@@ -573,7 +570,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         if (m_prevState.LayoutDirection != m_island.LayoutDirection())
         {
-            SetLayoutDirectionForVisuals();
+            Environment_SetLayoutDirection();
         }
 
         Output_UpdateCurrentColorVisual();
@@ -581,7 +578,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
 
     void
-    DrawingIsland::SetLayoutDirectionForVisuals()
+    DrawingIsland::Environment_SetLayoutDirection()
     {
         if (m_island.LayoutDirection() == ContentLayoutDirection::RightToLeft)
         {
@@ -598,13 +595,6 @@ namespace winrt::DrawingIslandComponents::implementation
             m_background.Visual.Scale(winrt::float3(1, 1, 1));
         }
         m_prevState.LayoutDirection = m_island.LayoutDirection();
-    }
-
-
-    void
-    DrawingIsland::Island_OnClosed()
-    {
-
     }
 
 
@@ -628,7 +618,7 @@ namespace winrt::DrawingIslandComponents::implementation
         m_items.Visuals = drawingVisualsRoot.Children();
         m_background.Visual.Children().InsertAtTop(drawingVisualsRoot);
 
-        EvaluateUseSystemBackdrop();
+        SystemBackdrop_EvaluateUsage();
 
         Output_UpdateCurrentColorVisual();
     }
@@ -654,52 +644,7 @@ namespace winrt::DrawingIslandComponents::implementation
         m_items.Offset.x = -BlockSize / 2.0f;
         m_items.Offset.y = -BlockSize / 2.0f;
 
-        CreateUIAProviderForVisual();
-
-        Accessibility_UpdateScreenCoordinates(m_items.SelectedVisual);
-    }
-
-
-    void
-    DrawingIsland::Accessibility_UpdateScreenCoordinates(
-        const winrt::Visual & visual)
-    {
-        winrt::Rect logicalRect;
-        logicalRect.X = visual.Offset().x;
-        logicalRect.Y = visual.Offset().y;
-        logicalRect.Width = visual.Size().x;
-        logicalRect.Height = visual.Size().y;
-
-        auto fragment = m_uia.VisualToFragmentMap[visual];
-
-        // This will convert from the logical coordinate space of the ContentIsland to
-        // Win32 screen coordinates that are needed by Accesibility.
-        auto screenRect = m_island.CoordinateConverter().ConvertLocalToScreen(logicalRect);
-
-        UiaRect uiaRect;
-        uiaRect.left = screenRect.X;
-        uiaRect.top = screenRect.Y;
-        uiaRect.width = screenRect.Width;
-        uiaRect.height = screenRect.Height;
-        
-        fragment->SetBoundingRects(uiaRect);
-    }
-
-
-    void
-    DrawingIsland::CreateUIAProviderForVisual()
-    {
-        winrt::com_ptr<NodeSimpleFragment> fragment = m_uia.FragmentFactory->Create(
-            s_colorNames[m_output.CurrentColorIndex].c_str(), m_uia.FragmentRoot);
-
-        m_uia.VisualToFragmentMap[m_items.SelectedVisual] = fragment;
-
-        fragment->SetVisual(m_items.SelectedVisual);
-        // Set up children roots
-        m_uia.FragmentRoot->AddChild(fragment);
-
-        // Finally set up parent chain
-        fragment->SetParent(m_uia.FragmentRoot);
+        Accessibility_CreateItemFragment();
     }
 
 
@@ -756,27 +701,77 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 #endif
 
+
+    void 
+    DrawingIsland::SystemBackdrop_EvaluateUsage()
+    {
+        BYTE backgroundBrushOpacity = 0xFF;
+
+        // TODO: Enable Mica on Win 11
+#if FALSE
+        // If we use system backdrops, it will be behind our background visual. Make sure we can
+        // see through the background visual to reveal the system backdrop.
+        // reveal the system backdrop underneath.
+        if (m_useSystemBackdrop)
+        {
+            backgroundBrushOpacity = 0x30;
+        }
+#endif
+
+        // Create the background parent Visual that the individual square will be added into.
+        m_background.BrushDefault = m_output.Compositor.CreateColorBrush(
+            winrt::Color{ backgroundBrushOpacity, 0x20, 0x20, 0x20 });
+
+        m_background.BrushA = m_output.Compositor.CreateColorBrush(
+            winrt::Color{ backgroundBrushOpacity, 0x99, 0x20, 0x20 });
+
+        m_background.BrushB = m_output.Compositor.CreateColorBrush(
+            winrt::Color{ backgroundBrushOpacity, 0x20, 0x99, 0x20 });
+
+        m_background.BrushC = m_output.Compositor.CreateColorBrush(
+            winrt::Color{ backgroundBrushOpacity, 0x20, 0x20, 0x99 });
+
+        m_background.Visual.Brush(m_background.BrushDefault);
+    }
+
+
+    // TODO: Enable Mica on Win 11
+#if FALSE
     void
-    DrawingIsland::Window_Initialize()
+    DrawingIsland::UseSystemBackdrop(
+        boolean value)
+    {
+        if (m_useSystemBackdrop != value)
+        {
+            m_useSystemBackdrop = value;
+
+            SystemBackdrop_EvaluateUsage();
+        }
+    }
+#endif
+
+
+    void
+    DrawingIsland::Environment_Initialize()
     {
         auto window = m_island.Environment();
 
         (void)window.SettingChanged(
             [this](winrt::ContentIslandEnvironment const&, winrt::ContentEnvironmentSettingChangedEventArgs const& args)
         {
-            return Window_OnSettingChanged(args);
+            return Environment_OnSettingChanged(args);
         });
 
         (void)window.StateChanged(
             [this](winrt::ContentIslandEnvironment const& sender, winrt::IInspectable const&)
         {
-            return Window_OnStateChanged(sender);
+            return Environment_OnStateChanged(sender);
         });
     }
 
 
     void
-    DrawingIsland::Window_OnSettingChanged(
+    DrawingIsland::Environment_OnSettingChanged(
         const winrt::ContentEnvironmentSettingChangedEventArgs& args)
     {
         auto settingChanged = args.SettingName();
@@ -789,7 +784,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
 
     void
-    DrawingIsland::Window_OnStateChanged(winrt::ContentIslandEnvironment const& /*sender*/)
+    DrawingIsland::Environment_OnStateChanged(winrt::ContentIslandEnvironment const& /*sender*/)
     {
 
     }
