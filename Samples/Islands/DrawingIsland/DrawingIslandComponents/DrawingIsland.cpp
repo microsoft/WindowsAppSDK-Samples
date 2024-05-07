@@ -766,13 +766,13 @@ namespace winrt::DrawingIslandComponents::implementation
             m_output.HalfTransparentColorBrushes[i] = m_output.Compositor.CreateColorBrush(halfTransparent);
         }
 
-        m_items.CurrentColorVisual = m_output.Compositor.CreateSpriteVisual();
-        m_items.CurrentColorVisual.Offset({0.0f, 0.0f, 0.0f});
-        m_background.Visual.Children().InsertAtTop(m_items.CurrentColorVisual);
-
         winrt::ContainerVisual drawingVisualsRoot = m_output.Compositor.CreateContainerVisual();
         m_items.Visuals = drawingVisualsRoot.Children();
         m_background.Visual.Children().InsertAtTop(drawingVisualsRoot);
+
+        m_items.CurrentColorVisual = m_output.Compositor.CreateSpriteVisual();
+        m_items.CurrentColorVisual.Offset({0.0f, 0.0f, 0.0f});
+        m_background.Visual.Children().InsertAtTop(m_items.CurrentColorVisual);
 
         SystemBackdrop_EvaluateUsage();
 
