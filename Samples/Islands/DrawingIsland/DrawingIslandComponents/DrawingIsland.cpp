@@ -76,7 +76,7 @@ namespace winrt::DrawingIslandComponents::implementation
         m_background.Visual = nullptr;
 
         m_items.Visuals = nullptr;
-        m_items.VisualItems.clear();
+        m_items.Items.clear();
         m_items.SelectedItem = nullptr;
 
         // TODO: Enable Mica on Win 11
@@ -285,14 +285,12 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 
 
-    VisualItem*
-    DrawingIsland::HitTestItem(
-        float2 const& point) const
+    Item* DrawingIsland::HitTestItem(float2 const& point) const
     {
         // Iterate from the end of the vector, i.e., from front to back.
-        for (size_t i = m_items.VisualItems.size(); i != 0; i--)
+        for (size_t i = m_items.Items.size(); i != 0; i--)
         {
-            VisualItem* item = m_items.VisualItems[i - 1].get();
+            Item* item = m_items.Items[i - 1].get();
             auto& visual = item->GetVisual();
 
             winrt::float3 const offset = visual.Offset();
@@ -518,7 +516,7 @@ namespace winrt::DrawingIslandComponents::implementation
             case winrt::Windows::System::VirtualKey::Escape:
             {
                 m_items.Visuals.RemoveAll();
-                m_items.VisualItems.clear();
+                m_items.Items.clear();
 
                 // Update accessibility.
                 m_uia.FragmentRoot->RemoveAllChildren();
@@ -624,7 +622,7 @@ namespace winrt::DrawingIslandComponents::implementation
         
         if (m_items.SelectedItem != nullptr)
         {
-            VisualItem* item = m_items.SelectedItem;
+            Item* item = m_items.SelectedItem;
             auto& visual = m_items.SelectedItem->GetVisual();
             winrt::float3 const offset = visual.Offset();
 
@@ -636,16 +634,16 @@ namespace winrt::DrawingIslandComponents::implementation
             m_items.Visuals.InsertAtTop(visual);
 
             // Move the VisualElement to the end of the vector if it isn't already.
-            if (!m_items.VisualItems.empty() && m_items.VisualItems.back().get() != item)
+            if (!m_items.Items.empty() && m_items.Items.back().get() != item)
             {
                 auto i = std::find_if(
-                    m_items.VisualItems.begin(),
-                    m_items.VisualItems.end(),
+                    m_items.Items.begin(),
+                    m_items.Items.end(),
                     [item](auto& elem) { return elem.get() == item; }
                 );
-                if (i != m_items.VisualItems.end())
+                if (i != m_items.Items.end())
                 {
-                    std::rotate(i, i + 1, m_items.VisualItems.end());
+                    std::rotate(i, i + 1, m_items.Items.end());
                 }
             }
 
@@ -720,7 +718,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
             m_output.TextRenderer->SetDpiScale(newScale);
 
-            for (auto& item : m_items.VisualItems)
+            for (auto& item : m_items.Items)
             {
                 item->OnDpiScaleChanged();
             }
@@ -812,12 +810,12 @@ namespace winrt::DrawingIslandComponents::implementation
         visual.Offset({ point.x - size.x / 2.0f, point.y - size.y / 2.0f, 0.0f });
 
         // Add the new text element to the vector.
-        m_items.VisualItems.push_back(std::move(textItem));
+        m_items.Items.push_back(std::move(textItem));
 
         // Add the visual as a child of the container visual.
         m_items.Visuals.InsertAtTop(visual);
 
-        m_items.SelectedItem = m_items.VisualItems.back().get();
+        m_items.SelectedItem = m_items.Items.back().get();
         m_items.Offset.x = -size.x / 2.0f;
         m_items.Offset.y = -size.y / 2.0f;
 

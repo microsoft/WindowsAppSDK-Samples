@@ -4,19 +4,18 @@
 #pragma once
 
 #include "TextRenderer.h"
-#include "VisualItem.h"
+#include "Item.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
-    class TextItem final : public VisualItem
+    class TextItem final : public Item
     {
     public:
         TextItem(
             std::shared_ptr<TextRenderer> const& textRenderer,
             Windows::UI::Color backgroundColor,
             Windows::UI::Color textColor,
-            std::wstring const& text
-        );
+            std::wstring const& text);
 
         void OnDpiScaleChanged() override;
 

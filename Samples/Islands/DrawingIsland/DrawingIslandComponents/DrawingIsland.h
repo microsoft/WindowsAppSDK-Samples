@@ -92,8 +92,7 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::com_ptr<IRawElementProviderFragment> GetFragmentInFocus() const override;
 
     private:
-        VisualItem* HitTestItem(
-            float2 const& point) const;
+        Item* HitTestItem(float2 const& point) const;
 
         void Accessibility_Initialize();
 
@@ -247,11 +246,22 @@ namespace winrt::DrawingIslandComponents::implementation
         // Drawing items being manipulated.
         struct 
         {
+            // The container visual's Children collection. Each Item's visual must be
+            // added to this collection to be rendered.
             winrt::VisualCollection Visuals{ nullptr };
-            std::vector<std::unique_ptr<VisualItem>> VisualItems;
-            VisualItem* SelectedItem{ nullptr };
-            winrt::SpriteVisual CurrentColorVisual{ nullptr };
+
+            // Vector of Item objects representing items that can be manipulated, in
+            // back-to-front order. Each item has an associated Visual.
+            std::vector<std::unique_ptr<Item>> Items;
+
+            // Pointer to the currently-selected item, if any.
+            Item* SelectedItem{ nullptr };
+
+            // Offset from the top-left corner of the selected item to the pointer.
             float2 Offset{};
+
+            // Visual that shows the current color.
+            winrt::SpriteVisual CurrentColorVisual{ nullptr };
         } m_items;
 
         struct

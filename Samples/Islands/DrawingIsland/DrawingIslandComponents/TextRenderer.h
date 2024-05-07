@@ -19,8 +19,7 @@ namespace winrt::DrawingIslandComponents::implementation
             _In_z_ WCHAR const* text,
             Windows::UI::Color backgroundColor,
             Windows::UI::Color textColor,
-            SpriteVisual const& visual
-        );
+            SpriteVisual const& visual);
 
         winrt::Compositor const& GetCompositor() const noexcept
         {

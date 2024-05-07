@@ -5,12 +5,14 @@
 
 namespace winrt::DrawingIslandComponents::implementation
 {
-    class VisualItem
+    // Abstract base class for an item that owns a SpriteVisual and can
+    // re-rasterize the sprite if the DPI changes.
+    class Item
     {
     public:
-        VisualItem(winrt::Compositor const& compositor);
+        Item(winrt::Compositor const& compositor);
 
-        virtual ~VisualItem()
+        virtual ~Item()
         {
         }
 

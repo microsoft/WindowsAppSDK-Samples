@@ -133,7 +133,7 @@
     </ClInclude>
     <ClInclude Include="TextItem.h" />
     <ClInclude Include="TextRenderer.h" />
-    <ClInclude Include="VisualItem.h" />
+    <ClInclude Include="Item.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IslandFragmentRoot.cpp" />
@@ -147,7 +147,7 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="TextItem.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
-    <ClCompile Include="VisualItem.cpp" />
+    <ClCompile Include="Item.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Components.idl" />

@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-#include "VisualItem.h"
-#include "IslandFragmentRoot.h"
+#include "Item.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
-    VisualItem::VisualItem(winrt::Compositor const& compositor) :
+    Item::Item(winrt::Compositor const& compositor) :
         m_visual(compositor.CreateSpriteVisual())
     {
     }

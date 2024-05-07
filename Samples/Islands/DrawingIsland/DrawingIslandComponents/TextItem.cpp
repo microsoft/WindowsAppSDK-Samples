@@ -3,7 +3,6 @@
 
 #include "pch.h"
 #include "TextItem.h"
-#include "IslandFragmentRoot.h"
 
 namespace winrt::DrawingIslandComponents::implementation
 {
@@ -11,9 +10,8 @@ namespace winrt::DrawingIslandComponents::implementation
         std::shared_ptr<TextRenderer> const& textRenderer,
         Windows::UI::Color backgroundColor,
         Windows::UI::Color textColor,
-        std::wstring const& text
-    ) :
-        VisualItem(textRenderer->GetCompositor()),
+        std::wstring const& text) :
+        Item(textRenderer->GetCompositor()),
         m_textRenderer(textRenderer),
         m_backgroundColor(backgroundColor),
         m_textColor(textColor),
@@ -24,12 +22,13 @@ namespace winrt::DrawingIslandComponents::implementation
 
     void TextItem::InitializeVisual()
     {
-        // Render the text to determine the size.
+        // Render the text to the sprite visual.
         m_textRenderer->Render(m_text.c_str(), m_backgroundColor, m_textColor, GetVisual());
     }
 
     void TextItem::OnDpiScaleChanged()
     {
+        // Re-render the text using the current DPI scale.
         InitializeVisual();
     }
 }
