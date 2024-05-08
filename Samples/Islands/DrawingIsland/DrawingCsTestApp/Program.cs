@@ -37,6 +37,12 @@ if (args.Contains("Lottie"))
     var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
     siteBridge.Connect(lottie.Island);
 }
+else if (args.Contains("SceneNode"))
+{
+    // SceneNodeIsland
+    var island = SceneNodeScenario.CreateIsland(compositor);
+    siteBridge.Connect(island);
+}
 else
 {
     // DrawingIsland
