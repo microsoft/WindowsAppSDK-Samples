@@ -18,10 +18,10 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="IslandFragmentRoot.cpp">
+    <ClCompile Include="AutomationFragmentRoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NodeSimpleFragment.cpp">
+    <ClCompile Include="AutomationFragment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextItem.cpp">
@@ -36,10 +36,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="NodeSimpleFragment.h">
+    <ClInclude Include="AutomationFragment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IslandFragmentRoot.h">
+    <ClInclude Include="AutomationFragmentRoot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextItem.h">
@@ -49,6 +49,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomationCallbackHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomationPeer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
