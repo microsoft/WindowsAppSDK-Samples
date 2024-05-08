@@ -21,23 +21,25 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     auto controller{ winrt::DispatcherQueueController::CreateOnCurrentThread() };
     auto queue = controller.DispatcherQueue();
 
+    auto compositor = winrt::Compositor();
+    auto island = winrt::DrawingIsland(compositor).Island();
+
     auto window = winrt::AppWindow::Create();
     window.AssociateWithDispatcherQueue(queue);
-    window.Closing([&](auto&&, auto&&)
+    window.Closing(
+        [island, queue](auto&&, auto&&)
         {
+            island.Close();
             queue.EnqueueEventLoopExit();
         });
 
     window.Title(L"Drawing C++ TestApp");
     window.Show();
 
-    auto compositor = winrt::Compositor();
-    auto drawing = winrt::DrawingIsland(compositor);
-
     auto siteBridge = winrt::DesktopChildSiteBridge::Create(compositor, window.Id());
     siteBridge.ResizePolicy(winrt::ContentSizePolicy::ResizeContentToParentWindow);
     siteBridge.Show();
-    siteBridge.Connect(drawing.Island());
+    siteBridge.Connect(island);
 
     // Move initial focus to the island.
     auto focusNavigationHost = winrt::InputFocusNavigationHost::GetForSiteBridge(siteBridge);
