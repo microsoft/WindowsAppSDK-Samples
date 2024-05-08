@@ -5,9 +5,6 @@
 #include "DrawingIsland.h"
 #include "DrawingIsland.g.cpp"
 
-#include "IslandFragmentRoot.h"
-#include "NodeSimpleFragment.h"
-
 namespace winrt::DrawingIslandComponents::implementation
 {
     DrawingIsland::DrawingIsland(
@@ -22,8 +19,8 @@ namespace winrt::DrawingIslandComponents::implementation
         //
         //   Window -> Bridge -> Content -> Visual -> InputSite -> InputObject
         //
-        // - When the ContentIsland is destroyed, ContentIsland.AppData will call IClosable.Close on
-        //   this instance to break cycles and clean up expensive resources.
+        // - When the ContentIsland is destroyed, ContentIsland.AppData will call IClosable.Close
+        //   on this instance to break cycles and clean up expensive resources.
 
         m_background.Visual = m_output.Compositor.CreateSpriteVisual();
         m_background.Visual.RelativeSizeAdjustment(float2(1.0f, 1.0f));
@@ -202,7 +199,8 @@ namespace winrt::DrawingIslandComponents::implementation
 
         // Else find the matching automation peer entry for the sending fragment.
         auto iterator = std::find_if(
-            m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [&sender](auto const& automationPeer)
+            m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(),
+            [&sender](auto const& automationPeer)
             {
                 return automationPeer.Match(sender);
             });
@@ -233,7 +231,9 @@ namespace winrt::DrawingIslandComponents::implementation
     {
         // UIA provides hit test points in screen space.
         // Convert the point into a dummy empty rectangle to use with the coordinate converter.
-        winrt::Windows::Graphics::RectInt32 screenRect{ static_cast<int>(x + 0.5), static_cast<int>(y + 0.5), 0, 0 };
+        winrt::Windows::Graphics::RectInt32 screenRect
+            { static_cast<int>(x + 0.5), static_cast<int>(y + 0.5), 0, 0 };
+
         auto logicalRect = m_island.CoordinateConverter().ConvertScreenToLocal(screenRect);
         float2 localPoint{ logicalRect.X, logicalRect.Y };
         auto hitTestElement = HitTestItem(localPoint);
@@ -244,14 +244,16 @@ namespace winrt::DrawingIslandComponents::implementation
             auto& hitTestVisual = hitTestElement->GetVisual();
 
             auto iterator = std::find_if(
-                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [&hitTestVisual](auto const& automationPeer)
+                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(),
+                [&hitTestVisual](auto const& automationPeer)
                 {
                     return automationPeer.Match(hitTestVisual);
                 });
 
             if (m_uia.AutomationPeers.end() != iterator)
             {
-                // Return the automation provider if we found an automation peer for the hit test visual.
+                // Return the automation provider if we found an automation peer
+                // for the hit test visual.
                 return iterator->GetAutomationProvider().as<IRawElementProviderFragment>();
             }
         }
@@ -269,14 +271,16 @@ namespace winrt::DrawingIslandComponents::implementation
 
             // Find the currently selected visual's automation peer.
             auto iterator = std::find_if(
-                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [visual](auto const& automationPeer)
+                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(),
+                [visual](auto const& automationPeer)
                 {
                     return automationPeer.Match(visual);
                 });
 
             if (m_uia.AutomationPeers.end() != iterator)
             {
-                // Return the automation provider if we found an automation peer for the selected visual.
+                // Return the automation provider if we found an automation peer
+                // for the selected visual.
                 return iterator->GetAutomationProvider().as<IRawElementProviderFragment>();
             }
         }
@@ -312,10 +316,12 @@ namespace winrt::DrawingIslandComponents::implementation
     DrawingIsland::Accessibility_Initialize()
     {
         // Create an UI automation fragment root for our island's content.
-        m_uia.FragmentRoot = winrt::make_self<IslandFragmentRoot>();
+        m_uia.FragmentRoot = winrt::make_self<AutomationFragmentRoot>();
         m_uia.FragmentRoot->SetName(L"Drawing Squares");
         m_uia.FragmentRoot->SetProviderOptions(
-            ProviderOptions_ServerSideProvider | ProviderOptions_UseComThreading | ProviderOptions_RefuseNonClientSupport);
+            ProviderOptions_ServerSideProvider |
+            ProviderOptions_UseComThreading |
+            ProviderOptions_RefuseNonClientSupport);
         m_uia.FragmentRoot->SetUiaControlTypeId(UIA_WindowControlTypeId);
         m_uia.FragmentRoot->SetCallbackHandler(this);
 
@@ -329,15 +335,16 @@ namespace winrt::DrawingIslandComponents::implementation
         const winrt::Visual& itemVisual)
     {
         // Create a new automation fragment.
-        auto fragment = winrt::make_self<NodeSimpleFragment>();
+        auto fragment = winrt::make_self<AutomationFragment>();
         fragment->SetName(s_colorNames[m_output.CurrentColorIndex].c_str());
         fragment->SetCallbackHandler(this);
 
-        // Add an entry to our automation peers which is a mapping between the Visual and the Fragment:
+        // Add an entry to our automation peers (a mapping between the Visual and the Fragment):
         // - This is keeping the UIA objects alive.
-        // - Although not used yet, the lookup would be used to get back to the item Fragment for
-        //   specific operations, such as hit-testing or tree walking.  This avoids adding to more
-        //   expensive data storage, such as the Visual.CustomProperties map.
+        // - The lookup is used to get back to the item Fragment for
+        //   specific operations, such as hit-testing or tree walking.
+        //   This avoids adding to more expensive data storage,
+        //   such as the Visual.CustomProperties map.
         m_uia.AutomationPeers.push_back(AutomationPeer{ itemVisual, fragment });
 
         // Connect the automation fragment to our fragment root.
@@ -412,7 +419,8 @@ namespace winrt::DrawingIslandComponents::implementation
             }
         });
 
-        m_input.PretranslateSource = winrt::InputPreTranslateKeyboardSource::GetForIsland(m_island);
+        m_input.PretranslateSource =
+            winrt::InputPreTranslateKeyboardSource::GetForIsland(m_island);
 
         m_input.PretranslateSource.as<
             Microsoft::UI::Input::IInputPreTranslateKeyboardSourceInterop>()->
@@ -438,7 +446,9 @@ namespace winrt::DrawingIslandComponents::implementation
 
         m_input.FocusController = winrt::InputFocusController::GetForIsland(m_island);
         m_input.FocusController.NavigateFocusRequested(
-            [this](winrt::InputFocusController const&, winrt::FocusNavigationRequestEventArgs const& args) {
+            [this](winrt::InputFocusController const&,
+                winrt::FocusNavigationRequestEventArgs const& args)
+            {
                 bool setFocus = m_input.FocusController.TrySetFocus();
                 // Mark the event as handled
                 if (setFocus)
@@ -650,7 +660,8 @@ namespace winrt::DrawingIslandComponents::implementation
             // Update automation.
             // First find the existing automation peer.
             auto iterator = std::find_if(
-                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [visual](auto const& automationPeer)
+                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(),
+                [visual](auto const& automationPeer)
                 {
                     return automationPeer.Match(visual);
                 });
@@ -763,7 +774,8 @@ namespace winrt::DrawingIslandComponents::implementation
 
             winrt::Color halfTransparent = s_colors[i];
             halfTransparent.A = 0x80;
-            m_output.HalfTransparentColorBrushes[i] = m_output.Compositor.CreateColorBrush(halfTransparent);
+            m_output.HalfTransparentColorBrushes[i] =
+                m_output.Compositor.CreateColorBrush(halfTransparent);
         }
 
         winrt::ContainerVisual drawingVisualsRoot = m_output.Compositor.CreateContainerVisual();
@@ -932,7 +944,8 @@ namespace winrt::DrawingIslandComponents::implementation
         auto window = m_island.Environment();
 
         (void)window.SettingChanged(
-            [this](winrt::ContentIslandEnvironment const&, winrt::ContentEnvironmentSettingChangedEventArgs const& args)
+            [this](winrt::ContentIslandEnvironment const&,
+                winrt::ContentEnvironmentSettingChangedEventArgs const& args)
         {
             return Environment_OnSettingChanged(args);
         });

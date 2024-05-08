@@ -125,8 +125,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="IslandFragmentRoot.h" />
-    <ClInclude Include="NodeSimpleFragment.h" />
+    <ClInclude Include="AutomationCallbackHandler.h" />
+    <ClInclude Include="AutomationFragmentRoot.h" />
+    <ClInclude Include="AutomationFragment.h" />
+    <ClInclude Include="AutomationPeer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="DrawingIsland.h">
       <DependentUpon>Components.idl</DependentUpon>
@@ -136,8 +138,8 @@
     <ClInclude Include="Item.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IslandFragmentRoot.cpp" />
-    <ClCompile Include="NodeSimpleFragment.cpp" />
+    <ClCompile Include="AutomationFragmentRoot.cpp" />
+    <ClCompile Include="AutomationFragment.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-#include "IslandFragmentRoot.h"
+#include "AutomationFragmentRoot.h"
 
 namespace winrt::DrawingIslandComponents
 {
-    HRESULT __stdcall IslandFragmentRoot::ElementProviderFromPoint(
+    HRESULT __stdcall AutomationFragmentRoot::ElementProviderFromPoint(
         _In_ double x,
         _In_ double y,
         _COM_Outptr_opt_result_maybenull_ IRawElementProviderFragment** fragment)
@@ -18,8 +18,9 @@ namespace winrt::DrawingIslandComponents
             {
                 *fragment = nullptr;
 
-                // This provider might still be alive in a UIA callback when the DrawingIsland is being torn down.
-                // Make sure we still have a valid owner before proceeding to query the DrawingIsland for this information.
+                // This provider might still be alive in a UIA callback when the DrawingIsland
+                // is being torn down. Make sure we still have a valid owner before proceeding
+                // to query the DrawingIsland for this information.
                 if (nullptr != m_ownerNoRef)
                 {
                     m_ownerNoRef->GetFragmentFromPoint(x, y).copy_to(fragment);
@@ -30,7 +31,7 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall IslandFragmentRoot::GetFocus(
+    HRESULT __stdcall AutomationFragmentRoot::GetFocus(
         _COM_Outptr_opt_result_maybenull_ IRawElementProviderFragment** fragmentInFocus)
     {
         try
@@ -40,8 +41,9 @@ namespace winrt::DrawingIslandComponents
             {
                 *fragmentInFocus = nullptr;
 
-                // This provider might still be alive in a UIA callback when the DrawingIsland is being torn down.
-                // Make sure we still have a valid owner before proceeding to query the DrawingIsland for this information.
+                // This provider might still be alive in a UIA callback when the DrawingIsland
+                // is being torn down. Make sure we still have a valid owner before proceeding
+                // to query the DrawingIsland for this information.
                 if (nullptr != m_ownerNoRef)
                 {
                     m_ownerNoRef->GetFragmentInFocus().copy_to(fragmentInFocus);

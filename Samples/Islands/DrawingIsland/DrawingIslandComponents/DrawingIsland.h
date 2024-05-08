@@ -4,7 +4,8 @@
 #pragma once
 
 #include "DrawingIsland.g.h"
-#include "IslandFragmentRoot.h"
+#include "AutomationFragmentRoot.h"
+#include "AutomationPeer.h"
 #include "TextRenderer.h"
 #include "TextItem.h"
 
@@ -57,7 +58,9 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void SetColorIndex(std::uint32_t colorIndex)
         {
-            m_output.CurrentColorIndex = std::clamp<std::uint32_t>(colorIndex, 0, _countof(s_colors) - 1);
+            m_output.CurrentColorIndex = std::clamp<std::uint32_t>(
+                colorIndex, 0, _countof(s_colors) - 1);
+
             if (m_output.CurrentColorIndex >= 4)
             {
                 m_background.BrushDefault =
@@ -202,10 +205,12 @@ namespace winrt::DrawingIslandComponents::implementation
 
             // Cached brushes for items
             winrt::CompositionColorBrush ColorBrushes[_countof(s_colors)]
-            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+                nullptr, nullptr, nullptr, nullptr, nullptr };
 
             winrt::CompositionColorBrush HalfTransparentColorBrushes[_countof(s_colors)]
-            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+                nullptr, nullptr, nullptr, nullptr, nullptr };
         } m_output;
 
         // Input handling
@@ -271,47 +276,11 @@ namespace winrt::DrawingIslandComponents::implementation
             winrt::ContentLayoutDirection LayoutDirection =
                 winrt::ContentLayoutDirection::LeftToRight;
         } m_prevState;
-            
-        struct AutomationPeer
-        {
-            explicit AutomationPeer(
-                winrt::Visual const& visual,
-                winrt::com_ptr<NodeSimpleFragment> const& automationProvider) :
-                _visual{ visual },
-                _automationProvider{ automationProvider }
-            {
-
-            }
-
-            winrt::Visual const& GetVisual() const
-            {
-                return _visual;
-            }
-
-            winrt::com_ptr<NodeSimpleFragment> const& GetAutomationProvider() const
-            {
-                return _automationProvider;
-            }
-
-            bool Match(winrt::Visual const& visual) const noexcept
-            {
-                return visual == _visual;
-            }
-
-            bool Match(::IUnknown const* const automationProviderAsIUnknown) const noexcept
-            {
-                return automationProviderAsIUnknown == _automationProvider.try_as<::IUnknown>().get();
-            }
-
-        private:
-            winrt::Visual _visual{ nullptr };
-            winrt::com_ptr<NodeSimpleFragment> _automationProvider{ nullptr };
-        };
 
         struct
         {
             // The UIA parent Root for this Island that contains the fragment children.
-            winrt::com_ptr<IslandFragmentRoot> FragmentRoot{ nullptr };
+            winrt::com_ptr<AutomationFragmentRoot> FragmentRoot{ nullptr };
 
             // Map a given square (Visual) to its UIA fragment object.
             std::vector<AutomationPeer> AutomationPeers{};

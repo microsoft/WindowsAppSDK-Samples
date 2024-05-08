@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-#include "NodeSimpleFragment.h"
+#include "AutomationFragment.h"
 
-using unique_safearray = wil::unique_any<SAFEARRAY*, decltype(&::SafeArrayDestroy), ::SafeArrayDestroy>;
+using unique_safearray =
+    wil::unique_any<SAFEARRAY*, decltype(&::SafeArrayDestroy), ::SafeArrayDestroy>;
 
 namespace winrt::DrawingIslandComponents
 {
-    void NodeSimpleFragment::AddChildToEnd(
-        _In_ winrt::com_ptr<NodeSimpleFragment> const& child)
+    void AutomationFragment::AddChildToEnd(
+        _In_ winrt::com_ptr<AutomationFragment> const& child)
     {
         std::unique_lock lock{ m_mutex };
 
@@ -37,8 +38,8 @@ namespace winrt::DrawingIslandComponents
         m_children.push_back(child);
     }
 
-    void NodeSimpleFragment::RemoveChild(
-        _In_ winrt::com_ptr<NodeSimpleFragment> const& child)
+    void AutomationFragment::RemoveChild(
+        _In_ winrt::com_ptr<AutomationFragment> const& child)
     {
         std::unique_lock lock{ m_mutex };
 
@@ -79,7 +80,7 @@ namespace winrt::DrawingIslandComponents
         m_children.erase(iterator);
     }
 
-    void NodeSimpleFragment::RemoveAllChildren()
+    void AutomationFragment::RemoveAllChildren()
     {
         std::unique_lock lock{ m_mutex };
 
@@ -95,56 +96,56 @@ namespace winrt::DrawingIslandComponents
         m_children.clear();
     }
 
-    void NodeSimpleFragment::SetCallbackHandler(
+    void AutomationFragment::SetCallbackHandler(
         _In_opt_ IAutomationCallbackHandler const* const owner)
     {
         std::unique_lock lock{ m_mutex };
         m_ownerNoRef = owner;
     }
 
-    void NodeSimpleFragment::SetProviderOptions(
+    void AutomationFragment::SetProviderOptions(
         _In_ ProviderOptions const& providerOptions)
     {
         std::unique_lock lock{ m_mutex };
         m_providerOptions = providerOptions;
     }
 
-    void NodeSimpleFragment::SetName(
+    void AutomationFragment::SetName(
         _In_ std::wstring_view const& name)
     {
         std::unique_lock lock{ m_mutex };
         m_name = name;
     }
 
-    void NodeSimpleFragment::SetIsContent(
+    void AutomationFragment::SetIsContent(
         _In_ bool const& isContent)
     {
         std::unique_lock lock{ m_mutex };
         m_isContent = isContent;
     }
 
-    void NodeSimpleFragment::SetIsControl(
+    void AutomationFragment::SetIsControl(
         _In_ bool const& isControl)
     {
         std::unique_lock lock{ m_mutex };
         m_isControl = isControl;
     }
 
-    void NodeSimpleFragment::SetUiaControlTypeId(
+    void AutomationFragment::SetUiaControlTypeId(
         _In_ long const& uiaControlTypeId)
     {
         std::unique_lock lock{ m_mutex };
         m_uiaControlTypeId = uiaControlTypeId;
     }
 
-    void NodeSimpleFragment::SetHostProvider(
+    void AutomationFragment::SetHostProvider(
         _In_ winrt::com_ptr<IRawElementProviderSimple> const& hostProvider)
     {
         std::unique_lock lock{ m_mutex };
         m_hostProvider = hostProvider;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::get_ProviderOptions(
+    HRESULT __stdcall AutomationFragment::get_ProviderOptions(
         _Out_ ProviderOptions* providerOptions)
     {
         try
@@ -159,7 +160,7 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::GetPatternProvider(
+    HRESULT __stdcall AutomationFragment::GetPatternProvider(
         _In_ PATTERNID patternId,
         _COM_Outptr_opt_result_maybenull_ IUnknown** patternProvider)
     {
@@ -186,7 +187,7 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::GetPropertyValue(
+    HRESULT __stdcall AutomationFragment::GetPropertyValue(
         _In_ PROPERTYID propertyId,
         _Out_ VARIANT* propertyValue)
     {
@@ -235,7 +236,7 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::get_HostRawElementProvider(
+    HRESULT __stdcall AutomationFragment::get_HostRawElementProvider(
         _COM_Outptr_opt_result_maybenull_ IRawElementProviderSimple** hostRawElementProviderSimple)
     {
         try
@@ -250,7 +251,7 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::Navigate(
+    HRESULT __stdcall AutomationFragment::Navigate(
         _In_ NavigateDirection direction,
         _COM_Outptr_opt_result_maybenull_ IRawElementProviderFragment** fragment)
     {
@@ -309,7 +310,7 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::GetRuntimeId(
+    HRESULT __stdcall AutomationFragment::GetRuntimeId(
         _Outptr_opt_result_maybenull_ SAFEARRAY** runtimeId)
     {
         try
@@ -319,16 +320,18 @@ namespace winrt::DrawingIslandComponents
             {
                 *runtimeId = nullptr;
 
-                std::array<unsigned __int32, 2> id{ UiaAppendRuntimeId, m_internalRuntimeId };
-                unsigned long arraySizeAsUnsignedLong = static_cast<unsigned long>(id.size());
+                unsigned long arraySizeAsUnsignedLong =
+                    static_cast<unsigned long>(m_runtimeId.size());
 
-                unique_safearray runtimeIdArray{ ::SafeArrayCreateVector(VT_I4, 0, arraySizeAsUnsignedLong) };
+                unique_safearray runtimeIdArray
+                    { ::SafeArrayCreateVector(VT_I4, 0, arraySizeAsUnsignedLong) };
                 SAFEARRAY* rawPointerToSafeArray = runtimeIdArray.get();
                 winrt::check_pointer(rawPointerToSafeArray);
 
                 for (long i = 0; i < static_cast<long>(arraySizeAsUnsignedLong); ++i)
                 {
-                    winrt::check_hresult(::SafeArrayPutElement(rawPointerToSafeArray, &i, &(id[i])));
+                    winrt::check_hresult(
+                        ::SafeArrayPutElement(rawPointerToSafeArray, &i, &(m_runtimeId[i])));
                 }
 
                 *runtimeId = runtimeIdArray.release();
@@ -338,7 +341,7 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::get_BoundingRectangle(
+    HRESULT __stdcall AutomationFragment::get_BoundingRectangle(
         _Out_ UiaRect* boundingRectangle)
     {
         try
@@ -348,12 +351,14 @@ namespace winrt::DrawingIslandComponents
             {
                 *boundingRectangle = { 0, 0, 0, 0 };
 
-                // This provider might still be alive in a UIA callback when the DrawingIsland is being torn down.
-                // Make sure we still have a valid owner before proceeding to query the DrawingIsland for this information.
+                // This provider might still be alive in a UIA callback when the DrawingIsland
+                // is being torn down. Make sure we still have a valid owner before proceeding
+                // to query the DrawingIsland for this information.
                 if (nullptr != m_ownerNoRef)
                 {
                     auto screenRectangle =
-                        m_ownerNoRef->GetScreenBoundsForAutomationFragment(get_strong().as<::IUnknown>().get());
+                        m_ownerNoRef->GetScreenBoundsForAutomationFragment(
+                            get_strong().as<::IUnknown>().get());
 
                     boundingRectangle->left = screenRectangle.X;
                     boundingRectangle->top = screenRectangle.Y;
@@ -366,7 +371,7 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::GetEmbeddedFragmentRoots(
+    HRESULT __stdcall AutomationFragment::GetEmbeddedFragmentRoots(
         _Outptr_opt_result_maybenull_ SAFEARRAY** embeddedFragmentRoots)
     {
         if (nullptr != embeddedFragmentRoots)
@@ -376,12 +381,12 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::SetFocus()
+    HRESULT __stdcall AutomationFragment::SetFocus()
     {
         return S_OK;
     }
 
-    HRESULT __stdcall NodeSimpleFragment::get_FragmentRoot(
+    HRESULT __stdcall AutomationFragment::get_FragmentRoot(
         _COM_Outptr_opt_result_maybenull_ IRawElementProviderFragmentRoot** fragmentRoot)
     {
         try
@@ -394,20 +399,23 @@ namespace winrt::DrawingIslandComponents
                 // Walk up our fragment tree until we find our fragment root.
                 auto fragmentRootCandidate = get_strong();
                 bool currentCandidateIsThisObject = true;
-                while (nullptr != fragmentRootCandidate && nullptr == fragmentRootCandidate.try_as<IRawElementProviderFragmentRoot>())
+                while (nullptr != fragmentRootCandidate &&
+                    nullptr == fragmentRootCandidate.try_as<IRawElementProviderFragmentRoot>())
                 {
                     // Haven't found the fragment root yet, keep walking up our tree.
                     fragmentRootCandidate = currentCandidateIsThisObject ?
                         m_parent.get() : fragmentRootCandidate->GetParent();
 
-                    // Once we start walking up the tree, we must ensure we're thread-safe and call through GetParent on the other objects.
+                    // Once we start walking up the tree, we must ensure we're thread-safe
+                    // and call through GetParent on the other objects.
                     currentCandidateIsThisObject = false;
                 }
 
                 if (nullptr != fragmentRootCandidate)
                 {
                     // Found the fragment root, return it.
-                    fragmentRootCandidate.as<IRawElementProviderFragmentRoot>().copy_to(fragmentRoot);
+                    fragmentRootCandidate.as<IRawElementProviderFragmentRoot>().copy_to(
+                        fragmentRoot);
                 }
             }
         }
@@ -415,40 +423,40 @@ namespace winrt::DrawingIslandComponents
         return S_OK;
     }
 
-    void NodeSimpleFragment::SetParent(
-        _In_ winrt::weak_ref<NodeSimpleFragment> const& parent)
+    void AutomationFragment::SetParent(
+        _In_ winrt::weak_ref<AutomationFragment> const& parent)
     {
         std::unique_lock lock{ m_mutex };
         m_parent = parent;
     }
 
-    winrt::com_ptr<NodeSimpleFragment> NodeSimpleFragment::GetParent() const
+    winrt::com_ptr<AutomationFragment> AutomationFragment::GetParent() const
     {
         std::unique_lock lock{ m_mutex };
         return m_parent.get();
     }
 
-    void NodeSimpleFragment::SetPreviousSibling(
-        _In_ winrt::weak_ref<NodeSimpleFragment> const& previousSibling)
+    void AutomationFragment::SetPreviousSibling(
+        _In_ winrt::weak_ref<AutomationFragment> const& previousSibling)
     {
         std::unique_lock lock{ m_mutex };
         m_previousSibling = previousSibling;
     }
 
-    winrt::com_ptr<NodeSimpleFragment> NodeSimpleFragment::GetPreviousSibling() const
+    winrt::com_ptr<AutomationFragment> AutomationFragment::GetPreviousSibling() const
     {
         std::unique_lock lock{ m_mutex };
         return m_previousSibling.get();
     }
 
-    void NodeSimpleFragment::SetNextSibling(
-        _In_ winrt::weak_ref<NodeSimpleFragment> const& nextSibling)
+    void AutomationFragment::SetNextSibling(
+        _In_ winrt::weak_ref<AutomationFragment> const& nextSibling)
     {
         std::unique_lock lock{ m_mutex };
         m_nextSibling = nextSibling;
     }
 
-    winrt::com_ptr<NodeSimpleFragment> NodeSimpleFragment::GetNextSibling() const
+    winrt::com_ptr<AutomationFragment> AutomationFragment::GetNextSibling() const
     {
         std::unique_lock lock{ m_mutex };
         return m_nextSibling.get();
