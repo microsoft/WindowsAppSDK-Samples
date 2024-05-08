@@ -1,4 +1,7 @@
-﻿using System;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System;
 using System.Diagnostics;
 
 using Microsoft.UI;
@@ -41,6 +44,11 @@ else
     var drawing = new DrawingIsland(compositor);
     siteBridge.Connect(drawing.Island);
 }
+
+// Move initial focus to the island.
+var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
+focusNavigationHost.NavigateFocus(FocusNavigationRequest.Create(
+    FocusNavigationReason.Programmatic));
 
 queue.RunEventLoop();
 

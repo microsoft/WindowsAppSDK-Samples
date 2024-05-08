@@ -2,108 +2,131 @@
 // Licensed under the MIT License.
 
 #pragma once
+#include <mutex>
 
 namespace winrt::DrawingIslandComponents
 {
-    class IslandFragmentRoot;
-
-    class NodeSimpleFragment :
-        public winrt::implements<NodeSimpleFragment,
-                                 IRawElementProviderSimple,
-                                 IRawElementProviderFragment>
+    struct __declspec(novtable) IAutomationCallbackHandler
     {
-    public:
-        NodeSimpleFragment(
-            _In_z_ const wchar_t* name,
-            int id);
+        virtual ~IAutomationCallbackHandler() noexcept = default;
 
-        void AddChild(
-            const winrt::com_ptr<IslandFragmentRoot> & child);
+        virtual winrt::Windows::Graphics::RectInt32 GetScreenBoundsForAutomationFragment(
+            _In_ ::IUnknown const* const sender) const = 0;
 
-        std::vector<winrt::com_ptr<IslandFragmentRoot>> GetChildren();
+        virtual winrt::com_ptr<IRawElementProviderFragment> GetFragmentFromPoint(
+            _In_ double x,
+            _In_ double y) const = 0;
 
-        void SetId(
-            int id);
-
-        void SetVisual(
-            const winrt::Visual & visual);
-
-        void SetName(
-            const std::wstring& name)
-        {
-            m_name = name;
-        }
-
-        void SetParent(
-            const winrt::com_ptr<IslandFragmentRoot> & parent);
-
-        // IRawElementProviderSimple methods
-        IFACEMETHODIMP get_ProviderOptions(
-            _Out_ ProviderOptions* retVal) override final;
-
-        IFACEMETHODIMP GetPatternProvider(
-            PATTERNID patternId,
-            _Outptr_ IUnknown** retVal) override final;
-
-        IFACEMETHODIMP GetPropertyValue(
-            PROPERTYID propertyId,
-            _Out_ VARIANT* retVal) override final;
-
-        IFACEMETHODIMP get_HostRawElementProvider(
-            _Outptr_ IRawElementProviderSimple** retVal) override final;
-
-        // IRawElementProviderFragment methods
-        IFACEMETHODIMP Navigate(
-            _In_ NavigateDirection direction,
-            _Outptr_ IRawElementProviderFragment** retVal) override final;
-
-        IFACEMETHODIMP GetRuntimeId(
-            _Outptr_ SAFEARRAY** retVal) override final;
-
-        IFACEMETHODIMP get_BoundingRectangle(
-            _Out_ UiaRect* retVal) override final;
-
-        IFACEMETHODIMP GetEmbeddedFragmentRoots(
-            _Outptr_ SAFEARRAY** retVal) override final;
-
-        IFACEMETHODIMP SetFocus();
-
-        IFACEMETHODIMP get_FragmentRoot(
-            _Outptr_ IRawElementProviderFragmentRoot** retVal) override final;
-
-    private:
-        // Helper methods
-        // For the below 3 methods create a generic function instead so that they can be reused.
-        winrt::com_ptr<NodeSimpleFragment> GetPreviousSibling();
-
-        winrt::com_ptr<NodeSimpleFragment> GetNextSibling();
-
-        int GetCurrentIndexFromSiblings(
-            std::vector<winrt::com_ptr<NodeSimpleFragment>> siblings);
-
-    private:
-        winrt::com_ptr<IslandFragmentRoot> m_parent;
-        std::vector<winrt::com_ptr<IslandFragmentRoot>> m_children;
-
-        winrt::Visual m_visual = nullptr;
-        int m_id = 0xff;
-        std::wstring m_name;
+        virtual winrt::com_ptr<IRawElementProviderFragment> GetFragmentInFocus() const = 0;
     };
 
-    // A helper class that creates Fragments that are part of the same hierarchy. Most importantly,
-    // it ensures that each NodeSimpleFragment gets assigned a unique ID.
-    class NodeSimpleFragmentFactory :
-        public winrt::implements<NodeSimpleFragmentFactory, winrt::IInspectable>
+    struct NodeSimpleFragment : winrt::implements<NodeSimpleFragment,
+        IInspectable,
+        IRawElementProviderSimple,
+        IRawElementProviderFragment>
+
     {
-    public:
-        winrt::com_ptr<NodeSimpleFragment> Create(
-            _In_z_ const wchar_t* name,
-            winrt::com_ptr<IslandFragmentRoot> fragmentRoot)
-        {
-            return winrt::make_self<NodeSimpleFragment>(name, ++m_nextId);
-        }
+        void AddChildToEnd(
+            _In_ winrt::com_ptr<NodeSimpleFragment> const& child);
+
+        void RemoveChild(
+            _In_ winrt::com_ptr<NodeSimpleFragment> const& child);
+
+        void RemoveAllChildren();
+
+        void SetCallbackHandler(
+            _In_opt_ IAutomationCallbackHandler const* const owner);
+
+        void SetProviderOptions(
+            _In_ ProviderOptions const& providerOptions);
+
+        void SetName(
+            _In_ std::wstring_view const& name);
+
+        void SetIsContent(
+            _In_ bool const& isContent);
+
+        void SetIsControl(
+            _In_ bool const& isControl);
+
+        void SetUiaControlTypeId(
+            _In_ long const& uiaControlTypeId);
+
+        void SetHostProvider(
+            _In_ winrt::com_ptr<IRawElementProviderSimple> const& hostProvider);
+
+        // IRawElementProviderSimple overrides.
+        HRESULT __stdcall get_ProviderOptions(
+            _Out_ ProviderOptions* providerOptions) final override;
+
+        HRESULT __stdcall GetPatternProvider(
+            _In_ PATTERNID patternId,
+            _COM_Outptr_opt_result_maybenull_ IUnknown** patternProvider) final override;
+
+        HRESULT __stdcall GetPropertyValue(
+            _In_ PROPERTYID propertyId,
+            _Out_ VARIANT* propertyValue) final override;
+
+        HRESULT __stdcall get_HostRawElementProvider(
+            _COM_Outptr_opt_result_maybenull_ IRawElementProviderSimple** hostRawElementProviderSimple) final override;
+
+        // IRawElementProviderFragment overrides.
+        HRESULT __stdcall Navigate(
+            _In_ NavigateDirection direction,
+            _COM_Outptr_opt_result_maybenull_ IRawElementProviderFragment** fragment) final override;
+
+        HRESULT __stdcall GetRuntimeId(
+            _Outptr_opt_result_maybenull_ SAFEARRAY** runtimeId) final override;
+
+        HRESULT __stdcall get_BoundingRectangle(
+            _Out_ UiaRect* boundingRectangle) final override;
+
+        HRESULT __stdcall GetEmbeddedFragmentRoots(
+            _Outptr_opt_result_maybenull_ SAFEARRAY** embeddedFragmentRoots) final override;
+
+        HRESULT __stdcall SetFocus() final override;
+
+        HRESULT __stdcall get_FragmentRoot(
+            _COM_Outptr_opt_result_maybenull_ IRawElementProviderFragmentRoot** fragmentRoot) final override;
+
+    protected:
+        mutable std::mutex m_mutex{};
+
+        // We do not hold a strong reference to the object that owns us.
+        // However we do need to be able to call back into it to get information.
+        // The owner is responsible for unsetting itself when it gets destroyed.
+        IAutomationCallbackHandler const* m_ownerNoRef{ nullptr };
 
     private:
-        int m_nextId = 0;
+        void SetParent(
+            _In_ winrt::weak_ref<NodeSimpleFragment> const& parent);
+
+        winrt::com_ptr<NodeSimpleFragment> GetParent() const;
+
+        void SetPreviousSibling(
+            _In_ winrt::weak_ref<NodeSimpleFragment> const& previousSibling);
+
+        winrt::com_ptr<NodeSimpleFragment> GetPreviousSibling() const;
+
+        void SetNextSibling(
+            _In_ winrt::weak_ref<NodeSimpleFragment> const& nextSibling);
+
+        winrt::com_ptr<NodeSimpleFragment> GetNextSibling() const;
+
+        // Automatically generate unique runtime IDs per fragment.
+        inline static unsigned __int32 s_nextAvailableInternalRuntimeId{ 0 };
+        unsigned __int32 m_internalRuntimeId{ ++s_nextAvailableInternalRuntimeId };
+
+        ProviderOptions m_providerOptions{ ProviderOptions_ServerSideProvider | ProviderOptions_UseComThreading };
+        std::wstring m_name{ L"" };
+        bool m_isContent{ true };
+        bool m_isControl{ true };
+        long m_uiaControlTypeId{ UIA_CustomControlTypeId };
+        winrt::com_ptr<IRawElementProviderSimple> m_hostProvider{ nullptr };
+
+        winrt::weak_ref<NodeSimpleFragment> m_parent{ nullptr };
+        winrt::weak_ref<NodeSimpleFragment> m_previousSibling{ nullptr };
+        winrt::weak_ref<NodeSimpleFragment> m_nextSibling{ nullptr };
+        std::vector<winrt::com_ptr<NodeSimpleFragment>> m_children{};
     };
 }

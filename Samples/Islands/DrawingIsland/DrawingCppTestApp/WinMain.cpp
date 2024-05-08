@@ -5,7 +5,6 @@
 
 namespace winrt
 {
-    using namespace Microsoft::UI;
     using namespace Microsoft::UI::Composition;
     using namespace Microsoft::UI::Content;
     using namespace Microsoft::UI::Dispatching;
@@ -39,6 +38,11 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     siteBridge.ResizePolicy(winrt::ContentSizePolicy::ResizeContentToParentWindow);
     siteBridge.Show();
     siteBridge.Connect(drawing.Island());
+
+    // Move initial focus to the island.
+    auto focusNavigationHost = winrt::InputFocusNavigationHost::GetForSiteBridge(siteBridge);
+    focusNavigationHost.NavigateFocus(winrt::FocusNavigationRequest::Create(
+        winrt::FocusNavigationReason::Programmatic));
 
     queue.RunEventLoop();
 

@@ -14,6 +14,7 @@ namespace winrt::DrawingIslandComponents::implementation
         const winrt::Compositor& compositor)
     {
         m_output.Compositor = compositor;
+        m_output.TextRenderer = std::make_shared<TextRenderer>(m_output.Compositor);
 
         // Create the Compositor and the Content:
         // - The Bridge's connection to the Window will keep everything alive, and perform an
@@ -56,8 +57,6 @@ namespace winrt::DrawingIslandComponents::implementation
 
     DrawingIsland::~DrawingIsland()
     {
-        m_uia.FragmentRoot = nullptr;
-        m_uia.FragmentFactory = nullptr;
         m_output.Compositor = nullptr;
     }
 
@@ -77,7 +76,8 @@ namespace winrt::DrawingIslandComponents::implementation
         m_background.Visual = nullptr;
 
         m_items.Visuals = nullptr;
-        m_items.SelectedVisual = nullptr;
+        m_items.Items.clear();
+        m_items.SelectedItem = nullptr;
 
         // TODO: Enable Mica on Win 11
 #if FALSE
@@ -104,9 +104,18 @@ namespace winrt::DrawingIslandComponents::implementation
         }
 #endif
 
-        m_uia.FragmentFactory = nullptr;
-        m_uia.FragmentRoot = nullptr;
-        m_uia.VisualToFragmentMap.clear();
+        // Make sure automation is destroyed.
+        for (auto& automationPeer : m_uia.AutomationPeers)
+        {
+            automationPeer.GetAutomationProvider()->SetCallbackHandler(nullptr);
+        }
+        m_uia.AutomationPeers.clear();
+
+        if (nullptr != m_uia.FragmentRoot)
+        {
+            m_uia.FragmentRoot->SetCallbackHandler(nullptr);
+            m_uia.FragmentRoot = nullptr;
+        }
 
 
         // Destroy Content:
@@ -173,13 +182,117 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 
 
-    winrt::Visual
-    DrawingIsland::HitTestVisual(
-        float2 const point)
+    winrt::Windows::Graphics::RectInt32
+    DrawingIsland::GetScreenBoundsForAutomationFragment(
+        _In_::IUnknown const* const sender) const
     {
-        winrt::Visual selectedVisual{ nullptr };
-        for (winrt::Visual visual : m_items.Visuals)
+        // Check if the automation provider that has sent this callback is the fragment root.
+        if (m_uia.FragmentRoot.as<::IUnknown>().get() == sender)
         {
+            winrt::Rect logicalRect;
+            logicalRect.X = 0;
+            logicalRect.Y = 0;
+            logicalRect.Width = m_island.ActualSize().x;
+            logicalRect.Height = m_island.ActualSize().y;
+
+            // This will convert from the logical coordinate space of the ContentIsland to
+            // Win32 screen coordinates that are needed by Accessibility.
+            return m_island.CoordinateConverter().ConvertLocalToScreen(logicalRect);
+        }
+
+        // Else find the matching automation peer entry for the sending fragment.
+        auto iterator = std::find_if(
+            m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [&sender](auto const& automationPeer)
+            {
+                return automationPeer.Match(sender);
+            });
+
+        if (m_uia.AutomationPeers.end() == iterator)
+        {
+            // Did not find any match for this automation provider.
+            return { 0, 0, 0, 0 };
+        }
+
+        auto const& visualPeer = iterator->GetVisual();
+        winrt::Rect logicalRect;
+        logicalRect.X = visualPeer.Offset().x;
+        logicalRect.Y = visualPeer.Offset().y;
+        logicalRect.Width = visualPeer.Size().x;
+        logicalRect.Height = visualPeer.Size().y;
+
+        // This will convert from the logical coordinate space of the ContentIsland to
+        // Win32 screen coordinates that are needed by Accessibility.
+        return m_island.CoordinateConverter().ConvertLocalToScreen(logicalRect);
+    }
+
+
+    winrt::com_ptr<IRawElementProviderFragment>
+    DrawingIsland::GetFragmentFromPoint(
+        _In_ double x,
+        _In_ double y) const
+    {
+        // UIA provides hit test points in screen space.
+        // Convert the point into a dummy empty rectangle to use with the coordinate converter.
+        winrt::Windows::Graphics::RectInt32 screenRect{ static_cast<int>(x + 0.5), static_cast<int>(y + 0.5), 0, 0 };
+        auto logicalRect = m_island.CoordinateConverter().ConvertScreenToLocal(screenRect);
+        float2 localPoint{ logicalRect.X, logicalRect.Y };
+        auto hitTestElement = HitTestItem(localPoint);
+
+        // Find the automation peer for the hit test visual if any.
+        if (nullptr != hitTestElement)
+        {
+            auto& hitTestVisual = hitTestElement->GetVisual();
+
+            auto iterator = std::find_if(
+                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [&hitTestVisual](auto const& automationPeer)
+                {
+                    return automationPeer.Match(hitTestVisual);
+                });
+
+            if (m_uia.AutomationPeers.end() != iterator)
+            {
+                // Return the automation provider if we found an automation peer for the hit test visual.
+                return iterator->GetAutomationProvider().as<IRawElementProviderFragment>();
+            }
+        }
+
+        return nullptr;
+    }
+
+
+    winrt::com_ptr<IRawElementProviderFragment>
+    DrawingIsland::GetFragmentInFocus() const
+    {
+        if (m_items.SelectedItem != nullptr)
+        {
+            auto& visual = m_items.SelectedItem->GetVisual();
+
+            // Find the currently selected visual's automation peer.
+            auto iterator = std::find_if(
+                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [visual](auto const& automationPeer)
+                {
+                    return automationPeer.Match(visual);
+                });
+
+            if (m_uia.AutomationPeers.end() != iterator)
+            {
+                // Return the automation provider if we found an automation peer for the selected visual.
+                return iterator->GetAutomationProvider().as<IRawElementProviderFragment>();
+            }
+        }
+
+        return nullptr;
+    }
+
+
+    Item* DrawingIsland::HitTestItem(float2 const& point) const
+    {
+        // Iterate from the end of the vector, i.e., from front to back.
+        for (size_t i = m_items.Items.size(); i != 0; i--)
+        {
+            Item* item = m_items.Items[i - 1].get();
+            auto& visual = item->GetVisual();
+
             winrt::float3 const offset = visual.Offset();
             float2 const size = visual.Size();
 
@@ -188,21 +301,23 @@ namespace winrt::DrawingIslandComponents::implementation
                 point.y >= offset.y &&
                 point.y < offset.y + size.y)
             {
-                selectedVisual = visual;
+                return item;
             }
         }
-
-        return selectedVisual;
+        return nullptr;
     }
 
 
     void
     DrawingIsland::Accessibility_Initialize()
     {
-        m_uia.FragmentRoot = winrt::make_self<IslandFragmentRoot>(m_island);
+        // Create an UI automation fragment root for our island's content.
+        m_uia.FragmentRoot = winrt::make_self<IslandFragmentRoot>();
         m_uia.FragmentRoot->SetName(L"Drawing Squares");
-
-        m_uia.FragmentFactory = winrt::make_self<NodeSimpleFragmentFactory>();
+        m_uia.FragmentRoot->SetProviderOptions(
+            ProviderOptions_ServerSideProvider | ProviderOptions_UseComThreading | ProviderOptions_RefuseNonClientSupport);
+        m_uia.FragmentRoot->SetUiaControlTypeId(UIA_WindowControlTypeId);
+        m_uia.FragmentRoot->SetCallbackHandler(this);
 
         (void)m_island.AutomationProviderRequested(
             { this, &DrawingIsland::Accessibility_OnAutomationProviderRequested });
@@ -210,42 +325,37 @@ namespace winrt::DrawingIslandComponents::implementation
 
 
     void
-    DrawingIsland::Accessibility_CreateItemFragment()
+    DrawingIsland::Accessibility_CreateItemFragment(
+        const winrt::Visual& itemVisual)
     {
-        // Create a new fragment for the new item.
-        winrt::com_ptr<NodeSimpleFragment> fragment = m_uia.FragmentFactory->Create(
-            s_colorNames[m_output.CurrentColorIndex].c_str(), m_uia.FragmentRoot);
+        // Create a new automation fragment.
+        auto fragment = winrt::make_self<NodeSimpleFragment>();
+        fragment->SetName(s_colorNames[m_output.CurrentColorIndex].c_str());
+        fragment->SetCallbackHandler(this);
 
-        // Store the mapping between the Visual and the Fragment:
+        // Add an entry to our automation peers which is a mapping between the Visual and the Fragment:
         // - This is keeping the UIA objects alive.
         // - Although not used yet, the lookup would be used to get back to the item Fragment for
         //   specific operations, such as hit-testing or tree walking.  This avoids adding to more
         //   expensive data storage, such as the Visual.CustomProperties map.
+        m_uia.AutomationPeers.push_back(AutomationPeer{ itemVisual, fragment });
 
-        m_uia.VisualToFragmentMap[m_items.SelectedVisual] = fragment;
-
-        // Give the fragment a backpointer to the Visual to get real-time information.
-        fragment->SetVisual(m_items.SelectedVisual);
-
-        // Add the new fragment into the UIA tree.
-        m_uia.FragmentRoot->AddChild(fragment);
-
-        // Finally set up parent chain
-        fragment->SetParent(m_uia.FragmentRoot);
+        // Connect the automation fragment to our fragment root.
+        m_uia.FragmentRoot->AddChildToEnd(fragment);
     }
 
 
     void
     DrawingIsland::Accessibility_OnAutomationProviderRequested(
-        const winrt::ContentIsland& /*island*/,
+        const winrt::ContentIsland& island,
         const winrt::ContentIslandAutomationProviderRequestedEventArgs& args)
     {
-        IInspectable providerAsIInspectable;
-        m_uia.FragmentRoot->QueryInterface(
-            winrt::guid_of<IInspectable>(),
-            winrt::put_abi(providerAsIInspectable));
+        // Make sure the host provider is up to date.
+        m_uia.FragmentRoot->SetHostProvider(
+            island.GetAutomationHostProvider().as<IRawElementProviderSimple>());
 
-        args.AutomationProvider(std::move(providerAsIInspectable));
+        // Return the fragment root as an IInspectable.
+        args.AutomationProvider(m_uia.FragmentRoot.as<IInspectable>());
 
         args.Handled(true);
     }
@@ -286,8 +396,7 @@ namespace winrt::DrawingIslandComponents::implementation
                 Input_OnPointerReleased();
             });
 
-        // Set up the keyboard source. We store this in a member variable so we can easily call 
-        // TrySetFocus() in response to left clicks in the content later on.
+        // Set up the keyboard source.
         m_input.KeyboardSource = winrt::InputKeyboardSource::GetForIsland(m_island);
 
         m_input.KeyboardSource.KeyDown(
@@ -407,6 +516,12 @@ namespace winrt::DrawingIslandComponents::implementation
             case winrt::Windows::System::VirtualKey::Escape:
             {
                 m_items.Visuals.RemoveAll();
+                m_items.Items.clear();
+
+                // Update accessibility.
+                m_uia.FragmentRoot->RemoveAllChildren();
+                m_uia.AutomationPeers.clear();
+
                 handled = true;
                 break;
             }
@@ -476,7 +591,7 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::Input_OnPointerReleased()
     {
-        m_items.SelectedVisual = nullptr;
+        m_items.SelectedItem = nullptr;
     }
 
 
@@ -503,19 +618,48 @@ namespace winrt::DrawingIslandComponents::implementation
         const float2 point,
         bool controlPressed)
     {
-        m_items.SelectedVisual = HitTestVisual(point);
+        m_items.SelectedItem = HitTestItem(point);
         
-        if (m_items.SelectedVisual)
+        if (m_items.SelectedItem != nullptr)
         {
-            winrt::float3 const offset = m_items.SelectedVisual.Offset();
+            Item* item = m_items.SelectedItem;
+            auto& visual = m_items.SelectedItem->GetVisual();
+            winrt::float3 const offset = visual.Offset();
 
             m_items.Offset.x = offset.x - point.x;
             m_items.Offset.y = offset.y - point.y;
 
-            m_items.Visuals.Remove(m_items.SelectedVisual);
-            m_items.Visuals.InsertAtTop(m_items.SelectedVisual);
+            // Move the visual to the top.
+            m_items.Visuals.Remove(visual);
+            m_items.Visuals.InsertAtTop(visual);
 
-            // TODO: The m_uia.FragmentRoots child should be removed and added to the end as well.
+            // Move the VisualElement to the end of the vector if it isn't already.
+            if (!m_items.Items.empty() && m_items.Items.back().get() != item)
+            {
+                auto i = std::find_if(
+                    m_items.Items.begin(),
+                    m_items.Items.end(),
+                    [item](auto& elem) { return elem.get() == item; }
+                );
+                if (i != m_items.Items.end())
+                {
+                    std::rotate(i, i + 1, m_items.Items.end());
+                }
+            }
+
+            // Update automation.
+            // First find the existing automation peer.
+            auto iterator = std::find_if(
+                m_uia.AutomationPeers.begin(), m_uia.AutomationPeers.end(), [visual](auto const& automationPeer)
+                {
+                    return automationPeer.Match(visual);
+                });
+            if (m_uia.AutomationPeers.end() != iterator)
+            {
+                // Mirror the change to the visuals above.
+                m_uia.FragmentRoot->RemoveChild(iterator->GetAutomationProvider());
+                m_uia.FragmentRoot->AddChildToEnd(iterator->GetAutomationProvider());
+            }
         }
         else
         {
@@ -534,18 +678,21 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::OnRightClick(const float2 point)
     {
-        winrt::Visual selectedVisual = HitTestVisual(point);
+        // TODO - what is the purpose of this?
+        UNREFERENCED_PARAMETER(point);
+        // VisualElement* selectedVisual = HitTestVisual(point);
     }
 
     void
     DrawingIsland::Input_OnPointerMoved(
         const winrt::PointerEventArgs& args)
     {
-        if (m_items.SelectedVisual)
+        if (m_items.SelectedItem)
         {
+            auto& visual = m_items.SelectedItem->GetVisual();
             float2 const point = args.CurrentPoint().Position();
 
-            m_items.SelectedVisual.Offset(
+            visual.Offset(
                 { point.x + m_items.Offset.x,
                 point.y + m_items.Offset.y,
                 0.0f });
@@ -565,7 +712,16 @@ namespace winrt::DrawingIslandComponents::implementation
     {
         if (m_prevState.RasterizationScale != m_island.RasterizationScale())
         {
-            m_prevState.RasterizationScale = m_island.RasterizationScale();
+            float newScale = m_island.RasterizationScale();
+
+            m_prevState.RasterizationScale = newScale;
+
+            m_output.TextRenderer->SetDpiScale(newScale);
+
+            for (auto& item : m_items.Items)
+            {
+                item->OnDpiScaleChanged();
+            }
         }
 
         if (m_prevState.LayoutDirection != m_island.LayoutDirection())
@@ -610,13 +766,13 @@ namespace winrt::DrawingIslandComponents::implementation
             m_output.HalfTransparentColorBrushes[i] = m_output.Compositor.CreateColorBrush(halfTransparent);
         }
 
-        m_items.CurrentColorVisual = m_output.Compositor.CreateSpriteVisual();
-        m_items.CurrentColorVisual.Offset({0.0f, 0.0f, 0.0f});
-        m_background.Visual.Children().InsertAtTop(m_items.CurrentColorVisual);
-
         winrt::ContainerVisual drawingVisualsRoot = m_output.Compositor.CreateContainerVisual();
         m_items.Visuals = drawingVisualsRoot.Children();
         m_background.Visual.Children().InsertAtTop(drawingVisualsRoot);
+
+        m_items.CurrentColorVisual = m_output.Compositor.CreateSpriteVisual();
+        m_items.CurrentColorVisual.Offset({0.0f, 0.0f, 0.0f});
+        m_background.Visual.Children().InsertAtTop(m_items.CurrentColorVisual);
 
         SystemBackdrop_EvaluateUsage();
 
@@ -629,22 +785,41 @@ namespace winrt::DrawingIslandComponents::implementation
         float2 const point,
         bool halfTransparent)
     {
-        winrt::SpriteVisual visual = m_output.Compositor.CreateSpriteVisual();
-        visual.Brush(halfTransparent ? 
-            m_output.HalfTransparentColorBrushes[m_output.CurrentColorIndex] : 
-            m_output.ColorBrushes[m_output.CurrentColorIndex]);
+        // Determine the visual background and text colors.
+        Color backgroundColor = s_colors[m_output.CurrentColorIndex];
+        Color textColor = { 0xFF, 0, 0, 0 };
+        if (halfTransparent)
+        {
+            backgroundColor.A /= 2;
+            textColor.A /= 2;
+        }
 
-        float const BlockSize = 30.0f;
-        visual.Size({ BlockSize, BlockSize });
-        visual.Offset({ point.x - BlockSize / 2.0f, point.y - BlockSize / 2.0f, 0.0f });
+        // Create a TextElement object.
+        auto textItem = std::make_unique<TextItem>(
+            m_output.TextRenderer,
+            backgroundColor,
+            textColor,
+            s_colorNames[m_output.CurrentColorIndex]
+        );
 
+        // Get the visual and its size in DIPs.
+        auto& visual = textItem->GetVisual();
+        float2 size = visual.Size();
+
+        // Set the visual's offset.
+        visual.Offset({ point.x - size.x / 2.0f, point.y - size.y / 2.0f, 0.0f });
+
+        // Add the new text element to the vector.
+        m_items.Items.push_back(std::move(textItem));
+
+        // Add the visual as a child of the container visual.
         m_items.Visuals.InsertAtTop(visual);
 
-        m_items.SelectedVisual = visual;
-        m_items.Offset.x = -BlockSize / 2.0f;
-        m_items.Offset.y = -BlockSize / 2.0f;
+        m_items.SelectedItem = m_items.Items.back().get();
+        m_items.Offset.x = -size.x / 2.0f;
+        m_items.Offset.y = -size.y / 2.0f;
 
-        Accessibility_CreateItemFragment();
+        Accessibility_CreateItemFragment(visual);
     }
 
 
