@@ -1,11 +1,10 @@
 ﻿using CommunityToolkit.WinAppSDK.LottieIsland;
 using CommunityToolkit.WinAppSDK.LottieWinRT;
 using Microsoft.UI.Composition;
-using Microsoft.UI.Content;
 
 class LottieIslandScenario
 {
-    public static void CreateLottieIsland(Compositor compositor, DesktopChildSiteBridge siteBridge)
+    public static LottieContentIsland CreateLottieIsland(Compositor compositor)
     {
         var lottieIsland = LottieContentIsland.Create(compositor);
         var lottieVisualSource = LottieVisualSourceWinRT.CreateFromString("ms-appx:///Assets/LottieLogo1.json");
@@ -16,17 +15,18 @@ class LottieIslandScenario
             {
                 object? diagnostics = null;
                 IAnimatedVisualFrameworkless? animatedVisual = lottieVisualSource.TryCreateAnimatedVisual(compositor, out diagnostics);
-                if (animatedVisual != null && lottieIsland != null)
+                if (animatedVisual != null)
                 {
-                    compositor.DispatcherQueue.TryEnqueue(() =>
+                    // This callback comes back on a different thread, so set the AnimatedVisual on the UI thread
+                    compositor.DispatcherQueue.TryEnqueue(async () =>
                     {
                         lottieIsland.AnimatedVisual = animatedVisual;
-                        lottieIsland.PlayAsync(0, 1, true);
+                        await lottieIsland.PlayAsync(0, 1, true);
                     });
                 }
             };
         }
 
-        siteBridge.Connect(lottieIsland.Island);
+        return lottieIsland;
     }
 }

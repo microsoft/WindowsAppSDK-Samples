@@ -1,5 +1,6 @@
 ﻿using System;
-﻿
+using System.Diagnostics;
+
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Content;
@@ -8,10 +9,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 
 using DrawingIslandComponents;
-using CommunityToolkit.WinAppSDK.LottieIsland;
-using CommunityToolkit.WinAppSDK.LottieWinRT;
-using CommunityToolkit.WinUI.Lottie;
-using System.Diagnostics;
 
 var controller = DispatcherQueueController.CreateOnCurrentThread();
 var queue = controller.DispatcherQueue;
@@ -35,7 +32,8 @@ siteBridge.Show();
 if (args.Contains("Lottie"))
 {
     // LottieIsland
-    LottieIslandScenario.CreateLottieIsland(compositor, siteBridge);
+    var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
+    siteBridge.Connect(lottie.Island);
 }
 else
 {
