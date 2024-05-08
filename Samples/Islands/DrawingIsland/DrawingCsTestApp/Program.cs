@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
+
+using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Content;
 using Microsoft.UI.Dispatching;
@@ -23,12 +26,29 @@ window.Title = "Drawing C# .NET TestApp";
 window.Show();
 
 var compositor = new Compositor();
-var drawing = new DrawingIsland(compositor);
 
 var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
 siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
 siteBridge.Show();
-siteBridge.Connect(drawing.Island);
+
+if (args.Contains("Lottie"))
+{
+    // LottieIsland
+    var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
+    siteBridge.Connect(lottie.Island);
+}
+else if (args.Contains("SceneNode"))
+{
+    // SceneNodeIsland
+    var island = SceneNodeScenario.CreateIsland(compositor);
+    siteBridge.Connect(island);
+}
+else
+{
+    // DrawingIsland
+    var drawing = new DrawingIsland(compositor);
+    siteBridge.Connect(drawing.Island);
+}
 
 // Move initial focus to the island.
 var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
