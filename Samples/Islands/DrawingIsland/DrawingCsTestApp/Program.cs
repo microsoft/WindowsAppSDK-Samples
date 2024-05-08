@@ -1,8 +1,7 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
-using System.Diagnostics;
 
 using Microsoft.UI;
 using Microsoft.UI.Composition;
