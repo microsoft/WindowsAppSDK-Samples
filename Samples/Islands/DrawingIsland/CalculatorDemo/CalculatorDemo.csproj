@@ -1,9 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <!-- WinAppSDK requires at least the 17763 build of windows, so we need to set that here.
+         You can set this in the Visual Studio project properties UI too. -->
+    <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
     <UseWpf>true</UseWpf>
     <EnableDefaultItems>false</EnableDefaultItems>
     <Platforms>x64;ARM64;x86</Platforms>
+
+    <!-- When adding a reference to WinAppSDK, we need to enable only the RIDs for the platforms WinAppSDK supprts. -->
+    <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
+
+    <!-- These flags turn off some WinAppSDK features we won't be using. -->
+    <UseWinUITools>false</UseWinUITools>
+    <EnableCoreMrtTooling>false</EnableCoreMrtTooling>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -75,8 +84,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,6 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="appicon.ico" />
