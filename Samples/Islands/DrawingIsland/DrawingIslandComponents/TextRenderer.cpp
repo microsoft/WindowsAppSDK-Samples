@@ -29,12 +29,16 @@ namespace winrt::DrawingIslandComponents::implementation
 
         // Create the D2D factory.
         winrt::check_hresult(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, m_d2dFactory.put()));
+
+        CreateGraphicsDevice();
     }
 
-    void TextRenderer::ClearGraphicsDevice()
+    void TextRenderer::RecreateGraphicsDevice()
     {
         m_d2dDevice = nullptr;
         m_compositionGraphicsDevice = nullptr;
+
+        CreateGraphicsDevice();
     }
 
     void TextRenderer::CreateGraphicsDevice()
@@ -122,12 +126,6 @@ namespace winrt::DrawingIslandComponents::implementation
         const float height = textMetrics.height + (marginTop + marginBottom);
 
         visual.Size(float2(width, height));
-
-        // Initialize the graphics objects if we haven't already.
-        if (m_compositionGraphicsDevice == nullptr)
-        {
-            CreateGraphicsDevice();
-        }
 
         // Create a composition surface to draw to.
         CompositionDrawingSurface drawingSurface = m_compositionGraphicsDevice.CreateDrawingSurface(

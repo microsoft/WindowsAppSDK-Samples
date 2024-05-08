@@ -26,13 +26,19 @@ namespace winrt::DrawingIslandComponents::implementation
             return m_compositor;
         }
 
+        CompositionGraphicsDevice const& GetCompositionGraphicsDevice() const noexcept
+        {
+            return m_compositionGraphicsDevice;
+        }
+
+        void RecreateGraphicsDevice();
+
     private:
         static inline D2D_COLOR_F ToColorF(Windows::UI::Color color)
         {
             return D2D_COLOR_F{ color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f };
         }
 
-        void ClearGraphicsDevice();
         void CreateGraphicsDevice();
 
         winrt::Compositor m_compositor;
