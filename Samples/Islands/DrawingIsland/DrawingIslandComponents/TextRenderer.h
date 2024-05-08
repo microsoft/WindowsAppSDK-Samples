@@ -31,7 +31,7 @@ namespace winrt::DrawingIslandComponents::implementation
             return m_compositionGraphicsDevice;
         }
 
-        void RecreateGraphicsDevice();
+        void RecreateDirect2DDevice();
 
     private:
         static inline D2D_COLOR_F ToColorF(Windows::UI::Color color)
@@ -39,7 +39,7 @@ namespace winrt::DrawingIslandComponents::implementation
             return D2D_COLOR_F{ color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f };
         }
 
-        void CreateGraphicsDevice();
+        void CreateDirect2DDevice();
 
         winrt::Compositor m_compositor;
 
@@ -49,6 +49,7 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::com_ptr<ID2D1Factory7> m_d2dFactory;
 
         // Device-dependent resources.
+        winrt::com_ptr< IDXGIDevice> m_dxgiDevice;
         winrt::com_ptr<ID2D1Device6> m_d2dDevice;
         CompositionGraphicsDevice m_compositionGraphicsDevice{ nullptr };
 

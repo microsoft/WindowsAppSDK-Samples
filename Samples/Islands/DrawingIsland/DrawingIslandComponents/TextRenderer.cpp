@@ -30,18 +30,31 @@ namespace winrt::DrawingIslandComponents::implementation
         // Create the D2D factory.
         winrt::check_hresult(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, m_d2dFactory.put()));
 
-        CreateGraphicsDevice();
+        // Create the Direct3D and Direct2D device objects.
+        CreateDirect2DDevice();
+
+        // Create the composition graphics device.
+        auto compositorInterop = m_compositor.as<winrt::Microsoft::UI::Composition::ICompositorInterop>();
+        winrt::Microsoft::UI::Composition::ICompositionGraphicsDevice compositionGraphicsDevice;
+        winrt::check_hresult(compositorInterop->CreateGraphicsDevice(m_d2dDevice.get(), &compositionGraphicsDevice));
+        m_compositionGraphicsDevice = compositionGraphicsDevice.as<CompositionGraphicsDevice>();
     }
 
-    void TextRenderer::RecreateGraphicsDevice()
+    void TextRenderer::RecreateDirect2DDevice()
     {
+        // Release the old Direct2D and Direct2D device objects.
+        m_dxgiDevice = nullptr;
         m_d2dDevice = nullptr;
-        m_compositionGraphicsDevice = nullptr;
 
-        CreateGraphicsDevice();
+        // Create new Direct3D and Direct2D device objects.
+        CreateDirect2DDevice();
+
+        // Restore the composition graphics device to health by pointing to the new Direct2D device.
+        auto compositionGraphicsDeviceInterop = m_compositionGraphicsDevice.as<ICompositionGraphicsDeviceInterop>();
+        winrt::check_hresult(compositionGraphicsDeviceInterop->SetRenderingDevice(m_d2dDevice.get()));
     }
 
-    void TextRenderer::CreateGraphicsDevice()
+    void TextRenderer::CreateDirect2DDevice()
     {
         uint32_t createDeviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
@@ -84,13 +97,8 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::com_ptr<ID2D1Device6> d2dDevice;
         winrt::check_hresult(m_d2dFactory->CreateDevice(dxgiDevice.get(), d2dDevice.put()));
 
-        // Create the composition graphics device.
-        auto compositorInterop = m_compositor.as<winrt::Microsoft::UI::Composition::ICompositorInterop>();
-        winrt::Microsoft::UI::Composition::ICompositionGraphicsDevice compositionGraphicsDevice;
-        winrt::check_hresult(compositorInterop->CreateGraphicsDevice(d2dDevice.get(), &compositionGraphicsDevice));
-
         // Save the newly-created objects.
-        m_compositionGraphicsDevice = compositionGraphicsDevice.as<CompositionGraphicsDevice>();
+        m_dxgiDevice = std::move(dxgiDevice);
         m_d2dDevice = std::move(d2dDevice);
     }
 
