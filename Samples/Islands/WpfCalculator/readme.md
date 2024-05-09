@@ -17,6 +17,11 @@ Here's the basic process:
 * ctrl+f5
 * App runs, and looks the same.  Note how the Start Menu now contains "CalculatorDemoPackage".
 
+**Demo3_Step1_AddWasdk**
+* Remove comments for "Demo3_Step1_AddWasdk"
+* Demo will look the same.
+
+
 **Demo3_Step2_AddCompact**
 * Remove comments for "Demo3_Step1_AddWasdk"
 * ctrl+f5
