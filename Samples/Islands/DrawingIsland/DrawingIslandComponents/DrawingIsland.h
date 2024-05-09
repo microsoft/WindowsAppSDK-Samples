@@ -18,6 +18,8 @@ namespace winrt::DrawingIslandComponents::implementation
         IAutomationCallbackHandler
     {
     public:
+        // Construction
+
         DrawingIsland(
             const winrt::Compositor& compositor);
 
@@ -27,16 +29,14 @@ namespace winrt::DrawingIslandComponents::implementation
         void Close();
 
         // Properties 
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        boolean UseSystemBackdrop()
+
+        bool EnableBackgroundTransparency()
         {
-            return m_useSystemBackdrop;
+            return m_background.BackdropEnabled;
         }
 
-        void UseSystemBackdrop(
-            boolean value);
-#endif
+        void EnableBackgroundTransparency(
+            bool value);
 
         winrt::ContentIsland Island() const
         {
@@ -51,9 +51,9 @@ namespace winrt::DrawingIslandComponents::implementation
         void RightClickAndRelease(
             const float2 currentPoint);
 
-        void SetBackroundOpacity(float backgroundOpacity)
+        void SetIslandOpacity(float islandOpacity)
         {
-            m_background.Opacity = backgroundOpacity;
+            m_output.Opacity = islandOpacity;
         }
 
         void SetColorIndex(std::uint32_t colorIndex)
@@ -144,11 +144,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void Output_UpdateCurrentColorVisual();
 
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        void SystemBackdrop_Initialize();
-#endif
-        void SystemBackdrop_EvaluateUsage();
+        void Output_UpdateSystemBackdrop();
 
         void Environment_Initialize();
 
@@ -198,7 +194,11 @@ namespace winrt::DrawingIslandComponents::implementation
         {
             winrt::Compositor Compositor{ nullptr };
 
+            winrt::ContainerVisual RootVisual{ nullptr };
+
             std::shared_ptr<TextRenderer> TextRenderer;
+
+            float Opacity{ 0.5f };
 
             // Current color used for new items
             unsigned int CurrentColorIndex = 0;
@@ -238,15 +238,12 @@ namespace winrt::DrawingIslandComponents::implementation
             winrt::CompositionColorBrush BrushC{ nullptr };
             winrt::SpriteVisual Visual{ nullptr };
             winrt::RectangleClip Clip{ nullptr };
-            float Opacity = 0.5f;
-        } m_background;
 
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        winrt::ContentExternalBackdropLink m_backdropLink{ nullptr };
-        winrt::ICompositionSupportsSystemBackdrop m_backdropTarget{ nullptr };
-        boolean m_useSystemBackdrop = false;
-#endif
+            // System backdrops (Mica on Win11+, DesktopAcrylic on Win10)
+            bool BackdropEnabled{ true };
+            winrt::SystemBackdropConfiguration BackdropConfiguration{ nullptr };
+            winrt::ISystemBackdropControllerWithTargets BackdropController{ nullptr };
+        } m_background;
 
         // Drawing items being manipulated.
         struct 

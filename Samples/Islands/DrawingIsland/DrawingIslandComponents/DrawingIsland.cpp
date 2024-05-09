@@ -22,10 +22,10 @@ namespace winrt::DrawingIslandComponents::implementation
         // - When the ContentIsland is destroyed, ContentIsland.AppData will call IClosable.Close
         //   on this instance to break cycles and clean up expensive resources.
 
-        m_background.Visual = m_output.Compositor.CreateSpriteVisual();
-        m_background.Visual.RelativeSizeAdjustment(float2(1.0f, 1.0f));
+        m_output.RootVisual = m_output.Compositor.CreateContainerVisual();
+        m_output.RootVisual.RelativeSizeAdjustment({ 1.0f, 1.0f });
 
-        m_island = winrt::ContentIsland::Create(m_background.Visual);
+        m_island = winrt::ContentIsland::Create(m_output.RootVisual);
         m_island.AppData(get_strong().as<winrt::IInspectable>());
 
         Output_Initialize();
@@ -61,6 +61,8 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::Close()
     {
+        m_output.RootVisual = nullptr;
+
         m_input.KeyboardSource = nullptr;
         m_input.PretranslateSource = nullptr;
         m_input.PointerSource = nullptr;
@@ -76,30 +78,18 @@ namespace winrt::DrawingIslandComponents::implementation
         m_items.Items.clear();
         m_items.SelectedItem = nullptr;
 
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        // Destroy SystemBackdropController objects.
-        if (m_backdropController != nullptr)
+        if (nullptr != m_background.BackdropController)
         {
-            if (m_backdropConfiguration != nullptr)
-            {
-                // m_backdropConfiguration is only initialized for the DrawingIsland that owns the
-                // SystemBackdropController.
-
-                m_backdropController.Close();
-                m_backdropController = nullptr;
-                m_backdropConfiguration = nullptr;
-            }
-            else
-            {
-                // We're closing a DrawingIsland in a popup, not the owner DrawingIsland of the
-                // SystemBackdropController.  Therefore, remove the current target from the
-                // Controller.
-
-                m_backdropController.RemoveSystemBackdropTarget(m_backdropTarget);
-            }
+            // Clean up our SystemBackdropController.
+            m_background.BackdropController.RemoveAllSystemBackdropTargets();
+            m_background.BackdropController.Close();
+            m_background.BackdropController = nullptr;
         }
-#endif
+
+        if (nullptr != m_background.BackdropConfiguration)
+        {
+            m_background.BackdropConfiguration = nullptr;
+        }
 
         // Make sure automation is destroyed.
         for (auto& automationPeer : m_uia.AutomationPeers)
@@ -129,6 +119,17 @@ namespace winrt::DrawingIslandComponents::implementation
         // event.
 
         m_output.Compositor = nullptr;
+    }
+
+
+    void DrawingIsland::EnableBackgroundTransparency(
+        bool value)
+    {
+        if (value != m_background.BackdropEnabled)
+        {
+            m_background.BackdropEnabled = value;
+            Output_UpdateSystemBackdrop();
+        }
     }
 
 
@@ -435,11 +436,19 @@ namespace winrt::DrawingIslandComponents::implementation
             switch (activationListener.State())
             {
             case winrt::InputActivationState::Activated:
-                m_background.Visual.Opacity(1.0f);
+                m_output.RootVisual.Opacity(1.0f);
+                if (nullptr != m_background.BackdropConfiguration)
+                {
+                    m_background.BackdropConfiguration.IsInputActive(true);
+                }
                 break;
 
             default:
-                m_background.Visual.Opacity(m_background.Opacity);
+                m_output.RootVisual.Opacity(m_output.Opacity);
+                if (nullptr != m_background.BackdropConfiguration)
+                {
+                    m_background.BackdropConfiguration.IsInputActive(false);
+                }
                 break;
             }
         });
@@ -753,13 +762,13 @@ namespace winrt::DrawingIslandComponents::implementation
             // also mirrored. The text will need another RelativeOffsetAdjustment and Scale to
             // return to the normal space.
 
-            m_background.Visual.RelativeOffsetAdjustment(winrt::float3(1, 0, 0));
-            m_background.Visual.Scale(winrt::float3(-1, 1, 1));
+            m_output.RootVisual.RelativeOffsetAdjustment(winrt::float3(1, 0, 0));
+            m_output.RootVisual.Scale(winrt::float3(-1, 1, 1));
         }
         else
         {
-            m_background.Visual.RelativeOffsetAdjustment(winrt::float3(0, 0, 0));
-            m_background.Visual.Scale(winrt::float3(1, 1, 1));
+            m_output.RootVisual.RelativeOffsetAdjustment(winrt::float3(0, 0, 0));
+            m_output.RootVisual.Scale(winrt::float3(1, 1, 1));
         }
         m_prevState.LayoutDirection = m_island.LayoutDirection();
     }
@@ -768,6 +777,25 @@ namespace winrt::DrawingIslandComponents::implementation
     void
     DrawingIsland::Output_Initialize()
     {
+        // Create the background visual.
+        m_background.Visual = m_output.Compositor.CreateSpriteVisual();
+        m_background.Visual.RelativeSizeAdjustment({ 1.0f, 1.0f });
+
+        m_background.BrushDefault = m_output.Compositor.CreateColorBrush(
+            winrt::Color{ 0xFF, 0x20, 0x20, 0x20 });
+
+        m_background.BrushA = m_output.Compositor.CreateColorBrush(
+            winrt::Color{ 0xFF, 0x99, 0x20, 0x20 });
+
+        m_background.BrushB = m_output.Compositor.CreateColorBrush(
+            winrt::Color{ 0xFF, 0x20, 0x99, 0x20 });
+
+        m_background.BrushC = m_output.Compositor.CreateColorBrush(
+            winrt::Color{ 0xFF, 0x20, 0x20, 0x99 });
+
+        m_background.Visual.Brush(m_background.BrushDefault);
+        m_output.RootVisual.Children().InsertAtTop(m_background.Visual);
+
         for (int i = 0; i < _countof(m_output.ColorBrushes); i++)
         {
             m_output.ColorBrushes[i] = m_output.Compositor.CreateColorBrush(s_colors[i]);
@@ -780,13 +808,13 @@ namespace winrt::DrawingIslandComponents::implementation
 
         winrt::ContainerVisual drawingVisualsRoot = m_output.Compositor.CreateContainerVisual();
         m_items.Visuals = drawingVisualsRoot.Children();
-        m_background.Visual.Children().InsertAtTop(drawingVisualsRoot);
+        m_output.RootVisual.Children().InsertAtTop(drawingVisualsRoot);
 
         m_items.CurrentColorVisual = m_output.Compositor.CreateSpriteVisual();
         m_items.CurrentColorVisual.Offset({0.0f, 0.0f, 0.0f});
-        m_background.Visual.Children().InsertAtTop(m_items.CurrentColorVisual);
+        m_output.RootVisual.Children().InsertAtTop(m_items.CurrentColorVisual);
 
-        SystemBackdrop_EvaluateUsage();
+        Output_UpdateSystemBackdrop();
 
         Output_UpdateCurrentColorVisual();
     }
@@ -844,99 +872,53 @@ namespace winrt::DrawingIslandComponents::implementation
     }
 
 
-    // TODO: Enable Mica on Win 11
-#if FALSE
     void
-    DrawingIsland::SystemBackdrop_Initialize()
+    DrawingIsland::Output_UpdateSystemBackdrop()
     {
-        // Don't initilize system backdrop if we haven't been configured for it.
-        if (!m_useSystemBackdrop) return;
-
-        if (m_backdropController == nullptr)
+        if (m_background.BackdropEnabled && nullptr == m_background.BackdropController)
         {
-            m_backdropConfiguration = winrt::SystemBackdropConfiguration();
-            m_backdropController = winrt::DesktopAcrylicController();
-            m_backdropController.SetSystemBackdropConfiguration(m_backdropConfiguration);
+            // Reduce the opacity of the background color visual so that we can see
+            // the Mica/DesktopAcrylic behind it.
+            m_background.Visual.Opacity(0.1f);
 
-            auto activationListener = winrt::InputActivationListener::GetForIsland(m_island);
-            (void)activationListener.InputActivationChanged(
-                [this, activationListener](
-                    winrt::InputActivationListener const&,
-                    winrt::InputActivationListenerActivationChangedEventArgs const&)
+            // Create a new SystemBackdropConfiguration if we do not already have one.
+            if (nullptr == m_background.BackdropConfiguration)
             {
-                switch (activationListener.State())
-                {
-                case winrt::InputActivationState::Activated:
-                    m_backdropConfiguration.IsInputActive(true);
-                    break;
+                m_background.BackdropConfiguration = winrt::SystemBackdropConfiguration();
+            }
 
-                default:
-                    m_backdropConfiguration.IsInputActive(false);
-                    break;
-                }
-            });
+            // Decide between Mica and DesktopAcrylic.
+            if (winrt::MicaController::IsSupported())
+            {
+                m_background.BackdropController = winrt::MicaController();
+                
+            }
+            else
+            {
+                m_background.BackdropController = winrt::DesktopAcrylicController();
+            }
+
+            // Link the SystemBackdropConfiguration to our SystemBackdropController.
+            m_background.BackdropController.SetSystemBackdropConfiguration(
+                m_background.BackdropConfiguration);
+
+            // Add our island as the target.
+            m_background.BackdropController.AddSystemBackdropTarget(m_island);
         }
-
-
-        // If we are the main content, we don't want to add custom clips or offsets to our 
-        // backdrop, so we can pass the ContentIsland as the target to the BackdropController. 
-        // This will by default fill the entire ContentIsland backdrop surface.
-
-        m_backdropTarget = m_island;
-    
-        m_backdropController.AddSystemBackdropTarget(m_backdropTarget);
-    }
-#endif
-
-
-    void 
-    DrawingIsland::SystemBackdrop_EvaluateUsage()
-    {
-        BYTE backgroundBrushOpacity = 0xFF;
-
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        // If we use system backdrops, it will be behind our background visual. Make sure we can
-        // see through the background visual to reveal the system backdrop.
-        // reveal the system backdrop underneath.
-        if (m_useSystemBackdrop)
+        else
         {
-            backgroundBrushOpacity = 0x30;
-        }
-#endif
+            // Reset the background opacity to 1.0
+            m_background.Visual.Opacity(1.0f);
 
-        // Create the background parent Visual that the individual square will be added into.
-        m_background.BrushDefault = m_output.Compositor.CreateColorBrush(
-            winrt::Color{ backgroundBrushOpacity, 0x20, 0x20, 0x20 });
-
-        m_background.BrushA = m_output.Compositor.CreateColorBrush(
-            winrt::Color{ backgroundBrushOpacity, 0x99, 0x20, 0x20 });
-
-        m_background.BrushB = m_output.Compositor.CreateColorBrush(
-            winrt::Color{ backgroundBrushOpacity, 0x20, 0x99, 0x20 });
-
-        m_background.BrushC = m_output.Compositor.CreateColorBrush(
-            winrt::Color{ backgroundBrushOpacity, 0x20, 0x20, 0x99 });
-
-        m_background.Visual.Brush(m_background.BrushDefault);
-    }
-
-
-    // TODO: Enable Mica on Win 11
-#if FALSE
-    void
-    DrawingIsland::UseSystemBackdrop(
-        boolean value)
-    {
-        if (m_useSystemBackdrop != value)
-        {
-            m_useSystemBackdrop = value;
-
-            SystemBackdrop_EvaluateUsage();
+            if (nullptr != m_background.BackdropController)
+            {
+                // Clean up our SystemBackdropController.
+                m_background.BackdropController.RemoveAllSystemBackdropTargets();
+                m_background.BackdropController.Close();
+                m_background.BackdropController = nullptr;
+            }
         }
     }
-#endif
-
 
     void
     DrawingIsland::Environment_Initialize()

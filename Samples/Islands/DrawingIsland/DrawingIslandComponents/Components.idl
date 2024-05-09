@@ -6,23 +6,23 @@ namespace DrawingIslandComponents
     [default_interface]
     runtimeclass DrawingIsland : Windows.Foundation.IClosable
     {
+        // Construction
         DrawingIsland(
             Microsoft.UI.Composition.Compositor compositor);
 
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        Boolean UseSystemBackdrop { get; set; };
-#endif
+        // Properties
+        Boolean EnableBackgroundTransparency;
 
         Microsoft.UI.Content.ContentIsland Island { get; };
 
+        // Methods
         void LeftClickAndRelease(
             Windows.Foundation.Numerics.Vector2 currentPoint);
 
         void RightClickAndRelease(
             Windows.Foundation.Numerics.Vector2 currentPoint);
 
-        void SetBackroundOpacity(Single backgroundOpacity);
+        void SetIslandOpacity(Single islandOpacity);
 
         void SetColorIndex(UInt32 colorIndex);
     }
