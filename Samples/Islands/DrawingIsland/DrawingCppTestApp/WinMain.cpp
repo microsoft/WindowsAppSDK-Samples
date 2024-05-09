@@ -21,9 +21,6 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     auto controller{ winrt::DispatcherQueueController::CreateOnCurrentThread() };
     auto queue = controller.DispatcherQueue();
 
-    auto compositor = winrt::Compositor();
-    auto island = winrt::DrawingIsland(compositor).Island();
-
     // Associating the AppWindow with the DispatcherQueue on which the ContentIsland is created
     // will ensure that the ContentIsland is Closed when the AppWindow closes.
     auto window = winrt::AppWindow::Create();
@@ -37,6 +34,10 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 
     window.Title(L"Drawing C++ TestApp");
     window.Show();
+
+    // Create the Island content in the window.
+    auto compositor = winrt::Compositor();
+    auto island = winrt::DrawingIsland(compositor).Island();
 
     // Create a ContentSiteBridge and connect the ContentIsland to it.
     auto siteBridge = winrt::DesktopChildSiteBridge::Create(compositor, window.Id());

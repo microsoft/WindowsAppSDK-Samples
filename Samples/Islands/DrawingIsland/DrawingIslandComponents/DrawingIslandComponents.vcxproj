@@ -130,8 +130,6 @@
     <ClInclude Include="AutomationFragment.h" />
     <ClInclude Include="AutomationPeer.h" />
     <ClInclude Include="DeviceLostHelper.h" />
-    <ClInclude Include="IslandFragmentRoot.h" />
-    <ClInclude Include="NodeSimpleFragment.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="DrawingIsland.h">
       <DependentUpon>Components.idl</DependentUpon>
@@ -144,8 +142,6 @@
     <ClCompile Include="AutomationFragmentRoot.cpp" />
     <ClCompile Include="AutomationFragment.cpp" />
     <ClCompile Include="DeviceLostHelper.cpp" />
-    <ClCompile Include="IslandFragmentRoot.cpp" />
-    <ClCompile Include="NodeSimpleFragment.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
