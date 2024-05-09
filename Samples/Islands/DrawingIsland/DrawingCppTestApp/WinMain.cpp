@@ -21,25 +21,30 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     auto controller{ winrt::DispatcherQueueController::CreateOnCurrentThread() };
     auto queue = controller.DispatcherQueue();
 
+    auto compositor = winrt::Compositor();
+    auto island = winrt::DrawingIsland(compositor).Island();
+
+    // Associating the AppWindow with the DispatcherQueue on which the ContentIsland is created
+    // will ensure that the ContentIsland is Closed when the AppWindow closes.
     auto window = winrt::AppWindow::Create();
     window.AssociateWithDispatcherQueue(queue);
-    window.Closing([&](auto&&, auto&&)
+    window.Closing(
+        [queue](auto&&, auto&&)
         {
+            // Ensure the DispatcherQueue exits the event loop on close.
             queue.EnqueueEventLoopExit();
         });
 
     window.Title(L"Drawing C++ TestApp");
     window.Show();
 
-    auto compositor = winrt::Compositor();
-    auto drawing = winrt::DrawingIsland(compositor);
-
+    // Create a ContentSiteBridge and connect the ContentIsland to it.
     auto siteBridge = winrt::DesktopChildSiteBridge::Create(compositor, window.Id());
     siteBridge.ResizePolicy(winrt::ContentSizePolicy::ResizeContentToParentWindow);
     siteBridge.Show();
-    siteBridge.Connect(drawing.Island());
+    siteBridge.Connect(island);
 
-    // Move initial focus to the island.
+    // Move initial focus to the ContentIsland.
     auto focusNavigationHost = winrt::InputFocusNavigationHost::GetForSiteBridge(siteBridge);
     focusNavigationHost.NavigateFocus(winrt::FocusNavigationRequest::Create(
         winrt::FocusNavigationReason::Programmatic));

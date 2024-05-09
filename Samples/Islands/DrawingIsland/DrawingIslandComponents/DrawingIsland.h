@@ -4,7 +4,8 @@
 #pragma once
 
 #include "DrawingIsland.g.h"
-#include "IslandFragmentRoot.h"
+#include "AutomationFragmentRoot.h"
+#include "AutomationPeer.h"
 #include "TextRenderer.h"
 #include "DeviceLostHelper.h"
 #include "TextItem.h"
@@ -18,6 +19,8 @@ namespace winrt::DrawingIslandComponents::implementation
         IAutomationCallbackHandler
     {
     public:
+        // Construction
+
         DrawingIsland(
             const winrt::Compositor& compositor);
 
@@ -27,16 +30,14 @@ namespace winrt::DrawingIslandComponents::implementation
         void Close();
 
         // Properties 
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        boolean UseSystemBackdrop()
+
+        bool EnableBackgroundTransparency()
         {
-            return m_useSystemBackdrop;
+            return m_background.BackdropEnabled;
         }
 
-        void UseSystemBackdrop(
-            boolean value);
-#endif
+        void EnableBackgroundTransparency(
+            bool value);
 
         winrt::ContentIsland Island() const
         {
@@ -51,14 +52,16 @@ namespace winrt::DrawingIslandComponents::implementation
         void RightClickAndRelease(
             const float2 currentPoint);
 
-        void SetBackroundOpacity(float backgroundOpacity)
+        void SetIslandOpacity(float islandOpacity)
         {
-            m_background.Opacity = backgroundOpacity;
+            m_output.Opacity = islandOpacity;
         }
 
         void SetColorIndex(std::uint32_t colorIndex)
         {
-            m_output.CurrentColorIndex = std::clamp<std::uint32_t>(colorIndex, 0, _countof(s_colors) - 1);
+            m_output.CurrentColorIndex = std::clamp<std::uint32_t>(
+                colorIndex, 0, _countof(s_colors) - 1);
+
             if (m_output.CurrentColorIndex >= 4)
             {
                 m_background.BrushDefault =
@@ -146,11 +149,7 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void Output_UpdateCurrentColorVisual();
 
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        void SystemBackdrop_Initialize();
-#endif
-        void SystemBackdrop_EvaluateUsage();
+        void Output_UpdateSystemBackdrop();
 
         void Environment_Initialize();
 
@@ -200,18 +199,24 @@ namespace winrt::DrawingIslandComponents::implementation
         {
             winrt::Compositor Compositor{ nullptr };
 
+            winrt::ContainerVisual RootVisual{ nullptr };
+
             std::shared_ptr<TextRenderer> TextRenderer;
             DeviceLostHelper DeviceLostHelper;
+
+            float Opacity{ 0.5f };
 
             // Current color used for new items
             unsigned int CurrentColorIndex = 0;
 
             // Cached brushes for items
             winrt::CompositionColorBrush ColorBrushes[_countof(s_colors)]
-            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+                nullptr, nullptr, nullptr, nullptr, nullptr };
 
             winrt::CompositionColorBrush HalfTransparentColorBrushes[_countof(s_colors)]
-            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+            { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+                nullptr, nullptr, nullptr, nullptr, nullptr };
         } m_output;
 
         // Input handling
@@ -239,15 +244,12 @@ namespace winrt::DrawingIslandComponents::implementation
             winrt::CompositionColorBrush BrushC{ nullptr };
             winrt::SpriteVisual Visual{ nullptr };
             winrt::RectangleClip Clip{ nullptr };
-            float Opacity = 0.5f;
-        } m_background;
 
-        // TODO: Enable Mica on Win 11
-#if FALSE
-        winrt::ContentExternalBackdropLink m_backdropLink{ nullptr };
-        winrt::ICompositionSupportsSystemBackdrop m_backdropTarget{ nullptr };
-        boolean m_useSystemBackdrop = false;
-#endif
+            // System backdrops (Mica on Win11+, DesktopAcrylic on Win10)
+            bool BackdropEnabled{ true };
+            winrt::SystemBackdropConfiguration BackdropConfiguration{ nullptr };
+            winrt::ISystemBackdropControllerWithTargets BackdropController{ nullptr };
+        } m_background;
 
         // Drawing items being manipulated.
         struct 
@@ -277,47 +279,11 @@ namespace winrt::DrawingIslandComponents::implementation
             winrt::ContentLayoutDirection LayoutDirection =
                 winrt::ContentLayoutDirection::LeftToRight;
         } m_prevState;
-            
-        struct AutomationPeer
-        {
-            explicit AutomationPeer(
-                winrt::Visual const& visual,
-                winrt::com_ptr<NodeSimpleFragment> const& automationProvider) :
-                _visual{ visual },
-                _automationProvider{ automationProvider }
-            {
-
-            }
-
-            winrt::Visual const& GetVisual() const
-            {
-                return _visual;
-            }
-
-            winrt::com_ptr<NodeSimpleFragment> const& GetAutomationProvider() const
-            {
-                return _automationProvider;
-            }
-
-            bool Match(winrt::Visual const& visual) const noexcept
-            {
-                return visual == _visual;
-            }
-
-            bool Match(::IUnknown const* const automationProviderAsIUnknown) const noexcept
-            {
-                return automationProviderAsIUnknown == _automationProvider.try_as<::IUnknown>().get();
-            }
-
-        private:
-            winrt::Visual _visual{ nullptr };
-            winrt::com_ptr<NodeSimpleFragment> _automationProvider{ nullptr };
-        };
 
         struct
         {
             // The UIA parent Root for this Island that contains the fragment children.
-            winrt::com_ptr<IslandFragmentRoot> FragmentRoot{ nullptr };
+            winrt::com_ptr<AutomationFragmentRoot> FragmentRoot{ nullptr };
 
             // Map a given square (Visual) to its UIA fragment object.
             std::vector<AutomationPeer> AutomationPeers{};
