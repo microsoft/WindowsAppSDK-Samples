@@ -11,6 +11,7 @@ namespace CalculatorDemo
     /// </summary>
     public partial class App : Application
     {
+#if false // Demo3_Step1_AddWasdk
         // Many WinAppSDK APIs require a DispatcherQueue to be running on the thread.  We'll start one when the app starts up
         // and shut it down when the app is finished.
         protected override void OnStartup(StartupEventArgs e)
@@ -27,5 +28,7 @@ namespace CalculatorDemo
         }
 
         DispatcherQueueController? _dispatcherQueueController;
+#endif
     }
+
 }

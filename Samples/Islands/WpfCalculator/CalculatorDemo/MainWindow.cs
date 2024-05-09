@@ -23,7 +23,9 @@ namespace CalculatorDemo
         private string _lastVal;
         private string _memVal;
         private AppWindow _appWindow;
-        private Microsoft.UI.Composition.Compositor _compositor;
+
+        // Demo4_Step2_AddIsland
+        // private Microsoft.UI.Composition.Compositor _compositor;
 
         public MainWindow()
         {
@@ -31,7 +33,9 @@ namespace CalculatorDemo
             _paper = new PaperTrail(this);
             ProcessKey('0');
             EraseDisplay = true;
-            _compositor = new Microsoft.UI.Composition.Compositor();
+
+            // Demo4_Step2_AddIsland
+            // _compositor = new Microsoft.UI.Composition.Compositor();
         }
 
         /// <summary>
@@ -452,6 +456,7 @@ namespace CalculatorDemo
             }
         }
 
+#if false // Demo3_Step2_AddCompact
         private void CompactView_Click(object sender, RoutedEventArgs e)
         {
             SetCompactView(true);
@@ -490,7 +495,9 @@ namespace CalculatorDemo
                 _appWindow.SetPresenter(AppWindowPresenterKind.Default);
             }
         }
+#endif
 
+#if false // Demo4_Step2_AddIsland
         private void CreateDrawingIslandMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var wpfIslandHost = new WpfIslandHost(_compositor);
@@ -501,5 +508,6 @@ namespace CalculatorDemo
 
             wpfIslandHost.DesktopChildSiteBridge.Connect(drawingIsland.Island);
         }
+#endif
     }
 }

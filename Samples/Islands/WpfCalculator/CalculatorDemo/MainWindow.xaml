@@ -11,21 +11,12 @@
         Icon="appicon.ico">
     
     <Window.Resources>
-        <!-- 
-        calc_update_tweaks: This below style will apply to all Buttons by default.
-        We set HorizontalAlignment and VeriticalAlignment to "Stretch" so that each button will fill its Grid cell.
-        The Margin is here so that there's a bit of space between each button.
-        -->
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="Margin" Value="2"/>
         </Style>
 
-        <!--
-        calc_update_tweaks: We also make a new Style called "GrayButton".  The buttons that have the gray appearance will use
-        this style.
-        -->
         <Style x:Key="GrayButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="#33aaaabb"/>
         </Style>
@@ -33,18 +24,19 @@
 
     <Grid x:Name="MainGrid">
         <DockPanel Name="MyPanel">
-            <!--
-            calc_update_tweaks: Remove the hardcoded hight to make the Menu taller so that the menu items can be fully visible.
-            -->
             <Menu Name="MainMenu" DockPanel.Dock="Top">
                 <MenuItem Header="File">
+                <!-- Demo4_Step2_AddIsland
                     <MenuItem Name="CreateDrawingIslandMenuItem" Click="CreateDrawingIslandMenuItem_Click"  Header="Create DrawingIsland" />
+                -->
                     <MenuItem Click="OnMenuExit" Header="Exit" />
                 </MenuItem>
                 <MenuItem Header="View">
                     <MenuItem Name="StandardMenu" Click="OnMenuStandard" IsCheckable="true" IsChecked="True"
                               Header="Standard" />
+                    <!-- Demo3_Step2_AddCompact
                     <MenuItem Name="CompactView" Click="CompactView_Click" Header="Enter Compact View" />
+                    -->
                 </MenuItem>
                 <MenuItem Header="Help">
                     <MenuItem Click="OnMenuAbout" Header="About" />
@@ -81,10 +73,6 @@
                 <Button Name="B3" Click="DigitBtn_Click" Grid.Column="6" Grid.Row="4">3</Button>
                 <Button Name="B0" Click="DigitBtn_Click" Grid.Column="4" Grid.Row="5">0</Button>
                 <Button Name="BPeriod" Click="DigitBtn_Click" Grid.Column="5" Grid.Row="5">.</Button>
-                <!--
-                calc_update_tweaks: We add Style="{StaticResource GrayButton}" here to the Buttons we want to be gray to 
-                use the new Style we defined above. 
-                -->
                 <Button Name="BPM" Click="OperBtn_Click" Style="{StaticResource GrayButton}" Grid.Column="6" Grid.Row="5">+/-</Button>
                 <Button Name="BDevide" Click="OperBtn_Click" Style="{StaticResource GrayButton}" Grid.Column="7" Grid.Row="2">/</Button>
                 <Button Name="BMultiply" Click="OperBtn_Click" Style="{StaticResource GrayButton}" Grid.Column="7" Grid.Row="3">*</Button>
@@ -102,9 +90,6 @@
                         ToolTip="Usage: 'A 1/X'">
                     1/X
                 </Button>
-                <!--
-                calc_update_tweaks: Let's make the "=" Button an Accent button, so it's easy to find.
-                -->
                 <Button Name="BEqual" Click="OperBtn_Click" Grid.Column="8" Grid.Row="5"
                         Foreground="{DynamicResource AccentButtonForeground}" Background="{DynamicResource AccentButtonBackground}">=</Button>
                 <Button Name="BC" Click="OperBtn_Click" Style="{StaticResource GrayButton}" Grid.Column="8" Grid.Row="1"
@@ -133,10 +118,6 @@
                 </Button>
                 <TextBlock Name="BMemBox" Grid.Column="3" Grid.Row="1" Margin="10,17,10,17" Grid.ColumnSpan="2">Memory: [empty]</TextBlock>
 
-                <!-- 
-                calc_update_tweaks: Make the calculator text a little larger to be more visible. 
-                Also, make the TextBox borders a little less harsh.
-                -->
                 <local:MyTextBox Grid.ColumnSpan="9" x:Name="DisplayBox" Height="30" Margin="5" FontSize="20" BorderBrush="LightGray"/>
                 <Border x:Name="DisplayAreaBorder" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="5" Margin="5">
                     <local:MyTextBox x:Name="PaperBox" BorderBrush="LightGray"/>
@@ -146,6 +127,7 @@
         </DockPanel>
 
         <!-- This is what's shown when we enter the compat view mode-->
+        <!-- Demo3_Step2_AddCompact
         <DockPanel Name="CompactPanel" Visibility="Collapsed">
             <DockPanel DockPanel.Dock="Top">
                 <Button Name="ExitCompactViewButton" Click="ExitCompactViewButton_Click" DockPanel.Dock="Right">Restore</Button>
@@ -155,5 +137,6 @@
             <Border x:Name="CompactAreaBorder">
             </Border>
         </DockPanel>
+        -->
     </Grid>
 </Window>
