@@ -26,9 +26,9 @@ namespace winrt::DrawingIslandComponents::implementation
             return m_compositor;
         }
 
-        CompositionGraphicsDevice const& GetCompositionGraphicsDevice() const noexcept
+        winrt::com_ptr<::IDXGIDevice> const& GetDevice() const noexcept
         {
-            return m_compositionGraphicsDevice;
+            return m_dxgiDevice;
         }
 
         void RecreateDirect2DDevice();
@@ -44,13 +44,13 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::Compositor m_compositor;
 
         // Device-independent resources.
-        winrt::com_ptr<IDWriteFactory7> m_dwriteFactory;
-        winrt::com_ptr<IDWriteTextFormat> m_textFormat;
-        winrt::com_ptr<ID2D1Factory7> m_d2dFactory;
+        winrt::com_ptr<::IDWriteFactory7> m_dwriteFactory;
+        winrt::com_ptr<::IDWriteTextFormat> m_textFormat;
+        winrt::com_ptr<::ID2D1Factory7> m_d2dFactory;
 
         // Device-dependent resources.
-        winrt::com_ptr< IDXGIDevice> m_dxgiDevice;
-        winrt::com_ptr<ID2D1Device6> m_d2dDevice;
+        winrt::com_ptr<::IDXGIDevice> m_dxgiDevice;
+        winrt::com_ptr<::ID2D1Device6> m_d2dDevice;
         CompositionGraphicsDevice m_compositionGraphicsDevice{ nullptr };
 
         float m_dpiScale = 1.0f;

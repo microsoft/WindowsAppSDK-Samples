@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DeviceLostHelper.h" />
     <ClInclude Include="IslandFragmentRoot.h" />
     <ClInclude Include="NodeSimpleFragment.h" />
     <ClInclude Include="pch.h" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Item.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DeviceLostHelper.cpp" />
     <ClCompile Include="IslandFragmentRoot.cpp" />
     <ClCompile Include="NodeSimpleFragment.cpp" />
     <ClCompile Include="pch.cpp">
