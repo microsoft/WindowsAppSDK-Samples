@@ -34,8 +34,8 @@ namespace winrt::DrawingIslandComponents::implementation
         CreateDirect2DDevice();
 
         // Create the composition graphics device.
-        auto compositorInterop = m_compositor.as<winrt::Microsoft::UI::Composition::ICompositorInterop>();
-        winrt::Microsoft::UI::Composition::ICompositionGraphicsDevice compositionGraphicsDevice;
+        auto compositorInterop = m_compositor.as<ICompositorInterop>();
+        ICompositionGraphicsDevice compositionGraphicsDevice;
         winrt::check_hresult(compositorInterop->CreateGraphicsDevice(m_d2dDevice.get(), &compositionGraphicsDevice));
         m_compositionGraphicsDevice = compositionGraphicsDevice.as<CompositionGraphicsDevice>();
     }
@@ -135,54 +135,67 @@ namespace winrt::DrawingIslandComponents::implementation
 
         visual.Size(float2(width, height));
 
-        // Create a composition surface to draw to.
-        CompositionDrawingSurface drawingSurface = m_compositionGraphicsDevice.CreateDrawingSurface(
-            winrt::Windows::Foundation::Size(width * m_dpiScale, height * m_dpiScale),
-            winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
-            winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied);
-        auto drawingSurfaceInterop = drawingSurface.as<ICompositionDrawingSurfaceInterop>();
+        try
+        {
+            // Create a composition surface to draw to.
+            CompositionDrawingSurface drawingSurface = m_compositionGraphicsDevice.CreateDrawingSurface(
+                winrt::Windows::Foundation::Size(width * m_dpiScale, height * m_dpiScale),
+                winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
+                winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied);
+            auto drawingSurfaceInterop = drawingSurface.as<ICompositionDrawingSurfaceInterop>();
 
-        // Begin drawing to get a Direct2D device context.
-        winrt::com_ptr<ID2D1DeviceContext> deviceContext;
-        POINT pixelOffset;
-        winrt::check_hresult(drawingSurfaceInterop->BeginDraw(
-            nullptr,
-            __uuidof(ID2D1DeviceContext),
-            deviceContext.put_void(),
-            &pixelOffset));
+            // Begin drawing to get a Direct2D device context.
+            winrt::com_ptr<ID2D1DeviceContext> deviceContext;
+            POINT pixelOffset;
+            winrt::check_hresult(drawingSurfaceInterop->BeginDraw(
+                nullptr,
+                __uuidof(ID2D1DeviceContext),
+                deviceContext.put_void(),
+                &pixelOffset));
 
-        // Set the DPI of the device context, where 96 DPI corresponds to a 1.0 scale factor.
-        deviceContext->SetDpi(m_dpiScale * 96, m_dpiScale * 96);
+            // Set the DPI of the device context, where 96 DPI corresponds to a 1.0 scale factor.
+            deviceContext->SetDpi(m_dpiScale * 96, m_dpiScale * 96);
 
-        // Compute the origin (top-left corner) of the text layout in DIPs by converting
-        // the drawing surface offset from pixels to DIPs and adding the margin.
-        D2D_POINT_2F origin{
-            pixelOffset.x / m_dpiScale + marginLeft,
-            pixelOffset.y / m_dpiScale + marginTop };
+            // Compute the origin (top-left corner) of the text layout in DIPs by converting
+            // the drawing surface offset from pixels to DIPs and adding the margin.
+            D2D_POINT_2F origin{
+                pixelOffset.x / m_dpiScale + marginLeft,
+                pixelOffset.y / m_dpiScale + marginTop };
 
-        // Clear the background and draw the text.
-        deviceContext->Clear(ToColorF(backgroundColor));
+            // Clear the background and draw the text.
+            deviceContext->Clear(ToColorF(backgroundColor));
 
-        // Use ClearType antialiasing if rendering onto an opaque background.
-        // Otherwise use grayscale.
-        deviceContext->SetTextAntialiasMode(
-            backgroundColor.A == 255 ?
-            D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE :
-            D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
+            // Use ClearType antialiasing if rendering onto an opaque background.
+            // Otherwise use grayscale.
+            deviceContext->SetTextAntialiasMode(
+                backgroundColor.A == 255 ?
+                D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE :
+                D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 
-        // Create the brush used to fill the text.
-        winrt::com_ptr<ID2D1SolidColorBrush> textBrush;
-        winrt::check_hresult(deviceContext->CreateSolidColorBrush(ToColorF(textColor), textBrush.put()));
+            // Create the brush used to fill the text.
+            winrt::com_ptr<ID2D1SolidColorBrush> textBrush;
+            winrt::check_hresult(deviceContext->CreateSolidColorBrush(ToColorF(textColor), textBrush.put()));
 
-        // Draw the text layout object.
-        deviceContext->DrawTextLayout(origin, textLayout.get(), textBrush.get());
+            // Draw the text layout object.
+            deviceContext->DrawTextLayout(origin, textLayout.get(), textBrush.get());
 
-        // End drawing.
-        winrt::check_hresult(drawingSurfaceInterop->EndDraw());
+            // End drawing.
+            winrt::check_hresult(drawingSurfaceInterop->EndDraw());
 
-        // Create the surface brush and set it as the visual's brush.
-        auto surfaceBrush = m_compositor.CreateSurfaceBrush();
-        surfaceBrush.Surface(drawingSurface);
-        visual.Brush(surfaceBrush);
+            // Create the surface brush and set it as the visual's brush.
+            auto surfaceBrush = m_compositor.CreateSurfaceBrush();
+            surfaceBrush.Surface(drawingSurface);
+            visual.Brush(surfaceBrush);
+        }
+        catch (winrt::hresult_error& e)
+        {
+            // Silently ignore device-removed error.
+            // We'll draw again after the device is recreated.
+            if (e.code() == DXGI_ERROR_DEVICE_REMOVED)
+                return;
+
+            // Rethrow all other exceptions.
+            throw;
+        }
     }
 }
