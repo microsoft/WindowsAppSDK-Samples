@@ -1,8 +1,10 @@
 ﻿// // Copyright (c) Microsoft. All rights reserved.
 // // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+#if false // Demo3_Step1_AddWasdk
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+#endif
 using System;
 using System.Globalization;
 using System.Windows;
@@ -22,7 +24,9 @@ namespace CalculatorDemo
         private Operation _lastOper;
         private string _lastVal;
         private string _memVal;
+#if false // Demo3_Step2_AddCompact
         private AppWindow _appWindow;
+#endif
 
         // Demo4_Step2_AddIsland
         // private Microsoft.UI.Composition.Compositor _compositor;
