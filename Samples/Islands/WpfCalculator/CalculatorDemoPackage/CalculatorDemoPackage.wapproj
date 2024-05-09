@@ -42,15 +42,9 @@
     <NoWarn>$(NoWarn);NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\CalculatorDemo\CalculatorDemo.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
+  <!-- Workaround for bug 1994240 -->
   <PropertyGroup>
-    <!-- 
-      Added manually.  This seemes to be required today when the pacakged project is .net9. 
-      Otherwise we need get this error:
-      error : Project '..\CalculatorDemo\CalculatorDemo.csproj' targets 'net9.0-windows'. It cannot be referenced by a project that targets '.NETFramework,Version=v4.5.1'.
-    -->
-    <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
-    <TargetFrameworkMoniker>.NETCoreApp,Version=v9.0</TargetFrameworkMoniker>
-    <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);net9.0-windows$(TargetPlatformVersion)</AssetTargetFallback>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
