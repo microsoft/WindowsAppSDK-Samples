@@ -57,9 +57,16 @@ namespace winrt::DrawingIslandComponents::implementation
 
     void CALLBACK DeviceLostHelper::OnDeviceLost(PTP_CALLBACK_INSTANCE /* instance */, PVOID context, PTP_WAIT /* wait */, TP_WAIT_RESULT /* waitResult */)
     {
+        // Get the DeviceLostHelper context object.
         auto deviceLostHelper = reinterpret_cast<DeviceLostHelper*>(context);
+
+        // Create a local reference to the old device before releasing the helper object's reference.
         auto oldDevice = deviceLostHelper->m_device;
+
+        // Stop listening for device lost events on the old device.
         deviceLostHelper->StopWatchingCurrentDevice();
+
+        // Invoke the event handler.
         deviceLostHelper->RaiseDeviceLostEvent(oldDevice);
     }
 }

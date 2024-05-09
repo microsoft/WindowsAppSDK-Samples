@@ -7,9 +7,11 @@ namespace winrt::DrawingIslandComponents::implementation
 {
     struct DeviceLostEventArgs
     {
-        DeviceLostEventArgs(IDirect3DDevice const& device) : m_device(device) {}
+        DeviceLostEventArgs(IDirect3DDevice const& device) : m_device(device)
+        {
+        }
+
         IDirect3DDevice Device() { return m_device; }
-        static DeviceLostEventArgs Create(IDirect3DDevice const& device) { return DeviceLostEventArgs{ device }; }
 
     private:
         IDirect3DDevice m_device;
@@ -28,11 +30,6 @@ namespace winrt::DrawingIslandComponents::implementation
         DeviceLostHelper(DeviceLostHelper const&) = delete;
         void operator=(DeviceLostHelper const&) = delete;
 
-        IDirect3DDevice CurrentlyWatchedDevice()
-        {
-            return m_device;
-        }
-
         void WatchDevice(winrt::com_ptr<::IDXGIDevice> const& dxgiDevice);
 
         void StopWatchingCurrentDevice();
@@ -42,17 +39,16 @@ namespace winrt::DrawingIslandComponents::implementation
             m_deviceLost = handler;
         }
 
-        winrt::delegate<DeviceLostHelper const*, DeviceLostEventArgs const&> m_deviceLost;
-
     private:
         void RaiseDeviceLostEvent(IDirect3DDevice const& oldDevice)
         {
-            m_deviceLost(this, DeviceLostEventArgs::Create(oldDevice));
+            m_deviceLost(this, DeviceLostEventArgs{ oldDevice });
         }
 
         static void CALLBACK OnDeviceLost(PTP_CALLBACK_INSTANCE /* instance */, PVOID context, PTP_WAIT /* wait */, TP_WAIT_RESULT /* waitResult */);
 
     private:
+        winrt::delegate<DeviceLostHelper const*, DeviceLostEventArgs const&> m_deviceLost;
         IDirect3DDevice m_device;
         winrt::com_ptr<::IDXGIDevice> m_dxgiDevice;
         PTP_WAIT m_onDeviceLostHandler{ nullptr };
