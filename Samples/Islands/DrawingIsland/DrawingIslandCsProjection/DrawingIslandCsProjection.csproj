@@ -19,6 +19,7 @@
 
     <!-- The CsWinRTGeneratedFilesDir property sets the output directory in which the projection source files are generated. This property is set to OutDir, defined in Directory.Build.props from the section above. -->
     <CsWinRTGeneratedFilesDir>$(OutDir)</CsWinRTGeneratedFilesDir>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
 
   </PropertyGroup>
 
