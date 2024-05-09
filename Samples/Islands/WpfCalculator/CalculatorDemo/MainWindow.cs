@@ -481,7 +481,6 @@ namespace CalculatorDemo
 
                 // The AppWindow's CompactOverlay mode will make it always-on-top.
                 _appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-                _appWindow.ResizeClient(new Windows.Graphics.SizeInt32(300, 80));
             }
             else
             {

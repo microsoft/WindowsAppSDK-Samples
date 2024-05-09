@@ -147,8 +147,13 @@
 
         <!-- This is what's shown when we enter the compat view mode-->
         <DockPanel Name="CompactPanel" Visibility="Collapsed">
-            <Button Name="ExitCompactViewButton" Click="ExitCompactViewButton_Click" DockPanel.Dock="Top">Exit Compact View</Button>
-            <TextBlock Margin="3" Name="CompactViewText" FontSize="22" />
+            <DockPanel DockPanel.Dock="Top">
+                <Button Name="ExitCompactViewButton" Click="ExitCompactViewButton_Click" DockPanel.Dock="Right">Restore</Button>
+                <TextBlock Margin="3" Name="CompactViewText" FontSize="22" />
+                
+            </DockPanel>
+            <Border x:Name="CompactAreaBorder">
+            </Border>
         </DockPanel>
     </Grid>
 </Window>
