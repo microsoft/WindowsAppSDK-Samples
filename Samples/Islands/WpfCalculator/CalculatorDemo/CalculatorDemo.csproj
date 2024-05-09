@@ -130,8 +130,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+  <!-- Demo3_Step1_AddWasdk
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+  -->
   </ItemGroup>
   <!-- Demo4_Step2_AddIsland
   <ItemGroup>
