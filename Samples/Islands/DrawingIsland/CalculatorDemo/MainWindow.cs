@@ -23,6 +23,7 @@ namespace CalculatorDemo
         private string _lastVal;
         private string _memVal;
         private AppWindow _appWindow;
+        private Microsoft.UI.Composition.Compositor _compositor;
 
         public MainWindow()
         {
@@ -30,6 +31,7 @@ namespace CalculatorDemo
             _paper = new PaperTrail(this);
             ProcessKey('0');
             EraseDisplay = true;
+            _compositor = new Microsoft.UI.Composition.Compositor();
         }
 
         /// <summary>
@@ -488,6 +490,17 @@ namespace CalculatorDemo
 
                 _appWindow.SetPresenter(AppWindowPresenterKind.Default);
             }
+        }
+
+        private void CreateDrawingIslandMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var wpfIslandHost = new WpfIslandHost(_compositor);
+            var drawingIsland = new DrawingIslandComponents.DrawingIsland(_compositor);
+
+            // After this, the WpfIslandHost will be live, and the DesktopChildSiteBridge will be available.
+            DisplayAreaBorder.Child = wpfIslandHost; 
+
+            wpfIslandHost.DesktopChildSiteBridge.Connect(drawingIsland.Island);
         }
     }
 }

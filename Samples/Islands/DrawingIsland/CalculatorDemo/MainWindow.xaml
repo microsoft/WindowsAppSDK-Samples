@@ -38,6 +38,7 @@
             -->
             <Menu Name="MainMenu" DockPanel.Dock="Top">
                 <MenuItem Header="File">
+                    <MenuItem Name="CreateDrawingIslandMenuItem" Click="CreateDrawingIslandMenuItem_Click"  Header="Create DrawingIsland" />
                     <MenuItem Click="OnMenuExit" Header="Exit" />
                 </MenuItem>
                 <MenuItem Header="View">
