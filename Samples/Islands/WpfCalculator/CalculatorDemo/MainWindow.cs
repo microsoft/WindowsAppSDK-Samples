@@ -28,18 +28,15 @@ namespace CalculatorDemo
         private AppWindow _appWindow;
 #endif
 
-        // Demo4_Step2_AddIsland
-        // private Microsoft.UI.Composition.Compositor _compositor;
-
+#if false // Demo4_Step2_AddIsland
+        private Microsoft.UI.Composition.Compositor _compositor = new Microsoft.UI.Composition.Compositor();
+#endif
         public MainWindow()
         {
             InitializeComponent();
             _paper = new PaperTrail(this);
             ProcessKey('0');
             EraseDisplay = true;
-
-            // Demo4_Step2_AddIsland
-            // _compositor = new Microsoft.UI.Composition.Compositor();
         }
 
         /// <summary>
