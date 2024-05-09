@@ -43,6 +43,7 @@
                 <MenuItem Header="View">
                     <MenuItem Name="StandardMenu" Click="OnMenuStandard" IsCheckable="true" IsChecked="True"
                               Header="Standard" />
+                    <MenuItem Name="CompactView" Click="CompactView_Click" Header="Enter Compact View" />
                 </MenuItem>
                 <MenuItem Header="Help">
                     <MenuItem Click="OnMenuAbout" Header="About" />
@@ -140,6 +141,13 @@
                     <local:MyTextBox x:Name="PaperBox" BorderBrush="LightGray"/>
                 </Border>
             </Grid>
+        
+        </DockPanel>
+
+        <!-- This is what's shown when we enter the compat view mode-->
+        <DockPanel Name="CompactPanel" Visibility="Collapsed">
+            <Button Name="ExitCompactViewButton" Click="ExitCompactViewButton_Click" DockPanel.Dock="Top">Exit Compact View</Button>
+            <TextBlock Margin="3" Name="CompactViewText" FontSize="22" />
         </DockPanel>
     </Grid>
 </Window>
