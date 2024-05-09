@@ -101,11 +101,11 @@ class HelmetScenario
 
         // Generate mipmaps from the bitmaps, which are needed for 3D rendering.
 
-        var materialInput0 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap0.Result);
-        var materialInput1 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap1.Result);
-        var materialInput2 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap2.Result);
-        var materialInput3 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap3.Result);
-        var materialInput4 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap4.Result);
+        var materialInput0 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap0.Result);
+        var materialInput1 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap1.Result);
+        var materialInput2 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap2.Result);
+        var materialInput3 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap3.Result);
+        var materialInput4 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap4.Result);
 
 
         // Copy loaded binary data into mesh: verticies, normals, ...
@@ -128,77 +128,28 @@ class HelmetScenario
         sceneNodeForTheGLTFMesh0.Components.Add(renderComponent0);
 
         sceneMaterial0.BaseColorFactor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-        sceneMaterial0.BaseColorInput = CreateMaterial(
+        sceneMaterial0.BaseColorInput = SceneNodeCommon.CreateMaterial(
             compositor, materialInput0, renderComponent0, "BaseColorInput"); ;
 
         sceneMaterial0.RoughnessFactor = 1.0f;
         sceneMaterial0.MetallicFactor = 1.0f;
-        sceneMaterial0.MetallicRoughnessInput = CreateMaterial(
+        sceneMaterial0.MetallicRoughnessInput = SceneNodeCommon.CreateMaterial(
             compositor, materialInput1, renderComponent0, "MetallicRoughnessInput");
 
         sceneMaterial0.NormalScale = 1.0f;
-        sceneMaterial0.NormalInput = CreateMaterial(
+        sceneMaterial0.NormalInput = SceneNodeCommon.CreateMaterial(
             compositor, materialInput2, renderComponent0, "NormalInput");
 
         sceneMaterial0.OcclusionStrength = 1.0f;
-        sceneMaterial0.OcclusionInput = CreateMaterial(
+        sceneMaterial0.OcclusionInput = SceneNodeCommon.CreateMaterial(
             compositor, materialInput3, renderComponent0, "OcclusionInput");
 
         sceneMaterial0.AlphaMode = SceneAlphaMode.Opaque;
         sceneMaterial0.IsDoubleSided = false;
         sceneMaterial0.EmissiveFactor = new Vector3(1.0f, 1.0f, 1.0f);
-        sceneMaterial0.EmissiveInput = CreateMaterial(
+        sceneMaterial0.EmissiveInput = SceneNodeCommon.CreateMaterial(
             compositor, materialInput4, renderComponent0, "EmissiveInput");
 
         return sceneVisual;
-    }
-
-
-    public static CompositionMipmapSurface LoadMipmapFromBitmap(
-        CompositionGraphicsDevice graphicsDevice, CanvasBitmap canvasBitmap)
-    {
-        var size = new SizeInt32(2048, 2048);
-        var mipmapSurface = graphicsDevice.CreateMipmapSurface(
-            size,
-            DirectXPixelFormat.B8G8R8A8UIntNormalized,
-            DirectXAlphaMode.Premultiplied);
-
-        var drawDestRect = new Rect(0, 0, size.Width, size.Height);
-        var drawSourceRect = new Rect(0, 0, size.Width, size.Height);
-        for (uint level = 0; level < mipmapSurface.LevelCount; ++level)
-        {
-            // Draw the image to the surface
-            var drawingSurface = mipmapSurface.GetDrawingSurfaceForLevel(level);
-
-            using (var session = CanvasComposition.CreateDrawingSession(drawingSurface))
-            {
-                session.Clear(Windows.UI.Color.FromArgb(0, 0, 0, 0));
-                session.DrawImage(canvasBitmap, drawDestRect, drawSourceRect);
-            }
-
-            drawDestRect = new Rect(0, 0, drawDestRect.Width / 2, drawDestRect.Height / 2);
-        }
-
-        return mipmapSurface;
-    }
-
-
-    private static SceneSurfaceMaterialInput CreateMaterial(
-        Compositor compositor, 
-        CompositionMipmapSurface mipmap,
-        SceneMeshRendererComponent rendererComponent,
-        string mapping)
-    {
-        var materialInput = SceneSurfaceMaterialInput.Create(compositor);
-        materialInput.Surface = mipmap;
-        materialInput.BitmapInterpolationMode = 
-            CompositionBitmapInterpolationMode.MagLinearMinLinearMipLinear;
-
-        materialInput.WrappingUMode = SceneWrappingMode.Repeat;
-        materialInput.WrappingVMode = SceneWrappingMode.Repeat;
-
-        rendererComponent.UVMappings[mapping] = SceneAttributeSemantic.TexCoord0;
-
-        return materialInput;
     }
 }

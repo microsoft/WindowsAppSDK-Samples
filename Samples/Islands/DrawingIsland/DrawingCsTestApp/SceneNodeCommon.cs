@@ -8,9 +8,62 @@ using Windows.Foundation;
 using Windows.Storage.Streams;
 using Windows.Storage;
 using WinRT;
+using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.DirectX;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Composition.Scenes;
+using Windows.Graphics;
 
 class SceneNodeCommon
 {
+    public static CompositionMipmapSurface LoadMipmapFromBitmap(
+        CompositionGraphicsDevice graphicsDevice, CanvasBitmap canvasBitmap)
+    {
+        var size = new SizeInt32(2048, 2048);
+        var mipmapSurface = graphicsDevice.CreateMipmapSurface(
+            size,
+            DirectXPixelFormat.B8G8R8A8UIntNormalized,
+            DirectXAlphaMode.Premultiplied);
+
+        var drawDestRect = new Rect(0, 0, size.Width, size.Height);
+        var drawSourceRect = new Rect(0, 0, size.Width, size.Height);
+        for (uint level = 0; level < mipmapSurface.LevelCount; ++level)
+        {
+            // Draw the image to the surface
+            var drawingSurface = mipmapSurface.GetDrawingSurfaceForLevel(level);
+
+            using (var session = CanvasComposition.CreateDrawingSession(drawingSurface))
+            {
+                session.Clear(Windows.UI.Color.FromArgb(0, 0, 0, 0));
+                session.DrawImage(canvasBitmap, drawDestRect, drawSourceRect);
+            }
+
+            drawDestRect = new Rect(0, 0, drawDestRect.Width / 2, drawDestRect.Height / 2);
+        }
+
+        return mipmapSurface;
+    }
+
+    public static SceneSurfaceMaterialInput CreateMaterial(
+        Compositor compositor, 
+        CompositionMipmapSurface mipmap,
+        SceneMeshRendererComponent rendererComponent,
+        string mapping)
+    {
+        var materialInput = SceneSurfaceMaterialInput.Create(compositor);
+        materialInput.Surface = mipmap;
+        materialInput.BitmapInterpolationMode = 
+            CompositionBitmapInterpolationMode.MagLinearMinLinearMipLinear;
+
+        materialInput.WrappingUMode = SceneWrappingMode.Repeat;
+        materialInput.WrappingVMode = SceneWrappingMode.Repeat;
+
+        rendererComponent.UVMappings[mapping] = SceneAttributeSemantic.TexCoord0;
+
+        return materialInput;
+    }
+
     public static async Task<MemoryBuffer> LoadMemoryBufferFromUriAsync(Uri uri)
     {
         var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
