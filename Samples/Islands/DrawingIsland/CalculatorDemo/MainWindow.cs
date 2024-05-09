@@ -1,11 +1,15 @@
 ﻿// // Copyright (c) Microsoft. All rights reserved.
 // // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
+using Windows.ApplicationModel.Contacts;
 
 namespace CalculatorDemo
 {
@@ -18,6 +22,7 @@ namespace CalculatorDemo
         private Operation _lastOper;
         private string _lastVal;
         private string _memVal;
+        private AppWindow _appWindow;
 
         public MainWindow()
         {
@@ -442,6 +447,46 @@ namespace CalculatorDemo
             {
                 _window.PaperBox.Text = string.Empty;
                 _args = string.Empty;
+            }
+        }
+
+        private void CompactView_Click(object sender, RoutedEventArgs e)
+        {
+            SetCompactView(true);
+        }
+
+        private void ExitCompactViewButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetCompactView(false);
+        }
+
+        void SetCompactView(bool useCompactView)
+        {
+            // Ensure we have an AppWindow for this WPF Window.
+            if (_appWindow == null)
+            {
+                _appWindow = AppWindow.GetFromWindowId(
+                    new WindowId((ulong)new WindowInteropHelper(this).Handle));
+            }
+
+            if (useCompactView)
+            {
+                // For compact view, hide the main panel and show the compact panel.
+                MyPanel.Visibility = Visibility.Collapsed;
+                CompactPanel.Visibility = Visibility.Visible;
+
+                CompactViewText.Text = DisplayBox.Text;
+
+                // The AppWindow's CompactOverlay mode will make it always-on-top.
+                _appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+                _appWindow.ResizeClient(new Windows.Graphics.SizeInt32(300, 80));
+            }
+            else
+            {
+                MyPanel.Visibility = Visibility.Visible;
+                CompactPanel.Visibility = Visibility.Collapsed;
+
+                _appWindow.SetPresenter(AppWindowPresenterKind.Default);
             }
         }
     }
