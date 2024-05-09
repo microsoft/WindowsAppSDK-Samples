@@ -15,6 +15,8 @@ namespace winrt::DrawingIslandComponents::implementation
     {
         m_output.Compositor = compositor;
         m_output.TextRenderer = std::make_shared<TextRenderer>(m_output.Compositor);
+        m_output.DeviceLostHelper.WatchDevice(m_output.TextRenderer->GetDevice());
+        m_output.DeviceLostHelper.DeviceLost({ this, &DrawingIsland::OnDirect3DDeviceLost });
 
         // Create the Compositor and the Content:
         // - The Bridge's connection to the Window will keep everything alive, and perform an
@@ -751,6 +753,25 @@ namespace winrt::DrawingIslandComponents::implementation
             m_background.Visual.Scale(winrt::float3(1, 1, 1));
         }
         m_prevState.LayoutDirection = m_island.LayoutDirection();
+    }
+
+
+    void
+    DrawingIsland::OnDirect3DDeviceLost(
+        DeviceLostHelper const* /* sender */,
+        DeviceLostEventArgs const& /* args */)
+    {
+        // Recreate the text renderer's D3D and D2D devices.
+        m_output.TextRenderer->RecreateDirect2DDevice();
+
+        // Give each item an opportunity to recreate its device-dependent resources.
+        for (auto& item : m_items.Items)
+        {
+            item->OnDeviceLost();
+        }
+
+        // Listen for device lost on the new device.
+        m_output.DeviceLostHelper.WatchDevice(m_output.TextRenderer->GetDevice());
     }
 
 

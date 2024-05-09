@@ -51,6 +51,7 @@ namespace winrt::DrawingIslandComponents::implementation
             m_eventHandle.close();
             m_cookie = 0;
             m_device = nullptr;
+            m_dxgiDevice = nullptr;
         }
     }
 

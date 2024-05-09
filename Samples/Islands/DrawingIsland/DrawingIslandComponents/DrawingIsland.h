@@ -6,6 +6,7 @@
 #include "DrawingIsland.g.h"
 #include "IslandFragmentRoot.h"
 #include "TextRenderer.h"
+#include "DeviceLostHelper.h"
 #include "TextItem.h"
 
 namespace winrt::DrawingIslandComponents::implementation
@@ -133,6 +134,10 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void Island_OnStateChanged();
 
+        void OnDirect3DDeviceLost(
+            DeviceLostHelper const* /* sender */,
+            DeviceLostEventArgs const& /* args */);
+
         void Output_Initialize();
 
         void Output_AddVisual(
@@ -196,6 +201,7 @@ namespace winrt::DrawingIslandComponents::implementation
             winrt::Compositor Compositor{ nullptr };
 
             std::shared_ptr<TextRenderer> TextRenderer;
+            DeviceLostHelper DeviceLostHelper;
 
             // Current color used for new items
             unsigned int CurrentColorIndex = 0;

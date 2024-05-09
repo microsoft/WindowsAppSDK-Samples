@@ -22,8 +22,11 @@ namespace winrt::DrawingIslandComponents::implementation
         ~DeviceLostHelper()
         {
             StopWatchingCurrentDevice();
-            m_onDeviceLostHandler = nullptr;
         }
+
+        // Not copyable or assignable.
+        DeviceLostHelper(DeviceLostHelper const&) = delete;
+        void operator=(DeviceLostHelper const&) = delete;
 
         IDirect3DDevice CurrentlyWatchedDevice()
         {
