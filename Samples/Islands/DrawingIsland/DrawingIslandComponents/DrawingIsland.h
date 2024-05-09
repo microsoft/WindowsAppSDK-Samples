@@ -7,6 +7,7 @@
 #include "AutomationFragmentRoot.h"
 #include "AutomationPeer.h"
 #include "TextRenderer.h"
+#include "DeviceLostHelper.h"
 #include "TextItem.h"
 
 namespace winrt::DrawingIslandComponents::implementation
@@ -136,6 +137,10 @@ namespace winrt::DrawingIslandComponents::implementation
 
         void Island_OnStateChanged();
 
+        void OnDirect3DDeviceLost(
+            DeviceLostHelper const* /* sender */,
+            DeviceLostEventArgs const& /* args */);
+
         void Output_Initialize();
 
         void Output_AddVisual(
@@ -197,6 +202,7 @@ namespace winrt::DrawingIslandComponents::implementation
             winrt::ContainerVisual RootVisual{ nullptr };
 
             std::shared_ptr<TextRenderer> TextRenderer;
+            DeviceLostHelper DeviceLostHelper;
 
             float Opacity{ 0.5f };
 

@@ -25,10 +25,4 @@ namespace winrt::DrawingIslandComponents::implementation
         // Render the text to the sprite visual.
         m_textRenderer->Render(m_text.c_str(), m_backgroundColor, m_textColor, GetVisual());
     }
-
-    void TextItem::OnDpiScaleChanged()
-    {
-        // Re-render the text using the current DPI scale.
-        InitializeVisual();
-    }
 }

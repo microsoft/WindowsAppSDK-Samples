@@ -29,15 +29,32 @@ namespace winrt::DrawingIslandComponents::implementation
 
         // Create the D2D factory.
         winrt::check_hresult(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, m_d2dFactory.put()));
+
+        // Create the Direct3D and Direct2D device objects.
+        CreateDirect2DDevice();
+
+        // Create the composition graphics device.
+        auto compositorInterop = m_compositor.as<ICompositorInterop>();
+        ICompositionGraphicsDevice compositionGraphicsDevice;
+        winrt::check_hresult(compositorInterop->CreateGraphicsDevice(m_d2dDevice.get(), &compositionGraphicsDevice));
+        m_compositionGraphicsDevice = compositionGraphicsDevice.as<CompositionGraphicsDevice>();
     }
 
-    void TextRenderer::ClearGraphicsDevice()
+    void TextRenderer::RecreateDirect2DDevice()
     {
+        // Release the old Direct2D and Direct2D device objects.
+        m_dxgiDevice = nullptr;
         m_d2dDevice = nullptr;
-        m_compositionGraphicsDevice = nullptr;
+
+        // Create new Direct3D and Direct2D device objects.
+        CreateDirect2DDevice();
+
+        // Restore the composition graphics device to health by pointing to the new Direct2D device.
+        auto compositionGraphicsDeviceInterop = m_compositionGraphicsDevice.as<ICompositionGraphicsDeviceInterop>();
+        winrt::check_hresult(compositionGraphicsDeviceInterop->SetRenderingDevice(m_d2dDevice.get()));
     }
 
-    void TextRenderer::CreateGraphicsDevice()
+    void TextRenderer::CreateDirect2DDevice()
     {
         uint32_t createDeviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
@@ -80,13 +97,8 @@ namespace winrt::DrawingIslandComponents::implementation
         winrt::com_ptr<ID2D1Device6> d2dDevice;
         winrt::check_hresult(m_d2dFactory->CreateDevice(dxgiDevice.get(), d2dDevice.put()));
 
-        // Create the composition graphics device.
-        auto compositorInterop = m_compositor.as<winrt::Microsoft::UI::Composition::ICompositorInterop>();
-        winrt::Microsoft::UI::Composition::ICompositionGraphicsDevice compositionGraphicsDevice;
-        winrt::check_hresult(compositorInterop->CreateGraphicsDevice(d2dDevice.get(), &compositionGraphicsDevice));
-
         // Save the newly-created objects.
-        m_compositionGraphicsDevice = compositionGraphicsDevice.as<CompositionGraphicsDevice>();
+        m_dxgiDevice = std::move(dxgiDevice);
         m_d2dDevice = std::move(d2dDevice);
     }
 
@@ -123,60 +135,67 @@ namespace winrt::DrawingIslandComponents::implementation
 
         visual.Size(float2(width, height));
 
-        // Initialize the graphics objects if we haven't already.
-        if (m_compositionGraphicsDevice == nullptr)
+        try
         {
-            CreateGraphicsDevice();
+            // Create a composition surface to draw to.
+            CompositionDrawingSurface drawingSurface = m_compositionGraphicsDevice.CreateDrawingSurface(
+                winrt::Windows::Foundation::Size(width * m_dpiScale, height * m_dpiScale),
+                winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
+                winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied);
+            auto drawingSurfaceInterop = drawingSurface.as<ICompositionDrawingSurfaceInterop>();
+
+            // Begin drawing to get a Direct2D device context.
+            winrt::com_ptr<ID2D1DeviceContext> deviceContext;
+            POINT pixelOffset;
+            winrt::check_hresult(drawingSurfaceInterop->BeginDraw(
+                nullptr,
+                __uuidof(ID2D1DeviceContext),
+                deviceContext.put_void(),
+                &pixelOffset));
+
+            // Set the DPI of the device context, where 96 DPI corresponds to a 1.0 scale factor.
+            deviceContext->SetDpi(m_dpiScale * 96, m_dpiScale * 96);
+
+            // Compute the origin (top-left corner) of the text layout in DIPs by converting
+            // the drawing surface offset from pixels to DIPs and adding the margin.
+            D2D_POINT_2F origin{
+                pixelOffset.x / m_dpiScale + marginLeft,
+                pixelOffset.y / m_dpiScale + marginTop };
+
+            // Clear the background and draw the text.
+            deviceContext->Clear(ToColorF(backgroundColor));
+
+            // Use ClearType antialiasing if rendering onto an opaque background.
+            // Otherwise use grayscale.
+            deviceContext->SetTextAntialiasMode(
+                backgroundColor.A == 255 ?
+                D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE :
+                D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
+
+            // Create the brush used to fill the text.
+            winrt::com_ptr<ID2D1SolidColorBrush> textBrush;
+            winrt::check_hresult(deviceContext->CreateSolidColorBrush(ToColorF(textColor), textBrush.put()));
+
+            // Draw the text layout object.
+            deviceContext->DrawTextLayout(origin, textLayout.get(), textBrush.get());
+
+            // End drawing.
+            winrt::check_hresult(drawingSurfaceInterop->EndDraw());
+
+            // Create the surface brush and set it as the visual's brush.
+            auto surfaceBrush = m_compositor.CreateSurfaceBrush();
+            surfaceBrush.Surface(drawingSurface);
+            visual.Brush(surfaceBrush);
         }
+        catch (winrt::hresult_error& e)
+        {
+            // Silently ignore device-removed error.
+            // We'll draw again after the device is recreated.
+            if (e.code() == DXGI_ERROR_DEVICE_REMOVED)
+                return;
 
-        // Create a composition surface to draw to.
-        CompositionDrawingSurface drawingSurface = m_compositionGraphicsDevice.CreateDrawingSurface(
-            winrt::Windows::Foundation::Size(width * m_dpiScale, height * m_dpiScale),
-            winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
-            winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied);
-        auto drawingSurfaceInterop = drawingSurface.as<ICompositionDrawingSurfaceInterop>();
-
-        // Begin drawing to get a Direct2D device context.
-        winrt::com_ptr<ID2D1DeviceContext> deviceContext;
-        POINT pixelOffset;
-        winrt::check_hresult(drawingSurfaceInterop->BeginDraw(
-            nullptr,
-            __uuidof(ID2D1DeviceContext),
-            deviceContext.put_void(),
-            &pixelOffset));
-
-        // Set the DPI of the device context, where 96 DPI corresponds to a 1.0 scale factor.
-        deviceContext->SetDpi(m_dpiScale * 96, m_dpiScale * 96);
-
-        // Compute the origin (top-left corner) of the text layout in DIPs by converting
-        // the drawing surface offset from pixels to DIPs and adding the margin.
-        D2D_POINT_2F origin{
-            pixelOffset.x / m_dpiScale + marginLeft,
-            pixelOffset.y / m_dpiScale + marginTop };
-
-        // Clear the background and draw the text.
-        deviceContext->Clear(ToColorF(backgroundColor));
-
-        // Use ClearType antialiasing if rendering onto an opaque background.
-        // Otherwise use grayscale.
-        deviceContext->SetTextAntialiasMode(
-            backgroundColor.A == 255 ?
-            D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE :
-            D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
-
-        // Create the brush used to fill the text.
-        winrt::com_ptr<ID2D1SolidColorBrush> textBrush;
-        winrt::check_hresult(deviceContext->CreateSolidColorBrush(ToColorF(textColor), textBrush.put()));
-
-        // Draw the text layout object.
-        deviceContext->DrawTextLayout(origin, textLayout.get(), textBrush.get());
-
-        // End drawing.
-        winrt::check_hresult(drawingSurfaceInterop->EndDraw());
-
-        // Create the surface brush and set it as the visual's brush.
-        auto surfaceBrush = m_compositor.CreateSurfaceBrush();
-        surfaceBrush.Surface(drawingSurface);
-        visual.Brush(surfaceBrush);
+            // Rethrow all other exceptions.
+            throw;
+        }
     }
 }

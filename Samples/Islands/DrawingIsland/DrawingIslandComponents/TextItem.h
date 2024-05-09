@@ -17,7 +17,17 @@ namespace winrt::DrawingIslandComponents::implementation
             Windows::UI::Color textColor,
             std::wstring const& text);
 
-        void OnDpiScaleChanged() override;
+        void OnDpiScaleChanged() override
+        {
+            // Re-render the text using the current DPI scale.
+            InitializeVisual();
+        }
+
+        void OnDeviceLost() override
+        {
+            // Re-render the text using the current device.
+            InitializeVisual();
+        }
 
     private:
         void InitializeVisual();

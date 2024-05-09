@@ -20,6 +20,10 @@ namespace winrt::DrawingIslandComponents::implementation
         {
         }
 
+        virtual void OnDeviceLost()
+        {
+        }
+
         winrt::SpriteVisual const& GetVisual() const noexcept
         {
             return m_visual;
