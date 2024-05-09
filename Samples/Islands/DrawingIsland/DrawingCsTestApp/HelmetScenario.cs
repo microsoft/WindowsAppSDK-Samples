@@ -1,0 +1,204 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+using System.Runtime.InteropServices;
+
+using Windows.Foundation;
+using Windows.Graphics;
+using Windows.Storage;
+using Windows.Storage.Streams;
+
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.Graphics.DirectX;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Composition.Scenes;
+using Microsoft.UI.Content;
+
+class HelmetScenario
+{
+    public static ContentIsland CreateIsland(Compositor compositor)
+    {
+        var visual = LoadScene_DamagedHelmet(compositor);
+
+        var island = ContentIsland.Create(visual);
+        return island;
+    }
+
+    private static Visual LoadScene_DamagedHelmet(Compositor compositor)
+    {
+        // Initialize Win2D, used for loading bitmaps.
+
+        var canvasDevice = new CanvasDevice();
+        var graphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(
+            compositor, canvasDevice);
+
+
+        // Create the Visuals and SceneNode structure, along with default rotation animations.
+
+        var sceneVisual = SceneVisual.Create(compositor);
+        sceneVisual.RelativeOffsetAdjustment = new Vector3(0.5f, 0.5f, 0.0f);
+
+        var worldNode = SceneNode.Create(compositor);
+        sceneVisual.Root = worldNode;
+
+        var rotateAngleAnimation = compositor.CreateScalarKeyFrameAnimation();
+        rotateAngleAnimation.InsertKeyFrame(0.0f, 0.0f);
+        rotateAngleAnimation.InsertKeyFrame(0.5f, 360.0f);
+        rotateAngleAnimation.InsertKeyFrame(1.0f, 0.0f);
+        rotateAngleAnimation.Duration = TimeSpan.FromSeconds(15);
+        rotateAngleAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+        worldNode.Transform.RotationAxis = new Vector3(0, 1, 0);
+        worldNode.Transform.StartAnimation("RotationAngleInDegrees", rotateAngleAnimation);
+
+        var sceneNode0 = SceneNode.Create(compositor);
+        sceneNode0.Transform.Scale = new Vector3(350);
+        sceneNode0.Transform.Orientation = new Quaternion(0.70710683f, 0.0f, 0.0f, 0.70710683f);
+        worldNode.Children.Add(sceneNode0);
+            
+        var sceneNodeForTheGLTFMesh0 = SceneNode.Create(compositor);
+        sceneNode0.Children.Add(sceneNodeForTheGLTFMesh0);
+
+
+        // Load all file data in parallel:
+        // - Although Scene Graph objects prefer a UI thread, Win2D can load and create the bitmaps
+        //   on parallel background threads.
+
+        var vertexData = SceneNodeCommon.LoadMemoryBufferFromUriAsync(
+            new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet6.bin"));
+
+        var normalData = SceneNodeCommon.LoadMemoryBufferFromUriAsync(
+            new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet7.bin"));
+
+        var texCoordData = SceneNodeCommon.LoadMemoryBufferFromUriAsync(
+            new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet8.bin"));
+
+        var indexData = SceneNodeCommon.LoadMemoryBufferFromUriAsync(
+            new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet9.bin"));
+
+        var canvasBitmap0 = CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet1.bmp")).AsTask();
+
+        var canvasBitmap1 = CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet2.bmp")).AsTask();
+
+        var canvasBitmap2 = CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet3.bmp")).AsTask();
+
+        var canvasBitmap3 = CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet4.bmp")).AsTask();
+
+        var canvasBitmap4 = CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet5.bmp")).AsTask();
+
+        Task.WaitAll(
+            vertexData, normalData, texCoordData, indexData,
+            canvasBitmap0, canvasBitmap1, canvasBitmap2, canvasBitmap3, canvasBitmap4);
+
+
+        // Generate mipmaps from the bitmaps, which are needed for 3D rendering.
+
+        var materialInput0 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap0.Result);
+        var materialInput1 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap1.Result);
+        var materialInput2 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap2.Result);
+        var materialInput3 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap3.Result);
+        var materialInput4 = LoadMipmapFromBitmap(graphicsDevice, canvasBitmap4.Result);
+
+
+        // Copy loaded binary data into mesh: verticies, normals, ...
+
+        var mesh0 = SceneMesh.Create(compositor);
+        mesh0.PrimitiveTopology = DirectXPrimitiveTopology.TriangleList;
+        mesh0.FillMeshAttribute(SceneAttributeSemantic.Vertex, DirectXPixelFormat.R32G32B32Float, vertexData.Result);
+        mesh0.FillMeshAttribute(SceneAttributeSemantic.Normal, DirectXPixelFormat.R32G32B32Float, normalData.Result);
+        mesh0.FillMeshAttribute(SceneAttributeSemantic.TexCoord0, DirectXPixelFormat.R32G32Float, texCoordData.Result);
+        mesh0.FillMeshAttribute(SceneAttributeSemantic.Index, DirectXPixelFormat.R16UInt, indexData.Result);
+
+
+        // Initialize the material with different texture inputs (color, roughness, normals, ...)
+
+        var sceneMaterial0 = SceneMetallicRoughnessMaterial.Create(compositor);
+
+        var renderComponent0 = SceneMeshRendererComponent.Create(compositor);
+        renderComponent0.Mesh = mesh0;
+        renderComponent0.Material = sceneMaterial0;
+        sceneNodeForTheGLTFMesh0.Components.Add(renderComponent0);
+
+        sceneMaterial0.BaseColorFactor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+        sceneMaterial0.BaseColorInput = CreateMaterial(
+            compositor, materialInput0, renderComponent0, "BaseColorInput"); ;
+
+        sceneMaterial0.RoughnessFactor = 1.0f;
+        sceneMaterial0.MetallicFactor = 1.0f;
+        sceneMaterial0.MetallicRoughnessInput = CreateMaterial(
+            compositor, materialInput1, renderComponent0, "MetallicRoughnessInput");
+
+        sceneMaterial0.NormalScale = 1.0f;
+        sceneMaterial0.NormalInput = CreateMaterial(
+            compositor, materialInput2, renderComponent0, "NormalInput");
+
+        sceneMaterial0.OcclusionStrength = 1.0f;
+        sceneMaterial0.OcclusionInput = CreateMaterial(
+            compositor, materialInput3, renderComponent0, "OcclusionInput");
+
+        sceneMaterial0.AlphaMode = SceneAlphaMode.Opaque;
+        sceneMaterial0.IsDoubleSided = false;
+        sceneMaterial0.EmissiveFactor = new Vector3(1.0f, 1.0f, 1.0f);
+        sceneMaterial0.EmissiveInput = CreateMaterial(
+            compositor, materialInput4, renderComponent0, "EmissiveInput");
+
+        return sceneVisual;
+    }
+
+
+    public static CompositionMipmapSurface LoadMipmapFromBitmap(
+        CompositionGraphicsDevice graphicsDevice, CanvasBitmap canvasBitmap)
+    {
+        var size = new SizeInt32(2048, 2048);
+        var mipmapSurface = graphicsDevice.CreateMipmapSurface(
+            size,
+            DirectXPixelFormat.B8G8R8A8UIntNormalized,
+            DirectXAlphaMode.Premultiplied);
+
+        var drawDestRect = new Rect(0, 0, size.Width, size.Height);
+        var drawSourceRect = new Rect(0, 0, size.Width, size.Height);
+        for (uint level = 0; level < mipmapSurface.LevelCount; ++level)
+        {
+            // Draw the image to the surface
+            var drawingSurface = mipmapSurface.GetDrawingSurfaceForLevel(level);
+
+            using (var session = CanvasComposition.CreateDrawingSession(drawingSurface))
+            {
+                session.Clear(Windows.UI.Color.FromArgb(0, 0, 0, 0));
+                session.DrawImage(canvasBitmap, drawDestRect, drawSourceRect);
+            }
+
+            drawDestRect = new Rect(0, 0, drawDestRect.Width / 2, drawDestRect.Height / 2);
+        }
+
+        return mipmapSurface;
+    }
+
+
+    private static SceneSurfaceMaterialInput CreateMaterial(
+        Compositor compositor, 
+        CompositionMipmapSurface mipmap,
+        SceneMeshRendererComponent rendererComponent,
+        string mapping)
+    {
+        var materialInput = SceneSurfaceMaterialInput.Create(compositor);
+        materialInput.Surface = mipmap;
+        materialInput.BitmapInterpolationMode = 
+            CompositionBitmapInterpolationMode.MagLinearMinLinearMipLinear;
+
+        materialInput.WrappingUMode = SceneWrappingMode.Repeat;
+        materialInput.WrappingVMode = SceneWrappingMode.Repeat;
+
+        rendererComponent.UVMappings[mapping] = SceneAttributeSemantic.TexCoord0;
+
+        return materialInput;
+    }
+}
