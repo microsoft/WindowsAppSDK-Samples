@@ -126,20 +126,20 @@ namespace winrt::DrawingIslandComponents::implementation
             /*maxHeight*/ 0,
             /*out*/ textLayout.put()));
 
-        // Get the metrics from the text layout, and add the margins to compute the
-        // width and height of the visual.
+        // Get the metrics from the text layout.
         DWRITE_TEXT_METRICS textMetrics;
         winrt::check_hresult(textLayout->GetMetrics(/*out*/ &textMetrics));
-        const float width = textMetrics.width + (marginLeft + marginRight);
-        const float height = textMetrics.height + (marginTop + marginBottom);
 
-        visual.Size(float2(width, height));
+        // Compute the size of the drawing surface in pixels.
+        // This is the text size plus margins, multiplied by the DPI scale and rounded up.
+        const float pixelWidth = ceilf((textMetrics.width + (marginLeft + marginRight)) * m_dpiScale);
+        const float pixelHeight = ceilf((textMetrics.height + (marginTop + marginBottom)) * m_dpiScale);
 
         try
         {
             // Create a composition surface to draw to.
             CompositionDrawingSurface drawingSurface = m_compositionGraphicsDevice.CreateDrawingSurface(
-                winrt::Windows::Foundation::Size(width * m_dpiScale, height * m_dpiScale),
+                Size(pixelWidth, pixelHeight),
                 winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
                 winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied);
             auto drawingSurfaceInterop = drawingSurface.as<ICompositionDrawingSurfaceInterop>();
@@ -186,6 +186,13 @@ namespace winrt::DrawingIslandComponents::implementation
             auto surfaceBrush = m_compositor.CreateSurfaceBrush();
             surfaceBrush.Surface(drawingSurface);
             visual.Brush(surfaceBrush);
+
+            // Set the visual size to match the surface size (but in DIPs rather than pixels).
+            // This ensures there is no scaling.
+            visual.Size(Size(pixelWidth / m_dpiScale, pixelHeight / m_dpiScale));
+
+            // Ensure the visual is snapped to a pixel boundary.
+            visual.IsPixelSnappingEnabled(true);
         }
         catch (winrt::hresult_error& e)
         {
