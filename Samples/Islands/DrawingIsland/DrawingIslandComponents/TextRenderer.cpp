@@ -133,8 +133,6 @@ namespace winrt::DrawingIslandComponents::implementation
         const float width = textMetrics.width + (marginLeft + marginRight);
         const float height = textMetrics.height + (marginTop + marginBottom);
 
-        visual.Size(float2(width, height));
-
         try
         {
             // Create a composition surface to draw to.
@@ -185,12 +183,10 @@ namespace winrt::DrawingIslandComponents::implementation
             // Create the surface brush and set it as the visual's brush.
             auto surfaceBrush = m_compositor.CreateSurfaceBrush();
             surfaceBrush.Surface(drawingSurface);
-            surfaceBrush.HorizontalAlignmentRatio(0.0f);
-            surfaceBrush.VerticalAlignmentRatio(0.0f);
-            surfaceBrush.Stretch(CompositionStretch::None);
-            visual.Brush(surfaceBrush);
 
-            surfaceBrush.SnapToPixels(true);
+            // Ensure surface is snapped to pixels and not stretched/aligned.
+            visual.Brush(surfaceBrush);
+            visual.Size(drawingSurface.Size());
             visual.IsPixelSnappingEnabled(true);
         }
         catch (winrt::hresult_error& e)
