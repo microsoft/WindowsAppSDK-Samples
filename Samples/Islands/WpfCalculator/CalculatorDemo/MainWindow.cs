@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using Windows.ApplicationModel.Contacts;
-#if false // Demo3_Step2_AddCompact
+#if true // Demo3_Step2_AddCompact
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 #endif
@@ -24,11 +24,11 @@ namespace CalculatorDemo
         private Operation _lastOper;
         private string _lastVal;
         private string _memVal;
-#if false // Demo3_Step2_AddCompact
+#if true // Demo3_Step2_AddCompact
         private AppWindow _appWindow;
 #endif
 
-#if false // Demo4_Step2_AddIsland
+#if true // Demo4_Step2_AddIsland
         private Microsoft.UI.Composition.Compositor _compositor = new Microsoft.UI.Composition.Compositor();
 #endif
         public MainWindow()
@@ -457,7 +457,7 @@ namespace CalculatorDemo
             }
         }
 
-#if false // Demo3_Step2_AddCompact
+#if true // Demo3_Step2_AddCompact
         private void CompactView_Click(object sender, RoutedEventArgs e)
         {
             SetCompactView(true);
@@ -498,7 +498,7 @@ namespace CalculatorDemo
         }
 #endif
 
-#if false // Demo4_Step2_AddIsland
+#if true // Demo4_Step2_AddIsland
         private void CreateDrawingIslandMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var wpfIslandHost = new WpfIslandHost(_compositor);

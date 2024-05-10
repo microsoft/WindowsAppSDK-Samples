@@ -113,9 +113,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <!-- Demo4_Step2_AddIsland
+    <!-- Demo4_Step2_AddIsland -->
     <Compile Include="WpfIslandHost.cs" />
-    -->
+    <!-- -->
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -130,16 +130,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-  <!-- Demo3_Step1_AddWasdk
+  <!-- Demo3_Step1_AddWasdk -->
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
-  -->
+  <!-- -->
   </ItemGroup>
-  <!-- Demo4_Step2_AddIsland
+  <!-- Demo4_Step2_AddIsland -->
   <ItemGroup>
     <ProjectReference Include="..\DrawingIslandCsProjection\DrawingIslandCsProjection.csproj" />
   </ItemGroup>
-  -->
+  <!-- -->
   <ItemGroup>
     <Resource Include="appicon.ico" />
   </ItemGroup>
