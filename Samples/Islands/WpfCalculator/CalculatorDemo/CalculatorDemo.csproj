@@ -97,6 +97,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="App_Demo3.cs" />
+    <Compile Include="DuckScenario.cs" />
+    <Compile Include="HelmetScenario.cs" />
+    <Compile Include="LottieIslandScenario.cs" />
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -116,6 +119,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SceneNodeCommon.cs" />
     <!-- Demo4_Step2_AddIsland -->
     <Compile Include="WpfIslandHost.cs" />
     <!-- -->
@@ -137,6 +141,9 @@
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
   <!-- -->
+
+      <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
+      <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
   </ItemGroup>
   <!-- Demo4_Step2_AddIsland -->
   <ItemGroup>
@@ -146,6 +153,11 @@
   <ItemGroup>
     <Resource Include="appicon.ico" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

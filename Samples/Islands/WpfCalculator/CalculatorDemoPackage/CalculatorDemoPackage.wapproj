@@ -42,14 +42,19 @@
     <NoWarn>$(NoWarn);NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\CalculatorDemo\CalculatorDemo.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
-  <!-- Workaround for bug 1994240 -->
   <PropertyGroup>
+    <!-- Workaround for bug 1994240 -->
     <AssetTargetFallback>$(AssetTargetFallback);net9.0-windows$(TargetPlatformVersion)</AssetTargetFallback>
+    <!-- These flags turn off some WinAppSDK features we won't be using. -->
+    <UseWinUITools>false</UseWinUITools>
+    <EnableCoreMrtTooling>false</EnableCoreMrtTooling>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\*" />
+    <Content Include="Assets\SceneNode\*" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\SplashScreen.scale-200.png" />

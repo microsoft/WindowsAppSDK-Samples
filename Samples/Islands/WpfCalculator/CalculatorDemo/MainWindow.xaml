@@ -29,6 +29,7 @@
                 <!-- Demo4_Step2_AddIsland -->
                     <MenuItem Name="CreateDrawingIslandMenuItem" Click="CreateDrawingIslandMenuItem_Click"  Header="Create DrawingIsland" />
                 <!-- -->
+                    <MenuItem Name="LottieIslandMenuItem" Click="LottieIslandMenuItem_Click" Header="Create Lottie Island" />
                     <MenuItem Click="OnMenuExit" Header="Exit" />
                 </MenuItem>
                 <MenuItem Header="View">
