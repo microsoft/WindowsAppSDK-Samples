@@ -186,6 +186,9 @@ namespace winrt::DrawingIslandComponents::implementation
             auto surfaceBrush = m_compositor.CreateSurfaceBrush();
             surfaceBrush.Surface(drawingSurface);
             visual.Brush(surfaceBrush);
+
+            surfaceBrush.SnapToPixels(true);
+            visual.IsPixelSnappingEnabled(true);
         }
         catch (winrt::hresult_error& e)
         {
