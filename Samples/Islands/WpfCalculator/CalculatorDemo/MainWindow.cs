@@ -1,10 +1,6 @@
 ﻿// // Copyright (c) Microsoft. All rights reserved.
 // // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#if false // Demo3_Step2_AddCompact
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
-#endif
 using System;
 using System.Globalization;
 using System.Windows;
@@ -12,6 +8,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using Windows.ApplicationModel.Contacts;
+#if false // Demo3_Step2_AddCompact
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+#endif
 
 namespace CalculatorDemo
 {
