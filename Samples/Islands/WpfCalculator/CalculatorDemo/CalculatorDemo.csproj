@@ -97,6 +97,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="App_Demo3.cs" />
+    <Compile Include="HelmetScenario.cs" />
     <Compile Include="LottieIslandScenario.cs" />
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -117,6 +118,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SceneNodeCommon.cs" />
     <!-- Demo4_Step2_AddIsland -->
     <Compile Include="WpfIslandHost.cs" />
     <!-- -->
