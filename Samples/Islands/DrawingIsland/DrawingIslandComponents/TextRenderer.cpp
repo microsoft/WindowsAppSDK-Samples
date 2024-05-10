@@ -185,6 +185,9 @@ namespace winrt::DrawingIslandComponents::implementation
             // Create the surface brush and set it as the visual's brush.
             auto surfaceBrush = m_compositor.CreateSurfaceBrush();
             surfaceBrush.Surface(drawingSurface);
+            surfaceBrush.HorizontalAlignmentRatio(0.0f);
+            surfaceBrush.VerticalAlignmentRatio(0.0f);
+            surfaceBrush.Stretch(CompositionStretch::None);
             visual.Brush(surfaceBrush);
 
             surfaceBrush.SnapToPixels(true);
