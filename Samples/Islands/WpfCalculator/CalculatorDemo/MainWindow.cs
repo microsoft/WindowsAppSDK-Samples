@@ -8,10 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using Windows.ApplicationModel.Contacts;
-#if true // Demo3_Step2_AddCompact
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
-#endif
 
 namespace CalculatorDemo
 {
@@ -24,13 +20,6 @@ namespace CalculatorDemo
         private Operation _lastOper;
         private string _lastVal;
         private string _memVal;
-#if true // Demo3_Step2_AddCompact
-        private AppWindow _appWindow;
-#endif
-
-#if true // Demo4_Step2_AddIsland
-        private Microsoft.UI.Composition.Compositor _compositor = new Microsoft.UI.Composition.Compositor();
-#endif
         public MainWindow()
         {
             InitializeComponent();
@@ -456,59 +445,5 @@ namespace CalculatorDemo
                 _args = string.Empty;
             }
         }
-
-#if true // Demo3_Step2_AddCompact
-        private void CompactView_Click(object sender, RoutedEventArgs e)
-        {
-            SetCompactView(true);
-        }
-
-        private void ExitCompactViewButton_Click(object sender, RoutedEventArgs e)
-        {
-            SetCompactView(false);
-        }
-
-        void SetCompactView(bool useCompactView)
-        {
-            // Ensure we have an AppWindow for this WPF Window.
-            if (_appWindow == null)
-            {
-                _appWindow = AppWindow.GetFromWindowId(
-                    new WindowId((ulong)new WindowInteropHelper(this).Handle));
-            }
-
-            if (useCompactView)
-            {
-                // For compact view, hide the main panel and show the compact panel.
-                MyPanel.Visibility = Visibility.Collapsed;
-                CompactPanel.Visibility = Visibility.Visible;
-
-                CompactViewText.Text = DisplayBox.Text;
-
-                // The AppWindow's CompactOverlay mode will make it always-on-top.
-                _appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-            }
-            else
-            {
-                MyPanel.Visibility = Visibility.Visible;
-                CompactPanel.Visibility = Visibility.Collapsed;
-
-                _appWindow.SetPresenter(AppWindowPresenterKind.Default);
-            }
-        }
-#endif
-
-#if true // Demo4_Step2_AddIsland
-        private void CreateDrawingIslandMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            var wpfIslandHost = new WpfIslandHost(_compositor);
-            var drawingIsland = new DrawingIslandComponents.DrawingIsland(_compositor);
-
-            // After this, the WpfIslandHost will be live, and the DesktopChildSiteBridge will be available.
-            DisplayAreaBorder.Child = wpfIslandHost; 
-
-            wpfIslandHost.DesktopChildSiteBridge.Connect(drawingIsland.Island);
-        }
-#endif
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <!-- WinAppSDK requires at least the 17763 build of windows, so we need to set that here.
          You can set this in the Visual Studio project properties UI too. -->
@@ -96,10 +96,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="App_Demo3.cs" />
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainWindow_Demo3.cs" />
+    <Compile Include="MainWindow_Demo4.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyTextBox.cs" />
