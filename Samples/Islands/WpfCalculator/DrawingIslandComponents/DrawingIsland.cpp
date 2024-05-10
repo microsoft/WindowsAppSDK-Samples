@@ -702,7 +702,7 @@ namespace winrt::DrawingIslandComponents::implementation
     {
         // TODO - what is the purpose of this?
         UNREFERENCED_PARAMETER(point);
-        // VisualElement* selectedVisual = HitTestVisual(point);
+        // auto selectedVisual = HitTestVisual(point);
     }
 
     void
@@ -781,17 +781,22 @@ namespace winrt::DrawingIslandComponents::implementation
         DeviceLostHelper const* /* sender */,
         DeviceLostEventArgs const& /* args */)
     {
-        // Recreate the text renderer's D3D and D2D devices.
-        m_output.TextRenderer->RecreateDirect2DDevice();
+        // This call comes in on a Threadpool worker thread, so use the DispatcherQueue
+        // to marshal the call to the UI thread.
+        m_island.DispatcherQueue().TryEnqueue(
+            [this] {
+                // Recreate the text renderer's D3D and D2D devices.
+                m_output.TextRenderer->RecreateDirect2DDevice();
 
-        // Give each item an opportunity to recreate its device-dependent resources.
-        for (auto& item : m_items.Items)
-        {
-            item->OnDeviceLost();
-        }
+                // Give each item an opportunity to recreate its device-dependent resources.
+                for (auto& item : m_items.Items)
+                {
+                    item->OnDeviceLost();
+                }
 
-        // Listen for device lost on the new device.
-        m_output.DeviceLostHelper.WatchDevice(m_output.TextRenderer->GetDevice());
+                // Listen for device lost on the new device.
+                m_output.DeviceLostHelper.WatchDevice(m_output.TextRenderer->GetDevice());
+            });
     }
 
 
