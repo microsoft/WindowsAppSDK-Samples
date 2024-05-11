@@ -33,10 +33,10 @@ namespace CalculatorDemo
             wpfIslandHost.DesktopChildSiteBridge.Connect(_lottieContentIsland.Island);
         }
 
-        private void CreateSceneNodeIslandMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void CreateSceneNodeIslandMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var wpfIslandHost = new WpfIslandHost(_compositor);
-            var helmetIsland = HelmetScenario.CreateIsland(_compositor);
+            var helmetIsland = await HelmetScenario.CreateIsland(_compositor);
 
             // After this, the WpfIslandHost will be live, and the DesktopChildSiteBridge will be available.
             DisplayAreaBorder.Child = wpfIslandHost;

@@ -21,15 +21,15 @@ using System.Threading.Tasks;
 
 class HelmetScenario
 {
-    public static ContentIsland CreateIsland(Compositor compositor)
+    public static async Task<ContentIsland> CreateIsland(Compositor compositor)
     {
-        var visual = LoadScene_DamagedHelmet(compositor);
+        var visual = await LoadScene_DamagedHelmet(compositor);
 
         var island = ContentIsland.Create(visual);
         return island;
     }
 
-    private static Visual LoadScene_DamagedHelmet(Compositor compositor)
+    private static async Task<Visual> LoadScene_DamagedHelmet(Compositor compositor)
     {
         // Initialize Win2D, used for loading bitmaps.
 
@@ -68,55 +68,54 @@ class HelmetScenario
         // - Although Scene Graph objects prefer a UI thread, Win2D can load and create the bitmaps
         //   on parallel background threads.
 
-        var vertexData = SceneNodeCommon.LoadMemoryBufferFromUriAsync(
+        var vertexData = await SceneNodeCommon.LoadMemoryBufferFromUriAsync(
             new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet6.bin"));
 
-        var normalData = SceneNodeCommon.LoadMemoryBufferFromUriAsync(
+        var normalData = await SceneNodeCommon.LoadMemoryBufferFromUriAsync(
             new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet7.bin"));
 
-        var texCoordData = SceneNodeCommon.LoadMemoryBufferFromUriAsync(
+        var texCoordData = await SceneNodeCommon.LoadMemoryBufferFromUriAsync(
             new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet8.bin"));
 
-        var indexData = SceneNodeCommon.LoadMemoryBufferFromUriAsync(
+        var indexData = await SceneNodeCommon.LoadMemoryBufferFromUriAsync(
             new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet9.bin"));
 
-        var canvasBitmap0 = CanvasBitmap.LoadAsync(
-            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet1.bmp")).AsTask();
+        //Task.WaitAll(
+        //    vertexData, normalData, texCoordData, indexData);
 
-        var canvasBitmap1 = CanvasBitmap.LoadAsync(
-            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet2.bmp")).AsTask();
+        var canvasBitmap0 = await CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet1.bmp"));
 
-        var canvasBitmap2 = CanvasBitmap.LoadAsync(
-            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet3.bmp")).AsTask();
+        var canvasBitmap1 = await CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet2.bmp"));
 
-        var canvasBitmap3 = CanvasBitmap.LoadAsync(
-            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet4.bmp")).AsTask();
+        var canvasBitmap2 = await CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet3.bmp"));
 
-        var canvasBitmap4 = CanvasBitmap.LoadAsync(
-            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet5.bmp")).AsTask();
+        var canvasBitmap3 = await CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet4.bmp"));
 
-        Task.WaitAll(
-            vertexData, normalData, texCoordData, indexData,
-            canvasBitmap0, canvasBitmap1, canvasBitmap2, canvasBitmap3, canvasBitmap4);
+        var canvasBitmap4 = await CanvasBitmap.LoadAsync(
+            canvasDevice, new Uri("ms-appx:///Assets/SceneNode/DamagedHelmet5.bmp"));
 
 
         // Generate mipmaps from the bitmaps, which are needed for 3D rendering.
 
-        var materialInput0 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap0.Result);
-        var materialInput1 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap1.Result);
-        var materialInput2 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap2.Result);
-        var materialInput3 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap3.Result);
-        var materialInput4 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap4.Result);
+        var materialInput0 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap0);
+        var materialInput1 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap1);
+        var materialInput2 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap2);
+        var materialInput3 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap3);
+        var materialInput4 = SceneNodeCommon.LoadMipmapFromBitmap(graphicsDevice, canvasBitmap4);
 
 
         // Copy loaded binary data into mesh: verticies, normals, ...
 
         var mesh0 = SceneMesh.Create(compositor);
         mesh0.PrimitiveTopology = DirectXPrimitiveTopology.TriangleList;
-        mesh0.FillMeshAttribute(SceneAttributeSemantic.Vertex, DirectXPixelFormat.R32G32B32Float, vertexData.Result);
-        mesh0.FillMeshAttribute(SceneAttributeSemantic.Normal, DirectXPixelFormat.R32G32B32Float, normalData.Result);
-        mesh0.FillMeshAttribute(SceneAttributeSemantic.TexCoord0, DirectXPixelFormat.R32G32Float, texCoordData.Result);
-        mesh0.FillMeshAttribute(SceneAttributeSemantic.Index, DirectXPixelFormat.R16UInt, indexData.Result);
+        mesh0.FillMeshAttribute(SceneAttributeSemantic.Vertex, DirectXPixelFormat.R32G32B32Float, vertexData);
+        mesh0.FillMeshAttribute(SceneAttributeSemantic.Normal, DirectXPixelFormat.R32G32B32Float, normalData);
+        mesh0.FillMeshAttribute(SceneAttributeSemantic.TexCoord0, DirectXPixelFormat.R32G32Float, texCoordData);
+        mesh0.FillMeshAttribute(SceneAttributeSemantic.Index, DirectXPixelFormat.R16UInt, indexData);
 
 
         // Initialize the material with different texture inputs (color, roughness, normals, ...)
