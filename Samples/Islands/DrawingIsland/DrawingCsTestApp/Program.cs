@@ -28,30 +28,25 @@ var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
 siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
 siteBridge.Show();
 
-if (args.Contains("Lottie"))
-{
-    // LottieIsland
-    var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
-    siteBridge.Connect(lottie.Island);
-}
-else if (args.Contains("Duck"))
-{
-    // SceneNodeIsland
-    var island = DuckScenario.CreateIsland(compositor);
-    siteBridge.Connect(island);
-}
-else if (args.Contains("Helmet"))
-{
-    // SceneNodeIsland
-    var island = HelmetScenario.CreateIsland(compositor);
-    siteBridge.Connect(island);
-}
-else
-{
-    // DrawingIsland
-    var drawing = new DrawingIsland(compositor);
-    siteBridge.Connect(drawing.Island);
-}
+#region Example 1
+var drawing = new DrawingIsland(compositor);
+siteBridge.Connect(drawing.Island);
+#endregion
+
+#region Example 2
+//var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
+//siteBridge.Connect(lottie.Island);
+#endregion
+
+#region Example 3
+//var island = DuckScenario.CreateIsland(compositor);
+//siteBridge.Connect(island);
+#endregion
+
+#region Example 4
+//var island = HelmetScenario.CreateIsland(compositor);
+//siteBridge.Connect(island);
+#endregion
 
 // Move initial focus to the island.
 var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
