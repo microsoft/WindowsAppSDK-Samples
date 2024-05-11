@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#region Using directives
 using Microsoft.UI.Composition;
 using Microsoft.UI.Content;
 using Microsoft.UI.Dispatching;
@@ -8,6 +9,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 
 using DrawingIslandComponents;
+#endregion
 
 var controller = DispatcherQueueController.CreateOnCurrentThread();
 var queue = controller.DispatcherQueue;
@@ -22,36 +24,36 @@ window.Closing +=(sender, args) =>
 window.Title = "Drawing C# .NET TestApp";
 window.Show();
 
-var compositor = new Compositor();
+#region ...
+//var compositor = new Compositor();
 
-var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
-siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
-siteBridge.Show();
+//var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
+//siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
+//siteBridge.Show();
 
-#region Example 1
-var drawing = new DrawingIsland(compositor);
-siteBridge.Connect(drawing.Island);
-#endregion
+//var drawing = new DrawingIsland(compositor);
+//siteBridge.Connect(drawing.Island);
 
-#region Example 2
+#region ...
 //var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
 //siteBridge.Connect(lottie.Island);
-#endregion
 
-#region Example 3
+#region ...
 //var island = DuckScenario.CreateIsland(compositor);
 //siteBridge.Connect(island);
-#endregion
 
-#region Example 4
+#region ...
 //var island = HelmetScenario.CreateIsland(compositor);
 //siteBridge.Connect(island);
 #endregion
 
-// Move initial focus to the island.
-var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
-focusNavigationHost.NavigateFocus(FocusNavigationRequest.Create(
-    FocusNavigationReason.Programmatic));
+#endregion
+#endregion
+
+//var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
+//focusNavigationHost.NavigateFocus(FocusNavigationRequest.Create(
+//    FocusNavigationReason.Programmatic));
+#endregion
 
 queue.RunEventLoop();
 
