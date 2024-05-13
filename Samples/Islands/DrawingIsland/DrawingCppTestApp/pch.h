@@ -19,3 +19,14 @@
 #include <winrt/Microsoft.UI.Windowing.h>
 
 #include "winrt/DrawingIslandComponents.h"
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Composition;
+    using namespace Microsoft::UI::Content;
+    using namespace Microsoft::UI::Dispatching;
+    using namespace Microsoft::UI::Input;
+    using namespace Microsoft::UI::Windowing;
+
+    using namespace DrawingIslandComponents;
+}

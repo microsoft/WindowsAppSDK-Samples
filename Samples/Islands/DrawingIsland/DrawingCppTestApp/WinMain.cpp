@@ -3,17 +3,6 @@
 
 #include "pch.h"
 
-namespace winrt
-{
-    using namespace Microsoft::UI::Composition;
-    using namespace Microsoft::UI::Content;
-    using namespace Microsoft::UI::Dispatching;
-    using namespace Microsoft::UI::Input;
-    using namespace Microsoft::UI::Windowing;
-
-    using namespace DrawingIslandComponents;
-}
-
 int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
     winrt::init_apartment(winrt::apartment_type::single_threaded);
@@ -21,8 +10,7 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     auto controller{ winrt::DispatcherQueueController::CreateOnCurrentThread() };
     auto queue = controller.DispatcherQueue();
 
-    // Associating the AppWindow with the DispatcherQueue on which the ContentIsland is created
-    // will ensure that the ContentIsland is Closed when the AppWindow closes.
+    // Associate the AppWindow's lifetime with the DispatcherQueue to automatically close on exit.
     auto window = winrt::AppWindow::Create();
     window.AssociateWithDispatcherQueue(queue);
     window.Closing(
@@ -35,20 +23,21 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     window.Title(L"Drawing C++ TestApp");
     window.Show();
 
-    // Create the Island content in the window.
+#pragma region ...
+    // Create a ContentSiteBridge and connect Island content into it.
     auto compositor = winrt::Compositor();
-    auto island = winrt::DrawingIsland(compositor).Island();
-
-    // Create a ContentSiteBridge and connect the ContentIsland to it.
     auto siteBridge = winrt::DesktopChildSiteBridge::Create(compositor, window.Id());
     siteBridge.ResizePolicy(winrt::ContentSizePolicy::ResizeContentToParentWindow);
     siteBridge.Show();
+
+    auto island = winrt::DrawingIsland(compositor).Island();
     siteBridge.Connect(island);
 
     // Move initial focus to the ContentIsland.
     auto focusNavigationHost = winrt::InputFocusNavigationHost::GetForSiteBridge(siteBridge);
     focusNavigationHost.NavigateFocus(winrt::FocusNavigationRequest::Create(
         winrt::FocusNavigationReason::Programmatic));
+#pragma endregion
 
     queue.RunEventLoop();
 

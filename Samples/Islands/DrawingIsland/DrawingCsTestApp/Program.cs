@@ -14,10 +14,12 @@ using DrawingIslandComponents;
 var controller = DispatcherQueueController.CreateOnCurrentThread();
 var queue = controller.DispatcherQueue;
 
+// Associate the AppWindow's lifetime with the DispatcherQueue to automatically close on exit.
 var window = AppWindow.Create();
 window.AssociateWithDispatcherQueue(queue);
 window.Closing +=(sender, args) =>
     {
+        // Ensure the DispatcherQueue exits the event loop on close.
         queue.EnqueueEventLoopExit();
     };
 
@@ -25,11 +27,11 @@ window.Title = "Drawing C# .NET TestApp";
 window.Show();
 
 #region ...
-//var compositor = new Compositor();
-
-//var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
-//siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
-//siteBridge.Show();
+// Create a ContentSiteBridge and connect Island content into it.
+var compositor = new Compositor();
+var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
+siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
+siteBridge.Show();
 
 //var drawing = new DrawingIsland(compositor);
 //siteBridge.Connect(drawing.Island);
@@ -43,16 +45,17 @@ window.Show();
 //siteBridge.Connect(island);
 
 #region ...
-//var island = HelmetScenario.CreateIsland(compositor);
-//siteBridge.Connect(island);
+var island = HelmetScenario.CreateIsland(compositor);
+siteBridge.Connect(island);
 #endregion
 
 #endregion
 #endregion
 
-//var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
-//focusNavigationHost.NavigateFocus(FocusNavigationRequest.Create(
-//    FocusNavigationReason.Programmatic));
+// Move initial focus to the ContentIsland.
+var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
+focusNavigationHost.NavigateFocus(FocusNavigationRequest.Create(
+    FocusNavigationReason.Programmatic));
 #endregion
 
 queue.RunEventLoop();
