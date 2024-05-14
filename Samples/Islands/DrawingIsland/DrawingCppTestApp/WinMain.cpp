@@ -24,19 +24,19 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     window.Show();
 
 #pragma region ...
-    // Create a ContentSiteBridge and connect Island content into it.
-    auto compositor = winrt::Compositor();
-    auto siteBridge = winrt::DesktopChildSiteBridge::Create(compositor, window.Id());
-    siteBridge.ResizePolicy(winrt::ContentSizePolicy::ResizeContentToParentWindow);
-    siteBridge.Show();
+    //// Create a ContentSiteBridge and connect Island content into it.
+    //auto compositor = winrt::Compositor();
+    //auto siteBridge = winrt::DesktopChildSiteBridge::Create(compositor, window.Id());
+    //siteBridge.ResizePolicy(winrt::ContentSizePolicy::ResizeContentToParentWindow);
+    //siteBridge.Show();
 
-    auto island = winrt::DrawingIsland(compositor).Island();
-    siteBridge.Connect(island);
+    //auto island = winrt::DrawingIsland(compositor).Island();
+    //siteBridge.Connect(island);
 
-    // Move initial focus to the ContentIsland.
-    auto focusNavigationHost = winrt::InputFocusNavigationHost::GetForSiteBridge(siteBridge);
-    focusNavigationHost.NavigateFocus(winrt::FocusNavigationRequest::Create(
-        winrt::FocusNavigationReason::Programmatic));
+    //// Move initial focus to the ContentIsland.
+    //auto focusNavigationHost = winrt::InputFocusNavigationHost::GetForSiteBridge(siteBridge);
+    //focusNavigationHost.NavigateFocus(winrt::FocusNavigationRequest::Create(
+    //    winrt::FocusNavigationReason::Programmatic));
 #pragma endregion
 
     queue.RunEventLoop();
