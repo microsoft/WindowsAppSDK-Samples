@@ -96,15 +96,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="App_Demo3.cs" />
-    <Compile Include="HelmetScenario.cs" />
-    <Compile Include="LottieIslandScenario.cs" />
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow_Demo3.cs" />
-    <Compile Include="MainWindow_Demo4.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyTextBox.cs" />
@@ -118,9 +113,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SceneNodeCommon.cs" />
     <!-- Demo4_Step2_AddIsland -->
-    <Compile Include="WpfIslandHost.cs" />
     <!-- -->
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,7 +136,6 @@
   </ItemGroup>
   <!-- Demo4_Step2_AddIsland -->
   <ItemGroup>
-    <ProjectReference Include="..\DrawingIslandCsProjection\DrawingIslandCsProjection.csproj" />
     <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
     <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
   </ItemGroup>
