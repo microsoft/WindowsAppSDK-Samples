@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorDemo", "Calculato
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "CalculatorDemoPackage", "CalculatorDemoPackage\CalculatorDemoPackage.wapproj", "{0A343519-113B-4EF9-959C-30F559524BC4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo2_Step3", "Demo2_Step3", "{D326EA21-1EE1-4D67-A0CE-898D9EC84300}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo3_Step1", "Demo3_Step1", "{D326EA21-1EE1-4D67-A0CE-898D9EC84300}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo4_Step2", "Demo4_Step2", "{1C23C858-0772-4881-A947-32E8870C35AE}"
 EndProject
