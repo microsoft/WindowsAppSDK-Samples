@@ -82,6 +82,16 @@ namespace CompositionSampleGallery
             meshRendererComponent.Material = material;
 
             sceneNode.Components.Add(meshRendererComponent);
+
+            var animation = compositor.CreateScalarKeyFrameAnimation();
+            var linearEasing = compositor.CreateLinearEasingFunction();
+            animation.InsertKeyFrame(0f, 0f, linearEasing);
+            animation.InsertKeyFrame(1f, 360f, linearEasing);
+            animation.Duration = TimeSpan.FromSeconds(10);
+            animation.IterationBehavior = AnimationIterationBehavior.Forever;
+
+            sceneNode.Transform.StartAnimation("RotationAngleInDegrees", animation);
+            sceneNode.Transform.RotationAxis = new Vector3(0, 1, 0);
         }
 
         private void SceneNodePlayground_Unloaded(object sender, RoutedEventArgs e)
