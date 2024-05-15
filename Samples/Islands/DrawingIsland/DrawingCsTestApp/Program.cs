@@ -28,34 +28,29 @@ window.Show();
 
 #region ...
 // Create a ContentSiteBridge and connect Island content into it.
-//var compositor = new Compositor();
-//var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
-//siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
-//siteBridge.Show();
+var compositor = new Compositor();
+var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
+siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
+siteBridge.Show();
 
-//var drawing = new DrawingIsland(compositor);
-//siteBridge.Connect(drawing.Island);
+var drawing = new DrawingIsland(compositor);
+siteBridge.Connect(drawing.Island);
 
 #region ...
 //var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
 //siteBridge.Connect(lottie.Island);
 
 #region ...
-//var island = DuckScenario.CreateIsland(compositor);
-//siteBridge.Connect(island);
-
-#region ...
 //var island = HelmetScenario.CreateIsland(compositor);
 //siteBridge.Connect(island);
-#endregion
 
 #endregion
 #endregion
 
 // Move initial focus to the ContentIsland.
-//var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
-//focusNavigationHost.NavigateFocus(FocusNavigationRequest.Create(
-//    FocusNavigationReason.Programmatic));
+var focusNavigationHost = InputFocusNavigationHost.GetForSiteBridge(siteBridge);
+focusNavigationHost.NavigateFocus(FocusNavigationRequest.Create(
+    FocusNavigationReason.Programmatic));
 #endregion
 
 queue.RunEventLoop();

@@ -27,6 +27,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DuckScenario.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Added CsWinRT reference to avoid WinMD error as a result of WinMD leaking via project reference. -->
     <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
     <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
