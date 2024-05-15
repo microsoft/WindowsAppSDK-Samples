@@ -34,6 +34,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Custom Controls](Samples/CustomControls): This sample shows how to author a Windows Runtime Component in C# with custom WinUI controls.
 
 #### User Interface and Input
+- [CustomEditControl](Samples/CustomEditControl): This sample demonstrates how to create a text edit control with customized UI and behavior.
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
 - [Windows Input and Composition Gallery](https://github.com/microsoft/WindowsCompositionSamples): This collection of samples showcases Microsoft.UI.Composition and Microsoft.UI.Input APIs.
 - [WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery/): This is a sample app that showcases all of the WinUI 3 controls in action.
