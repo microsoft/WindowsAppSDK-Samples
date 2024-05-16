@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="4048b70e-0656-4e61-8fae-f8a47a53f4b8"
+    Name="Microsoft.Demo.DrawingCsDotNetTestApp"
     Publisher="CN=jstall"
     Version="1.0.0.0" />
 
