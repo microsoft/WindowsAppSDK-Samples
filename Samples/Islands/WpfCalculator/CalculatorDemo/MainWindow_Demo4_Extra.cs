@@ -3,8 +3,7 @@
 
 using System.Windows;
 
-#if true // Demo3_Step2_AddCompact
-
+// Demo3_Step2_AddCompact
 namespace CalculatorDemo
 {
     public sealed partial class MainWindow : Window
@@ -28,5 +27,3 @@ namespace CalculatorDemo
         }
     }
 }
-
-#endif

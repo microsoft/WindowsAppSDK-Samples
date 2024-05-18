@@ -2,11 +2,9 @@
 // // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Windows;
-
-#if true // Demo3_Step1_AddWasdk
-
 using Microsoft.UI.Dispatching;
 
+// Demo3_Step1_AddWasdk
 namespace CalculatorDemo
 {
     public partial class App : Application
@@ -29,5 +27,3 @@ namespace CalculatorDemo
         DispatcherQueueController? _dispatcherQueueController;
     }
 }
-
-#endif

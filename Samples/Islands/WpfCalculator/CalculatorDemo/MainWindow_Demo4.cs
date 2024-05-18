@@ -1,11 +1,10 @@
 ﻿// // Copyright (c) Microsoft. All rights reserved.
 // // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using CommunityToolkit.WinAppSDK.LottieIsland;
 using System.Windows;
+using CommunityToolkit.WinAppSDK.LottieIsland;
 
-#if true // Demo3_Step2_AddCompact
-
+// Demo3_Step2_AddCompact
 namespace CalculatorDemo
 {
     public sealed partial class MainWindow : Window
@@ -22,5 +21,3 @@ namespace CalculatorDemo
         }
     }
 }
-
-#endif

@@ -5,11 +5,10 @@ using System;
 using System.Windows;
 using System.Windows.Interop;
 
-#if true // Demo3_Step2_AddCompact
-
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 
+// Demo3_Step2_AddCompact
 namespace CalculatorDemo
 {
     public sealed partial class MainWindow : Window
@@ -56,5 +55,3 @@ namespace CalculatorDemo
         }
    }
 }
-
-#endif
