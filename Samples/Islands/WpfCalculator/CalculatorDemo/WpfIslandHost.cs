@@ -20,6 +20,14 @@ namespace CalculatorDemo
                 _compositor,
                 new Microsoft.UI.WindowId((ulong)hwndParent.Handle));
 
+            // Mark as a layered window to handle transparent HWND with WPF.
+            var hwndChild = Win32Interop.GetWindowFromWindowId(DesktopChildSiteBridge.WindowId);
+            int prevExStyleFlags = GetWindowLong(hwndChild, GWL_EXSTYLE);
+            SetWindowLongPtr(
+                hwndChild,
+                GWL_EXSTYLE,
+                new IntPtr(prevExStyleFlags | WS_EX_LAYERED));
+
             return new HandleRef(null, (nint)DesktopChildSiteBridge.WindowId.Value);
         }
 
@@ -30,5 +38,22 @@ namespace CalculatorDemo
         }
 
         Microsoft.UI.Composition.Compositor _compositor;
+
+        #region P/Invokes
+        const int GWL_EXSTYLE = -20;
+        const int WS_EX_LAYERED = 0x00080000;
+
+        [DllImport("user32.dll")]
+        static extern int GetWindowLong(
+            IntPtr hwnd,
+            int index);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowLongPtr(
+            IntPtr hWnd,
+            int nIndex,
+            IntPtr dwNewLong);
+        #endregion
     }
 }
