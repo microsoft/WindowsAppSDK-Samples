@@ -16,13 +16,13 @@ namespace winrt
     using namespace Microsoft::UI::Xaml;
 }
 
-namespace winrt::CppUnpackagedAppNotifications::implementation
+namespace winrt::CppAppNotifications::implementation
 {
     MainWindow::MainWindow()
     {
         InitializeComponent();
 
-        Title(winrt::CppUnpackagedAppNotifications::SampleConfig::FeatureName);
+        Title(winrt::CppAppNotifications::SampleConfig::FeatureName);
 
         HWND hwnd = GetWindowHandle();
         LoadIcon(hwnd, L"Assets/windows-sdk.ico");

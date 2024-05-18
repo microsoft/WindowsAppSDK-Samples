@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  IgnorableNamespaces="uap uap5 rescap com">
+
+  <Identity
+    Name="478fa86b-1705-4666-9aa8-1c796011a27c"
+    Publisher="CN=vemancha"
+    Version="1.0.2.0" />
+
+  <Properties>
+    <DisplayName>CppAppNotifications</DisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <Logo>Assets\logo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="CppAppNotifications Windows App SDK C++ WinUI Sample"
+        Description="CppAppNotifications Windows App SDK C++ WinUI Sample"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+	  <Extensions>
+		<desktop:Extension Category="windows.toastNotificationActivation">
+			<desktop:ToastNotificationActivation ToastActivatorCLSID="FE8C7374-A28F-4CBE-8D28-4288CBDFD431" />
+		</desktop:Extension>
+		<com:Extension Category="windows.comServer">
+			<com:ComServer>
+				<com:ExeServer Executable="CppUnpackagedAppNotifications\CppAppNotifications.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
+					<com:Class Id="FE8C7374-A28F-4CBE-8D28-4288CBDFD431" DisplayName="Toast activator"/>
+				</com:ExeServer>
+			</com:ComServer>
+		</com:Extension>
+	</Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>
