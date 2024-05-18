@@ -1,7 +1,10 @@
-﻿using Microsoft.UI.Composition;
-using Microsoft.UI.Content;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+
+using Microsoft.UI;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Content;
 
 namespace CalculatorDemo
 {
@@ -39,7 +42,8 @@ namespace CalculatorDemo
 
         Microsoft.UI.Composition.Compositor _compositor;
 
-        #region P/Invokes
+#region P/Invokes
+
         const int GWL_EXSTYLE = -20;
         const int WS_EX_LAYERED = 0x00080000;
 
@@ -54,6 +58,7 @@ namespace CalculatorDemo
             IntPtr hWnd,
             int nIndex,
             IntPtr dwNewLong);
-        #endregion
+
+#endregion
     }
 }
