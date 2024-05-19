@@ -252,7 +252,7 @@ namespace CalculatorDemo
 
         private void OperBtn_Click(object sender, RoutedEventArgs e)
         {
-            ProcessOperation(((Button) sender).Name);
+            ProcessOperation(((Button) sender).Name.Replace("_c",""));
         }
 
         private double Calc(Operation lastOper)
@@ -352,6 +352,8 @@ namespace CalculatorDemo
         private void UpdateDisplay()
         {
             DisplayBox.Text = Display == string.Empty ? "0" : Display;
+            // Demo3_Step2_AddCompact
+            //CompactViewText.Text = CompactViewText.Text == string.Empty ? "0" : Display;
         }
 
         private void AddToDisplay(char c)

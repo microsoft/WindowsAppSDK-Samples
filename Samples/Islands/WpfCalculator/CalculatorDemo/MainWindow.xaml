@@ -26,8 +26,9 @@
         <DockPanel Name="MyPanel">
             <Menu Name="MainMenu" DockPanel.Dock="Top">
                 <MenuItem Header="File">
-                <!-- Demo4_Step2_AddIsland
-                    <MenuItem Name="CreateLottieIslandMenuItem" Click="CreateLottieIslandMenuItem_Click"  Header="Create LottieIsland" />
+                <!-- Demo4_Step2_AddIsland-->
+                <!--
+                <MenuItem Name="CreateLottieIslandMenuItem" Click="CreateLottieIslandMenuItem_Click"  Header="Create LottieIsland" />
                 -->
 
                 <!--<MenuItem Name="CreateDrawingIslandMenuItem" Click="CreateDrawingIslandMenuItem_Click"  Header="Create DrawingIsland" />-->
@@ -37,7 +38,8 @@
                 <MenuItem Header="View">
                     <MenuItem Name="StandardMenu" Click="OnMenuStandard" IsCheckable="true" IsChecked="True"
                               Header="Standard" />
-                    <!-- Demo3_Step2_AddCompact
+                    <!-- Demo3_Step2_AddCompact -->
+                    <!--
                     <MenuItem Name="CompactView" Click="CompactView_Click" Header="Enter Compact View" />
                     -->
                 </MenuItem>
@@ -130,15 +132,43 @@
         </DockPanel>
 
         <!-- This is what's shown when we enter the compat view mode-->
-        <!-- Demo3_Step2_AddCompact
-        <DockPanel Name="CompactPanel" Visibility="Collapsed">
+        <!-- Demo3_Step2_AddCompact -->
+        <!--
+        <DockPanel Name="CompactPanel" Visibility="Collapsed" >
             <DockPanel DockPanel.Dock="Top">
                 <Button Name="ExitCompactViewButton" Click="ExitCompactViewButton_Click" DockPanel.Dock="Right">Restore</Button>
                 <TextBlock Margin="3" Name="CompactViewText" FontSize="22" />
-                
             </DockPanel>
-            <Border x:Name="CompactAreaBorder">
-            </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Button Name="B7_c" Click="DigitBtn_Click" Grid.Column="0" Grid.Row="0">7</Button>
+                <Button Name="B8_c" Click="DigitBtn_Click" Grid.Column="1" Grid.Row="0">8</Button>
+                <Button Name="B9_c" Click="DigitBtn_Click" Grid.Column="2" Grid.Row="0">9</Button>
+                <Button Name="B4_c" Click="DigitBtn_Click" Grid.Column="0" Grid.Row="1">4</Button>
+                <Button Name="B5_c" Click="DigitBtn_Click" Grid.Column="1" Grid.Row="1">5</Button>
+                <Button Name="B6_c" Click="DigitBtn_Click" Grid.Column="2" Grid.Row="1">6</Button>
+                <Button Name="B1_c" Click="DigitBtn_Click" Grid.Column="0" Grid.Row="2">1</Button>
+                <Button Name="B2_c" Click="DigitBtn_Click" Grid.Column="1" Grid.Row="2">2</Button>
+                <Button Name="B3_c" Click="DigitBtn_Click" Grid.Column="2" Grid.Row="2">3</Button>
+                <Button Name="B0_c" Click="DigitBtn_Click" Grid.Column="0" Grid.Row="3">0</Button>
+                <Button Name="BMultiply_c" Click="OperBtn_Click" Style="{StaticResource GrayButton}" Grid.Column="3" Grid.Row="0">*</Button>
+                <Button Name="BMinus_c" Click="OperBtn_Click" Style="{StaticResource GrayButton}" Grid.Column="3" Grid.Row="1">-</Button>
+                <Button Name="BPlus_c" Click="OperBtn_Click" Style="{StaticResource GrayButton}" Grid.Column="3" Grid.Row="2">+</Button>
+                <Button Name="BEqual_c" Click="OperBtn_Click" Grid.Column="3" Grid.Row="3"
+                        Foreground="{DynamicResource AccentButtonForeground}" Background="{DynamicResource AccentButtonBackground}">=</Button>
+            </Grid>
         </DockPanel>
         -->
     </Grid>
