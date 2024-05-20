@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:CalculatorDemo"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="450"
-        Width="650"
+        Height="350"
+        Width="525"
         Icon="appicon.ico">
     
     <Window.Resources>
@@ -60,7 +60,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
+                    <RowDefinition Height="30" />
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
@@ -121,9 +121,9 @@
                         ToolTip="Add To Memory">
                     M+
                 </Button>
-                <TextBlock Name="BMemBox" Grid.Column="3" Grid.Row="1" Margin="10,17,10,17" Grid.ColumnSpan="2">Memory: [empty]</TextBlock>
+                <TextBlock Name="BMemBox" Grid.Column="3" Grid.Row="1" Margin="10,10,10,10" Grid.ColumnSpan="4">Memory: [empty]</TextBlock>
 
-                <local:MyTextBox Grid.ColumnSpan="9" x:Name="DisplayBox" Height="30" Margin="5" FontSize="20" BorderBrush="LightGray"/>
+                <local:MyTextBox Grid.ColumnSpan="9" x:Name="DisplayBox" Margin="5,0,5,0" FontSize="16" BorderBrush="LightGray"/>
                 <Border x:Name="DisplayAreaBorder" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="5" Margin="5">
                     <local:MyTextBox x:Name="PaperBox" BorderBrush="LightGray"/>
                 </Border>
