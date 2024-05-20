@@ -9,8 +9,8 @@ namespace CalculatorDemo
 {
     public partial class App : Application
     {
-        // Many WinAppSDK APIs require a DispatcherQueue to be running on the thread.  We'll start one when the app starts up
-        // and shut it down when the app is finished.
+        // Many WinAppSDK APIs require a DispatcherQueue to be running on the thread.  We'll start one when the app
+        // starts up and shut it down when the app is finished.
         protected override void OnStartup(StartupEventArgs e)
         {
             _dispatcherQueueController = DispatcherQueueController.CreateOnCurrentThread();
