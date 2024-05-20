@@ -352,8 +352,6 @@ namespace CalculatorDemo
         private void UpdateDisplay()
         {
             DisplayBox.Text = Display == string.Empty ? "0" : Display;
-            // Demo3_Step2_AddCompact
-            //CompactViewText.Text = CompactViewText.Text == string.Empty ? "0" : Display;
         }
 
         private void AddToDisplay(char c)
