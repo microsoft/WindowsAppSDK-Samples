@@ -4,7 +4,8 @@
     <WindowsSdkPackageVersion>$(TargetPlatformVersion.TrimEnd('0'))35-preview</WindowsSdkPackageVersion>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- Workaround issue affecting publishing with R2R on ARM64 for .NET 6 with the preview CsWinRT builds. -->
+  <ItemGroup Condition="'$(Platform)'=='ARM64'">
     <PublishReadyToRunExclude Include="WinRT.Runtime.dll" />
   </ItemGroup>
 </Project>
