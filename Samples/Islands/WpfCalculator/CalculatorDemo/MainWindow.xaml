@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:CalculatorDemo"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="350"
-        Width="525"
+        Height="450"
+        Width="650"
         Icon="appicon.ico">
     
     <Window.Resources>
@@ -60,7 +60,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
+                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
@@ -121,9 +121,9 @@
                         ToolTip="Add To Memory">
                     M+
                 </Button>
-                <TextBlock Name="BMemBox" Grid.Column="3" Grid.Row="1" Margin="10,10,10,10" Grid.ColumnSpan="4">Memory: [empty]</TextBlock>
+                <TextBlock Name="BMemBox" Grid.Column="3" Grid.Row="1" Margin="10,17,10,17" Grid.ColumnSpan="2">Memory: [empty]</TextBlock>
 
-                <local:MyTextBox Grid.ColumnSpan="9" x:Name="DisplayBox" Margin="5,0,5,0" FontSize="16" BorderBrush="LightGray"/>
+                <local:MyTextBox Grid.ColumnSpan="9" x:Name="DisplayBox" Height="30" Margin="5" FontSize="20" BorderBrush="LightGray"/>
                 <Border x:Name="DisplayAreaBorder" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="5" Margin="5">
                     <local:MyTextBox x:Name="PaperBox" BorderBrush="LightGray"/>
                 </Border>
@@ -133,7 +133,7 @@
 
         <!-- This is what's shown when we enter the compat view mode-->
         <!-- Demo3_Step2_AddCompact -->
-        
+        <!--
         <DockPanel Name="CompactPanel" Visibility="Collapsed" >
             <DockPanel DockPanel.Dock="Top">
                 <Button Name="ExitCompactViewButton" Click="ExitCompactViewButton_Click" DockPanel.Dock="Right">Restore</Button>
@@ -170,6 +170,6 @@
                         Foreground="{DynamicResource AccentButtonForeground}" Background="{DynamicResource AccentButtonBackground}">=</Button>
             </Grid>
         </DockPanel>
-        
+        -->
     </Grid>
 </Window>
