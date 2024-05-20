@@ -101,6 +101,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainWindow_Demo3.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyTextBox.cs" />
