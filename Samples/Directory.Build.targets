@@ -3,4 +3,8 @@
   <PropertyGroup>
     <WindowsSdkPackageVersion>$(TargetPlatformVersion.TrimEnd('0'))35-preview</WindowsSdkPackageVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PublishReadyToRunExclude Include="WinRT.Runtime.dll" />
+  </ItemGroup>
 </Project>
