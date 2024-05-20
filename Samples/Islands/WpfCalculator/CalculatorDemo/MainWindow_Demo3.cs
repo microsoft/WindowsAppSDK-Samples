@@ -42,6 +42,12 @@ namespace CalculatorDemo
 
                 CompactViewText.Text = DisplayBox.Text;
 
+                if (!_registeredEventHandler)
+                {
+                    DisplayBox.TextChanged += DisplayBox_TextChanged;
+                    _registeredEventHandler = true;
+                }
+
                 // The AppWindow's CompactOverlay mode will make it always-on-top.
                 _appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
                 _appWindow.ResizeClient(new Windows.Graphics.SizeInt32(400, 400));
@@ -54,5 +60,12 @@ namespace CalculatorDemo
                 _appWindow.SetPresenter(AppWindowPresenterKind.Default);
             }
         }
-   }
+
+        private void DisplayBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            CompactViewText.Text = DisplayBox.Text;
+        }
+
+        bool _registeredEventHandler = false;
+    }
 }
