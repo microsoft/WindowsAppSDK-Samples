@@ -26,8 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" Version="8.1.240503-prerelease.3.gea00f03595" />
+    <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.1.240503-prerelease.3.gea00f03595" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240531000-experimental1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>

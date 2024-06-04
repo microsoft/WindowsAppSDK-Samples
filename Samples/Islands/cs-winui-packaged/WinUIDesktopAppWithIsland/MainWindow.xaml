@@ -12,13 +12,14 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="10">
             <TextBlock Margin="10">Here's an island in a ScrollViewer.  Notice now the content scrolls and clips correctly.</TextBlock>
             <Button Click="Button_Click_1">Load Helmet</Button>
+            <Button Click="Button_Click">Load Lottie</Button>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <StackPanel HorizontalAlignment="Center">
