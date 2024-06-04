@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WinUIDesktopAppWithIsland (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WinUIDesktopAppWithIsland (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
