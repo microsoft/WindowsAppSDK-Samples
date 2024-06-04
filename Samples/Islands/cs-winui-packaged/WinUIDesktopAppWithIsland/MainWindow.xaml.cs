@@ -1,3 +1,5 @@
+﻿using Microsoft.UI.Content;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -12,6 +14,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Microsoft.UI.Xaml.Hosting;
+using System.Numerics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,9 +32,47 @@ namespace WinUIDesktopAppWithIsland
             this.InitializeComponent();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        List<object> _keepAlive = new List<object>();
+        int idx = 0;
+
+        Microsoft.UI.Xaml.Shapes.Rectangle GetNextHostElement()
         {
-            myButton.Content = "Clicked";
+            if (idx < _rectanglePanel.Children.Count)
+            {
+                return ((Microsoft.UI.Xaml.Shapes.Rectangle)_rectanglePanel.Children[idx++]);
+            }
+
+            return null;
+        }
+
+        public async void SetupHelmet()
+        {
+            ContentIsland parentIsland = this.Content.XamlRoot.TryGetContentIsland();
+            ContainerVisual placementVisual = Compositor.CreateContainerVisual();
+            ChildContentLink childContentLink = ChildContentLink.Create(parentIsland, placementVisual);
+
+            Microsoft.UI.Xaml.Shapes.Rectangle rect = GetNextHostElement();
+            if (rect == null)
+            {
+                return;
+            }
+
+            ElementCompositionPreview.SetElementChildVisual(rect, placementVisual);
+            Vector2 size = rect.ActualSize;
+
+            placementVisual.Size = size;
+            childContentLink.ActualSize = size;
+
+            ContentIsland helmetIsland = await HelmetScenario.CreateIsland(placementVisual.Compositor);
+
+            childContentLink.Connect(helmetIsland);
+
+            _keepAlive.Add(childContentLink);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            SetupHelmet();
         }
     }
 }
