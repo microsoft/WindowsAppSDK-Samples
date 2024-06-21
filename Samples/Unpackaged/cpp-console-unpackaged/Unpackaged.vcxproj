@@ -204,6 +204,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /guard:cf /DYNAMICBASE</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Unpackaged.cpp" />
   </ItemGroup>
