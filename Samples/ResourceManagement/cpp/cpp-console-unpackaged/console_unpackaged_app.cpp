@@ -8,11 +8,13 @@
 #include "winrt\Windows.Foundation.h"
 #include "winrt\Windows.Foundation.Collections.h"
 #include "winrt\Microsoft.Windows.ApplicationModel.Resources.h"
+#include "winrt\Microsoft.Windows.Globalization.h"
 
 #include <MddBootstrap.h>
 
 using namespace winrt;
 using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
+using namespace winrt::Microsoft::Windows::Globalization;
 
 int wmain(int argc, wchar_t* argv[])
 {
