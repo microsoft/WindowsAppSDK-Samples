@@ -54,6 +54,13 @@ At the very least, that means adding an entry to describe your scenario, near th
 Verify your new scenario builds (without warnings), that it works as expected and has been implemented for all flavors of the sample (C++/C#, Packaged/Unpackaged, etc.).
 Go to the [WindowsAppSDK-Samples](https://github.com/microsoft/WindowsAppSDK-Samples) GitHub and follow the Contributing Guidelines (at the bottom of the readme) and submit ytour code changes for peer review.
 
+6. **Converting the Unpackaged Sample to Packaged Sample** -
+Sample can be converted to Packaged by following the guidance: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/single-project-msix?tabs=cpp
+   - **For a C++ Sample** - Set the below properties:
+         1. Open the vcxproj and set the AppxPackage property to true and WindowsPackageType to MSIX
+         3. Copy the provided sample Package.appxmanifest file under App/Resources/ to the unpackaged app solution. Note the provided manifest is only for reference modify the parameters as per the documentation:
+            https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/app-notifications/app-notifications-quickstart?tabs=cs
+
 ## Notes
 Scenario do not persist. When the user move between scenario, the old scenario is deleted and a new one is create.
 Keep this in mind when designing your own scenario.
