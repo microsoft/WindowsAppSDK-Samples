@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+
+    <!-- TODO: Why do we need to specify a specific Windows version? -->
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>x64;ARM64;x86</Platforms>
+
+    <!-- TODO: Why do we need to specify the explicit RIDs? -->   
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>   
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DuckScenario.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Added CsWinRT reference to avoid WinMD error as a result of WinMD leaking via project reference. -->
+    <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
+    <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
+
+    <!-- Reference WASDK for types -->
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DrawingIslandCsProjection\DrawingIslandCsProjection.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Assets\LottieLogo1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
