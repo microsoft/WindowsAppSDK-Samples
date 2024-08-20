@@ -65,6 +65,6 @@
     <ProjectReference Include="..\DrawingCppTestApp\DrawingCppTestApp.vcxproj" />
   </ItemGroup>
   <PropertyGroup>
-    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
+    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
   </PropertyGroup>
 </Project>
