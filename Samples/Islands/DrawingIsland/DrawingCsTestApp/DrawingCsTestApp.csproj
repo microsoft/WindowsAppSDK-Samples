@@ -33,9 +33,9 @@
   <ItemGroup>
     <!-- Added CsWinRT reference to avoid WinMD error as a result of WinMD leaking via project reference. -->
     <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
-    <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
+    <PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="8.0.280225" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240701003-experimental2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240821007-preview2" />
 
     <!-- Reference WASDK for types -->
   </ItemGroup>

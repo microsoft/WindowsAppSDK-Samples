@@ -33,16 +33,16 @@ var siteBridge = DesktopChildSiteBridge.Create(compositor, window.Id);
 siteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
 siteBridge.Show();
 
-var drawing = new DrawingIsland(compositor);
-siteBridge.Connect(drawing.Island);
+//var drawing = new DrawingIsland(compositor);
+//siteBridge.Connect(drawing.Island);
 
 #region ...
 //var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
 //siteBridge.Connect(lottie.Island);
 
 #region ...
-//var island = HelmetScenario.CreateIsland(compositor);
-//siteBridge.Connect(island);
+var island = HelmetScenario.CreateIsland(compositor);
+siteBridge.Connect(island);
 
 #endregion
 #endregion
