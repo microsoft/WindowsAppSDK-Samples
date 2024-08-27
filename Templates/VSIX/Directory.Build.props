@@ -5,7 +5,7 @@
     <CppWinRTVersion Condition="'$(CppWinRTVersion)' == ''">2.0.230706.1</CppWinRTVersion>
     <CsWin32Version Condition="'$(CsWin32Version)' == ''">0.2.164-beta</CsWin32Version>
     <WindowsSDKBuildToolsVersion Condition="'$(WindowsSDKBuildToolsVersion)' == ''">10.0.22621.756</WindowsSDKBuildToolsVersion>
-    <WindowsAppSdkVersion Condition="'$(WindowsAppSdkVersion)' == ''">1.5.240227000</WindowsAppSdkVersion>
+    <WindowsAppSdkVersion Condition="'$(WindowsAppSdkVersion)' == ''">1.6.240821007-preview2</WindowsAppSdkVersion>
   </PropertyGroup>
 
 </Project>
