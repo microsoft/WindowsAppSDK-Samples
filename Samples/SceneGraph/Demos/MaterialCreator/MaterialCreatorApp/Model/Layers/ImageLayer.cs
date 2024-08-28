@@ -126,7 +126,7 @@ namespace MaterialCreator
                 }
                 else
                 {
-                    throw e;
+                    throw;
                 }
             }
         }
