@@ -123,6 +123,21 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /Qspectre</AdditionalOptions>
+      <!-- /GS Enable Control Flow Guard -->
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <!-- dynamicbase is required for enabling CFG -->
+      <AdditionalOptions>%(AdditionalOptions) /dynamicbase</AdditionalOptions>
+      <!-- /GS Enable Control Flow Guard -->
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <CETCompat Condition="'$(Platform)'!='ARM64'">true</CETCompat>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>

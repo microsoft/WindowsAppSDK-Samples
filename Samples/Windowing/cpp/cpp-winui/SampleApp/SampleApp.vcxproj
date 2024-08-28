@@ -86,8 +86,17 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level4</WarningLevel>
-      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /Qspectre</AdditionalOptions>
+      <!-- /GS Enable Control Flow Guard -->
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <!-- dynamicbase is required for enabling CFG -->
+      <AdditionalOptions>%(AdditionalOptions) /dynamicbase</AdditionalOptions>
+      <!-- /GS Enable Control Flow Guard -->
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
