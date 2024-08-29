@@ -10,6 +10,10 @@
     <UseWinUI>true</UseWinUI>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(PublishReadyToRun)' == ''">    
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="App.xaml" />
     <None Remove="Assets\windows-sdk.ico" />
