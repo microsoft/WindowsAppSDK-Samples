@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="Input.KeyboardShortcutManager"
+    x:Name="KeyBoardShortcutsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Input"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <StackPanel x:Name="LayoutRoot" IsTabStop="True" AllowFocusOnInteraction="True" Padding="20">
+        <TextBlock x:Name="Description" Text="Press keys to understand the working of the below keyboard events" Margin="0,0,0,20" />
+        <TextBlock x:Name="KeyDownText" Text="KeyDown: None" Margin="0,10,0,0"/>
+        <TextBlock x:Name="KeyUpText" Text="KeyUp: None" Margin="0,10,0,0"/>
+        <TextBlock x:Name="CharacterReceivedText" Text="Character Received: None" Margin="0,10,0,0"/>
+        <TextBlock x:Name="AcceleratorInvokedText" Text="Accelerator Invoked: None" Margin="0,10,0,0"/>
+    </StackPanel>
+
+    <!-- Keyboard Accelerator for Ctrl+R -->
+    <Page.KeyboardAccelerators>
+        <KeyboardAccelerator Key="R" Modifiers="Control" Invoked="OnCtrlRInvoked"/>
+    </Page.KeyboardAccelerators>
+
+</Page>
