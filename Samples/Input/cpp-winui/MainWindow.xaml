@@ -1,0 +1,23 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Window
+    x:Class="cpp_winui.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:cpp_winui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" x:Name="LayoutRoot" HorizontalAlignment="Center" VerticalAlignment="Center" IsTabStop="True" AllowFocusOnInteraction="True" Padding="20">
+        <Button x:Name="MyButton" Click="MyButton_Click" Margin="0,0,0,10">Click Me</Button>
+        <TextBlock x:Name="KeyDownText" Text="Key Down: None" Margin="0,10,0,0"/>
+        <TextBlock x:Name="KeyUpText" Text="Key Up: None" Margin="0,10,0,0"/>
+        <TextBlock x:Name="CharacterReceivedText" Text="Character Received: None" Margin="0,10,0,0"/>
+        <TextBlock x:Name="AcceleratorInvokedText" Text="Accelerator Invoked: None" Margin="0,10,0,0"/>
+        <!-- Keyboard Accelerator for Ctrl+R -->
+        <StackPanel.KeyboardAccelerators>
+            <KeyboardAccelerator Key="R" Modifiers="Control" Invoked="OnCtrlRInvoked"/>
+        </StackPanel.KeyboardAccelerators>
+    </StackPanel>
+</Window>

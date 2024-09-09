@@ -1,4 +1,6 @@
-﻿<Page
+﻿<!-- Copyright (c) Microsoft Corporation.
+ Licensed under the MIT License. -->
+<Page
     x:Class="Input.KeyboardShortcutManager"
     x:Name="KeyBoardShortcutsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
