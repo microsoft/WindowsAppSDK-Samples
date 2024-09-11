@@ -1,27 +1,32 @@
-========================================================================
-    cpp-winui Project Overview
-========================================================================
+---
+page_type: sample
+languages:
+- cpp
+products:
+- windows
+- windows-app-sdk
+name: "Input Samples"
+urlFragment: Input
+description: "Showcases Keyboard event APIs and KeyboardAccelerators usage."
+extendedZipContent:
+- path: LICENSE
+  target: LICENSE
+---
 
-This project demonstrates how to get started writing WinUI3 apps directly
-with standard C++, using the Windows App SDK and C++/WinRT packages and
-XAML compiler support to generate implementation headers from interface
-(IDL) files. These headers can then be used to implement the local
-Windows Runtime classes referenced in the app's XAML pages.
+# Input samples
 
-Steps:
-1. Create an interface (IDL) file to define any local Windows Runtime
-    classes referenced in the app's XAML pages.
-2. Build the project once to generate implementation templates under
-    the "Generated Files" folder, as well as skeleton class definitions
-    under "Generated Files\sources".
-3. Use the skeleton class definitions for reference to implement your
-    Windows Runtime classes.
+This sample demonstrates the working of various Keyboard events and Keyboard accelerators using WinAppSDK.
 
-========================================================================
-Learn more about Windows App SDK here:
-https://docs.microsoft.com/windows/apps/windows-app-sdk/
-Learn more about WinUI3 here:
-https://docs.microsoft.com/windows/apps/winui/winui3/
-Learn more about C++/WinRT here:
-http://aka.ms/cppwinrt/
-========================================================================
+## Prerequisites
+
+* See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
+* Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+
+## Building and running any of the samples
+
+* Open the solution file (`.sln`) from the subfolder of your preferred sample in Visual Studio.
+* From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
+
+## Related Links
+
+- [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
