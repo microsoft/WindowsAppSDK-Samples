@@ -15,7 +15,7 @@ extendedZipContent:
 
 # Input samples
 
-These samples demonstrate how to use the WinAppSDK input APIs within the namespace Microsoft.UI.Input. This sample also demonstrates the working of various Keyboard events and Keyboard accelerators using WinAppSDK. 
+These samples demonstrate how to use the WinAppSDK input APIs within the namespace Microsoft.UI.Input. This sample also demonstrates the working of various Keyboard events and Keyboard accelerators using WinUI. 
 
 ## Prerequisites
 
