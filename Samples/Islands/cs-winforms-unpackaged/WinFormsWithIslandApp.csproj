@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Island-support: WindowsAppSDK supports only these platforms:-->
+    <Platforms>x64;x86;ARM64</Platforms>
   </PropertyGroup>
 
 </Project>
