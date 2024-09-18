@@ -18,6 +18,11 @@
       https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/use-windows-app-sdk-run-time
       -->
     <WindowsPackageType>None</WindowsPackageType>
+
+    <!-- Island-support: This is a bit of a hack to prevent Microsoft.WinFX.targets from being imported.
+      When this targets file gets imported, it tries to build our Xaml files for WPF, which won't work.
+    -->
+    <ImportFrameworkWinFXTargets>true</ImportFrameworkWinFXTargets>
   </PropertyGroup>
 
   <ItemGroup>

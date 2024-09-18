@@ -1,3 +1,5 @@
+﻿using WinFormsWithIsland;
+
 namespace WinFormsWithIslandApp
 {
     public partial class Form1 : Form
@@ -5,6 +7,8 @@ namespace WinFormsWithIslandApp
         public Form1()
         {
             InitializeComponent();
+
+            this.desktopWindowXamlSourceControl1.Content = new WinUI3Page();
         }
     }
 }
