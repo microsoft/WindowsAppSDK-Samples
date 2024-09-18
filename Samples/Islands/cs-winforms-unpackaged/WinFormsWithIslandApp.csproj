@@ -12,6 +12,12 @@
     <!-- Island-support: WindowsAppSDK supports only these platforms:-->
     <Platforms>x64;x86;ARM64</Platforms>
     <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
+
+    <!-- Island-support: Setting WindowsPackageType to "None" sets up machinery to 
+      automatically load the WindowsAppSDK framework package when the program runs.  
+      https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/use-windows-app-sdk-run-time
+      -->
+    <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
   <ItemGroup>
