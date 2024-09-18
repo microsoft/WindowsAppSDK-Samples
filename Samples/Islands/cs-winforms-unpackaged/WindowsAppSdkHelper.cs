@@ -19,33 +19,6 @@ namespace WinFormsWithIsland
             Application.AddMessageFilter(new ContentPreTranslateMessageFilter());
         }
 
-        /// <summary>
-        /// Call to move focus to the next focusable control in the parent.
-        /// </summary>
-        /// <param name="parent">Control or Form that contains the controls.</param>
-        /// <param name="start">Control we're starting with.</param>
-        /// <param name="forward">If true, focus is moving forward.  If not, backward.</param>
-        public static void FocusNextFocusableControl(Control parent, Control start, bool forward)
-        {
-            // GetNextControl can return controls that aren't tab stops, so keep going until we find one that is.
-            System.Windows.Forms.Control next = start;
-            do
-            {
-                next = parent.GetNextControl(next, forward);
-            }
-            while (next != null && next.TabStop == false);
-
-            if (next == null)
-            {
-                // Oops, we ran out of controls.  Get the first control in the parent.
-                next = parent.GetNextControl(null, forward);
-            }
-
-            if (next != null)
-            {
-                next.Focus();
-            }
-        }
         class ContentPreTranslateMessageFilter : IMessageFilter
         {
             bool IMessageFilter.PreFilterMessage(ref Message m)
