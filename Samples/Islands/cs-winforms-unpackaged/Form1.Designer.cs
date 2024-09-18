@@ -49,6 +49,7 @@
             // 
             // desktopWindowXamlSourceControl1
             // 
+            desktopWindowXamlSourceControl1.Content = null;
             desktopWindowXamlSourceControl1.Dock = DockStyle.Fill;
             desktopWindowXamlSourceControl1.Location = new Point(20, 80);
             desktopWindowXamlSourceControl1.Name = "desktopWindowXamlSourceControl1";
@@ -84,7 +85,7 @@
             ClientSize = new Size(755, 445);
             Controls.Add(panel1);
             Name = "Form1";
-            Text = "Form1";
+            Text = "WinForms with Island";
             panel1.ResumeLayout(false);
             ResumeLayout(false);
         }

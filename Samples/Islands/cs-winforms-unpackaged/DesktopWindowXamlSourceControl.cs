@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI;
@@ -11,10 +12,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.UI.Xaml;
+using Windows.Foundation;
 
 namespace WinFormsWithIsland
 {
+    /// <summary>
+    /// This control hosts a DesktopWindowXamlSource in a WinForms application.
+    /// The DesktopWindowXamlSource is backed by a DesktopChildSiteBridge HWND that is a child of the WinForms Control.
+    /// The HWND tree looks like this:
+    /// * Top-level WinForms HWND
+    ///   * DesktopWindowXamlSourceControl HWND
+    ///     * DesktopChildSiteBridge HWND
+    ///   * Other WinForms control HWNDs
+    ///   * Other WinForms control HWNDs
+    /// </summary>
     public partial class DesktopWindowXamlSourceControl : System.Windows.Forms.Control
     {
         public DesktopWindowXamlSourceControl()
@@ -26,10 +37,26 @@ namespace WinFormsWithIsland
         {
             if (_desktopWindowXamlSource != null)
             {
+                // The DesktopWindowXamlSourceControl is getting focus, let's redirect focus to the Xaml content by
+                // calling DesktopWindowXamlSource.NavigateFocus.
                 bool isShiftPressed = ((Form.ModifierKeys & Keys.Shift) != 0);
                 var reason = isShiftPressed ? Microsoft.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last : Microsoft.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
                 var request = new XamlSourceFocusNavigationRequest(reason);
                 _desktopWindowXamlSource.NavigateFocus(request);
+            }
+        }
+
+        private void OnDesktopWindowXamlSourceTakeFocusRequested(object sender, DesktopWindowXamlSourceTakeFocusRequestedEventArgs e)
+        {
+            // The DesktopWindowXamlSource is requesting that the host take focus.
+            // This typically happens when the user is tabbing through the controls in the Xaml content and reaches the first or last control.
+            if (e.Request.Reason == XamlSourceFocusNavigationReason.First)
+            {
+                FocusNextFocusableWinFormsControl(this.Parent, this, true /*forward*/);
+            }
+            else if (e.Request.Reason == XamlSourceFocusNavigationReason.Last)
+            {
+                FocusNextFocusableWinFormsControl(this.Parent, this, false /*forward*/);
             }
         }
 
@@ -39,16 +66,9 @@ namespace WinFormsWithIsland
 
             _desktopWindowXamlSource.Initialize(new WindowId((ulong)this.Handle));
 
-            _desktopWindowXamlSource.TakeFocusRequested += (s, e) => {
-                if (e.Request.Reason == Microsoft.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First)
-                {
-                    WindowsAppSdkHelper.FocusNextFocusableControl(this.Parent, this, true);
-                }
-                else if (e.Request.Reason == Microsoft.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last)
-                {
-                    WindowsAppSdkHelper.FocusNextFocusableControl(this.Parent, this, false);
-                }
-            };
+            _desktopWindowXamlSource.TakeFocusRequested += 
+                new TypedEventHandler<DesktopWindowXamlSource, DesktopWindowXamlSourceTakeFocusRequestedEventArgs>(
+                    OnDesktopWindowXamlSourceTakeFocusRequested);
 
             _desktopWindowXamlSource.SiteBridge.MoveAndResize(new Windows.Graphics.RectInt32(0, 0, this.Width, this.Height));
 
@@ -68,6 +88,7 @@ namespace WinFormsWithIsland
             base.OnResize(e);
             if (_desktopWindowXamlSource != null)
             {
+                // Resize the DesktopChildSiteBridge HWND to match the size of the WinForms control, it's parent.
                 _desktopWindowXamlSource.SiteBridge.MoveAndResize(new Windows.Graphics.RectInt32(0, 0, this.Width, this.Height));
             }
         }
@@ -86,6 +107,9 @@ namespace WinFormsWithIsland
             }
         }
 
+        /// <summary>
+        /// Sets the content of the DesktopWindowXamlSource.
+        /// </summary>
         public FrameworkElement? Content
         {
             get
@@ -102,8 +126,36 @@ namespace WinFormsWithIsland
             }
         }
 
-        FrameworkElement? _content;
-        Frame? _frame;
-        DesktopWindowXamlSource? _desktopWindowXamlSource;
+        /// <summary>
+        /// Call to move focus to the next focusable control in the parent.
+        /// </summary>
+        /// <param name="parent">Control or Form that contains the controls.</param>
+        /// <param name="start">Control we're starting with.</param>
+        /// <param name="forward">If true, focus is moving forward.  If not, backward.</param>
+        private static void FocusNextFocusableWinFormsControl(System.Windows.Forms.Control parent, System.Windows.Forms.Control start, bool forward)
+        {
+            // GetNextControl can return controls that aren't tab stops, so keep going until we find one that is.
+            System.Windows.Forms.Control next = start;
+            do
+            {
+                next = parent.GetNextControl(next, forward);
+            }
+            while (next != null && next.TabStop == false);
+
+            if (next == null)
+            {
+                // Oops, we ran out of controls.  Get the first control in the parent.
+                next = parent.GetNextControl(null, forward);
+            }
+
+            if (next != null)
+            {
+                next.Focus();
+            }
+        }
+
+        private FrameworkElement? _content;
+        private Frame? _frame;
+        private DesktopWindowXamlSource? _desktopWindowXamlSource;
     }
 }
