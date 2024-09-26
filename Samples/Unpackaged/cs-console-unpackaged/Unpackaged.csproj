@@ -10,6 +10,7 @@
     <WindowsPackageType>None</WindowsPackageType>
     <!--Bug - Required for non-WinUI apps, remove once resolved -->
     <WinUISDKReferences>False</WinUISDKReferences>
+    <WindowsSdkPackageVersion>10.0.19041.38</WindowsSdkPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
