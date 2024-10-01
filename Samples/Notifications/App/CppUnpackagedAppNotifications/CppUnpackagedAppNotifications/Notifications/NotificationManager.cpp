@@ -17,6 +17,7 @@ namespace winrt
 {
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::Windows::AppNotifications;
+    using namespace Microsoft::Windows::PushNotifications;
     using namespace CppUnpackagedAppNotifications::implementation;
 }
 
@@ -39,12 +40,29 @@ NotificationManager::~NotificationManager()
 
 void NotificationManager::Init()
 {
-    auto notificationManager{ winrt::AppNotificationManager::Default() };
+    auto pushNotificationManager = winrt::PushNotificationManager::Default();
+
+    if (pushNotificationManager.IsSupported())
+    {
+        // Setup an event handler, so we can receive notifications in the foreground while the app is running.
+        SubscribeForegroundEventHandler();
+
+        pushNotificationManager.Register();
+    }
+    else
+    {
+        // Here, the app should handle the case where push notifications are not supported, for example:
+        // - maintain its own persistent connection with an App Service or
+        // - use polling over a scheduled interval to synchronize the client.
+        //std::cout << "\nPush Notifications aren't supported." << std::endl;
+    }
+
+    auto appNotificationManager{ winrt::AppNotificationManager::Default() };
 
     // To ensure all Notification handling happens in this process instance, register for
     // NotificationInvoked before calling Register(). Without this a new process will
     // be launched to handle the notification.
-    const auto token{ notificationManager.NotificationInvoked([&](const auto&, winrt::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
+    const auto token{ appNotificationManager.NotificationInvoked([&](const auto&, winrt::AppNotificationActivatedEventArgs  const& notificationActivatedEventArgs)
         {
             NotifyUser::NotificationReceived();
 
@@ -83,4 +101,15 @@ bool NotificationManager::DispatchNotification(winrt::AppNotificationActivatedEv
     {
         return false; // No scenario specified in the notification
     }
+}
+
+void NotificationManager::SubscribeForegroundEventHandler()
+{
+    winrt::event_token token{ winrt::PushNotificationManager::Default().PushReceived([](auto const&, winrt::PushNotificationReceivedEventArgs const& args)
+    {
+        auto payload{ args.Payload() };
+
+        std::string payloadString(payload.begin(), payload.end());
+        //std::cout << "\nPush notification content received in the FOREGROUND: " << payloadString << std::endl;
+    }) };
 }
