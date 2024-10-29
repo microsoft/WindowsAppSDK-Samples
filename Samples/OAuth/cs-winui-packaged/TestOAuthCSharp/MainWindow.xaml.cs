@@ -34,13 +34,42 @@ namespace TestOAuthCSharp
             parentWindowId = GetWindowId();
         }
 
-        private async void myButton_Click(object sender, RoutedEventArgs e)
+        private async void implicitGrantWithRedirectButton_Click(object sender, RoutedEventArgs e)
         {
             AuthRequestResult res = await OAuth2Manager.RequestAuthAsync(parentWindowId, new Uri("https://github.com/login/oauth/authorize?client_id=Ov23liJQ6xoz8ylsXkYs&scope=read%3Auser%20user%3Aemail"), new Uri("ms-testoauthcsharp-launch://"));
 
             //This is empty in case of github because github doesn't support implicit grant type.
             Debug.WriteLine($"AuthRequestResult Response Accesstoken: {res.Response.AccessToken}");
-            myButton.Content = "Clicked";
+            implicitGrantWithRedirectButton.Content = "Implicit OAuth with redirect performed : " + res.ResponseUri;
+        }
+
+        private async void authCodeGrantWithRedirectButton_Click(object sender, RoutedEventArgs e)
+        {
+            var clientId = "Ov23liJQ6xoz8ylsXkYs";
+            var clientSecret = "319bc59e45797c9424f62e415684b7d7c3748be9";
+
+
+            AuthRequestParams requestParams = AuthRequestParams.CreateForAuthorizationCodeRequest(clientId, new Uri("ms-testoauthcsharp-launch://"));
+            requestParams.Scope = "read:user user:email";
+            AuthRequestResult res = await OAuth2Manager.RequestAuthWithParamsAsync(parentWindowId, new Uri("https://github.com/login/oauth/authorize"), requestParams);
+
+            Debug.WriteLine($"AuthRequestResult Response : {res.ResponseUri}");
+
+            if (res.Response is not null)
+            {
+                TokenRequestParams tokenRequestParams = TokenRequestParams.CreateForAuthorizationCodeRequest(res.Response);
+
+                // It is not ideal to expose the client secret in an app you distribute. 
+                // Ideally this exchange should happen on a secure server.
+                ClientAuthentication clientAuth = ClientAuthentication.CreateForBasicAuthorization(clientId, clientSecret);
+                TokenRequestResult tokenRes = await OAuth2Manager.RequestTokenAsync(new Uri("https://github.com/login/oauth/access_token"), tokenRequestParams, clientAuth);
+                authCodeGrantWithRedirectButton.Content = "Auth code type TokenResponse: token : " + tokenRes.Response.AccessToken + " Auth res : " + res.ResponseUri;
+
+            }
+            else
+            {
+                authCodeGrantWithRedirectButton.Content = "Auth code type OAuth with redirect performed AuthResponse : " +  res.ResponseUri;
+            }
         }
         private WindowId GetWindowId()
         {

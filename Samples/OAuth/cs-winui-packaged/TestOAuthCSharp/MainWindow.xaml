@@ -11,7 +11,8 @@
     <StackPanel
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
-        Orientation="Horizontal">
-        <Button x:Name="myButton" Click="myButton_Click">Implicit grant type with Redirect URI</Button>
+        Orientation="Vertical">
+        <Button x:Name="implicitGrantWithRedirectButton" Click="implicitGrantWithRedirectButton_Click">Implicit grant type with Redirect URI</Button>
+        <Button x:Name="authCodeGrantWithRedirectButton" Click="authCodeGrantWithRedirectButton_Click">Auth code grant type with Redirect URI</Button>
     </StackPanel>
 </Window>
