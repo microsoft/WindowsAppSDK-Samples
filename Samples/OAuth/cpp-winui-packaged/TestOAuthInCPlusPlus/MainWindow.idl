@@ -1,0 +1,9 @@
+namespace TestOAuthInCPlusPlus
+{
+    [default_interface]
+    runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+        void OnUriCallback([in] Windows.Foundation.Uri uri);
+    }
+}
