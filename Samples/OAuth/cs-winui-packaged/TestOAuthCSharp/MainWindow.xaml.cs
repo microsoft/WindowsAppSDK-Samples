@@ -1,4 +1,4 @@
-using Microsoft.Security.Authentication.OAuth;
+﻿using Microsoft.Security.Authentication.OAuth;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Windowing;
@@ -17,6 +17,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using WinRT.Interop;
 using System.Diagnostics;
+using Microsoft.UI.Dispatching;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,10 +29,12 @@ namespace TestOAuthCSharp
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private static DispatcherQueue dispatcherQueue;
         public MainWindow()
         {
             this.InitializeComponent();
             parentWindowId = GetWindowId();
+            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         }
 
         private async void implicitGrantWithRedirectButton_Click(object sender, RoutedEventArgs e)
@@ -40,13 +43,13 @@ namespace TestOAuthCSharp
 
             //This is empty in case of github because github doesn't support implicit grant type.
             Debug.WriteLine($"AuthRequestResult Response Accesstoken: {res.Response.AccessToken}");
-            implicitGrantWithRedirectButton.Content = "Implicit OAuth with redirect performed : " + res.ResponseUri;
+            outputTextBlock.Text = "Implicit OAuth with redirect performed : Auth res: " + res.ResponseUri;
         }
 
         private async void authCodeGrantWithRedirectButton_Click(object sender, RoutedEventArgs e)
         {
-            var clientId = "Ov23liJQ6xoz8ylsXkYs";
-            var clientSecret = "319bc59e45797c9424f62e415684b7d7c3748be9";
+            var clientId = "your client id";
+            var clientSecret = "your client secret";
 
 
             AuthRequestParams requestParams = AuthRequestParams.CreateForAuthorizationCodeRequest(clientId, new Uri("ms-testoauthcsharp-launch://"));
@@ -63,12 +66,19 @@ namespace TestOAuthCSharp
                 // Ideally this exchange should happen on a secure server.
                 ClientAuthentication clientAuth = ClientAuthentication.CreateForBasicAuthorization(clientId, clientSecret);
                 TokenRequestResult tokenRes = await OAuth2Manager.RequestTokenAsync(new Uri("https://github.com/login/oauth/access_token"), tokenRequestParams, clientAuth);
-                authCodeGrantWithRedirectButton.Content = "Auth code type TokenResponse: token : " + tokenRes.Response.AccessToken + " Auth res : " + res.ResponseUri;
-
+                var accessToken = tokenRes.Response.AccessToken;
+                // Ensure this runs on the UI thread
+                dispatcherQueue.TryEnqueue(()=>
+                {
+                    outputTextBlock.Text= "Auth code type TokenResponse : Token: " + accessToken + "\nAuth res: " + res.ResponseUri;
+                });
             }
             else
             {
-                authCodeGrantWithRedirectButton.Content = "Auth code type OAuth with redirect performed AuthResponse : " +  res.ResponseUri;
+                dispatcherQueue.TryEnqueue(() =>
+                {
+                    outputTextBlock.Text = "Auth code type OAuth with redirect performed AuthResponse : " +  res.ResponseUri;
+                });
             }
         }
         private WindowId GetWindowId()
