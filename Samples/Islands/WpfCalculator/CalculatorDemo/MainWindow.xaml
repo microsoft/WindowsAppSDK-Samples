@@ -27,21 +27,20 @@
             <Menu Name="MainMenu" DockPanel.Dock="Top">
                 <MenuItem Header="File">
                 <!-- Demo4_Step2_AddIsland-->
-                <!--
                 <MenuItem Name="CreateLottieIslandMenuItem" Click="CreateLottieIslandMenuItem_Click"  Header="Create LottieIsland" />
-                -->
 
-                <!--<MenuItem Name="CreateDrawingIslandMenuItem" Click="CreateDrawingIslandMenuItem_Click"  Header="Create DrawingIsland" />-->
-                <!--<MenuItem Name="CreateSceneNodeIslandMenuItem" Click="CreateSceneNodeIslandMenuItem_Click"  Header="Create SceneNode" />-->
+                <MenuItem Name="CreateDrawingIslandMenuItem" Click="CreateDrawingIslandMenuItem_Click"  Header="Create DrawingIsland" />
+                <MenuItem Name="CreateSceneNodeIslandMenuItem" Click="CreateSceneNodeIslandMenuItem_Click"  Header="Create SceneNode" />
+                <!-- -->
                 <MenuItem Click="OnMenuExit" Header="Exit" />
                 </MenuItem>
                 <MenuItem Header="View">
                     <MenuItem Name="StandardMenu" Click="OnMenuStandard" IsCheckable="true" IsChecked="True"
                               Header="Standard" />
                     <!-- Demo3_Step2_AddCompact -->
-                    <!--
+                    
                     <MenuItem Name="CompactView" Click="CompactView_Click" Header="Enter Compact View" />
-                    -->
+                    
                 </MenuItem>
                 <MenuItem Header="Help">
                     <MenuItem Click="OnMenuAbout" Header="About" />
@@ -133,7 +132,6 @@
 
         <!-- This is what's shown when we enter the compat view mode-->
         <!-- Demo3_Step2_AddCompact -->
-        <!--
         <DockPanel Name="CompactPanel" Visibility="Collapsed" >
             <DockPanel DockPanel.Dock="Top">
                 <Button Name="ExitCompactViewButton" Click="ExitCompactViewButton_Click" DockPanel.Dock="Right">Restore</Button>
@@ -170,6 +168,6 @@
                         Foreground="{DynamicResource AccentButtonForeground}" Background="{DynamicResource AccentButtonBackground}">=</Button>
             </Grid>
         </DockPanel>
-        -->
+        <!-- -->
     </Grid>
 </Window>
