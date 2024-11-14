@@ -97,6 +97,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <!--
+    <Compile Include="App_Demo3.cs" />
+    <Compile Include="Extra\HelmetScenario.cs" />
+    <Compile Include="Extra\MainWindow_Demo4_Extra.cs" />
+    <Compile Include="Extra\SceneNodeCommon.cs" />
+    <Compile Include="LottieIslandScenario.cs" />
+    <Compile Include="MainWindow_Demo3.cs" />
+    <Compile Include="MainWindow_Demo4.cs" />
+    -->
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -115,6 +124,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <!-- Demo4_Step2_AddIsland -->
+    <!--<Compile Include="WpfIslandHost.cs" />-->
     <!-- -->
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,6 +1,8 @@
 
 Here's the basic process:
 
+
+
 **Demo2_Step2_RunCalcWithThemes**
 * Open WpfCalculator.sln.
 * Ensure settings are: 
@@ -23,7 +25,7 @@ Here's the basic process:
 
 
 **Demo3_Step2_AddCompact**
-* Remove comments for "Demo3_Step1_AddWasdk"
+* Remove comments for "Demo3_Step2_AddCompact"
 * ctrl+f5
 * App now has "compact" mode
 
