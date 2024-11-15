@@ -3,6 +3,7 @@ using Microsoft.UI.Composition;
 using CommunityToolkit.WinAppSDK.LottieIsland;
 using CommunityToolkit.WinAppSDK.LottieWinRT;
 
+// Demo4_Step1_LottieIsland
 class LottieIslandScenario
 {
     public static LottieContentIsland CreateLottieIsland(Compositor compositor)

@@ -97,16 +97,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <!-- Demo3_Step2_AddCompact -->
+    <!-- Demo3_Step1_ProjectFiles -->
     <Compile Include="App_Demo3.cs" />
+    <!-- Demo3_Step2_ProjectFiles -->
     <Compile Include="MainWindow_Demo3.cs" />
-    <!-- -->
     <!-- Demo4_Step2_AddIsland -->
-    <Compile Include="Extra\HelmetScenario.cs" />
-    <Compile Include="Extra\MainWindow_Demo4_Extra.cs" />
-    <Compile Include="Extra\SceneNodeCommon.cs" />
     <Compile Include="LottieIslandScenario.cs" />
     <Compile Include="MainWindow_Demo4.cs" />
+    <Compile Include="WpfIslandHost.cs" />
+    <!--<Compile Include="Extra\HelmetScenario.cs" />-->
+    <!--<Compile Include="Extra\MainWindow_Demo4_Extra.cs" />-->
+    <!--<Compile Include="Extra\SceneNodeCommon.cs" />-->
     <!-- -->
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -125,9 +126,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <!-- Demo4_Step2_AddIsland -->
-    <Compile Include="WpfIslandHost.cs" />
-    <!-- -->
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -142,7 +140,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-  <!-- Demo3_Step1_AddWasdk -->
+  <!-- Demo3_Step1_WasdkProject -->
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" />
   <!-- -->

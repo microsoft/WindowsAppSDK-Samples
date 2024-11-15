@@ -67,7 +67,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" PrivateAssets="all" />
-    <!-- Demo3_Step1_AddWasdk -->
+    <!-- Demo3_Step1_WasdkPackaging -->
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" />
     <!-- -->
   </ItemGroup>

@@ -26,21 +26,18 @@
         <DockPanel Name="MyPanel">
             <Menu Name="MainMenu" DockPanel.Dock="Top">
                 <MenuItem Header="File">
-                <!-- Demo4_Step2_AddIsland-->
+                <!-- Demo4_Step1_Markup-->
                 <MenuItem Name="CreateLottieIslandMenuItem" Click="CreateLottieIslandMenuItem_Click"  Header="Create LottieIsland" />
 
-                <MenuItem Name="CreateDrawingIslandMenuItem" Click="CreateDrawingIslandMenuItem_Click"  Header="Create DrawingIsland" />
-                <MenuItem Name="CreateSceneNodeIslandMenuItem" Click="CreateSceneNodeIslandMenuItem_Click"  Header="Create SceneNode" />
-                <!-- -->
+                <!--<MenuItem Name="CreateDrawingIslandMenuItem" Click="CreateDrawingIslandMenuItem_Click"  Header="Create DrawingIsland" />-->
+                <!--<MenuItem Name="CreateSceneNodeIslandMenuItem" Click="CreateSceneNodeIslandMenuItem_Click"  Header="Create SceneNode" />-->
                 <MenuItem Click="OnMenuExit" Header="Exit" />
                 </MenuItem>
                 <MenuItem Header="View">
                     <MenuItem Name="StandardMenu" Click="OnMenuStandard" IsCheckable="true" IsChecked="True"
                               Header="Standard" />
                     <!-- Demo3_Step2_AddCompact -->
-                    
                     <MenuItem Name="CompactView" Click="CompactView_Click" Header="Enter Compact View" />
-                    
                 </MenuItem>
                 <MenuItem Header="Help">
                     <MenuItem Click="OnMenuAbout" Header="About" />

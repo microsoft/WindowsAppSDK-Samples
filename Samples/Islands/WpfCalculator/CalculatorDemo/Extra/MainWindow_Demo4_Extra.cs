@@ -3,7 +3,6 @@
 
 using System.Windows;
 
-// Demo3_Step2_AddCompact
 namespace CalculatorDemo
 {
     public sealed partial class MainWindow : Window
