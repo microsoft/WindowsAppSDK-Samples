@@ -9,7 +9,7 @@
   <Identity
     Name="02a755d9-0749-4de1-b739-ee2322efad26"
     Publisher="CN=jecollin"
-    Version="1.0.0.0" />
+    Version="1.0.11.0" />
 
   <Properties>
     <DisplayName>CalculatorDemoPackage</DisplayName>

@@ -13,6 +13,7 @@
     <!-- These flags turn off some WinAppSDK features we won't be using. -->
     <UseWinUITools>false</UseWinUITools>
     <EnableCoreMrtTooling>false</EnableCoreMrtTooling>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -98,18 +99,18 @@
       <SubType>Code</SubType>
     </Compile>
     <!-- Demo3_Step1_ProjectFiles -->
-    <!--<Compile Include="App_Demo3.cs" />-->
+    <Compile Include="App_Demo3.cs" />
     <!-- Demo3_Step2_ProjectFiles -->
-    <!--<Compile Include="MainWindow_Demo3.cs" />-->
+    <Compile Include="MainWindow_Demo3.cs" />
     <!-- Demo4_Step2_AddIsland -->
-    <!--<Compile Include="LottieIslandScenario.cs" />
+    <Compile Include="LottieIslandScenario.cs" />
     <Compile Include="MainWindow_Demo4.cs" />
-    <Compile Include="WpfIslandHost.cs" />-->
+    <Compile Include="WpfIslandHost.cs" />
 
     <!-- Demo4_Extra-->
-    <!--<Compile Include="Extra\HelmetScenario.cs" />-->
-    <!--<Compile Include="Extra\MainWindow_Demo4_Extra.cs" />-->
-    <!--<Compile Include="Extra\SceneNodeCommon.cs" />-->
+    <Compile Include="Extra\HelmetScenario.cs" />
+    <Compile Include="Extra\MainWindow_Demo4_Extra.cs" />
+    <Compile Include="Extra\SceneNodeCommon.cs" />
     <!-- -->
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -159,6 +160,14 @@
   <ItemGroup>
     <Resource Include="appicon.ico" />
   </ItemGroup>
+
+  <!-- This will turn off the backdrop on the window -->
+  
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="Switch.System.Windows.Appearance.DisableFluentThemeWindowBackdrop" Value="true" />
+  </ItemGroup>
+  
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
