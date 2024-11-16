@@ -4,4 +4,4 @@
              StartupUri="MainWindow.xaml"
              ThemeMode="Light"
              >
-/Application>
+</Application>
