@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="02a755d9-0749-4de1-b739-ee2322efad26"
+    Name="WpfCalculatorDemo"
     Publisher="CN=jecollin"
-    Version="1.0.0.0" />
+    Version="1.0.15.0" />
 
   <Properties>
-    <DisplayName>CalculatorDemoPackage</DisplayName>
+    <DisplayName>WpfCalculatorDemo</DisplayName>
     <PublisherDisplayName>jecollin</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -31,7 +31,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="CalculatorDemoPackage"
+        DisplayName="Wpf Calculator Demo"
         Description="CalculatorDemoPackage"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"

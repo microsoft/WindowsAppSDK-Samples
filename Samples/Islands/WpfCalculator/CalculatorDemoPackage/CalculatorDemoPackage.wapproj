@@ -41,6 +41,7 @@
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\CalculatorDemo\CalculatorDemo.csproj</EntryPointProjectUniqueName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <!-- These flags turn off some WinAppSDK features we won't be using. -->
     <UseWinUITools>false</UseWinUITools>
     <EnableCoreMrtTooling>false</EnableCoreMrtTooling>
