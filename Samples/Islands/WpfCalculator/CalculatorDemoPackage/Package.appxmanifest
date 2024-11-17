@@ -9,7 +9,7 @@
   <Identity
     Name="WpfCalculatorDemo"
     Publisher="CN=jecollin"
-    Version="1.0.14.0" />
+    Version="1.0.15.0" />
 
   <Properties>
     <DisplayName>WpfCalculatorDemo</DisplayName>
