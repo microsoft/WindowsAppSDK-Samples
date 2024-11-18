@@ -101,8 +101,10 @@
     </Compile>
     <!-- Demo3_Step1_ProjectFiles -->
     <!--<Compile Include="App_Demo3.cs" />-->
+    
     <!-- Demo3_Step2_ProjectFiles -->
     <!--<Compile Include="MainWindow_Demo3.cs" />-->
+
     <!-- Demo4_Step2_AddIsland -->
     <!--<Compile Include="LottieIslandScenario.cs" />
     <Compile Include="MainWindow_Demo4.cs" />
