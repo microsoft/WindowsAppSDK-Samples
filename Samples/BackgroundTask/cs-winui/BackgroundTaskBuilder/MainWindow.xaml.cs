@@ -28,7 +28,6 @@ namespace BackgroundTaskBuilder
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        static private uint _RegistrationToken;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -60,14 +59,6 @@ namespace BackgroundTaskBuilder
             taskBuilder.SetTaskEntryPointClsid(typeof(BackgroundTask).GUID);
             taskBuilder.SetTrigger(new SystemTrigger(SystemTriggerType.TimeZoneChange, false));
             BackgroundTaskRegistration task = taskBuilder.Register();
-
-
-            Guid taskGuid = typeof(BackgroundTask).GUID;
-            ComServer.CoRegisterClassObject(ref taskGuid,
-                                            new ComServer.BackgroundTaskFactory<BackgroundTask, IBackgroundTask>(),
-                                            ComServer.CLSCTX_LOCAL_SERVER,
-                                            ComServer.REGCLS_MULTIPLEUSE,
-                                            out _RegistrationToken);
         }
     }
 }

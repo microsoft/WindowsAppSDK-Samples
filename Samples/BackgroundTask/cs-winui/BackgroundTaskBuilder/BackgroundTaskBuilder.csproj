@@ -12,6 +12,8 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
 		<WindowsAppSDKBackgroundTask>true</WindowsAppSDKBackgroundTask>
+		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+		<StartupObject>BackgroundTaskBuilder.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
