@@ -1,4 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<?xml version="1.0" encoding="utf-8"?>
 <Window
     x:Class="BackgroundTaskBuilder.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

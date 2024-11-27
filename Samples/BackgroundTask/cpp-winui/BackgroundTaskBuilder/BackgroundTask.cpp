@@ -1,4 +1,7 @@
-﻿#include "pch.h"
+// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+
+#include "pch.h"
 #include "BackgroundTask.h"
 #include "winrt/Windows.Data.Xml.Dom.h"
 #include "winrt/Windows.UI.Notifications.h"
