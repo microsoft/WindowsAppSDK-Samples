@@ -60,7 +60,7 @@ namespace winrt::cpp_winui::implementation
             // Set the source for the MediaPlayer
             mediaPlayer.Source(mediaSource);
             // Set the MediaPlayer to the MediaPlayerElement
-            CapturedVideo().SetMediaPlayer(mediaPlayer);
+            MediaPlayElement().SetMediaPlayer(mediaPlayer);
             // Start playing the video
             mediaPlayer.Play();
         }

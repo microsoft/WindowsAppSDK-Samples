@@ -45,7 +45,7 @@
 
                 <!-- Media Element: This is where the captured video will be displayed -->
                 <MediaPlayerElement
-                x:Name="CapturedVideo"
+                x:Name="MediaPlayElement"
                 Width="300"
                 Height="300"
                 Margin="0,20"

@@ -67,7 +67,7 @@ namespace cswinui
                 mediaPlayer.Source = mediaSource;
 
                 // Set the MediaPlayer to the MediaPlayerElement control in the UI
-                CapturedVideo.SetMediaPlayer(mediaPlayer);
+                MediaPlayElement.SetMediaPlayer(mediaPlayer);
 
                 // Play the video
                 mediaPlayer.Play();
