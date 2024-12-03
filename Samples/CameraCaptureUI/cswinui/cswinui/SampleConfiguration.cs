@@ -9,7 +9,7 @@ namespace cswinui
 {
     internal static class SampleConfig
     {
-        public const string FeatureName = "cswinui";
+        public const string FeatureName = "CameraCaptureUI_CS_SAMPLE";
         public static ElementTheme CurrentTheme = ElementTheme.Default;
     }
 

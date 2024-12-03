@@ -20,6 +20,6 @@ namespace winrt::cpp_winui
             Scenario{ L"Capture Video", hstring(name_of<cpp_winui::Scenario2_CaptureVideo>())}
         });
 
-    hstring SampleConfig::FeatureName{ L"cpp_winui" };
+    hstring SampleConfig::FeatureName{ L"CameraCaptureUI_CPP_SAMPLE" };
     ElementTheme SampleConfig::CurrentTheme{ ElementTheme::Default };
 }
