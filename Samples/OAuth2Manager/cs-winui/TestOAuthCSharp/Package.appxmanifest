@@ -9,14 +9,14 @@
 
   <Identity
     Name="e169ec2d-64cd-443d-b1f7-51eeae35d86d"
-    Publisher="CN=akanpatel"
+    Publisher="CN=Microsoft"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="e169ec2d-64cd-443d-b1f7-51eeae35d86d" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>TestOAuthCSharp</DisplayName>
-    <PublisherDisplayName>Akanksha Patel</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

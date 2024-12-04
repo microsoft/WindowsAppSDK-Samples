@@ -9,14 +9,14 @@
 
   <Identity
     Name="c1ee0edc-ac81-4a80-8dc3-1c882490ab2b"
-    Publisher="CN=ayushjaiswal"
+    Publisher="CN=Microsoft"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="c1ee0edc-ac81-4a80-8dc3-1c882490ab2b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>TestOAuthInCPlusPlus</DisplayName>
-    <PublisherDisplayName>ayushjaiswal</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

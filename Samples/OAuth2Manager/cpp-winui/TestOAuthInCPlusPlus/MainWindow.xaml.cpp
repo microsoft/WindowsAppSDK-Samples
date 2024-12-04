@@ -33,7 +33,7 @@ namespace winrt::TestOAuthInCPlusPlus::implementation
     {
         AuthRequestResult res = co_await OAuth2Manager::RequestAuthAsync(
             parentWindowId,
-            Uri{ L"https://github.com/login/oauth/authorize?client_id=Ov23liNoEsMlGXgQPLcC&scope=read%3Auser%20user%3Aemail" },
+            Uri{ L"https://github.com/login/oauth/authorize?client_id=##yourclientid##&scope=read%3Auser%20user%3Aemail" },
             Uri{ L"ms-testoauthincpp-launch://" });
 
         outputTextBlock().Text(L"Implicit OAuth with redirect performed : Auth res: " + res.ResponseUri().RawUri());
@@ -42,8 +42,8 @@ namespace winrt::TestOAuthInCPlusPlus::implementation
     winrt::Windows::Foundation::IAsyncAction MainWindow::authCodeGrantWithRedirectButton_Click(IInspectable const&, RoutedEventArgs const&)
     {
          
-		auto clientID = L"Ov23liNoEsMlGXgQPLcC";
-        auto clientSecret = L"1237a9e0534937990d08f1b0304773e11c21c05b";
+		auto clientID = L"your client id";
+        auto clientSecret = L"your client secret";
 
         AuthRequestParams authRequestParams = AuthRequestParams::CreateForAuthorizationCodeRequest(clientID, Uri(L"ms-testoauthincpp-launch://"));
         authRequestParams.Scope(L"read:user user:email");
