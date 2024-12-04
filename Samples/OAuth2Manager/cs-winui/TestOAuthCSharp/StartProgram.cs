@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Dispatching;
+﻿// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+using Microsoft.UI.Dispatching;
 using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Collections.Generic;

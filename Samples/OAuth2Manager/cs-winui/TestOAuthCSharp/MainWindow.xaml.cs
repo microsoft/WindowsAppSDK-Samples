@@ -1,4 +1,6 @@
-﻿using Microsoft.Security.Authentication.OAuth;
+﻿// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+using Microsoft.Security.Authentication.OAuth;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Windowing;

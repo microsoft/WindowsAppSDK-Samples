@@ -1,3 +1,5 @@
+﻿// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
 #include "pch.h"
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
