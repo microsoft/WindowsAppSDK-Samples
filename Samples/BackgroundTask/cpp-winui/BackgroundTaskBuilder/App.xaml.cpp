@@ -50,20 +50,13 @@ namespace winrt::BackgroundTaskBuilder::implementation
 
 int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR lpCmdLine, _In_ int)
 {
-    winrt::init_apartment(winrt::apartment_type::single_threaded);
-
     if (std::wcsncmp(lpCmdLine, RegisterForCom::RegisterForComToken, sizeof(RegisterForCom::RegisterForComToken)) == 0)
     {
+        winrt::init_apartment(winrt::apartment_type::multi_threaded);
         RegisterForCom comRegister;
+        // Start COM server and wait for the COM calls to complete
         comRegister.RegisterAndWait(__uuidof(BackgroundTask));
-        MSG msg;
-
-        while (-1 != GetMessage(&msg, NULL, 0, 0) &&
-            WM_QUIT != msg.message)
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
+        OutputDebugString(L"COM Server Shutting Down");
     }
     else
     {

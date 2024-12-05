@@ -27,6 +27,7 @@
     <WindowsTargetPlatformMinVersion>10.0.18362.0</WindowsTargetPlatformMinVersion>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+		<!-- This tag is required for the usage of WinAppSDK Background Task API -->
     <WindowsAppSDKBackgroundTask>true</WindowsAppSDKBackgroundTask>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

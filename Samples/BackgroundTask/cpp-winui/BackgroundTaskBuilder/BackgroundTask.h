@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation and Contributors.
+﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 #pragma once
@@ -13,6 +13,7 @@ namespace winrt::BackgroundTaskBuilder
     {
         volatile bool IsCanceled = false;
         winrt::Windows::ApplicationModel::Background::BackgroundTaskDeferral TaskDeferral = nullptr;
+        ~BackgroundTask();
         void Run(_In_ winrt::Windows::ApplicationModel::Background::IBackgroundTaskInstance taskInstance);
         void CreateNotification();
         void OnCanceled(_In_ winrt::Windows::ApplicationModel::Background::IBackgroundTaskInstance /* taskInstance */, _In_ winrt::Windows::ApplicationModel::Background::BackgroundTaskCancellationReason /* cancelReason */);

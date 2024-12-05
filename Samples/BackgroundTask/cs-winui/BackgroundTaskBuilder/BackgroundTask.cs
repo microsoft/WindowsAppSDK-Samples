@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation and Contributors.
+﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 
@@ -18,13 +18,32 @@ namespace BackgroundTaskBuilder
     [ClassInterface(ClassInterfaceType.None)]
     [Guid("87654321-1234-1234-1234-1234567890AE")]
     [ComSourceInterfaces(typeof(IBackgroundTask))]
-    public class BackgroundTask : IBackgroundTask
+    public class BackgroundTask : IBackgroundTask, IDisposable
     {
-        private volatile int cleanupTask; // flag used to indicate to Run method that it should exit
+        private bool disposed = false;
 
-        public BackgroundTask()
+        public void Dispose()
         {
-            cleanupTask = 0;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // Stop the server when the background task is disposed.
+                    BackgroundTaskBuilder.Program.SignalExit();
+                }
+                disposed = true;
+            }
+        }
+
+        ~BackgroundTask()
+        {
+            Dispose(false);
         }
 
         /// <summary>
@@ -59,7 +78,8 @@ namespace BackgroundTaskBuilder
         [MTAThread]
         public void OnCanceled(IBackgroundTaskInstance taskInstance, BackgroundTaskCancellationReason cancellationReason)
         {
-            cleanupTask = 1;
+            // Unregister the task when the task is destroyed.
+            BackgroundTaskBuilder.Program.SignalExit();
         }
     }
 }

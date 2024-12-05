@@ -11,9 +11,10 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
-		<WindowsAppSDKBackgroundTask>true</WindowsAppSDKBackgroundTask>
-		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-		<StartupObject>BackgroundTaskBuilder.Program</StartupObject>
+    <!-- This tag is required for the usage of WinAppSDK Background Task API -->
+    <WindowsAppSDKBackgroundTask>true</WindowsAppSDKBackgroundTask>
+    <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <StartupObject>BackgroundTaskBuilder.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

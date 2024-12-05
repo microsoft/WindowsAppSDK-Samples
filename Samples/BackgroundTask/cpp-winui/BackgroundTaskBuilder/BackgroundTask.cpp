@@ -1,8 +1,9 @@
-// Copyright (c) Microsoft Corporation and Contributors.
+﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 #include "pch.h"
 #include "BackgroundTask.h"
+#include "RegisterForCOM.h"
 #include "winrt/Windows.Data.Xml.Dom.h"
 #include "winrt/Windows.UI.Notifications.h"
 
@@ -16,6 +17,12 @@ namespace winrt
 
 namespace winrt::BackgroundTaskBuilder
 {
+    BackgroundTask::~BackgroundTask()
+    {
+        // When the task is completed, stop the COM server
+        RegisterForCom::StopServer();
+    }
+
     void BackgroundTask::Run(_In_ IBackgroundTaskInstance taskInstance)
     {
         // Get the deferral object from the task instance

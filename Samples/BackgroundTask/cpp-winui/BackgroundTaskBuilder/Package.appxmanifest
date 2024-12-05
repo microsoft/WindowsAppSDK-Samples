@@ -8,16 +8,16 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
-  <Identity
-    Name="4f3dce27-33eb-40d1-b978-c0bde719a4c5"
-    Publisher="CN=godlyalias"
-    Version="1.0.0.0" />
+ <Identity
+    Name="6b1ec254-6909-4115-a6f6-1133733eb38e"
+	Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+	Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="4f3dce27-33eb-40d1-b978-c0bde719a4c5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>BackgroundTaskBuilder</DisplayName>
-    <PublisherDisplayName>godlyalias</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

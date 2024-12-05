@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation and Contributors.
+﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 #include "pch.h"
@@ -19,9 +19,10 @@ namespace winrt::BackgroundTaskBuilder
     hresult RegisterForCom::RegisterAndWait(guid classId)
     {
         hresult hr;
+        _comServerCompletionEvent.attach(CreateEvent(nullptr, true, false, nullptr));
         try
         {
-            handle _taskFactoryCompletionEvent{ CreateEvent(nullptr, false, false, nullptr) };
+            check_bool(bool{ _comServerCompletionEvent });
             com_ptr<IClassFactory> taskFactory = make<BackgroundTaskFactory>();
 
             check_hresult(CoRegisterClassObject(classId,
@@ -31,6 +32,8 @@ namespace winrt::BackgroundTaskBuilder
                 &ComRegistrationToken));
 
             OutputDebugString(L"COM Registraton done");
+            // Wait for the COM calls to complete
+            check_hresult(WaitForSingleObject(_comServerCompletionEvent.get(), INFINITE));
             hr = S_OK;
         }
         catch (...)
@@ -39,5 +42,10 @@ namespace winrt::BackgroundTaskBuilder
         }
 
         return hr;
+    }
+
+    void RegisterForCom::StopServer()
+    {
+        SetEvent(_comServerCompletionEvent.get());
     }
 }
