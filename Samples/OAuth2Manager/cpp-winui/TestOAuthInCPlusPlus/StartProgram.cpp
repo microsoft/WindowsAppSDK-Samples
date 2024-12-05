@@ -26,8 +26,11 @@ void OnActivated(Windows::Foundation::IInspectable const&, AppActivationArgument
         auto protocolArgs = args.Data().as<ProtocolActivatedEventArgs>();
         dispatcherQueue.TryEnqueue([protocolArgs]()
             {
+                auto absUri = protocolArgs.Uri().AbsoluteUri();
+                std::wstring absUriStr = absUri.c_str(); // Convert winrt::hstring to std::wstring
                 auto mainWindow = App::Window().try_as<TestOAuthInCPlusPlus::MainWindow>();
-                mainWindow.OnUriCallback(protocolArgs.Uri());
+                if (absUriStr.find(L"//oauthcallback") != std::wstring::npos)
+                    mainWindow.OnUriCallback(protocolArgs.Uri());
             });
     }
 }

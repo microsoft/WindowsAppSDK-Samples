@@ -41,7 +41,7 @@ namespace TestOAuthCSharp
 
         private async void implicitGrantWithRedirectButton_Click(object sender, RoutedEventArgs e)
         {
-            AuthRequestResult res = await OAuth2Manager.RequestAuthAsync(parentWindowId, new Uri("https://github.com/login/oauth/authorize?client_id=Ov23liJQ6xoz8ylsXkYs&scope=read%3Auser%20user%3Aemail"), new Uri("ms-testoauthcsharp-launch://"));
+            AuthRequestResult res = await OAuth2Manager.RequestAuthAsync(parentWindowId, new Uri("https://github.com/login/oauth/authorize?client_id=Ov23liJQ6xoz8ylsXkYs&scope=read%3Auser%20user%3Aemail"), new Uri("ms-testoauthcsharp-launch://oauthcallback"));
 
             //This is empty in case of github because github doesn't support implicit grant type.
             Debug.WriteLine($"AuthRequestResult Response Accesstoken: {res.Response.AccessToken}");
@@ -54,7 +54,7 @@ namespace TestOAuthCSharp
             var clientSecret = "your client secret";
 
 
-            AuthRequestParams requestParams = AuthRequestParams.CreateForAuthorizationCodeRequest(clientId, new Uri("ms-testoauthcsharp-launch://"));
+            AuthRequestParams requestParams = AuthRequestParams.CreateForAuthorizationCodeRequest(clientId, new Uri("ms-testoauthcsharp-launch://oauthcallback"));
             requestParams.Scope = "read:user user:email";
             AuthRequestResult res = await OAuth2Manager.RequestAuthWithParamsAsync(parentWindowId, new Uri("https://github.com/login/oauth/authorize"), requestParams);
 

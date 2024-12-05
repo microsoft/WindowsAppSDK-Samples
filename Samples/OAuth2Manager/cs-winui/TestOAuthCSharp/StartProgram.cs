@@ -60,7 +60,10 @@ namespace TestOAuthCSharp
                 var protocolArgs = (ProtocolActivatedEventArgs)args.Data;
                 dispatcherQueue.TryEnqueue(() =>
                 {
-                    App.Window.OnUriCallback(protocolArgs.Uri);
+                    if (protocolArgs.Uri.Authority == "oauthcallback")
+                    {
+                        App.Window.OnUriCallback(protocolArgs.Uri);
+                    }
                     SetForegroundWindow(App.WindowHandle);
                 });
 
