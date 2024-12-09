@@ -23,7 +23,10 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
     - [Restart](Samples/AppLifecycle/Restart): These samples demonstrate synchronously restarting an app with command-line restart arguments.
     - [Share Target](Samples\AppLifecycle\ShareTarget\WinUI-CS-ShareTargetSampleApp): This sample demonstrates an app that can be activated as a share target.
 
-### Data and Files
+#### Background Task
+- [Background Task](Samples/BackgroundTask): These samples demonstrates usage of Background Task feature in WinAppSDK apps leveraging the WinAppSDK Background Task API.
+
+#### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
 
 ### Deployment
