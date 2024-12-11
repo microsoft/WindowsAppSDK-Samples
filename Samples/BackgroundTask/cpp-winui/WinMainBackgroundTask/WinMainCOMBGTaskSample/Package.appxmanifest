@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="55876930-62ad-4023-abd3-563579acd97b"
+    Publisher="CN=godlyalias"
+    Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="55876930-62ad-4023-abd3-563579acd97b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>WinMainCOMBGTaskSample</DisplayName>
+    <PublisherDisplayName>godlyalias</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.22000.0" MaxVersionTested="10.0.26000.0" />
+	  <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.22000.0" MaxVersionTested="10.0.26000.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="WinMainCOMBGTaskSample"
+        Description="WinMainCOMBGTaskSample"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+	
+      <Extensions>
+        <com:Extension Category="windows.comServer">
+            <com:ComServer>
+                <com:ExeServer Executable="WinMainCOMBGTaskSample.exe" Arguments="-RegisterForBGTaskServer" DisplayName="WinMainCOMBGTaskSample">
+                    <com:Class Id="12345678-1234-1234-1234-1234567890AB" DisplayName="WinMainCOMBGTaskSample Win32BGTask" />
+                </com:ExeServer>
+            </com:ComServer>
+        </com:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+	
+	
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>
