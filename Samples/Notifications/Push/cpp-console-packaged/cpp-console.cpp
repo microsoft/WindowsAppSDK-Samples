@@ -15,9 +15,9 @@ using namespace winrt::Microsoft::Windows::AppLifecycle;
 using namespace winrt::Microsoft::Windows::PushNotifications;
 using namespace winrt::Windows::Foundation;
 
-// "To obtain your Azure AppId,
+// "To obtain your Azure ObjectId,
 // follow "Configure your app's identity in Azure Active Directory" at https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/notifications/push/push-quickstart
-winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own Azure AppId
+winrt::guid remoteId{ "00000000-0000-0000-0000-000000000000"}; // Replace this with your own Azure ObjectId
 
 winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChannelAsync()
 {
