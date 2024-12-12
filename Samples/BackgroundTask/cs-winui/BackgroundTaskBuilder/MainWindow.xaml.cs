@@ -55,6 +55,7 @@ namespace BackgroundTaskBuilder
 
         private void registerTimeZoneChangedTask()
         {
+            // Using the WinAppSDK BackgroundTaskBuilder API to register a background task
             var taskBuilder = new Microsoft.Windows.ApplicationModel.Background.BackgroundTaskBuilder
             {
                 Name = "TimeZoneChangedTask"
