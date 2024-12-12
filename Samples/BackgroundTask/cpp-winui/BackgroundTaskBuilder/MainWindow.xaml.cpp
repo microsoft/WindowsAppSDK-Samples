@@ -60,6 +60,7 @@ namespace winrt::BackgroundTaskBuilder::implementation
         // Create a ToastNotifier and show the toast
         ToastNotificationManager::CreateToastNotifier().Show(toast);
 
+        // Using the WinAppSDK BackgroundTaskBuilder API to register a background task
         winrt::Microsoft::Windows::ApplicationModel::Background::BackgroundTaskBuilder builder;
 
         SystemTrigger trigger = SystemTrigger(SystemTriggerType::TimeZoneChange, false);

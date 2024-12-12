@@ -51,6 +51,8 @@
 			</Extension>
 			<com:Extension Category="windows.comServer">
 				<com:ComServer>
+          <!-- COM Server for the background task, LaunchAndActivationPermission is required to give permission
+                for backgroundtaskhost process to cocreate this COM component -->
 					<com:ExeServer Executable="BackgroundTaskBuilder.exe" Arguments="-RegisterForBGTaskServer" DisplayName="BackgroundTask"
 									 LaunchAndActivationPermission="O:PSG:BUD:(A;;11;;;IU)(A;;11;;;S-1-15-2-1)S:(ML;;NX;;;LW)">
 						<com:Class Id="12345678-1234-1234-1234-1234567890CD" DisplayName="BackgroundTask" />

@@ -43,33 +43,35 @@
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
-        <Extensions>
-			<!-- Below Entry Point is to be mentioned in case of C# application for usage of WinAppSDK Background Task API -->
-            <Extension Category="windows.backgroundTasks" EntryPoint="Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.Task">
-                <BackgroundTasks>
-                    <Task Type="general"/>
-                </BackgroundTasks>
-            </Extension>
-            <com:Extension Category="windows.comServer">
-                <com:ComServer>
-                    <com:ExeServer Executable="BackgroundTaskBuilder.exe" Arguments="-RegisterForBGTaskServer" DisplayName="BackgroundTask"
-                                     LaunchAndActivationPermission="O:PSG:BUD:(A;;11;;;IU)(A;;11;;;S-1-15-2-1)S:(ML;;NX;;;LW)">
-                        <com:Class Id="87654321-1234-1234-1234-1234567890AE" DisplayName="BackgroundTask" />
-                    </com:ExeServer>
-                </com:ComServer>
-            </com:Extension>
-        </Extensions>
+      <Extensions>
+        <!-- Below Entry Point is to be mentioned in case of C# application for usage of WinAppSDK Background Task API -->
+        <Extension Category="windows.backgroundTasks" EntryPoint="Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.Task">
+          <BackgroundTasks>
+            <Task Type="general"/>
+          </BackgroundTasks>
+        </Extension>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <!-- COM Server for the background task, LaunchAndActivationPermission is required to give permission
+                 for backgroundtaskhost process to cocreate this COM component -->
+            <com:ExeServer Executable="BackgroundTaskBuilder.exe" Arguments="-RegisterForBGTaskServer" DisplayName="BackgroundTask"
+                              LaunchAndActivationPermission="O:PSG:BUD:(A;;11;;;IU)(A;;11;;;S-1-15-2-1)S:(ML;;NX;;;LW)">
+              <com:Class Id="87654321-1234-1234-1234-1234567890AE" DisplayName="BackgroundTask" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+      </Extensions>
     </Application>
   </Applications>
-    <Extensions>
-        <Extension Category="windows.activatableClass.inProcessServer">
-            <InProcessServer>
-                <Path>Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll</Path>
-                <ActivatableClass ActivatableClassId="Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.Task" ThreadingModel="both"/>
-            </InProcessServer>
-        </Extension>
-    </Extensions>
-    <Capabilities>
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.Task" ThreadingModel="both"/>
+      </InProcessServer>
+    </Extension>
+  </Extensions>
+  <Capabilities>
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 </Package>
