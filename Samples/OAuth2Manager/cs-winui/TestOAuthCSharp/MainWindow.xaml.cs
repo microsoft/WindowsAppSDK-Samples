@@ -38,16 +38,6 @@ namespace TestOAuthCSharp
             parentWindowId = GetWindowId();
             dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         }
-
-        private async void implicitGrantWithRedirectButton_Click(object sender, RoutedEventArgs e)
-        {
-            AuthRequestResult res = await OAuth2Manager.RequestAuthAsync(parentWindowId, new Uri("https://github.com/login/oauth/authorize?client_id=Ov23liJQ6xoz8ylsXkYs&scope=read%3Auser%20user%3Aemail"), new Uri("ms-testoauthcsharp-launch://oauthcallback"));
-
-            //This is empty in case of github because github doesn't support implicit grant type.
-            Debug.WriteLine($"AuthRequestResult Response Accesstoken: {res.Response.AccessToken}");
-            outputTextBlock.Text = "Implicit OAuth with redirect performed : Auth res: " + res.ResponseUri;
-        }
-
         private async void authCodeGrantWithRedirectButton_Click(object sender, RoutedEventArgs e)
         {
             var clientId = "your client id";
