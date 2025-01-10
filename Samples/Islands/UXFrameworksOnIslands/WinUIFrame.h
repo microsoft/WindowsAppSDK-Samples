@@ -8,7 +8,7 @@
 class WinUIFrame final : public LiftedFrame
 {
 public:
-    explicit WinUIFrame(const winrt::Compositor& compositor);
+    WinUIFrame(const winrt::Compositor& compositor, const std::shared_ptr<SettingCollection>& settings);
 
 private:
     void InitializeVisualTree(const winrt::Compositor& compositor);

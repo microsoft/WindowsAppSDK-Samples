@@ -4,8 +4,9 @@
 #include "Output.h"
 
 template<class T>
-Output<T>::Output(T const& compositor) :
+Output<T>::Output(T const& compositor, std::shared_ptr<SettingCollection> const& settings) :
     m_compositor(compositor),
+    m_settings(settings),
     m_compositionDevice(m_resourceList, m_dxDevice.GetD2DDevice().get(), compositor)
 {
     RegisterForDeviceLost();
@@ -18,13 +19,9 @@ Output<T>::~Output()
 }
 
 template<class T>
-void Output<T>::SetRasterizationScale(float value)
+void Output<T>::SetRasterizationTransform(Matrix2x2 const& value)
 {
-    if (value != m_rasterizationScale)
-    {
-        m_rasterizationScale = value;
-        m_resourceList->HandleRasterizationScaleChanged(*this);
-    }
+    m_rasterizationTransform = value;
 }
 
 template<class T>
@@ -59,7 +56,7 @@ winrt::fire_and_forget Output<T>::RegisterForDeviceLost()
         m_dxDevice.RecreateDevice();
 
         // Tell each resource object to recreate resources.
-        m_resourceList->CreateDeviceDependentResources(*this);
+        m_resourceList->EnsureInitialized(*this);
 
         // Listen for device lost on the new device.
         RegisterForDeviceLost();

@@ -14,22 +14,22 @@ void OutputResourceList<T>::ReleaseDeviceDependentResources(Output<T> const& out
 }
 
 template<class T>
-void OutputResourceList<T>::CreateDeviceDependentResources(Output<T> const& output)
+void OutputResourceList<T>::EnsureInitialized(Output<T> const& output)
 {
     // Iterate in order of creation.
     for (auto* p = m_first; p != nullptr; p = p->m_next)
     {
-        p->CreateDeviceDependentResources(output);
+        p->EnsureInitialized(output);
     }
 }
 
 template<class T>
-void OutputResourceList<T>::HandleRasterizationScaleChanged(Output<T> const& output)
+void OutputResourceList<T>::OnSettingChanged(Output<T> const& output, SettingId id)
 {
     // Iterate in order of creation.
     for (auto* p = m_first; p != nullptr; p = p->m_next)
     {
-        p->HandleRasterizationScaleChanged(output);
+        p->OnSettingChanged(output, id);
     }
 }
 

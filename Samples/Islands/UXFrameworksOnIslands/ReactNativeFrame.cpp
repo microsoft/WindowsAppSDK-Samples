@@ -4,9 +4,10 @@
 #include "ReactNativeFrame.h"
 #include "ColorUtils.h"
 #include "VisualUtils.h"
+#include "FrameDocker.h"
 
-ReactNativeFrame::ReactNativeFrame(const winrt::Compositor& compositor) :
-    LiftedFrame(compositor),
+ReactNativeFrame::ReactNativeFrame(const winrt::Compositor& compositor, const std::shared_ptr<SettingCollection>& settings) :
+    LiftedFrame(compositor, settings),
     m_labelVisual(GetOutput(), k_frameName)
 {
     InitializeVisualTree(compositor);
@@ -18,12 +19,12 @@ void ReactNativeFrame::ConnectLeftFrame(
 {
     m_leftFrame = frame;
     auto leftContentVisualNode = m_leftContentPeer->VisualNode();
-    m_leftChildLink = ConnectChildFrame(frame, leftContentVisualNode->Visual().as<winrt::ContainerVisual>());
+    m_leftChildSiteLink = ConnectChildFrame(frame, leftContentVisualNode->Visual().as<winrt::ContainerVisual>());
 
     if (frame->IsLiftedFrame())
     {
         // Automation flows through the Content APIs when the child is lifted content.
-        m_leftContentPeer->SetChildContentLink(m_leftChildLink);
+        m_leftContentPeer->SetChildSiteLink(m_leftChildSiteLink);
     }
     else
     {
@@ -39,12 +40,12 @@ void ReactNativeFrame::ConnectRightFrame(
 {
     m_rightFrame = frame;
     auto rightContentVisualNode = m_rightContentPeer->VisualNode();
-    m_rightChildLink = ConnectChildFrame(frame, rightContentVisualNode->Visual().as<winrt::ContainerVisual>());
+    m_rightChildSiteLink = ConnectChildFrame(frame, rightContentVisualNode->Visual().as<winrt::ContainerVisual>());
 
     if (frame->IsLiftedFrame())
     {
         // Automation flows through the Content APIs when the child is lifted content.
-        m_rightContentPeer->SetChildContentLink(m_rightChildLink);
+        m_rightContentPeer->SetChildSiteLink(m_rightChildSiteLink);
     }
     else
     {
@@ -100,35 +101,26 @@ void ReactNativeFrame::InitializeVisualTree(
     // Insert the label into the tree.
     InsertTextVisual(m_labelVisual, m_automationTree, m_backgroundPeer);
 
-    // Partition the layout into 3 regions: top (50%), bottom left (25%), bottom right (25%)
-    auto topContentVisual = compositor.CreateContainerVisual();
-    auto topContentVisualTreeNode = VisualTreeNode::Create(topContentVisual.as<::IUnknown>());
+    // Partition the layout into 3 regions: top, bottom left, bottom right.
+    m_topContentVisual = compositor.CreateContainerVisual();
+    auto topContentVisualTreeNode = VisualTreeNode::Create(m_topContentVisual.as<::IUnknown>());
     m_topContentPeer = m_automationTree->CreatePeer(topContentVisualTreeNode, L"ReactNative Top", UIA_PaneControlTypeId);
     colorVisualNode->AddChild(topContentVisualTreeNode);
     m_backgroundPeer->Fragment()->AddChildToEnd(m_topContentPeer->Fragment());
     m_automationTree->AddPeer(m_topContentPeer);
-    float labelHeight = m_labelVisual.Measure().Height;
-    VisualUtils::LayoutAsInset(topContentVisual, k_inset, labelHeight, k_inset, k_inset);
-    VisualUtils::LayoutAsFillTop(topContentVisual, 0.5f);
 
-    auto leftRoot = compositor.CreateContainerVisual();
-    auto leftRootNode = VisualTreeNode::Create(leftRoot.as<::IUnknown>());
+    m_leftRootVisual = compositor.CreateContainerVisual();
+    auto leftRootNode = VisualTreeNode::Create(m_leftRootVisual.as<::IUnknown>());
     m_leftContentPeer = m_automationTree->CreatePeer(leftRootNode, L"ReactNative Left", UIA_PaneControlTypeId);
     colorVisualNode->AddChild(leftRootNode);
     m_backgroundPeer->Fragment()->AddChildToEnd(m_leftContentPeer->Fragment());
     m_automationTree->AddPeer(m_leftContentPeer);
-    VisualUtils::LayoutAsInset(leftRoot, k_inset);
-    VisualUtils::LayoutAsFillBottom(leftRoot, 0.5f);
-    VisualUtils::LayoutAsFillLeft(leftRoot, 0.5f);
 
-    auto rightRoot = compositor.CreateContainerVisual();
-    auto rightRootNode = VisualTreeNode::Create(rightRoot.as<::IUnknown>());
+    m_rightRootVisual = compositor.CreateContainerVisual();
+    auto rightRootNode = VisualTreeNode::Create(m_rightRootVisual.as<::IUnknown>());
     m_rightContentPeer = m_automationTree->CreatePeer(rightRootNode, L"ReactNative Right", UIA_PaneControlTypeId);
     colorVisualNode->AddChild(rightRootNode);
     m_backgroundPeer->Fragment()->AddChildToEnd(m_rightContentPeer->Fragment());
-    VisualUtils::LayoutAsInset(rightRoot, k_inset);
-    VisualUtils::LayoutAsFillBottom(rightRoot, 0.5f);
-    VisualUtils::LayoutAsFillRight(rightRoot, 0.5f);
 
     // This is just a dummy structural visual to hold the click squares
     auto clickSquareRoot = compositor.CreateContainerVisual();
@@ -292,21 +284,54 @@ void ReactNativeFrame::OnActivationChanged(
 
 void ReactNativeFrame::HandleContentLayout()
 {
+    // Visual layout:
+    //
+    //  +-------------------------------------------------+
+    //  | Label                                           |
+    //  +  +-------------------------------------------+  |
+    //  |  |                                           |  |
+    //  |  |           m_topContentVisual              |  |
+    //  |  |                                           |  |
+    //  +  +-------------------------------------------+  |
+    //  |  +--------------------+ +--------------------+  |
+    //  |  |                    | |                    |  |
+    //  |  |  m_leftRootVisual  | | m_rightRootVisual  |  |
+    //  |  |                    | |                    |  |
+    //  |  +--------------------+ +--------------------+  |
+    //  +-------------------------------------------------+
+
+    // Create a helper object for setting visual positions.
+    // The docker snaps to pixels unless we pass zero as the rasterization scale.
+    float rasterizationScale = GetIsland().RasterizationScale();
+    float dockerRasterizationScale = !GetSetting(Setting_DisablePixelSnapping) ? rasterizationScale : 0.0f;
+    FrameDocker docker(GetIsland().ActualSize(), dockerRasterizationScale);
+
+    // Add margins.
+    docker.InsetTop(m_labelVisual.Size().Height);
+    docker.InsetLeft(k_inset);
+    docker.InsetRight(k_inset);
+    docker.InsetBottom(k_inset);
+
+    // Position the visuals.
+    docker.DockTopRelativeWithMargin(m_topContentVisual, 0.5f, k_inset);
+    docker.DockLeftRelativeWithMargin(m_leftRootVisual, 0.5f, k_inset);
+    docker.DockFill(m_rightRootVisual);
+
     LiftedFrame::HandleContentLayout();
 
-    if (nullptr != m_leftChildLink)
+    if (nullptr != m_leftChildSiteLink)
     {
         auto leftContentVisualNode = m_leftContentPeer->VisualNode();
-        m_leftChildLink.TransformMatrix(leftContentVisualNode->Transform3x2());
+        m_leftChildSiteLink.LocalToParentTransformMatrix(leftContentVisualNode->Transform4x4());
 
-        m_leftChildLink.ActualSize(leftContentVisualNode->Size());
+        m_leftChildSiteLink.ActualSize(leftContentVisualNode->Size());
     }
 
-    if (nullptr != m_rightChildLink)
+    if (nullptr != m_rightChildSiteLink)
     {
         auto rightContentVisualNode = m_rightContentPeer->VisualNode();
-        m_rightChildLink.TransformMatrix(rightContentVisualNode->Transform3x2());
+        m_rightChildSiteLink.LocalToParentTransformMatrix(rightContentVisualNode->Transform4x4());
 
-        m_rightChildLink.ActualSize(rightContentVisualNode->Size());
+        m_rightChildSiteLink.ActualSize(rightContentVisualNode->Size());
     }
 }

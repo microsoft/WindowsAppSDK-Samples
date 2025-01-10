@@ -30,7 +30,7 @@
   </Resources>
 
   <Applications>
-    <Application Id="App"
+    <Application Id="UXFrameworksOnIslands"
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements

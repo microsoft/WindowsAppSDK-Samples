@@ -5,10 +5,11 @@
 #include "ColorUtils.h"
 #include "VisualUtils.h"
 
-WinUIFrame::WinUIFrame(const winrt::Compositor& compositor) :
-    LiftedFrame(compositor),
-    m_labelVisual(GetOutput(), k_frameName, ColorUtils::LightYellow())
+WinUIFrame::WinUIFrame(const winrt::Compositor& compositor, const std::shared_ptr<SettingCollection>& settings) :
+    LiftedFrame(compositor, settings),
+    m_labelVisual(GetOutput(), k_frameName)
 {
+    m_labelVisual.SetBackgroundColor(ColorUtils::LightYellow());
     InitializeVisualTree(compositor);
 }
 

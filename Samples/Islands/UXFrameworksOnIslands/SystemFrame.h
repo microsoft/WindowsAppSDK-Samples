@@ -11,12 +11,13 @@
 // Base class for frames using the system stack.
 // This will pull together all the subsystems needed for a system frame
 // and provide a way to connect child frames.
-class SystemFrame : public IFrame
+class SystemFrame : public IFrame, public SettingChangedHandler
 {
 public:
     SystemFrame(
-        const winrt::Compositor& compositor,
-        const winrt::WUC::Compositor& systemCompositor);
+        const winrt::DispatcherQueue& queue,
+        const winrt::WUC::Compositor& systemCompositor,
+        const std::shared_ptr<SettingCollection>& settings);
 
     [[nodiscard]] winrt::com_ptr<::IRawElementProviderFragmentRoot> GetAutomationProvider() const final override { return m_automationTree->Root(); }
 
@@ -44,7 +45,7 @@ public:
     auto& GetOutput() noexcept { return m_output; }
 
 protected:
-    winrt::ChildContentLink ConnectChildFrame(
+    winrt::ChildSiteLink ConnectChildFrame(
         IFrame* frame,
         const winrt::WUC::ContainerVisual& childPlacementVisual);
 
@@ -54,6 +55,8 @@ protected:
     std::shared_ptr<AutomationTree> m_automationTree = nullptr;
 
 private:
+    void OnSettingChanged(SettingId id) override;
+
     SystemOutput m_output;
     winrt::ContentIsland m_island = nullptr;
     ContentIslandStateChanged_revoker m_islandStateChangedRevoker{};
