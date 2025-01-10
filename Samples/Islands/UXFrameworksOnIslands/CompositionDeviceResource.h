@@ -19,8 +19,9 @@ public:
         ID2D1Device6* d2dDevice,
         T const& compositor);
 
-    // OutputResource mthods.
-    void CreateDeviceDependentResources(Output<T> const& output) override;
+    // OutputResource methods.
+    void ReleaseDeviceDependentResources(Output<T> const& output) override;
+    void EnsureInitialized(Output<T> const& output) override;
 
     auto& GetCompositionGraphicsDevice() const noexcept
     {
@@ -29,4 +30,5 @@ public:
 
 private:
     CompositionGraphicsDevice m_graphicsDevice;
+    bool m_isInitialized = false;
 };

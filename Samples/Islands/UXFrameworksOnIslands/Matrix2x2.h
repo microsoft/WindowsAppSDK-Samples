@@ -35,6 +35,21 @@ struct Matrix2x2
         return D2D1::Matrix3x2F(m11, m12, m21, m22, 0, 0);
     }
 
+    float ToScaleFactor() const noexcept
+    {
+        if (m11 == m22 && m12 == 0 && m21 == 0)
+        {
+            // Simple scale transform.
+            return fabs(m11);
+        }
+        else
+        {
+            // General case: Transform a vector of length 1 and return its length.
+            auto pt = ToD2D().TransformPoint({ 1.0f, 0.0f });
+            return sqrtf((pt.x * pt.x) + (pt.y * pt.y));
+        }
+    }
+
     bool IsInvertible() const noexcept
     {
         return ToD2D().IsInvertible();
@@ -52,6 +67,22 @@ struct Matrix2x2
         return m11 == rhs.m11 && m12 == rhs.m12 && m21 == rhs.m21 && m22 == rhs.m22;
     }
 
+    bool operator!=(Matrix2x2 const& rhs) const noexcept
+    {
+        return !(*this == rhs);
+    }
+
     float m11, m12;
     float m21, m22;
 };
+
+inline Matrix2x2 operator*(Matrix2x2 const& lhs, Matrix2x2 const& rhs) noexcept
+{
+    return Matrix2x2{
+        //  i         j         i         j
+        lhs.m11 * rhs.m11 + lhs.m12 * rhs.m21,  // (i,j) = (1,1)
+        lhs.m11 * rhs.m12 + lhs.m12 * rhs.m22,  //         (1,2)
+        lhs.m21 * rhs.m11 + lhs.m22 * rhs.m21,  //         (2,1)
+        lhs.m21 * rhs.m12 + lhs.m22 * rhs.m22   //         (2,2)
+    };
+}

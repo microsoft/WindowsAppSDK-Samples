@@ -16,39 +16,56 @@ class TopLevelWindow :
 {
 public:
     TopLevelWindow(
-        const winrt::Compositor& compositor);
+        const winrt::DispatcherQueue& queue);
 
     void ConnectFrameToWindow(
         IFrame* frame);
 
     // AutomationHelpers::IAutomationFragmentCallbackHandler implementation
     winrt::Windows::Graphics::RectInt32 GetBoundingRectangleInScreenCoordinatesForAutomation(
-        ::IUnknown const* const sender) const override;
+        ::IUnknown const* const sender
+        ) const override;
 
     void HandleSetFocusForAutomation(
-        ::IUnknown const* const sender) override;
+        ::IUnknown const* const sender
+        ) override;
 
     // AutomationHelpers::IAutomationFragmentRootCallbackHandler implementation
     winrt::com_ptr<::IRawElementProviderFragment> GetFragmentFromPointInScreenCoordinatesForAutomation(
         double x,
         double y,
-        ::IUnknown const* const sender) const override;
+        ::IUnknown const* const sender
+        ) const override;
 
     winrt::com_ptr<::IRawElementProviderFragment> GetFragmentInFocusForAutomation(
-        ::IUnknown const* const sender) const override;
+        ::IUnknown const* const sender
+        ) const override;
 
     // AutomationHelpers::IAutomationExternalChildCallbackHandler implementation
     winrt::com_ptr<::IRawElementProviderFragment> GetFirstChildFragmentForAutomation(
-        ::IUnknown const* const sender) const override;
+        ::IUnknown const* const sender
+        ) const override;
 
     winrt::com_ptr<::IRawElementProviderFragment> GetLastChildFragmentForAutomation(
-        ::IUnknown const* const sender) const override;
+        ::IUnknown const* const sender
+        ) const override;
 
     // IFrameHost implementation
-    winrt::com_ptr<::IRawElementProviderFragmentRoot> GetFragmentRootProviderForChildFrame(_In_ IFrame const* const sender) const override;
-    winrt::com_ptr<::IRawElementProviderFragment> GetNextSiblingProviderForChildFrame(_In_ IFrame const* const sender) const override;
-    winrt::com_ptr<::IRawElementProviderFragment> GetParentProviderForChildFrame(_In_ IFrame const* const sender) const override;
-    winrt::com_ptr<::IRawElementProviderFragment> GetPreviousSiblingProviderForChildFrame(_In_ IFrame const* const sender) const override;
+    winrt::com_ptr<::IRawElementProviderFragmentRoot> GetFragmentRootProviderForChildFrame(
+        _In_ IFrame const* const sender
+        ) const override;
+
+    winrt::com_ptr<::IRawElementProviderFragment> GetNextSiblingProviderForChildFrame(
+        _In_ IFrame const* const sender
+        ) const override;
+
+    winrt::com_ptr<::IRawElementProviderFragment> GetParentProviderForChildFrame(
+        _In_ IFrame const* const sender
+        ) const override;
+
+    winrt::com_ptr<::IRawElementProviderFragment> GetPreviousSiblingProviderForChildFrame(
+        _In_ IFrame const* const sender
+        ) const override;
 
 private:
     static LRESULT CALLBACK WindowProc(
@@ -63,9 +80,12 @@ private:
         LPARAM lparam);
 
     void RegisterWindowClass();
+
     void InitializeWindow();
+
     void InitializeBridge(
-        const winrt::Compositor& compositor);
+        const winrt::DispatcherQueue& queue);
+
     void InitializeAutomation();
 
 private:

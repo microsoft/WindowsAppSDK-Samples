@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 
 #pragma once
+#include "SettingCollection.h"
 
 template <class T>
 class Output;
@@ -30,11 +31,11 @@ public:
     // Invokes ReleaseDeviceDependentResources on each OutputResource in reverse order of creation.
     void ReleaseDeviceDependentResources(Output<T> const& output);
 
-    // Invokes CreateDeviceDependentResources on each OutputResource in order of creation.
-    void CreateDeviceDependentResources(Output<T> const& output);
+    // Invokes EnsureInitialized on each OutputResource in order of creation.
+    void EnsureInitialized(Output<T> const& output);
 
-    // Invokes HandleRasterizationScaleChanged on each OutputResource in order of creation.
-    void HandleRasterizationScaleChanged(Output<T> const& output);
+    // Invokes OnSettingChanged on each OutputResource in order of creation.
+    void OnSettingChanged(Output<T> const& output, SettingId id);
 
 private:
     friend class OutputResource<T>;
@@ -67,11 +68,11 @@ public:
     {
     }
 
-    virtual void CreateDeviceDependentResources(Output<T> const&)
+    virtual void EnsureInitialized(Output<T> const&)
     {
     }
 
-    virtual void HandleRasterizationScaleChanged(Output<T> const&)
+    virtual void OnSettingChanged(Output<T> const&, SettingId)
     {
     }
 

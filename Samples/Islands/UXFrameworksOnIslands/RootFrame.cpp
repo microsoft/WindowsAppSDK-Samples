@@ -4,24 +4,22 @@
 #include "RootFrame.h"
 #include "ColorUtils.h"
 #include "VisualUtils.h"
+#include "FrameDocker.h"
 #include "TextRenderer.h"
 
 RootFrame::RootFrame(
-        const winrt::Compositor& compositor,
-        const winrt::WUC::Compositor& systemCompositor) :
-    SystemFrame(compositor, systemCompositor),
-    m_rootLabel(
-        GetOutput(),
-        /*text*/ k_rootFrameName,
-        /*backgroundColor*/ winrt::Windows::UI::Colors::Transparent(),
-        /*textColor*/ winrt::Windows::UI::ColorHelper::FromArgb(0x80, 0xFF, 0xFF, 0xFF),
-        CreateTextFormat(L"Gil Sans Nova", 16.0f, DWRITE_FONT_WEIGHT_BOLD, DWRITE_FONT_STYLE_ITALIC).get()),
-    m_ribbonLabel(
-        GetOutput(),
-        /*text*/ k_ribbonFrameName,
-        /*backgroundColor*/ winrt::Windows::UI::Colors::Transparent(),
-        /*textColor*/ winrt::Windows::UI::ColorHelper::FromArgb(0x80, 0xFF, 0xFF, 0xFF),
-        CreateTextFormat(L"Gil Sans Nova", 24.0f, DWRITE_FONT_WEIGHT_BOLD, DWRITE_FONT_STYLE_ITALIC).get())
+        const winrt::DispatcherQueue& queue,
+        const winrt::WUC::Compositor& systemCompositor,
+        const std::shared_ptr<SettingCollection>& settings) :
+    SystemFrame(queue, systemCompositor, settings),
+    m_rootLabel(GetOutput(), k_rootFrameName),
+    m_ribbonLabel(GetOutput(), k_ribbonFrameName, CreateTextLayout(k_ribbonFrameName, CreateTextFormat(L"Cambria", 24.0f).get())),
+    m_backLabel(GetOutput(), L"Back"),
+    m_frontLabel(GetOutput(), L"Front"),
+    m_forceAliasedTextCheckBox(GetOutput(), L"Force aliased text", settings, Setting_ForceAliasedText),
+    m_disablePixelSnappingCheckBox(GetOutput(), L"Disable pixel snapping", settings, Setting_DisablePixelSnapping),
+    m_showSpriteBoundsCheckBox(GetOutput(), L"Show sprite bounds", settings, Setting_ShowSpriteBounds),
+    m_showSpriteGenerationCheckBox(GetOutput(), L"Show sprite generation", settings, Setting_ShowSpriteGeneration)
 {
     InitializeVisualTree(systemCompositor);
 
@@ -74,12 +72,12 @@ void RootFrame::ConnectLeftFrame(IFrame* frame)
 {
     m_leftFrame = frame;
     auto leftContentVisualNode = m_leftContentPeer->VisualNode();
-    m_leftChildLink = ConnectChildFrame(frame, leftContentVisualNode->Visual().as<winrt::WUC::ContainerVisual>());
+    m_leftChildSiteLink = ConnectChildFrame(frame, leftContentVisualNode->Visual().as<winrt::WUC::ContainerVisual>());
 
     if (frame->IsLiftedFrame())
     {
         // Automation flows through the Content APIs when the child is lifted content.
-        m_leftContentPeer->SetChildContentLink(m_leftChildLink);
+        m_leftContentPeer->SetChildSiteLink(m_leftChildSiteLink);
     }
     else
     {
@@ -94,12 +92,12 @@ void RootFrame::ConnectRightFrame(IFrame* frame)
 {
     m_rightFrame = frame;
     auto rightContentVisualNode = m_rightContentPeer->VisualNode();
-    m_rightChildLink = ConnectChildFrame(frame, rightContentVisualNode->Visual().as<winrt::WUC::ContainerVisual>());
+    m_rightChildSiteLink = ConnectChildFrame(frame, rightContentVisualNode->Visual().as<winrt::WUC::ContainerVisual>());
 
     if (frame->IsLiftedFrame())
     {
         // Automation flows through the Content APIs when the child is lifted content.
-        m_rightContentPeer->SetChildContentLink(m_rightChildLink);
+        m_rightContentPeer->SetChildSiteLink(m_rightChildSiteLink);
     }
     else
     {
@@ -169,27 +167,19 @@ void RootFrame::InitializeVisualTree(
     rootVisual.Brush(colorBrush);
 
     // Partition the layout into two regions: ribbon and document content
-    auto ribbonRoot = compositor.CreateContainerVisual();
-    auto ribbonRootVisualNode = VisualTreeNode::Create(ribbonRoot.as<::IUnknown>());
+    m_ribbonRootVisual = compositor.CreateContainerVisual();
+    auto ribbonRootVisualNode = VisualTreeNode::Create(m_ribbonRootVisual.as<::IUnknown>());
     m_ribbonPeer = m_automationTree->CreatePeer(ribbonRootVisualNode, k_ribbonFrameName, UIA_PaneControlTypeId);
     rootVisualNode->AddChild(ribbonRootVisualNode);
     rootVisualPeer->Fragment()->AddChildToEnd(m_ribbonPeer->Fragment());
     m_automationTree->AddPeer(m_ribbonPeer);
 
-    auto documentRoot = compositor.CreateContainerVisual();
-    auto documentRootVisualNode = VisualTreeNode::Create(documentRoot.as<::IUnknown>());
+    m_documentRootVisual = compositor.CreateContainerVisual();
+    auto documentRootVisualNode = VisualTreeNode::Create(m_documentRootVisual.as<::IUnknown>());
     m_documentPeer = m_automationTree->CreatePeer(documentRootVisualNode, k_documentFrameName, UIA_PaneControlTypeId);
     rootVisualNode->AddChild(documentRootVisualNode);
     rootVisualPeer->Fragment()->AddChildToEnd(m_documentPeer->Fragment());
     m_automationTree->AddPeer(m_documentPeer);
-
-    // Ribbon content is contained to the top of the frame
-    VisualUtils::LayoutAsFillTop(ribbonRoot, 0.20f);
-    VisualUtils::LayoutAsInset(ribbonRoot, k_inset);
-
-    // Document content is contained to the bottom 2/3 of the frame
-    VisualUtils::LayoutAsFillBottom(documentRoot, 0.8f);
-    VisualUtils::LayoutAsInset(documentRoot, k_inset);
 
     InitializeRibbonContent();
     InitializeDocumentContent();
@@ -200,7 +190,6 @@ void RootFrame::InitializeVisualTree(
 
     // Rotate the ribbon label 22 degrees and re-rasterize.
     m_ribbonLabel.GetVisual().RotationAngleInDegrees(22);
-    m_ribbonLabel.HandleRasterizationScaleChanged(GetOutput());
 
     // On top of all of them is the click square content
     auto clickSquareRoot = compositor.CreateContainerVisual();
@@ -210,63 +199,60 @@ void RootFrame::InitializeVisualTree(
 
 void RootFrame::InitializeDocumentContent()
 {
-    // We make 4 pieces of content here: above, below, left, and right
-    // 'above' and 'below' sit, respectively, above and below in z-order from the left and right content
+    // We make 4 pieces of content here: back, front, left, and right
+    // 'back' and 'front' sit, respectively, above and below in z-order from the left and right content
     // The left and right content are set up to be child frames.
     // Everything is slightly overlapping to make things interesting and make clear
     // what the effects of the z-ordering are.
     auto documentRootVisualNode = m_documentPeer->VisualNode();
-    auto documentRoot = documentRootVisualNode->Visual().as<winrt::WUC::ContainerVisual>();
     auto documentFragment = m_documentPeer->Fragment();
 
-    auto compositor = documentRoot.Compositor();
+    auto compositor = m_documentRootVisual.Compositor();
     auto grayBrush = compositor.CreateColorBrush(winrt::Windows::UI::Colors::DarkGray());
 
-    // Below content
-    auto belowContent = compositor.CreateSpriteVisual();
-    auto belowContentVisualNode = VisualTreeNode::Create(belowContent.as<::IUnknown>());
-    auto belowContentPeer = m_automationTree->CreatePeer(belowContentVisualNode, L"Below", UIA_ImageControlTypeId);
-    documentRootVisualNode->AddChild(belowContentVisualNode);
-    documentFragment->AddChildToEnd(belowContentPeer->Fragment());
-    m_automationTree->AddPeer(belowContentPeer);
-    VisualUtils::LayoutAsFillTop(belowContent, 0.5f);
-    VisualUtils::LayoutAsFillLeft(belowContent, 0.125f);
-    belowContent.Brush(grayBrush);
+    // Helper to add the "Back" and "Front" visuals.
+    auto AddLabeledRectangle = [&](SystemTextVisual& label) {
+        auto visual = compositor.CreateContainerVisual();
+
+        auto visualNode = VisualTreeNode::Create(visual.as<::IUnknown>());
+        auto visualPeer = m_automationTree->CreatePeer(visualNode, label.GetText(), UIA_ImageControlTypeId);
+        documentRootVisualNode->AddChild(visualNode);
+        documentFragment->AddChildToEnd(visualPeer->Fragment());
+        m_automationTree->AddPeer(visualPeer);
+
+        auto colorVisual = compositor.CreateSpriteVisual();
+        auto colorVisualNode = VisualTreeNode::Create(colorVisual.as<::IUnknown>());
+        auto colorVisualPeer = m_automationTree->CreatePeer(colorVisualNode, label.GetText(), UIA_ImageControlTypeId);
+        visualNode->AddChild(colorVisualNode);
+        colorVisual.RelativeSizeAdjustment({1.0f, 1.0f});
+        colorVisual.Brush(grayBrush);
+
+        InsertTextVisual(label, m_automationTree, visualPeer);
+
+        return visual;
+    };
+
+    // Back content
+    m_backContentVisual = AddLabeledRectangle(m_backLabel);
 
     // Left Frame content
-    auto leftContent = compositor.CreateContainerVisual();
-    auto leftContentVisualNode = VisualTreeNode::Create(leftContent.as<::IUnknown>());
+    m_leftContentVisual = compositor.CreateContainerVisual();
+    auto leftContentVisualNode = VisualTreeNode::Create(m_leftContentVisual.as<::IUnknown>());
     m_leftContentPeer = m_automationTree->CreatePeer(leftContentVisualNode, L"Left", UIA_PaneControlTypeId);
     documentRootVisualNode->AddChild(leftContentVisualNode);
     documentFragment->AddChildToEnd(m_leftContentPeer->Fragment());
     m_automationTree->AddPeer(m_leftContentPeer);
-    auto displayScale = GetIsland().Environment().DisplayScale();
-    leftContent.Scale({ displayScale, displayScale, 1.0f });
-    leftContent.Offset({ k_inset, k_inset, 0.0f });
-    leftContent.Size({ 500.0f, 500.0f });
 
     // Right Frame content
-    auto rightContent = compositor.CreateContainerVisual();
-    auto rightContentVisualNode = VisualTreeNode::Create(rightContent.as<::IUnknown>());
+    m_rightContentVisual = compositor.CreateContainerVisual();
+    auto rightContentVisualNode = VisualTreeNode::Create(m_rightContentVisual.as<::IUnknown>());
     m_rightContentPeer = m_automationTree->CreatePeer(rightContentVisualNode, L"Right", UIA_PaneControlTypeId);
     documentRootVisualNode->AddChild(rightContentVisualNode);
     documentFragment->AddChildToEnd(m_rightContentPeer->Fragment());
     m_automationTree->AddPeer(m_rightContentPeer);
-    rightContent.Scale({ displayScale, displayScale, 1.0f });
-    rightContent.RelativeOffsetAdjustment({ 0.5f, 0.0f, 0.0f });
-    rightContent.Offset({ -k_inset, k_inset * 2, 0.0f });
-    rightContent.Size({ 500.0f, 500.0f });
 
-    // Above content
-    auto aboveContent = compositor.CreateSpriteVisual();
-    auto aboveContentVisualNode = VisualTreeNode::Create(aboveContent.as<::IUnknown>());
-    auto aboveContentPeer = m_automationTree->CreatePeer(aboveContentVisualNode, L"Above", UIA_ImageControlTypeId);
-    documentRootVisualNode->AddChild(aboveContentVisualNode);
-    documentFragment->AddChildToEnd(aboveContentPeer->Fragment());
-    m_automationTree->AddPeer(aboveContentPeer);
-    VisualUtils::LayoutAsFillBottom(aboveContent, 0.5f);
-    VisualUtils::LayoutAsFillRight(aboveContent, 0.125f);
-    aboveContent.Brush(grayBrush);
+    // Front content
+    m_frontContentVisual = AddLabeledRectangle(m_frontLabel);
 }
 
 void RootFrame::InitializeRibbonContent()
@@ -280,23 +266,56 @@ void RootFrame::InitializeRibbonContent()
     auto compositor = ribbonRoot.Compositor();
     auto ribbonBrush = compositor.CreateColorBrush(ColorUtils::DarkPink());
 
-    auto ribbonContentVisual = compositor.CreateSpriteVisual();
-    auto ribbonContentVisualNode = VisualTreeNode::Create(ribbonContentVisual.as<::IUnknown>());
+    m_ribbonContentVisual = compositor.CreateSpriteVisual();
+    auto ribbonContentVisualNode = VisualTreeNode::Create(m_ribbonContentVisual.as<::IUnknown>());
     m_ribbonContentPeer = m_automationTree->CreatePeer(ribbonContentVisualNode, L"Ribbon Content", UIA_ImageControlTypeId);
     ribbonRootVisualNode->AddChild(ribbonContentVisualNode);
     ribbonFragment->AddChildToEnd(m_ribbonContentPeer->Fragment());
     m_automationTree->AddPeer(m_ribbonContentPeer);
-    ribbonContentVisual.RelativeSizeAdjustment({1.0f, 1.0f});
-    ribbonContentVisual.Size({ -(k_inset*2), -(k_inset*2) });
-    ribbonContentVisual.Offset({ k_inset, k_inset, 0.0f });
-    ribbonContentVisual.Brush(ribbonBrush);
+    m_ribbonContentVisual.Brush(ribbonBrush);
+
+    InsertCheckBoxVisual(m_forceAliasedTextCheckBox, m_automationTree, m_ribbonPeer);
+    InsertCheckBoxVisual(m_disablePixelSnappingCheckBox, m_automationTree, m_ribbonPeer);
+    InsertCheckBoxVisual(m_showSpriteBoundsCheckBox, m_automationTree, m_ribbonPeer);
+    InsertCheckBoxVisual(m_showSpriteGenerationCheckBox, m_automationTree, m_ribbonPeer);
 }
 
+bool RootFrame::HitTestCheckBox(const winrt::Point& point, SystemCheckBox& control)
+{
+    auto visual = control.GetVisual();
+    auto offset = m_ribbonRootVisual.Offset() + visual.Offset();
+    float scale = visual.Scale().x;
+    auto size = visual.Size() * scale;
+
+    float x = point.X - offset.x;
+    float y = point.Y - offset.y;
+
+    if (x >= 0.0f && x <= size.x && y >= 0.0f && y <= size.y)
+    {
+        control.ToggleCheckState();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 void RootFrame::OnClick(
     const winrt::Point& point,
     bool isRightClick)
 {
+    if (!isRightClick)
+    {
+        if (HitTestCheckBox(point, m_forceAliasedTextCheckBox) ||
+            HitTestCheckBox(point, m_disablePixelSnappingCheckBox) ||
+            HitTestCheckBox(point, m_showSpriteBoundsCheckBox) ||
+            HitTestCheckBox(point, m_showSpriteGenerationCheckBox))
+        {
+            return;
+        }
+    }
+
     auto compositor = m_clickSquareRoot->Visual().as<winrt::WUC::ContainerVisual>().Compositor();
 
     // Create a 10x10 visual
@@ -329,102 +348,172 @@ void RootFrame::OnKeyPress(
     {
         m_clickSquareRoot->RemoveAllChildren();
     }
-    else if (wParam == VK_SUBTRACT)
+    else if (wParam == VK_SUBTRACT || wParam == VK_OEM_MINUS)
     {
-        if (m_leftChildLink != nullptr)
-        {
-            auto leftContentVisualNode = m_leftContentPeer->VisualNode();
-            auto leftContentVisual = leftContentVisualNode->Visual().as<winrt::WUC::ContainerVisual>();
-            
-            auto newScale = leftContentVisual.Scale().x - k_scaleIncrement;
-            if (newScale >= k_minScale)
-            {
-                leftContentVisual.Scale({newScale, newScale, 1.0});
-                HandleContentLayout();
-            }            
-        }
+        SetZoomFactor(m_zoomFactor - k_zoomIncrement);
     }
-    else if (wParam == VK_ADD)
+    else if (wParam == VK_ADD || wParam == VK_OEM_PLUS)
     {
-        if (m_leftChildLink != nullptr)
-        {
-            auto leftContentVisualNode = m_leftContentPeer->VisualNode();
-            auto leftContentVisual = leftContentVisualNode->Visual().as<winrt::WUC::ContainerVisual>();
-
-            auto newScale = leftContentVisual.Scale().x + k_scaleIncrement;
-            if (newScale <= k_maxScale)
-            {
-                leftContentVisual.Scale({newScale, newScale, 1.0});
-                HandleContentLayout();
-            }         
-        }
+        SetZoomFactor(m_zoomFactor + k_zoomIncrement);
     }
     else if (wParam == 'O')
     {
-        if (m_leftChildLink != nullptr)
-        {
-            auto leftContentVisual = m_leftContentPeer->VisualNode()->Visual().as<winrt::WUC::ContainerVisual>();
-
-            auto newRotation = leftContentVisual.RotationAngleInDegrees() - k_rotationIncrement;
-            if (newRotation >= k_minRotation)
-            {
-                leftContentVisual.RotationAngleInDegrees(newRotation);
-                HandleContentLayout();
-            }
-        }
+        m_rotationAngle = (m_rotationAngle + (m_rotationAngleLimit - 1)) % m_rotationAngleLimit;
+        HandleContentLayout();
     }
     else if (wParam == 'P')
     {
-        if (m_leftChildLink != nullptr)
-        {
-            auto leftContentVisual = m_leftContentPeer->VisualNode()->Visual().as<winrt::WUC::ContainerVisual>();
+        m_rotationAngle = (m_rotationAngle + 1) % m_rotationAngleLimit;
+        HandleContentLayout();
+    }
+}
 
-            auto newRotation = leftContentVisual.RotationAngleInDegrees() + k_rotationIncrement;
-            if (newRotation <= k_maxRotation)
-            {                
-                leftContentVisual.RotationAngleInDegrees(newRotation);
-                HandleContentLayout();
-            }
+void RootFrame::SetZoomFactor(float newZoom)
+{
+    newZoom = std::max(k_minZoom, std::min(k_maxZoom, newZoom));
+    if (newZoom != m_zoomFactor)
+    {
+        m_zoomFactor = newZoom;
+        if (m_leftChildSiteLink != nullptr)
+        {
+            HandleContentLayout();
         }
     }
 }
 
 void RootFrame::HandleContentLayout()
 {
-    SystemFrame::HandleContentLayout();
+    // Visual tree:
+    //
+    //  root
+    //    |
+    //    +---- m_ribbonRootVisual
+    //    |
+    //    +---- m_documentRootVisual
+    //              |
+    //              +---- m_backContentVisual
+    //              |
+    //              +---- m_leftContentVisual
+    //              |
+    //              +---- m_rightContentVisual
+    //              |
+    //              +---- m_frontContentVisual
+    //
+    // Visual layout:
+    //
+    //  +---------------------------------------------------+
+    //  |               m_ribbonRootVisual                  |
+    //  +------------------------+-+------------------------+
+    //  |                        | |                        |
+    //  |  m_leftContentVisual   | |  m_rightContentVisual  |
+    //  |                        | |                        |
+    //  |                m_backContentVisual                |
+    //  +----------------m_frontContentVisual---------------+
+    //  +---------------------------------------------------+
+    //  
 
-    if (m_leftChildLink != nullptr)
+    // The root island's rasterization scale is 1, so we will explicitily multiply
+    // logical units by the display scale.
+    const float rasterizationScale = GetIsland().RasterizationScale();
+    const float displayScale = GetIsland().Environment().DisplayScale();
+    assert(rasterizationScale == 1);
+
+    // Ensure each label's scale matches the display scale.
+    if (m_rootLabel.GetVisual().Scale().x != displayScale)
     {
-        auto leftContentVisualNode = m_leftContentPeer->VisualNode();
-        m_leftChildLink.TransformMatrix(leftContentVisualNode->Transform3x2());
+        for (auto* label : { &m_rootLabel, &m_ribbonLabel, &m_backLabel, &m_frontLabel })
+        {
+            label->GetVisual().Scale({displayScale, displayScale, 1.0f});
+        }
 
-        m_leftChildLink.ActualSize(leftContentVisualNode->Size());
+        for (auto* control : { &m_forceAliasedTextCheckBox, &m_disablePixelSnappingCheckBox, &m_showSpriteBoundsCheckBox, &m_showSpriteGenerationCheckBox })
+        {
+            control->GetVisual().Scale({displayScale, displayScale, 1.0f});
+        }
     }
 
-    if (m_rightChildLink != nullptr)
+    // Create a helper object for setting visual positions.
+    // The docker snaps to pixels unless we pass zero as the rasterization scale.
+    float dockerRasterizationScale = !GetSetting(Setting_DisablePixelSnapping) ? rasterizationScale : 0.0f;
+    FrameDocker docker(GetIsland().ActualSize(), dockerRasterizationScale);
+
+    // Reserve whitespace around the boundary of the island.
+    float inset = k_inset * displayScale;
+    docker.Inset(inset);
+
+    // Dock the ribbon root visual to the top of the island.
+    docker.DockTop(m_ribbonRootVisual, k_ribbonHeight * displayScale);
+
+    // Use relative layout to position the ribbon content within the ribbon root.
+    m_ribbonContentVisual.RelativeSizeAdjustment({1.0f, 1.0f});
+    m_ribbonContentVisual.Size({ -(inset*2), -(inset*2) });
+    m_ribbonContentVisual.Offset({ inset, inset, 0.0f });
+
+    // Position the check boxes within the ribbon.
+    float checkBoxLeft = 100.0f * displayScale;
+    for (auto* control : { &m_forceAliasedTextCheckBox, &m_disablePixelSnappingCheckBox, &m_showSpriteBoundsCheckBox, &m_showSpriteGenerationCheckBox })
+    {
+        auto& visual = control->GetVisual();
+        visual.Offset({ checkBoxLeft, inset * 2, 0.0f });
+        checkBoxLeft += (visual.Size().x + 20.0f) * displayScale;
+    }
+
+    // Let the document root visual fill the remaining space.
+    docker.DockFill(m_documentRootVisual);
+
+    // The remaining visuals are children of the document root visual.
+    docker = FrameDocker(m_documentRootVisual.Size(), dockerRasterizationScale);
+
+    // Position the rectangular "back" and "front" visuals.
+    float rectWidth = 100 * displayScale;
+    float rectHeight = 200 * displayScale;
+    m_backContentVisual.Offset({docker.Left(), docker.Top(), 0.0f});
+    m_backContentVisual.Size({rectWidth, rectHeight});
+    m_frontContentVisual.Offset({docker.Right() - rectWidth, docker.Bottom() - rectHeight, 0.0f});
+    m_frontContentVisual.Size({rectWidth, rectHeight});
+
+    // Add some whitespace so the left and right content visuals only partially overlap
+    // the "back" and "front" visuals.
+    docker.InsetTop(m_backLabel.Size().Height * displayScale);
+    docker.InsetLeft(inset);
+    docker.InsetRight(inset * 2);
+
+    // Position the left and right content visuals.
+    docker.DockLeftRelativeWithMargin(m_leftContentVisual, 0.5f, inset);
+    docker.DockFill(m_rightContentVisual);
+
+    // Scale the left and right content visuals, so the child islands' rasterization scale
+    // will include DPI scaling. The left visual's scale also includes zoom.
+    m_leftContentVisual.Scale({displayScale * m_zoomFactor, displayScale * m_zoomFactor, 1.0f});
+    m_rightContentVisual.Scale({displayScale, displayScale, 1.0f});
+
+    // Divide both visuals' sizes by the display scale because the size is in pre-scaled units.
+    m_leftContentVisual.Size(m_leftContentVisual.Size() / displayScale);
+    m_rightContentVisual.Size(m_rightContentVisual.Size() / displayScale);
+
+    // Set the left content visual's rotatoin angle.
+    m_leftContentVisual.RotationAngle(m_rotationAngle * m_rotationAngleUnit);
+
+    SystemFrame::HandleContentLayout();
+
+    if (m_leftChildSiteLink != nullptr)
+    {
+        auto leftContentVisualNode = m_leftContentPeer->VisualNode();
+        m_leftChildSiteLink.LocalToParentTransformMatrix(leftContentVisualNode->Transform4x4());
+
+        m_leftChildSiteLink.ActualSize(leftContentVisualNode->Size());
+    }
+
+    if (m_rightChildSiteLink != nullptr)
     {
         auto rightContentVisualNode = m_rightContentPeer->VisualNode();
-        m_rightChildLink.TransformMatrix(rightContentVisualNode->Transform3x2());
+        m_rightChildSiteLink.LocalToParentTransformMatrix(rightContentVisualNode->Transform4x4());
 
-        m_rightChildLink.ActualSize(rightContentVisualNode->Size());
+        m_rightChildSiteLink.ActualSize(rightContentVisualNode->Size());
     }
 }
 
 void RootFrame::HandleDisplayScaleChanged()
 {
-    auto displayScale = GetIsland().Environment().DisplayScale();
-
-    if (m_leftContentPeer != nullptr)
-    {
-        auto leftContent = m_leftContentPeer->VisualNode()->Visual().as<winrt::WUC::Visual>();
-        leftContent.Scale({ displayScale, displayScale, 1.0f });
-    }
-
-    if (m_rightContentPeer != nullptr)
-    {
-        auto rightContent = m_rightContentPeer->VisualNode()->Visual().as<winrt::WUC::Visual>();
-        rightContent.Scale({ displayScale, displayScale, 1.0f });
-    }
-
     HandleContentLayout();
 }

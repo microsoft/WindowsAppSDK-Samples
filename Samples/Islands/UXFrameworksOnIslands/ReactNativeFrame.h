@@ -8,7 +8,7 @@
 class ReactNativeFrame final : public LiftedFrame, public IFrameHost
 {
 public:
-    explicit ReactNativeFrame(const winrt::Compositor& compositor);
+    ReactNativeFrame(const winrt::Compositor& compositor, const std::shared_ptr<SettingCollection>& settings);
 
     void ConnectLeftFrame(
         IFrame* frame);
@@ -56,11 +56,15 @@ private:
     LiftedTextVisual m_labelVisual;
     std::shared_ptr<VisualTreeNode> m_clickSquareRoot = nullptr;
 
-    winrt::ChildContentLink m_leftChildLink = nullptr;
-    winrt::ChildContentLink m_rightChildLink = nullptr;
+    winrt::ChildSiteLink m_leftChildSiteLink = nullptr;
+    winrt::ChildSiteLink m_rightChildSiteLink = nullptr;
 
     IFrame* m_leftFrame = nullptr;
     IFrame* m_rightFrame = nullptr;
+
+    winrt::ContainerVisual m_topContentVisual{nullptr};
+    winrt::ContainerVisual m_leftRootVisual{nullptr};
+    winrt::ContainerVisual m_rightRootVisual{nullptr};
 
     std::shared_ptr<AutomationPeer> m_backgroundPeer = nullptr;
     std::shared_ptr<AutomationPeer> m_topContentPeer = nullptr;

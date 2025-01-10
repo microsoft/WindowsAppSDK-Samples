@@ -22,50 +22,49 @@ void InitializeFramesAndRun(
     //
     //                  RootFrame
     //                 /       |
-    //           NetUIFrameA  WebViewFrame
+    //           NetUIFrame  WebViewFrame
     //              / 
     //        ReactNativeFrame
-    //           /          |
-    //     NetUIFrameB  WinUIFrame
+    //            /
+    //      WinUIFrame
 
     // Create the top level window (which wraps an app window)
-    TopLevelWindow topLevelWindow{ compositor };
+    auto queue = compositor.DispatcherQueue();
 
-    RootFrame rootFrame{ compositor, systemCompositor };
+    auto settings = std::make_shared<SettingCollection>();
 
-    NetUIFrame netUIFrameA{ compositor, systemCompositor };
+    TopLevelWindow topLevelWindow{ queue };
 
-    WebViewFrame webViewFrame{ compositor, systemCompositor };
+    RootFrame rootFrame{ queue, systemCompositor, settings };
 
-    ReactNativeFrame reactNativeFrame{ compositor };
+    NetUIFrame netUIFrame{ queue, systemCompositor, settings };
 
-    NetUIFrame netUIFrameB{ compositor, systemCompositor };
+    WebViewFrame webViewFrame{ queue, systemCompositor, settings };
 
-    WinUIFrame winUIFrame{ compositor };
+    ReactNativeFrame reactNativeFrame{ compositor, settings };
+
+    WinUIFrame winUIFrame{ compositor, settings };
 
     // Connect everything together. Set FrameHosts for System frames to ensure automation is 
     // being handled by the IFrameHost API as the Content automation APIs are disabled. 
     // Lifted islands are hooked up into the larger system-wide automation tree via the Content 
-    // automation APIs in NavigatableFragment mode. See the AutomationOption setup in 
+    // automation APIs in FragmentBased mode. See the AutomationTreeOption setup in 
     // SystemFrame::ConnectChildFrame and LiftedFrame::ConnectChildFrame.
     topLevelWindow.ConnectFrameToWindow(&rootFrame);
     rootFrame.SetFrameHost(&topLevelWindow);
 
-    rootFrame.ConnectLeftFrame(&netUIFrameA);
-    netUIFrameA.SetFrameHost(&rootFrame);
+    rootFrame.ConnectLeftFrame(&netUIFrame);
+    netUIFrame.SetFrameHost(&rootFrame);
 
     rootFrame.ConnectRightFrame(&webViewFrame);
     webViewFrame.SetFrameHost(&rootFrame);
 
-    netUIFrameA.ConnectFrame(&reactNativeFrame);
+    netUIFrame.ConnectFrame(&reactNativeFrame);
 
-    reactNativeFrame.ConnectLeftFrame(&netUIFrameB);
-    netUIFrameB.SetFrameHost(&reactNativeFrame);
-
-    reactNativeFrame.ConnectRightFrame(&winUIFrame);
+    reactNativeFrame.ConnectLeftFrame(&winUIFrame);
 
     // Run the message loop
-    dispatcherQueueController.DispatcherQueue().RunEventLoop();
+    queue.RunEventLoop();
     dispatcherQueueController.ShutdownQueue();
 }
 
@@ -90,6 +89,9 @@ int APIENTRY wWinMain(
 
     // Set up the dispatcher queues
     auto dispatcherQueueController{ winrt::DispatcherQueueController::CreateOnCurrentThread() };
+
+    // NOTE: This system DispatcherQueue is explicitly creating a dedicated thread, which is a
+    // different thread than the lifted DispatcherQueue's.  It's testing a cross-thread scenario.
     auto systemDispatcherQueueController{ winrt::WS::DispatcherQueueController::CreateOnDedicatedThread() };
 
     // Use the current thread for the Lifted compositor 

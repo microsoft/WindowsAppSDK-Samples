@@ -13,30 +13,54 @@ template<class T>
 class TextVisual final : public D2DSprite<T>
 {
 public:
+    TextVisual(Output<T> const& output, std::wstring&& text);
+
     TextVisual(
         Output<T> const& output,
         std::wstring&& text,
-        winrt::Windows::UI::Color const& backgroundColor = winrt::Windows::UI::Colors::Transparent(),
-        winrt::Windows::UI::Color const& textColor = winrt::Windows::UI::Colors::Black(),
-        IDWriteTextFormat* textFormat = nullptr);
+        winrt::com_ptr<IDWriteTextLayout> const& textLayout,
+        ContainerVisual const& containerVisual = nullptr);
 
     auto& GetText() const noexcept
     {
         return m_text;
     }
 
-    winrt::Size Measure() const;
+    winrt::Size Size() const
+    {
+        return m_size;
+    }
+
+    winrt::Windows::Foundation::Numerics::float2 GetTextOrigin() const
+    {
+        return m_origin;
+    }
+
+    void SetTextOrigin(winrt::Windows::Foundation::Numerics::float2 origin);
+
+    winrt::Windows::UI::Color const& GetTextColor() const&
+    {
+        return m_textColor;
+    }
+
+    void SetTextColor(winrt::Windows::UI::Color const& color);
+
+    void SetFormatWidth(float width);
 
 protected:
     // D2DVisual methods.
     D2D1_RECT_F GetPixelBounds(Output<T> const& output, D2D1::Matrix3x2F const& rasterTransform) override;
-    void RenderContent(ID2D1DeviceContext5* deviceContext) override;
+    void RenderContent(Output<T> const& output, ID2D1DeviceContext5* deviceContext) override;
 
 private:
+    void SetVisualSize();
+    D2D_RECT_F GetLogicalBounds() const noexcept;
+
     std::wstring m_text;
     winrt::com_ptr<IDWriteTextLayout> m_textLayout;
-    winrt::Windows::UI::Color m_backgroundColor;
-    winrt::Windows::UI::Color m_textColor;
+    winrt::Windows::UI::Color m_textColor = winrt::Windows::UI::Colors::Black();
+    winrt::Size m_size = {};
+    winrt::Windows::Foundation::Numerics::float2 m_origin = {};
 };
 
 using LiftedTextVisual = TextVisual<winrt::Compositor>;
@@ -50,8 +74,8 @@ void InsertTextVisual(
     std::shared_ptr<AutomationPeer> const& parentPeer
     )
 {
-    auto labelVisualNode = VisualTreeNode::Create(textVisual.GetVisual().as<IUnknown>());
-    auto labelVisualPeer = automationTree->CreatePeer(labelVisualNode, textVisual.GetText(), UIA_TextControlTypeId);
-    parentPeer->VisualNode()->AddChild(labelVisualNode);
-    parentPeer->Fragment()->AddChildToEnd(labelVisualPeer->Fragment());
+    auto visualNode = VisualTreeNode::Create(textVisual.GetVisual().as<IUnknown>());
+    auto visualPeer = automationTree->CreatePeer(visualNode, textVisual.GetText(), UIA_TextControlTypeId);
+    parentPeer->VisualNode()->AddChild(visualNode);
+    parentPeer->Fragment()->AddChildToEnd(visualPeer->Fragment());
 }

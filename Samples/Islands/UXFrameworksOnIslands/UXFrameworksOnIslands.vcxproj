@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\Microsoft.WindowsAppSDK.1.7.241114004-experimental1\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.1.7.241114004-experimental1\build\native\Microsoft.WindowsAppSDK.props')" />
+  <Import Project="packages\Microsoft.WindowsAppSDK.1.7.250109001-experimental2\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.1.7.250109001-experimental2\build\native\Microsoft.WindowsAppSDK.props')" />
   <Import Project="packages\Microsoft.Windows.SDK.BuildTools.10.0.26100.2161\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.26100.2161\build\Microsoft.Windows.SDK.BuildTools.props')" />
   <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.241115.3\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.241115.3\build\native\Microsoft.Windows.CppWinRT.props')" />
   <PropertyGroup Label="Globals">
@@ -131,11 +131,13 @@
     <ClInclude Include="AutomationFragmentRoot.h" />
     <ClInclude Include="AutomationPeer.h" />
     <ClInclude Include="AutomationTree.h" />
+    <ClInclude Include="CheckBox.h" />
     <ClInclude Include="ColorUtils.h" />
     <ClInclude Include="CompositionDeviceResource.h" />
     <ClInclude Include="D2DSprite.h" />
     <ClInclude Include="DXDevice.h" />
     <ClInclude Include="EventRevokers.h" />
+    <ClInclude Include="FrameDocker.h" />
     <ClInclude Include="IFrame.h" />
     <ClInclude Include="IFrameHost.h" />
     <ClInclude Include="LiftedFrame.h" />
@@ -146,6 +148,7 @@
     <ClInclude Include="precomp.h" />
     <ClInclude Include="ReactNativeFrame.h" />
     <ClInclude Include="RootFrame.h" />
+    <ClInclude Include="SettingCollection.h" />
     <ClInclude Include="SystemFrame.h" />
     <ClInclude Include="TemplateHelpers.h" />
     <ClInclude Include="TextRenderer.h" />
@@ -163,9 +166,11 @@
     <ClCompile Include="AutomationFragmentRoot.cpp" />
     <ClCompile Include="AutomationPeer.cpp" />
     <ClCompile Include="AutomationTree.cpp" />
+    <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="CompositionDeviceResource.cpp" />
     <ClCompile Include="D2DSprite.cpp" />
     <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="FrameDocker.cpp" />
     <ClCompile Include="LiftedFrame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetUIFrame.cpp" />
@@ -176,6 +181,7 @@
     </ClCompile>
     <ClCompile Include="ReactNativeFrame.cpp" />
     <ClCompile Include="RootFrame.cpp" />
+    <ClCompile Include="SettingCollection.cpp" />
     <ClCompile Include="SystemFrame.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="TextVisual.cpp" />
@@ -210,7 +216,7 @@
     <Import Project="packages\Microsoft.Windows.SDK.BuildTools.10.0.26100.2161\build\Microsoft.Windows.SDK.BuildTools.targets" Condition="Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.26100.2161\build\Microsoft.Windows.SDK.BuildTools.targets')" />
     <Import Project="packages\Microsoft.Windows.ImplementationLibrary.1.0.240803.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('packages\Microsoft.Windows.ImplementationLibrary.1.0.240803.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
     <Import Project="packages\Microsoft.Web.WebView2.1.0.2792.45\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.2792.45\build\native\Microsoft.Web.WebView2.targets')" />
-    <Import Project="packages\Microsoft.WindowsAppSDK.1.7.241114004-experimental1\build\native\Microsoft.WindowsAppSDK.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.1.7.241114004-experimental1\build\native\Microsoft.WindowsAppSDK.targets')" />
+    <Import Project="packages\Microsoft.WindowsAppSDK.1.7.250109001-experimental2\build\native\Microsoft.WindowsAppSDK.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.1.7.250109001-experimental2\build\native\Microsoft.WindowsAppSDK.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -222,7 +228,7 @@
     <Error Condition="!Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.26100.2161\build\Microsoft.Windows.SDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.SDK.BuildTools.10.0.26100.2161\build\Microsoft.Windows.SDK.BuildTools.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.Windows.ImplementationLibrary.1.0.240803.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.ImplementationLibrary.1.0.240803.1\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.2792.45\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.2792.45\build\native\Microsoft.Web.WebView2.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.7.241114004-experimental1\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.7.241114004-experimental1\build\native\Microsoft.WindowsAppSDK.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.7.241114004-experimental1\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.7.241114004-experimental1\build\native\Microsoft.WindowsAppSDK.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.7.250109001-experimental2\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.7.250109001-experimental2\build\native\Microsoft.WindowsAppSDK.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.7.250109001-experimental2\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.7.250109001-experimental2\build\native\Microsoft.WindowsAppSDK.targets'))" />
   </Target>
 </Project>

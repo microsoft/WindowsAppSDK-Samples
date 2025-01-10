@@ -9,8 +9,9 @@ class NetUIFrame final : public SystemFrame
 {
 public:
     NetUIFrame(
-        const winrt::Compositor& compositor,
-        const winrt::WUC::Compositor& systemCompositor);
+        const winrt::DispatcherQueue& queue,
+        const winrt::WUC::Compositor& systemCompositor,
+        const std::shared_ptr<SettingCollection>& settings);
 
     void ConnectFrame(
         IFrame* frame);
@@ -35,7 +36,8 @@ private:
     static constexpr float k_size = 500.f;
 
     std::shared_ptr<AutomationPeer> m_childContentPeer = nullptr;
-    winrt::ChildContentLink m_childContentLink = nullptr;
+    winrt::ChildSiteLink m_childSiteLink = nullptr;
+    winrt::WUC::ContainerVisual m_childContentVisual{nullptr};
     SystemTextVisual m_labelVisual;
 
     // Interaction tracker

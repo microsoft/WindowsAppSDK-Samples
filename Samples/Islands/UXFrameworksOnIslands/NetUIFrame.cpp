@@ -4,13 +4,16 @@
 #include "NetUIFrame.h"
 #include "ColorUtils.h"
 #include "VisualUtils.h"
+#include "FrameDocker.h"
 
 NetUIFrame::NetUIFrame(
-        const winrt::Compositor& compositor,
-        const winrt::WUC::Compositor& systemCompositor) :
-    SystemFrame(compositor, systemCompositor),
-    m_labelVisual(GetOutput(), k_frameName, ColorUtils::LightBlue())
+        const winrt::DispatcherQueue& queue,
+        const winrt::WUC::Compositor& systemCompositor,
+        const std::shared_ptr<SettingCollection>& settings) :
+    SystemFrame(queue, systemCompositor, settings),
+    m_labelVisual(GetOutput(), k_frameName)
 {
+    m_labelVisual.SetBackgroundColor(ColorUtils::LightBlue());
     InitializeVisualTree(systemCompositor);
 }
 
@@ -18,12 +21,12 @@ void NetUIFrame::ConnectFrame(
     IFrame* frame)
 {
     auto childContentVisualNode = m_childContentPeer->VisualNode();
-    m_childContentLink = ConnectChildFrame(frame, childContentVisualNode->Visual().as<winrt::WUC::ContainerVisual>());
+    m_childSiteLink = ConnectChildFrame(frame, childContentVisualNode->Visual().as<winrt::WUC::ContainerVisual>());
 
     if (frame->IsLiftedFrame())
     {
         // Automation flows through the Content APIs when the child is lifted content.
-        m_childContentPeer->SetChildContentLink(m_childContentLink);
+        m_childContentPeer->SetChildSiteLink(m_childSiteLink);
     }
     else
     {
@@ -51,14 +54,12 @@ void NetUIFrame::InitializeVisualTree(
 
     // Create a visual that is inset by 10 pixels on all sides
     // This will hold any child frames
-    auto childContentVisual = compositor.CreateContainerVisual();
-    auto childContentVisualNode = VisualTreeNode::Create(childContentVisual.as<::IUnknown>());
+    m_childContentVisual = compositor.CreateContainerVisual();
+    auto childContentVisualNode = VisualTreeNode::Create(m_childContentVisual.as<::IUnknown>());
     m_childContentPeer = m_automationTree->CreatePeer(childContentVisualNode, L"NetUI Content", UIA_PaneControlTypeId);
     colorVisualNode->AddChild(childContentVisualNode);
     colorVisualPeer->Fragment()->AddChildToEnd(m_childContentPeer->Fragment());
     m_automationTree->AddPeer(m_childContentPeer);
-    float labelHeight = m_labelVisual.Measure().Height;
-    VisualUtils::LayoutAsInset(childContentVisual, k_inset, labelHeight, k_inset, k_inset);
 }
 
 void NetUIFrame::ActivateInteractionTracker(
@@ -115,13 +116,26 @@ void NetUIFrame::ActivateForPointer(
 
 void NetUIFrame::HandleContentLayout()
 {
+    // Create a helper object for setting visual positions.
+    // The docker snaps to pixels unless we pass zero as the rasterization scale.
+    float rasterizationScale = GetIsland().RasterizationScale();
+    float dockerRasterizationScale = !GetSetting(Setting_DisablePixelSnapping) ? rasterizationScale : 0.0f;
+    FrameDocker docker(GetIsland().ActualSize(), dockerRasterizationScale);
+
+    docker.InsetTop(m_labelVisual.Size().Height);
+    docker.InsetLeft(k_inset);
+    docker.InsetRight(k_inset);
+    docker.InsetBottom(k_inset);
+
+    docker.DockFill(m_childContentVisual);
+    
     SystemFrame::HandleContentLayout();
 
-    if (nullptr != m_childContentLink)
+    if (nullptr != m_childSiteLink)
     {
         auto childContentVisualNode = m_childContentPeer->VisualNode();
-        m_childContentLink.TransformMatrix(childContentVisualNode->Transform3x2());
+        m_childSiteLink.LocalToParentTransformMatrix(childContentVisualNode->Transform4x4());
 
-        m_childContentLink.ActualSize(childContentVisualNode->Size());
+        m_childSiteLink.ActualSize(childContentVisualNode->Size());
     }
 }
