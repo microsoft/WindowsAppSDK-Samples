@@ -42,7 +42,7 @@ struct AutomationPeer : std::enable_shared_from_this<AutomationPeer>,
     winrt::com_ptr<AutomationHelpers::AutomationFragment> Fragment() const noexcept { std::unique_lock lock{ m_mutex }; return m_fragment; }
     std::shared_ptr<VisualTreeNode> VisualNode() const noexcept { std::unique_lock lock{ m_mutex }; return m_visual; }
 
-    void SetChildContentLink(_In_ winrt::Microsoft::UI::Content::ChildContentLink const& childContentLink);
+    void SetChildSiteLink(_In_ winrt::Microsoft::UI::Content::ChildSiteLink const& childSiteLink);
     void SetChildFrame(_In_ IFrame const* const childFrame);
     [[nodiscard]] winrt::com_ptr<::IRawElementProviderFragment> ForwardFragmentFromPointInScreenCoordinatesRequest(double x, double y) const;
 
@@ -57,15 +57,15 @@ private:
 
     IFrame const* m_owningFrameNoRef{ nullptr };
     IFrame const* m_childFrameNoRef{ nullptr };
-    winrt::Microsoft::UI::Content::ChildContentLink m_childContentLink{ nullptr };
+    winrt::Microsoft::UI::Content::ChildSiteLink m_childSiteLink{ nullptr };
 
     std::shared_ptr<VisualTreeNode> m_visual{ nullptr };
     winrt::com_ptr<AutomationHelpers::AutomationFragment> m_fragment{ nullptr };
     std::unique_ptr<AutomationHelpers::AutomationCallbackRevoker> m_fragmentCallbackRevoker{ nullptr };
     std::unique_ptr<AutomationHelpers::AutomationCallbackRevoker> m_externalChildCallbackRevoker{ nullptr };
 
-    ChildContentLinkParentAutomationProviderRequested_revoker m_parentAutomationProviderRequestedRevoker{};
-    ChildContentLinkPreviousSiblingAutomationProviderRequested_revoker m_previousSiblingAutomationProviderRequestedRevoker{};
-    ChildContentLinkNextSiblingAutomationProviderRequested_revoker m_nextSiblingAutomationProviderRequestedRevoker{};
-    ChildContentLinkFragmentRootAutomationProviderRequested_revoker m_fragmentRootAutomationProviderRequestedRevoker{};
+    ChildSiteLinkParentAutomationProviderRequested_revoker m_parentAutomationProviderRequestedRevoker{};
+    ChildSiteLinkPreviousSiblingAutomationProviderRequested_revoker m_previousSiblingAutomationProviderRequestedRevoker{};
+    ChildSiteLinkNextSiblingAutomationProviderRequested_revoker m_nextSiblingAutomationProviderRequestedRevoker{};
+    ChildSiteLinkFragmentRootAutomationProviderRequested_revoker m_fragmentRootAutomationProviderRequestedRevoker{};
 };

@@ -25,16 +25,27 @@ CompositionDeviceResource<T>::CompositionDeviceResource(
         ID2D1Device6* d2dDevice, 
         T const& compositor) :
     OutputResource<T>(resourceList),
-    m_graphicsDevice(CreateCompositionGraphicsDevice(d2dDevice, compositor))
+    m_graphicsDevice(CreateCompositionGraphicsDevice(d2dDevice, compositor)),
+    m_isInitialized(true)
 {
 }
 
 template <class T>
-void CompositionDeviceResource<T>::CreateDeviceDependentResources(Output<T> const& output)
+void CompositionDeviceResource<T>::ReleaseDeviceDependentResources(Output<T> const&)
 {
-    // Restore the composition graphics device to health by pointing to the new Direct2D device.
-    auto deviceInterop = m_graphicsDevice.as<ICompositionGraphicsDeviceInterop>();
-    winrt::check_hresult(deviceInterop->SetRenderingDevice(output.GetDXDevice().GetD2DDevice().get()));
+    m_isInitialized = false;
+}
+
+template <class T>
+void CompositionDeviceResource<T>::EnsureInitialized(Output<T> const& output)
+{
+    if (!m_isInitialized)
+    {
+        // Restore the composition graphics device to health by pointing to the new Direct2D device.
+        auto deviceInterop = m_graphicsDevice.as<ICompositionGraphicsDeviceInterop>();
+        winrt::check_hresult(deviceInterop->SetRenderingDevice(output.GetDXDevice().GetD2DDevice().get()));
+        m_isInitialized = true;
+    }
 }
 
 // Explicit template instantiation.

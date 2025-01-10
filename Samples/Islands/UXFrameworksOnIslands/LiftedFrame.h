@@ -11,10 +11,10 @@
 // Base class for frames using the lifted stack.
 // This will pull together all the subsystems needed for a lifted frame
 // and provide a way to connect child frames.
-class LiftedFrame : public IFrame
+class LiftedFrame : public IFrame, public SettingChangedHandler
 {
 public:
-    explicit LiftedFrame(const winrt::Compositor& compositor);
+    LiftedFrame(const winrt::Compositor& compositor, const std::shared_ptr<SettingCollection>& settings);
 
     [[nodiscard]] winrt::com_ptr<::IRawElementProviderFragmentRoot> GetAutomationProvider() const final override { return m_automationTree->Root(); }
 
@@ -40,7 +40,7 @@ public:
     auto& GetOutput() noexcept { return m_output; }
 
 protected:
-    winrt::ChildContentLink ConnectChildFrame(
+    winrt::ChildSiteLink ConnectChildFrame(
         IFrame* frame,
         const winrt::ContainerVisual& childPlacementVisual);
 
@@ -49,7 +49,9 @@ protected:
     IFrameHost const* m_frameHost = nullptr;
     std::shared_ptr<AutomationTree> m_automationTree = nullptr;
 
-private:
+protected:
+    void OnSettingChanged(SettingId id) override;
+
     LiftedOutput m_output;
     winrt::ContentIsland m_island = nullptr;
     ContentIslandStateChanged_revoker m_islandStateChangedRevoker{};

@@ -4,13 +4,15 @@
 
 #include "SystemFrame.h"
 #include "TextVisual.h"
+#include "CheckBox.h"
 
 class RootFrame final : public SystemFrame, public IFrameHost
 {
 public:
     RootFrame(
-        const winrt::Compositor& compositor,
-        const winrt::WUC::Compositor& systemCompositor);
+        const winrt::DispatcherQueue& queue,
+        const winrt::WUC::Compositor& systemCompositor,
+        const std::shared_ptr<SettingCollection>& settings);
 
     LRESULT HandleMessage(
         UINT message,
@@ -29,14 +31,16 @@ public:
 
 private:
     static constexpr float k_inset = 10.0f;
+    static constexpr float k_ribbonHeight = 100.0f;
 
-    static constexpr float k_minScale = 0.5f;
-    static constexpr float k_maxScale = 2.0f;
-    static constexpr float k_scaleIncrement = 0.25f;
+    static constexpr float k_minZoom = 0.5f;
+    static constexpr float k_maxZoom = 2.0f;
+    static constexpr float k_zoomIncrement = 0.25f;
+    float m_zoomFactor = 1.0f;
 
-    static constexpr float k_minRotation = 0.0f;
-    static constexpr float k_maxRotation = 360.0f;
-    static constexpr float k_rotationIncrement = 90.0f;
+    static constexpr float m_rotationAngleUnit = 3.14159f / 2;
+    static constexpr int m_rotationAngleLimit = 4;
+    int m_rotationAngle = 0;
 
     winrt::Point PointFromLParam(
         LPARAM lParam) const;
@@ -46,12 +50,16 @@ private:
     void InitializeDocumentContent();
     void InitializeRibbonContent();
 
+    bool HitTestCheckBox(const winrt::Point& point, SystemCheckBox& control);
+
     void OnClick(
         const winrt::Point& point,
         bool isRightClick);
 
     void OnKeyPress(
         WPARAM wParam);
+
+    void SetZoomFactor(float newZoom);
 
     void HandleContentLayout() override;
     void HandleDisplayScaleChanged();
@@ -61,8 +69,8 @@ private:
     IFrame* m_leftFrame = nullptr;
     IFrame* m_rightFrame = nullptr;
 
-    winrt::ChildContentLink m_leftChildLink = nullptr;
-    winrt::ChildContentLink m_rightChildLink = nullptr;
+    winrt::ChildSiteLink m_leftChildSiteLink = nullptr;
+    winrt::ChildSiteLink m_rightChildSiteLink = nullptr;
 
     static constexpr wchar_t k_rootFrameName[] = L"Root";
     static constexpr wchar_t k_ribbonFrameName[] = L"Ribbon";
@@ -70,6 +78,20 @@ private:
 
     SystemTextVisual m_rootLabel;
     SystemTextVisual m_ribbonLabel;
+    SystemTextVisual m_backLabel;
+    SystemTextVisual m_frontLabel;
+    SystemCheckBox m_forceAliasedTextCheckBox;
+    SystemCheckBox m_disablePixelSnappingCheckBox;
+    SystemCheckBox m_showSpriteBoundsCheckBox;
+    SystemCheckBox m_showSpriteGenerationCheckBox;
+
+    winrt::WUC::ContainerVisual m_ribbonRootVisual{nullptr};
+    winrt::WUC::ContainerVisual m_documentRootVisual{nullptr};
+    winrt::WUC::ContainerVisual m_leftContentVisual{nullptr};
+    winrt::WUC::ContainerVisual m_rightContentVisual{nullptr};
+    winrt::WUC::SpriteVisual m_ribbonContentVisual{nullptr};
+    winrt::WUC::ContainerVisual m_backContentVisual{nullptr};
+    winrt::WUC::ContainerVisual m_frontContentVisual{nullptr};
 
     std::shared_ptr<AutomationPeer> m_leftContentPeer = nullptr;
     std::shared_ptr<AutomationPeer> m_rightContentPeer = nullptr;

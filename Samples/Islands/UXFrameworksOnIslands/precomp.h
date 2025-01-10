@@ -45,7 +45,7 @@
 
 // Interop headers
 #include <Windows.UI.Composition.Interop.h>
-#include <Microsoft.UI.Dispatching.Interop.h>
+#include <winrt/Microsoft.UI.Dispatching.Interop.h>
 #include <winrt/Microsoft.UI.Interop.h>
 #include <winrt/Microsoft.UI.Composition.Interop.h>
 

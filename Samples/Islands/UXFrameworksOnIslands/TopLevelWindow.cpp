@@ -6,17 +6,21 @@
 #include "VisualUtils.h"
 
 TopLevelWindow::TopLevelWindow(
-    const winrt::Compositor& compositor)
+    const winrt::DispatcherQueue& queue)
 {
     RegisterWindowClass();
     InitializeWindow();
-    InitializeBridge(compositor);
+    InitializeBridge(queue);
     InitializeAutomation();
 }
 
 void TopLevelWindow::ConnectFrameToWindow(
     IFrame* frame)
 {
+    // Mark the bridge with no input capabilities so that input doesn't go to the island but
+    // instead goes to our window.
+    m_bridge.InputCapabilities(winrt::InputCapabilities::None);
+
     m_bridge.Connect(frame->GetIsland());
 
     m_frame = frame;
@@ -282,10 +286,10 @@ void TopLevelWindow::InitializeWindow()
 }
 
 void TopLevelWindow::InitializeBridge(
-    const winrt::Compositor& compositor)
+    const winrt::DispatcherQueue& queue)
 {
     auto windowId = m_window.Id();
-    m_bridge = winrt::ReadOnlyDesktopSiteBridge::Create(compositor, windowId);
+    m_bridge = winrt::ReadOnlyDesktopSiteBridge::Create(queue, windowId);
     m_bridge.OverrideScale(1.0f);
 }
 

@@ -53,9 +53,9 @@ winrt::com_ptr<::IRawElementProviderFragment> AutomationPeer::GetFirstChildFragm
         return nullptr;
     }
 
-    if (nullptr != m_childContentLink)
+    if (nullptr != m_childSiteLink)
     {
-        return m_childContentLink.AutomationProvider().try_as<::IRawElementProviderFragment>();
+        return m_childSiteLink.AutomationProvider().try_as<::IRawElementProviderFragment>();
     }
 
     return m_childFrameNoRef->GetAutomationProvider().as<::IRawElementProviderFragment>();
@@ -71,27 +71,27 @@ winrt::com_ptr<::IRawElementProviderFragment> AutomationPeer::GetLastChildFragme
         return nullptr;
     }
 
-    if (nullptr != m_childContentLink)
+    if (nullptr != m_childSiteLink)
     {
-        return m_childContentLink.AutomationProvider().try_as<::IRawElementProviderFragment>();
+        return m_childSiteLink.AutomationProvider().try_as<::IRawElementProviderFragment>();
     }
 
     return m_childFrameNoRef->GetAutomationProvider().as<::IRawElementProviderFragment>();
 }
 
-void AutomationPeer::SetChildContentLink(_In_ winrt::Microsoft::UI::Content::ChildContentLink const& childContentLink)
+void AutomationPeer::SetChildSiteLink(_In_ winrt::Microsoft::UI::Content::ChildSiteLink const& childSiteLink)
 {
     std::unique_lock lock{ m_mutex };
 
     // If we're configuring this peer with an external child content link, we cannot have an external child frame set up.
     m_childFrameNoRef = nullptr;
 
-    m_childContentLink = childContentLink;
-    if (nullptr != m_childContentLink)
+    m_childSiteLink = childSiteLink;
+    if (nullptr != m_childSiteLink)
     {
         m_externalChildCallbackRevoker = m_fragment->SetExternalChildCallbackHandler(this);
 
-        m_parentAutomationProviderRequestedRevoker = { m_childContentLink, m_childContentLink.ParentAutomationProviderRequested([&](auto&&, auto&& args)
+        m_parentAutomationProviderRequestedRevoker = { m_childSiteLink, m_childSiteLink.ParentAutomationProviderRequested([&](auto&&, auto&& args)
         {
             winrt::Windows::Foundation::IInspectable provider{ nullptr };
             winrt::copy_from_abi(provider, m_fragment.as<::IInspectable>().get());
@@ -99,19 +99,19 @@ void AutomationPeer::SetChildContentLink(_In_ winrt::Microsoft::UI::Content::Chi
             args.Handled(true);
         }) };
 
-        m_previousSiblingAutomationProviderRequestedRevoker = { m_childContentLink, m_childContentLink.PreviousSiblingAutomationProviderRequested([&](auto&&, auto&& args)
+        m_previousSiblingAutomationProviderRequestedRevoker = { m_childSiteLink, m_childSiteLink.PreviousSiblingAutomationProviderRequested([&](auto&&, auto&& args)
         {
             args.AutomationProvider(nullptr);
             args.Handled(true);
         }) };
 
-        m_nextSiblingAutomationProviderRequestedRevoker = { m_childContentLink, m_childContentLink.NextSiblingAutomationProviderRequested([&](auto&&, auto&& args)
+        m_nextSiblingAutomationProviderRequestedRevoker = { m_childSiteLink, m_childSiteLink.NextSiblingAutomationProviderRequested([&](auto&&, auto&& args)
         {
             args.AutomationProvider(nullptr);
             args.Handled(true);
         }) };
 
-        m_fragmentRootAutomationProviderRequestedRevoker = { m_childContentLink, m_childContentLink.FragmentRootAutomationProviderRequested([&](auto&&, auto&& args)
+        m_fragmentRootAutomationProviderRequestedRevoker = { m_childSiteLink, m_childSiteLink.FragmentRootAutomationProviderRequested([&](auto&&, auto&& args)
         {
             winrt::Windows::Foundation::IInspectable provider{ nullptr };
             winrt::com_ptr<::IRawElementProviderFragmentRoot> fragmentRoot{ nullptr };
@@ -141,7 +141,7 @@ void AutomationPeer::SetChildFrame(_In_ IFrame const* const childFrame)
     m_previousSiblingAutomationProviderRequestedRevoker.Revoke();
     m_nextSiblingAutomationProviderRequestedRevoker.Revoke();
     m_fragmentRootAutomationProviderRequestedRevoker.Revoke();
-    m_childContentLink = nullptr;
+    m_childSiteLink = nullptr;
 
     m_childFrameNoRef = childFrame;
     if (nullptr != m_childFrameNoRef)
@@ -160,9 +160,9 @@ winrt::com_ptr<::IRawElementProviderFragment> AutomationPeer::ForwardFragmentFro
 
     winrt::com_ptr<::IRawElementProviderFragmentRoot> childFragmentRoot{ nullptr };
 
-    if (nullptr != m_childContentLink)
+    if (nullptr != m_childSiteLink)
     {
-        childFragmentRoot = m_childContentLink.AutomationProvider().try_as<::IRawElementProviderFragmentRoot>();
+        childFragmentRoot = m_childSiteLink.AutomationProvider().try_as<::IRawElementProviderFragmentRoot>();
     }
     else if (nullptr != m_childFrameNoRef)
     {

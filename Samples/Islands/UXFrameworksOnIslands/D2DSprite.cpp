@@ -1,10 +1,9 @@
-// Copyright (c) Microsoft Corporation.  All rights reserved.
+﻿// Copyright (c) Microsoft Corporation.  All rights reserved.
 
 #include "precomp.h"
 #include "D2DSprite.h"
 #include "Output.h"
-
-#define SHOW_SPRITE_BOUNDS 0
+#include "TextRenderer.h"
 
 inline winrt::CompositionDrawingSurface CreateCompositionDrawingSurface(winrt::CompositionGraphicsDevice const& device, winrt::Size pixelSize)
 {
@@ -23,57 +22,120 @@ inline winrt::WUC::CompositionDrawingSurface CreateCompositionDrawingSurface(win
 }
 
 template <class T>
-D2DSprite<T>::D2DSprite(Output<T> const& output) :
-    D2DSprite<T>(output, output.GetCompositor().CreateContainerVisual())
-{
-}
-
-template <class T>
 D2DSprite<T>::D2DSprite(Output<T> const& output, ContainerVisual const& containerVisual) :
     OutputResource<T>(output.GetResourceList()),
-    m_containerVisual(containerVisual),
+    m_containerVisual(containerVisual != nullptr ? containerVisual : output.GetCompositor().CreateContainerVisual()),
     m_spriteVisual(output.GetCompositor().CreateSpriteVisual())
 {
-    m_spriteVisual.IsPixelSnappingEnabled(true);
-    containerVisual.Children().InsertAtTop(m_spriteVisual);
+    IsPixelSnappingEnabled(!output.GetSetting(Setting_DisablePixelSnapping));
+    m_containerVisual.Children().InsertAtTop(m_spriteVisual);
+}
+
+template<class T>
+void D2DSprite<T>::SetBackgroundColor(winrt::Windows::UI::Color const& color)
+{
+    if (color != m_backgroundColor)
+    {
+        m_backgroundColor = color;
+        InvalidateContent();
+    }
 }
 
 template<class T>
 void D2DSprite<T>::ReleaseDeviceDependentResources(Output<T> const&)
 {
-    // Discard the surface brush.
-    m_spriteVisual.Brush(nullptr);
+    InvalidateSurface();
 }
 
 template<class T>
-void D2DSprite<T>::CreateDeviceDependentResources(Output<T> const& output)
+void D2DSprite<T>::EnsureInitialized(Output<T> const& output)
 {
-    // Initialize the visual's brush if we haven't already.
-    if (m_spriteVisual.Brush() == nullptr)
+    try
     {
-        InitializeSpriteVisual(output);
+        // Recompute the raster transform based on the current layout.
+        auto rasterTransform = ComputeRasterTransform(output);
+        if (rasterTransform != m_rasterTransform)
+        {
+            m_rasterTransform = rasterTransform;
+            InvalidateContent();
+        }
+
+        // Recompute the bounding box in device coordinates.
+        // This invalidates the drawing surface if the size changes.
+        InitializePixelBounds(output);
+
+        // Create the drawing surface if it doesn't already exist.
+        if (m_drawingSurface == nullptr)
+        {
+            // Create a CompositionDrawingSurface sized to the pixel bounds.
+            m_drawingSurface = CreateCompositionDrawingSurface(output.GetCompositionGraphicsDevice(), GetPixelSize());
+
+            // Create a surface brush and assign it to the visual.
+            auto surfaceBrush = output.GetCompositor().CreateSurfaceBrush();
+            surfaceBrush.Surface(m_drawingSurface);
+            m_spriteVisual.Brush(surfaceBrush);
+
+            m_surfaceGeneration++;
+        }
+
+        // Draw the content if it's not already valid.
+        if (!m_isContentValid)
+        {
+            RenderToDrawingSurface(output);
+            m_isContentValid = true;
+        }
+
+        SetSpriteSizeAndTransform();
+    }
+    catch (winrt::hresult_error& e)
+    {
+        // Silently ignore device-removed error.
+        // We'll draw again after the device is recreated.
+        if (e.code() == DXGI_ERROR_DEVICE_REMOVED)
+            return;
+
+        // Rethrow all other exceptions.
+        throw;
     }
 }
 
 template<class T>
-void D2DSprite<T>::HandleRasterizationScaleChanged(Output<T> const& output)
+void D2DSprite<T>::InvalidateSurface()
 {
-    auto newTransform = ComputeRasterTransform(output);
+    // Indicate that the content needs to be re-rendered.
+    m_isContentValid = false;
 
-    // Do nothing if the transform has not changed or is not invertible.
-    if (newTransform == m_rasterTransform || !newTransform.IsInvertible())
+    // Indicate that the drawing surface and brush need to be re-created.
+    m_drawingSurface = nullptr;
+    m_spriteVisual.Brush(nullptr);
+}
+
+template<class T>
+void D2DSprite<T>::InvalidateContent()
+{
+    // Indicate that the content needs to be re-rendered.
+    m_isContentValid = false;
+}
+
+template<class T>
+void D2DSprite<T>::OnSettingChanged(Output<T> const& output, SettingId id)
+{
+    switch (id)
     {
-        return;
+    case Setting_DisablePixelSnapping:
+        IsPixelSnappingEnabled(!output.GetSetting(Setting_DisablePixelSnapping));
+        break;
+
+    case Setting_ShowSpriteBounds:
+    case Setting_ShowSpriteGeneration:
+        InvalidateContent();
+        break;
+
+    default:
+        InvalidateSurface();
     }
 
-    // Save the new transform.
-    m_rasterTransform = newTransform;
-
-    // Discard the old surface brush.
-    m_spriteVisual.Brush(nullptr);
-
-    // Create a new surface brush with the correct scale.
-    InitializeSpriteVisual(output);
+    EnsureInitialized(output);
 }
 
 template<class T>
@@ -96,15 +158,22 @@ Matrix2x2 D2DSprite<T>::ComputeRasterTransform(Output<T> const& output) const
         matrix *= visualTransform;
     }
 
-    // Multiply by the rasterizatoin scale for the island.
-    matrix *= winrt::Windows::Foundation::Numerics::make_float4x4_scale(
-            output.GetRasterizationScale());
+    // Flatten to a 2x2 matrix (2D without displacement).
+    auto result = Matrix2x2(matrix);
 
-    // Flatten to a 2x2 matrix, since that's all we care about for rasterization.
-    return Matrix2x2(matrix);
+    // Multiply by the island's rasterization transform.
+    result = result * output.GetRasterizationTransform();
+
+    // If it's a degenerate transform, use identity.
+    if (!result.IsInvertible())
+    {
+        result = Matrix2x2();
+    }
+
+    return result;
 }
 
-template<class T>
+template <class T>
 D2D1_RECT_F D2DSprite<T>::GetPixelBounds(Output<T> const& output, D2D1::Matrix3x2F const& rasterTransform)
 {
     // Create a command list and set it as the device context target.
@@ -119,7 +188,7 @@ D2D1_RECT_F D2DSprite<T>::GetPixelBounds(Output<T> const& output, D2D1::Matrix3x
     // Render the content with the specified transform, then restore the identity transform.
     deviceContext->BeginDraw();
     deviceContext->SetTransform(rasterTransform);
-    RenderContent(deviceContext);
+    RenderContent(output, deviceContext);
     deviceContext->SetTransform(D2D1::Matrix3x2F::Identity());
     winrt::check_hresult(deviceContext->EndDraw());
 
@@ -134,112 +203,162 @@ D2D1_RECT_F D2DSprite<T>::GetPixelBounds(Output<T> const& output, D2D1::Matrix3x
     return worldBounds;
 }
 
-// Initialize the sprite visual to point to a surface brush with newly-rendered content.
 template<class T>
-void D2DSprite<T>::InitializeSpriteVisual(Output<T> const& output)
+void D2DSprite<T>::InitializePixelBounds(Output<T> const& output)
 {
-    try
+    auto oldPixelSize = GetPixelSize();
+
+    // Get the bounding box of the content in device units, taking into
+    // account the raster transform.
+    auto transform = m_rasterTransform.ToD2D();
+    m_pixelBounds = GetPixelBounds(output, transform);
+
+    // Round to pixel boundaries.
+    m_pixelBounds.left = floorf(m_pixelBounds.left);
+    m_pixelBounds.top = floorf(m_pixelBounds.top);
+    m_pixelBounds.right = ceilf(m_pixelBounds.right);
+    m_pixelBounds.bottom = ceilf(m_pixelBounds.bottom);
+
+    // Ensure we recreate the drawing surface and brush if the size changes.
+    if (GetPixelSize() != oldPixelSize)
     {
-        auto transform = m_rasterTransform.ToD2D();
+        InvalidateSurface();
+    }
+}
 
-        // Get the bounding box of the content in device units.
-        D2D1_RECT_F pixelBounds = GetPixelBounds(output, transform);
+template<class T>
+void D2DSprite<T>::SetSpriteSizeAndTransform()
+{
+    // Get the render transform, and translate it such that the top-left corner of
+    // the pixel bounds is at (0, 0).
+    auto transform = m_rasterTransform.ToD2D();
+    transform.dx = -m_pixelBounds.left;
+    transform.dy = -m_pixelBounds.top;
 
-        // Round to pixel boundaries.
-        pixelBounds.left = floorf(pixelBounds.left);
-        pixelBounds.top = floorf(pixelBounds.top);
-        pixelBounds.right = ceilf(pixelBounds.right);
-        pixelBounds.bottom = ceilf(pixelBounds.bottom);
+    // Set the sprite visual's transform to the inverse of the rendering transform.
+    // We already applied the transform when rendering the content, so the sprite visual
+    // itself should align with the pixel grid.
+    //
+    // For example, suppose the container visual is rotated clockwise. We apply the inverse
+    // transform to the sprite visual to cancel out the rotation. However, the content
+    // rendered to the drawing surface is rotated to match the container visual.
+    //
+    //         /   <-------------------- The container visual is rotated
+    //        /
+    //       +-----------------+  <----- The sprite visual is axis aligned
+    //      /|*******          |
+    //     / |     *******     |  <----- The rendered content is rotated
+    //    /  |          *******|
+    //   /   +-----------------+
+    //  /
+    transform.Invert();
+    auto inverseTransform = winrt::Windows::Foundation::Numerics::float4x4(
+        reinterpret_cast<winrt::Windows::Foundation::Numerics::float3x2 const&>(transform));
+    m_spriteVisual.TransformMatrix(inverseTransform);
 
-        // Create a CompositionDrawingSurface sized to the pixelBounds.
-        const winrt::Size pixelSize(pixelBounds.right - pixelBounds.left, pixelBounds.bottom - pixelBounds.top);
-        auto drawingSurface = CreateCompositionDrawingSurface(output.GetCompositionGraphicsDevice(), pixelSize);
-        auto drawingSurfaceInterop = drawingSurface.as<ICompositionDrawingSurfaceInterop>();
+    // The inverse transform cancelled out any scaling (including DPI scale), so the
+    // sprite visual's size is measured in pixels. Set the sprite's size to match the
+    // bitmap size, so there's no bitmap scaling.
+    m_spriteVisual.Size(GetPixelSize());
+}
 
-        // Get a device context that's bound to the drawing surface.
-        winrt::com_ptr<ID2D1DeviceContext> deviceContext;
-        POINT pixelOffset;
-        winrt::check_hresult(drawingSurfaceInterop->BeginDraw(
-            nullptr,
-            __uuidof(decltype(*deviceContext)),
-            /*out*/ deviceContext.put_void(),
-            /*out*/ &pixelOffset));
+template<class T>
+void D2DSprite<T>::RenderToDrawingSurface(Output<T> const& output)
+{
+    auto drawingSurfaceInterop = m_drawingSurface.as<ICompositionDrawingSurfaceInterop>();
 
-        // BeginDraw allocated a rectangle for this drawing surface in an atlas texture.
-        // Clip to the bounds of this rectangle.
-        const D2D_POINT_2F atlasOffset{ static_cast<float>(pixelOffset.x), static_cast<float>(pixelOffset.y) };
-        deviceContext->SetUnitMode(D2D1_UNIT_MODE_PIXELS);
-        deviceContext->SetTransform(D2D1::Matrix3x2F::Translation(atlasOffset.x, atlasOffset.y));
-        deviceContext->PushAxisAlignedClip({ 0, 0, pixelSize.Width, pixelSize.Height }, D2D1_ANTIALIAS_MODE_ALIASED);
+    // Get a device context that's bound to the drawing surface.
+    winrt::com_ptr<ID2D1DeviceContext> deviceContext;
+    POINT pixelOffset;
+    winrt::check_hresult(drawingSurfaceInterop->BeginDraw(
+        nullptr,
+        __uuidof(decltype(*deviceContext)),
+        /*out*/ deviceContext.put_void(),
+        /*out*/ &pixelOffset));
 
-        // Clear to transparent.
-        deviceContext->Clear(D2D_COLOR_F{});
+    // BeginDraw allocated a rectangle for this drawing surface in an atlas texture.
+    // Clip to the bounds of this rectangle.
+    const D2D_POINT_2F atlasOffset{ static_cast<float>(pixelOffset.x), static_cast<float>(pixelOffset.y) };
+    deviceContext->SetUnitMode(D2D1_UNIT_MODE_PIXELS);
+    deviceContext->SetTransform(D2D1::Matrix3x2F::Translation(atlasOffset.x, atlasOffset.y));
+    auto pixelSize = GetPixelSize();
+    deviceContext->PushAxisAlignedClip({ 0, 0, pixelSize.Width, pixelSize.Height }, D2D1_ANTIALIAS_MODE_ALIASED);
 
-        // Render using the rasterizer transform, but translated such that the top-left
-        // corner of the pixelBounds aligns with the atlasOffset.
-        transform.dx = atlasOffset.x - pixelBounds.left;
-        transform.dy = atlasOffset.y - pixelBounds.top;
-        deviceContext->SetTransform(transform);
+    // Clear the background.
+    deviceContext->Clear(ToColorF(m_backgroundColor));
 
-        // Render the content to the surface.
-        RenderContent(deviceContext.as<ID2D1DeviceContext5>().get());
+    // Render using the rasterizer transform, but translated such that the top-left
+    // corner of the pixel bounds aligns with the atlasOffset.
+    auto transform = m_rasterTransform.ToD2D();
+    transform.dx = atlasOffset.x - m_pixelBounds.left;
+    transform.dy = atlasOffset.y - m_pixelBounds.top;
+    deviceContext->SetTransform(transform);
 
-#if SHOW_SPRITE_BOUNDS
-        // Draw a white rectangle around the sprite bounds for debugging purposes.
+    // Render the content to the surface.
+    RenderContent(output, deviceContext.as<ID2D1DeviceContext5>().get());
+
+    // if "Show Sprite Bounds" is enabled, draw a red rectangle around the pixel bounds.
+    if (output.GetSetting(Setting_ShowSpriteBounds))
+    {
         deviceContext->SetTransform(D2D1::Matrix3x2F::Translation(atlasOffset.x, atlasOffset.y));
         winrt::com_ptr<ID2D1SolidColorBrush> boundsBrush;
-        deviceContext->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), boundsBrush.put());
-        deviceContext->DrawRectangle({ 0, 0, pixelSize.Width, pixelSize.Height }, boundsBrush.get());
-#endif
-
-        // Reset the transform to identity and end drawing.
-        deviceContext->SetTransform(D2D1::Matrix3x2F::Identity());
-        winrt::check_hresult(drawingSurfaceInterop->EndDraw());
-
-        // Create a surface brush and assign it to the visual.
-        auto surfaceBrush = output.GetCompositor().CreateSurfaceBrush();
-        surfaceBrush.Surface(drawingSurface);
-        m_spriteVisual.Brush(surfaceBrush);
-
-        // Set the sprite visual's transform to the inverse of the rendering transform.
-        // We already applied the transform when rendering the content, so the sprite visual
-        // itself should align with the pixel grid.
-        //
-        // For example, suppose the container visual is rotated clockwise. We apply the inverse
-        // transform to the sprite visual to cancel out the rotation. However, the content
-        // rendered to the drawing surface is rotated to match the container visual.
-        //
-        //         /   <-------------------- The container visual is rotated
-        //        /
-        //       +-----------------+  <----- The sprite visual is axis aligned
-        //      /|*******          |
-        //     / |     *******     |  <----- The rendered content is rotated
-        //    /  |          *******|
-        //   /   +-----------------+
-        //  /
-        transform.dx -= atlasOffset.x;
-        transform.dy -= atlasOffset.y;
-        transform.Invert();
-
-        auto inverseTransform = winrt::Windows::Foundation::Numerics::float4x4(
-            reinterpret_cast<winrt::Windows::Foundation::Numerics::float3x2 const&>(transform));
-        m_spriteVisual.TransformMatrix(inverseTransform);
-
-        // The inverse transform cancelled out any scaling (including DPI scale), so the
-        // sprite visual's size is measured in pixels. Set the sprite's size to match the
-        // bitmap size, so there's no bitmap scaling.
-        m_spriteVisual.Size(pixelSize);
+        deviceContext->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Red), boundsBrush.put());
+        deviceContext->DrawRectangle({ 0, 0, pixelSize.Width, pixelSize.Height }, boundsBrush.get(), m_rasterTransform.ToScaleFactor());
     }
-    catch (winrt::hresult_error& e)
+
+    // If "Show Sprite Generation" is enabled, draw the generation number.
+    ++m_renderGeneration;
+    if (output.GetSetting(Setting_ShowSpriteGeneration))
     {
-        // Silently ignore device-removed error.
-        // We'll draw again after the device is recreated.
-        if (e.code() == DXGI_ERROR_DEVICE_REMOVED)
-            return;
+        static DigitRenderer renderer(/*fontSize*/ 10.0f);
 
-        // Rethrow all other exceptions.
-        throw;
+        // Set a scale transform with (0,0) at the top-left of the drawing surface.
+        float scaleFactor = m_rasterTransform.ToScaleFactor();
+        deviceContext->SetTransform(
+            D2D1::Matrix3x2F::Scale(scaleFactor, scaleFactor) *
+            D2D1::Matrix3x2F::Translation(atlasOffset.x, atlasOffset.y)
+            );
+
+        // Determine the bottom-right coordinate in logical units.
+        auto pixelSize2 = GetPixelSize();
+        D2D_POINT_2F bottomRight{pixelSize2.Width / scaleFactor, pixelSize2.Height / scaleFactor};
+
+        auto Draw = [&](uint32_t value, D2D_COLOR_F const& color)
+        {
+            // Determine the bounds of the number, including padding.
+            auto digits = renderer.GetDigitGlyphs(value);
+
+            constexpr float padding = 1;
+            D2D_RECT_F numberRect{
+                bottomRight.x - renderer.Width(digits) - (padding * 2),
+                bottomRight.y - renderer.Height() - (padding * 2),
+                bottomRight.x,
+                bottomRight.y
+            };
+
+            // The next number will be drawn to the left of this one.
+            bottomRight.x = numberRect.left;
+
+            // Determine the top-left corner of the digits.
+            D2D_POINT_2F numberPos{numberRect.left + padding, numberRect.top + padding};
+
+            // Fill the background.
+            winrt::com_ptr<ID2D1SolidColorBrush> brush;
+            deviceContext->CreateSolidColorBrush(color, brush.put());
+            deviceContext->FillRectangle(numberRect, brush.get());
+
+            // Draw the number.
+            brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
+            renderer.Draw(deviceContext.get(), numberPos, digits, brush.get());
+        };
+
+        Draw(m_renderGeneration, D2D1::ColorF(D2D1::ColorF::DarkRed));
+        Draw(m_surfaceGeneration, D2D1::ColorF(D2D1::ColorF::Blue));
     }
+
+    // Reset the transform to identity and end drawing.
+    deviceContext->SetTransform(D2D1::Matrix3x2F::Identity());
+    winrt::check_hresult(drawingSurfaceInterop->EndDraw());
 }
 
 template class D2DSprite<winrt::Compositor>;
