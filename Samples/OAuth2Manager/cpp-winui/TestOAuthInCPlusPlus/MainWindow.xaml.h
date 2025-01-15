@@ -9,7 +9,6 @@ namespace winrt::TestOAuthInCPlusPlus::implementation
     struct MainWindow : MainWindowT<MainWindow>
     {
         MainWindow();
-        winrt::Windows::Foundation::IAsyncAction implicitGrantWithRedirectButton_Click(IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
         winrt::Windows::Foundation::IAsyncAction authCodeGrantWithRedirectButton_Click(IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
         void OnUriCallback(winrt::Windows::Foundation::Uri const& responseUri);
 

@@ -29,16 +29,6 @@ namespace winrt::TestOAuthInCPlusPlus::implementation
     }
 
     // Asynchronous function that handles button click events
-    winrt::Windows::Foundation::IAsyncAction MainWindow::implicitGrantWithRedirectButton_Click(IInspectable const&, RoutedEventArgs const&)
-    {
-        AuthRequestResult res = co_await OAuth2Manager::RequestAuthAsync(
-            parentWindowId,
-            Uri{ L"https://github.com/login/oauth/authorize?client_id=##yourclientid##&scope=read%3Auser%20user%3Aemail" },
-            Uri{ L"ms-testoauthincpp-launch://oauthcallback" });
-
-        outputTextBlock().Text(L"Implicit OAuth with redirect performed : Auth res: " + res.ResponseUri().RawUri());
-    }
-
     winrt::Windows::Foundation::IAsyncAction MainWindow::authCodeGrantWithRedirectButton_Click(IInspectable const&, RoutedEventArgs const&)
     {
          
