@@ -88,5 +88,6 @@ namespace winrt::cpp_winui::implementation
 
     void Scenario2_GlyphBadge::clearBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
         winrt::BadgeNotificationManager::Current().ClearBadge();
+        rootPage.NotifyUser(L"Badge Notification Cleared Successfully.", InfoBarSeverity::Informational);
     }
 }

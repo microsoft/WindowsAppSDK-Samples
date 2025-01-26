@@ -1,0 +1,26 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page
+    x:Class="cswinui.Scenario1_NumericBadge"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:cswinui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid RowDefinitions="*,Auto">
+        <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <StackPanel Orientation="Vertical" Spacing="10" Margin="10,10,10,10">
+                <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
+                <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
+            This sample demonstrates how to display a Numeric badge notification for an app.
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button x:Name="showNumericBadge" Click="ShowNumericBadge_Click">Show Numeric Badge</Button>
+                    <TextBox x:Name="inputTextBox" Width="200" Margin="0 0 10 0"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

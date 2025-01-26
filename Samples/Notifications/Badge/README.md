@@ -1,6 +1,7 @@
 ---
 page_type: sample  
 languages:  
+- csharp  
 - cppwinrt  
 - cpp  
 products:  
