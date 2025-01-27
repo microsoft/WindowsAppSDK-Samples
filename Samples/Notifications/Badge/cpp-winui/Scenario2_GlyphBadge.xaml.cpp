@@ -28,66 +28,37 @@ namespace winrt::cpp_winui::implementation
         Scenario2_GlyphBadge::rootPage = MainPage::Current();
     }
 
-    void Scenario2_GlyphBadge::showBadge(winrt::BadgeNotificationGlyph glyphValue) {
-        try {
-            winrt::BadgeNotificationManager::Current().SetBadgeAsGlyph(glyphValue);
+    void Scenario2_GlyphBadge::badgeButton_Click(IInspectable const& sender, RoutedEventArgs const& e) {
+        auto button = sender.as<Button>();
+        auto tag = button.Tag().as<hstring>();
+
+        if (tag == L"Clear") {
+            winrt::BadgeNotificationManager::Current().ClearBadge();
+            rootPage.NotifyUser(L"Badge Notification Cleared Successfully.", InfoBarSeverity::Informational);
+            return;
+        }
+
+        static const std::map<hstring, winrt::BadgeNotificationGlyph> badgeMap = {
+            { L"Activity", winrt::BadgeNotificationGlyph::Activity },
+            { L"Alarm", winrt::BadgeNotificationGlyph::Alarm },
+            { L"Alert", winrt::BadgeNotificationGlyph::Alert },
+            { L"Attention", winrt::BadgeNotificationGlyph::Attention },
+            { L"Available", winrt::BadgeNotificationGlyph::Available },
+            { L"Away", winrt::BadgeNotificationGlyph::Away },
+            { L"Busy", winrt::BadgeNotificationGlyph::Busy },
+            { L"Error", winrt::BadgeNotificationGlyph::Error },
+            { L"NewMessage", winrt::BadgeNotificationGlyph::NewMessage },
+            { L"Paused", winrt::BadgeNotificationGlyph::Paused },
+            { L"Playing", winrt::BadgeNotificationGlyph::Playing },
+            { L"Unavailable", winrt::BadgeNotificationGlyph::Unavailable }
+        };
+
+        auto it = badgeMap.find(tag);
+        if (it != badgeMap.end()) {
+            winrt::BadgeNotificationManager::Current().SetBadgeAsGlyph(it->second);
             rootPage.NotifyUser(L"Badge Notification Displayed Successfully.", InfoBarSeverity::Informational);
         }
-        catch (winrt::hresult_error const& ex) {
-            rootPage.NotifyUser(L"An error occurred: " + ex.message(), InfoBarSeverity::Informational);
-        }
-    }
 
-    void Scenario2_GlyphBadge::activityBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Activity);
-    }
-
-    void Scenario2_GlyphBadge::alarmBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Alarm);
-    }
-
-    void Scenario2_GlyphBadge::alertBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Alert);
-    }
-
-    void Scenario2_GlyphBadge::attentionBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Attention);
-    }
-
-    void Scenario2_GlyphBadge::availableBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Available);
-    }
-
-    void Scenario2_GlyphBadge::awayBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Away);
-    }
-
-    void Scenario2_GlyphBadge::busyBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Busy);
-    }
-
-    void Scenario2_GlyphBadge::errorBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Error);
-    }
-
-    void Scenario2_GlyphBadge::newMessageBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::NewMessage);
-    }
-
-    void Scenario2_GlyphBadge::pausedBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Paused);
-    }
-
-    void Scenario2_GlyphBadge::playingBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Playing);
-    }
-
-    void Scenario2_GlyphBadge::unavailableBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        showBadge(winrt::BadgeNotificationGlyph::Unavailable);
-    }
-
-    void Scenario2_GlyphBadge::clearBadge_Click(IInspectable const& sender, RoutedEventArgs const& e) {
-        winrt::BadgeNotificationManager::Current().ClearBadge();
-        rootPage.NotifyUser(L"Badge Notification Cleared Successfully.", InfoBarSeverity::Informational);
+        return;
     }
 }
