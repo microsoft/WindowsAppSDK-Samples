@@ -8,10 +8,12 @@
 
 ReactNativeFrame::ReactNativeFrame(const winrt::Compositor& compositor, const std::shared_ptr<SettingCollection>& settings) :
     LiftedFrame(compositor, settings),
-    m_labelVisual(GetOutput(), k_frameName)
+    m_labelVisual(GetOutput(), k_frameName),
+    m_acceleratorVisual(GetOutput(), L"1"),
+    m_focusManager(m_focusList)
 {
     InitializeVisualTree(compositor);
-    RegisterForInputEvents();
+    InitializeInputEvents();
 }
 
 void ReactNativeFrame::ConnectLeftFrame(
@@ -25,11 +27,22 @@ void ReactNativeFrame::ConnectLeftFrame(
     {
         // Automation flows through the Content APIs when the child is lifted content.
         m_leftContentPeer->SetChildSiteLink(m_leftChildSiteLink);
+
+        // Focus flows through the InputFocusNavigationHost API when the child is lifted content.
+        m_focusList->SetChildSiteLink(m_leftChildSiteLink, 2);
     }
     else
     {
         // Automation flows through an explicit IFrameHost API when the child is system content.
         m_leftContentPeer->SetChildFrame(frame);
+
+        // Set up hit testing so these visuals are treated as parent / child in the hit test tree.
+        // This is needed because a child system island does not implicitly get pointer events and
+        // needs to have hit testing forwarded by the parent island. 
+        HitTestContext::ConfigureCrossTreeConnection(leftContentVisualNode, frame->GetRootVisualTreeNode());
+
+        // Focus lists are directly linked together for a child system frame.
+        m_focusList->SetChildFocusList(frame->GetFocusList(), 2);
     }
 
     HandleContentLayout();
@@ -46,11 +59,22 @@ void ReactNativeFrame::ConnectRightFrame(
     {
         // Automation flows through the Content APIs when the child is lifted content.
         m_rightContentPeer->SetChildSiteLink(m_rightChildSiteLink);
+
+        // Focus flows through Content APIs when the child is lifted content.
+        m_focusList->SetChildSiteLink(m_rightChildSiteLink, 3);
     }
     else
     {
         // Automation flows through an explicit IFrameHost API when the child is system content.
         m_rightContentPeer->SetChildFrame(frame);
+
+        // Set up hit testing so these visuals are treated as parent / child in the hit test tree.
+        // This is needed because a child system island does not implicitly get pointer events and
+        // needs to have hit testing forwarded by the parent island. 
+        HitTestContext::ConfigureCrossTreeConnection(rightContentVisualNode, frame->GetRootVisualTreeNode());
+
+        // Focus lists are directly linked together for a system frame.
+        m_focusList->SetChildFocusList(frame->GetFocusList(), 3);
     }
 
     HandleContentLayout();
@@ -100,6 +124,10 @@ void ReactNativeFrame::InitializeVisualTree(
 
     // Insert the label into the tree.
     InsertTextVisual(m_labelVisual, m_automationTree, m_backgroundPeer);
+    m_acceleratorVisual.SetBackgroundColor(winrt::Microsoft::UI::Colors::OldLace());
+    m_acceleratorVisual.GetVisual().Offset(winrt::Windows::Foundation::Numerics::float3(m_labelVisual.Size().Width+3, 0, 0));
+    m_acceleratorVisual.GetVisual().IsVisible(false);
+    InsertTextVisual(m_acceleratorVisual, m_automationTree, m_backgroundPeer);
 
     // Partition the layout into 3 regions: top, bottom left, bottom right.
     m_topContentVisual = compositor.CreateContainerVisual();
@@ -128,6 +156,10 @@ void ReactNativeFrame::InitializeVisualTree(
     colorVisualNode->AddChild(m_clickSquareRoot);
 
     InitializeReactNativeContent();
+
+    m_focusList->AddVisual(topContentVisualTreeNode); // Index 1 (root visual is always 0)
+    m_focusList->AddPlaceholder(); // Left content - index 2
+    m_focusList->AddPlaceholder(); // Right content - index 3
 }
 
 void ReactNativeFrame::InitializeReactNativeContent()
@@ -182,12 +214,43 @@ void ReactNativeFrame::ActivateInteractionTracker(
     childVisual.StartAnimation(L"Offset", m_offsetAnimation);
 }
 
-void ReactNativeFrame::RegisterForInputEvents()
+void ReactNativeFrame::OnPreTranslateTreeMessage(
+    const MSG* msg,
+    UINT /*keyboardModifiers*/,
+    _Inout_ bool* handled)
+{
+    *handled = false;
+
+    if (msg->message == WM_SYSKEYDOWN || msg->message == WM_KEYDOWN)
+    {
+        if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Control)
+        {
+            m_acceleratorActive = !m_acceleratorActive;
+            m_acceleratorVisual.GetVisual().IsVisible(m_acceleratorActive);
+        }
+        else {
+            m_acceleratorActive = false;
+            m_acceleratorVisual.GetVisual().IsVisible(false);
+            if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Number1)
+            {
+                // Take focus
+                m_focusController.TrySetFocus();
+            }
+        }
+    }
+}
+
+void ReactNativeFrame::InitializeInputEvents()
 {
     auto island = GetIsland();
     m_pointerSource = winrt::InputPointerSource::GetForIsland(island);
     m_keyboardSource = winrt::InputKeyboardSource::GetForIsland(island);
+    m_preTranslateKeyboardSource = winrt::InputPreTranslateKeyboardSource::GetForIsland(island);
     m_activationListener = winrt::InputActivationListener::GetForIsland(island);
+    m_focusController = winrt::InputFocusController::GetForIsland(island);
+
+    // FocusManager will listen to all the focus events.
+    m_focusManager.InitializeWithFocusController(m_focusController);
 
     m_pointerSource.PointerPressed(
         [this](auto&& /*sender*/, auto&& args)
@@ -209,11 +272,21 @@ void ReactNativeFrame::RegisterForInputEvents()
             OnKeyPress(args.VirtualKey());
         });
 
+    m_preTranslateHandler = winrt::make_self<PreTranslateHandler>(this);
+    m_preTranslateKeyboardSource.as<winrt::Microsoft::UI::Input::IInputPreTranslateKeyboardSourceInterop>()->SetPreTranslateHandler(m_preTranslateHandler.get());
+
     m_activationListener.InputActivationChanged(
         [this](auto&& /*sender*/, auto&& /*args*/)
         {
             bool isActive = m_activationListener.State() == winrt::InputActivationState::Activated;
             OnActivationChanged(isActive);
+        });
+
+    GetRootVisualTreeNode()->HitTestCallback(
+        [this](const HitTestContext& context)
+        {
+            AddClickSquare(context.Point());
+            return true;
         });
 }
 
@@ -221,9 +294,14 @@ void ReactNativeFrame::OnClick(
     const winrt::PointerPoint& point)
 {
     // Unconditionally take focus
-    auto focusController = winrt::InputFocusController::GetForIsland(GetIsland());
-    focusController.TrySetFocus();
+    m_focusController.TrySetFocus();
 
+    HitTestContext context{ m_focusManager, GetRootVisualTreeNode() };
+    context.RunHitTest(point.Position(), point.Properties().IsRightButtonPressed());
+}
+
+void ReactNativeFrame::AddClickSquare(const winrt::Point& point)
+{
     auto clickSquareRootVisual = m_clickSquareRoot->Visual().as<winrt::ContainerVisual>();
     auto compositor = clickSquareRootVisual.Compositor();
 
@@ -237,7 +315,7 @@ void ReactNativeFrame::OnClick(
     // Color it blue
     auto blue = winrt::Windows::UI::Colors::DarkBlue();
     blueVisual.Brush(compositor.CreateColorBrush(blue));
-    blueVisual.Offset({point.Position().X - 5.0f, point.Position().Y - 5.0f, 0.0});
+    blueVisual.Offset({point.X - 5.0f, point.Y - 5.0f, 0.0});
 }
 
 void ReactNativeFrame::ActivateForPointer(
@@ -268,6 +346,20 @@ void ReactNativeFrame::OnKeyPress(
 
         auto brush = compositor.CreateColorBrush(color);
         m_topColorPeer->VisualNode()->Visual().as<winrt::SpriteVisual>().Brush(brush);
+    }
+    else if (key == winrt::Windows::System::VirtualKey::Tab)
+    {
+        // Key-state is a bitwise flag, check the "Down" flag specficially.
+        auto shiftState = m_keyboardSource.GetKeyState(winrt::Windows::System::VirtualKey::Shift);
+        bool isShiftDown = (shiftState & winrt::VirtualKeyStates::Down) != winrt::VirtualKeyStates::None;
+        if (isShiftDown)
+        {
+            m_focusManager.NavigateBackward();
+        }
+        else
+        {
+            m_focusManager.NavigateForward();
+        }
     }
 }
 

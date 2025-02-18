@@ -27,11 +27,22 @@ void NetUIFrame::ConnectFrame(
     {
         // Automation flows through the Content APIs when the child is lifted content.
         m_childContentPeer->SetChildSiteLink(m_childSiteLink);
+
+        // Focus flows through the InputFocusNavigationHost API when the child is lifted content.
+        m_focusList->SetChildSiteLink(m_childSiteLink, 1);
     }
     else
     {
         // Automation flows through an explicit IFrameHost API when the child is system content.
         m_childContentPeer->SetChildFrame(frame);
+
+        // Set up hit testing so these visuals are treated as parent / child in the hit test tree.
+        // This is needed because a child system island does not implicitly get pointer events and
+        // needs to have hit testing forwarded by the parent island.
+        HitTestContext::ConfigureCrossTreeConnection(childContentVisualNode, frame->GetRootVisualTreeNode());
+
+        // Focus lists are directly linked together for a child system frame.
+        m_focusList->SetChildFocusList(frame->GetFocusList(), 1);
     }
 
     HandleContentLayout();
@@ -60,6 +71,8 @@ void NetUIFrame::InitializeVisualTree(
     colorVisualNode->AddChild(childContentVisualNode);
     colorVisualPeer->Fragment()->AddChildToEnd(m_childContentPeer->Fragment());
     m_automationTree->AddPeer(m_childContentPeer);
+
+    m_focusList->AddPlaceholder(); // Child content - Index 1 (root visual is always 0)
 }
 
 void NetUIFrame::ActivateInteractionTracker(

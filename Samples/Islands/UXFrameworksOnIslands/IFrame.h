@@ -4,6 +4,7 @@
 
 #include <UIAutomation.h>
 #include "VisualTreeNode.h"
+#include "FocusList.h"
 
 struct IFrame
 {
@@ -16,6 +17,8 @@ struct IFrame
     [[nodiscard]] virtual winrt::ContentIsland GetIsland() const = 0;
 
     [[nodiscard]] virtual std::shared_ptr<VisualTreeNode> GetRootVisualTreeNode() const = 0;
+
+    [[nodiscard]] virtual std::shared_ptr<FocusList> GetFocusList() const = 0;
 
     [[nodiscard]] virtual bool IsLiftedFrame() const = 0;
 

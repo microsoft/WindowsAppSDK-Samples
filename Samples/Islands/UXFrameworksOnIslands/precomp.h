@@ -7,6 +7,8 @@
 #include <vector>
 #include <cstdio>
 #include <mutex>
+#include <functional>
+#include <variant>
 
 // Windows headers
 #define NOMINMAX
@@ -41,6 +43,7 @@
 #include <winrt/Microsoft.UI.Content.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
 #include <winrt/Microsoft.UI.Input.h>
+#include <winrt/Microsoft.UI.Input.InputPreTranslateSource.Interop.h>
 #include <winrt/Microsoft.UI.Windowing.h>
 
 // Interop headers

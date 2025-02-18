@@ -6,6 +6,7 @@
 #include "VisualUtils.h"
 #include "FrameDocker.h"
 #include "TextRenderer.h"
+#include "HitTestContext.h"
 
 RootFrame::RootFrame(
         const winrt::DispatcherQueue& queue,
@@ -19,7 +20,9 @@ RootFrame::RootFrame(
     m_forceAliasedTextCheckBox(GetOutput(), L"Force aliased text", settings, Setting_ForceAliasedText),
     m_disablePixelSnappingCheckBox(GetOutput(), L"Disable pixel snapping", settings, Setting_DisablePixelSnapping),
     m_showSpriteBoundsCheckBox(GetOutput(), L"Show sprite bounds", settings, Setting_ShowSpriteBounds),
-    m_showSpriteGenerationCheckBox(GetOutput(), L"Show sprite generation", settings, Setting_ShowSpriteGeneration)
+    m_showSpriteGenerationCheckBox(GetOutput(), L"Show sprite generation", settings, Setting_ShowSpriteGeneration),
+    m_showPopupVisualCheckBox(GetOutput(), L"Show popups", settings, Setting_ShowPopupVisual),
+    m_focusManager(m_focusList)
 {
     InitializeVisualTree(systemCompositor);
 
@@ -59,8 +62,19 @@ LRESULT RootFrame::HandleMessage(
             break;
         }
         case WM_KEYDOWN:
-        {    OnKeyPress(wParam);
+        {
+            OnKeyPress(wParam);
             *handled = true;
+            break;
+        }
+        case WM_SETFOCUS:
+        {
+            m_focusManager.RestoreFocus();
+            break;
+        }
+        case WM_KILLFOCUS:
+        {
+            m_focusManager.ClearFocus();
             break;
         }
     }
@@ -78,11 +92,22 @@ void RootFrame::ConnectLeftFrame(IFrame* frame)
     {
         // Automation flows through the Content APIs when the child is lifted content.
         m_leftContentPeer->SetChildSiteLink(m_leftChildSiteLink);
+
+        // Focus flows through the InputFocusNavigationHost API when the child is lifted content.
+        m_focusList->SetChildSiteLink(m_rightChildSiteLink, 2);
     }
     else
     {
         // Automation flows through an explicit IFrameHost API when the child is system content.
         m_leftContentPeer->SetChildFrame(frame);
+
+        // Set up hit testing so these visuals are treated as parent / child in the hit test tree.
+        // This is needed because a child system island does not implicitly get pointer events and
+        // needs to have hit testing forwarded by the parent island.
+        HitTestContext::ConfigureCrossTreeConnection(leftContentVisualNode, frame->GetRootVisualTreeNode());
+
+        // Focus lists are directly linked together for a child system frame.
+        m_focusList->SetChildFocusList(frame->GetFocusList(), 2);
     }
 
     HandleContentLayout();
@@ -98,11 +123,22 @@ void RootFrame::ConnectRightFrame(IFrame* frame)
     {
         // Automation flows through the Content APIs when the child is lifted content.
         m_rightContentPeer->SetChildSiteLink(m_rightChildSiteLink);
+
+        // Focus flows through Content APIs when the child is lifted content.
+        m_focusList->SetChildSiteLink(m_rightChildSiteLink, 3);
     }
     else
     {
         // Automation flows through an explicit IFrameHost API when the child is system content.
         m_rightContentPeer->SetChildFrame(frame);
+
+        // Set up hit testing so these visuals are treated as parent / child in the hit test tree.
+        // This is needed because a child system island does not implicitly get pointer events and
+        // needs to have hit testing forwarded by the parent island.
+        HitTestContext::ConfigureCrossTreeConnection(rightContentVisualNode, frame->GetRootVisualTreeNode());
+
+        // Focus lists are directly linked together for a system frame.
+        m_focusList->SetChildFocusList(frame->GetFocusList(), 3);
     }
 
     HandleContentLayout();
@@ -139,6 +175,11 @@ winrt::com_ptr<::IRawElementProviderFragment> RootFrame::GetPreviousSiblingProvi
     return nullptr;
 }
 
+void RootFrame::SetFocusHost(IFocusHost* focusHost)
+{
+    m_focusManager.InitializeWithFocusHost(focusHost);
+}
+
 winrt::Point RootFrame::PointFromLParam(
     LPARAM lParam) const
 {
@@ -155,6 +196,11 @@ void RootFrame::InitializeVisualTree(
 {
     auto rootVisual = compositor.CreateSpriteVisual();
     auto rootVisualNode = VisualTreeNode::Create(rootVisual.as<::IUnknown>());
+    rootVisualNode->HitTestCallback([this](const HitTestContext& context) {
+        AddClickSquare(context.Point(), context.IsRightClick());
+        return true;
+    });
+
     auto rootVisualPeer = m_automationTree->CreatePeer(rootVisualNode, k_rootFrameName, UIA_PaneControlTypeId);
     GetRootVisualTreeNode()->AddChild(rootVisualNode);
     m_automationTree->Root()->AddChildToEnd(rootVisualPeer->Fragment());
@@ -195,6 +241,11 @@ void RootFrame::InitializeVisualTree(
     auto clickSquareRoot = compositor.CreateContainerVisual();
     m_clickSquareRoot = VisualTreeNode::Create(clickSquareRoot.as<::IUnknown>());
     rootVisualNode->AddChild(m_clickSquareRoot);
+
+    // Setup our focus list
+    m_focusList->AddVisual(m_ribbonContentPeer->VisualNode()); // Index 1 (root visual is always 0)
+    m_focusList->AddPlaceholder(); // Left content - index 2
+    m_focusList->AddPlaceholder(); // Right content - index 3
 }
 
 void RootFrame::InitializeDocumentContent()
@@ -274,48 +325,26 @@ void RootFrame::InitializeRibbonContent()
     m_automationTree->AddPeer(m_ribbonContentPeer);
     m_ribbonContentVisual.Brush(ribbonBrush);
 
-    InsertCheckBoxVisual(m_forceAliasedTextCheckBox, m_automationTree, m_ribbonPeer);
-    InsertCheckBoxVisual(m_disablePixelSnappingCheckBox, m_automationTree, m_ribbonPeer);
-    InsertCheckBoxVisual(m_showSpriteBoundsCheckBox, m_automationTree, m_ribbonPeer);
-    InsertCheckBoxVisual(m_showSpriteGenerationCheckBox, m_automationTree, m_ribbonPeer);
-}
-
-bool RootFrame::HitTestCheckBox(const winrt::Point& point, SystemCheckBox& control)
-{
-    auto visual = control.GetVisual();
-    auto offset = m_ribbonRootVisual.Offset() + visual.Offset();
-    float scale = visual.Scale().x;
-    auto size = visual.Size() * scale;
-
-    float x = point.X - offset.x;
-    float y = point.Y - offset.y;
-
-    if (x >= 0.0f && x <= size.x && y >= 0.0f && y <= size.y)
-    {
-        control.ToggleCheckState();
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    InsertCheckBoxVisual(m_forceAliasedTextCheckBox, m_automationTree, m_ribbonContentPeer);
+    InsertCheckBoxVisual(m_disablePixelSnappingCheckBox, m_automationTree, m_ribbonContentPeer);
+    InsertCheckBoxVisual(m_showSpriteBoundsCheckBox, m_automationTree, m_ribbonContentPeer);
+    InsertCheckBoxVisual(m_showSpriteGenerationCheckBox, m_automationTree, m_ribbonContentPeer);
+    InsertCheckBoxVisual(m_showPopupVisualCheckBox, m_automationTree, m_ribbonContentPeer);
 }
 
 void RootFrame::OnClick(
     const winrt::Point& point,
     bool isRightClick)
 {
-    if (!isRightClick)
-    {
-        if (HitTestCheckBox(point, m_forceAliasedTextCheckBox) ||
-            HitTestCheckBox(point, m_disablePixelSnappingCheckBox) ||
-            HitTestCheckBox(point, m_showSpriteBoundsCheckBox) ||
-            HitTestCheckBox(point, m_showSpriteGenerationCheckBox))
-        {
-            return;
-        }
-    }
+    // Run a hittest. This will invoke any callbacks on the visual tree nodes.
+    HitTestContext context{ m_focusManager, GetRootVisualTreeNode() };
+    context.RunHitTest(point, isRightClick);
+}
 
+void RootFrame::AddClickSquare(
+    const winrt::Point& point,
+    bool isRightClick)
+{
     auto compositor = m_clickSquareRoot->Visual().as<winrt::WUC::ContainerVisual>().Compositor();
 
     // Create a 10x10 visual
@@ -365,6 +394,17 @@ void RootFrame::OnKeyPress(
     {
         m_rotationAngle = (m_rotationAngle + 1) % m_rotationAngleLimit;
         HandleContentLayout();
+    }
+    else if (wParam == VK_TAB)
+    {
+        if ((GetKeyState(VK_SHIFT) & 0x8000) != 0)
+        {
+            m_focusManager.NavigateBackward();
+        }
+        else
+        {
+            m_focusManager.NavigateForward();
+        }
     }
 }
 
@@ -451,7 +491,7 @@ void RootFrame::HandleContentLayout()
 
     // Position the check boxes within the ribbon.
     float checkBoxLeft = 100.0f * displayScale;
-    for (auto* control : { &m_forceAliasedTextCheckBox, &m_disablePixelSnappingCheckBox, &m_showSpriteBoundsCheckBox, &m_showSpriteGenerationCheckBox })
+    for (auto* control : { &m_forceAliasedTextCheckBox, &m_disablePixelSnappingCheckBox, &m_showSpriteBoundsCheckBox, &m_showSpriteGenerationCheckBox, &m_showPopupVisualCheckBox })
     {
         auto& visual = control->GetVisual();
         visual.Offset({ checkBoxLeft, inset * 2, 0.0f });

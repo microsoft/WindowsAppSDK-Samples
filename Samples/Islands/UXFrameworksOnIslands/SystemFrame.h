@@ -27,6 +27,8 @@ public:
 
     [[nodiscard]] std::shared_ptr<VisualTreeNode> GetRootVisualTreeNode() const final override { return m_rootVisualTreeNode; }
 
+    [[nodiscard]] virtual std::shared_ptr<FocusList> GetFocusList() const final override { return m_focusList; }
+
     [[nodiscard]] bool IsLiftedFrame() const final { return false; }
 
     LRESULT HandleMessage(
@@ -53,6 +55,7 @@ protected:
 
     IFrameHost const* m_frameHost = nullptr;
     std::shared_ptr<AutomationTree> m_automationTree = nullptr;
+    std::shared_ptr<FocusList> m_focusList{};
 
 private:
     void OnSettingChanged(SettingId id) override;
