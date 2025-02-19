@@ -3,6 +3,7 @@
 #pragma once
 #include "TextVisual.h"
 #include "SettingCollection.h"
+#include "VisualTreeNode.h"
 
 template<class T>
 class CheckBox final : SettingChangedHandler
@@ -20,6 +21,11 @@ public:
     auto& GetVisual() const noexcept
     {
         return m_containerVisual;
+    }
+
+    auto& GetVisualNode() const noexcept
+    {
+        return m_visualNode;
     }
 
     auto& GetText() const noexcept
@@ -49,6 +55,7 @@ private:
     TextVisual<T> m_label;
     winrt::Size m_size;
     SettingId m_settingId;
+    std::shared_ptr<VisualTreeNode> m_visualNode;
 };
 
 using LiftedCheckBox = CheckBox<winrt::Compositor>;
@@ -62,7 +69,7 @@ void InsertCheckBoxVisual(
     std::shared_ptr<AutomationPeer> const& parentPeer
     )
 {
-    auto visualNode = VisualTreeNode::Create(checkBox.GetVisual().as<IUnknown>());
+    auto& visualNode = checkBox.GetVisualNode();
     auto visualPeer = automationTree->CreatePeer(visualNode, checkBox.GetText(), UIA_CheckBoxControlTypeId);
     parentPeer->VisualNode()->AddChild(visualNode);
     parentPeer->Fragment()->AddChildToEnd(visualPeer->Fragment());

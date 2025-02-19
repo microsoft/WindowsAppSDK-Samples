@@ -6,6 +6,10 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
 
+#include "HitTestContext.h"
+
+class FocusList;
+
 struct VisualTreeNode : std::enable_shared_from_this<VisualTreeNode>
 {
     [[nodiscard]] static std::shared_ptr<VisualTreeNode> Create(
@@ -39,6 +43,16 @@ struct VisualTreeNode : std::enable_shared_from_this<VisualTreeNode>
     [[nodiscard]] bool Match(_In_ winrt::com_ptr<::IUnknown> const& visual) const noexcept;
     [[nodiscard]] winrt::com_ptr<::IUnknown> Visual() const noexcept { std::unique_lock lock{ m_mutex }; return m_visual; }
 
+    void HitTestCallback(_In_ ::HitTestCallback const& value) noexcept { m_hitTestCallback = value; }
+    [[nodiscard]] ::HitTestCallback const& HitTestCallback() const noexcept { return m_hitTestCallback; }
+
+    void OwningFocusList(_In_ const std::weak_ptr<FocusList>& value) noexcept { m_owningFocusList = value; }
+    [[nodiscard]] std::shared_ptr<FocusList> OwningFocusList() const noexcept { return m_owningFocusList.lock(); }
+
+    std::shared_ptr<VisualTreeNode> Parent() const noexcept { return m_parent.lock(); }
+
+    void IsBorderVisible(bool visible);
+
 private:
     void Initialize(_In_ winrt::com_ptr<::IUnknown> const& visual);
 
@@ -64,9 +78,13 @@ private:
     mutable std::mutex m_mutex{};
 
     winrt::com_ptr<::IUnknown> m_visual{ nullptr };
+    winrt::com_ptr<::IUnknown> m_borderVisual{ nullptr };
     winrt::Windows::Foundation::Numerics::float2 m_size{ 0.0f, 0.0f };
     winrt::Windows::Foundation::Numerics::float4x4 m_transform{ winrt::Windows::Foundation::Numerics::float4x4::identity() };
 
     std::weak_ptr<VisualTreeNode> m_parent{};
     std::vector<std::shared_ptr<VisualTreeNode>> m_children{};
+
+    ::HitTestCallback m_hitTestCallback{};
+    std::weak_ptr<FocusList> m_owningFocusList{};
 };

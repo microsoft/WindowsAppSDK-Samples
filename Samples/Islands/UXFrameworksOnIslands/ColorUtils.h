@@ -20,6 +20,16 @@ public:
         return FromHexValue(0xffc4d9ee);
     }
 
+    static inline winrt::Windows::UI::Color LightRed()
+    {
+        return FromHexValue(0xffb0004f);
+    }
+
+    static inline winrt::Windows::UI::Color DarkRed()
+    {
+        return FromHexValue(0xff89023e);
+    }
+    
     static inline winrt::Windows::UI::Color LightBrown()
     {
         return FromHexValue(0xffe6d6b5);

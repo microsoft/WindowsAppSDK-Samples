@@ -56,6 +56,17 @@ CheckBox<T>::CheckBox(
     m_size.Height = m_emptyCheckBox.Size().Height;
 
     m_containerVisual.Size(m_size);
+
+    m_visualNode = VisualTreeNode::Create(m_containerVisual.as<::IUnknown>());
+    m_visualNode->HitTestCallback([this](const HitTestContext& context) {
+        if (context.IsRightClick())
+        {
+            return false;
+        }
+
+        ToggleCheckState();
+        return true;
+    });
 }
 
 template<class T>

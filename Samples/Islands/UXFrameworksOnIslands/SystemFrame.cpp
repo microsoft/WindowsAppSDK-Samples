@@ -17,6 +17,9 @@ SystemFrame::SystemFrame(
     m_island = winrt::ContentIsland::CreateForSystemVisual(queue, rootVisual);
     m_automationTree = AutomationTree::Create(this, L"SystemFrame", UIA_PaneControlTypeId);
 
+    m_focusList = FocusList::Create();
+    m_focusList->AddVisual(m_rootVisualTreeNode);
+
     // Set up a handler for size changes
     m_islandStateChangedRevoker = { m_island, m_island.StateChanged([&](
         auto&&,  
@@ -42,7 +45,7 @@ void SystemFrame::OnSettingChanged(SettingId id)
 {
     GetOutput().GetResourceList()->OnSettingChanged(GetOutput(), id);
 
-    if (id == Setting_DisablePixelSnapping)
+    if (id == Setting_DisablePixelSnapping || id == Setting_ShowPopupVisual)
     {
         HandleContentLayout();
     }
@@ -58,12 +61,13 @@ winrt::ChildSiteLink SystemFrame::ConnectChildFrame(
     // appropriately. This can go away once we support input in a system island.
     if (!frame->IsLiftedFrame())
     {
-        childSiteLink.InputCapabilities(winrt::InputCapabilities::None);
-        childSiteLink.AutomationTreeOption(winrt::AutomationTreeOptions::None);
+        childSiteLink.AutomationOption(winrt::ContentAutomationOptions::None);
+        childSiteLink.ProcessKeyboardInput(false);
+        childSiteLink.ProcessPointerInput(false);
     }
     else
     {
-        childSiteLink.AutomationTreeOption(winrt::AutomationTreeOptions::FragmentBased);
+        childSiteLink.AutomationOption(winrt::ContentAutomationOptions::FragmentBased);
     }
 
     childSiteLink.Connect(frame->GetIsland());

@@ -5,6 +5,7 @@
 #include "SystemFrame.h"
 #include "TextVisual.h"
 #include "CheckBox.h"
+#include "FocusManager.h"
 
 class RootFrame final : public SystemFrame, public IFrameHost
 {
@@ -29,6 +30,10 @@ public:
     [[nodiscard]] winrt::com_ptr<::IRawElementProviderFragment> GetParentProviderForChildFrame(_In_ IFrame const* const sender) const override;
     [[nodiscard]] winrt::com_ptr<::IRawElementProviderFragment> GetPreviousSiblingProviderForChildFrame(_In_ IFrame const* const sender) const override;
 
+    // The RootFrame needs to communicate with the ToplevelWindow in order to handle focus.
+    // This is done through the IFocusHost interface.
+    void SetFocusHost(IFocusHost* focusHost);
+
 private:
     static constexpr float k_inset = 10.0f;
     static constexpr float k_ribbonHeight = 100.0f;
@@ -50,9 +55,11 @@ private:
     void InitializeDocumentContent();
     void InitializeRibbonContent();
 
-    bool HitTestCheckBox(const winrt::Point& point, SystemCheckBox& control);
-
     void OnClick(
+        const winrt::Point& point,
+        bool isRightClick);
+
+    void AddClickSquare(
         const winrt::Point& point,
         bool isRightClick);
 
@@ -84,6 +91,7 @@ private:
     SystemCheckBox m_disablePixelSnappingCheckBox;
     SystemCheckBox m_showSpriteBoundsCheckBox;
     SystemCheckBox m_showSpriteGenerationCheckBox;
+    SystemCheckBox m_showPopupVisualCheckBox;
 
     winrt::WUC::ContainerVisual m_ribbonRootVisual{nullptr};
     winrt::WUC::ContainerVisual m_documentRootVisual{nullptr};
@@ -100,5 +108,7 @@ private:
     std::shared_ptr<AutomationPeer> m_ribbonContentPeer = nullptr;
 
     ContentIslandEnvironmentStateChanged_revoker m_islandEnvironmentStateChangedRevoker{};
+
+    FocusManager m_focusManager;
 };
 

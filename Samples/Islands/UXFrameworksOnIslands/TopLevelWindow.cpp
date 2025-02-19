@@ -17,9 +17,10 @@ TopLevelWindow::TopLevelWindow(
 void TopLevelWindow::ConnectFrameToWindow(
     IFrame* frame)
 {
-    // Mark the bridge with no input capabilities so that input doesn't go to the island but
-    // instead goes to our window.
-    m_bridge.InputCapabilities(winrt::InputCapabilities::None);
+    // Mark the bridge with no keyboard or pointer input processing capabilities 
+    // so that input doesn't go to the island but instead goes to the window.
+    m_bridge.ProcessKeyboardInput(false);
+    m_bridge.ProcessPointerInput(false);
 
     m_bridge.Connect(frame->GetIsland());
 
@@ -147,6 +148,11 @@ winrt::com_ptr<::IRawElementProviderFragment> TopLevelWindow::GetPreviousSibling
 {
     // The RootFrame is the only frame directly connected to the ReadOnlyDesktopSiteBridge.
     return nullptr;
+}
+
+void TopLevelWindow::EnsureWin32Focus() const
+{
+    ::SetFocus(m_hwnd);
 }
 
 /*static*/

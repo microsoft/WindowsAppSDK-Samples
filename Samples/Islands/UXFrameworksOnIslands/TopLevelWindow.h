@@ -4,6 +4,7 @@
 
 #include "IFrame.h"
 #include "IFrameHost.h"
+#include "IFocusHost.h"
 #include "AutomationFragmentRoot.h"
 #include "EventRevokers.h"
 
@@ -12,7 +13,8 @@ class TopLevelWindow :
     public AutomationHelpers::IAutomationFragmentCallbackHandler,
     public AutomationHelpers::IAutomationFragmentRootCallbackHandler,
     public AutomationHelpers::IAutomationExternalChildCallbackHandler,
-    public IFrameHost
+    public IFrameHost,
+    public IFocusHost
 {
 public:
     TopLevelWindow(
@@ -66,6 +68,9 @@ public:
     winrt::com_ptr<::IRawElementProviderFragment> GetPreviousSiblingProviderForChildFrame(
         _In_ IFrame const* const sender
         ) const override;
+
+    // IFocusHost implementation
+    void EnsureWin32Focus() const override;
 
 private:
     static LRESULT CALLBACK WindowProc(
