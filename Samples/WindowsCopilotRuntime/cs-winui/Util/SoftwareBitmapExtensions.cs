@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -32,10 +33,7 @@ internal static class SoftwareBitmapExtensions
 
     public static async Task<SoftwareBitmap> FilePathToSoftwareBitmapAsync(this string filePath)
     {
-        var uri = new Uri("ms-appx:///" + filePath);
-        StorageFile inputFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-
-        using IRandomAccessStream stream = await inputFile.OpenAsync(FileAccessMode.Read);
+        using IRandomAccessStream stream = await StorageFileExtensions.CreateStreamAsync(filePath);
         // Create the decoder from the stream
         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
         // Get the SoftwareBitmap representation of the file

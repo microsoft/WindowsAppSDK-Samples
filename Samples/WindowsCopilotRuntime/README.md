@@ -32,3 +32,11 @@ join the [Windows Insider Program](https://insider.windows.com).
 
 -   Open the solution file (`.sln`) in Visual Studio.
 -   From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
+
+## Special Considerations for Debugging as an Unpackaged App
+
+- This project is not designed to be fully functional in an unpackaged app. However, Windows Copilot Runtime does support unpackaged app.
+- To enable proper functionality, you need to bootstrap the Windows App SDK either programmatically or by adding the following configuration to the `.csproj` file during the build process:
+ ```xml
+  <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
+  ```

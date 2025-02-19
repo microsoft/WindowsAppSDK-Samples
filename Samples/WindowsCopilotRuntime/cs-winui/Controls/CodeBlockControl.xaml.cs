@@ -38,7 +38,7 @@ public sealed partial class CodeBlockControl : UserControl
     {
         if (SourceFile != null)
         {
-            _content = await SourceFile.ReadFromStorageFileAsync();
+            _content = await SourceFile.ReadTextAsync();
             codeBlock.Blocks.Clear();
             codeBlock.Blocks.Add(HighlightSyntax(_content));
         }
