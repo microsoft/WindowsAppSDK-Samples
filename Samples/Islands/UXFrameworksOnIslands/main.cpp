@@ -7,6 +7,7 @@
 #endif 
 #include "NetUIFrame.h"
 #include "Output.h"
+#include "PopupFrame.h"
 #include "ReactNativeFrame.h"
 #include "RootFrame.h"
 #include "TopLevelWindow.h"
@@ -22,11 +23,11 @@ void InitializeFramesAndRun(
     //
     //                  RootFrame
     //                 /       |
-    //           NetUIFrame  WebViewFrame
+    //           NetUIFrame   WebViewFrame
     //              / 
     //        ReactNativeFrame
-    //            /
-    //      WinUIFrame
+    //           /
+    //     WinUIFrame
 
     // Create the top level window (which wraps an app window)
     auto queue = compositor.DispatcherQueue();
@@ -48,10 +49,11 @@ void InitializeFramesAndRun(
     // Connect everything together. Set FrameHosts for System frames to ensure automation is 
     // being handled by the IFrameHost API as the Content automation APIs are disabled. 
     // Lifted islands are hooked up into the larger system-wide automation tree via the Content 
-    // automation APIs in FragmentBased mode. See the AutomationTreeOption setup in 
+    // automation APIs in FragmentBased mode. See the AutomationOption setup in 
     // SystemFrame::ConnectChildFrame and LiftedFrame::ConnectChildFrame.
     topLevelWindow.ConnectFrameToWindow(&rootFrame);
     rootFrame.SetFrameHost(&topLevelWindow);
+    rootFrame.SetFocusHost(&topLevelWindow);
 
     rootFrame.ConnectLeftFrame(&netUIFrame);
     netUIFrame.SetFrameHost(&rootFrame);
@@ -62,6 +64,16 @@ void InitializeFramesAndRun(
     netUIFrame.ConnectFrame(&reactNativeFrame);
 
     reactNativeFrame.ConnectLeftFrame(&winUIFrame);
+
+    // Connect the popup frames
+
+    PopupFrame popupRoot{ compositor, settings };
+
+    PopupFrame popupChild{ compositor, settings };
+
+    winUIFrame.ConnectPopupFrame(&popupRoot);
+
+    popupRoot.ConnectPopupFrame(&popupChild);
 
     // Run the message loop
     queue.RunEventLoop();

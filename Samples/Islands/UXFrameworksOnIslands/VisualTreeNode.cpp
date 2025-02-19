@@ -194,6 +194,66 @@ bool VisualTreeNode::Match(_In_ winrt::com_ptr<::IUnknown> const& visual) const 
     return m_visual.get() == visual.get();
 }
 
+// Helpers
+namespace
+{
+    template <class TContainerVisual>
+    winrt::com_ptr<::IUnknown> AddBorderAsChildHelper(const TContainerVisual& parent)
+    {
+        auto compositor = parent.Compositor();
+        auto borderVisual = compositor.CreateSpriteVisual();
+        borderVisual.RelativeSizeAdjustment({ 1.0f, 1.0f });
+        parent.Children().InsertAtTop(borderVisual);
+
+        // Create a nine-grid brush with a black color
+        auto colorBrush = compositor.CreateColorBrush(winrt::Windows::UI::Colors::Yellow());
+        auto ninegrid = compositor.CreateNineGridBrush();
+        ninegrid.Source(colorBrush);
+        ninegrid.SetInsets(2.5f);
+        ninegrid.IsCenterHollow(true);
+
+        borderVisual.Brush(ninegrid);
+
+        return borderVisual.as<::IUnknown>();
+    }
+}
+
+void VisualTreeNode::IsBorderVisible(bool enable)
+{
+    std::unique_lock lock{ m_mutex };
+    bool alreadyVisible = m_borderVisual != nullptr;
+    if (enable == alreadyVisible)
+    {
+        // No work to do.
+        return;
+    }
+
+    if (auto parent = m_visual.try_as<winrt::Windows::UI::Composition::ContainerVisual>())
+    {
+        if (enable)
+        {
+            m_borderVisual = AddBorderAsChildHelper(parent);
+        }
+        else
+        {
+            parent.Children().Remove(m_borderVisual.as<winrt::Windows::UI::Composition::Visual>());
+            m_borderVisual = nullptr;
+        }
+    }
+    else if (auto parent2 = m_visual.try_as<winrt::Microsoft::UI::Composition::ContainerVisual>())
+    {
+        if (enable)
+        {
+            m_borderVisual = AddBorderAsChildHelper(parent2);
+        }
+        else
+        {
+            parent2.Children().Remove(m_borderVisual.as<winrt::Microsoft::UI::Composition::Visual>());
+            m_borderVisual = nullptr;
+        }
+    }
+}
+
 void VisualTreeNode::Initialize(_In_ winrt::com_ptr<::IUnknown> const& visual)
 {
     m_visual = visual;

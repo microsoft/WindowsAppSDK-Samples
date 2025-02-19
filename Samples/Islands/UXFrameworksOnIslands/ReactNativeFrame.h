@@ -4,6 +4,8 @@
 
 #include "LiftedFrame.h"
 #include "TextVisual.h"
+#include "FocusManager.h"
+#include "PreTranslateHandler.h"
 
 class ReactNativeFrame final : public LiftedFrame, public IFrameHost
 {
@@ -27,10 +29,12 @@ private:
 
     void InitializeReactNativeContent();
 
-    void RegisterForInputEvents();
+    void InitializeInputEvents();
 
     void OnClick(
         const winrt::PointerPoint& point);
+
+    void AddClickSquare(const winrt::Point& point);
 
     void ActivateForPointer(
         const winrt::PointerPoint& point);
@@ -48,12 +52,19 @@ private:
         const winrt::Visual& parentVisual, 
         const winrt::Visual& childVisual);
 
+    void OnPreTranslateTreeMessage(
+        const MSG* msg,
+        UINT keyboardModifiers,
+        _Inout_ bool* handled) override;
+
 private:
     static constexpr wchar_t k_frameName[] = L"ReactNative";
     static constexpr float k_inset = 10.0f;
     static constexpr float k_size = 500.f;
 
     LiftedTextVisual m_labelVisual;
+    LiftedTextVisual m_acceleratorVisual;
+    bool m_acceleratorActive = false;
     std::shared_ptr<VisualTreeNode> m_clickSquareRoot = nullptr;
 
     winrt::ChildSiteLink m_leftChildSiteLink = nullptr;
@@ -74,9 +85,13 @@ private:
 
     winrt::InputPointerSource m_pointerSource = nullptr;
     winrt::InputKeyboardSource m_keyboardSource = nullptr;
+    winrt::InputPreTranslateKeyboardSource m_preTranslateKeyboardSource = nullptr;
     winrt::InputActivationListener m_activationListener = nullptr;
+    winrt::InputFocusController m_focusController = nullptr;
 
     winrt::InteractionTracker m_interactionTracker{nullptr};
     winrt::VisualInteractionSource m_source{nullptr};
     winrt::ExpressionAnimation m_offsetAnimation{nullptr};
+    FocusManager m_focusManager;
+    winrt::com_ptr<PreTranslateHandler> m_preTranslateHandler{nullptr};
 };

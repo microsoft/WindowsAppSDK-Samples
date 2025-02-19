@@ -24,6 +24,8 @@ public:
 
     [[nodiscard]] std::shared_ptr<VisualTreeNode> GetRootVisualTreeNode() const final override { return m_rootVisualTreeNode; }
 
+    [[nodiscard]] virtual std::shared_ptr<FocusList> GetFocusList() const final override { return m_focusList; }
+
     [[nodiscard]] bool IsLiftedFrame() const final { return true; }
 
     LRESULT HandleMessage(
@@ -39,17 +41,31 @@ public:
 
     auto& GetOutput() noexcept { return m_output; }
 
+    virtual void OnPreTranslateDirectMessage(
+        const MSG* msg,
+        UINT keyboardModifiers,
+        _Inout_ bool* handled);
+
+    virtual void OnPreTranslateTreeMessage(
+        const MSG* msg,
+        UINT keyboardModifiers,
+        _Inout_ bool* handled);
+
 protected:
     winrt::ChildSiteLink ConnectChildFrame(
         IFrame* frame,
         const winrt::ContainerVisual& childPlacementVisual);
 
+    winrt::DesktopPopupSiteBridge ConnectPopupFrame(
+        IFrame* frame);
+
     virtual void HandleContentLayout();
 
     IFrameHost const* m_frameHost = nullptr;
     std::shared_ptr<AutomationTree> m_automationTree = nullptr;
+    std::shared_ptr<FocusList> m_focusList{};
 
-protected:
+private:
     void OnSettingChanged(SettingId id) override;
 
     LiftedOutput m_output;

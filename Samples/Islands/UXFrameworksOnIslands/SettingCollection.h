@@ -7,7 +7,8 @@ enum SettingId
     Setting_ForceAliasedText,
     Setting_DisablePixelSnapping,
     Setting_ShowSpriteBounds,
-    Setting_ShowSpriteGeneration
+    Setting_ShowSpriteGeneration,
+    Setting_ShowPopupVisual
 };
 
 class ISettingChangedHandler
