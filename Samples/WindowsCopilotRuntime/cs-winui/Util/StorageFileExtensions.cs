@@ -21,7 +21,7 @@ internal static class StorageFileExtensions
 
         if (IsPackagedApp)
         {
-            StorageFile file = await CreateStroageFile(filepath);
+            StorageFile file = await CreateStorageFile(filepath);
             string content = await FileIO.ReadTextAsync(file);
             return content;
         }
@@ -42,7 +42,7 @@ internal static class StorageFileExtensions
 
         if (IsPackagedApp)
         {
-            StorageFile file = await CreateStroageFile(filepath);
+            StorageFile file = await CreateStorageFile(filepath);
             return await file.OpenAsync(FileAccessMode.Read);
         }
         else
@@ -51,7 +51,7 @@ internal static class StorageFileExtensions
             return File.OpenRead(filePath).AsRandomAccessStream();
         }
     }
-    private static Task<StorageFile> CreateStroageFile(string filepath)
+    private static Task<StorageFile> CreateStorageFile(string filepath)
     {
         var uri = new Uri("ms-appx:///" + filepath);
         return StorageFile.GetFileFromApplicationUriAsync(uri).AsTask();
