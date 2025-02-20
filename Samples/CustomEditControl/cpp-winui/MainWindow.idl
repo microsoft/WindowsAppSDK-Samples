@@ -1,0 +1,11 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace CustomEditControlCpp
+{
+    [default_interface]
+    runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+    }
+}

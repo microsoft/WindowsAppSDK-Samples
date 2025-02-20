@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CustomEditControlSampleCs (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CustomEditControlSampleCs (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
