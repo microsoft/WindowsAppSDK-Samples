@@ -6,7 +6,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
-using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace WindowsCopilotRuntimeSample.Util;
@@ -32,10 +31,7 @@ internal static class SoftwareBitmapExtensions
 
     public static async Task<SoftwareBitmap> FilePathToSoftwareBitmapAsync(this string filePath)
     {
-        var uri = new Uri("ms-appx:///" + filePath);
-        StorageFile inputFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-
-        using IRandomAccessStream stream = await inputFile.OpenAsync(FileAccessMode.Read);
+        using IRandomAccessStream stream = await StorageFileExtensions.CreateStreamAsync(filePath);
         // Create the decoder from the stream
         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
         // Get the SoftwareBitmap representation of the file

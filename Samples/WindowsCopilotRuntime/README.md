@@ -32,3 +32,15 @@ join the [Windows Insider Program](https://insider.windows.com).
 
 -   Open the solution file (`.sln`) in Visual Studio.
 -   From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
+
+## Special Considerations for Debugging as an Unpackaged App in Visual Studio
+
+- This project is not designed to be fully functional in an unpackaged app. However, Windows Copilot Runtime does support unpackaged app.
+- To enable proper startup as an unpackaged app, you need to bootstrap the Windows App SDK either Programmatically or By adding the following configuration to the `.csproj` file during the build process:
+ ```xml
+  <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
+ ```
+- Alternatively, if you are using the Developer Command Prompt for Visual Studio, you can run the app as an ARM64 version using the following command, with the bootstrap property provided:
+```powershell
+dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsPackageType=None -p:WindowsAppSdkBootstrapInitialize=true
+```
