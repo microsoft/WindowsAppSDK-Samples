@@ -24,6 +24,7 @@
 	</PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\ModelInitializationControl.xaml" />
+    <None Remove="Controls\PerformanceNotification.xaml" />
     <None Remove="Examples\ImageObjectExtractor.md" />
     <None Remove="Examples\ImageObjectExtractorInit.md" />
     <None Remove="Examples\ImageScaler.md" />
@@ -67,6 +68,11 @@
     <Content Update="Assets\harbor.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\PerformanceNotification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ImageDescriptionPage.xaml">

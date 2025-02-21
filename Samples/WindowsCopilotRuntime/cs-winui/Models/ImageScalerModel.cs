@@ -7,6 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using System.Diagnostics;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -37,6 +38,11 @@ internal class ImageScalerModel : IModelManager
 
     public SoftwareBitmap ScaleSoftwareBitmap(SoftwareBitmap inputImage, int width, int height)
     {
-        return Session.ScaleSoftwareBitmap(inputImage, width, height);
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        SoftwareBitmap bitmap = Session.ScaleSoftwareBitmap(inputImage, width, height);
+        stopwatch.Stop();
+        (App.Current as App).timerMap.Add("ImageScaler", stopwatch.ElapsedMilliseconds);
+
+        return bitmap;
     }
 }

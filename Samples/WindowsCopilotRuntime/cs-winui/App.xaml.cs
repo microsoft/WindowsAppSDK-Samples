@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using System;
+using System.Collections.Generic;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -11,6 +12,7 @@ namespace WindowsCopilotRuntimeSample
 {
     public partial class App : Application
     {
+        public Dictionary<string, long> timerMap = [];
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             Window = new MainWindow();

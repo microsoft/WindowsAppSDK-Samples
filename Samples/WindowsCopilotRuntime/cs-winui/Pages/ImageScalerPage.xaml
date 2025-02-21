@@ -83,6 +83,7 @@
                                 Command="{Binding ScaleCommand}">Scale Image</Button>
                         <ProgressRing Visibility="{Binding ScaleCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </StackPanel>
+                    <controls:PerformanceNotification />
                     <controls:CodeBlockControl SourceFile="Examples/ImageScaler.md"
                             Margin="10"/>
                 </StackPanel>
