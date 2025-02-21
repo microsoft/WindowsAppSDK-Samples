@@ -20,7 +20,6 @@
 		<GenerateTestArtifacts>True</GenerateTestArtifacts>
 		<AppxBundle>Never</AppxBundle>
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-		<PackageCertificateKeyFile>WindowsCopilotRuntimeSample_TemporaryKey.pfx</PackageCertificateKeyFile>
 	</PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\ModelInitializationControl.xaml" />

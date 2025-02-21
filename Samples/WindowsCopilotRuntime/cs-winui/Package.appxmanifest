@@ -8,7 +8,7 @@
 
   <Identity
     Name="83A5CFAE-CB0B-4A04-978E-F8A251F3AED2"
-    Publisher="CN=praanan"
+    Publisher="CN=microsoft"
     Version="1.0.0.0" />
 
   <Properties>
