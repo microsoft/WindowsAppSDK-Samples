@@ -6,21 +6,16 @@
 
 <h1 align="center">Windows App SDK samples</h1>
 
-<h3 align="center">
-  <a href="https://learn.microsoft.com/windows/apps/windows-app-sdk">About</a>
-  <span> · </span>
-  <a href="https://github.com/microsoft/WindowsAppSDK">Windows App SDK GitHub</a>
-</h3>
 
 This repository hosts samples for the [Windows App SDK](https://github.com/microsoft/WindowsAppSDK). Samples for various features shipping in the Windows App SDK will be added to this repository. For more information about the Windows App SDK, visit the [Windows App SDK documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/). To learn more about the Windows App SDK design or to contribute to the project, make feature proposals, or start discussions, visit the [Windows App SDK GitHub page](https://github.com/microsoft/WindowsAppSDK).
 
 ## 💻 List of samples
 
-#### Artificial Intelligence
+### Artificial Intelligence
 - [Windows Copilot Runtime](Samples/WindowsCopilotRuntime/): These samples demonstrate how to use the [Windows Copilot Runtime APIs](https://learn.microsoft.com/windows/ai/apis/), like Phi Silica, Text Extraction (OCR) and Imaging APIs.
 - [AI Dev Gallery](https://github.com/microsoft/ai-dev-gallery): The AI Dev Gallery is a collection of open-source samples showcasing how to integrate on-device AI capabilities into Windows apps using Windows Copilot Runtime and open-source models using ONNX.
 
-#### App Lifecycle and System Services
+### App Lifecycle and System Services
 - [App Lifecycle](Samples/AppLifecycle): These samples demonstrate app instancing using the AppLifecycle APIs. They include the following features:
     - [Activation](Samples/AppLifecycle/Activation): These samples demonstrate support for rich activation kinds.
     - [Instancing](Samples/AppLifecycle/Instancing): These samples demonstrate support for single and selective multi-instancing.
@@ -29,32 +24,32 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Share Target](Samples\AppLifecycle\ShareTarget\WinUI-CS-ShareTargetSampleApp): This sample demonstrates an app that can be activated as a share target.
 - [Widgets](Samples/Widgets): These samples demonstrate how to author Windows Widgets with the Windows App SDK.
 
-#### Data and Files
+### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
 
-#### Deployment
+### Deployment
 - [Deployment Manager](Samples/DeploymentManager): This sample demonstrates how to initialize and access deployment information for the Windows App SDK runtime.
 - [Installer](Samples/Installer): This sample demonstrates how to launch the Windows App SDK installer without a console window.
 - [Unpackaged](Samples/Unpackaged): These samples demonstrate auto-initialization with the Windows App SDK package from non-MSIX (unpackaged) application.
 
-#### Dynamic Dependencies
+### Dynamic Dependencies
 - [DirectX](DynamicDependenciesSample/DynamicDependencies): This sample demonstrates how to use the Dynamic Dependencies API to dynamically load the DirectX Runtime MSIX framework package.
 
-#### Graphics
+### Graphics
 - [Mica](Samples/Mica): These samples demonstrate how to use the Mica material in different apps and frameworks.
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
 
-#### Islands
+### Islands
 - [Islands](Samples/Islands): This sample shows how to add a WinAppSDK island with Xaml content to a Win32 app.
 
-#### Notifications
+### Notifications
 - [Push Notifications](Samples/Notifications/Push): This is a sample app that showcases Push Notifications.
 - [App Notifications](Samples/Notifications/App): This is a sample app that showcases App Notifications.
 
-#### Runtime Components
+### Runtime Components
 - [Custom Controls](Samples/CustomControls): This sample shows how to author a Windows Runtime Component in C# with custom WinUI controls.
 
-#### User Interface and Input
+### User Interface and Input
 
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
 - [Windows Composition, Input and SceneGraph](Samples/SceneGraph): This collection of samples showcases Microsoft.UI.Composition, Microsoft.UI.Input APIs.
