@@ -428,7 +428,8 @@ Here is an example illustrating the naming guidelines above:
 
 ### Samples README
 
-All features need to include a README.md file with their samples. The purpose of the README is to provide important information and context to customers to get started with a sample. The content of the README should include a description of what the samples does, how to build and run the sample, and include relevant media, such as images, screenshots, and diagrams where applicable. You can reference existing samples in this repo and in the [Windows Universal Samples repo](https://github.com/microsoft/Windows-universal-samples) for examples of how to organize the README.
+All features need to include a README.md file with their samples. The purpose of the README is to provide important information and context to customers to get started with a sample. The content of the README should include a description of what the samples does, how to build and run the sample, and include relevant media, such as images, screenshots, and diagrams where applicable. You can reference existing samples in this repo and in the [Windows App SDK Samples repo](https://github.com/microsoft/WindowsAppSDK-samples) for examples of how to organize the README.
+Samples should also be listed in the repo README for easier discovery.
 
 #### Metadata
 
