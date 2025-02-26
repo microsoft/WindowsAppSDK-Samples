@@ -83,8 +83,7 @@ The samples will be updated with GA releases of the Windows App SDK. The `main` 
 
 - [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental)
 - [release/1.6](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.6-stable)
-- [release/1.5](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.6-stable)
-- [release/1.1](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.1)
+- [release/1.5](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.5-stable)
 - [release/1.1](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.1)
 - [release/1.0](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.0)
 - [release/0.8](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/0.8)
