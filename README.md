@@ -77,7 +77,7 @@ To use the samples with Git, clone the WindowsAppSDK-Samples repository by runni
 
 The easiest way to use these samples without Git is to download the ZIP file. Select *Download ZIP* from the download dropdown, unzip the entire archive and open the samples in Visual Studio.
 
-### 📄 Samples versioning
+## 📄 Samples versioning
 
 The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes the latest samples, which may also include experimental or preview features. Specific release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
 
