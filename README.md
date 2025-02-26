@@ -21,8 +21,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
     - [Instancing](Samples/AppLifecycle/Instancing): These samples demonstrate support for single and selective multi-instancing.
     - [Power Notifications](Samples/AppLifecycle/StateNotifications): These samples demonstrate the power/system state notifications for managing app workload.
     - [Restart](Samples/AppLifecycle/Restart): These samples demonstrate synchronously restarting an app with command-line restart arguments.
-- [Share Target](Samples\AppLifecycle\ShareTarget\WinUI-CS-ShareTargetSampleApp): This sample demonstrates an app that can be activated as a share target.
-- [Widgets](Samples/Widgets): These samples demonstrate how to author Windows Widgets with the Windows App SDK.
+    - [Share Target](Samples\AppLifecycle\ShareTarget\WinUI-CS-ShareTargetSampleApp): This sample demonstrates an app that can be activated as a share target.
 
 ### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
@@ -55,6 +54,8 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Windows Composition, Input and SceneGraph](Samples/SceneGraph): This collection of samples showcases Microsoft.UI.Composition, Microsoft.UI.Input and SceneGraph APIs.
 - [WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery): This is a sample app that showcases all of the WinUI 3 controls in action.
 
+### Widgets
+- [Widgets](Samples/Widgets): These samples demonstrate how to author Windows Widgets with the Windows App SDK.
 
 ## 💻 Requirements
 
