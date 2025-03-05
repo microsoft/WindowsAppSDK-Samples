@@ -4,8 +4,8 @@
 
 using System;
 using System.IO; // Path
-using System.Threading; // EventWaitHandle
 using System.Collections.Generic; // Queue
+using Windows.System.Threading; // ThreadPoolTimer
 using System.Runtime.InteropServices; // Guid, RegistrationServices
 using Windows.ApplicationModel.Background; // IBackgroundTask
 using Windows.UI.Notifications; // ToastNotificationManager, ToastTemplateType, ToastNotification
@@ -27,23 +27,34 @@ namespace BackgroundTaskBuilder
         [MTAThread]
         public void Run(IBackgroundTaskInstance taskInstance)
         {
+            // Get deferral to indicate not to kill the background task process as soon as the Run method returns
+            _deferral = taskInstance.GetDeferral();
             // Wire the cancellation handler.
             taskInstance.Canceled += this.OnCanceled;
 
             // Set the progress to indicate this task has started
-            taskInstance.Progress = 10;
+            taskInstance.Progress = 0;
 
-            // Create the toast notification content
-            var toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText01);
-            var toastTextElements = toastXml.GetElementsByTagName("text");
-            toastTextElements[0].AppendChild(toastXml.CreateTextNode("C# Background task executed"));
+            _periodicTimer = ThreadPoolTimer.CreatePeriodicTimer(new TimerElapsedHandler(PeriodicTimerCallback), TimeSpan.FromSeconds(1));
+        }
 
-            // Create the toast notification
-            var toast = new ToastNotification(toastXml);
+        // Simulate the background task activity.
+        private void PeriodicTimerCallback(ThreadPoolTimer timer)
+        {
+            if ((_cancelRequested == false) && (_progress < 100))
+            {
+                _progress += 10;
+            }
+            else
+            {
+                if (_cancelRequested) _progress = -1;
+                if (_periodicTimer != null) _periodicTimer.Cancel();
 
-            // Show the toast notification
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
-            BackgroundTaskBuilder.MainWindow.taskCompleted();
+                // Indicate that the background task has completed.
+                if (_deferral != null) _deferral.Complete();
+            }
+
+            BackgroundTaskBuilder.MainWindow.taskStatus(_progress);
         }
 
         /// <summary>
@@ -54,6 +65,12 @@ namespace BackgroundTaskBuilder
         public void OnCanceled(IBackgroundTaskInstance taskInstance, BackgroundTaskCancellationReason cancellationReason)
         {
             // Handle cancellation operations and flag the task to end
+            _cancelRequested = true;
         }
+
+        private BackgroundTaskDeferral? _deferral = null;
+        private volatile bool _cancelRequested = false;
+        private ThreadPoolTimer? _periodicTimer = null;
+        private int _progress = 0;
     }
 }

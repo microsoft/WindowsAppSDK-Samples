@@ -7,6 +7,6 @@ namespace BackgroundTaskBuilder
     runtimeclass MainWindow : Microsoft.UI.Xaml.Window
     {
         MainWindow();
-        void BackgroundTaskExecuted();
+        void BackgroundTaskExecuted(Int32 progress);
     }
 }

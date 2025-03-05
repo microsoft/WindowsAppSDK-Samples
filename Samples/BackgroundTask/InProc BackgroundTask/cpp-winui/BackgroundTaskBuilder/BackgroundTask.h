@@ -4,6 +4,7 @@
 #pragma once
 
 #include "pch.h"
+#include "MainWindow.g.h"
 
 #define CLSID_BackgroundTask "12345678-1234-1234-1234-1234567890CD"
 namespace winrt::BackgroundTaskBuilder
@@ -11,12 +12,14 @@ namespace winrt::BackgroundTaskBuilder
     struct __declspec(uuid(CLSID_BackgroundTask))
     BackgroundTask : implements<BackgroundTask, winrt::Windows::ApplicationModel::Background::IBackgroundTask>
     {
-        volatile bool IsCanceled = false;
-        winrt::Windows::ApplicationModel::Background::BackgroundTaskDeferral TaskDeferral = nullptr;
         void Run(_In_ winrt::Windows::ApplicationModel::Background::IBackgroundTaskInstance taskInstance);
-        void CreateNotification();
+    private:
         void OnCanceled(_In_ winrt::Windows::ApplicationModel::Background::IBackgroundTaskInstance /* taskInstance */, _In_ winrt::Windows::ApplicationModel::Background::BackgroundTaskCancellationReason /* cancelReason */);
-
+        volatile bool m_cancelRequested = false;
+        winrt::Windows::ApplicationModel::Background::BackgroundTaskDeferral m_deferral = nullptr;
+        Windows::System::Threading::ThreadPoolTimer m_periodicTimer = nullptr;
+        winrt::BackgroundTaskBuilder::IMainWindow m_mainWindow = nullptr;
+        int m_progress{ 0 };
     };
 
     struct BackgroundTaskFactory : implements<BackgroundTaskFactory, IClassFactory>

@@ -12,10 +12,11 @@ namespace winrt::BackgroundTaskBuilder::implementation
         MainWindow();
         Microsoft::UI::Dispatching::DispatcherQueue dispatcherQueue = nullptr;
 
-        winrt::fire_and_forget BackgroundTaskExecuted();
+        winrt::fire_and_forget BackgroundTaskExecuted(int progress);
 
         void registerButton_Click(IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
         void unregisterTasks();
+        void createNotification();
     };
 }
 

@@ -24,25 +24,30 @@ namespace winrt::BackgroundTaskBuilder::implementation
         dispatcherQueue = Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
     }
 
-    winrt::fire_and_forget MainWindow::BackgroundTaskExecuted()
+    winrt::fire_and_forget MainWindow::BackgroundTaskExecuted(int progress)
     {
         co_await wil::resume_foreground(dispatcherQueue);
-        registerButton().Content(box_value(L"Background Task Executed Successfully!"));
+        if (progress < 100)
+            registerButton().Content(box_value(L"Background Task Execution Progress = " + winrt::to_hstring(progress)));
+        else if (progress == 100)
+            registerButton().Content(box_value(L"Background Task Executed Successfully!"));
+        else
+            registerButton().Content(box_value(L"Background Task was cancelled!"));
     }
 
     void MainWindow::unregisterTasks()
     {
+        // Clear up all existing background task registrations
         auto allRegistrations = BackgroundTaskRegistration::AllTasks();
-        for (auto taskPair : allRegistrations)
+        for (const auto& taskPair : allRegistrations)
         {
             IBackgroundTaskRegistration task = taskPair.Value();
             task.Unregister(true);
         }
     }
 
-    void MainWindow::registerButton_Click(IInspectable const&, RoutedEventArgs const&)
+    void MainWindow::createNotification()
     {
-        unregisterTasks();
         // Create the toast XML template
         XmlDocument toastXml;
         toastXml.LoadXml(LR"(
@@ -60,7 +65,14 @@ namespace winrt::BackgroundTaskBuilder::implementation
 
         // Create a ToastNotifier and show the toast
         ToastNotificationManager::CreateToastNotifier().Show(toast);
+    }
 
+    void MainWindow::registerButton_Click(IInspectable const&, RoutedEventArgs const&)
+    {
+        unregisterTasks();
+        createNotification();
+
+        //Register Background Task to be executed on TimeZoneChange
         winrt::Microsoft::Windows::ApplicationModel::Background::BackgroundTaskBuilder builder;
 
         SystemTrigger trigger = SystemTrigger(SystemTriggerType::TimeZoneChange, false);
@@ -68,6 +80,8 @@ namespace winrt::BackgroundTaskBuilder::implementation
         builder.SetTrigger(backgroundTrigger);
         builder.SetTaskEntryPointClsid(__uuidof(winrt::BackgroundTaskBuilder::BackgroundTask));
         builder.Register();
+
+        //Update Button UI
         registerButton().Content(box_value(L"Background Task Registered"));
         registerButton().IsEnabled(false);
     }

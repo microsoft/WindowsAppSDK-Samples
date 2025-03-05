@@ -12,7 +12,7 @@ namespace winrt::BackgroundTaskBuilder
         DWORD ComRegistrationToken = 0;
     public:
         ~RegisterForCom();
-        winrt::hresult Register(winrt::guid classId);
+        winrt::hresult RegisterBackgroundTaskFactory();
     };
 }
 

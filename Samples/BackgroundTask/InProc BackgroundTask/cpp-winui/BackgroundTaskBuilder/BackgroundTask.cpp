@@ -6,7 +6,6 @@
 #include "RegisterForCOM.h"
 #include "winrt/Windows.Data.Xml.Dom.h"
 #include "winrt/Windows.UI.Notifications.h"
-#include "MainWindow.g.h"
 #include "App.xaml.h"
 
 using namespace winrt;
@@ -21,53 +20,36 @@ namespace winrt::BackgroundTaskBuilder
 {
     void BackgroundTask::Run(_In_ IBackgroundTaskInstance taskInstance)
     {
-        // Get the deferral object from the task instance
-        TaskDeferral = taskInstance.GetDeferral();
+        // Get deferral to indicate not to kill the background task process as soon as the Run method returns
+        m_deferral = taskInstance.GetDeferral();
+        m_progress = 0;
         taskInstance.Canceled({ this, &BackgroundTask::OnCanceled });
-        // Create a toast XML template
-        XmlDocument toastXml;
-        toastXml.LoadXml(LR"(
-            <toast>
-                <visual>
-                    <binding template="ToastGeneric">
-                        <text>Notification: BackgroundTaskBuilder</text>
-                        <text>Background Task triggered</text>
-                    </binding>
-                </visual>
-            </toast>)");
-        // Create the toast notification
-        ToastNotification toast(toastXml);
-        // Create a ToastNotifier and show the toast
-        ToastNotificationManager::CreateToastNotifier().Show(toast);
+
         // Calling a method on the Window to inform that the background task is executed
         winrt::Microsoft::UI::Xaml::Window window = winrt::BackgroundTaskBuilder::implementation::App::Window();
-        winrt::BackgroundTaskBuilder::IMainWindow mainWindow = window.as<winrt::BackgroundTaskBuilder::IMainWindow>();
-        mainWindow.BackgroundTaskExecuted();
-        // Inform the system that the background task is completed
-        TaskDeferral.Complete();
-    }
+        m_mainWindow = window.as<winrt::BackgroundTaskBuilder::IMainWindow>();
 
-    void BackgroundTask::CreateNotification()
-    {
-        // Create the toast XML template
-        XmlDocument toastXml;
-        toastXml.LoadXml(LR"(
-        <toast>
-            <visual>
-                <binding template="ToastGeneric">
-                    <text>Notification: BackgroundTaskBuilder</text>
-                    <text>Change system timezone to trigger Background Task</text>
-                </binding>
-            </visual>
-        </toast>)");
-        // Create the toast notification
-        ToastNotification toast(toastXml);
-        // Create a ToastNotifier and show the toast
-        ToastNotificationManager::CreateToastNotifier().Show(toast);
+        Windows::Foundation::TimeSpan period{ std::chrono::seconds{2} };
+        m_periodicTimer = Windows::System::Threading::ThreadPoolTimer::CreatePeriodicTimer([this, lifetime = get_strong()](Windows::System::Threading::ThreadPoolTimer timer)
+            {
+                if (!m_cancelRequested && m_progress < 100)
+                {
+                    m_progress += 10;
+                }
+                else
+                {
+                    m_periodicTimer.Cancel();
+
+                    // Indicate that the background task has completed.
+                    m_deferral.Complete();
+                    if (m_cancelRequested) m_progress = -1;
+                }
+                m_mainWindow.BackgroundTaskExecuted(m_progress);
+            }, period);
     }
 
     void BackgroundTask::OnCanceled(_In_ IBackgroundTaskInstance /* taskInstance */, _In_ BackgroundTaskCancellationReason /* cancelReason */)
     {
-        IsCanceled = true;
+        m_cancelRequested = true;
     }
 }

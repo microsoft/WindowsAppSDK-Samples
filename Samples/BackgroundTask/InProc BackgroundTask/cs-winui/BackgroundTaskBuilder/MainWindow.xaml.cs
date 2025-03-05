@@ -36,12 +36,17 @@ namespace BackgroundTaskBuilder
             this.InitializeComponent();
         }
 
-        public static void taskCompleted()
+        public static void taskStatus(int progress)
         {
             BackgroundTaskBuilder.App.Window.DispatcherQueue.TryEnqueue(() =>
             {
                 BackgroundTaskBuilder.MainWindow window = (BackgroundTaskBuilder.MainWindow)BackgroundTaskBuilder.App.Window;
-                window.myButton.Content = "Task Completed";
+                if (progress == 100)
+                    window.myButton.Content = "Task Completed";
+                else if (progress > 0)
+                    window.myButton.Content = "Task in progress : " + progress;
+                else
+                    window.myButton.Content = "Task is cancelled!";
             });
         }
 

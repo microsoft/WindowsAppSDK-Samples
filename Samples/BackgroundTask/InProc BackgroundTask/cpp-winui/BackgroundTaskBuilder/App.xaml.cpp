@@ -45,7 +45,7 @@ namespace winrt::BackgroundTaskBuilder::implementation
         window = make<MainWindow>();
         window.Activate();
         // Start COM server for the COM calls to complete
-        comRegister.Register(__uuidof(BackgroundTask));
+        comRegister.RegisterBackgroundTaskFactory();
     }
 
     winrt::Microsoft::UI::Xaml::Window App::Window()

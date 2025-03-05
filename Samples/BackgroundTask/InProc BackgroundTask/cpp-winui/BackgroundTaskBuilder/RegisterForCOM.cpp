@@ -16,20 +16,20 @@ namespace winrt::BackgroundTaskBuilder
         }
     }
 
-    hresult RegisterForCom::Register(guid classId)
+    hresult RegisterForCom::RegisterBackgroundTaskFactory()
     {
         hresult hr;
         try
         {
             com_ptr<IClassFactory> taskFactory = make<BackgroundTaskFactory>();
 
-            check_hresult(CoRegisterClassObject(classId,
+            check_hresult(CoRegisterClassObject(__uuidof(BackgroundTask),
                 taskFactory.detach(),
                 CLSCTX_LOCAL_SERVER,
                 REGCLS_MULTIPLEUSE,
                 &ComRegistrationToken));
 
-            OutputDebugString(L"COM Registraton done");
+            OutputDebugString(L"COM Registration done");
             hr = S_OK;
         }
         catch (...)
