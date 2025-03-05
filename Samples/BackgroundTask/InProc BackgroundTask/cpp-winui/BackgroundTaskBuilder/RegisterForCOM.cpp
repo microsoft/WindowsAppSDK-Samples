@@ -32,11 +32,6 @@ namespace winrt::BackgroundTaskBuilder
             OutputDebugString(L"COM Registration done");
             hr = S_OK;
         }
-        catch (...)
-        {
-            hr = to_hresult();
-        }
-
-        return hr;
+        CATCH_RETURN();
     }
 }

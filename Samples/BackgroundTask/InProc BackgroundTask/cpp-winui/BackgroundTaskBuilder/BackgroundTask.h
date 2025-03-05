@@ -24,7 +24,7 @@ namespace winrt::BackgroundTaskBuilder
 
     struct BackgroundTaskFactory : implements<BackgroundTaskFactory, IClassFactory>
     {
-        HRESULT __stdcall CreateInstance(_In_opt_ IUnknown* aggregateInterface, _In_ REFIID interfaceId, _Outptr_ VOID** object) noexcept final
+        HRESULT __stdcall CreateInstance(_In_opt_ IUnknown* aggregateInterface, _In_ REFIID interfaceId, _Outptr_ VOID** object) noexcept final try
         {
             if (aggregateInterface != NULL) {
                 return CLASS_E_NOAGGREGATION;
@@ -32,12 +32,14 @@ namespace winrt::BackgroundTaskBuilder
 
             return make<BackgroundTask>().as(interfaceId, object);
         }
+        CATCH_RETURN();
 
-        HRESULT __stdcall LockServer(BOOL lock) noexcept final
+        HRESULT __stdcall LockServer(BOOL lock) noexcept final try
         {
             UNREFERENCED_PARAMETER(lock);
             return S_OK;
         }
+        CATCH_RETURN();
     };
 }
 

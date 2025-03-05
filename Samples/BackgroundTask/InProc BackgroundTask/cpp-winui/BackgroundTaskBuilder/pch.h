@@ -29,5 +29,6 @@
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
 #include <wil/cppwinrt_helpers.h>
+#include <wil/result_macros.h>
 #include "winrt/Windows.Data.Xml.Dom.h"
 #include "winrt/Windows.UI.Notifications.h"
