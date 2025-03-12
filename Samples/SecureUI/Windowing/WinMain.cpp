@@ -37,7 +37,7 @@ void RunOnIsolatedDesktop(
     }
 }
 
-int __stdcall WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ int)
+int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
 {
     RunOnIsolatedDesktop([]()
         {
