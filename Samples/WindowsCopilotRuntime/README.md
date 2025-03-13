@@ -36,7 +36,7 @@ join the [Windows Insider Program](https://insider.windows.com).
 -   From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
 # Contributing to this project
-- Refer to contributing guide [here](./Contributing.md)
+- Refer to the [contributing guide](./Contributing.md)
 
 ## Special Considerations for Debugging as an Unpackaged App in Visual Studio
 
