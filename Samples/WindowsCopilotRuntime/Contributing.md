@@ -23,7 +23,7 @@ The project follows the MVVM (Model-View-ViewModel) pattern. Here's how the code
   - `ModelInitializationControl.xaml` and `ModelInitializationControl.xaml.cs` have user control to create session for every page. Each page sets `CreateModelSessionWithProgress` as `ICommand` to button in this control. 
   
 ## Adding a New Page
-Any of the examples like `ImageScaler` or `ImageDescriptionModel` can be as reference for adding newer pages. `LanguageModel` is slightly different as it has multiple effects in the sample page. 
+Any of the examples like `ImageScaler` or `ImageDescriptionModel` can be used as reference for adding newer pages. `LanguageModel` is slightly different as it has multiple effects in the sample page. 
 
 
 ## AsyncCommand and Its Inherited Class
