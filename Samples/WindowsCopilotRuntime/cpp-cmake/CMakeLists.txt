@@ -11,6 +11,7 @@ add_executable(cmake-ai-generator
 
 target_link_libraries(cmake-ai-generator
     PRIVATE
-        wil::wil
-        cppwinrt::cppwinrt
+        Microsoft::CppWinRT
+        WIL::WIL
+        RuntimeObject # For cppwinrt's use of winrt::hresult_error
 )
