@@ -57,7 +57,7 @@ Here's an example of how to use `AsyncCommand`:
 
 ```
 Here, our code needs to call `ImageScalerModel.ScaleSoftwareBitmap(SoftwareBitmap inputImage, int, int)` from the view model's Scale Image button (refer [`ImageScalerPage.xaml`](./cs-winui/Pages/ImageScalerPage.xaml)). We bind it to `ICommand ScaleCommand` which gets instantiated to `AsyncCommand` (inherited from `ICommand`) and calls `ScaleSoftwareBitmap` like above.
-The `ICommand` is enabled only when Input image is loaded and session is created, denoted by Image and IsAvailable respectively.
+The `ICommand` is enabled only when the Input image is loaded and the session is created, denoted by Image and IsAvailable respectively.
 
 ### AsyncCommandWithProgress
 
