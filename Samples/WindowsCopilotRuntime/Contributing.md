@@ -20,7 +20,7 @@ The project follows the MVVM (Model-View-ViewModel) pattern. Here's how the code
 - **Helpers**: The Util, Converters and Controls folders contain common shared code used by all the pages
   - The `Controls` folder contains user controls for showing creating Session and example source codes
   - `CodeBlockControl.xaml` and `CodeBlockControl.xaml.cs` are parts of user control which shows example source code for each API. The example code is fetched from the `Examples` folder.
-  - `ModelInitializationControl.xaml` and `ModelInitializationControl.xaml.cs` have user control to create session for every page. Each page sets `CreateModelSessionWithProgress` as `ICommand` to button in this control. 
+  - `ModelInitializationControl.xaml` and `ModelInitializationControl.xaml.cs` have user control to create session for every page. `CodeBlockControl.xaml` has a button for creating session with ICommand. Each page instantiates this control with a specific to model api for creating a session. This is defined in `CreateModelSessionWithProgress`.
   
 ## Adding a New Page
 Any of the examples like `ImageScaler` or `ImageDescriptionModel` can be used as reference for adding newer pages. `LanguageModel` is slightly different as it has multiple effects in the sample page. 
@@ -35,7 +35,7 @@ In this project, we use `AsyncCommand` to handle asynchronous operations in the 
 Here's an example of how to use `AsyncCommand`:
 
 ```csharp
-...
+//...
     public ICommand ScaleCommand => _scaleSoftwareBitmapCommand;
     private readonly AsyncCommand<(SoftwareBitmap, int, int), SoftwareBitmapSource> _scaleSoftwareBitmapCommand;
 
@@ -53,7 +53,7 @@ Here's an example of how to use `AsyncCommand`:
             (_) => IsAvailable && Input is not null);
     }
 
-...
+//...
 
 ```
 Here, our code needs to call `ImageScalerModel.ScaleSoftwareBitmap(SoftwareBitmap inputImage, int, int)` from the view model's Scale Image button (refer to [`ImageScalerPage.xaml`](./cs-winui/Pages/ImageScalerPage.xaml)). We set the `ScaleCommand` property to an `AsyncCommand` that calls `ScaleSoftwareBitmap`. `AsyncCommand` implements `ICommand` so this assignment works.
@@ -61,12 +61,12 @@ The `ICommand` is enabled only when the Input image is loaded and the session is
 
 ### AsyncCommandWithProgress
 
-`AsyncCommandWithProgress` is an inherited class from `AsyncCommand` that supports receiving response in a progressive manner, few tokens at a time.
+`AsyncCommandWithProgress` is an inherited class from `AsyncCommand` that supports receiving response in a progressive manner, few tokens at a time. It is used only in Language Model related page.
 
 Here's an example of how to use `AsyncCommandWithProgress`:
 
 ```csharp
-...
+//...
     private readonly AsyncCommandWithProgress<string, LanguageModelResponse, string> _generateResponseWithProgressCommand;
     private readonly StringBuilder _responseProgress = new();
 
@@ -83,7 +83,7 @@ Here's an example of how to use `AsyncCommandWithProgress`:
 
     _generateResponseWithProgressCommand.ResultProgressHandler += OnResultProgress;
     _generateResponseWithProgressCommand.ResultHandler += OnResult;
-...
+//...
 ```
 Similar to `AsyncCommand`, `AsyncCommandWithProgress` implements `ICommand` and calls model APIs. It provides two event handlers, `ResultProgressHandler` and `ResultHandler`.
 `ResultProgressHandler` is used to update the result (`ResponseProgress`) as newer tokens arrive.
