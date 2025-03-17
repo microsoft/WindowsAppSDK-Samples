@@ -19,7 +19,7 @@ The project follows the MVVM (Model-View-ViewModel) pattern. Here's how the code
   - `cs-winui/Pages/ImageObjectExtractorPage.xaml.cs`
 - **Helpers**: Util, Converters and Controls folders contain common shared code used by all the pages
   - `Controls` folder contains user controls for showing creating Session and example source codes
-  - `CodeBlockControl.xaml` and `CodeBlockControl.xaml.cs` are parts of user control which shows example source code for each api. The example code is fetched from `Examples` folder.
+  - `CodeBlockControl.xaml` and `CodeBlockControl.xaml.cs` are parts of user control which shows example source code for each API. The example code is fetched from the `Examples` folder.
   - `ModelInitializationControl.xaml` and `ModelInitializationControl.xaml.cs` have user control to create session for every page. Each page sets `CreateModelSessionWithProgress` as `ICommand` to button in this control. 
   
 ## Adding a New Page
