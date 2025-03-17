@@ -85,7 +85,7 @@ Here's an example of how to use `AsyncCommandWithProgress`:
     _generateResponseWithProgressCommand.ResultHandler += OnResult;
 ...
 ```
-Similar to `AsyncCommand`, `AsyncCommandWithProgress` inherits from ICommand and calls model's apis. It does provide two event handlers `ResultProgressHandler` and `ResultHandler`.
+Similar to `AsyncCommand`, `AsyncCommandWithProgress` implements `ICommand` and calls model APIs. It provides two event handlers, `ResultProgressHandler` and `ResultHandler`.
 `ResultProgressHandler` is used to update the result (`ResponseProgress`) as newer tokens arrive.
 `ResultHandler` is called when final response token has arrived and there are no more pending response tokens.
 
