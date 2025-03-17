@@ -1,6 +1,7 @@
 {
   "dependencies": [
     "cppwinrt",
-    "wil"
+    "wil",
+    "windowsappsdk"
   ]
 }
