@@ -11,10 +11,13 @@ endif()
 
 
 if(NOT TARGET WindowsAppSdk::Bootstrap)
-   add_library(WindowsAppSdk::Bootstrap STATIC IMPORTED)
-   set_property(
-      TARGET WindowsAppSdk::Bootstrap 
-      PROPERTY IMPORTED_LOCATION "${_packages_dir}/lib/Microsoft.WindowsAppRuntime.Bootstrap.lib"
+   add_library(WindowsAppSdk::Bootstrap SHARED IMPORTED)
+   set_target_properties(WindowsAppSdk::Bootstrap 
+      PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES "${_packages_dir}/include"
+        IMPORTED_IMPLIB "${_packages_dir}/lib/Microsoft.WindowsAppRuntime.Bootstrap.lib"
+        IMPORTED_LOCATION "${_packages_dir}/bin/Microsoft.WindowsAppRuntime.Bootstrap.dll"
+        RUNTIME_DLLS "${_packages_dir}/bin/Microsoft.WindowsAppRuntime.Bootstrap.dll"
     )
 endif()
 

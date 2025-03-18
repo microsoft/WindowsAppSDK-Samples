@@ -30,6 +30,10 @@ file(COPY
     DESTINATION "${CURRENT_PACKAGES_DIR}/include"
     FILES_MATCHING PATTERN "*.cpp")
 
+file(COPY
+    "${PACKAGE_PATH}/runtimes/win-${VCPKG_TARGET_ARCHITECTURE}/native/Microsoft.WindowsAppRuntime.Bootstrap.dll"
+    DESTINATION "${CURRENT_PACKAGES_DIR}/bin")
+
 cppwinrt_generate_headers(
     WINMD_GLOBS
     "${PACKAGE_PATH}/lib/uap10.0/*.winmd"
@@ -41,6 +45,8 @@ file(COPY
 
 file(COPY "${PACKAGE_PATH}/lib/win10-${VCPKG_TARGET_ARCHITECTURE}/"
     DESTINATION "${CURRENT_PACKAGES_DIR}/lib")
+
+file(INSTALL "${CMAKE_CURRENT_LIST_DIR}/usage" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}")
 
 #--- Copy license
 configure_file("${PACKAGE_PATH}/license.txt" "${CURRENT_PACKAGES_DIR}/share/${PORT}/copyright" COPYONLY)

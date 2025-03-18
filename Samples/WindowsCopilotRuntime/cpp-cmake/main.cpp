@@ -1,12 +1,22 @@
 ﻿#include <Windows.h>
+#include <Unknwn.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.Windows.AI.Generative.h>
+#include <include/WindowsAppSDK-VersionInfo.h>
+#include <include/MddBootstrap.h>
 
 int wmain(int argc, wchar_t* argv[])
 {
     // Initialize the Windows Runtime
     winrt::init_apartment();
     std::wstring prompt = L"You are a clever storyteller. I want to hear a story about a dragon who says: ";
+
+    auto bootstrapper = ::Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::InitializeNoThrow();
+    if (FAILED(bootstrapper))
+    {
+        wprintf(L"Failed to initialize the Windows App SDK bootstrapper, 0x%08lx.\n", bootstrapper);
+        return 1;
+    }
 
     if (argc < 2)
     {
