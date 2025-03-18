@@ -35,5 +35,13 @@ if(NOT TARGET WindowsAppSdk::WindowsAppSdk)
    )
 endif()
 
+# Outputs from this package
+
+file(GLOB_RECURSE _WINAPPSDK_WINMDS 
+    "${_packages_dir}/lib/uap10.0/*.winmd"
+    "${_packages_dir}/lib/uap10.0.18362/*.winmd"
+    )
+
+set(WINAPPSDK_WINMDS ${_WINAPPSDK_WINMDS})
 
 unset(_packages_dir)

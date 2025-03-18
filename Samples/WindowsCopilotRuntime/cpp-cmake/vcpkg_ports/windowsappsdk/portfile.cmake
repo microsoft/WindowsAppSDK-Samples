@@ -15,48 +15,33 @@ vcpkg_extract_source_archive(
 set(WINAPPSDK_PATH "${PACKAGE_PATH}")
 
 # Get all the WinMDs in the "lib" directory, but only the latest SDK versions
-file(INSTALL
+file(COPY
     "${PACKAGE_PATH}/include"
     DESTINATION "${CURRENT_PACKAGES_DIR}/include"
     FILES_MATCHING PATTERN "*.h")
 
-file(INSTALL
+file(COPY
     "${PACKAGE_PATH}/include"
     DESTINATION "${CURRENT_PACKAGES_DIR}/include"
     FILES_MATCHING PATTERN "*.idl")
 
-file(INSTALL
+file(COPY
     "${PACKAGE_PATH}/include"
     DESTINATION "${CURRENT_PACKAGES_DIR}/include"
     FILES_MATCHING PATTERN "*.cpp")
 
-file(INSTALL
+file(COPY
     "${PACKAGE_PATH}/lib/uap10.0"
     "${PACKAGE_PATH}/lib/uap10.0.18362"
     DESTINATION "${CURRENT_PACKAGES_DIR}/lib"
     FILES_MATCHING PATTERN "*.winmd")
 
-#[[
-
-include_directories(
-    SYSTEM
-    "${SOURCE_PATH}/include"
-)
-
-target_link_directories
-
-file(COPY "${SOURCE_PATH}/lib/win10-${VCPKG_TARGET_ARCHITECTURE}/"
-    DESTINATION "${CURRENT_PACKAGES_DIR}/lib")
-
-file(COPY "${SOURCE_PATH}/"
-    DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}")
-
 file(COPY
     "${CMAKE_CURRENT_LIST_DIR}/windowsappsdk-config.cmake"
     DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}")
 
-set(WINAPPSDK_WINMDS WASDK_WINMD_GLOBS)
+file(COPY "${PACKAGE_PATH}/lib/win10-${VCPKG_TARGET_ARCHITECTURE}/"
+    DESTINATION "${CURRENT_PACKAGES_DIR}/lib")
 
 #--- Copy license
-configure_file("${SOURCE_PATH}/license.txt" "${CURRENT_PACKAGES_DIR}/share/${PORT}/copyright" COPYONLY)
-]]
+configure_file("${PACKAGE_PATH}/license.txt" "${CURRENT_PACKAGES_DIR}/share/${PORT}/copyright" COPYONLY)

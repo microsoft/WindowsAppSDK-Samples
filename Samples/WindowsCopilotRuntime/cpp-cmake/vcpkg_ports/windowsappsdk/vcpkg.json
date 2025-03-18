@@ -7,7 +7,6 @@
   "license": "MIT",
   "supports": "windows",
   "dependencies": [
-    { "name": "cppwinrt" },
-    { "name": "webview2" }
+    { "name": "cppwinrt" }
   ]
 }
