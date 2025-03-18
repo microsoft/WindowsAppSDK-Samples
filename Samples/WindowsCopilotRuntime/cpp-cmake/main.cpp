@@ -1,5 +1,6 @@
 ﻿#include <Windows.h>
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.Windows.AI.Generative.h>
 
 int wmain()
 {

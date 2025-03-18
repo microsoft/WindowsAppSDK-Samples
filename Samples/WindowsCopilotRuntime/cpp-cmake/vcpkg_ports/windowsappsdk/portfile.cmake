@@ -30,11 +30,10 @@ file(COPY
     DESTINATION "${CURRENT_PACKAGES_DIR}/include"
     FILES_MATCHING PATTERN "*.cpp")
 
-file(COPY
-    "${PACKAGE_PATH}/lib/uap10.0"
-    "${PACKAGE_PATH}/lib/uap10.0.18362"
-    DESTINATION "${CURRENT_PACKAGES_DIR}/lib"
-    FILES_MATCHING PATTERN "*.winmd")
+cppwinrt_generate_headers(
+    WINMD_GLOBS
+    "${PACKAGE_PATH}/lib/uap10.0/*.winmd"
+    "${PACKAGE_PATH}/lib/uap10.0.18362/*.winmd")
 
 file(COPY
     "${CMAKE_CURRENT_LIST_DIR}/windowsappsdk-config.cmake"
