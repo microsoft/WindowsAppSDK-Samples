@@ -1,5 +1,8 @@
 ﻿#include <Windows.h>
 #include <Unknwn.h>
+#include <wil/cppwinrt.h>
+#include <wil/stl.h>
+#include <wil/resource.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.Windows.AI.Generative.h>
 #include <winrt/Microsoft.Windows.Management.Deployment.h>
@@ -10,7 +13,7 @@ int wmain(int argc, wchar_t* argv[])
 {
     // Initialize the Windows Runtime
     winrt::init_apartment();
-    std::wstring prompt = L"You are a clever storyteller. I want to hear a story about a dragon who says: ";
+    std::wstring prompt = L"You are a clever storyteller. You write evocative one-paragraph stories that a 4th grader would love. Tell a story about a dragon who says: ";
 
     auto bootstrapper = ::Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::InitializeNoThrow();
     if (FAILED(bootstrapper))
@@ -51,9 +54,25 @@ int wmain(int argc, wchar_t* argv[])
     auto options = winrt::Microsoft::Windows::AI::Generative::LanguageModelOptions();
     options.Skill(winrt::Microsoft::Windows::AI::Generative::LanguageModelSkill::General);
     options.Temp(0.7f);
-    auto response = languageModel.GenerateResponseAsync(options, prompt).get();
-    wprintf(L"Status: %d\n", static_cast<int>(response.Status()));
-    wprintf(L"Response: %s\n", response.Response().c_str());
+
+    // Collect the output periodically
+    auto responseWait = languageModel.GenerateResponseWithProgressAsync(prompt);
+    responseWait.Progress([](auto const& sender, auto const& progress)
+        {
+            wprintf(L"%s", progress.c_str());
+        });
+
+    responseWait.get();
+
+    // Run for at most 15 seconds
+    if (responseWait.Status() == winrt::Windows::Foundation::AsyncStatus::Completed)
+    {
+        wprintf(L"Final Response: %s\n", responseWait.GetResults().Response().c_str());
+    }
+    else
+    {
+        wprintf(L"Didn't complete.\n");
+    }
 
     return 0;
 }
