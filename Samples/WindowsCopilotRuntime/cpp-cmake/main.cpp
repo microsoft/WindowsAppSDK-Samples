@@ -2,6 +2,7 @@
 #include <Unknwn.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.Windows.AI.Generative.h>
+#include <winrt/Microsoft.Windows.Management.Deployment.h>
 #include <include/WindowsAppSDK-VersionInfo.h>
 #include <include/MddBootstrap.h>
 
@@ -33,7 +34,16 @@ int wmain(int argc, wchar_t* argv[])
     if (!winrt::Microsoft::Windows::AI::Generative::LanguageModel::IsAvailable())
     {
         wprintf(L"Fetching language model...\n");
-        winrt::Microsoft::Windows::AI::Generative::LanguageModel::MakeAvailableAsync().get();
+        auto available = winrt::Microsoft::Windows::AI::Generative::LanguageModel::MakeAvailableAsync().get();
+        if (available.Status() == winrt::Microsoft::Windows::Management::Deployment::PackageDeploymentStatus::CompletedSuccess)
+        {
+            wprintf(L"Language model is available.\n");
+        }
+        else
+        {
+            wprintf(L"Failed to make language model available, status: %d\n (ext error 0x%08lx) - %s\n", static_cast<int>(available.Status()), available.ExtendedError().value, available.ErrorText().c_str());
+            return 1;
+        }
     }
 
     // Try again
