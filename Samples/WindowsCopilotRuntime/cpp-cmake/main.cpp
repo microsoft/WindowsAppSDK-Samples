@@ -46,13 +46,6 @@ int wmain(int argc, wchar_t* argv[])
         }
     }
 
-    // Try again
-    if (!winrt::Microsoft::Windows::AI::Generative::LanguageModel::IsAvailable())
-    {
-        wprintf(L"Language model is still not available.\n");
-        return 1;
-    }
-
     // Instantiate the text completion generator
     auto languageModel = winrt::Microsoft::Windows::AI::Generative::LanguageModel::CreateAsync().get();
     auto options = winrt::Microsoft::Windows::AI::Generative::LanguageModelOptions();
