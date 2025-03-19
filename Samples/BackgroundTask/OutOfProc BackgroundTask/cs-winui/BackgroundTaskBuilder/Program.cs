@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation and Contributors.
+﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 using System;
@@ -22,8 +22,8 @@ namespace BackgroundTaskBuilder
             if (args.Contains("-RegisterForBGTaskServer"))
             {
                 Guid taskGuid = typeof(BackgroundTask).GUID;
-                ComServer.CoRegisterClassObject(ref taskGuid,
-                                                new ComServer.BackgroundTaskFactory<BackgroundTask, IBackgroundTask>(),
+                ComServer.CoRegisterClassObject(in taskGuid,
+                                                new ComServer.BackgroundTaskFactory(),
                                                 ComServer.CLSCTX_LOCAL_SERVER,
                                                 ComServer.REGCLS_MULTIPLEUSE,
                                                 out _RegistrationToken);

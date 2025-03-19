@@ -3,22 +3,25 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
+using Windows.ApplicationModel.Background;
 using WinRT;
 
 namespace BackgroundTaskBuilder
 {
     // COM server startup code.
-    internal class ComServer
+    internal partial class ComServer
     {
-        [DllImport("ole32.dll")]
-        public static extern int CoRegisterClassObject(
-            ref Guid classId,
+        [LibraryImport("ole32.dll")]
+        public static partial int CoRegisterClassObject(
+            in Guid classId,
             [MarshalAs(UnmanagedType.Interface)] IClassFactory objectAsUnknown,
             uint executionContext,
             uint flags,
             out uint registrationToken);
-        [DllImport("ole32.dll")]
-        public static extern int CoRevokeObject(
+
+        [LibraryImport("ole32.dll")]
+        public static partial int CoRevokeObject(
             out uint registrationToken);
 
         public const uint CLSCTX_LOCAL_SERVER = 4;
@@ -31,26 +34,25 @@ namespace BackgroundTaskBuilder
         public const string IID_IUnknown = "00000000-0000-0000-C000-000000000046";
         public const string IID_IClassFactory = "00000001-0000-0000-C000-000000000046";
 
-        [ComImport]
-        [ComVisible(false)]
+        [GeneratedComInterface]
         [Guid(IID_IClassFactory)]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        public interface IClassFactory
+        public partial interface IClassFactory
         {
             [PreserveSig]
-            uint CreateInstance(IntPtr objectAsUnknown, ref Guid interfaceId, out IntPtr objectPointer);
+            uint CreateInstance(IntPtr objectAsUnknown, in Guid interfaceId, out IntPtr objectPointer);
 
             [PreserveSig]
-            uint LockServer(bool Lock);
+            uint LockServer([MarshalAs(UnmanagedType.Bool)] bool Lock);
         }
 
-        internal class BackgroundTaskFactory<TaskType, TaskInterface> : IClassFactory where TaskType : TaskInterface, new()
+        [GeneratedComClass]
+        internal partial class BackgroundTaskFactory : IClassFactory
         {
             public BackgroundTaskFactory()
             {
             }
 
-            public uint CreateInstance(IntPtr objectAsUnknown, ref Guid interfaceId, out IntPtr objectPointer)
+            public uint CreateInstance(IntPtr objectAsUnknown, in Guid interfaceId, out IntPtr objectPointer)
             {
                 if (objectAsUnknown != IntPtr.Zero)
                 {
@@ -58,13 +60,13 @@ namespace BackgroundTaskBuilder
                     return CLASS_E_NOAGGREGATION;
                 }
 
-                if ((interfaceId != typeof(TaskType).GUID) && (interfaceId != new Guid(IID_IUnknown)))
+                if ((interfaceId != typeof(IBackgroundTask).GUID) && (interfaceId != new Guid(IID_IUnknown)))
                 {
                     objectPointer = IntPtr.Zero;
                     return E_NOINTERFACE;
                 }
 
-                objectPointer = MarshalInterface<TaskInterface>.FromManaged(new TaskType());
+                objectPointer = MarshalInterface<IBackgroundTask>.FromManaged(new BackgroundTask());
                 return S_OK;
             }
 
