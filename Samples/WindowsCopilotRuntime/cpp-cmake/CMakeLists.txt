@@ -9,6 +9,7 @@ find_package(webview2 CONFIG REQUIRED)
 
 add_executable(cmake-ai-generator
     main.cpp
+    app.manifest
 )
 
 target_link_libraries(cmake-ai-generator
@@ -18,7 +19,10 @@ target_link_libraries(cmake-ai-generator
         Microsoft::CppWinRT
         WindowsAppSdk::WindowsAppSdk
         RuntimeObject # For cppwinrt's use of winrt::hresult_error
+        OneCoreUAP
 )
+
+set(CMAKE_CXX_STANDARD 20)
 
 function(install_target_runtime_dlls)
   set(single_value_args DESTINATION)
