@@ -37,8 +37,8 @@ namespace BackgroundTaskBuilder
         {
             this.InitializeComponent();
             Guid taskGuid = typeof(BackgroundTask).GUID;
-            ComServer.CoRegisterClassObject(ref taskGuid,
-                                            new ComServer.BackgroundTaskFactory<BackgroundTask, IBackgroundTask>(),
+            ComServer.CoRegisterClassObject(in taskGuid,
+                                            new ComServer.BackgroundTaskFactory(),
                                             ComServer.CLSCTX_LOCAL_SERVER,
                                             ComServer.REGCLS_MULTIPLEUSE,
                                             out _RegistrationToken);

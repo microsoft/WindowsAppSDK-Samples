@@ -14,11 +14,8 @@ namespace BackgroundTaskBuilder
 {
     // Background task implementation.
     // {87654321-1234-1234-1234-1234567890AE} is GUID to register this task with BackgroundTaskBuilder. Generate a random GUID before implementing.
-    [ComVisible(true)]
-    [ClassInterface(ClassInterfaceType.None)]
     [Guid("87654321-1234-1234-1234-1234567890AE")]
-    [ComSourceInterfaces(typeof(IBackgroundTask))]
-    public class BackgroundTask : IBackgroundTask, IDisposable
+    public partial class BackgroundTask : IBackgroundTask, IDisposable
     {
         private bool disposed = false;
 
