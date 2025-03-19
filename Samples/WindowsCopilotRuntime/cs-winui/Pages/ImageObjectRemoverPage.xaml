@@ -11,7 +11,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance Type=models:TextRecognizerViewModel}"
+    d:DataContext="{d:DesignInstance Type=models:ImageObjectRemoverViewModel}"
     DataContext="{Binding ImageObjectRemover}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -30,10 +30,10 @@
 
             <controls:ModelInitializationControl SourceFile="Examples/ImageObjectRemoverInit.md"/>
 
-            <TextBlock Text="Scale Image"
+            <TextBlock Text="Remove Object"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 Margin="10"/>
-            <TextBlock Text="Once the model is initialized, click the buton below to scale the image up by a selected factor."
+            <TextBlock Text="Once the model is initialized, click the buton below to remove the object from the image as per the given object mask."
                 Style="{StaticResource BodyTextBlockStyle}"
                 Margin="10"/>
 
@@ -45,6 +45,7 @@
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -59,9 +60,16 @@
                             Margin="10"
                             Grid.Column="1">
                             <TextBlock Margin="10"
+                                Style="{StaticResource BodyStrongTextBlockStyle}">Mask image</TextBlock>
+                            <Image Source="{Binding MaskSource}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                            Margin="10"
+                            Grid.Column="2">
+                            <TextBlock Margin="10"
                                 Style="{StaticResource BodyStrongTextBlockStyle}">Output image</TextBlock>
                             <Image x:Name="OutputImage"
-                                Source="{Binding ScaleCommand.Result}"/>
+                                Source="{Binding RemoveObjectCommand.Result}"/>
                         </StackPanel>
                     </Grid>
                     <StackPanel Orientation="Horizontal"
@@ -69,20 +77,13 @@
                         Margin="10">
                         <Button Margin="0,0,10,0"
                             Command="{Binding PickInputImageCommand}">Load Image</Button>
-                        <TextBlock Margin="0,5,10,0"
-                            Style="{StaticResource BodyTextBlockStyle}">Scale Factor:</TextBlock>
-                        <Slider Margin="0,0,10,0"
-                            Width="200"
-                            Minimum="0.1"
-                            StepFrequency="0.1"
-                            Maximum="5.0"
-                            Value="{Binding Factor, Mode=TwoWay}"/>
-
                         <Button Margin="0,0,10,0"
-                            Command="{Binding ScaleCommand}">Scale Image</Button>
-                        <ProgressRing Visibility="{Binding ScaleCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            Command="{Binding PickMaskImageCommand}">Load Mask</Button>
+                        <Button Margin="0,0,10,0"
+                            Command="{Binding RemoveObjectCommand}">Remove Object</Button>
+                        <ProgressRing Visibility="{Binding RemoveObjectCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </StackPanel>
-                    <controls:CodeBlockControl SourceFile="Examples/ImageScaler.md"
+                    <controls:CodeBlockControl SourceFile="Examples/ImageObjectRemover.md"
                         Margin="10"/>
                 </StackPanel>
             </Border>
