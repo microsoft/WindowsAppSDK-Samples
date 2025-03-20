@@ -17,43 +17,47 @@
 #include <include/MddBootstrap.h>
 
 using unique_dependency = wil::unique_any<PACKAGEDEPENDENCY_CONTEXT, decltype(RemovePackageDependency), RemovePackageDependency>;
-using wasdk_usage = std::variant<unique_dependency, ::Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::unique_mddbootstrapshutdown>;
+using wasdk_usage =
+    std::variant<unique_dependency, ::Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::unique_mddbootstrapshutdown>;
 wasdk_usage AcquireWinAppSDK(bool useManualBootstrap);
 void ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& manualBootstrap, bool& useProgress);
 
 namespace std
 {
-    template<typename CharT> struct formatter<winrt::hstring, CharT>
+template <typename CharT>
+struct formatter<winrt::hstring, CharT>
+{
+    template <class ParseContext>
+    constexpr auto parse(ParseContext& ctx)
     {
-        template<class ParseContext>
-        constexpr auto parse(ParseContext& ctx)
+        auto it = ctx.begin();
+        if (it != ctx.end() && *it != '}')
         {
-            auto it = ctx.begin();
-            if (it != ctx.end() && *it != '}')
-            {
-                throw std::runtime_error("Invalid format specifier");
-            }
-
-            return it;
+            throw std::runtime_error("Invalid format specifier");
         }
 
-        template<class Context>
-        constexpr auto format(winrt::hstring const& str, Context& ctx) const
-        {
-            return std::ranges::copy(str.c_str(), str.c_str() + str.size(), ctx.out());
-        }
-    };
-}
+        return it;
+    }
 
-int wmain(int argc, wchar_t* argv[]) try
+    template <class Context>
+    constexpr auto format(winrt::hstring const& str, Context& ctx) const
+    {
+        return std::ranges::copy(str.c_str(), str.c_str() + str.size(), ctx.out());
+    }
+};
+} // namespace std
+
+int wmain(int argc, wchar_t* argv[])
+try
 {
     winrt::init_apartment();
-    std::wstring instructions = L"You are a clever storyteller. You write engaging one-paragraph stories that grab the imagination of an 8th grader. Tell a story about a dragon who says: ";
-    
+    std::wstring instructions =
+        L"You are a clever storyteller. You write engaging one-paragraph stories that grab the imagination of an 8th grader. Tell a story about a dragon who says: ";
+
     std::wstring prompt;
     bool manualBootstrap = false;
     bool useProgress = false;
-    ProcessArgs({ argv, argv + argc }, prompt, manualBootstrap, useProgress);
+    ProcessArgs({argv, argv + argc}, prompt, manualBootstrap, useProgress);
 
     // Load the Windows App SDK for this process
     auto dependency = AcquireWinAppSDK(manualBootstrap);
@@ -75,8 +79,11 @@ int wmain(int argc, wchar_t* argv[]) try
         auto available = winrt::Microsoft::Windows::AI::Generative::LanguageModel::MakeAvailableAsync().get();
         if (available.Status() != winrt::Microsoft::Windows::Management::Deployment::PackageDeploymentStatus::CompletedSuccess)
         {
-            throw std::runtime_error(std::format("Failed to make language model available, status: {} (ext error {}) - {}\n",
-                static_cast<int>(available.Status()), available.ExtendedError().value, winrt::to_string(available.ErrorText())));
+            throw std::runtime_error(std::format(
+                "Failed to make language model available, status: {} (ext error {}) - {}\n",
+                static_cast<int>(available.Status()),
+                available.ExtendedError().value,
+                winrt::to_string(available.ErrorText())));
         }
 
         std::cout << "Language model is available." << std::endl;
@@ -102,18 +109,19 @@ int wmain(int argc, wchar_t* argv[]) try
         // while the model is running. Your app should use the final Response string in its work,
         // but showing incremental progress is a great way to show the user something on the way.
         auto responseWait = languageModel.GenerateResponseWithProgressAsync(options, instructions + prompt);
-        responseWait.Progress([](auto const& sender, auto const& progress)
-            {
-                wprintf(L"%s", progress.c_str());
-            });
+        responseWait.Progress([](auto const& sender, auto const& progress) {
+            wprintf(L"%s", progress.c_str());
+        });
 
         auto response = responseWait.get();
-        std::wcout << std::format(L"Response: {}\n(status {})", response.Response(), static_cast<unsigned int>(response.Status())) << std::endl;
+        std::wcout << std::format(L"Response: {}\n(status {})", response.Response(), static_cast<unsigned int>(response.Status()))
+                   << std::endl;
     }
     else
     {
         auto response = languageModel.GenerateResponseAsync(prompt).get();
-        std::wcout << std::format(L"Response: {}\n(status {})", response.Response(), static_cast<unsigned int>(response.Status())) << std::endl;
+        std::wcout << std::format(L"Response: {}\n(status {})", response.Response(), static_cast<unsigned int>(response.Status()))
+                   << std::endl;
     }
 
     return 0;
@@ -162,24 +170,23 @@ wasdk_usage AcquireWinAppSDK(bool useManualMethod)
         myVersion.Build = ::Microsoft::WindowsAppSDK::Runtime::Version::Build;
         myVersion.Revision = ::Microsoft::WindowsAppSDK::Runtime::Version::Revision;
         wil::unique_process_heap_string dependencyId;
-        THROW_IF_FAILED_MSG(::TryCreatePackageDependency(nullptr,
-            ::Microsoft::WindowsAppSDK::Runtime::Packages::Framework::PackageFamilyName,
-            myVersion,
-            g_packageArchitecture,
-            PackageDependencyLifetimeKind_Process,
-            nullptr,
-            CreatePackageDependencyOptions_None,
-            &dependencyId),
+        THROW_IF_FAILED_MSG(
+            ::TryCreatePackageDependency(
+                nullptr,
+                ::Microsoft::WindowsAppSDK::Runtime::Packages::Framework::PackageFamilyName,
+                myVersion,
+                g_packageArchitecture,
+                PackageDependencyLifetimeKind_Process,
+                nullptr,
+                CreatePackageDependencyOptions_None,
+                &dependencyId),
             "Couldn't create a package dependency");
 
         wil::unique_process_heap_string packageFullName;
         unique_dependency dependencyContext;
-        THROW_IF_FAILED_MSG(::AddPackageDependency(
-            dependencyId.get(),
-            1,
-            AddPackageDependencyOptions_PrependIfRankCollision,
-            &dependencyContext,
-            &packageFullName),
+        THROW_IF_FAILED_MSG(
+            ::AddPackageDependency(
+                dependencyId.get(), 1, AddPackageDependencyOptions_PrependIfRankCollision, &dependencyContext, &packageFullName),
             "Couldn't add package dependency");
 
         return dependencyContext;
