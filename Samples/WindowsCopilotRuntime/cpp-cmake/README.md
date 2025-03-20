@@ -21,7 +21,12 @@ Topics and concepts in this example include:
 > the [Windows App SDK 1.7-experimental3](https://learn.microsoft.com/windows/apps/windows-app-sdk/experimental-channel#version-17-experimental-170-experimental3)
 > framework package for production use.
 
-## Prerequisites
+## Building
+
+You can build this project and change it to see examples of using the Windows Copilot Runtime
+features of Windows App SDK and Copilot+ PCs.
+
+### Prerequisites
 
 1. Install vcpkg [Microsoft vcpkg CMake integration](https://learn.microsoft.com/vcpkg/get_started/get-started)
 to get vcpkg cloned and ready for use.
@@ -31,6 +36,18 @@ to get vcpkg cloned and ready for use.
 5. A [Windows Copilot+ PC](https://learn.microsoft.com/windows/ai/npu-devices/) to run this sample
 6. Install the [Windows App SDK 1.7 Experimental3](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-17-experimental) framework package on your Copilot+ PC (Note: installing the Experimental package will not affect your production apps).
 
+### Building
 
-After configuring the tools, open the sample directory in your build environment.
+> **Note:** The rest of these instructions assume you're using Visual Studio 2022. Your build tools'
+> instructions may be different.
+
+Open this sample directory in Visual Studio 2022 with _File > Open > Folder_.
+
+Change the target build type to match your Copilot+ PC's architecture, like `arm64-debug`.
+
+Use _Build > Build all_ - this pulls down the Windows App SDK kit, C++/WinRT, and WebView2.
+
+### Running
+
+Run this project with _Debug > Start Debugging_. You should see output like:
 
