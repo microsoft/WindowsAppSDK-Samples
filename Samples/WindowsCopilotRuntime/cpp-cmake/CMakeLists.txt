@@ -10,7 +10,7 @@ find_package(webview2 CONFIG REQUIRED)
 add_executable(cmake-ai-generator
     main.cpp
     app.manifest
-)
+    formatters.h)
 
 target_link_libraries(cmake-ai-generator
     INTERFACE

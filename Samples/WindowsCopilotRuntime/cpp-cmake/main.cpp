@@ -15,37 +15,13 @@
 #include <winrt/Microsoft.Windows.Workloads.h>
 #include <include/WindowsAppSDK-VersionInfo.h>
 #include <include/MddBootstrap.h>
+#include "formatters.h"
 
 using unique_dependency = wil::unique_any<PACKAGEDEPENDENCY_CONTEXT, decltype(RemovePackageDependency), RemovePackageDependency>;
 using wasdk_usage =
     std::variant<unique_dependency, ::Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::unique_mddbootstrapshutdown>;
 wasdk_usage AcquireWinAppSDK(bool useManualBootstrap);
 void ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& manualBootstrap, bool& useProgress);
-
-namespace std
-{
-template <typename CharT>
-struct formatter<winrt::hstring, CharT>
-{
-    template <class ParseContext>
-    constexpr auto parse(ParseContext& ctx)
-    {
-        auto it = ctx.begin();
-        if (it != ctx.end() && *it != '}')
-        {
-            throw std::runtime_error("Invalid format specifier");
-        }
-
-        return it;
-    }
-
-    template <class Context>
-    constexpr auto format(winrt::hstring const& str, Context& ctx) const
-    {
-        return std::ranges::copy(str.c_str(), str.c_str() + str.size(), ctx.out());
-    }
-};
-} // namespace std
 
 int wmain(int argc, wchar_t* argv[])
 try
@@ -57,7 +33,7 @@ try
     std::wstring prompt;
     bool manualBootstrap = false;
     bool useProgress = false;
-    ProcessArgs({argv, argv + argc}, prompt, manualBootstrap, useProgress);
+    ProcessArgs({argv + 1, argv + argc}, prompt, manualBootstrap, useProgress);
 
     // Load the Windows App SDK for this process
     auto dependency = AcquireWinAppSDK(manualBootstrap);
@@ -119,7 +95,7 @@ try
     }
     else
     {
-        auto response = languageModel.GenerateResponseAsync(prompt).get();
+        auto response = languageModel.GenerateResponseAsync(instructions + prompt).get();
         std::wcout << std::format(L"Response: {}\n(status {})", response.Response(), static_cast<unsigned int>(response.Status()))
                    << std::endl;
     }
@@ -128,13 +104,13 @@ try
 }
 catch (std::exception const& e)
 {
-    std::cerr << std::format("Exception: {} (0x{:08x})\n", e.what(), static_cast<unsigned int>(GetLastError())) << std::endl;
+    std::cerr << std::format("Exception: {}", e.what()) << std::endl;
     return -1;
 }
 catch (...)
 {
     auto ex = wil::ResultFromCaughtException();
-    std::cerr << std::format("Exception: 0x{:08x}", ex) << std::endl;
+    std::cerr << std::format("Exception: 0x{:08x}", static_cast<uint32_t>(ex)) << std::endl;
     return ex;
 }
 
@@ -156,8 +132,8 @@ wasdk_usage AcquireWinAppSDK(bool useManualMethod)
 
     if (useManualMethod)
     {
-        // The constants in Microsoft::WindowsAppSDK::Runtime are defined by a Windows App SDK
-        // header file and specify the Windows App SDK version your app compiled against.
+        // The constants in Microsoft::WindowsAppSDK::Runtime are defined in WindowsAppSDK-VersionInfo.h
+        // and specify the Windows App SDK used when building your app.
         //
         // Adding a package dependency requires the family name, desired version, and processor
         // architecture of the package to load.
