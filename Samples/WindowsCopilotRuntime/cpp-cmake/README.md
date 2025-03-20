@@ -51,3 +51,46 @@ Use _Build > Build all_ - this pulls down the Windows App SDK kit, C++/WinRT, an
 
 Run this project with _Debug > Start Debugging_. You should see output like:
 
+```
+Generating response...
+Response: In the emerald valleys of Valoria, there dwelled a benevolent dragon named ...
+```
+
+(Note that the output generated on your system may be different.)
+
+## Structure
+
+The sample has several phases:
+
+### Configuration
+
+On entry, arguments like `--manual-bootstrap` and `--progress` are pulled out of the command line.
+Any remaining text is considered part of the prompt.
+
+### Loading Windows App Runtime
+
+As as an unpackaged framework-bound application, this sample creates a runtime reference to the
+Windows App Runtime. Your app can use the built-in `Bootstrapper` type, which finds the correct
+version of the runtime and configures the process for its use. Your app's installer must deploy
+the `Microsoft.WindowsAppRuntime.Bootstrap.dll` in a place your app can load it at runtime.
+
+Apps that cannot deploy the bootstrapper DLL can use the built-in Windows methods `TryCreatePackageDependency`
+and `AddPackageDependency` to find and load the runtime.
+
+> **Note:** Packaged apps should instead specify a `<PackageReference/>` in their MSIX manifest.
+
+### Using the Language Model
+
+To use Windows Copilot Runtime Generative AI features, your app must ensure the model is available,
+then create an instance of the model to use. Your customers' systems may not have the models yet,
+and the `MakeAvailableAsync` method will acquire and install them for your app to use.
+
+Calling `LanguageModel::CreateAsync` loads the model and returns an instance of the model ready to
+generate output. When ready, use `LanguageModel::GenerateResponseAsync` with a prompt, options, and
+content moderation settings.
+
+Change the parameters used in code and recompile if you'd like to see other results.
+
+The sample combines a system prompt ("You are a clever storyteller...") with a user-provided prompt
+on the commandline that is the kind of story to tell about what a dragon might say.
+
