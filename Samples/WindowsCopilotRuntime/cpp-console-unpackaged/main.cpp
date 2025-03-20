@@ -1,4 +1,6 @@
-﻿#include <Windows.h>
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+#include <Windows.h>
 #include <appmodel.h>
 #include <Unknwn.h>
 #include <wil/cppwinrt.h>

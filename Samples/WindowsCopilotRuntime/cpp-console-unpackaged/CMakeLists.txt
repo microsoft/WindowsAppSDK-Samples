@@ -1,3 +1,5 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 cmake_minimum_required(VERSION 3.10)
 
 project(cmake-ai-generator)
@@ -6,6 +8,8 @@ find_package(wil CONFIG REQUIRED)
 find_package(cppwinrt CONFIG REQUIRED)
 find_package(windowsappsdk CONFIG REQUIRED)
 find_package(webview2 CONFIG REQUIRED)
+
+set(CMAKE_CXX_STANDARD 20)
 
 add_executable(cmake-ai-generator
     main.cpp
@@ -18,11 +22,8 @@ target_link_libraries(cmake-ai-generator
     PRIVATE
         Microsoft::CppWinRT
         WindowsAppSdk::WindowsAppSdk
-        RuntimeObject # For cppwinrt's use of winrt::hresult_error
         OneCoreUAP
 )
-
-set(CMAKE_CXX_STANDARD 20)
 
 function(install_target_runtime_dlls)
   set(single_value_args DESTINATION)

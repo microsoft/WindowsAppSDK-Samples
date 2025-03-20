@@ -13,6 +13,7 @@ if(NOT TARGET Microsoft::CppWinRT)
     INTERFACE
       "${_installed_root}/lib/cppwinrt_fast_forwarder.lib"
       WindowsApp.lib
+      RuntimeObject
   )
   unset(_installed_root)
 endif()
