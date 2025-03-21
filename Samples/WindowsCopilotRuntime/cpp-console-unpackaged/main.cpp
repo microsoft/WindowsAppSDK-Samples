@@ -188,8 +188,29 @@ wasdk_usage AcquireWinAppSDK(bool useManualMethod)
         //
         // See https://learn.microsoft.com/windows/apps/api-reference/bootstrapper-cpp-api/microsoft.windows.applicationmodel.dynamicdependency.bootstrap/microsoft.windows.applicationmodel.dynamicdependency.bootstrap
         // for more details. If your app does not use C++ exceptions, InitializeNoThrow() returns
-        // an HRESULT error you can handle.
-        return ::Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::Initialize();
+        // an HRESULT error you can handle. This mode asks the user to install the Windows App SDK
+        // if it's not present.
+        auto options = ::Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::InitializeOptions::OnNoMatch_ShowUI;
+        auto result = ::Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::InitializeNoThrow(
+            Microsoft::WindowsAppSDK::Release::MajorMinor,
+            Microsoft::WindowsAppSDK::Release::VersionTag,
+            Microsoft::WindowsAppSDK::Runtime::Version::UInt64,
+            options);
+        if (FAILED(result))
+        {
+            std::wcerr << std::format(
+                L"Couldn't find Windows App SDK {}.{}{}, error: 0x{:08x}",
+                Microsoft::WindowsAppSDK::Release::Major,
+                Microsoft::WindowsAppSDK::Release::Minor,
+                Microsoft::WindowsAppSDK::Release::FormattedVersionTag,
+                              static_cast<uint32_t>(result))
+                       << std::endl;
+
+            throw winrt::hresult_error(result);
+        }
+
+        return Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::unique_mddbootstrapshutdown{
+            reinterpret_cast<Microsoft::Windows::ApplicationModel::DynamicDependency::Bootstrap::details::mddbootstrapshutdown_t*>(1)};
     }
 }
 
