@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <appmodel.h>
 #include <Unknwn.h>
+#include <libloaderapi2.h>
 #include <wil/cppwinrt.h>
 #include <wil/stl.h>
 #include <wil/resource.h>
@@ -134,6 +135,18 @@ wasdk_usage AcquireWinAppSDK(bool useManualMethod)
 
     if (useManualMethod)
     {
+        // The package dependency APIs are new as of Windows 11 (10.0.22000). If your app is
+        // running on older systems, you'll need to use the Bootstrapper module below, which
+        // uses other mechanisms to find and connect to the runtime.
+        HMODULE selfModule;
+        GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, reinterpret_cast<LPCSTR>(AcquireWinAppSDK), &selfModule);
+        auto hasTryCreate = ::QueryOptionalDelayLoadedAPI(selfModule, "*", "TryCreatePackageDependency", 0);
+        auto hasAddPackage = ::QueryOptionalDelayLoadedAPI(selfModule, "*", "AddPackageDependency", 0);
+        if (!hasTryCreate || !hasAddPackage)
+        {
+            throw std::runtime_error("This version of Windows does not support manual load of the Windows App Runtime");
+        }
+
         // The constants in Microsoft::WindowsAppSDK::Runtime are defined in WindowsAppSDK-VersionInfo.h
         // and specify the Windows App SDK used when building your app.
         //

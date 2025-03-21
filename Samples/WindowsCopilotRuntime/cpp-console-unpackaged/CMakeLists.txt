@@ -23,7 +23,14 @@ target_link_libraries(cmake-ai-generator
         Microsoft::CppWinRT
         WindowsAppSdk::WindowsAppSdk
         OneCoreUAP
+        DelayImp
 )
+
+# Delay loading this DLL ensures that the executable can _run_ on older Windows versions, but detect
+# whether or not the necessary manual WinAppRuntime support is there.
+target_link_options(cmake-ai-generator
+    PRIVATE
+    "/delayload:api-ms-win-appmodel-runtime-l1-1-5.dll")
 
 function(install_target_runtime_dlls)
   set(single_value_args DESTINATION)
