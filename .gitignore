@@ -338,6 +338,7 @@ __pycache__/
 # Build output root
 BuildOutput/
 .nuget/
+out/
 
 # OpenCover UI analysis results
 OpenCover/
