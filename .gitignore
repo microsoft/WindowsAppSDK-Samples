@@ -338,6 +338,7 @@ __pycache__/
 # Build output root
 BuildOutput/
 .nuget/
+out/
 
 # OpenCover UI analysis results
 OpenCover/
@@ -368,7 +369,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-
-# CMake build outputs
-build/
-vcpkg_installed/
