@@ -36,9 +36,11 @@
             richTextBoxForImageText = new RichTextBox();
             summaryBox = new GroupBox();
             richTextBoxForImageSummary = new RichTextBox();
+            imagePanel = new Panel();
             ((System.ComponentModel.ISupportInitialize)SelectedImage).BeginInit();
             imageTextBox.SuspendLayout();
             summaryBox.SuspendLayout();
+            imagePanel.SuspendLayout();
             SuspendLayout();
             // 
             // selectFile
@@ -62,10 +64,10 @@
             // 
             // SelectedImage
             // 
-            SelectedImage.Location = new Point(12, 80);
+            SelectedImage.Location = new Point(0, 3);
             SelectedImage.Name = "SelectedImage";
-            SelectedImage.Size = new Size(1319, 333);
-            SelectedImage.SizeMode = PictureBoxSizeMode.StretchImage;
+            SelectedImage.Size = new Size(1304, 367);
+            SelectedImage.SizeMode = PictureBoxSizeMode.AutoSize;
             SelectedImage.TabIndex = 2;
             SelectedImage.TabStop = false;
             // 
@@ -115,15 +117,24 @@
             richTextBoxForImageSummary.TabIndex = 0;
             richTextBoxForImageSummary.Text = "";
             // 
+            // imagePanel
+            // 
+            imagePanel.AutoScroll = true;
+            imagePanel.Controls.Add(SelectedImage);
+            imagePanel.Location = new Point(18, 59);
+            imagePanel.Name = "imagePanel";
+            imagePanel.Size = new Size(1307, 373);
+            imagePanel.TabIndex = 6;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1343, 692);
+            Controls.Add(imagePanel);
             Controls.Add(summaryBox);
             Controls.Add(imageTextBox);
             Controls.Add(processButton);
-            Controls.Add(SelectedImage);
             Controls.Add(imagePath);
             Controls.Add(selectFile);
             Name = "MainForm";
@@ -131,6 +142,8 @@
             ((System.ComponentModel.ISupportInitialize)SelectedImage).EndInit();
             imageTextBox.ResumeLayout(false);
             summaryBox.ResumeLayout(false);
+            imagePanel.ResumeLayout(false);
+            imagePanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -145,5 +158,6 @@
         private GroupBox summaryBox;
         private RichTextBox richTextBoxForImageText;
         private RichTextBox richTextBoxForImageSummary;
+        private Panel imagePanel;
     }
 }

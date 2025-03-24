@@ -4,11 +4,13 @@ using Microsoft.Windows.Vision;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.Storage;
-using System.Text;
 using Microsoft.Windows.AI.ContentModeration;
 
 namespace WindowsCopilotRuntimeSample
 {
+    // This is a sample application that demonstrates how to use the Windows Copilot Runtime API
+    // to perform text recognition and summarization on an image.
+    // To learn more about the Windows Copilot Runtime API usage, visit https://learn.microsoft.com/windows/ai/apis/
     public partial class MainForm : Form
     {
         private string pathToImage = string.Empty;
@@ -50,7 +52,7 @@ namespace WindowsCopilotRuntimeSample
             catch (Exception ex)
             {
                 TaskDialog.ShowDialog(this, new TaskDialogPage {
-                    Caption = "WCR Sample Error",
+                    Caption = "WCR WinForms Sample Error",
                     Heading = "An error occurred in loading the AI models",
                     Text = ex.Message,
                     Icon = TaskDialogIcon.Error,
@@ -73,7 +75,7 @@ namespace WindowsCopilotRuntimeSample
             {
                 TaskDialog.ShowDialog(this, new TaskDialogPage 
                 {
-                    Caption = "WCR Sample Error",
+                    Caption = "WCR WinForms Sample Error",
                     Heading = "An error occurred during text recognition",
                     Text = ex.Message,
                     Icon = TaskDialogIcon.Error,
@@ -93,7 +95,7 @@ namespace WindowsCopilotRuntimeSample
             catch (Exception ex)
             {
                 TaskDialog.ShowDialog(this, new TaskDialogPage {
-                    Caption = "WCR Sample Error",
+                    Caption = "WCR WinForms Sample Error",
                     Heading = "An error occurred while summarizing the text in the image",
                     Text = ex.Message,
                     Icon = TaskDialogIcon.Error,
@@ -157,14 +159,7 @@ namespace WindowsCopilotRuntimeSample
 
             TextRecognizerOptions options = new TextRecognizerOptions { };
             RecognizedText recognizedText = textRecognizer!.RecognizeTextFromImage(imageBuffer, options);
-            StringBuilder stringBuilder = new StringBuilder();
 
-            foreach (var line in recognizedText.Lines)
-            {
-                stringBuilder.AppendLine(line.Text);
-            }
-
-            richTextBoxForImageText.Text = stringBuilder.ToString();
             var recognizedTextLines = recognizedText.Lines.Select(line => line.Text);
             string text = string.Join(Environment.NewLine, recognizedTextLines);
 
@@ -175,24 +170,21 @@ namespace WindowsCopilotRuntimeSample
         private async Task<ImageBuffer?> LoadImageBufferFromFileAsync(string filePath)
         {
             StorageFile file = await StorageFile.GetFileFromPathAsync(filePath);
-            IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-            SoftwareBitmap bitmap = await decoder.GetSoftwareBitmapAsync();
-
-            if (bitmap == null)
+            using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read))
             {
-                return null;
-            }
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+                SoftwareBitmap bitmap = await decoder.GetSoftwareBitmapAsync();
 
-            return ImageBuffer.CreateBufferAttachedToBitmap(bitmap);
+                return bitmap != null ? ImageBuffer.CreateBufferAttachedToBitmap(bitmap) : null;
+            }
         }
 
         private async Task SummarizeImageText(string text)
         {
-            string systemPrompt = "You summarize user provided text for software developers." +
-                "Respond only with the summary and no additional text";
+            string systemPrompt = "You summarize user provided text to a software developer audience." +
+                "Respond only with the summary and no additional text.";
 
-            // Learn more about content moderation here: https://learn.microsoft.com/windows/ai/apis/content-moderation
+            // To learn more about content moedration, visit https://learn.microsoft.com/windows/ai/apis/content-moderation
             var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
                 HateContentSeverity = SeverityLevel.Low,
                 SexualContentSeverity = SeverityLevel.Low,
