@@ -15,18 +15,19 @@ extendedZipContent:
 ---
 # Use the Windows App SDK from non-MSIX deployed applications
 
-These samples demonstrate how simple it is to use the Windows App SDK from a non-MSIX (unpackaged) application using the auto-intialization that is part of the Windows App SDK NuGet package.
+These samples demonstrate how simple it is to use the Windows App SDK from a non-MSIX (unpackaged) application.
 
 ## List of Samples
 
-- [Basic - C++](cpp-console-unpackaged) - Console app sample showing how to set a project property that initializes access to the Windows App SDK and call a simple API.
-- [Basic - C#](cs-console-unpackaged) - Console app sample showing how to set a project property that initializes access the Windows App SDK and call a simple API.
+- [Basic - C++](cpp-console-unpackaged) - Console app sample showing how to set a project property that initializes access to the Windows App SDK and call a simple API.This uses the auto-intialization that is part of the Windows App SDK NuGet package.
+- [Basic - C#](cs-console-unpackaged) - Console app sample showing how to set a project property that initializes access the Windows App SDK and call a simple API. the auto-intialization that is part of the Windows App SDK NuGet package.
+- [Basic -C#](cs-winforms-unpackaged) - WinForms app sample showing how to use explicit initialization (using Bootstrapper APIs) of the Windows App SDK runtime to call a simple API.
 
 ## Scenarios covered in these samples
 
 ### Using the Windows App SDK in an unpackaged desktop app
 
-When using the Windows App SDK in an unpackaged app, the developer needs to add a `PackageReference` to the Windows App SDK NuGet and set `<WindowsPackageType>None</WindowsPackageType>` in the project file. This property tells the build system to auto-initialize the framework package for use with the app using module initializers in both C# and C++. If developers want more control over the initialization, they can explicitly call the Bootstrapper APIs to initialize the framework package. See [Referencing the Windows App SDK framework package at run time](https://docs.microsoft.com/windows/apps/windows-app-sdk/reference-framework-package-run-time).
+When using the Windows App SDK in an unpackaged app, the developer needs to add a `PackageReference` to the Windows App SDK NuGet and set `<WindowsPackageType>None</WindowsPackageType>` in the project file. This property tells the build system to auto-initialize the framework package for use with the app using module initializers in both C# and C++. If developers want more control over the initialization, they can explicitly call the Bootstrapper APIs to initialize the framework package. See [Use the Windows App SDK runtime for apps packaged with external location or unpackaged](https://learn.microsoft.com/windows/apps/windows-app-sdk/use-windows-app-sdk-run-time) and the cs-winforms-unpackaged sample for more details.
 
 ## Prerequisites
 
