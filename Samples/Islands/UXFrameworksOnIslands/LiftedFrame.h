@@ -28,6 +28,15 @@ public:
 
     [[nodiscard]] bool IsLiftedFrame() const final { return true; }
 
+    bool SystemPreTranslateMessage(
+        UINT /*message*/,
+        WPARAM /*wParam*/,
+        LPARAM /*lParam*/) override
+    {
+        // We don't expect to receive pretranslate messages in a lifted frame.
+        return false;
+    }
+
     LRESULT HandleMessage(
         UINT /*message*/,
         WPARAM /*wParam*/,

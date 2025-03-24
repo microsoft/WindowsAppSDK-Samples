@@ -103,7 +103,7 @@ private:
     winrt::AppWindow m_window = nullptr;
     AppWindowClosing_revoker m_closingRevoker{};
 
-    winrt::ReadOnlyDesktopSiteBridge m_bridge = nullptr;
+    winrt::DesktopAttachedSiteBridge m_bridge = nullptr;
 
     bool m_windowAutomationRootRegisteredWithUIA = false;
     std::unique_ptr<AutomationHelpers::AutomationCallbackRevoker> m_fragmentRevoker = nullptr;

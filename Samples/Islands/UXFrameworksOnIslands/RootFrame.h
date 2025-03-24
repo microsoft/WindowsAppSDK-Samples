@@ -15,6 +15,11 @@ public:
         const winrt::WUC::Compositor& systemCompositor,
         const std::shared_ptr<SettingCollection>& settings);
 
+    bool SystemPreTranslateMessage(
+        UINT message,
+        WPARAM wParam,
+        LPARAM lParam) override;
+    
     LRESULT HandleMessage(
         UINT message,
         WPARAM wParam,
@@ -87,6 +92,8 @@ private:
     SystemTextVisual m_ribbonLabel;
     SystemTextVisual m_backLabel;
     SystemTextVisual m_frontLabel;
+    SystemTextVisual m_acceleratorLabel;
+    bool m_acceleratorActive = false;
     SystemCheckBox m_forceAliasedTextCheckBox;
     SystemCheckBox m_disablePixelSnappingCheckBox;
     SystemCheckBox m_showSpriteBoundsCheckBox;

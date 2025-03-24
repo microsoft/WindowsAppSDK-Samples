@@ -54,7 +54,7 @@ void HitTestContext::RunHitTest(
             auto focusList = currentNode->OwningFocusList();
             if (focusList != nullptr)
             {
-                m_focusManager.SetFocusFromClick(currentNode, focusList);
+                m_focusManager.SetFocusToVisual(currentNode, focusList);
                 m_foundFocusNode = true;
             }
         }
