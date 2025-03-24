@@ -1,4 +1,5 @@
 ﻿using Microsoft.Windows.ApplicationModel.DynamicDependency;
+using static Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap;
 
 namespace WinFormsApp
 {
@@ -15,15 +16,17 @@ namespace WinFormsApp
             // and remove WindowsPackageType=None in project file
             // Learn more at: https://learn.microsoft.com/windows/apps/windows-app-sdk/tutorial-unpackaged-deployment?tabs=csharp
             const int Success = unchecked((int)0x00000000);
-            if (!Bootstrap.TryInitialize(0x00010006, out int result))
+            var minVersion = new PackageVersion { Major = 1, Minor = 6, Build = 0, Revision = 0 };
+            if (!Bootstrap.TryInitialize(0x00010006, string.Empty, minVersion, InitializeOptions.OnNoMatch_ShowUI, out var result))
             {
                 if (result != Success)
                 {
-                    throw new SystemException($"Dynamic dependency initialization failed with error code {result}");
+                    Console.WriteLine($"Dynamic dependency initialization failed with error code {result}");
+                    return;
                 }
             }
 
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
             Bootstrap.Shutdown();
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -34,9 +34,10 @@
             // 
             // button1
             // 
-            button1.Location = new Point(12, 12);
+            button1.Location = new Point(8, 7);
+            button1.Margin = new Padding(2, 2, 2, 2);
             button1.Name = "button1";
-            button1.Size = new Size(212, 90);
+            button1.Size = new Size(148, 54);
             button1.TabIndex = 0;
             button1.Text = "DisplayStatus";
             button1.UseVisualStyleBackColor = true;
@@ -45,21 +46,23 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 132);
+            label1.Location = new Point(8, 79);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(122, 25);
+            label1.Size = new Size(80, 15);
             label1.TabIndex = 1;
             label1.Text = "Status Output";
             // 
-            // Form1
+            // MainForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(560, 270);
             Controls.Add(label1);
             Controls.Add(button1);
-            Name = "Form1";
-            Text = "Form1";
+            Margin = new Padding(2, 2, 2, 2);
+            Name = "MainForm";
+            Text = "MainForm";
             ResumeLayout(false);
             PerformLayout();
         }
