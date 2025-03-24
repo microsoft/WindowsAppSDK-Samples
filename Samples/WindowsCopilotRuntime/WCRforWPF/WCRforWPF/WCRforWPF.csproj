@@ -64,6 +64,7 @@
 
   <Target Name="SignMSIX"
           AfterTargets="Build"
+          Condition="'$(BuildingInsideVisualStudio)' != 'true'"
           Outputs="@(BinplaceItemCopied)">
     <ItemGroup>
       <BinplaceItem Include="$(RepoTestCertificateCer)" />
