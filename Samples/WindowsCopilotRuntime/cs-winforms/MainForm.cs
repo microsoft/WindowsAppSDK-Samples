@@ -181,10 +181,10 @@ namespace WindowsCopilotRuntimeSample
 
         private async Task SummarizeImageText(string text)
         {
-            string systemPrompt = "You summarize user provided text to a software developer audience." +
+            string systemPrompt = "You summarize user-provided text to a software developer audience." +
                 "Respond only with the summary and no additional text.";
 
-            // To learn more about content moedration, visit https://learn.microsoft.com/windows/ai/apis/content-moderation
+            // To learn more about content moderation, visit https://learn.microsoft.com/windows/ai/apis/content-moderation
             var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
                 HateContentSeverity = SeverityLevel.Low,
                 SexualContentSeverity = SeverityLevel.Low,
@@ -205,9 +205,9 @@ namespace WindowsCopilotRuntimeSample
             };
 
             // Create a context for the language model
-            languageModel!.CreateContext(systemPrompt, contentFilterOptions);
+            var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
             string prompt = "Summarize the following text: " + text;
-            var output = await languageModel!.GenerateResponseAsync(prompt);
+            var output = await languageModel!.GenerateResponseAsync(new LanguageModelOptions(), prompt, contentFilterOptions, languageModelContext);
             richTextBoxForImageSummary.Text = output.Response;
         }
     }
