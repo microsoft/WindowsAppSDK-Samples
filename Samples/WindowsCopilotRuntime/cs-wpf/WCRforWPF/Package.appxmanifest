@@ -8,7 +8,7 @@
 
   <Identity
     Name="6a6263cd-0e36-45b0-85cd-1a9555a405d5"
-    Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    Publisher="CN=Windows App SDK Samples"
     Version="1.0.0.0" />
 
   <Properties>

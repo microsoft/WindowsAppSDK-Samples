@@ -50,7 +50,7 @@ if (-not (Test-Path $pfx))
     $cert_path = "cert:\CurrentUser\My"
     $now = Get-Date
     $expiration = $now.AddMonths(12)
-    $subject = 'CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US'
+    $subject = 'CN=Windows App SDK Samples'
     $friendly_name = "Microsoft.WindowsAppSDK Test Certificate Create=$now"
     $key_friendly_name = "Microsoft.WindowsAppSDK Test PrivateKey Create=$now"
     $key_description = "Microsoft.WindowsAppSDK Test PrivateKey Create=$now"
