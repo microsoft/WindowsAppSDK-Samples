@@ -13,13 +13,17 @@ Summary of the steps done:
     ```
 
 - Add WCRforWPF\Properties\launchSettings.json
-
-- Add /Properties/PublishProfiles/win10-$(platform).pubxml and 
+  This configures on how an application starts during development
+  
+- Add /Properties/PublishProfiles/win10-$(platform).pubxml 
+  This defines the publishing configuration for each platform is necessary for each platform you
+  want to publish and deploy on. 
 
 - Move Package.appxmanifest and files under images from the WAPProj to WCRforWPF.csproj and remove
   the WAPProj.
 
-- In configuration manager, check the deploy box in each of the configuration
+- In configuration manager, check the deploy box in each of the configuration/platform you want to
+  deploy on
 
 # Building with DotNetCLI
 
