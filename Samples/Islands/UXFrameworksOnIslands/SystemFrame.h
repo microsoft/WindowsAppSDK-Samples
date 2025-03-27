@@ -31,6 +31,15 @@ public:
 
     [[nodiscard]] bool IsLiftedFrame() const final { return false; }
 
+    bool SystemPreTranslateMessage(
+        UINT /*message*/,
+        WPARAM /*wParam*/,
+        LPARAM /*lParam*/) override
+    {
+        // Default implementation does nothing.
+        return false;
+    }
+
     LRESULT HandleMessage(
         UINT /*message*/,
         WPARAM /*wParam*/,

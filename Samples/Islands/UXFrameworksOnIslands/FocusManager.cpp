@@ -35,14 +35,14 @@ void FocusManager::InitializeWithFocusController(
 
     m_focusController.GotFocus(
         [this](auto&& /*sender*/, auto&& /*args*/)
-        {
-            RestoreFocus();
+    {
+        RestoreFocus();
         });
 
     m_focusController.LostFocus(
         [this](auto&& /*sender*/, auto&& /*args*/)
-        {
-            ClearFocus();
+    {
+        ClearFocus();
         });
 }
 
@@ -52,7 +52,7 @@ void FocusManager::InitializeWithFocusHost(
     m_focusHost = focusHost;
 }
 
-void FocusManager::SetFocusFromClick(
+void FocusManager::SetFocusToVisual(
     const std::shared_ptr<VisualTreeNode>& node,
     const std::shared_ptr<FocusList>& list)
 {
@@ -62,6 +62,7 @@ void FocusManager::SetFocusFromClick(
 
     m_focusedList = list;
     m_focusedIndex = list->IndexOf(node);
+    EnsureWin32Focus();
 }
 
 void FocusManager::ClearFocus()

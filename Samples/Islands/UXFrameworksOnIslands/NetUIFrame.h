@@ -13,6 +13,11 @@ public:
         const winrt::WUC::Compositor& systemCompositor,
         const std::shared_ptr<SettingCollection>& settings);
 
+    bool SystemPreTranslateMessage(
+        UINT message,
+        WPARAM wParam,
+        LPARAM lParam) override;
+    
     void ConnectFrame(
         IFrame* frame);
 
@@ -39,6 +44,8 @@ private:
     winrt::ChildSiteLink m_childSiteLink = nullptr;
     winrt::WUC::ContainerVisual m_childContentVisual{nullptr};
     SystemTextVisual m_labelVisual;
+    SystemTextVisual m_acceleratorVisual;
+    bool m_acceleratorActive = false;
 
     // Interaction tracker
     winrt::WUCI::InteractionTracker m_interactionTracker{nullptr};

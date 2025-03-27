@@ -9,7 +9,7 @@
 ReactNativeFrame::ReactNativeFrame(const winrt::Compositor& compositor, const std::shared_ptr<SettingCollection>& settings) :
     LiftedFrame(compositor, settings),
     m_labelVisual(GetOutput(), k_frameName),
-    m_acceleratorVisual(GetOutput(), L"1"),
+    m_acceleratorVisual(GetOutput(), L"3"),
     m_focusManager(m_focusList)
 {
     InitializeVisualTree(compositor);
@@ -220,10 +220,9 @@ void ReactNativeFrame::OnPreTranslateTreeMessage(
     _Inout_ bool* handled)
 {
     *handled = false;
-
     if (msg->message == WM_SYSKEYDOWN || msg->message == WM_KEYDOWN)
     {
-        if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Control)
+        if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Menu)
         {
             m_acceleratorActive = !m_acceleratorActive;
             m_acceleratorVisual.GetVisual().IsVisible(m_acceleratorActive);
@@ -231,10 +230,10 @@ void ReactNativeFrame::OnPreTranslateTreeMessage(
         else {
             m_acceleratorActive = false;
             m_acceleratorVisual.GetVisual().IsVisible(false);
-            if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Number1)
+            if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Number3)
             {
                 // Take focus
-                m_focusController.TrySetFocus();
+                m_focusManager.SetFocusToVisual(GetRootVisualTreeNode(), GetRootVisualTreeNode()->OwningFocusList());
             }
         }
     }
