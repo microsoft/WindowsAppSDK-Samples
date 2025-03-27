@@ -14,6 +14,35 @@
 #include "WebViewFrame.h"
 #include "WinUIFrame.h"
 
+// The DispatcherQueue.RunEventLoop() calls the ContentPreTranslateMessage API, which would allow
+// Lifted Islands to receive PreTranslateMessage callbacks through InputPreTranslateKeyboardSource,
+// but it would not call this app's custom System PreTranslateMessage. Thus, this app uses a
+// custom event loop instead of DispatcherQueue.RunEventLoop().
+void RunEventLoop(RootFrame& rootFrame) {
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
+        if (ContentPreTranslateMessage(&msg))
+        {
+            continue;
+        }
+
+        if (rootFrame.SystemPreTranslateMessage(msg.message, msg.wParam, msg.lParam))
+        {
+            continue;
+        }
+
+        // Disable default behavior where Alt focuses title bar
+        if (msg.message == WM_SYSKEYDOWN && msg.wParam == VK_MENU)
+        {
+            continue;
+        }
+
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
+
 void InitializeFramesAndRun(
     const winrt::Compositor& compositor,
     const winrt::WUC::Compositor& systemCompositor,
@@ -76,7 +105,8 @@ void InitializeFramesAndRun(
     popupRoot.ConnectPopupFrame(&popupChild);
 
     // Run the message loop
-    queue.RunEventLoop();
+    RunEventLoop(rootFrame);
+
     dispatcherQueueController.ShutdownQueue();
 }
 

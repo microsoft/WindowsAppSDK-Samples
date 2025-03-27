@@ -8,7 +8,7 @@
 WinUIFrame::WinUIFrame(const winrt::Compositor& compositor, const std::shared_ptr<SettingCollection>& settings) :
     LiftedFrame(compositor, settings),
     m_labelVisual(GetOutput(), k_frameName),
-    m_acceleratorVisual(GetOutput(), L"2"),
+    m_acceleratorVisual(GetOutput(), L"4"),
     m_focusManager(m_focusList)
 {
     m_labelVisual.SetBackgroundColor(ColorUtils::LightYellow());
@@ -62,7 +62,7 @@ void WinUIFrame::OnPreTranslateTreeMessage(
 
     if (msg->message == WM_SYSKEYDOWN || msg->message == WM_KEYDOWN)
     {
-        if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Control)
+        if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Menu)
         {
             m_acceleratorActive = !m_acceleratorActive;
             m_acceleratorVisual.GetVisual().IsVisible(m_acceleratorActive);
@@ -70,10 +70,10 @@ void WinUIFrame::OnPreTranslateTreeMessage(
         else {
             m_acceleratorActive = false;
             m_acceleratorVisual.GetVisual().IsVisible(false);
-            if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Number2)
+            if (static_cast<winrt::Windows::System::VirtualKey>(msg->wParam) == winrt::Windows::System::VirtualKey::Number4)
             {
                 // Take focus
-                m_focusController.TrySetFocus();
+                m_focusManager.SetFocusToVisual(GetRootVisualTreeNode(), GetRootVisualTreeNode()->OwningFocusList());
             }
         }
     }

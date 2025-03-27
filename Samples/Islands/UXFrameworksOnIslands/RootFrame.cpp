@@ -14,6 +14,7 @@ RootFrame::RootFrame(
         const std::shared_ptr<SettingCollection>& settings) :
     SystemFrame(queue, systemCompositor, settings),
     m_rootLabel(GetOutput(), k_rootFrameName),
+    m_acceleratorLabel(GetOutput(), L"1"),
     m_ribbonLabel(GetOutput(), k_ribbonFrameName, CreateTextLayout(k_ribbonFrameName, CreateTextFormat(L"Cambria", 24.0f).get())),
     m_backLabel(GetOutput(), L"Back"),
     m_frontLabel(GetOutput(), L"Front"),
@@ -36,6 +37,40 @@ RootFrame::RootFrame(
             }
         }) 
     };
+}
+
+bool RootFrame::SystemPreTranslateMessage(
+    UINT message,
+    WPARAM wParam,
+    LPARAM lParam)
+{
+    if (message == WM_SYSKEYDOWN || message == WM_KEYDOWN)
+    {
+        if (static_cast<winrt::Windows::System::VirtualKey>(wParam) == winrt::Windows::System::VirtualKey::Menu)
+        {
+            m_acceleratorActive = !m_acceleratorActive;
+            m_acceleratorLabel.GetVisual().IsVisible(m_acceleratorActive);
+        }
+        else {
+            m_acceleratorActive = false;
+            m_acceleratorLabel.GetVisual().IsVisible(false);
+            if (static_cast<winrt::Windows::System::VirtualKey>(wParam) == winrt::Windows::System::VirtualKey::Number1)
+            {
+                // Take focus
+                m_focusManager.SetFocusToVisual(GetRootVisualTreeNode(), GetRootVisualTreeNode()->OwningFocusList());
+            }
+        }
+    }
+
+    if (m_leftFrame->SystemPreTranslateMessage(message, wParam, lParam))
+    {
+        return true;
+    }
+    if (m_rightFrame->SystemPreTranslateMessage(message, wParam, lParam))
+    {
+        return true;
+    }
+    return false;
 }
 
 LRESULT RootFrame::HandleMessage(
@@ -233,6 +268,10 @@ void RootFrame::InitializeVisualTree(
     // Insert the labels into the tree.
     InsertTextVisual(m_rootLabel, m_automationTree, rootVisualPeer);
     InsertTextVisual(m_ribbonLabel, m_automationTree, m_ribbonContentPeer);
+    m_acceleratorLabel.SetBackgroundColor(winrt::Microsoft::UI::Colors::OldLace());
+    m_acceleratorLabel.GetVisual().Offset(winrt::Windows::Foundation::Numerics::float3(m_rootLabel.Size().Width+3, 0, 0));
+    m_acceleratorLabel.GetVisual().IsVisible(false);
+    InsertTextVisual(m_acceleratorLabel, m_automationTree, rootVisualPeer);
 
     // Rotate the ribbon label 22 degrees and re-rasterize.
     m_ribbonLabel.GetVisual().RotationAngleInDegrees(22);
@@ -466,7 +505,7 @@ void RootFrame::HandleContentLayout()
             label->GetVisual().Scale({displayScale, displayScale, 1.0f});
         }
 
-        for (auto* control : { &m_forceAliasedTextCheckBox, &m_disablePixelSnappingCheckBox, &m_showSpriteBoundsCheckBox, &m_showSpriteGenerationCheckBox })
+        for (auto* control : { &m_forceAliasedTextCheckBox, &m_disablePixelSnappingCheckBox, &m_showSpriteBoundsCheckBox, &m_showSpriteGenerationCheckBox, &m_showPopupVisualCheckBox })
         {
             control->GetVisual().Scale({displayScale, displayScale, 1.0f});
         }
