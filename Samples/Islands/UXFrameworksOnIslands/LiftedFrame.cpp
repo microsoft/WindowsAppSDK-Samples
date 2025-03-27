@@ -58,8 +58,8 @@ winrt::ChildSiteLink LiftedFrame::ConnectChildFrame(
     if (!frame->IsLiftedFrame())
     {
         childSiteLink.AutomationOption(winrt::ContentAutomationOptions::None);
-        childSiteLink.ProcessKeyboardInput(false);
-        childSiteLink.ProcessPointerInput(false);
+        childSiteLink.ProcessesKeyboardInput(false);
+        childSiteLink.ProcessesPointerInput(false);
     }
     else
     {

@@ -19,8 +19,8 @@ void TopLevelWindow::ConnectFrameToWindow(
 {
     // Mark the bridge with no keyboard or pointer input processing capabilities 
     // so that input doesn't go to the island but instead goes to the window.
-    m_bridge.ProcessKeyboardInput(false);
-    m_bridge.ProcessPointerInput(false);
+    m_bridge.ProcessesKeyboardInput(false);
+    m_bridge.ProcessesPointerInput(false);
 
     m_bridge.Connect(frame->GetIsland());
 
@@ -135,7 +135,7 @@ winrt::com_ptr<::IRawElementProviderFragmentRoot> TopLevelWindow::GetFragmentRoo
 
 winrt::com_ptr<::IRawElementProviderFragment> TopLevelWindow::GetNextSiblingProviderForChildFrame(_In_ IFrame const* const) const
 {
-    // The RootFrame is the only frame directly connected to the ReadOnlyDesktopSiteBridge.
+    // The RootFrame is the only frame directly connected to the DesktopAttachedSiteBridge.
     return nullptr;
 }
 
@@ -146,7 +146,7 @@ winrt::com_ptr<::IRawElementProviderFragment> TopLevelWindow::GetParentProviderF
 
 winrt::com_ptr<::IRawElementProviderFragment> TopLevelWindow::GetPreviousSiblingProviderForChildFrame(_In_ IFrame const* const) const
 {
-    // The RootFrame is the only frame directly connected to the ReadOnlyDesktopSiteBridge.
+    // The RootFrame is the only frame directly connected to the DesktopAttachedSiteBridge.
     return nullptr;
 }
 
@@ -295,7 +295,7 @@ void TopLevelWindow::InitializeBridge(
     const winrt::DispatcherQueue& queue)
 {
     auto windowId = m_window.Id();
-    m_bridge = winrt::ReadOnlyDesktopSiteBridge::Create(queue, windowId);
+    m_bridge = winrt::DesktopAttachedSiteBridge::CreateFromWindowId(queue, windowId);
     m_bridge.OverrideScale(1.0f);
 }
 

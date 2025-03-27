@@ -26,7 +26,7 @@ public:
     void InitializeWithFocusHost(
         IFocusHost* focusHost);
 
-    void SetFocusFromClick(
+    void SetFocusToVisual(
         const std::shared_ptr<VisualTreeNode>& node,
         const std::shared_ptr<FocusList>& list);
 

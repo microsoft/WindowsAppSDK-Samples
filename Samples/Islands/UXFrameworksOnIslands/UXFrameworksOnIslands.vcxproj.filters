@@ -72,6 +72,11 @@
     <ClCompile Include="VisualUtils.cpp" />
     <ClCompile Include="WebViewFrame.cpp" />
     <ClCompile Include="WinUIFrame.cpp" />
+    <ClCompile Include="FocusList.cpp" />
+    <ClCompile Include="FocusManager.cpp" />
+    <ClCompile Include="HitTestContext.cpp" />
+    <ClCompile Include="PopupFrame.cpp" />
+    <ClCompile Include="PreTranslateHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AutomationBase.h" />
@@ -109,5 +114,11 @@
     <ClInclude Include="VisualUtils.h" />
     <ClInclude Include="WebViewFrame.h" />
     <ClInclude Include="WinUIFrame.h" />
+    <ClInclude Include="FocusList.h" />
+    <ClInclude Include="FocusManager.h" />
+    <ClInclude Include="HitTestContext.h" />
+    <ClInclude Include="IFocusHost.h" />
+    <ClInclude Include="PopupFrame.h" />
+    <ClInclude Include="PreTranslateHandler.h" />
   </ItemGroup>
 </Project>
