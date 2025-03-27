@@ -16,7 +16,7 @@ extendedZipContent:
 
 # Windows Copilot Runtime Sample
 
-An app that demonstrates how to use the Windows Copilot Runtime with WinUI, C#, C++, and other build
+An app that demonstrates how to use the Windows Copilot Runtime with WinUI, WPF, C#, C++, and other build
 environments.
 
 ## Prerequisites
