@@ -22,6 +22,11 @@ struct IFrame
 
     [[nodiscard]] virtual bool IsLiftedFrame() const = 0;
 
+    virtual bool SystemPreTranslateMessage(
+        UINT message,
+        WPARAM wParam,
+        LPARAM lParam) = 0;
+
     virtual LRESULT HandleMessage(
         UINT message,
         WPARAM wParam,

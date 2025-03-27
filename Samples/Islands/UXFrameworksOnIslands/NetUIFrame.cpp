@@ -5,16 +5,43 @@
 #include "ColorUtils.h"
 #include "VisualUtils.h"
 #include "FrameDocker.h"
+#include "FocusManager.h"
 
 NetUIFrame::NetUIFrame(
         const winrt::DispatcherQueue& queue,
         const winrt::WUC::Compositor& systemCompositor,
         const std::shared_ptr<SettingCollection>& settings) :
     SystemFrame(queue, systemCompositor, settings),
-    m_labelVisual(GetOutput(), k_frameName)
+    m_labelVisual(GetOutput(), k_frameName),
+    m_acceleratorVisual(GetOutput(), L"2")
 {
     m_labelVisual.SetBackgroundColor(ColorUtils::LightBlue());
     InitializeVisualTree(systemCompositor);
+}
+
+bool NetUIFrame::SystemPreTranslateMessage(
+    UINT message,
+    WPARAM wParam,
+    LPARAM /*lParam*/)
+{
+    if (message == WM_SYSKEYDOWN || message == WM_KEYDOWN)
+    {
+        if (static_cast<winrt::Windows::System::VirtualKey>(wParam) == winrt::Windows::System::VirtualKey::Menu)
+        {
+            m_acceleratorActive = !m_acceleratorActive;
+            m_acceleratorVisual.GetVisual().IsVisible(m_acceleratorActive);
+        }
+        else {
+            m_acceleratorActive = false;
+            m_acceleratorVisual.GetVisual().IsVisible(false);
+            if (static_cast<winrt::Windows::System::VirtualKey>(wParam) == winrt::Windows::System::VirtualKey::Number2)
+            {
+                // Take focus
+                GetFocusList()->GetManager()->SetFocusToVisual(GetRootVisualTreeNode(), GetRootVisualTreeNode()->OwningFocusList());
+            }
+        }
+    }
+    return false;
 }
 
 void NetUIFrame::ConnectFrame(
@@ -62,6 +89,10 @@ void NetUIFrame::InitializeVisualTree(
 
     // Insert the label into the tree.
     InsertTextVisual(m_labelVisual, m_automationTree, colorVisualPeer);
+    m_acceleratorVisual.SetBackgroundColor(winrt::Microsoft::UI::Colors::OldLace());
+    m_acceleratorVisual.GetVisual().Offset(winrt::Windows::Foundation::Numerics::float3(m_labelVisual.Size().Width+3, 0, 0));
+    m_acceleratorVisual.GetVisual().IsVisible(false);
+    InsertTextVisual(m_acceleratorVisual, m_automationTree, colorVisualPeer);
 
     // Create a visual that is inset by 10 pixels on all sides
     // This will hold any child frames
