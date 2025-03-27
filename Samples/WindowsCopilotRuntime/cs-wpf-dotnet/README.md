@@ -5,7 +5,7 @@ SingleProjectMSIX This project was converted from a WAPProj to SingleProjectMSIX
 below https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/single-project-msix?tabs=csharp
 
 For the original WCRforWPF project with warpproj, please see:
-Samples\WindowsCopilotRuntime\cs-wpf-wapproj
+Samples\WindowsCopilotRuntime\cs-wpf
 
 Summary of the steps done:
 - Add EnableMsixTooling and PublishProfile properties to WCRforWPF.csproj
