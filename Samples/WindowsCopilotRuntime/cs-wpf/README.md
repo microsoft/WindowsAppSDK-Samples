@@ -4,6 +4,9 @@ Because DotNet CLI is incompatible with WAPProj, we must first convert the WAPPr
 SingleProjectMSIX This project was converted from a WAPProj to SingleProjectMSIX using the steps
 below https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/single-project-msix?tabs=csharp
 
+For the original WCRforWPF project with warpproj, please see:
+Samples\WindowsCopilotRuntime\cs-wpf-wapproj
+
 Summary of the steps done:
 - Add EnableMsixTooling and PublishProfile properties to WCRforWPF.csproj
     ```
@@ -33,4 +36,4 @@ runDotNetBuild.cmd
 ```
 
 This will build and generate the MSIX with a self-signed cert which you will need to install to
-LocalMachine TrustedPeople Certificate Store
+LocalMachine TrustedPeople Certificate Store.
