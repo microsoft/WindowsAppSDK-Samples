@@ -35,7 +35,8 @@ click the "Generate" button to generate a text response.
 
 The changes from the ".NET MAUI App" template are split across four files:
 - `MauiWindowsCopilotRuntimeSample.csproj`: Adds the required Windows App SDK package reference for the
-  Windows Copilot Runtime APIs.
+  Windows Copilot Runtime APIs. This reference needs to be conditioned only when building for Windows
+  (see below for details). This file also sets the necessary TargetFramework for Windows.
 - `Platforms/Windows/MainPage.cs`: Implements partial methods from the shared `MainPage` class to show and
   handle the text generation and image scaling functionality.
 - `MainPage.xaml`: Defines controls to show text generation and image scaling.
@@ -43,6 +44,15 @@ The changes from the ".NET MAUI App" template are split across four files:
 
 ### Additional Notes
 
+- To make the Windows App SDK package reference conditioned for only Windows build, it can be added to an
+  `ItemGroup` with the right Condition, like this:
+```xml
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250127003-experimental3" />
+	</ItemGroup>
+```
+- To access the Windows Copilot Runtime APIs, the project currently must set the TargetFramework for
+  Windows to target 22621 or later.
 - The folder paths were shortened to `MauiWCRSample` to avoid MAX_PATH issues, particularly when
   building the Android version.
 
