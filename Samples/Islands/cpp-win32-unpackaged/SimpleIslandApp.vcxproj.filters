@@ -51,6 +51,21 @@
     <Image Include="SimpleIslandApp.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Assets\cliff.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\grapes.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\rainier.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\sunset.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\valley.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

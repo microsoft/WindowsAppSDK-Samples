@@ -243,6 +243,11 @@
     <ResourceCompile Include="SimpleIslandApp.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\cliff.jpg" />
+    <Image Include="Assets\grapes.jpg" />
+    <Image Include="Assets\rainier.jpg" />
+    <Image Include="Assets\sunset.jpg" />
+    <Image Include="Assets\valley.jpg" />
     <Image Include="SimpleIslandApp.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
