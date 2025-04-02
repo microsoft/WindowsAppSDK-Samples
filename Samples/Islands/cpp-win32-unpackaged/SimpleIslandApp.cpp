@@ -9,6 +9,8 @@
 #include <App.xaml.h>
 #include <MainPage.h>
 #include <Microsoft.UI.Dispatching.Interop.h> // For ContentPreTranslateMessage
+#include <winrt/Microsoft.Windows.ApplicationModel.Resources.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
 
 namespace winrt
 {
@@ -17,6 +19,7 @@ namespace winrt
     using namespace winrt::Microsoft::UI::Xaml;
     using namespace winrt::Microsoft::UI::Xaml::Hosting;
     using namespace winrt::Microsoft::UI::Xaml::Markup;
+    using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 }
 
 // Forward declarations of functions included in this code module:
@@ -237,9 +240,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 winrt::GetWindowFromWindowId(windowInfo->DesktopWindowXamlSource.SiteBridge().WindowId()),
                 GWL_STYLE,
                 WS_TABSTOP | WS_CHILD | WS_VISIBLE);
+            winrt::hstring xaml = L"<Image Source=\"images/test.png\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"/>";
+            auto xamlContent = winrt::XamlReader::Load(xaml).as<winrt::UIElement>();
+            xamlContent.UpdateLayout();
 
             // Put a new instance of our Xaml "MainPage" into our island.  This is our UI content.
-            windowInfo->DesktopWindowXamlSource.Content(winrt::make<winrt::SimpleIslandApp::implementation::MainPage>());
+            windowInfo->DesktopWindowXamlSource.Content(xamlContent);
 
             ::CreateWindow(L"BUTTON", L"Win32 Button 2", WS_TABSTOP | WS_VISIBLE | WS_CHILD, 10, 400, 150, 40, hWnd, (HMENU)502, hInst, NULL);
 
