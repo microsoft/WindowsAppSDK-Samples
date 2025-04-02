@@ -2,8 +2,6 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
@@ -17,10 +15,15 @@
             ShowTextGenerationPanelIfSupported();
         }
 
+        // Declare partial methods on this MainPage class which can be implemented by platform-specific
+        // definitions of this partial class. In this sample, these partial methods are implemented only
+        // in the Windows-specific Platforms/Windows/MainPage.cs. These will no-op on other platforms.
         partial void ShowImageScalingPanelIfSupported();
         partial void ShowTextGenerationPanelIfSupported();
-
         partial void ScaleImage(double scale);
+        partial void GenerateTextFromEntryPrompt();
+
+        // Event handlers for image scaling
         private void OnUnscaledClicked(object sender, EventArgs e)
         {
             ScaleImage(0);
@@ -34,7 +37,7 @@
             ScaleImage(4.0);
         }
 
-        partial void GenerateTextFromEntryPrompt();
+        // Event handler for text generation
         private void OnGenerateClicked(object sender, EventArgs e)
         {
             GenerateTextFromEntryPrompt();

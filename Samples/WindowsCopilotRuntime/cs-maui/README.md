@@ -36,7 +36,8 @@ click the "Generate" button to generate a text response.
 The changes from the ".NET MAUI App" template are split across four files:
 - `MauiWindowsCopilotRuntimeSample.csproj`: Adds the required Windows App SDK package reference for the
   Windows Copilot Runtime APIs. This reference needs to be conditioned only when building for Windows
-  (see below for details). This file also sets the necessary TargetFramework for Windows.
+  (see [Additional Notes](#additional-notes) below for details). This file also sets the necessary
+  TargetFramework for Windows.
 - `Platforms/Windows/MainPage.cs`: Implements partial methods from the shared `MainPage` class to show and
   handle the text generation and image scaling functionality.
 - `MainPage.xaml`: Defines controls to show text generation and image scaling.
