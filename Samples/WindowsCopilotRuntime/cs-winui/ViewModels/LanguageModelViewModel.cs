@@ -34,16 +34,16 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     private string? _languageModelOptionsTopK = "40";
 
     // ContentFilterOptions - Prompt min severity to block
-    private SeverityLevel _hateContentSevToBlockForPrompt = SeverityLevel.Medium;
-    private SeverityLevel _sexualContentSevToBlockForPrompt = SeverityLevel.Medium;
-    private SeverityLevel _violentContentSevToBlockForPrompt = SeverityLevel.Medium;
-    private SeverityLevel _selfHarmContentSevToBlockForPrompt = SeverityLevel.Medium;
+    private SeverityLevel _hateContentSevToBlockForPrompt = SeverityLevel.Minimum;
+    private SeverityLevel _sexualContentSevToBlockForPrompt = SeverityLevel.Minimum;
+    private SeverityLevel _violentContentSevToBlockForPrompt = SeverityLevel.Minimum;
+    private SeverityLevel _selfHarmContentSevToBlockForPrompt = SeverityLevel.Minimum;
 
     // ContentFilterOptions - Response min severity to block
-    private SeverityLevel _hateContentSevToBlockForResponse = SeverityLevel.Medium;
-    private SeverityLevel _sexualContentSevToBlockForResponse = SeverityLevel.Medium;
-    private SeverityLevel _violentContentSevToBlockForResponse = SeverityLevel.Medium;
-    private SeverityLevel _selfHarmContentSevToBlockForResponse = SeverityLevel.Medium;
+    private SeverityLevel _hateContentSevToBlockForResponse = SeverityLevel.Minimum;
+    private SeverityLevel _sexualContentSevToBlockForResponse = SeverityLevel.Minimum;
+    private SeverityLevel _violentContentSevToBlockForResponse = SeverityLevel.Minimum;
+    private SeverityLevel _selfHarmContentSevToBlockForResponse = SeverityLevel.Minimum;
 
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithProgressCommand;
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithOptionsAndProgressCommand;
@@ -56,8 +56,10 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     private readonly StringBuilder _responseProgressTextIntelligence = new();
 
     public ObservableCollection<SeverityLevel> ContentFilterSeverityLevels { get; } = new ObservableCollection<SeverityLevel> {
+        SeverityLevel.Minimum,
         SeverityLevel.Low,
-        SeverityLevel.Medium
+        SeverityLevel.Medium,
+        SeverityLevel.High
     };
 
     //public ObservableCollection<LanguageModelSkill> LanguageModelSkills { get; } = new ObservableCollection<LanguageModelSkill> {
@@ -90,25 +92,24 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
             {
                 var languageModelOptions = new LanguageModelOptions();  // default values
 
-                //var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                //    HateContentSeverity = HateContentSevToBlockForPrompt,
-                //    SexualContentSeverity = SexualContentSevToBlockForPrompt,
-                //    ViolentContentSeverity = ViolentContentSevToBlockForPrompt,
-                //    SelfHarmContentSeverity = SelfHarmContentSevToBlockForPrompt
-                //};
+                var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
+                    Hate = HateContentSevToBlockForPrompt,
+                    Sexual = SexualContentSevToBlockForPrompt,
+                    Violent = ViolentContentSevToBlockForPrompt,
+                    SelfHarm = SelfHarmContentSevToBlockForPrompt
+                };
 
-                //var responseMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                //    HateContentSeverity = HateContentSevToBlockForResponse,
-                //    SexualContentSeverity = SexualContentSevToBlockForResponse,
-                //    ViolentContentSeverity = ViolentContentSevToBlockForResponse,
-                //    SelfHarmContentSeverity = SelfHarmContentSevToBlockForResponse
-                //};
+                var responseMinSeverityLevelToBlock = new TextContentFilterSeverity {
+                    Hate = HateContentSevToBlockForResponse,
+                    Sexual = SexualContentSevToBlockForResponse,
+                    Violent = ViolentContentSevToBlockForResponse,
+                    SelfHarm = SelfHarmContentSevToBlockForResponse
+                };
 
-                //var contentFilterOptions = new ContentFilterOptions {
-                //    PromptMinSeverityLevelToBlock = promptMinSeverityLevelToBlock,
-                //    ResponseMinSeverityLevelToBlock = responseMinSeverityLevelToBlock
-                //};
-                var contentFilterOptions = new ContentFilterOptions(); // TODO remove
+                var contentFilterOptions = new ContentFilterOptions {
+                    PromptMaxAllowedSeverityLevel = promptMinSeverityLevelToBlock,
+                    ResponseMaxAllowedSeverityLevel = responseMinSeverityLevelToBlock
+                };
 
                 _responseProgress.Clear();
                 DispatchPropertyChanged(nameof(ResponseProgress));

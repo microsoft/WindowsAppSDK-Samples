@@ -36,7 +36,7 @@ internal abstract class CopilotModelBase<T> : CopilotViewModelBase
                     async (progress, ct) =>
                     {
                         await using PackageDeploymentProgressAdapter progressAdapter = new(progress);
-                        await Session.CreateModelSessionWithProgress(progress, ct);
+                        await Session.CreateModelSessionWithProgress(progressAdapter, ct);
                         return true;
                     }),
                 result => result,
