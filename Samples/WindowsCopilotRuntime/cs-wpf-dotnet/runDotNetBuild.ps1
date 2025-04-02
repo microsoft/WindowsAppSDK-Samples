@@ -1,3 +1,9 @@
+Param(
+    [Parameter(Mandatory=$true)]
+    [string]$Platform = "x64"
+)
+
+
 function Get-UserPath
 {
     $root = Join-Path (Get-Item $PSScriptRoot ).FullName "WCRforWPF"
@@ -71,4 +77,5 @@ if (-not (Test-Path $pfx))
     $export_pfx = Export-PfxCertificate -Cert $cert_personal -FilePath $pfx -Password $password    
 }
 
-dotnet build /p:platform=x64
+Write-Host "Running 'dotnet build /p:platform=$Platform'"
+dotnet build /p:platform=$Platform
