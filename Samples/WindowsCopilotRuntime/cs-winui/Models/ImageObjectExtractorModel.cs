@@ -7,16 +7,17 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Microsoft.Windows.AI;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
 class ImageObjectExtractorModel : IModelManager
 {
-    public async Task CreateModelSessionWithProgress(IProgress<PackageDeploymentProgress> progress, CancellationToken cancellationToken = default)
+    public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (!ImageObjectExtractor.IsAvailable())
+        if (ImageObjectExtractor.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            var objectExtractorDeploymentOperation = ImageObjectExtractor.MakeAvailableAsync();
+            var objectExtractorDeploymentOperation = ImageObjectExtractor.EnsureReadyAsync();
             objectExtractorDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
             {
                 progress.Report(packageDeploymentProgress);
@@ -26,7 +27,7 @@ class ImageObjectExtractorModel : IModelManager
         }
         else
         {
-            progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+            progress.Report(100.0);
         }
     }
 

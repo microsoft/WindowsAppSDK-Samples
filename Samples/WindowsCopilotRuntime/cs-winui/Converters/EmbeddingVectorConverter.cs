@@ -19,7 +19,7 @@ internal partial class EmbeddingVectorConverter : IValueConverter
             {
                 var embeddingVector = embeddings[index];
                 sb.Append('[');
-                var values = new float[embeddingVector.Count];
+                var values = new float[embeddingVector.Size];
                 embeddingVector.GetValues(values);
                 sb.Append(string.Join(", ", values));
                 if (sb.Length > 1024)
