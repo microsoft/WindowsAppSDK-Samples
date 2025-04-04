@@ -49,8 +49,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Vertical"
-                            Margin="10">
+                        <StackPanel Orientation="Vertical" Margin="10">
                             <TextBlock Margin="10"
                                 Style="{StaticResource BodyStrongTextBlockStyle}">Input image</TextBlock>
                             <Image Source="{Binding InputSource}"/>
