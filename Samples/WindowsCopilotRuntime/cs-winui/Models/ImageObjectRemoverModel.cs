@@ -7,6 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Microsoft.Windows.AI;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -16,21 +17,21 @@ internal class ImageObjectRemoverModel : IModelManager
 
     private ImageObjectRemover Session => _session ?? throw new InvalidOperationException("Image Object Remover session was not created yet");
 
-    public async Task CreateModelSessionWithProgress(IProgress<PackageDeploymentProgress> progress, CancellationToken cancellationToken = default)
+    public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (!ImageObjectRemover.IsAvailable())
+        if (ImageObjectRemover.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            var imageObjectRemoverDeploymentOperation = ImageObjectRemover.MakeAvailableAsync();
-            imageObjectRemoverDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
+            var objectRemoveDeploymentOperation = ImageObjectRemover.EnsureReadyAsync();
+            objectRemoveDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
             {
                 progress.Report(packageDeploymentProgress);
             };
-            using var _ = cancellationToken.Register(() => imageObjectRemoverDeploymentOperation.Cancel());
-            await imageObjectRemoverDeploymentOperation;
+            using var _ = cancellationToken.Register(() => objectRemoveDeploymentOperation.Cancel());
+            await objectRemoveDeploymentOperation;
         }
         else
         {
-            progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+            progress.Report(100.0);
         }
         _session = await ImageObjectRemover.CreateAsync();
     }
