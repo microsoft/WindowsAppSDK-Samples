@@ -33,14 +33,15 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
         {
             var inputSoftwareBitmap = await GetFactoryInputImagePath().FilePathToSoftwareBitmapAsync();
             var maskSoftwareBitmap = await GetFactoryMaskImagePath().FilePathToSoftwareBitmapAsync();
+            var gray8MaskSoftwareBitmap = SoftwareBitmap.Convert(maskSoftwareBitmap, BitmapPixelFormat.Gray8);
             await DispatcherQueue.EnqueueAsync(async () =>
             {
                 _input = inputSoftwareBitmap;
                 _inputSource = await inputSoftwareBitmap.ToSourceAsync();
                 OnPropertyChanged(nameof(InputSource));
 
-                _mask = maskSoftwareBitmap;
-                _maskSource = await maskSoftwareBitmap.ToSourceAsync();
+                _mask = gray8MaskSoftwareBitmap;
+                _maskSource = await gray8MaskSoftwareBitmap.ToSourceAsync();
                 OnPropertyChanged(nameof(MaskSource));
             });
         });
@@ -96,7 +97,8 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
                 {
                     var decoder = await BitmapDecoder.CreateAsync(readStream);
                     var softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
-                    await SetMaskImageAsync(softwareBitmap);
+                    var gray8SoftwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Gray8);
+                    await SetMaskImageAsync(gray8SoftwareBitmap);
                 }
 
                 return true;
