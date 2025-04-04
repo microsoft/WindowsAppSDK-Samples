@@ -28,57 +28,50 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     private string? _context;
 
     // LanguageModelOptions
-    private LanguageModelSkill _languageModelOptionsSkill = LanguageModelSkill.General;
+    //private LanguageModelSkill _languageModelOptionsSkill = LanguageModelSkill.General;
     private string? _languageModelOptionsTemp = "0.9";
     private string? _languageModelOptionsTopP = "0.9";
     private string? _languageModelOptionsTopK = "40";
 
     // ContentFilterOptions - Prompt min severity to block
-    private SeverityLevel _hateContentSevToBlockForPrompt = SeverityLevel.Medium;
-    private SeverityLevel _sexualContentSevToBlockForPrompt = SeverityLevel.Medium;
-    private SeverityLevel _violentContentSevToBlockForPrompt = SeverityLevel.Medium;
-    private SeverityLevel _selfHarmContentSevToBlockForPrompt = SeverityLevel.Medium;
+    private SeverityLevel _hateContentSevToBlockForPrompt = SeverityLevel.Minimum;
+    private SeverityLevel _sexualContentSevToBlockForPrompt = SeverityLevel.Minimum;
+    private SeverityLevel _violentContentSevToBlockForPrompt = SeverityLevel.Minimum;
+    private SeverityLevel _selfHarmContentSevToBlockForPrompt = SeverityLevel.Minimum;
 
     // ContentFilterOptions - Response min severity to block
-    private SeverityLevel _hateContentSevToBlockForResponse = SeverityLevel.Medium;
-    private SeverityLevel _sexualContentSevToBlockForResponse = SeverityLevel.Medium;
-    private SeverityLevel _violentContentSevToBlockForResponse = SeverityLevel.Medium;
-    private SeverityLevel _selfHarmContentSevToBlockForResponse = SeverityLevel.Medium;
+    private SeverityLevel _hateContentSevToBlockForResponse = SeverityLevel.Minimum;
+    private SeverityLevel _sexualContentSevToBlockForResponse = SeverityLevel.Minimum;
+    private SeverityLevel _violentContentSevToBlockForResponse = SeverityLevel.Minimum;
+    private SeverityLevel _selfHarmContentSevToBlockForResponse = SeverityLevel.Minimum;
 
-    private readonly AsyncCommand<string, string> _generateResponseCommand;
-    private readonly AsyncCommandWithProgress<string, LanguageModelResponse, string> _generateResponseWithProgressCommand;
-    private readonly AsyncCommandWithProgress<string, LanguageModelResponse, string> _generateResponseWithOptionsAndProgressCommand;
-    private readonly AsyncCommandWithProgress<string, LanguageModelResponse, string> _generateResponseWithContextProgressCommand;
-    private readonly AsyncCommandWithProgress<string, LanguageModelResponse, string> _generateResponseWithTextIntelligenceSkillsCommand;
+    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithProgressCommand;
+    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithOptionsAndProgressCommand;
+    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithContextProgressCommand;
+    //private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceSkillsCommand;
 
-    private readonly AsyncCommand<string, IReadOnlyList<EmbeddingVector>> _generateEmbeddingVectorCommand;
+    private readonly AsyncCommand<string, LanguageModelEmbeddingVectorResult> _generateEmbeddingVectorCommand;
 
     private readonly StringBuilder _responseProgress = new();
     private readonly StringBuilder _responseProgressTextIntelligence = new();
 
     public ObservableCollection<SeverityLevel> ContentFilterSeverityLevels { get; } = new ObservableCollection<SeverityLevel> {
+        SeverityLevel.Minimum,
         SeverityLevel.Low,
-        SeverityLevel.Medium
+        SeverityLevel.Medium,
+        SeverityLevel.High
     };
 
-    public ObservableCollection<LanguageModelSkill> LanguageModelSkills { get; } = new ObservableCollection<LanguageModelSkill> {
-        LanguageModelSkill.General,
-        LanguageModelSkill.TextToTable,
-        LanguageModelSkill.Summarize,
-        LanguageModelSkill.Rewrite
-    };
+    //public ObservableCollection<LanguageModelSkill> LanguageModelSkills { get; } = new ObservableCollection<LanguageModelSkill> {
+    //    LanguageModelSkill.General,
+    //    LanguageModelSkill.TextToTable,
+    //    LanguageModelSkill.Summarize,
+    //    LanguageModelSkill.Rewrite
+    //};
 
     public LanguageModelViewModel(LanguageModelModel languageModelSession)
         : base(languageModelSession)
     {
-        // GenerateResponse
-        _generateResponseCommand = new(
-            async prompt =>
-            {
-                return await Session.GenerateResponseAsync(prompt!);
-            },
-            (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
-
         // GenerateResponseWithProgress
         _generateResponseWithProgressCommand = new(
             prompt =>
@@ -98,24 +91,24 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
             prompt =>
             {
                 var languageModelOptions = new LanguageModelOptions();  // default values
-                
+
                 var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                    HateContentSeverity = HateContentSevToBlockForPrompt,
-                    SexualContentSeverity = SexualContentSevToBlockForPrompt,
-                    ViolentContentSeverity = ViolentContentSevToBlockForPrompt,
-                    SelfHarmContentSeverity = SelfHarmContentSevToBlockForPrompt
+                    Hate = HateContentSevToBlockForPrompt,
+                    Sexual = SexualContentSevToBlockForPrompt,
+                    Violent = ViolentContentSevToBlockForPrompt,
+                    SelfHarm = SelfHarmContentSevToBlockForPrompt
                 };
-                
+
                 var responseMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                    HateContentSeverity = HateContentSevToBlockForResponse,
-                    SexualContentSeverity = SexualContentSevToBlockForResponse,
-                    ViolentContentSeverity = ViolentContentSevToBlockForResponse,
-                    SelfHarmContentSeverity = SelfHarmContentSevToBlockForResponse
+                    Hate = HateContentSevToBlockForResponse,
+                    Sexual = SexualContentSevToBlockForResponse,
+                    Violent = ViolentContentSevToBlockForResponse,
+                    SelfHarm = SelfHarmContentSevToBlockForResponse
                 };
 
                 var contentFilterOptions = new ContentFilterOptions {
-                    PromptMinSeverityLevelToBlock = promptMinSeverityLevelToBlock,
-                    ResponseMinSeverityLevelToBlock = responseMinSeverityLevelToBlock
+                    PromptMaxAllowedSeverityLevel = promptMinSeverityLevelToBlock,
+                    ResponseMaxAllowedSeverityLevel = responseMinSeverityLevelToBlock
                 };
 
                 _responseProgress.Clear();
@@ -143,31 +136,31 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         _generateResponseWithContextProgressCommand.ResultHandler += OnResult;
 
         // GenerateResponseWithTextIntelligenceSkills
-        _generateResponseWithTextIntelligenceSkillsCommand = new(
-            prompt =>
-            {
-                var languageModelOptions = new LanguageModelOptions {
-                    Skill = LanguageModelOptionsSkill,
-                    Temp = (string.IsNullOrEmpty(LanguageModelOptionsTemp) ? 0.9f : float.Parse(LanguageModelOptionsTemp, CultureInfo.InvariantCulture)),
-                    Top_p = (string.IsNullOrEmpty(LanguageModelOptionsTopP) ? 0.9f : float.Parse(LanguageModelOptionsTopP, CultureInfo.InvariantCulture)),
-                    Top_k = (uint)(string.IsNullOrEmpty(LanguageModelOptionsTopK) ? 40 : int.Parse(LanguageModelOptionsTopK, CultureInfo.InvariantCulture))
-                };
+        //_generateResponseWithTextIntelligenceSkillsCommand = new(
+        //    prompt =>
+        //    {
+        //        var languageModelOptions = new LanguageModelOptions {
+        //            Skill = LanguageModelOptionsSkill,
+        //            Temp = (string.IsNullOrEmpty(LanguageModelOptionsTemp) ? 0.9f : float.Parse(LanguageModelOptionsTemp, CultureInfo.InvariantCulture)),
+        //            Top_p = (string.IsNullOrEmpty(LanguageModelOptionsTopP) ? 0.9f : float.Parse(LanguageModelOptionsTopP, CultureInfo.InvariantCulture)),
+        //            Top_k = (uint)(string.IsNullOrEmpty(LanguageModelOptionsTopK) ? 40 : int.Parse(LanguageModelOptionsTopK, CultureInfo.InvariantCulture))
+        //        };
 
-                _responseProgressTextIntelligence.Clear();
-                DispatchPropertyChanged(nameof(_responseProgressTextIntelligence));
+        //        _responseProgressTextIntelligence.Clear();
+        //        DispatchPropertyChanged(nameof(_responseProgressTextIntelligence));
 
-                return Session.GenerateResponseWithOptionsAndProgressAsync(prompt!, languageModelOptions, null /*content filter option*/);
-            },
-            (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
+        //        return Session.GenerateResponseWithOptionsAndProgressAsync(prompt!, languageModelOptions, null /*content filter option*/);
+        //    },
+        //    (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
 
-        _generateResponseWithTextIntelligenceSkillsCommand.ResultProgressHandler += OnResultProgressTextIntelligence;
-        _generateResponseWithTextIntelligenceSkillsCommand.ResultHandler += OnResultTextIntelligence;
+        //_generateResponseWithTextIntelligenceSkillsCommand.ResultProgressHandler += OnResultProgressTextIntelligence;
+        //_generateResponseWithTextIntelligenceSkillsCommand.ResultHandler += OnResultTextIntelligence;
 
         // GenerateEmbedding
         _generateEmbeddingVectorCommand = new(
-            async prompt =>
+            prompt =>
             {
-                return await Session.GenerateEmbeddingVectorAsync(prompt!);
+                return Session.GenerateEmbeddingVectors(prompt!);
             },
             (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
     }
@@ -181,26 +174,25 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         set
         {
             SetField(ref _prompt, value);
-            _generateResponseCommand.FireCanExecuteChanged();
         }
     }
 
-    public string? PromptTextIntelligence
-    {
-        get => _promptTextIntelligence;
-        set
-        {
-            SetField(ref _promptTextIntelligence, value);
-            _generateResponseWithTextIntelligenceSkillsCommand.FireCanExecuteChanged();
-        }
-    }
+    //public string? PromptTextIntelligence
+    //{
+    //    get => _promptTextIntelligence;
+    //    set
+    //    {
+    //        SetField(ref _promptTextIntelligence, value);
+    //        _generateResponseWithTextIntelligenceSkillsCommand.FireCanExecuteChanged();
+    //    }
+    //}
     public string? EmbeddingPrompt
     {
         get => _embeddingPrompt;
         set
         {
             SetField(ref _embeddingPrompt, value);
-            _generateResponseCommand.FireCanExecuteChanged();
+            //_generateResponseCommand.FireCanExecuteChanged(); //TODO
         }
     }
 
@@ -210,11 +202,11 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         set => SetField(ref _context, value);
     }
 
-    public LanguageModelSkill LanguageModelOptionsSkill
-    {
-        get => _languageModelOptionsSkill;
-        set => SetField(ref _languageModelOptionsSkill, value);
-    }
+    //public LanguageModelSkill LanguageModelOptionsSkill
+    //{
+    //    get => _languageModelOptionsSkill;
+    //    set => SetField(ref _languageModelOptionsSkill, value);
+    //}
 
     public string? LanguageModelOptionsTemp
     {
@@ -285,12 +277,11 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     /// <summary>
     /// Exercise the GenerateResponse method API for a language model session
     /// </summary>
-    public ICommand GenerateResponseCommand => _generateResponseCommand;
 
     public ICommand GenerateResponseWithProgressCommand => _generateResponseWithProgressCommand;
 
     public ICommand GenerateResponseWithOptionsAndProgressCommand => _generateResponseWithOptionsAndProgressCommand;
-    public ICommand GenerateResponseWithTextIntelligenceSkillsCommand => _generateResponseWithTextIntelligenceSkillsCommand;
+    //public ICommand GenerateResponseWithTextIntelligenceSkillsCommand => _generateResponseWithTextIntelligenceSkillsCommand;
     public ICommand GenerateResponseWithContextProgressCommand  => _generateResponseWithContextProgressCommand;
 
     /// <summary>
@@ -300,10 +291,9 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
     protected override void OnIsAvailableChanged()
     {
-        _generateResponseCommand.FireCanExecuteChanged();
         _generateResponseWithProgressCommand.FireCanExecuteChanged();
         _generateResponseWithOptionsAndProgressCommand.FireCanExecuteChanged();
-        _generateResponseWithTextIntelligenceSkillsCommand.FireCanExecuteChanged();
+        //_generateResponseWithTextIntelligenceSkillsCommand.FireCanExecuteChanged();
         _generateResponseWithContextProgressCommand.FireCanExecuteChanged();
     }
 
@@ -319,7 +309,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         DispatchPropertyChanged(nameof(ResponseProgressTextIntelligence));
     }
 
-    private void OnResult(object? sender, LanguageModelResponse finalLanguageModelResponse)
+    private void OnResult(object? sender, LanguageModelResponseResult finalLanguageModelResponse)
     {
         if ((finalLanguageModelResponse.Status != LanguageModelResponseStatus.Complete)
               && (finalLanguageModelResponse.Status != LanguageModelResponseStatus.InProgress))
@@ -331,7 +321,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         DispatchPropertyChanged(nameof(ResponseProgress));
     }
 
-    private void OnResultTextIntelligence(object? sender, LanguageModelResponse finalLanguageModelResponse)
+    private void OnResultTextIntelligence(object? sender, LanguageModelResponseResult finalLanguageModelResponse)
     {
         if ((finalLanguageModelResponse.Status != LanguageModelResponseStatus.Complete)
               && (finalLanguageModelResponse.Status != LanguageModelResponseStatus.InProgress))

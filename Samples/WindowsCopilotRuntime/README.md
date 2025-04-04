@@ -33,6 +33,7 @@ join the [Windows Insider Program](https://insider.windows.com).
 ## Building and running the sample
 
 -   Open the solution file (`.sln`) in Visual Studio.
+-   Ensure your build configuration is set to `arm64`.
 -   From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
 # Contributing to this project

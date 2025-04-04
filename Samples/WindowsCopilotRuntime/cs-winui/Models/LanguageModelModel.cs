@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Microsoft.Windows.AI.ContentModeration;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Windows.AI;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -19,12 +20,12 @@ internal class LanguageModelModel : IModelManager
 {
     private LanguageModel? _session;
 
-    public async Task CreateModelSessionWithProgress(IProgress<PackageDeploymentProgress> progress,
+    public async Task CreateModelSessionWithProgress(IProgress<double> progress,
                                                             CancellationToken cancellationToken = default)
     {
-        if (!LanguageModel.IsAvailable())
+        if (LanguageModel.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            var languageModelDeploymentOperation = LanguageModel.MakeAvailableAsync();
+            var languageModelDeploymentOperation = LanguageModel.EnsureReadyAsync();
             languageModelDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
             {
                 progress.Report(packageDeploymentProgress);
@@ -34,81 +35,72 @@ internal class LanguageModelModel : IModelManager
         }
         else
         {
-            progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+            progress.Report(100.0);
         }
         _session = await LanguageModel.CreateAsync();
     }
 
     private LanguageModel Session => _session ?? throw new InvalidOperationException("Language Model session was not created yet");
 
-    public async Task<string> GenerateResponseAsync(string prompt, CancellationToken cancellationToken = default)
-    {
-        var response = await Session.GenerateResponseAsync(prompt);
-        return response.Response;
-    }
-
-    public IAsyncOperationWithProgress<LanguageModelResponse, string> 
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
         GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
     {
-        var response = Session.GenerateResponseWithProgressAsync(prompt);
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponse, string, LanguageModelResponse, string>(
+        var response = Session.GenerateResponseAsync(prompt);
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
             response,
             result => result /* LanguageModelResponse */,
             progress => progress
         );
     }
 
-    public IAsyncOperationWithProgress<LanguageModelResponse, string>
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
         GenerateResponseWithOptionsAndProgressAsync(string prompt, CancellationToken cancellationToken = default)
     {
-        var response = Session.GenerateResponseWithProgressAsync(prompt);
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponse, string, LanguageModelResponse, string>(
+        var response = Session.GenerateResponseAsync(prompt);
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
             response,
             result => result /* LanguageModelResponse */,
             progress => progress
         );
     }
 
-    public async Task<IReadOnlyList<EmbeddingVector>> GenerateEmbeddingVectorAsync(string prompt, CancellationToken cancellationToken = default)
+    public LanguageModelEmbeddingVectorResult GenerateEmbeddingVectors(string prompt, CancellationToken cancellationToken = default)
     {
-        var response = await Session.GenerateEmbeddingVectorAsync(prompt);
+        var response = Session.GenerateEmbeddingVectors(prompt);
         return response;
     }
 
-    public IAsyncOperationWithProgress<LanguageModelResponse, string> 
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
         GenerateResponseWithOptionsAndProgressAsync(string prompt, LanguageModelOptions languageModelOptions,
         ContentFilterOptions? contentFilterOptions, CancellationToken cancellationToken = default)
     {
-        IAsyncOperationWithProgress<LanguageModelResponse, string> response;
+        IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
         if (contentFilterOptions != null)
         {
-            response = Session.GenerateResponseWithProgressAsync(languageModelOptions, prompt, contentFilterOptions);
+            languageModelOptions.ContentFilterOptions = contentFilterOptions;
         }
-        else
-        {
-            // in case content filter option is not provided, default value is picked up for content filtering
-            response = Session.GenerateResponseWithProgressAsync(languageModelOptions, prompt);
-        }
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponse, string, LanguageModelResponse, string>(
+        
+        response = Session.GenerateResponseAsync(prompt, languageModelOptions);
+        
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
             response,
-            result => result /* LanguageModelResponse */,
+            result => result /* LanguageModelResponseResult */,
             progress => progress
         );
     }
 
-    public IAsyncOperationWithProgress<LanguageModelResponse, string> 
-        GenerateResponseWithContextAsync(string prompt, string context, CancellationToken cancellationToken = default)
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
+        GenerateResponseWithContextAsync(string prompt, string contextPrompt, CancellationToken cancellationToken = default)
     {
         var languageModelOptions = new LanguageModelOptions();
         var contentFilterOptions = new ContentFilterOptions();
+        var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
 
-        var languageModelContext = Session.CreateContext(context, contentFilterOptions);
+        var response = Session.GenerateResponseAsync(languageModelContext, prompt, languageModelOptions);
 
-        var response = Session.GenerateResponseWithProgressAsync(languageModelOptions, prompt, contentFilterOptions, languageModelContext);
-
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponse, string, LanguageModelResponse, string>(
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
             response,
-            result => result /* LanguageModelResponse */,
+            result => result /* LanguageModelResponseResult */,
             progress => progress
         );
     }

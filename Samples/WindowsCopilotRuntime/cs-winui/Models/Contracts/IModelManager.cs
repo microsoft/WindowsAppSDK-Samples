@@ -9,5 +9,5 @@ namespace WindowsCopilotRuntimeSample.Models.Contracts;
 
 internal interface IModelManager
 {
-    public Task CreateModelSessionWithProgress(IProgress<PackageDeploymentProgress> progress, CancellationToken cancellationToken = default);
+    public Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default);
 }

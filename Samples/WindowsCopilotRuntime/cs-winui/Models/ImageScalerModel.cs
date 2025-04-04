@@ -7,6 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Microsoft.Windows.AI;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -16,11 +17,11 @@ internal class ImageScalerModel : IModelManager
 
     private ImageScaler Session => _session ?? throw new InvalidOperationException("Image Scaler session was not created yet");
 
-    public async Task CreateModelSessionWithProgress(IProgress<PackageDeploymentProgress> progress, CancellationToken cancellationToken = default)
+    public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (!ImageScaler.IsAvailable())
+        if (ImageScaler.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            var imageScalerDeploymentOperation = ImageScaler.MakeAvailableAsync();
+            var imageScalerDeploymentOperation = ImageScaler.EnsureReadyAsync();
             imageScalerDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
             {
                 progress.Report(packageDeploymentProgress);
@@ -30,7 +31,7 @@ internal class ImageScalerModel : IModelManager
         }
         else
         {
-            progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+            progress.Report(100.0);
         }
         _session = await ImageScaler.CreateAsync();
     }

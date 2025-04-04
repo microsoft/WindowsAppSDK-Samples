@@ -31,16 +31,16 @@ internal abstract class CopilotModelBase<T> : CopilotViewModelBase
     {
         Session = session;
         _createSessionCommand = new(
-            (_) => new AsyncOperationWithProgressAdapter<bool, PackageDeploymentProgress, bool, double>(
-                new AsyncOperationWithProgress<bool, PackageDeploymentProgress>(
+            (_) => new AsyncOperationWithProgressAdapter<bool, double, bool, double>(
+                new AsyncOperationWithProgress<bool, double>(
                     async (progress, ct) =>
                     {
                         await using PackageDeploymentProgressAdapter progressAdapter = new(progress);
-                        await Session.CreateModelSessionWithProgress(progress, ct);
+                        await Session.CreateModelSessionWithProgress(progressAdapter, ct);
                         return true;
                     }),
                 result => result,
-                progress => progress.Progress),
+                progress => progress),
             (_) => !_isAvailable);
         _createSessionCommand.PropertyChanged += (_, e) =>
         {
@@ -123,18 +123,18 @@ internal abstract class CopilotModelBase<T> : CopilotViewModelBase
         }
     }
 
-    private sealed class PackageDeploymentProgressAdapter : IProgress<PackageDeploymentProgress>, IAsyncDisposable
+    private sealed class PackageDeploymentProgressAdapter : IProgress<double>, IAsyncDisposable
     {
         private static readonly TimeSpan progressTimeout = TimeSpan.FromMilliseconds(2500);
         private const double ProgressIncrement = 5.0;
 
-        private readonly IProgress<PackageDeploymentProgress> _progress;
+        private readonly IProgress<double> _progress;
         private readonly CancellationTokenSource _disposeCts = new();
         private CancellationTokenSource _reportCts;
         private PackageDeploymentProgress _lastProgress;
         private readonly Task _runProgressTask;
 
-        internal PackageDeploymentProgressAdapter(IProgress<PackageDeploymentProgress> progress)
+        internal PackageDeploymentProgressAdapter(IProgress<double> progress)
         {
             _progress = progress;
             _reportCts = CancellationTokenSource.CreateLinkedTokenSource(DisposeToken);
@@ -143,9 +143,9 @@ internal abstract class CopilotModelBase<T> : CopilotViewModelBase
 
         private CancellationToken DisposeToken => _disposeCts.Token;
 
-        public void Report(PackageDeploymentProgress value)
+        public void Report(double value)
         {
-            _lastProgress = value;
+            //_lastProgress = value;  //TODO
             _reportCts.Cancel();
             _progress.Report(value);
         }
@@ -160,7 +160,7 @@ internal abstract class CopilotModelBase<T> : CopilotViewModelBase
                     // no report was found
                     var nextProgressValue = (_lastProgress.Progress + ProgressIncrement) % 95.0;
                     _lastProgress = new PackageDeploymentProgress(PackageDeploymentProgressStatus.InProgress, nextProgressValue);
-                    _progress.Report(_lastProgress);
+                    //_progress.Report(_lastProgress);
                 }
                 catch (OperationCanceledException)
                 {
@@ -171,7 +171,7 @@ internal abstract class CopilotModelBase<T> : CopilotViewModelBase
 
         public async ValueTask DisposeAsync()
         {
-            _progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+            _progress.Report(100.0);
 
             _disposeCts.Cancel();
             try

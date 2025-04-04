@@ -59,46 +59,6 @@
                     Margin="10">
                 <TabView IsAddTabButtonVisible="False">
                     <TabView.TabItems>
-                        <!--  Text Completion  -->
-                        <TabViewItem Header="GenerateResponse"
-                                IsClosable="False">
-                            <StackPanel Orientation="Vertical"
-                                    HorizontalAlignment="Stretch"
-                                    Margin="20">
-                                <TextBox Header="Prompt:"
-                                         PlaceholderText="Enter your prompt here"
-                                         Text="{Binding Prompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         IsReadOnly="{Binding GenerateResponseCommand.IsExecuting}"
-                                         IsEnabled="{Binding IsAvailable}"
-                                         AutomationProperties.Name="multi-line TextBox"
-                                         AcceptsReturn="True"
-                                         Margin="10"
-                                         TextWrapping="Wrap"/>
-                                <TextBox Header="Language Model Result:"
-                                         Margin="10"
-                                         Text="{Binding GenerateResponseCommand.Result}"
-                                         IsReadOnly="True"
-                                         IsEnabled="{Binding IsAvailable}"
-                                         TextWrapping="Wrap"/>
-
-                                <TextBox Header="Generate Response Error:"
-                                        Text="{Binding GenerateResponseCommand.Error.Message}"
-                                        IsReadOnly="True"
-                                        TextWrapping="Wrap"
-                                        Visibility="{Binding GenerateResponseCommand.Error, Converter={StaticResource NullToVisibilityConverter}}"/>
-
-                                <StackPanel Orientation="Horizontal"
-                                        Margin="10">
-                                    <Button Command="{Binding GenerateResponseCommand}"
-                                            CommandParameter="{Binding Prompt}"
-                                            Margin="0,0,10,0">Generate Response</Button>
-                                    <ProgressRing Visibility="{Binding GenerateResponseCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                </StackPanel>
-
-                                <controls:CodeBlockControl SourceFile="Examples/LanguageModel.md"
-                                        Margin="10"/>
-                            </StackPanel>
-                        </TabViewItem>
                         <!--  Text Completion With progress  -->
                         <TabViewItem Header="GenerateResponse with Progress"
                                 IsClosable="False">
@@ -299,7 +259,7 @@
                 </TabView>
             </Border>
 
-            <!--  Text Intelligence skills  -->
+            <!--  Text Intelligence skills  --><!--
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="10">
                 <TextBlock Text="Text Intelligence skills" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <TextBlock TextWrapping="WrapWholeWords">
@@ -379,7 +339,7 @@
                 </StackPanel>
                 <controls:CodeBlockControl SourceFile="Examples/LanguageModelWithTexIntelligenceSkills.md"
             Margin="10"/>
-            </StackPanel>
+            </StackPanel>-->
 
             <!--  Text Embedding  -->
             <TextBlock Text="Text Embedding"
