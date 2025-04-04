@@ -1,15 +1,15 @@
-IProgress<PackageDeploymentProgress> progress;
-if (!TextRecognizer.IsAvailable())
+if (TextRecognizer.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
 {
-    var textRecognizerDeploymentOperationAsync = TextRecognizer.MakeAvailableAsync();
-    textRecognizerDeploymentOperationAsync.Progress = (_, packageDeploymentProgress) =>
+    var textRecognizerDeploymentOperation = TextRecognizer.EnsureReadyAsync();
+    textRecognizerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
     {
-        progress.Report(packageDeploymentProgress);
+        progress.Report(modelDeploymentProgress);
     };
-    await textRecognizerDeploymentOperationAsync;
+    using var _ = cancellationToken.Register(() => textRecognizerDeploymentOperation.Cancel());
+    await textRecognizerDeploymentOperation;
 }
 else
 {
-    progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+    progress.Report(100.0);
 }
-TextRecognizer model = await TextRecognizer.CreateAsync();
+TextRecognizer _session = await TextRecognizer.CreateAsync();

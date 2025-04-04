@@ -1,14 +1,14 @@
-IProgress<PackageDeploymentProgress> progress;
-if (!ImageObjectExtractor.IsAvailable())
+if (ImageObjectExtractor.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
 {
-    var objectExtractorDeploymentOperationAsync = ImageObjectExtractor.MakeAvailableAsync();
-    objectExtractorDeploymentOperationAsync.Progress = (_, packageDeploymentProgress) =>
+    var objectExtractorDeploymentOperation = ImageObjectExtractor.EnsureReadyAsync();
+    objectExtractorDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
     {
-        progress.Report(packageDeploymentProgress);
+        progress.Report(modelDeploymentProgress);
     };
-    await objectExtractorDeploymentOperationAsync;
+    using var _ = cancellationToken.Register(() => objectExtractorDeploymentOperation.Cancel());
+    await objectExtractorDeploymentOperation;
 }
 else
 {
-    progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+    progress.Report(100.0);
 }

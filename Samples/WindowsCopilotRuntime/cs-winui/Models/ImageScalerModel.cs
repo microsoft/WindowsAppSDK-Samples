@@ -22,9 +22,9 @@ internal class ImageScalerModel : IModelManager
         if (ImageScaler.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
             var imageScalerDeploymentOperation = ImageScaler.EnsureReadyAsync();
-            imageScalerDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
+            imageScalerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(packageDeploymentProgress);
+                progress.Report(modelDeploymentProgress);
             };
             using var _ = cancellationToken.Register(() => imageScalerDeploymentOperation.Cancel());
             await imageScalerDeploymentOperation;

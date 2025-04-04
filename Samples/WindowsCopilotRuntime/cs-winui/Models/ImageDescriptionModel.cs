@@ -21,13 +21,13 @@ class ImageDescriptionModel  : IModelManager
     {
         if (ImageDescriptionGenerator.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            //var imageDescriptionDeploymentOperation = ImageDescriptionGenerator.MakeAvailableAsync();
-            //imageDescriptionDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
-            //{
-            //    progress.Report(packageDeploymentProgress);
-            //};
-            //using var _ = cancellationToken.Register(() => imageDescriptionDeploymentOperation.Cancel());
-            //await imageDescriptionDeploymentOperation;
+            var imageDescriptionDeploymentOperation = ImageDescriptionGenerator.EnsureReadyAsync();
+            imageDescriptionDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
+            {
+                progress.Report(modelDeploymentProgress);
+            };
+            using var _ = cancellationToken.Register(() => imageDescriptionDeploymentOperation.Cancel());
+            await imageDescriptionDeploymentOperation;
         }
         else
         {
@@ -39,8 +39,15 @@ class ImageDescriptionModel  : IModelManager
     public async Task<string> DescribeImage(ImageBuffer inputImage, CancellationToken cancellationToken = default)
     {
         ContentFilterOptions filterOptions = new();
-        //filterOptions.PromptMinSeverityLevelToBlock.ViolentContentSeverity = SeverityLevel.Medium;
-        //filterOptions.ResponseMinSeverityLevelToBlock.ViolentContentSeverity = SeverityLevel.Medium;
+        filterOptions.ImageMaxAllowedSeverityLevel.AdultContentLevel = SeverityLevel.Minimum;
+        filterOptions.ImageMaxAllowedSeverityLevel.RacyContentLevel = SeverityLevel.Minimum;
+        filterOptions.ImageMaxAllowedSeverityLevel.GoryContentLevel = SeverityLevel.Minimum;
+        filterOptions.ImageMaxAllowedSeverityLevel.ViolentContentLevel = SeverityLevel.Minimum;
+        filterOptions.ResponseMaxAllowedSeverityLevel.Violent = SeverityLevel.Minimum;
+        filterOptions.ResponseMaxAllowedSeverityLevel.SelfHarm = SeverityLevel.Minimum;
+        filterOptions.ResponseMaxAllowedSeverityLevel.Sexual = SeverityLevel.Minimum;
+        filterOptions.ResponseMaxAllowedSeverityLevel.Hate = SeverityLevel.Minimum;
+
         var modelResponse = await Session.DescribeAsync(inputImage, ImageDescriptionKind.BriefDescription, filterOptions);
         return modelResponse.Description;
     }

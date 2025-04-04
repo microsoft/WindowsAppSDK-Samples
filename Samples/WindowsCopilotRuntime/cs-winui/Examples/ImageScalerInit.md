@@ -1,15 +1,15 @@
-IProgress<PackageDeploymentProgress> progress;
-if (!ImageScaler.IsAvailable())
+if (ImageScaler.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
 {
-    var imageScalerDeploymentOperationAsync = ImageScaler.MakeAvailableAsync();
-    imageScalerDeploymentOperationAsync.Progress = (_, packageDeploymentProgress) =>
+    var imageScalerDeploymentOperation = ImageScaler.EnsureReadyAsync();
+    imageScalerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
     {
-        progress.Report(packageDeploymentProgress);
+        progress.Report(modelDeploymentProgress);
     };
-    await imageScalerDeploymentOperationAsync;
+    using var _ = cancellationToken.Register(() => imageScalerDeploymentOperation.Cancel());
+    await imageScalerDeploymentOperation;
 }
 else
 {
-    progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+    progress.Report(100.0);
 }
-ImageScaler model = await ImageScaler.CreateAsync();
+ImageScaler _session = await ImageScaler.CreateAsync();

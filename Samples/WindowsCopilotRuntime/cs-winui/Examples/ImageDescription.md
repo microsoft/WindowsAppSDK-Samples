@@ -1,11 +1,17 @@
 SoftwareBitmap inputImage;
 ImageBuffer imageBuffer = ImageBuffer.CreateCopyFromBitmap(inputImage);
 
-// called in async call
-ContentFilterOptions filterOptions = new();
-filterOptions.PromptMinSeverityLevelToBlock.ViolentContentSeverity = SeverityLevel.Medium;
-filterOptions.ResponseMinSeverityLevelToBlock.ViolentContentSeverity = SeverityLevel.Medium;
-
 // Image Description Scenario and Content Filter Options can be chosen as per scenario
-LanguageModelResponse modelResponse = await Session.DescribeAsync(imageBuffer, ImageDescriptionScenario.Caption, filterOptions);
-return modelResponse.Response;
+
+ContentFilterOptions filterOptions = new();
+filterOptions.ImageMaxAllowedSeverityLevel.AdultContentLevel = SeverityLevel.Minimum;
+filterOptions.ImageMaxAllowedSeverityLevel.RacyContentLevel = SeverityLevel.Minimum;
+filterOptions.ImageMaxAllowedSeverityLevel.GoryContentLevel = SeverityLevel.Minimum;
+filterOptions.ImageMaxAllowedSeverityLevel.ViolentContentLevel = SeverityLevel.Minimum;
+filterOptions.ResponseMaxAllowedSeverityLevel.Violent = SeverityLevel.Minimum;
+filterOptions.ResponseMaxAllowedSeverityLevel.SelfHarm = SeverityLevel.Minimum;
+filterOptions.ResponseMaxAllowedSeverityLevel.Sexual = SeverityLevel.Minimum;
+filterOptions.ResponseMaxAllowedSeverityLevel.Hate = SeverityLevel.Minimum;
+
+var modelResponse = await Session.DescribeAsync(inputImage, ImageDescriptionKind.BriefDescription, filterOptions);
+return modelResponse.Description;

@@ -21,13 +21,13 @@ internal class TextRecognizerModel : IModelManager
     {
         if (TextRecognizer.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            //var textRecognizerDeploymentOperation = TextRecognizer.MakeAvailableAsync();
-            //textRecognizerDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
-            //{
-            //    progress.Report(packageDeploymentProgress);
-            //};
-            //using var _ = cancellationToken.Register(() => textRecognizerDeploymentOperation.Cancel());
-            //await textRecognizerDeploymentOperation;
+            var textRecognizerDeploymentOperation = TextRecognizer.EnsureReadyAsync();
+            textRecognizerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
+            {
+                progress.Report(modelDeploymentProgress);
+            };
+            using var _ = cancellationToken.Register(() => textRecognizerDeploymentOperation.Cancel());
+            await textRecognizerDeploymentOperation;
         }
         else
         {

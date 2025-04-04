@@ -1,15 +1,15 @@
-IProgress<PackageDeploymentProgress> progress;
-if (!LanguageModel.IsAvailable())
+if (LanguageModel.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
 {
-    var languageModelDeploymentOperationAsync = LanguageModel.MakeAvailableAsync();
-    languageModelDeploymentOperationAsync.Progress = (_, packageDeploymentProgress) =>
+    var languageModelDeploymentOperation = LanguageModel.EnsureReadyAsync();
+    languageModelDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
     {
-        progress.Report(packageDeploymentProgress);
+        progress.Report(modelDeploymentProgress);
     };
-    await languageModelDeploymentOperationAsync;
+    using var _ = cancellationToken.Register(() => languageModelDeploymentOperation.Cancel());
+    await languageModelDeploymentOperation;
 }
 else
 {
-    progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+    progress.Report(100.0);
 }
-LanguageModel model = await LanguageModel.CreateAsync();
+LanguageModel _session = await LanguageModel.CreateAsync();

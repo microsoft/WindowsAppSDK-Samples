@@ -26,9 +26,9 @@ internal class LanguageModelModel : IModelManager
         if (LanguageModel.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
             var languageModelDeploymentOperation = LanguageModel.EnsureReadyAsync();
-            languageModelDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
+            languageModelDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(packageDeploymentProgress);
+                progress.Report(modelDeploymentProgress);
             };
             using var _ = cancellationToken.Register(() => languageModelDeploymentOperation.Cancel());
             await languageModelDeploymentOperation;
