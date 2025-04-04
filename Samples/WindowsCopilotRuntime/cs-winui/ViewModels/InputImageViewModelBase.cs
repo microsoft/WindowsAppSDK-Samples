@@ -17,8 +17,8 @@ namespace WindowsCopilotRuntimeSample.ViewModels;
 internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
     where T : IModelManager
 {
-    private const string DefaultFactoryImageFilePath = "Assets/airplane.jpg";
-    private const string DefaultFactoryMaskFilePath = "Assets/airplaneMask.jpg";
+    private const string DefaultFactoryImageFilePath = "Assets/horses.jpg";
+    private const string DefaultFactoryMaskFilePath = "Assets/horsesMask.jpg";
 
     private readonly AsyncCommand<object, bool> _pickInputImageCommand;
     private readonly AsyncCommand<object, bool> _pickMaskImageCommand;

@@ -1,7 +1,7 @@
 IProgress<PackageDeploymentProgress> progress;
-if (!ImageObjectRemover.IsAvailable())
+if (ImageObjectRemover.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
 {
-    var imageObjectRemoverDeploymentOperationAsync = ImageObjectRemover.MakeAvailableAsync();
+    var imageObjectRemoverDeploymentOperationAsync = ImageObjectRemover.EnsureReadyAsync();
     imageObjectRemoverDeploymentOperationAsync.Progress = (_, packageDeploymentProgress) =>
     {
         progress.Report(packageDeploymentProgress);
@@ -10,6 +10,6 @@ if (!ImageObjectRemover.IsAvailable())
 }
 else
 {
-    progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+    progress.Report(100.0);
 }
 ImageObjectRemover model = await ImageObjectRemover.CreateAsync();
