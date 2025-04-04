@@ -24,7 +24,7 @@
             <TextBlock Text="Image Object Remover"
                 Style="{StaticResource TitleTextBlockStyle}"
                 Margin="10"/>
-            <TextBlock Text="The Image Object Remover API lets you remove a particular object from an image and replace the removed region with the surrounding pixels using an AI model."
+            <TextBlock Text="The Image Object Remover API lets you remove a particular object from an image and replace the removed region with the surrounding pixels using an AI model. It takes Input Image and corresponding Mask Image in Grayscale color model."
                 Style="{StaticResource BodyTextBlockStyle}"
                 Margin="10"/>
 
