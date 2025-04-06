@@ -142,7 +142,6 @@ internal class LanguageModelModel : IModelManager
         );
     }
 
-    //public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
     public string 
     GenerateResponseTextIntelligenceTextToTableAsync(string prompt)
     {
