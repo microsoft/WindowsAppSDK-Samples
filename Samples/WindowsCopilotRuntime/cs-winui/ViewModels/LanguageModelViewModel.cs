@@ -24,6 +24,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 {
     private string? _prompt;
     private string? _promptTextIntelligence;
+    private string? _textIntelligencePrompt;
     private string? _embeddingPrompt;
     private string? _context;
 
@@ -49,6 +50,9 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithOptionsAndProgressCommand;
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithContextProgressCommand;
     //private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceSkillsCommand;
+    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceSummarizeSkills;
+    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceRewriteSkills;
+    private readonly AsyncCommand<string, string> _generateResponseWithTextIntelligenceTextToTableSkills;
 
     private readonly AsyncCommand<string, LanguageModelEmbeddingVectorResult> _generateEmbeddingVectorCommand;
 
@@ -156,6 +160,43 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         //_generateResponseWithTextIntelligenceSkillsCommand.ResultProgressHandler += OnResultProgressTextIntelligence;
         //_generateResponseWithTextIntelligenceSkillsCommand.ResultHandler += OnResultTextIntelligence;
 
+
+        // GenerateResponseWithTextIntelligenceSummarizeSkills
+        _generateResponseWithTextIntelligenceSummarizeSkills = new(
+            prompt =>
+            {
+                _responseProgressTextIntelligence.Clear();
+                DispatchPropertyChanged(nameof(ResponseProgressTextIntelligence));
+
+                return Session.GenerateResponseTextIntelligenceSummarizeWithProgressAsync(prompt!);
+            },
+            (prompt) => IsAvailable && !string.IsNullOrEmpty(TextIntelligencePrompt));
+
+        _generateResponseWithTextIntelligenceSummarizeSkills.ResultProgressHandler += OnResultProgressTextIntelligence;
+        _generateResponseWithTextIntelligenceSummarizeSkills.ResultHandler += OnResultTextIntelligence;
+
+        // GenerateResponseWithTextIntelligenceRewriteSkills
+        _generateResponseWithTextIntelligenceRewriteSkills = new(
+            prompt =>
+            {
+                _responseProgressTextIntelligence.Clear();
+                DispatchPropertyChanged(nameof(ResponseProgressTextIntelligence));
+
+                return Session.GenerateResponseTextIntelligenceRewriteWithProgressAsync(prompt!);
+            },
+            (prompt) => IsAvailable && !string.IsNullOrEmpty(TextIntelligencePrompt));
+
+        _generateResponseWithTextIntelligenceRewriteSkills.ResultProgressHandler += OnResultProgressTextIntelligence;
+        _generateResponseWithTextIntelligenceRewriteSkills.ResultHandler += OnResultTextIntelligence;
+
+        // GenerateResponseWithTextIntelligenceTextToTableSkills
+        _generateResponseWithTextIntelligenceTextToTableSkills = new(
+            prompt =>
+            {
+                return  Session.GenerateResponseTextIntelligenceTextToTableAsync(prompt!);
+            },
+            (prompt) => IsAvailable && !string.IsNullOrEmpty(TextIntelligencePrompt));
+
         // GenerateEmbedding
         _generateEmbeddingVectorCommand = new(
             prompt =>
@@ -186,6 +227,13 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     //        _generateResponseWithTextIntelligenceSkillsCommand.FireCanExecuteChanged();
     //    }
     //}
+
+    public string? TextIntelligencePrompt
+    {
+        get => _textIntelligencePrompt;
+        set => SetField(ref _textIntelligencePrompt, value);
+    }
+
     public string? EmbeddingPrompt
     {
         get => _embeddingPrompt;
@@ -282,6 +330,10 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
     public ICommand GenerateResponseWithOptionsAndProgressCommand => _generateResponseWithOptionsAndProgressCommand;
     //public ICommand GenerateResponseWithTextIntelligenceSkillsCommand => _generateResponseWithTextIntelligenceSkillsCommand;
+    public ICommand GenerateResponseWithTextIntelligenceSummarizeSkills => _generateResponseWithTextIntelligenceSummarizeSkills;
+    public ICommand GenerateResponseWithTextIntelligenceRewriteSkills => _generateResponseWithTextIntelligenceRewriteSkills;
+    public ICommand GenerateResponseWithTextIntelligenceTextToTableSkills => _generateResponseWithTextIntelligenceTextToTableSkills;
+
     public ICommand GenerateResponseWithContextProgressCommand  => _generateResponseWithContextProgressCommand;
 
     /// <summary>
@@ -294,6 +346,9 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         _generateResponseWithProgressCommand.FireCanExecuteChanged();
         _generateResponseWithOptionsAndProgressCommand.FireCanExecuteChanged();
         //_generateResponseWithTextIntelligenceSkillsCommand.FireCanExecuteChanged();
+        _generateResponseWithTextIntelligenceSummarizeSkills.FireCanExecuteChanged();
+        _generateResponseWithTextIntelligenceRewriteSkills.FireCanExecuteChanged();
+        _generateResponseWithTextIntelligenceTextToTableSkills.FireCanExecuteChanged();
         _generateResponseWithContextProgressCommand.FireCanExecuteChanged();
     }
 
