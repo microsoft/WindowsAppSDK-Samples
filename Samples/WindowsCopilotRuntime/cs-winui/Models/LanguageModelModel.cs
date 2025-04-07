@@ -47,9 +47,9 @@ internal class LanguageModelModel : IModelManager
     }
 
     private LanguageModel Session => _session ?? throw new InvalidOperationException("Language Model session was not created yet");
-    private TextSummarizer SessionTextSummarize => _sessionTextSummarize ?? throw new InvalidOperationException("Language Model session was not created yet");
-    private TextRewriter SessionTextRewrite => _sessionTextRewrite ?? throw new InvalidOperationException("Language Model session was not created yet");
-    private TextToTableConverter SessionTextToTable => _sessionTextToTable ?? throw new InvalidOperationException("Language Model session was not created yet");
+    private TextSummarizer SessionTextSummarize => _sessionTextSummarize ?? throw new InvalidOperationException("Text summarizer session was not created yet");
+    private TextRewriter SessionTextRewrite => _sessionTextRewrite ?? throw new InvalidOperationException("Text Rewriter session was not created yet");
+    private TextToTableConverter SessionTextToTable => _sessionTextToTable ?? throw new InvalidOperationException("TextToTable converter session was not created yet");
 
     public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
         GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
