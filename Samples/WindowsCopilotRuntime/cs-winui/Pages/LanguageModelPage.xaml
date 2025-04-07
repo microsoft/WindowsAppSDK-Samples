@@ -274,9 +274,12 @@
                 <Paragraph>
                     <Run FontWeight="Bold">Rewrite</Run> : Rewrite, correct grammar, and enhance word choice of the prompt.
                 </Paragraph>
+                <!--There's a known bug for Text-To-Table skill where it will always return empty string. This has been fixed. Please uncomment this one afrer picking up a new nuget release-->
+                <!--
                 <Paragraph>
                     <Run FontWeight="Bold">Text To table</Run> : Convert given prompt to table format.
                 </Paragraph>
+                -->
             </RichTextBlock>
             <Border BorderThickness="1"
             CornerRadius="10"
@@ -347,7 +350,9 @@
                                 Margin="10"/>
                             </StackPanel>
                         </TabViewItem>
+                        <!--There's a known bug for Text-To-Table skill where it will always return empty string. This has been fixed. Please uncomment this one afrer picking up a new nuget release-->
                         <!-- TextToTable Section -->
+                        <!--
                         <TabViewItem Header="Text To Table"
                          IsClosable="False">
                             <StackPanel Orientation="Vertical"
@@ -378,6 +383,7 @@
                                 Margin="10"/>
                             </StackPanel>
                         </TabViewItem>
+                        -->
                     </TabView.TabItems>
                 </TabView>
             </Border>
