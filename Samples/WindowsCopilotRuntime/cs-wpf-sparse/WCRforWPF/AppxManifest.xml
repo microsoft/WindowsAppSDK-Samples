@@ -9,13 +9,13 @@
   xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
   IgnorableNamespaces="uap uap2 uap3 rescap desktop uap10">
   <Identity
-    Name="WCRforWPF"
+    Name="WCRforWPFSparse"
     ProcessorArchitecture="x64"
     Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>WCRforWPFPkg</DisplayName>
+    <DisplayName>WCRforWPFSparsePkg</DisplayName>
     <PublisherDisplayName>jonwis</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
     <uap10:AllowExternalContent>true</uap10:AllowExternalContent>
@@ -32,17 +32,17 @@
     <rescap:Capability Name="unvirtualizedResources"/>
   </Capabilities>
   <Applications>
-    <Application Id="WCRforWPFPkg" Executable="WCRforWPF.exe" uap10:TrustLevel="mediumIL" uap10:RuntimeBehavior="win32App">
+    <Application Id="WCRforWPFSparsePkg" Executable="WCRforWPFSparse.exe" uap10:TrustLevel="mediumIL" uap10:RuntimeBehavior="win32App">
       <uap:VisualElements
-        DisplayName="WCRforWPFPkg"
-        Description="WCRforWPFPkg"
+        DisplayName="WCRforWPFSparsePkg"
+        Description="WCRforWPFSparsePkg"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.shareTarget">
-          <uap:ShareTarget Description="Send to WCRforWPFPkg">
+          <uap:ShareTarget Description="Send to WCRforWPFSparsePkg">
             <uap:SupportedFileTypes>
               <uap:FileType>.jpg</uap:FileType>
               <uap:FileType>.png</uap:FileType>

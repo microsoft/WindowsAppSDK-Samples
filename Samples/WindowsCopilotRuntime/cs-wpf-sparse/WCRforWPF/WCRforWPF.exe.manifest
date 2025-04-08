@@ -3,7 +3,7 @@
   <assemblyIdentity version="1.0.0.0" name="Contoso.PhotoStoreApp"/>
   <msix xmlns="urn:schemas-microsoft-com:msix.v1"
           publisher="CN=Windows App SDK Samples"
-          packageName="WCRforWPFPkg"
-          applicationId="WCRforWPFPkg"
+          packageName="WCRforWPFSparsePkg"
+          applicationId="WCRforWPFSparsePkg"
         />
 </assembly>

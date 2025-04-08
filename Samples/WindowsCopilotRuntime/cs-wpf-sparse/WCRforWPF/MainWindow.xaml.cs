@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Windows;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -9,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Drawing.Imaging;
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.AI.Generative;
@@ -135,17 +135,19 @@ public partial class MainWindow : Window
 
         string exePath = Assembly.GetExecutingAssembly().Location;
 
+        string rootDirectory = Path.GetDirectoryName(exePath);
+
         //TODO - update the value of externalLocation to match the output location of your VS Build binaries and the value of 
         //sparsePkgPath to match the path to your signed Sparse Package (.msix). 
         //Note that these values cannot be relative paths and must be complete paths
-        string externalLocation = exePath;
-        string sparsePkgPath = exePath + "\\WCRforWPF.msix";
+        string externalLocation = rootDirectory;
+        string sparsePkgPath = rootDirectory + "\\WCRforWPFSparse.msix";
         registerSparsePackage(externalLocation, sparsePkgPath);
     }
 
     private void RunWithIdentity()
     {
-        string appUserModelId = "WCRforWPF_8wekyb3d8bbwe!WCRforWPFPkg"; // Replace with your AUMID
+        string appUserModelId = "WCRforWPFSparse_8wekyb3d8bbwe!WCRforWPFSparsePkg"; // Replace with your AUMID
         if (NativeMethods.CoCreateInstance(
             NativeMethods.CLSID_ApplicationActivationManager,
             IntPtr.Zero,
@@ -185,8 +187,7 @@ public partial class MainWindow : Window
 
         PackageManager packageManager = new PackageManager();
 
-
-        if (packageManager.FindPackagesForUserWithPackageTypes("", "WCRforWPF_8wekyb3d8bbwe", PackageTypes.Main).ToList<Package>().Count > 0)
+        if (packageManager.FindPackagesForUserWithPackageTypes("", "WCRforWPFSparse_1.0.0.0_x64__8wekyb3d8bbwe", PackageTypes.Main).ToList<Package>().Count > 0)
         {
             //Declare use of an external location
             var options = new AddPackageOptions();

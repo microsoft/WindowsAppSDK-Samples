@@ -79,10 +79,10 @@ if (-not (Test-Path $pfx))
     $export_pfx = Export-PfxCertificate -Cert $cert_personal -FilePath $pfx -Password $password    
 }
 
-msbuild /restore
+msbuild /restore /p:platform=$Platform /p:configuration=$Configuration
 msbuild /p:platform=$Platform /p:configuration=$Configuration
 
-MakeAppx.exe pack /d "$PSScriptRoot\WCRforWPF" /p "$PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWPF.msix" /nv /o
+MakeAppx.exe pack /d "$PSScriptRoot\WCRforWPF" /p "$PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWPFSparse.msix" /nv /o
 
 $pwd_content = Get-Content -Path $pwd_file
-SignTool.exe sign /fd SHA256 /a /f "$PSScriptRoot\WCRforWPF\.user\wcrforwpf.certificate.test.pfx" /p $pwd_content "$PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWPF.msix"
+SignTool.exe sign /fd SHA256 /a /f "$PSScriptRoot\WCRforWPF\.user\wcrforwpf.certificate.test.pfx" /p $pwd_content "$PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWPFSparse.msix"
