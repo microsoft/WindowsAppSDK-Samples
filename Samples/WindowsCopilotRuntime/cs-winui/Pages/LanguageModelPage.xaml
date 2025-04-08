@@ -259,87 +259,134 @@
                 </TabView>
             </Border>
 
-            <!--  Text Intelligence skills  --><!--
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="10">
-                <TextBlock Text="Text Intelligence skills" Style="{StaticResource SubtitleTextBlockStyle}" />
-                <TextBlock TextWrapping="WrapWholeWords">
-                    Select between a predefined set of Text Intelligence skills to perform common operations on input text.
-                    We are using default values for Temp, TopP and TopK params in the sample.
-                </TextBlock>
-                <RichTextBlock TextWrapping="WrapWholeWords">
-                    <Paragraph>
-                        <Run FontWeight="Bold">General</Run> is the default skill with no formatting applied.
-                    </Paragraph>
-                    <Paragraph>
-                        <Run FontWeight="Bold">Summarize</Run> summarizes the prompt text.
-                    </Paragraph>
-                    <Paragraph>
-                        <Run FontWeight="Bold">Rewrite</Run> rephrases the prompt for clarity and comprehension.
-                    </Paragraph>
-                    <Paragraph>
-                        <Run FontWeight="Bold">Text To table</Run> converts given prompt to tabular format.
-                    </Paragraph>
-                </RichTextBlock>
-                <TextBox Margin="10"
-                    Header="Prompt:"
-                     PlaceholderText="Enter your prompt here"
-                     Text="{Binding PromptTextIntelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     IsReadOnly="{Binding GenerateResponseWithProgressCommand.IsExecuting}"
-                     IsEnabled="{Binding IsAvailable}"
-                     AutomationProperties.Name="multi-line TextBox"
-                     AcceptsReturn="True"
-                     TextWrapping="Wrap"/>
-                <StackPanel>
-
-                    <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" HorizontalAlignment="Left">
-                        <StackPanel  Grid.Column="0" Width="100" Margin="10">
-                            <TextBlock Text="Skill"/>
-                            <ComboBox SelectedItem="{Binding LanguageModelOptionsSkill, Mode=TwoWay}"
-                                      ItemsSource="{Binding LanguageModelSkills}"
-                                      IsEnabled="{Binding IsAvailable}"/>
-                        </StackPanel>
-                        <StackPanel  Grid.Column="1" Width="100" Margin="10">
-                            <TextBlock Text="Temp"/>
-                            <TextBox Text="{Binding LanguageModelOptionsTemp, Mode=OneTime, FallbackValue='0.9'}" Background="{StaticResource ControlFillColorDisabledBrush}" IsEnabled="False"/>
-                        </StackPanel>
-                        <StackPanel  Grid.Column="2" Width="100" Margin="10">
-                            <TextBlock Text="TopP"/>
-                            <TextBox Text="{Binding LanguageModelOptionsTopP, Mode=OneWay, FallbackValue='0.9'}" Background="{StaticResource ControlFillColorDisabledBrush}" IsEnabled="False"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="3" Width="100" Margin="10">
-                            <TextBlock Text="TopK"/>
-                            <TextBox  Text="{Binding LanguageModelOptionsTopK, Mode=OneTime, FallbackValue='40'}" Background="{StaticResource ControlFillColorDisabledBrush}" IsEnabled="False"/>
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-
-                <TextBox  Margin="10"
-                    Header="Language Model Result:"
-                    Text="{Binding ResponseProgressTextIntelligence}"
-                    IsReadOnly="True"
-                    IsEnabled="{Binding IsAvailable}"
-                    TextWrapping="Wrap"/>
-
-                <TextBox Header="Generate Response Error:"
-                    Text="{Binding GenerateResponseWithTextIntelligenceSkillsCommand.Error.Message}"
-                    IsReadOnly="True"
-                    TextWrapping="Wrap"
-                    Visibility="{Binding GenerateResponseWithTextIntelligenceSkillsCommand.Error, Converter={StaticResource NullToVisibilityConverter}}"/>
-
-                <StackPanel Orientation="Horizontal" Margin="10">
-                    <Button Command="{Binding GenerateResponseWithTextIntelligenceSkillsCommand}"
-                        CommandParameter="{Binding PromptTextIntelligence}"
-                        Margin="0,0,10,0">Generate Response with Progress</Button>
-                    <ProgressRing Visibility="{Binding GenerateResponseWithTextIntelligenceSkillsCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                    <Button Margin="5"
-                        Command="{Binding GenerateResponseWithTextIntelligenceSkillsCommand.CancelCommand}"
-                        Visibility="{Binding GenerateResponseWithTextIntelligenceSkillsCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <SymbolIcon Symbol="Cancel"/>
-                    </Button>
-                </StackPanel>
-                <controls:CodeBlockControl SourceFile="Examples/LanguageModelWithTexIntelligenceSkills.md"
-            Margin="10"/>
-            </StackPanel>-->
+            <!-- Text Intelligence -->
+            <TextBlock Text="Text Intelligence"
+           Margin="10"
+           Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <TextBlock Margin="10" TextWrapping="WrapWholeWords">
+                Select between a predefined set of Text Intelligence skills to perform common operations on input text.
+                We are using default values for Temp, TopP and TopK params in the sample.
+            </TextBlock>
+            <RichTextBlock Margin="10" TextWrapping="WrapWholeWords">
+                <Paragraph>
+                    <Run FontWeight="Bold">Summarize</Run> : Summarize the prompt text.
+                </Paragraph>
+                <Paragraph>
+                    <Run FontWeight="Bold">Rewrite</Run> : Rewrite, correct grammar, and enhance word choice of the prompt.
+                </Paragraph>
+                <!--There's a known bug for Text-To-Table skill where it will always return empty string. This has been fixed. Please uncomment this one afrer picking up a new nuget release-->
+                <!--
+                <Paragraph>
+                    <Run FontWeight="Bold">Text To table</Run> : Convert given prompt to table format.
+                </Paragraph>
+                -->
+            </RichTextBlock>
+            <Border BorderThickness="1"
+            CornerRadius="10"
+            BorderBrush="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+            Background="{ThemeResource CardBackgroundFillColorDefault}"
+            Margin="10">
+                <TabView IsAddTabButtonVisible="False">
+                    <TabView.TabItems>
+                        <!-- Summarize Section -->
+                        <TabViewItem Header="Summarize"
+                         IsClosable="False">
+                            <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            Margin="20">
+                                <TextBox Margin="10"
+                             Header="Prompt:"
+                             PlaceholderText="Enter your prompt here"
+                             Text="{Binding TextIntelligencePrompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsAvailable}"
+                             AutomationProperties.Name="multi-line TextBox"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"/>
+                                <TextBox Margin="10"
+                             Header="Language Model Result:"
+                             Text="{Binding ResponseProgressTextIntelligence}"
+                             IsReadOnly="True"
+                             IsEnabled="{Binding IsAvailable}"
+                             TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal"
+                                Margin="10">
+                                    <Button Command="{Binding GenerateResponseWithTextIntelligenceSummarizeSkills}"
+                                CommandParameter="{Binding TextIntelligencePrompt}"
+                                Margin="0,0,10,0">Generate Summarize Response</Button>
+                                    <ProgressRing Visibility="{Binding GenerateResponseWithTextIntelligenceSummarizeSkills.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </StackPanel>
+                                <controls:CodeBlockControl SourceFile="Examples/TextIntelligenceSummarize.md"
+                                 Margin="10"/>
+                            </StackPanel>
+                        </TabViewItem>
+                        <!-- Rewrite Section -->
+                        <TabViewItem Header="Rewrite"
+                         IsClosable="False">
+                            <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            Margin="20">
+                                <TextBox Margin="10"
+                             Header="Prompt:"
+                             PlaceholderText="Enter your prompt here"
+                             Text="{Binding TextIntelligencePrompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsAvailable}"
+                             AutomationProperties.Name="multi-line TextBox"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"/>
+                                <TextBox Margin="10"
+                             Header="Language Model Result:"
+                             Text="{Binding ResponseProgressTextIntelligence}"
+                             IsReadOnly="True"
+                             IsEnabled="{Binding IsAvailable}"
+                             TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal"
+                                Margin="10">
+                                    <Button Command="{Binding GenerateResponseWithTextIntelligenceRewriteSkills}"
+                                CommandParameter="{Binding TextIntelligencePrompt}"
+                                Margin="0,0,10,0">Generate Rewrite Response</Button>
+                                    <ProgressRing Visibility="{Binding GenerateResponseWithTextIntelligenceRewriteSkills.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </StackPanel>
+                                <controls:CodeBlockControl SourceFile="Examples/TextIntelligenceRewrite.md"
+                                Margin="10"/>
+                            </StackPanel>
+                        </TabViewItem>
+                        <!--There's a known bug for Text-To-Table skill where it will always return empty string. This has been fixed. Please uncomment this one afrer picking up a new nuget release-->
+                        <!-- TextToTable Section -->
+                        <!--
+                        <TabViewItem Header="Text To Table"
+                         IsClosable="False">
+                            <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            Margin="20">
+                                <TextBox Margin="10"
+                             Header="Prompt:"
+                             PlaceholderText="Enter your prompt here"
+                             Text="{Binding TextIntelligencePrompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsAvailable}"
+                             AutomationProperties.Name="multi-line TextBox"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"/>
+                                <TextBox Margin="10"
+                             Header="Language Model Result:"
+                             Text="{Binding GenerateResponseWithTextIntelligenceTextToTableSkills.Result}"
+                             IsReadOnly="True"
+                             IsEnabled="{Binding IsAvailable}"
+                             TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal"
+                                Margin="10">
+                                    <Button Command="{Binding GenerateResponseWithTextIntelligenceTextToTableSkills}"
+                                CommandParameter="{Binding TextIntelligencePrompt}"
+                                Margin="0,0,10,0">Generate Text To Table Response</Button>
+                                    <ProgressRing Visibility="{Binding GenerateResponseWithTextIntelligenceTextToTableSkills.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </StackPanel>
+                                <controls:CodeBlockControl SourceFile="Examples/TextIntelligenceTextToTable.md"
+                                Margin="10"/>
+                            </StackPanel>
+                        </TabViewItem>
+                        -->
+                    </TabView.TabItems>
+                </TabView>
+            </Border>
 
             <!--  Text Embedding  -->
             <TextBlock Text="Text Embedding"
