@@ -79,6 +79,7 @@ if (-not (Test-Path $pfx))
     $export_pfx = Export-PfxCertificate -Cert $cert_personal -FilePath $pfx -Password $password    
 }
 
+msbuild /restore
 msbuild /p:platform=$Platform /p:configuration=$Configuration
 
 MakeAppx.exe pack /d "$PSScriptRoot\WCRforWPF" /p "$PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWPF.msix" /nv
