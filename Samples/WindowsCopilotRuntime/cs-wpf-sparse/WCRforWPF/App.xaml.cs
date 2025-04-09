@@ -102,24 +102,18 @@ public partial class App : Application
             MainWindow.Show(); // Show the main window
             return;
         }
-        Task install = InstallIfNecesary();
+        Task install = RegisterSparsePackage();
         await install;
         RunWithIdentity();
         Environment.Exit(0);
     }
 
-    private async Task InstallIfNecesary()
+    private async Task RegisterSparsePackage()
     {
-        // The MSIX must be side by side to the executing assembly. 
         string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         string externalLocation = exePath;
         string sparsePkgPath = exePath + "\\WCRforWPFSparse.msix";
-        Task resgister = registerSparsePackage(externalLocation, sparsePkgPath);
-        await resgister;
-    }
 
-    private async Task registerSparsePackage(string externalLocation, string sparsePkgPath)
-    {
         Uri externalUri = new Uri(externalLocation);
         Uri packageUri = new Uri(sparsePkgPath);
 
@@ -193,4 +187,3 @@ public partial class App : Application
         InitializeComponent();
     }
 }
-
