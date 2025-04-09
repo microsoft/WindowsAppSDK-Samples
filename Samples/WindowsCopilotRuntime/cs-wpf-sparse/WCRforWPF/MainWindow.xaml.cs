@@ -119,63 +119,33 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void RestartWithIdentityIfNecessary()
+    private async Task RestartWithIdentityIfNecessary()
     {
         if (IsPackagedProcess())
         {
             return;
         }
-        InstallIfNecesary();
+        Task install = InstallIfNecesary();
+        await install;
         RunWithIdentity();
         Environment.Exit(123);
         
     }
-    private void InstallIfNecesary()
+    private async Task InstallIfNecesary()
     {
-
         string exePath = Assembly.GetExecutingAssembly().Location;
-
         string rootDirectory = Path.GetDirectoryName(exePath);
-
         //TODO - update the value of externalLocation to match the output location of your VS Build binaries and the value of 
         //sparsePkgPath to match the path to your signed Sparse Package (.msix). 
         //Note that these values cannot be relative paths and must be complete paths
         string externalLocation = rootDirectory;
         string sparsePkgPath = rootDirectory + "\\WCRforWPFSparse.msix";
-        registerSparsePackage(externalLocation, sparsePkgPath);
+        Task resgister = registerSparsePackage(externalLocation, sparsePkgPath);
+        await resgister;
     }
 
-    private void RunWithIdentity()
+    private async Task registerSparsePackage(string externalLocation, string sparsePkgPath)
     {
-        string appUserModelId = "WCRforWPFSparse_8wekyb3d8bbwe!WCRforWPFSparsePkg"; // Replace with your AUMID
-        if (NativeMethods.CoCreateInstance(
-            NativeMethods.CLSID_ApplicationActivationManager,
-            IntPtr.Zero,
-            NativeMethods.CLSCTX.CLSCTX_LOCAL_SERVER,
-            NativeMethods.CLSID_IApplicationActivationManager,
-            out object applicationActivationManagerAsObject) != 0)
-        {
-            throw new Exception("Failed to create ApplicationActivationManager!");
-        }
-        var applicationActivationManager = (NativeMethods.IApplicationActivationManager)applicationActivationManagerAsObject;
-        applicationActivationManager.ActivateApplication(appUserModelId, null, NativeMethods.ActivateOptions.None, out uint processId);
-
-
-        // Wait for the process to exit
-        try
-        {
-            Process process = Process.GetProcessById((int)processId);
-            process.WaitForExit();
-            Console.WriteLine("Application has exited.");
-        }
-        catch (ArgumentException ex)
-        {
-            Console.WriteLine($"Process with ID {processId} not found: {ex.Message}");
-        }
-    }
-
-    private static async void registerSparsePackage(string externalLocation, string sparsePkgPath)
-    {  
         Uri externalUri = new Uri(externalLocation);
         Uri packageUri = new Uri(sparsePkgPath);
 
@@ -186,8 +156,8 @@ public partial class MainWindow : Window
         Console.WriteLine("  msix Uri {0}", packageUri);
 
         PackageManager packageManager = new PackageManager();
-
-        if (packageManager.FindPackagesForUserWithPackageTypes("", "WCRforWPFSparse_1.0.0.0_x64__8wekyb3d8bbwe", PackageTypes.Main).ToList<Package>().Count > 0)
+        int count = packageManager.FindPackagesForUserWithPackageTypes("", "WCRforWPFSparse_8wekyb3d8bbwe", PackageTypes.Main).ToList<Package>().Count;
+        if (count == 0)
         {
             //Declare use of an external location
             var options = new AddPackageOptions();
@@ -206,7 +176,22 @@ public partial class MainWindow : Window
                     deploymentResult.ErrorText);
             }
         }
-        
+
+    }
+    private void RunWithIdentity()
+    {
+        string appUserModelId = "WCRforWPFSparse_8wekyb3d8bbwe!WCRforWPFSparsePkg"; // Replace with your AUMID
+        if (NativeMethods.CoCreateInstance(
+            NativeMethods.CLSID_ApplicationActivationManager,
+            IntPtr.Zero,
+            NativeMethods.CLSCTX.CLSCTX_LOCAL_SERVER,
+            NativeMethods.CLSID_IApplicationActivationManager,
+            out object applicationActivationManagerAsObject) != 0)
+        {
+            throw new Exception("Failed to create ApplicationActivationManager!");
+        }
+        var applicationActivationManager = (NativeMethods.IApplicationActivationManager)applicationActivationManagerAsObject;
+        applicationActivationManager.ActivateApplication(appUserModelId, null, NativeMethods.ActivateOptions.None, out uint processId);
     }
 
     private async void SelectFile_Click(object sender, RoutedEventArgs e)
