@@ -23,7 +23,6 @@ namespace WindowsCopilotRuntimeSample.ViewModels;
 internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelModel>
 {
     private string? _prompt;
-    private string? _promptTextIntelligence;
     private string? _textIntelligencePrompt;
     private string? _embeddingPrompt;
     private string? _context;
