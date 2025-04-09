@@ -17,7 +17,6 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
- 
     private async void SelectFile_Click(object sender, RoutedEventArgs e)
     {
         _currentImage = null;
@@ -35,6 +34,8 @@ public partial class MainWindow : Window
             var source = new BitmapImage(new Uri(fileDialog.FileName));
             this.InputImage.Source = source;
         }
+        this.Description.Text = "(done picking)";
+        this.FileContent.Text = "(done picking)";
     }
 
     private void PasteImageContent(object sender, RoutedEventArgs e)
