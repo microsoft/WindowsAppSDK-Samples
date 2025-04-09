@@ -28,6 +28,16 @@ BuildSparsePackage.ps1 does the following:
 
 3) Run SignTool to sign the MSIX
 
+# Before Running
+
+Please have the WindowsAppSDK runtime installed using the installer for 1.7.250127003-experimental3
+at https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads
+
+Please install the cert in the .user folder to LocalMachine TrustedPeople root. You can either
+launch from the start menu after installing the MSIX in the bin directory or you can directly run
+the exe. 
+
+
 # Initialization code
 
 Just doing the steps above does not yet grant the app package identity. The MSIX package still needs to
