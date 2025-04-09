@@ -115,6 +115,7 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
+        this.Hide();
         RestartWithIdentityIfNecessary();
         InitializeComponent();
     }
@@ -123,6 +124,7 @@ public partial class MainWindow : Window
     {
         if (IsPackagedProcess())
         {
+            this.Show();
             return;
         }
         Task install = InstallIfNecesary();
