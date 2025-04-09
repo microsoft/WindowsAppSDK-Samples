@@ -13,17 +13,12 @@ namespace WCRforWPF;
 /// </summary>
 public partial class App : Application
 {
-    [DllImport("kernel32.dll", SetLastError = true)]
-    private static extern IntPtr GetCurrentProcess();
-
-    [DllImport("kernel32.dll", SetLastError = true)]
-    private static extern uint GetPackageFamilyName(IntPtr hProcess, ref uint packageFamilyNameLength, [Out] char[] packageFamilyName);
-
-    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-    private static extern int GetCurrentPackageFullName(ref int packageFullNameLength, [Out] char[] packageFullName);
-
+    // All the interpolated native calls and DLLImports go here
     private static class NativeMethods
     {
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern int GetCurrentPackageFullName(ref int packageFullNameLength, [Out] char[] packageFullName);
+        
         public enum ActivateOptions
         {
             None = 0x00000000,  // No flags set
@@ -93,15 +88,37 @@ public partial class App : Application
         }
     }
 
+    public App()
+    {
+    }
+
+    // Originally StartupUri="MainWindow.xaml" was used instead of Startup="OnStartUp" in
+    // the App.xaml Application properties and the startup code lived in MainWindow.xaml.cs
+    // But this design presents a flaw where the unpackaged process will show itself before
+    // the package process is able to activate. 
+    //
+    // This could be mitigated using this.hide on the MainWindows startup but the unpackaged
+    // process still showed itself for a split second.
+    //
+    // Using OnStartUp and intializating the MainWindow once we know we are in the packaged process
+    // proved to be a proper solution to avoid this issue.
+    private void OnStartUp(Object sender, StartupEventArgs e)
+    {
+        RestartWithIdentityIfNecessary();
+        InitializeComponent();
+    }
 
     private async Task RestartWithIdentityIfNecessary()
     {
+        // If we are in the packaged process, then present the MainWindow
         if (IsPackagedProcess())
         {
             var mainWindow = new MainWindow();
             MainWindow.Show(); // Show the main window
             return;
         }
+
+        // If we are still unpackaged process, then register the MSIX and ActivateApplication
         Task install = RegisterSparsePackage();
         await install;
         RunWithIdentity();
@@ -110,6 +127,7 @@ public partial class App : Application
 
     private async Task RegisterSparsePackage()
     {
+        // We expect the MSIX to be in the same directory as the exe. 
         string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         string externalLocation = exePath;
         string sparsePkgPath = exePath + "\\WCRforWPFSparse.msix";
@@ -144,11 +162,13 @@ public partial class App : Application
                     deploymentResult.ErrorText);
             }
         }
-
     }
+
     private void RunWithIdentity()
     {
-        string appUserModelId = "WCRforWPFSparse_8wekyb3d8bbwe!WCRforWPFSparsePkg"; // Replace with your AUMID
+        // Activating the packaged process
+        // We should already know our AUMID which depends on the AppxManifest we defined so this can be hardcoded here. 
+        string appUserModelId = "WCRforWPFSparse_8wekyb3d8bbwe!WCRforWPFSparsePkg";
         if (NativeMethods.CoCreateInstance(
             NativeMethods.CLSID_ApplicationActivationManager,
             IntPtr.Zero,
@@ -161,29 +181,17 @@ public partial class App : Application
         var applicationActivationManager = (NativeMethods.IApplicationActivationManager)applicationActivationManagerAsObject;
         applicationActivationManager.ActivateApplication(appUserModelId, null, NativeMethods.ActivateOptions.None, out uint processId);
     }
-    static bool IsPackagedProcess()
+
+    private static bool IsPackagedProcess()
     {
         int length = 0;
-        int result = GetCurrentPackageFullName(ref length, null);
-
+        int result = NativeMethods.GetCurrentPackageFullName(ref length, null);
         if (result == 15700) // APPMODEL_ERROR_NO_PACKAGE
         {
             return false;
         }
-
         char[] packageFullName = new char[length];
-        result = GetCurrentPackageFullName(ref length, packageFullName);
-
+        result = NativeMethods.GetCurrentPackageFullName(ref length, packageFullName);
         return result == 0;
-    }
-
-    public App()
-    {
-    }
-
-    private void OnStartUp(Object sender, StartupEventArgs e)
-    {
-        RestartWithIdentityIfNecessary();
-        InitializeComponent();
     }
 }
