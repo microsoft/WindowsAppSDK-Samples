@@ -2,7 +2,7 @@
   "profiles": {
     "WindowsCopilotRuntime (Package)": {
       "commandName": "MsixPackage",
-      "nativeDebugging": true,
+      "nativeDebugging": false,
       "hotReloadEnabled": true
     },
     "WindowsCopilotRuntime (Unpackaged)": {

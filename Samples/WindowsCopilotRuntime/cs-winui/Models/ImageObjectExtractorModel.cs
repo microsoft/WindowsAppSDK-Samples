@@ -20,15 +20,16 @@ class ImageObjectExtractorModel : IModelManager
             var objectExtractorDeploymentOperation = ImageObjectExtractor.EnsureReadyAsync();
             objectExtractorDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(modelDeploymentProgress);
+                progress.Report(modelDeploymentProgress % 0.75);  // all progress is within 75%
             };
             using var _ = cancellationToken.Register(() => objectExtractorDeploymentOperation.Cancel());
             await objectExtractorDeploymentOperation;
         }
         else
         {
-            progress.Report(100.0);
+            progress.Report(0.75);
         }
+        progress.Report(1.0); // 100% progress
     }
 
     public async Task<SoftwareBitmap> ApplyImageObjectExtractorAsync(SoftwareBitmap inputImage, ImageObjectExtractorHint hint, CancellationToken cancellationToken = default)

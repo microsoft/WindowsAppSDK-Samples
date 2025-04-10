@@ -22,18 +22,19 @@ internal class ImageObjectRemoverModel : IModelManager
         if (ImageObjectRemover.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
             var objectRemoveDeploymentOperation = ImageObjectRemover.EnsureReadyAsync();
-            objectRemoveDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
+            objectRemoveDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(packageDeploymentProgress);
+                progress.Report(modelDeploymentProgress % 0.75);  // all progress is within 75%
             };
             using var _ = cancellationToken.Register(() => objectRemoveDeploymentOperation.Cancel());
             await objectRemoveDeploymentOperation;
         }
         else
         {
-            progress.Report(100.0);
+            progress.Report(0.75);
         }
         _session = await ImageObjectRemover.CreateAsync();
+        progress.Report(1.0); // 100% progress
     }
 
     public SoftwareBitmap RemoveFromSoftwareBitmap(SoftwareBitmap inputImage, SoftwareBitmap inputMask)

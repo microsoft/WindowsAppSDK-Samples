@@ -24,16 +24,17 @@ internal class ImageScalerModel : IModelManager
             var imageScalerDeploymentOperation = ImageScaler.EnsureReadyAsync();
             imageScalerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(modelDeploymentProgress);
+                progress.Report(modelDeploymentProgress % 0.75);  // all progress is within 75%
             };
             using var _ = cancellationToken.Register(() => imageScalerDeploymentOperation.Cancel());
             await imageScalerDeploymentOperation;
         }
         else
         {
-            progress.Report(100.0);
+            progress.Report(0.75);
         }
         _session = await ImageScaler.CreateAsync();
+        progress.Report(1.0); // 100% progress
     }
 
     public SoftwareBitmap ScaleSoftwareBitmap(SoftwareBitmap inputImage, int width, int height)

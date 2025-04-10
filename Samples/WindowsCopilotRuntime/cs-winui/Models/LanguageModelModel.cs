@@ -13,6 +13,7 @@ using Windows.Foundation;
 using Microsoft.Windows.AI.ContentModeration;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Windows.AI;
+using System.Diagnostics;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -31,19 +32,22 @@ internal class LanguageModelModel : IModelManager
             var languageModelDeploymentOperation = LanguageModel.EnsureReadyAsync();
             languageModelDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(modelDeploymentProgress);
+                progress.Report(modelDeploymentProgress % 0.75);  // all progress is within 75%
             };
             using var _ = cancellationToken.Register(() => languageModelDeploymentOperation.Cancel());
             await languageModelDeploymentOperation;
         }
         else
         {
-            progress.Report(100.0);
+            progress.Report(0.75);
         }
+        // remaining 25% progress
         _session = await LanguageModel.CreateAsync();
         _sessionTextSummarize = new TextSummarizer(_session);
         _sessionTextRewrite = new TextRewriter(_session);
         _sessionTextToTable = new TextToTableConverter(_session);
+        
+        progress.Report(1.0); // 100% progress
     }
 
     private LanguageModel Session => _session ?? throw new InvalidOperationException("Language Model session was not created yet");
@@ -75,7 +79,8 @@ internal class LanguageModelModel : IModelManager
 
     public LanguageModelEmbeddingVectorResult GenerateEmbeddingVectors(string prompt, CancellationToken cancellationToken = default)
     {
-        var response = Session.GenerateEmbeddingVectors(prompt);
+        var contentFilterOptions = new ContentFilterOptions();
+        var response = Session.GenerateEmbeddingVectors(prompt, contentFilterOptions);
         return response;
     }
 

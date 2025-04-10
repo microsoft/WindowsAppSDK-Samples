@@ -24,16 +24,18 @@ internal class TextRecognizerModel : IModelManager
             var textRecognizerDeploymentOperation = TextRecognizer.EnsureReadyAsync();
             textRecognizerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(modelDeploymentProgress);
+                progress.Report(modelDeploymentProgress % 0.75);
             };
             using var _ = cancellationToken.Register(() => textRecognizerDeploymentOperation.Cancel());
             await textRecognizerDeploymentOperation;
         }
         else
         {
-            progress.Report(100.0);
+            progress.Report(0.75);
         }
         _session = await TextRecognizer.CreateAsync();
+        progress.Report(1.0);
+
     }
 
     public RecognizedText RecognizeTextFromImage(ImageBuffer inputImage, TextRecognizerOptions recognizerOptions)

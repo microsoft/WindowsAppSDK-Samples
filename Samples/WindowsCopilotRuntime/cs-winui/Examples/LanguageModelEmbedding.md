@@ -1,1 +1,1 @@
-IReadOnlyList<EmbeddingVector> embeddings = await model.GenerateEmbeddingVectorAsync(prompt);
+LanguageModelEmbeddingVectorResult embeddings = model.GenerateEmbeddingVectors(prompt);
