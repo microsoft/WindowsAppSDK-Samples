@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{95109056-a832-4ffb-bf6c-d758de67adb4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AutomationBase.cpp" />
+    <ClCompile Include="AutomationElement.cpp" />
+    <ClCompile Include="AutomationFragment.cpp" />
+    <ClCompile Include="AutomationFragmentRoot.cpp" />
+    <ClCompile Include="AutomationPeer.cpp" />
+    <ClCompile Include="AutomationTree.cpp" />
+    <ClCompile Include="CheckBox.cpp" />
+    <ClCompile Include="CompositionDeviceResource.cpp" />
+    <ClCompile Include="D2DSprite.cpp" />
+    <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="FrameDocker.cpp" />
+    <ClCompile Include="LiftedFrame.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="NetUIFrame.cpp" />
+    <ClCompile Include="Output.cpp" />
+    <ClCompile Include="OutputResource.cpp" />
+    <ClCompile Include="precomp.cpp" />
+    <ClCompile Include="ReactNativeFrame.cpp" />
+    <ClCompile Include="RootFrame.cpp" />
+    <ClCompile Include="SettingCollection.cpp" />
+    <ClCompile Include="SystemFrame.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="TextVisual.cpp" />
+    <ClCompile Include="TopLevelWindow.cpp" />
+    <ClCompile Include="VisualTreeNode.cpp" />
+    <ClCompile Include="VisualUtils.cpp" />
+    <ClCompile Include="WebViewFrame.cpp" />
+    <ClCompile Include="WinUIFrame.cpp" />
+    <ClCompile Include="FocusList.cpp" />
+    <ClCompile Include="FocusManager.cpp" />
+    <ClCompile Include="HitTestContext.cpp" />
+    <ClCompile Include="PopupFrame.cpp" />
+    <ClCompile Include="PreTranslateHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AutomationBase.h" />
+    <ClInclude Include="AutomationCallbackHandler.h" />
+    <ClInclude Include="AutomationCallbackRevoker.h" />
+    <ClInclude Include="AutomationElement.h" />
+    <ClInclude Include="AutomationFragment.h" />
+    <ClInclude Include="AutomationFragmentRoot.h" />
+    <ClInclude Include="AutomationPeer.h" />
+    <ClInclude Include="AutomationTree.h" />
+    <ClInclude Include="CheckBox.h" />
+    <ClInclude Include="ColorUtils.h" />
+    <ClInclude Include="CompositionDeviceResource.h" />
+    <ClInclude Include="D2DSprite.h" />
+    <ClInclude Include="DXDevice.h" />
+    <ClInclude Include="EventRevokers.h" />
+    <ClInclude Include="FrameDocker.h" />
+    <ClInclude Include="IFrame.h" />
+    <ClInclude Include="IFrameHost.h" />
+    <ClInclude Include="LiftedFrame.h" />
+    <ClInclude Include="Matrix2x2.h" />
+    <ClInclude Include="NetUIFrame.h" />
+    <ClInclude Include="Output.h" />
+    <ClInclude Include="OutputResource.h" />
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="ReactNativeFrame.h" />
+    <ClInclude Include="RootFrame.h" />
+    <ClInclude Include="SettingCollection.h" />
+    <ClInclude Include="SystemFrame.h" />
+    <ClInclude Include="TemplateHelpers.h" />
+    <ClInclude Include="TextRenderer.h" />
+    <ClInclude Include="TextVisual.h" />
+    <ClInclude Include="TopLevelWindow.h" />
+    <ClInclude Include="VisualTreeNode.h" />
+    <ClInclude Include="VisualUtils.h" />
+    <ClInclude Include="WebViewFrame.h" />
+    <ClInclude Include="WinUIFrame.h" />
+    <ClInclude Include="FocusList.h" />
+    <ClInclude Include="FocusManager.h" />
+    <ClInclude Include="HitTestContext.h" />
+    <ClInclude Include="IFocusHost.h" />
+    <ClInclude Include="PopupFrame.h" />
+    <ClInclude Include="PreTranslateHandler.h" />
+  </ItemGroup>
+</Project>
