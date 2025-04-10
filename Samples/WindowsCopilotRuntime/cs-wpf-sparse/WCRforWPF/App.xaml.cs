@@ -136,7 +136,7 @@ public partial class App : Application
         Uri packageUri = new Uri(sparsePkgPath);
 
         PackageManager packageManager = new PackageManager();
-        int count = packageManager.FindPackagesForUserWithPackageTypes("", "WCRforWPFSparse_8wekyb3d8bbwe", PackageTypes.Main).ToList<Package>().Count;
+        int count = packageManager.FindPackagesForUserWithPackageTypes("", "WCRforWPFSparse_k0t3h69cz9sxw", PackageTypes.Main).ToList<Package>().Count;
         if (count == 0)
         {
             //Declare use of an external location
@@ -161,7 +161,7 @@ public partial class App : Application
     {
         // Activating the packaged process
         // We should already know our AUMID which depends on the AppxManifest we defined so this can be hardcoded here. 
-        string appUserModelId = "WCRforWPFSparse_8wekyb3d8bbwe!WCRforWPFSparsePkg";
+        string appUserModelId = "WCRforWPFSparse_k0t3h69cz9sxw!WCRforWPFSparsePkg";
         if (NativeMethods.CoCreateInstance(
             NativeMethods.CLSID_ApplicationActivationManager,
             IntPtr.Zero,

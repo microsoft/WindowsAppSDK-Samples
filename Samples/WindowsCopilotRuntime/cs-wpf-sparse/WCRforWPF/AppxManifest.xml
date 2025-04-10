@@ -11,7 +11,7 @@
   <Identity
     Name="WCRforWPFSparse"
     ProcessorArchitecture="x64"
-    Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    Publisher="CN=Fabrikam Corporation, O=Fabrikam Corporation, L=Redmond, S=Washington, C=US"
     Version="1.0.0.0" />
 
   <Properties>
