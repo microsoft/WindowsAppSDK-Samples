@@ -43,7 +43,7 @@ the exe.
 Just doing the steps above does not yet grant the app package identity. The MSIX package still needs to
 be registered with the external location. 
 
-The registerSparsePackage() function in cs-wpf-sparse\WCRforWPF\App.xaml.cs does this for us. This
+The RegisterSparsePackage() function in cs-wpf-sparse\WCRforWPF\App.xaml.cs does this for us. This
 process is described in the documentation linked above. This will give the app process identity if
 ran from the start menu. However, directly running the executable in the external location still
 does not give the process package identity. This difference in behavior is not noted in the article
@@ -55,7 +55,7 @@ this workaround.
 The Startup() code has two different codepaths for whether the process is a packaged or a unpackaged
 process (With or without identity).
 
-If without Identity, registerSparsePackage() will be called which registers the package on the
+If without Identity, RegisterSparsePackage() will be called which registers the package on the
 external path if it hasn't been installed already. Afterwards, RunWithIdentity() will call
 ActivateApplication on the package identity it registered earlier using the ActivationManager.
 

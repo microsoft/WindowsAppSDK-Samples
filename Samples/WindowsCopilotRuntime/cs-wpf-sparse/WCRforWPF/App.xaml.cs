@@ -48,7 +48,7 @@ public partial class App : Application
             IntPtr ActivateForProtocol([In] String appUserModelId, [In] IntPtr /* IShellItemArray* */itemArray, [Out] out UInt32 processId);
         }
 
-        [DllImport("api-ms-win-ntuser-ie-window-l1-1-0.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("ole32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, PreserveSig = false)]
@@ -135,12 +135,6 @@ public partial class App : Application
         Uri externalUri = new Uri(externalLocation);
         Uri packageUri = new Uri(sparsePkgPath);
 
-        Console.WriteLine("exe Location {0}", externalLocation);
-        Console.WriteLine("msix Address {0}", sparsePkgPath);
-
-        Console.WriteLine("  exe Uri {0}", externalUri);
-        Console.WriteLine("  msix Uri {0}", packageUri);
-
         PackageManager packageManager = new PackageManager();
         int count = packageManager.FindPackagesForUserWithPackageTypes("", "WCRforWPFSparse_8wekyb3d8bbwe", PackageTypes.Main).ToList<Package>().Count;
         if (count == 0)
@@ -154,12 +148,11 @@ public partial class App : Application
 
             if (deploymentOperation.Status == AsyncStatus.Completed)
             {
-                Console.WriteLine("OK");
+                return;
             }
             else
             {
-                Console.WriteLine("Error:{}",
-                    deploymentResult.ErrorText);
+                throw new Exception("Package did not register");
             }
         }
     }
