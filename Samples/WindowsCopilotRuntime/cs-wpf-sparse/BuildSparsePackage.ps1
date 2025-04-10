@@ -87,4 +87,5 @@ MakeAppx.exe pack /d "$PSScriptRoot\WCRforWPF" /p "$PSScriptRoot\WCRforWPF\bin\$
 $pwd_content = Get-Content -Path $pwd_file
 SignTool.exe sign /fd SHA256 /a /f "$PSScriptRoot\WCRforWPF\.user\wcrforwpf.certificate.sample.pfx" /p $pwd_content "$PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWPFSparse.msix"
 
+Write-Host "`nPlease Install '\WCRforWPF\.user\wcrforwpf.certificate.sample.cer' to Trusted People Store before running"
 Write-Host "`nTo run the sample, run: $PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WPFforWPFSparse.exe"
