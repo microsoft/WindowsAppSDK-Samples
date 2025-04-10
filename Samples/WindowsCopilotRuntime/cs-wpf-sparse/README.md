@@ -1,11 +1,25 @@
-# Sparse Package with WPF
+---
+page_type: sample
+languages:
+- csharp
+products:
+- windows
+- windows-app-sdk
+name: cs-wpf-sparse
+description: Shows how to integrate the Windows Copilot Runtime APIs in a sparse WPF package
+urlFragment: cs-wpf-sparse
+extendedZipContent:
+- path: LICENSE
+  target: LICENSE
+---
 
-A sparse package allows unpackaged win32 apps to gain package identity without fully
-adopting the MSIX packaging format. This is particularly useful for applications that are not yet
-ready to have all their content inside an MSIX package but still need to use Windows extensibility
-features that require package identity.
+## Prerequisites
+- For system requirements, see [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
+- To ensure your development environment is set up correctly, see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+- Running this sample does require a [Windows Copilot + PC](https://learn.microsoft.com/windows/ai/npu-devices/)
+- This sample requires [Windows App SDK 1.7 Experimental3](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-17-experimental), which should be installed by Visual Studio when deploying or launching the app.
 
-# cs-wpf-sparse Sample
+## Build and Run the sample
 
 This folder contains the cs-wpf-sparse sample which uses sparse package built on top of the WPF
 platform using WCR. BuildSparsePackage.ps1 is provided for the user which closely follows the steps
@@ -28,8 +42,6 @@ BuildSparsePackage.ps1 does the following:
 
 3) Run SignTool to sign the MSIX
 
-# Before Running
-
 Please have the WindowsAppSDK runtime installed using the installer for 1.7.250127003-experimental3
 at https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads
 
@@ -37,8 +49,14 @@ Please install the cert in the .user folder to LocalMachine TrustedPeople root. 
 launch from the start menu after installing the MSIX in the bin directory or you can directly run
 the exe. 
 
+## Sample Overview
 
-# Initialization code
+A sparse package allows unpackaged win32 apps to gain package identity without fully
+adopting the MSIX packaging format. This is particularly useful for applications that are not yet
+ready to have all their content inside an MSIX package but still need to use Windows extensibility
+features that require package identity.
+
+### Initialization code
 
 Just doing the steps above does not yet grant the app package identity. The MSIX package still needs to
 be registered with the external location. 
@@ -65,3 +83,8 @@ is true and launch MainWindow.
 
 Note: the first run of the exe run will require a longer startup time because of the time that is
 needed to register the package. 
+
+### Additional Notes
+
+## Related Links
+- [Windows Copilot Runtime Overview](https://learn.microsoft.com/windows/ai/apis/)
