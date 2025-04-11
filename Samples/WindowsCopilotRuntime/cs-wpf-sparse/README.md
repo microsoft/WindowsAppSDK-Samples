@@ -19,6 +19,10 @@ extendedZipContent:
 - Running this sample does require a [Windows Copilot + PC](https://learn.microsoft.com/windows/ai/npu-devices/)
 - This sample requires [Windows App SDK 1.7 Experimental3](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-17-experimental), which should be installed by Visual Studio when deploying or launching the app.
 
+### Suggested Environment
+
+Use "Developer Command Prompt for VS2022" as your command prompt environment
+
 ## Build and Run the sample
 
 This folder contains the cs-wpf-sparse sample which uses sparse package built on top of the WPF

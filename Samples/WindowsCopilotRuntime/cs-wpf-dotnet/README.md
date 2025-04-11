@@ -1,6 +1,43 @@
-# DotNet CLI with WCRforWPF
+---
+page_type: sample
+languages:
+- csharp
+products:
+- windows
+- windows-app-sdk
+name: cs-wpf-dotnet
+description: Shows how "dotnet build" command can be used to integrate the Windows Copilot Runtime APIs in a SingleProject MSIX package
+urlFragment: cs-wpf-dotnet
+extendedZipContent:
+- path: LICENSE
+  target: LICENSE
+---
 
-Because DotNet CLI is incompatible with WAPProj, we must first convert the WAPProj to a
+## Prerequisites
+- For system requirements, see [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
+- To ensure your development environment is set up correctly, see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+- Running this sample does require a [Windows Copilot + PC](https://learn.microsoft.com/windows/ai/npu-devices/)
+- This sample requires [Windows App SDK 1.7 Experimental3](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-17-experimental), which should be installed by Visual Studio when deploying or launching the app.
+- This sample requires .NET and .NET CLI [Install .NET on Windows](https://learn.microsoft.com/en-us/dotnet/core/install/windows)
+
+### Suggested Environment
+
+Use "Developer Command Prompt for VS2022" as your command prompt environment
+
+## Build and Run the sample
+In the command line, cd to the root of the solution and run
+```
+runDotNetBuild.cmd or runDotNetBuild.ps1
+```
+
+runDotNetBuild.ps1 will generate the MSIX with a self-signed cert which you will need to install to
+LocalMachine TrustedPeople Certificate Store.
+
+It will then run dotnet build on 
+
+## Sample Overview
+
+Because .NET CLI is incompatible with WAPProj, we must first convert the WAPProj to a
 SingleProjectMSIX This project was converted from a WAPProj to SingleProjectMSIX using the steps
 below https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/single-project-msix?tabs=csharp
 
@@ -28,12 +65,10 @@ Summary of the steps done:
 - In configuration manager, check the deploy box in each of the configuration/platform you want to
   deploy on
 
-# Building with DotNetCLI
 
-In the command line, cd to the root of the solution and run
-```
-runDotNetBuild.cmd
-```
+### Additional Notes
 
-This will build and generate the MSIX with a self-signed cert which you will need to install to
-LocalMachine TrustedPeople Certificate Store.
+## Related Links
+- [Windows Copilot Runtime Overview](https://learn.microsoft.com/windows/ai/apis/)
+- [single-project-msix]https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/single-project-msix?tabs=csharp
+- [Install .NET on Windows](https://learn.microsoft.com/en-us/dotnet/core/install/windows)
