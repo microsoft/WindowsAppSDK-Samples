@@ -82,4 +82,4 @@ Write-Host "Running 'dotnet build /p:platform=$Platform /p:configuration=$Config
 dotnet build /p:platform=$Platform /p:configuration=$Configuration
 
 Write-Host "`nPlease Install '$PSScriptRoot\WCRforWPF\.user\wcrforwpf.certificate.sample.cer' to Local Machine/Trusted People Store before running"
-Write-Host "`nYou can find the MSIX at $PSScriptRootWCRforWPF\bin\x64\Release\net9.0-windows10.0.22621.0\win-x64\AppPackages\WCRforWPF_Test"
+Write-Host "`nYou can find the MSIX at $PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net9.0-windows10.0.22621.0\win-$Platform\AppPackages\WCRforWPF_Test"
