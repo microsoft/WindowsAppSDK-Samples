@@ -49,13 +49,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(RepoTestCertificatePFX)' == ''">
-    <RepoTestCertificatePFX>$(MSBuildThisFileDirectory).user\wcrforwpf.certificate.test.pfx</RepoTestCertificatePFX>
+    <RepoTestCertificatePFX>$(MSBuildThisFileDirectory).user\wcrforwpf.certificate.sample.pfx</RepoTestCertificatePFX>
   </PropertyGroup>
   <PropertyGroup Condition="'$(RepoTestCertificatePWD)' == ''">
-    <RepoTestCertificatePWD>$(MSBuildThisFileDirectory).user\wcrforwpf.certificate.test.pwd</RepoTestCertificatePWD>
+    <RepoTestCertificatePWD>$(MSBuildThisFileDirectory).user\wcrforwpf.certificate.sample.pwd</RepoTestCertificatePWD>
   </PropertyGroup>
   <PropertyGroup Condition="'$(RepoTestCertificateCer)' == ''">
-    <RepoTestCertificateCer>$(MSBuildThisFileDirectory).user\wcrforwpf.certificate.test.cer</RepoTestCertificateCer>
+    <RepoTestCertificateCer>$(MSBuildThisFileDirectory).user\wcrforwpf.certificate.sample.cer</RepoTestCertificateCer>
   </PropertyGroup>
   <PropertyGroup Condition="('$(RepoTestCertificatePWD)' != '') and Exists('$(RepoTestCertificatePWD)')">
     <RepoTestCertificatePassword>$([System.IO.File]::ReadAllText('$(RepoTestCertificatePWD)').TrimEnd())</RepoTestCertificatePassword>

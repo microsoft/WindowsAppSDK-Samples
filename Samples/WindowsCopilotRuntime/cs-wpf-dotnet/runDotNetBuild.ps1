@@ -1,8 +1,9 @@
 Param(
     [Parameter(Mandatory=$true)]
-    [string]$Platform = "x64"
+    [string]$Platform = "x64",
+    [Parameter(Mandatory=$true)]
+    [string]$Configuration = "release"
 )
-
 
 function Get-UserPath
 {
@@ -17,10 +18,10 @@ function Get-UserPath
 }
 
 $user_path = Get-UserPath
-$pwd_file = Join-Path $user_path 'wcrforwpf.certificate.test.pwd'
-$cert_thumbprint = Join-Path $user_path 'wcrforwpf.certificate.test.thumbprint'
-$cer = Join-Path $user_path 'wcrforwpf.certificate.test.cer'
-$pfx = Join-Path $user_path 'wcrforwpf.certificate.test.pfx'
+$pwd_file = Join-Path $user_path 'wcrforwpf.certificate.sample.pwd'
+$cert_thumbprint = Join-Path $user_path 'wcrforwpf.certificate.sample.thumbprint'
+$cer = Join-Path $user_path 'wcrforwpf.certificate.sample.cer'
+$pfx = Join-Path $user_path 'wcrforwpf.certificate.sample.pfx'
 
 if (-not (Test-Path $pfx))
 {
@@ -56,10 +57,10 @@ if (-not (Test-Path $pfx))
     $cert_path = "cert:\CurrentUser\My"
     $now = Get-Date
     $expiration = $now.AddMonths(12)
-    $subject = 'CN=Windows App SDK Samples'
-    $friendly_name = "Microsoft.WindowsAppSDK Test Certificate Create=$now"
-    $key_friendly_name = "Microsoft.WindowsAppSDK Test PrivateKey Create=$now"
-    $key_description = "Microsoft.WindowsAppSDK Test PrivateKey Create=$now"
+    $subject = "CN=Fabrikam Corporation, O=Fabrikam Corporation, L=Redmond, S=Washington, C=US"
+    $friendly_name = "Microsoft.WindowsAppSDK Samples Certificate Create=$now"
+    $key_friendly_name = "Microsoft.WindowsAppSDK Samples PrivateKey Create=$now"
+    $key_description = "Microsoft.WindowsAppSDK Samples PrivateKey Create=$now"
     $eku_oid = '2.5.29.37'
     $eku_value = '1.3.6.1.5.5.7.3.3,1.3.6.1.4.1.311.10.3.13'
     $eku = "$eku_oid={text}$eku_value"
@@ -70,12 +71,15 @@ if (-not (Test-Path $pfx))
     Set-Content -Path $cert_thumbprint -Value $thumbprint -Force
     
     # Export the certificate
-    $cer = Join-Path $user_path 'wcrforwpf.certificate.test.cer'
+    $cer = Join-Path $user_path 'wcrforwpf.certificate.sample.cer'
     $export_cer = Export-Certificate -Cert $cert -FilePath $cer -Force
     $cert_personal = "cert:\CurrentUser\My\$thumbprint"
-    $pfx = Join-Path $user_path 'wcrforwpf.certificate.test.pfx'
+    $pfx = Join-Path $user_path 'wcrforwpf.certificate.sample.pfx'
     $export_pfx = Export-PfxCertificate -Cert $cert_personal -FilePath $pfx -Password $password    
 }
 
-Write-Host "Running 'dotnet build /p:platform=$Platform'"
-dotnet build /p:platform=$Platform
+Write-Host "Running 'dotnet build /p:platform=$Platform /p:configuration=$Configuration'"
+dotnet build /p:platform=$Platform /p:configuration=$Configuration
+
+Write-Host "`nPlease Install '$PSScriptRoot\WCRforWPF\.user\wcrforwpf.certificate.sample.cer' to Local Machine/Trusted People Store before running"
+Write-Host "`nYou can find the MSIX at $PSScriptRootWCRforWPF\bin\x64\Release\net9.0-windows10.0.22621.0\win-x64\AppPackages\WCRforWPF_Test"
