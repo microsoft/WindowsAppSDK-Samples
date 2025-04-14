@@ -2,13 +2,31 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$Platform = "x64",
     [Parameter(Mandatory=$true)]
-    [string]$Configuration = "release"
+    [string]$Configuration = "release",
+    [switch]$Clean
 )
 
+# FUTURE(YML2PS): Update build to no longer place generated files in sources directory
+if ($Clean) {
+    $CleanTargets = @(
+      'bin'
+      'obj'
+    )
+    
+    $ProjectRoot = (Join-Path $PSScriptRoot "WCRforWPF")
+    foreach ($CleanTarget in $CleanTargets)
+    {
+      $CleanTargetPath = (Join-Path $ProjectRoot $CleanTarget)
+      if (Test-Path ($CleanTargetPath)) {
+        Remove-Item $CleanTargetPath -recurse
+      }
+    }
+    Get-AppxPackage -AllUsers -Name "WCRforWPFSparse" | Remove-AppxPackage -AllUsers
+}
 
 function Get-UserPath
 {
-    $root = Join-Path (Get-Item $PSScriptRoot ).FullName "WCRforWPF"
+    $root = Join-Path (Get-Item $PSScriptRoot).FullName "WCRforWPF"
     $user = Join-Path $root '.user'
     if (-not(Test-Path -Path $user -PathType Container))
     {

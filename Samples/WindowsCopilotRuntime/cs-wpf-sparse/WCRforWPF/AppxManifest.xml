@@ -10,7 +10,6 @@
   IgnorableNamespaces="uap uap2 uap3 rescap desktop uap10">
   <Identity
     Name="WCRforWPFSparse"
-    ProcessorArchitecture="x64"
     Publisher="CN=Fabrikam Corporation, O=Fabrikam Corporation, L=Redmond, S=Washington, C=US"
     Version="1.0.0.0" />
 
