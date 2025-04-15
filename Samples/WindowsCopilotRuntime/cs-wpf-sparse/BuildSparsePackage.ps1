@@ -21,7 +21,7 @@ if ($Clean) {
         Remove-Item $CleanTargetPath -recurse
       }
     }
-    Get-AppxPackage -AllUsers -Name "WCRforWPFSparse" | Remove-AppxPackage -AllUsers
+    Get-AppxPackage -Name "WCRforWPFSparse" | Remove-AppxPackage
 }
 
 function Get-UserPath
