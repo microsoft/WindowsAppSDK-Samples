@@ -1,10 +1,27 @@
 Param(
     [Parameter(Mandatory=$true)]
-    [string]$Platform = "ARM64",
+    [string]$Platform = "arm64",
     [Parameter(Mandatory=$true)]
-    [string]$Configuration = "release"
+    [string]$Configuration = "Release",
+    [switch]$Clean
 )
 
+if ($Clean) {
+    $CleanTargets = @(
+      'bin'
+      'obj'
+    )
+
+    $ProjectRoot = (Join-Path $PSScriptRoot "WCRforWinforms")
+    foreach ($CleanTarget in $CleanTargets)
+    {
+      $CleanTargetPath = (Join-Path $ProjectRoot $CleanTarget)
+      if (Test-Path ($CleanTargetPath)) {
+        Remove-Item $CleanTargetPath -recurse
+      }
+    }
+    Get-AppxPackage -Name "WCRforWinformsSparse" | Remove-AppxPackage
+}
 
 function Get-UserPath
 {

@@ -5,9 +5,9 @@ languages:
 products:
 - windows
 - windows-app-sdk
-name: WindowsCopilotRuntimeSample
-description: Shows how to integrate the Windows Copilot Runtime APIs inside WinForms (unpackaged)
-urlFragment: cs-winforms
+name: cs-winforms-sparse
+description: Shows how to integrate the Windows Copilot Runtime APIs inside WinForms (with package identity)
+urlFragment: cs-winforms-sparse
 extendedZipContent:
 - path: LICENSE
   target: LICENSE
@@ -19,16 +19,50 @@ extendedZipContent:
 - Running this sample does require a [Windows Copilot + PC](https://learn.microsoft.com/windows/ai/npu-devices/)
 - Running this sample also requires that the [Windows App SDK 1.7 Experimental3](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-17-experimental) framework package is installed on your Copilot+ PC.
 
+### Suggested Environment
+
+Use "Developer Command Prompt for VS2022" as your command prompt environment
+
 ## Build and Run the sample
-1. Clone the repository onto your Copilot+PC.
-2. Open the solution file `WindowsCopilotRuntimeSample.sln` in Visual Studio 2022.
-3. Change the Solution Platform to match the architecture of your Copilot+ PC.
-4. Right-click on the solution in Solution Explorer and select "Build" to build solution.
-5. Once the build is successful, right-click on the project in Solution Explorer and select "Set as Startup Project".
-6. Press F5 or select "Start Debugging" from the Debug menu to run the sample.
-Note: The sample can also be run without debugging by selecting "Start Without Debugging" from the Debug menu or Ctrl+F5. 
+
+This folder contains the `cs-winforms-sparse` sample, which demonstrates the use of a sparse package built on the WinForms platform with the Windows Copilot Runtime (WCR). A sparse package enables unpackaged Win32 applications to
+utilize package identity and access APIs requiring package identity without converting to a full MSIX package.
+
+
+BuildSparsePackage.ps1 is provided for the user which closely follows the steps from the link below
+
+https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps#add-the-package-identity-metadata-to-your-desktop-application-manifest
+
+BuildSparsePackage.ps1 does the following:
+1) Build the solution in the desired platform and configuration provided in the parameters
+ 
+2) Run MakeAppx with the /nv option on the folder containing the AppxManifest
+    (cs-winforms-sparse\WCRforWinforms\AppxManifest.xml) 
+    
+    - The /nv flag is required to bypass validation of referenced file paths in the manifest. 
+    
+    - The output folder is set to the output of the binaries when we build the solution regularly
+    (bin\$Platform\$Configuration\net8.0-windows10.0.22621.0) so that the MSIX will be side by side
+    to the executable built in step 1. This placement is necessary because the exe expects the external location of
+    the MSIX to be the same as it's file location.
+
+3) Run SignTool to sign the MSIX
+
+Please have the WindowsAppSDK runtime installed using the installer for 1.7.250127003-experimental3
+at https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads
+
+Please install the cert in the .user folder to LocalMachine TrustedPeople root. You can either
+launch from the start menu after installing the MSIX in the bin directory or you can directly run
+the exe. 
+
+Note: The first run of the exe will require a longer startup time because of the time that is
+needed to register the package. Upon launch, the package information will be visible before the main
+form is shown.
 
 ## Sample Overview
+`Program.cs` serves as the application's entry point. Its primary responsibilities include registering the sparse package to provide the executable with package identity and activating the application.
+It also ensures that the executable without package identity does not run concurrently.
+
 The `MainForm` class in `MainForm.cs` is the main user interface for the Windows Copilot Runtime Sample application. It demonstrates how to use the Windows Copilot Runtime API to perform text recognition and summarization on an image. The key functionalities include:
 
 - **Select File**: Allows the user to select an image file from their file system and displays the selected image in a PictureBox.
@@ -44,3 +78,5 @@ The `MainForm` class in `MainForm.cs` is the main user interface for the Windows
 
 ## Related Links
 - [Windows Copilot Runtime Overview](https://learn.microsoft.com/windows/ai/apis/)
+- [WPF Sparse Package Sample (with WCR)](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsCopilotRuntime/cs-wpf-sparse)
+

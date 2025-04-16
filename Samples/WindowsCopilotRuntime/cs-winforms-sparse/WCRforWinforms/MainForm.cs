@@ -6,7 +6,6 @@ using Windows.Storage.Streams;
 using Windows.Storage;
 using Microsoft.Windows.AI.ContentModeration;
 using Windows.ApplicationModel;
-using System.Runtime.InteropServices;
 
 namespace WindowsCopilotRuntimeSample
 {
@@ -22,18 +21,18 @@ namespace WindowsCopilotRuntimeSample
         public MainForm(string? args)
         {
             InitializeComponent();
-            this.Text = "WCR Sample App with Identity";
-            // ShowPackageInfo();
+            this.Text = "WCR Sample App with Package Identity";
+            ShowPackageInfo();
         }
 
         private void ShowPackageInfo()
         {
             Package currentPackage = Package.Current;
-            StorageFolder installedLocation = currentPackage.InstalledLocation;
 
-            MessageBox.Show($"Package Name: {currentPackage.DisplayName}\n" +
-                            $"Package Version: {currentPackage.Id.Version.Major}.{currentPackage.Id.Version.Minor}.{currentPackage.Id.Version.Build}.{currentPackage.Id.Version.Revision}\n" +
-                            $"Installed Location: {installedLocation.Path}", "Package Information");
+            MessageBox.Show(
+                $"Package Name: {currentPackage.DisplayName}\n" +
+                $"Package Version: {currentPackage.Id.Version.Major}.{currentPackage.Id.Version.Minor}.{currentPackage.Id.Version.Build}.{currentPackage.Id.Version.Revision}\n" +
+                $"Installed Location: {currentPackage.InstalledLocation.Path}", "Package Information");
         }
 
         private void SelectFile_Click(object sender, EventArgs e)
@@ -45,8 +44,11 @@ namespace WindowsCopilotRuntimeSample
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    //Get the path of specified file
                     pathToImage = openFileDialog.FileName;
                     this.imagePath.Text = pathToImage;
+
+                    // Load the image into a PictureBox
                     SelectedImage.Image = new Bitmap(pathToImage);
                 }
             }
@@ -62,8 +64,7 @@ namespace WindowsCopilotRuntimeSample
             }
             catch (Exception ex)
             {
-                TaskDialog.ShowDialog(this, new TaskDialogPage
-                {
+                TaskDialog.ShowDialog(this, new TaskDialogPage {
                     Caption = "WCR WinForms Sample Error",
                     Heading = "An error occurred in loading the AI models",
                     Text = ex.Message,
@@ -85,16 +86,16 @@ namespace WindowsCopilotRuntimeSample
             }
             catch (Exception ex)
             {
-                TaskDialog.ShowDialog(this, new TaskDialogPage
+                TaskDialog.ShowDialog(this, new TaskDialogPage 
                 {
                     Caption = "WCR WinForms Sample Error",
                     Heading = "An error occurred during text recognition",
                     Text = ex.Message,
                     Icon = TaskDialogIcon.Error,
                     Buttons = new TaskDialogButtonCollection
-                                    {
-                                        TaskDialogButton.OK
-                                    }
+                    {
+                        TaskDialogButton.OK
+                    }
                 });
                 return;
             }
@@ -106,16 +107,15 @@ namespace WindowsCopilotRuntimeSample
             }
             catch (Exception ex)
             {
-                TaskDialog.ShowDialog(this, new TaskDialogPage
-                {
+                TaskDialog.ShowDialog(this, new TaskDialogPage {
                     Caption = "WCR WinForms Sample Error",
                     Heading = "An error occurred while summarizing the text in the image",
                     Text = ex.Message,
                     Icon = TaskDialogIcon.Error,
                     Buttons = new TaskDialogButtonCollection
-                                    {
-                                        TaskDialogButton.OK
-                                    }
+                    {
+                        TaskDialogButton.OK
+                    }
                 });
                 return;
             }
@@ -123,6 +123,7 @@ namespace WindowsCopilotRuntimeSample
 
         private async Task LoadAIModels()
         {
+            // Load the AI models needed for image processing
             if (!LanguageModel.IsAvailable())
             {
                 var result = await LanguageModel.MakeAvailableAsync();
@@ -156,6 +157,9 @@ namespace WindowsCopilotRuntimeSample
 
         private async Task<string> PerformTextRecognition()
         {
+            // The OCR model requires the LanguageModel to be used first or
+            // else it returns an interface not registered error.
+            // This issue is currently under investigation.
             string prompt = "What is Windows App SDK?";
             var output = await languageModel!.GenerateResponseAsync(prompt);
 
@@ -193,28 +197,27 @@ namespace WindowsCopilotRuntimeSample
             string systemPrompt = "You summarize user-provided text to a software developer audience." +
                 "Respond only with the summary and no additional text.";
 
-            var promptMinSeverityLevelToBlock = new TextContentFilterSeverity
-            {
+            // To learn more about content moderation, visit https://learn.microsoft.com/windows/ai/apis/content-moderation
+            var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
                 HateContentSeverity = SeverityLevel.Low,
                 SexualContentSeverity = SeverityLevel.Low,
                 ViolentContentSeverity = SeverityLevel.Low,
                 SelfHarmContentSeverity = SeverityLevel.Low
             };
 
-            var responseMinSeverityLevelToBlock = new TextContentFilterSeverity
-            {
+            var responseMinSeverityLevelToBlock = new TextContentFilterSeverity {
                 HateContentSeverity = SeverityLevel.Low,
                 SexualContentSeverity = SeverityLevel.Low,
                 ViolentContentSeverity = SeverityLevel.Low,
                 SelfHarmContentSeverity = SeverityLevel.Low
             };
 
-            var contentFilterOptions = new ContentFilterOptions
-            {
+            var contentFilterOptions = new ContentFilterOptions {
                 PromptMinSeverityLevelToBlock = promptMinSeverityLevelToBlock,
                 ResponseMinSeverityLevelToBlock = responseMinSeverityLevelToBlock
             };
 
+            // Create a context for the language model
             var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
             string prompt = "Summarize the following text: " + text;
             var output = await languageModel!.GenerateResponseAsync(new LanguageModelOptions(), prompt, contentFilterOptions, languageModelContext);

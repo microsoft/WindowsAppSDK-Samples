@@ -1,9 +1,6 @@
 ﻿
-using Microsoft.VisualBasic.ApplicationServices;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.Management.Deployment;
 
@@ -12,15 +9,12 @@ namespace WindowsCopilotRuntimeSample
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        ///  The main entry point for the Winforms application.
         /// </summary>
         [STAThread]
         static void Main()
         {
             LaunchWithIdentity();
-            var mainForm = new MainForm(string.Empty);
-            mainForm.Show();
-            Application.Run();
         }
 
         private static async void LaunchWithIdentity()
@@ -30,19 +24,20 @@ namespace WindowsCopilotRuntimeSample
                 // To customize application configuration such as set high DPI settings or default font,
                 // see https://aka.ms/applicationconfiguration.
                 await RestartWithIdentityIfNecessary();
+                var mainForm = new MainForm(string.Empty);
+                mainForm.Show();
+                Application.Run();
             }
             catch (Exception ex)
             {
                 // Log the error to the debug output
                 Debug.WriteLine($"Application exited with an error: {ex.Message}");
                 Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
-                throw; // Re-throw the exception to ensure proper error handling
             }
         }
 
         private static async Task RestartWithIdentityIfNecessary()
         {
-            // If we are in the packaged process, then present the MainWindow
             if (IsPackagedProcess())
             {
                 // We are already in a packaged process, so we can just run the application normally
@@ -56,7 +51,7 @@ namespace WindowsCopilotRuntimeSample
             Task install = RegisterSparsePackage();
             await install;
             RunWithIdentity();
-
+            Environment.Exit(0);
         }
 
         private static async Task RegisterSparsePackage()

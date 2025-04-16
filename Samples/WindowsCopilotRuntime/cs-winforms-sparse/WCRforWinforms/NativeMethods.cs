@@ -2,7 +2,6 @@
 
 namespace WindowsCopilotRuntimeSample
 {
-    // All the interpolated native calls and DLLImports go here
     internal static class NativeMethods
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]

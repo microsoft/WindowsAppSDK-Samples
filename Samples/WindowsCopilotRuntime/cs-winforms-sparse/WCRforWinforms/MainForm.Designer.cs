@@ -1,4 +1,6 @@
-﻿namespace WindowsCopilotRuntimeSample
+﻿using System.Diagnostics;
+
+namespace WindowsCopilotRuntimeSample
 {
     partial class MainForm
     {
@@ -18,6 +20,13 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+
+            // Find and end WCRforWinformsSparse.exe process as best effort
+            Process[] processes = Process.GetProcessesByName("WCRforWinformsSparse");
+            foreach (Process process in processes)
+            {
+                process.Kill();
+            }
         }
 
         #region Windows Form Designer generated code
