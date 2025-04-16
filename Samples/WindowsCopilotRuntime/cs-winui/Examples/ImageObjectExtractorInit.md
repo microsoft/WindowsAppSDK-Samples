@@ -1,14 +1,5 @@
-IProgress<PackageDeploymentProgress> progress;
-if (!ImageObjectExtractor.IsAvailable())
+if (ImageObjectExtractor.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
 {
-    var objectExtractorDeploymentOperationAsync = ImageObjectExtractor.MakeAvailableAsync();
-    objectExtractorDeploymentOperationAsync.Progress = (_, packageDeploymentProgress) =>
-    {
-        progress.Report(packageDeploymentProgress);
-    };
-    await objectExtractorDeploymentOperationAsync;
-}
-else
-{
-    progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+    var objectExtractorDeploymentOperation = ImageObjectExtractor.EnsureReadyAsync();
+    await objectExtractorDeploymentOperation;
 }

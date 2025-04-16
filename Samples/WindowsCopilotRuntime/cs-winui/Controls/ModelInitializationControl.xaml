@@ -34,7 +34,7 @@
                     <ProgressBar Margin="0,0,10,0"
                             Grid.Column="1"
                             Minimum="0.0"
-                            Maximum="100.0"
+                            Maximum="1.0"
                             Value="{Binding CreateSession.CurrentProgress}"
                             HorizontalAlignment="Stretch"/>
                     <Button Grid.Column="2"

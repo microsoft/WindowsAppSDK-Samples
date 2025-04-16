@@ -1,17 +1,7 @@
-IProgress<PackageDeploymentProgress> progress;
-if (!ImageDescriptionGenerator.IsAvailable())
+if (ImageDescriptionGenerator.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
 {
-    var imageDescriptionDeploymentOperation = ImageDescriptionGenerator.MakeAvailableAsync();
-    imageDescriptionDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
-    {
-        progress.Report(packageDeploymentProgress);
-    };
-    using var _ = cancellationToken.Register(() => imageDescriptionDeploymentOperation.Cancel());
+    var imageDescriptionDeploymentOperation = ImageDescriptionGenerator.EnsureReadyAsync();
     await imageDescriptionDeploymentOperation;
 }
-else
-{
-    progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
-}
-ImageDescriptionGenerator model = await ImageDescriptionGenerator.CreateAsync();
+ImageDescriptionGenerator _session = await ImageDescriptionGenerator.CreateAsync();
 
