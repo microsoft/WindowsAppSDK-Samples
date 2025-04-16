@@ -47,25 +47,22 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Vertical"
-                                    Margin="10">
+                        <StackPanel Orientation="Vertical" Margin="10">
                             <TextBlock Margin="10"
                                        Style="{StaticResource BodyStrongTextBlockStyle}">Input image</TextBlock>
                             <Image x:Name="InputImage"
                                    Source="{Binding InputSource}"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    Margin="10">
-                            <ListView ItemsSource="{Binding RecognizeCommand.Result.Lines}"
-                                      Width="{Binding ActualWidth, ElementName=InputImage}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Text}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+                            Margin="10"
+                            Grid.Column="1">
+                            <TextBox x:Name="OutputString"
+                                 Header="Text Recognizer output:"
+                                 Margin="10"
+                                 Text="{Binding RecognizeCommand.Result}"
+                                 IsReadOnly="True"
+                                 IsEnabled="{Binding IsAvailable}"
+                                 TextWrapping="Wrap"/>
                         </StackPanel>
                     </Grid>
 
