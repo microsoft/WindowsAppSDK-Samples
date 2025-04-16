@@ -45,8 +45,11 @@ join the [Windows Insider Program](https://insider.windows.com).
 - To enable proper startup as an unpackaged app, you need to bootstrap the Windows App SDK either Programmatically or By adding the following configuration to the `.csproj` file during the build process:
  ```xml
   <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
+  <WindowsPackageType>None</WindowsPackageType>
  ```
 - Alternatively, if you are using the Developer Command Prompt for Visual Studio, you can run the app as an ARM64 version using the following command, with the bootstrap property provided:
 ```powershell
 dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsPackageType=None -p:WindowsAppSdkBootstrapInitialize=true
 ```
+- Self contained mode is fully supported by WCR apis.     
+- One careful consideration while using self contained mode. The OS ACL permissions prevent it to run inside any folder in `C:\Users` like `Downloads` because `WorksloadsSessionManager` running as a local service, cannot load WCR dlls from that folder with default permissions. This is by security choice, by design. The two ways to solve it are a) Move the self contained folder out of `C:\Users` where ACLs are not too restrictive or b) provide Local Service to access the said self contained folder within `C:\Users`. Only affects self contained mode, it doesn't affect other config modes.
