@@ -24,9 +24,7 @@ namespace WindowsCopilotRuntimeSample
                 // To customize application configuration such as set high DPI settings or default font,
                 // see https://aka.ms/applicationconfiguration.
                 await RestartWithIdentityIfNecessary();
-                var mainForm = new MainForm(string.Empty);
-                mainForm.Show();
-                Application.Run();
+                Application.Run(new MainForm(string.Empty));
             }
             catch (Exception ex)
             {
@@ -41,9 +39,6 @@ namespace WindowsCopilotRuntimeSample
             if (IsPackagedProcess())
             {
                 // We are already in a packaged process, so we can just run the application normally
-                var mainForm = new MainForm(string.Empty);
-                mainForm.Show();
-                Application.Run();
                 return;
             }
 

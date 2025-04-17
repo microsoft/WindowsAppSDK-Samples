@@ -10,7 +10,6 @@
   IgnorableNamespaces="uap uap2 uap3 rescap desktop uap10">
   <Identity
     Name="WCRforWinformsSparse"
-    ProcessorArchitecture="arm64"
     Publisher="CN=Fabrikam Corporation, O=Fabrikam Corporation, L=Redmond, S=Washington, C=US"
     Version="1.0.0.0" />
 
@@ -27,9 +26,9 @@
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19000.0" MaxVersionTested="10.0.19000.0" />
     <PackageDependency
-           Name="Microsoft.WindowsAppRuntime.1.7-experimental3"
+           Name="Microsoft.WindowsAppRuntime.1.8-experimental1"
            Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-           MinVersion="7000.392.2319.0" />
+           MinVersion="8000.466.237.0" />
   </Dependencies>
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />

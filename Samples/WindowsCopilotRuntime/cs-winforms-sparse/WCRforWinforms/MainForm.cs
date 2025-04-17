@@ -124,13 +124,23 @@ namespace WindowsCopilotRuntimeSample
         private async Task LoadAIModels()
         {
             // Load the AI models needed for image processing
-            if (!LanguageModel.IsAvailable())
+            switch (LanguageModel.GetReadyState())
             {
-                var result = await LanguageModel.MakeAvailableAsync();
-                if (result.Status != Microsoft.Windows.Management.Deployment.PackageDeploymentStatus.CompletedSuccess)
-                {
-                    throw new Exception(result.ExtendedError.Message);
-                }
+                case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                    System.Diagnostics.Debug.WriteLine("Ensure LanguageModel is ready");
+                    var op = await LanguageModel.EnsureReadyAsync();
+                    System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with status: {op.Status}");
+                    if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                    {
+                        richTextBoxForImageSummary.Text = "Language model not ready for use";
+                    }
+                    break;
+                case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
+                    System.Diagnostics.Debug.WriteLine("Language model disabled by user");
+                    break;
+                case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
+                    System.Diagnostics.Debug.WriteLine("Language model not supported on current system");
+                    break;
             }
 
             languageModel = await LanguageModel.CreateAsync();
@@ -139,13 +149,23 @@ namespace WindowsCopilotRuntimeSample
                 throw new Exception("Failed to create LanguageModel instance.");
             }
 
-            if (!TextRecognizer.IsAvailable())
+            switch (TextRecognizer.GetReadyState())
             {
-                var result = await TextRecognizer.MakeAvailableAsync();
-                if (result.Status != Microsoft.Windows.Management.Deployment.PackageDeploymentStatus.CompletedSuccess)
-                {
-                    throw new Exception(result.ExtendedError.Message);
-                }
+                case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                    System.Diagnostics.Debug.WriteLine("Ensure TextRecognizer is ready");
+                    var op = await TextRecognizer.EnsureReadyAsync();
+                    System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {op.Status}");
+                    if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                    {
+                        richTextBoxForImageText.Text = "Text recognizer not ready for use";
+                    }
+                    break;
+                case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
+                    System.Diagnostics.Debug.WriteLine("Text Recognizer disabled by user");
+                    break;
+                case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
+                    System.Diagnostics.Debug.WriteLine("Text Recognizer not supported on current system");
+                    break;
             }
 
             textRecognizer = await TextRecognizer.CreateAsync();
@@ -197,31 +217,37 @@ namespace WindowsCopilotRuntimeSample
             string systemPrompt = "You summarize user-provided text to a software developer audience." +
                 "Respond only with the summary and no additional text.";
 
-            // To learn more about content moderation, visit https://learn.microsoft.com/windows/ai/apis/content-moderation
-            var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                HateContentSeverity = SeverityLevel.Low,
-                SexualContentSeverity = SeverityLevel.Low,
-                ViolentContentSeverity = SeverityLevel.Low,
-                SelfHarmContentSeverity = SeverityLevel.Low
+            // Update the property names to match the correct ones based on the provided type signature.  
+            var promptMaxAllowedSeverityLevel = new TextContentFilterSeverity
+            {
+                Hate = SeverityLevel.Low,
+                Sexual = SeverityLevel.Low,
+                Violent = SeverityLevel.Low,
+                SelfHarm = SeverityLevel.Low
             };
 
-            var responseMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                HateContentSeverity = SeverityLevel.Low,
-                SexualContentSeverity = SeverityLevel.Low,
-                ViolentContentSeverity = SeverityLevel.Low,
-                SelfHarmContentSeverity = SeverityLevel.Low
+            var responseMaxAllowedSeverityLevel = new TextContentFilterSeverity
+            {
+                Hate = SeverityLevel.Low,
+                Sexual = SeverityLevel.Low,
+                Violent = SeverityLevel.Low,
+                SelfHarm = SeverityLevel.Low
             };
 
-            var contentFilterOptions = new ContentFilterOptions {
-                PromptMinSeverityLevelToBlock = promptMinSeverityLevelToBlock,
-                ResponseMinSeverityLevelToBlock = responseMinSeverityLevelToBlock
+            var contentFilterOptions = new ContentFilterOptions
+            {
+                PromptMaxAllowedSeverityLevel = promptMaxAllowedSeverityLevel,
+                ResponseMaxAllowedSeverityLevel = responseMaxAllowedSeverityLevel
             };
 
-            // Create a context for the language model
+            // Create a context for the language model  
             var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
             string prompt = "Summarize the following text: " + text;
-            var output = await languageModel!.GenerateResponseAsync(new LanguageModelOptions(), prompt, contentFilterOptions, languageModelContext);
-            richTextBoxForImageSummary.Text = output.Response;
+
+            // Replace the use of LanguageModelOptions with null to avoid CS8305
+            var output = await languageModel!.GenerateResponseAsync(languageModelContext, prompt, new LanguageModelOptions());
+
+            richTextBoxForImageSummary.Text = output.Text;
         }
     }
 }
