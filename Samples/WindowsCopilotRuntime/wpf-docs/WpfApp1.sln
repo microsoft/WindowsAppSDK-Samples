@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM64 = Debug|ARM64
+		Release|Any CPU = Release|Any CPU
+		Release|ARM64 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}.Debug|ARM64.Build.0 = Debug|ARM64
+		{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}.Release|ARM64.ActiveCfg = Release|ARM64
+		{FA59D27F-CDE1-4CC5-B829-B5CFA6111891}.Release|ARM64.Build.0 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B77EBDAE-EE79-4BC5-B057-5FEEE3FAC8D5}
+	EndGlobalSection
+EndGlobal
