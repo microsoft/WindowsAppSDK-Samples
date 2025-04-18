@@ -254,7 +254,7 @@ namespace WindowsCopilotRuntimeSample
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Error: LanguageModel is null but should have been created during LoadinAIModel stage");
+                System.Diagnostics.Debug.WriteLine("Error: LanguageModel is null but should have been created during LoadAIModels()");
                 richTextBoxForImageSummary.Text = "Error: LanguageModel is null";
             }
         }
