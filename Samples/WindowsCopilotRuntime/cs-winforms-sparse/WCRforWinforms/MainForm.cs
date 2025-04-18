@@ -250,7 +250,6 @@ namespace WindowsCopilotRuntimeSample
             var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
             string prompt = "Summarize the following text: " + text;
 
-            // Replace the use of LanguageModelOptions with null to avoid CS8305
             var output = await languageModel!.GenerateResponseAsync(languageModelContext, prompt, new LanguageModelOptions());
 
             richTextBoxForImageSummary.Text = output.Text;
