@@ -24,14 +24,31 @@ namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPag
         {
             try
             {
-                if (!ImageScaler.IsAvailable())
+                switch (ImageScaler.GetReadyState())
                 {
-                    System.Diagnostics.Debug.WriteLine("Calling ImageScaler.MakeAvailableAsync");
-                    var op = await ImageScaler.MakeAvailableAsync();
-                    System.Diagnostics.Debug.WriteLine($"ImageScaler.MakeAvailableAsync completed with Status: {op.Status}");
+                    case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                        System.Diagnostics.Debug.WriteLine("Calling ImageScaler.EnsureReadyAsync");
+                        var op = await ImageScaler.EnsureReadyAsync();
+                        System.Diagnostics.Debug.WriteLine($"ImageScaler.EnsureReadyAsync completed with Status: {op.Status}");
+
+                        if (op.Status == Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                        {
+                            // A bug in 1.8-experimental1 may make GetReadyState() below return the wrong value,
+                            // so for now, directly show the imageScalingPanel here:
+                            imageScalingPanel.IsVisible = true;
+                        }
+                        break;
+
+                    case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
+                        System.Diagnostics.Debug.WriteLine("ImageScaler is not supported the current system");
+                        break;
+
+                    case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
+                        System.Diagnostics.Debug.WriteLine("ImageScaler is disabled by user");
+                        break;
                 }
 
-                if (ImageScaler.IsAvailable())
+                if (ImageScaler.GetReadyState() == Microsoft.Windows.AI.AIFeatureReadyState.Ready)
                 {
                     // Image scaling is supported, so show the content
                     imageScalingPanel.IsVisible = true;
@@ -74,9 +91,11 @@ namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPag
                 else
                 {
                     // Scale the image to be the exact pixel size of the element displaying it
-                    if (!ImageScaler.IsAvailable())
+                    var op = await ImageScaler.EnsureReadyAsync();
+                    if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                     {
-                        var op = await ImageScaler.MakeAvailableAsync();
+                        System.Diagnostics.Debug.WriteLine("Error: ImageScaler availability should have been ensured earlier.");
+                        return;
                     }
 
                     ImageScaler imageScaler = await ImageScaler.CreateAsync();
@@ -136,14 +155,32 @@ namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPag
         {
             try
             {
-                if (!LanguageModel.IsAvailable())
+                switch (LanguageModel.GetReadyState())
                 {
-                    System.Diagnostics.Debug.WriteLine("Calling LanguageModel.MakeAvailableAsync");
-                    var op = await LanguageModel.MakeAvailableAsync();
-                    System.Diagnostics.Debug.WriteLine($"LanguageModel.MakeAvailableAsync completed with Status: {op.Status}");
+                    case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                        System.Diagnostics.Debug.WriteLine("Calling LanguageModel.EnsureReadyAsync");
+                        var op = await LanguageModel.EnsureReadyAsync();
+                        System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with Status: {op.Status}");
+
+                        if (op.Status == Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                        {
+                            // A bug in 1.8-experimental1 may make GetReadyState() below return the wrong value,
+                            // so for now, directly show the textGenerationPanel here:
+                            textGenerationPanel.IsVisible = true;
+                            entryPrompt.Text = "Introduce yourself in detail.";
+                        }
+                        break;
+
+                    case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
+                        System.Diagnostics.Debug.WriteLine("LanguageModel is not supported the current system");
+                        break;
+
+                    case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
+                        System.Diagnostics.Debug.WriteLine("LanguageModel is disabled by user");
+                        break;
                 }
 
-                if (LanguageModel.IsAvailable())
+                if (LanguageModel.GetReadyState() == Microsoft.Windows.AI.AIFeatureReadyState.Ready)
                 {
                     // LanguageModel is supported, so show the content and set a default prompt
                     textGenerationPanel.IsVisible = true;
@@ -165,10 +202,11 @@ namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPag
 
         private async void DoGenerateTextFromEntryPrompt()
         {
-            if (!LanguageModel.IsAvailable())
+            var op = await LanguageModel.EnsureReadyAsync();
+            if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
             {
-                answer.Text = "Making LanguageModel available...";
-                var op = await LanguageModel.MakeAvailableAsync();
+                System.Diagnostics.Debug.WriteLine("Error: LanguageModel availability should have been ensured earlier.");
+                return;
             }
 
             answer.Text = "Preparing LanguageModel...";
@@ -177,22 +215,22 @@ namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPag
             string prompt = entryPrompt.Text;
 
             answer.Text = "Generating response...";
-            Windows.Foundation.AsyncOperationProgressHandler<LanguageModelResponse, string>
+            Windows.Foundation.AsyncOperationProgressHandler<LanguageModelResponseResult, string>
             progressHandler = (asyncInfo, delta) =>
             {
                 System.Diagnostics.Debug.WriteLine($"Progress: {delta}");
-                var fullResponse = asyncInfo.GetResults().Response;
+                var fullResponse = asyncInfo.GetResults().Text;
                 System.Diagnostics.Debug.WriteLine($"Response so far: {fullResponse}");
                 var newText = "Q: " + prompt + "\nA:" + fullResponse;
                 answer.Dispatcher.Dispatch(() => { answer.Text = newText; });
             };
 
-            var asyncOp = languageModel.GenerateResponseWithProgressAsync(prompt);
+            var asyncOp = languageModel.GenerateResponseAsync(prompt);
 
             asyncOp.Progress = progressHandler;
 
             var result = await asyncOp;
-            System.Diagnostics.Debug.WriteLine("DONE: " + result.Response);
+            System.Diagnostics.Debug.WriteLine("DONE: " + result.Text);
         }
     }
 }
