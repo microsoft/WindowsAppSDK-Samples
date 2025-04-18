@@ -42,7 +42,7 @@ join the [Windows Insider Program](https://insider.windows.com).
 ## Special Considerations for Unpackaged & Self-Contained Mode with WCR
 
 - This project is not intended to be fully functional when running as an unpackaged app. However, Windows Copilot Runtime (WCR) does support unpackaged apps.
-- Self-contained mode is fully supported by WCR apis as well.
+- Self-contained mode is fully supported by WCR APIs as well.
 - The following command demonstrates how to run the app as an ARM64 unpackaged application in self-contained mode (for both WinAppSDK and .NET):
 ```powershell
 dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsPackageType=None -p:WindowsAppSDKSelfContained=true -p:SelfContained=true
