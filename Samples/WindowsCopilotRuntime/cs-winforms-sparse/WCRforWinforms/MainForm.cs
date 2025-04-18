@@ -29,7 +29,7 @@ namespace WindowsCopilotRuntimeSample
         {
             Package currentPackage = Package.Current;
 
-            MessageBox.Show(
+            MessageBox.Show(null,
                 $"Package Name: {currentPackage.DisplayName}\n" +
                 $"Package Version: {currentPackage.Id.Version.Major}.{currentPackage.Id.Version.Minor}.{currentPackage.Id.Version.Build}.{currentPackage.Id.Version.Revision}\n" +
                 $"Installed Location: {currentPackage.InstalledLocation.Path}", "Package Information");
@@ -133,14 +133,17 @@ namespace WindowsCopilotRuntimeSample
                     if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                     {
                         richTextBoxForImageSummary.Text = "Language model not ready for use";
+                        throw new Exception("Language model not ready for use");
                     }
                     break;
                 case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
                     System.Diagnostics.Debug.WriteLine("Language model disabled by user");
-                    break;
+                    richTextBoxForImageSummary.Text = "Language model disabled by user";
+                    return;
                 case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
                     System.Diagnostics.Debug.WriteLine("Language model not supported on current system");
-                    break;
+                    richTextBoxForImageSummary.Text = "Language model not supported on current system";
+                    return;
             }
 
             languageModel = await LanguageModel.CreateAsync();
@@ -158,14 +161,17 @@ namespace WindowsCopilotRuntimeSample
                     if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                     {
                         richTextBoxForImageText.Text = "Text recognizer not ready for use";
+                        throw new Exception("Text recognizer not ready for use");
                     }
                     break;
                 case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
                     System.Diagnostics.Debug.WriteLine("Text Recognizer disabled by user");
-                    break;
+                    richTextBoxForImageText.Text = "Text recognizer disabled by user";
+                    return;
                 case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
                     System.Diagnostics.Debug.WriteLine("Text Recognizer not supported on current system");
-                    break;
+                    richTextBoxForImageText.Text = "Text recognizer not supported on current system";
+                    return;
             }
 
             textRecognizer = await TextRecognizer.CreateAsync();
