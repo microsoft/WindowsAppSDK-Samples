@@ -42,9 +42,9 @@ join the [Windows Insider Program](https://insider.windows.com).
 ## Special Considerations for Unpackaged & Self-Contained Mode with WCR
 
 - This project is not intended to be fully functional when running as an unpackaged app. However, Windows Copilot Runtime (WCR) does support unpackaged apps.
-- Self contained mode is fully supported by WCR apis as well.
-- The following command demonstrates how to run the app as an ARM64 unpackaged application in self-contained mode (for both .NET and WinAppSDK):
+- Self-contained mode is fully supported by WCR apis as well.
+- The following command demonstrates how to run the app as an ARM64 unpackaged application in self-contained mode (for both WinAppSDK and .NET):
 ```powershell
 dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsPackageType=None -p:WindowsAppSDKSelfContained=true -p:SelfContained=true
 ```
-- One careful consideration while using self contained mode. The OS ACL permissions prevent it to run inside any folder in `C:\Users` like `Downloads` because `WorksloadsSessionManager` running as a local service, cannot load WCR dlls from that folder with default permissions. This is by security choice, by design. The two ways to solve it are a) Move the self contained folder out of `C:\Users` where ACLs are not too restrictive or b) provide Local Service to access the said self contained folder within `C:\Users`. Only affects self contained mode, it doesn't affect other config modes.
+- One careful consideration while using self-contained mode. The OS ACL permissions prevent it to run inside any folder in `C:\Users` like `Downloads` because `WorksloadsSessionManager` running as a local service, cannot load WCR dlls from that folder with default permissions. This is by security choice, by design. The two ways to solve it are a) Move the self-contained folder out of `C:\Users` where ACLs are not too restrictive or b) provide Local Service to access the said self-contained folder within `C:\Users`. Only affects self-contained mode, it doesn't affect other config modes.
