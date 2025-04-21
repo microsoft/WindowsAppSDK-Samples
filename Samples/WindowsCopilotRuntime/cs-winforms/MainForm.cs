@@ -111,28 +111,65 @@ namespace WindowsCopilotRuntimeSample
         private async Task LoadAIModels()
         {
             // Load the AI models needed for image processing
-            if (!LanguageModel.IsAvailable())
+            switch (LanguageModel.GetReadyState())
             {
-                var result = await LanguageModel.MakeAvailableAsync();
-                if (result.Status != Microsoft.Windows.Management.Deployment.PackageDeploymentStatus.CompletedSuccess)
-                {
-                    throw new Exception(result.ExtendedError.Message);
-                }
+                case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                    System.Diagnostics.Debug.WriteLine("Ensure LanguageModel is ready");
+                    var op = await LanguageModel.EnsureReadyAsync();
+                    System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with status: {op.Status}");
+                    if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                    {
+                        richTextBoxForImageSummary.Text = "Language model not ready for use";
+                        throw new Exception("Language model not ready for use");
+                    }
+                    break;
+                case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
+                    System.Diagnostics.Debug.WriteLine("Language model disabled by user");
+                    richTextBoxForImageSummary.Text = "Language model disabled by user";
+                    return;
+                case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
+                    System.Diagnostics.Debug.WriteLine("Language model not supported on current system");
+                    richTextBoxForImageSummary.Text = "Language model not supported on current system";
+                    return;
             }
 
-            languageModel = await LanguageModel.CreateAsync();
-            if (languageModel == null)
+            try
             {
-                throw new Exception("Failed to create LanguageModel instance.");
+                // There is a bug in 1.8 where the LanguageModel.GetReadyState() is not
+                // returning the correct state. The call to CreateAsync() will throw
+                // an exception if the state is not ready.The sample application
+                // will log the error and continue for now.
+                languageModel = await LanguageModel.CreateAsync();
+                if (languageModel == null)
+                {
+                    throw new Exception("Failed to create LanguageModel instance.");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error creating LanguageModel: {ex.Message}");
             }
 
-            if (!TextRecognizer.IsAvailable())
+            switch (TextRecognizer.GetReadyState())
             {
-                var result = await TextRecognizer.MakeAvailableAsync();
-                if (result.Status != Microsoft.Windows.Management.Deployment.PackageDeploymentStatus.CompletedSuccess)
-                {
-                    throw new Exception(result.ExtendedError.Message);
-                }
+                case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                    System.Diagnostics.Debug.WriteLine("Ensure TextRecognizer is ready");
+                    var op = await TextRecognizer.EnsureReadyAsync();
+                    System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {op.Status}");
+                    if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                    {
+                        richTextBoxForImageText.Text = "Text recognizer not ready for use";
+                        throw new Exception("Text recognizer not ready for use");
+                    }
+                    break;
+                case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
+                    System.Diagnostics.Debug.WriteLine("Text Recognizer disabled by user");
+                    richTextBoxForImageText.Text = "Text recognizer disabled by user";
+                    return;
+                case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
+                    System.Diagnostics.Debug.WriteLine("Text Recognizer not supported on current system");
+                    richTextBoxForImageText.Text = "Text recognizer not supported on current system";
+                    return;
             }
 
             textRecognizer = await TextRecognizer.CreateAsync();
@@ -144,12 +181,6 @@ namespace WindowsCopilotRuntimeSample
 
         private async Task<string> PerformTextRecognition()
         {
-            // The OCR model requires the LanguageModel to be used first or
-            // else it returns an interface not registered error.
-            // This issue is currently under investigation.
-            string prompt = "What is Windows App SDK?";
-            var output = await languageModel!.GenerateResponseAsync(prompt);
-
             ImageBuffer? imageBuffer = await LoadImageBufferFromFileAsync(pathToImage);
 
             if (imageBuffer == null)
@@ -184,31 +215,39 @@ namespace WindowsCopilotRuntimeSample
             string systemPrompt = "You summarize user-provided text to a software developer audience." +
                 "Respond only with the summary and no additional text.";
 
-            // To learn more about content moderation, visit https://learn.microsoft.com/windows/ai/apis/content-moderation
-            var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                HateContentSeverity = SeverityLevel.Low,
-                SexualContentSeverity = SeverityLevel.Low,
-                ViolentContentSeverity = SeverityLevel.Low,
-                SelfHarmContentSeverity = SeverityLevel.Low
+            // Update the property names to match the correct ones based on the provided type signature.  
+            var promptMaxAllowedSeverityLevel = new TextContentFilterSeverity {
+                Hate = SeverityLevel.Low,
+                Sexual = SeverityLevel.Low,
+                Violent = SeverityLevel.Low,
+                SelfHarm = SeverityLevel.Low
             };
 
-            var responseMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                HateContentSeverity = SeverityLevel.Low,
-                SexualContentSeverity = SeverityLevel.Low,
-                ViolentContentSeverity = SeverityLevel.Low,
-                SelfHarmContentSeverity = SeverityLevel.Low
+            var responseMaxAllowedSeverityLevel = new TextContentFilterSeverity {
+                Hate = SeverityLevel.Low,
+                Sexual = SeverityLevel.Low,
+                Violent = SeverityLevel.Low,
+                SelfHarm = SeverityLevel.Low
             };
 
             var contentFilterOptions = new ContentFilterOptions {
-                PromptMinSeverityLevelToBlock = promptMinSeverityLevelToBlock,
-                ResponseMinSeverityLevelToBlock = responseMinSeverityLevelToBlock
+                PromptMaxAllowedSeverityLevel = promptMaxAllowedSeverityLevel,
+                ResponseMaxAllowedSeverityLevel = responseMaxAllowedSeverityLevel
             };
 
-            // Create a context for the language model
-            var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
-            string prompt = "Summarize the following text: " + text;
-            var output = await languageModel!.GenerateResponseAsync(new LanguageModelOptions(), prompt, contentFilterOptions, languageModelContext);
-            richTextBoxForImageSummary.Text = output.Response;
+            if (languageModel != null)
+            {
+                // Create a context for the language model
+                var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
+                string prompt = "Summarize the following text: " + text;
+                var output = await languageModel.GenerateResponseAsync(languageModelContext, prompt, new LanguageModelOptions());
+                richTextBoxForImageSummary.Text = output.Text;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Error: LanguageModel is null but should have been created during LoadAIModels()");
+                richTextBoxForImageSummary.Text = "Error: LanguageModel is null";
+            }
         }
     }
 }
