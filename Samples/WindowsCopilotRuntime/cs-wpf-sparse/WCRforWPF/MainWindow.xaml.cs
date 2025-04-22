@@ -1,9 +1,21 @@
-﻿using System.Windows;
+﻿using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Drawing.Imaging;
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.AI.Generative;
 using Microsoft.Windows.Vision;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Microsoft.Windows.AI;
 
 namespace WCRforWPF;
 
@@ -110,8 +122,8 @@ public partial class MainWindow : Window
         }
 
         this.Description.Text = "Generating description...";
-        var imageDescription = await ig.DescribeAsync(_currentImage, ImageDescriptionScenario.Accessibility);
-        this.Description.Text = imageDescription.Response;
+        var imageDescription = await ig.DescribeAsync(_currentImage, ImageDescriptionKind.AccessibleDescription, null);
+        this.Description.Text = imageDescription.Description;
     }
 
     private TextRecognizer? _ocr;
@@ -123,13 +135,12 @@ public partial class MainWindow : Window
             this.FileContent.Text = "Loading OCR model...";
             try
             {
-                if (!TextRecognizer.IsAvailable())
+                AIFeatureReadyState getReadyState = TextRecognizer.GetReadyState();
+                if (getReadyState == AIFeatureReadyState.Ready)
                 {
                     this.FileContent.Text = "Making the OCR model available...";
-                    var op = await TextRecognizer.MakeAvailableAsync();
+                    _ocr = await TextRecognizer.CreateAsync();
                 }
-                this.FileContent.Text = "Loading OCR model...";
-                _ocr = await TextRecognizer.CreateAsync();
             }
             catch (Exception ex)
             {
@@ -147,13 +158,11 @@ public partial class MainWindow : Window
 
             try
             {
-                if (!ImageDescriptionGenerator.IsAvailable())
+                AIFeatureReadyState getReadyState = ImageDescriptionGenerator.GetReadyState();
+                if (getReadyState == AIFeatureReadyState.Ready)
                 {
-                    this.Description.Text = "Making the descriptor available...";
-                    var op = await ImageDescriptionGenerator.MakeAvailableAsync();
+                    _ig = await ImageDescriptionGenerator.CreateAsync();
                 }
-                this.Description.Text = "Loading image description generator...";
-                _ig = await ImageDescriptionGenerator.CreateAsync();
             }
             catch (Exception ex)
             {

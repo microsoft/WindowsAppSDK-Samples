@@ -2,8 +2,28 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$Platform = "x64",
     [Parameter(Mandatory=$true)]
-    [string]$Configuration = "release"
+    [string]$Configuration = "release",
+    [switch]$Clean
 )
+
+# FUTURE(YML2PS): Update build to no longer place generated files in sources directory
+if ($Clean) {
+    $CleanTargets = @(
+      'bin'
+      'obj'
+    )
+    
+    $ProjectRoot = (Join-Path $PSScriptRoot "WCRforWPF")
+    foreach ($CleanTarget in $CleanTargets)
+    {
+      $CleanTargetPath = (Join-Path $ProjectRoot $CleanTarget)
+      if (Test-Path ($CleanTargetPath)) {
+        Remove-Item $CleanTargetPath -recurse
+      }
+    }
+    Get-AppxPackage -Name "SingleProjWCRforWPFSparseDotNet" | Remove-AppxPackage
+}
+
 
 function Get-UserPath
 {
@@ -79,7 +99,7 @@ if (-not (Test-Path $pfx))
 }
 
 Write-Host "Running 'dotnet build /p:platform=$Platform /p:configuration=$Configuration'"
-dotnet build /p:platform=$Platform /p:configuration=$Configuration
+dotnet build /p:restore /p:platform=$Platform /p:configuration=$Configuration 
 
 Write-Host "`nPlease Install '$PSScriptRoot\WCRforWPF\.user\wcrforwpf.certificate.sample.cer' to Local Machine/Trusted People Store before running"
 Write-Host "`nYou can find the MSIX at $PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net9.0-windows10.0.22621.0\win-$Platform\AppPackages\WCRforWPF_Test"
