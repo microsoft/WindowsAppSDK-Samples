@@ -7,6 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Microsoft.Windows.AI;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -16,23 +17,24 @@ internal class ImageScalerModel : IModelManager
 
     private ImageScaler Session => _session ?? throw new InvalidOperationException("Image Scaler session was not created yet");
 
-    public async Task CreateModelSessionWithProgress(IProgress<PackageDeploymentProgress> progress, CancellationToken cancellationToken = default)
+    public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (!ImageScaler.IsAvailable())
+        if (ImageScaler.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            var imageScalerDeploymentOperation = ImageScaler.MakeAvailableAsync();
-            imageScalerDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
+            var imageScalerDeploymentOperation = ImageScaler.EnsureReadyAsync();
+            imageScalerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(packageDeploymentProgress);
+                progress.Report(modelDeploymentProgress % 0.75);  // all progress is within 75%
             };
             using var _ = cancellationToken.Register(() => imageScalerDeploymentOperation.Cancel());
             await imageScalerDeploymentOperation;
         }
         else
         {
-            progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+            progress.Report(0.75);
         }
         _session = await ImageScaler.CreateAsync();
+        progress.Report(1.0); // 100% progress
     }
 
     public SoftwareBitmap ScaleSoftwareBitmap(SoftwareBitmap inputImage, int width, int height)

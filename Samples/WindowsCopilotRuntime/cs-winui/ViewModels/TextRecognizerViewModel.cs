@@ -7,13 +7,15 @@ using Microsoft.Windows.Vision;
 using System.Windows.Input;
 using Windows.Graphics.Imaging;
 using WindowsCopilotRuntimeSample.Models;
+using System.Collections;
+using System.Linq;
 
 namespace WindowsCopilotRuntimeSample.ViewModels;
 
 internal partial class TextRecognizerViewModel : InputImageViewModelBase<TextRecognizerModel>
 {
     private const string DefaultFactoryImageFilePath = "Assets/ocr-text.jpg";
-    private readonly AsyncCommand<(SoftwareBitmap, TextRecognizerOptions), RecognizedText> _recognizeTextFromImageCommand;
+    private readonly AsyncCommand<(SoftwareBitmap, TextRecognizerOptions), string> _recognizeTextFromImageCommand;
 
     public TextRecognizerViewModel(TextRecognizerModel textRecognizerSession)
     : base(textRecognizerSession)
@@ -26,7 +28,10 @@ internal partial class TextRecognizerViewModel : InputImageViewModelBase<TextRec
                 options.OrientationDetection = OrientationDetectionOptions.None;
 
                 using var imageBuffer = ImageBuffer.CreateCopyFromBitmap(Input);
-                return Session.RecognizeTextFromImage(imageBuffer, options);
+                RecognizedText text = Session.RecognizeTextFromImage(imageBuffer, options);
+                RecognizedLine[] lines = text.Lines;
+                string outputString = string.Join(" ", lines.Select(line => line.Text));
+                return outputString;
             },
             (_) => IsAvailable && Input is not null);
     }

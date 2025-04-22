@@ -7,6 +7,7 @@ using Microsoft.Windows.Vision;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Windows.AI;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -16,23 +17,25 @@ internal class TextRecognizerModel : IModelManager
 
     private TextRecognizer Session => _session ?? throw new InvalidOperationException("Text Recognizer session was not created yet");
 
-    public async Task CreateModelSessionWithProgress(IProgress<PackageDeploymentProgress> progress, CancellationToken cancellationToken = default)
+    public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (!TextRecognizer.IsAvailable())
+        if (TextRecognizer.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            var textRecognizerDeploymentOperation = TextRecognizer.MakeAvailableAsync();
-            textRecognizerDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
+            var textRecognizerDeploymentOperation = TextRecognizer.EnsureReadyAsync();
+            textRecognizerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(packageDeploymentProgress);
+                progress.Report(modelDeploymentProgress % 0.75);
             };
             using var _ = cancellationToken.Register(() => textRecognizerDeploymentOperation.Cancel());
             await textRecognizerDeploymentOperation;
         }
         else
         {
-            progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+            progress.Report(0.75);
         }
         _session = await TextRecognizer.CreateAsync();
+        progress.Report(1.0);
+
     }
 
     public RecognizedText RecognizeTextFromImage(ImageBuffer inputImage, TextRecognizerOptions recognizerOptions)

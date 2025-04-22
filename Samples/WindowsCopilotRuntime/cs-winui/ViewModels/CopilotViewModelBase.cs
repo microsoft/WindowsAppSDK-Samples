@@ -31,16 +31,15 @@ internal abstract class CopilotModelBase<T> : CopilotViewModelBase
     {
         Session = session;
         _createSessionCommand = new(
-            (_) => new AsyncOperationWithProgressAdapter<bool, PackageDeploymentProgress, bool, double>(
-                new AsyncOperationWithProgress<bool, PackageDeploymentProgress>(
+            (_) => new AsyncOperationWithProgressAdapter<bool, double, bool, double>(
+                new AsyncOperationWithProgress<bool, double>(
                     async (progress, ct) =>
                     {
-                        await using PackageDeploymentProgressAdapter progressAdapter = new(progress);
                         await Session.CreateModelSessionWithProgress(progress, ct);
                         return true;
                     }),
                 result => result,
-                progress => progress.Progress),
+                progress => progress),
             (_) => !_isAvailable);
         _createSessionCommand.PropertyChanged += (_, e) =>
         {
@@ -120,70 +119,6 @@ internal abstract class CopilotModelBase<T> : CopilotViewModelBase
         get
         {
             return _errorMessage;
-        }
-    }
-
-    private sealed class PackageDeploymentProgressAdapter : IProgress<PackageDeploymentProgress>, IAsyncDisposable
-    {
-        private static readonly TimeSpan progressTimeout = TimeSpan.FromMilliseconds(2500);
-        private const double ProgressIncrement = 5.0;
-
-        private readonly IProgress<PackageDeploymentProgress> _progress;
-        private readonly CancellationTokenSource _disposeCts = new();
-        private CancellationTokenSource _reportCts;
-        private PackageDeploymentProgress _lastProgress;
-        private readonly Task _runProgressTask;
-
-        internal PackageDeploymentProgressAdapter(IProgress<PackageDeploymentProgress> progress)
-        {
-            _progress = progress;
-            _reportCts = CancellationTokenSource.CreateLinkedTokenSource(DisposeToken);
-            _runProgressTask = Task.Run(RunProgressAsync, DisposeToken);
-        }
-
-        private CancellationToken DisposeToken => _disposeCts.Token;
-
-        public void Report(PackageDeploymentProgress value)
-        {
-            _lastProgress = value;
-            _reportCts.Cancel();
-            _progress.Report(value);
-        }
-
-        private async Task RunProgressAsync()
-        {
-            while (!DisposeToken.IsCancellationRequested)
-            {
-                try
-                {
-                    await Task.Delay(progressTimeout, _reportCts.Token);
-                    // no report was found
-                    var nextProgressValue = (_lastProgress.Progress + ProgressIncrement) % 95.0;
-                    _lastProgress = new PackageDeploymentProgress(PackageDeploymentProgressStatus.InProgress, nextProgressValue);
-                    _progress.Report(_lastProgress);
-                }
-                catch (OperationCanceledException)
-                {
-                    _reportCts = CancellationTokenSource.CreateLinkedTokenSource(DisposeToken);
-                }
-            }
-        }
-
-        public async ValueTask DisposeAsync()
-        {
-            _progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
-
-            _disposeCts.Cancel();
-            try
-            {
-                await _runProgressTask;
-
-            }
-            catch (OperationCanceledException)
-            {
-            }
-
-            _disposeCts.Dispose();
         }
     }
 

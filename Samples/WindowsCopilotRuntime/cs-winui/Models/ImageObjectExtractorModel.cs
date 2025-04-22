@@ -7,27 +7,29 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Microsoft.Windows.AI;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
 class ImageObjectExtractorModel : IModelManager
 {
-    public async Task CreateModelSessionWithProgress(IProgress<PackageDeploymentProgress> progress, CancellationToken cancellationToken = default)
+    public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (!ImageObjectExtractor.IsAvailable())
+        if (ImageObjectExtractor.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
         {
-            var objectExtractorDeploymentOperation = ImageObjectExtractor.MakeAvailableAsync();
-            objectExtractorDeploymentOperation.Progress = (_, packageDeploymentProgress) =>
+            var objectExtractorDeploymentOperation = ImageObjectExtractor.EnsureReadyAsync();
+            objectExtractorDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(packageDeploymentProgress);
+                progress.Report(modelDeploymentProgress % 0.75);  // all progress is within 75%
             };
             using var _ = cancellationToken.Register(() => objectExtractorDeploymentOperation.Cancel());
             await objectExtractorDeploymentOperation;
         }
         else
         {
-            progress.Report(new PackageDeploymentProgress(PackageDeploymentProgressStatus.CompletedSuccess, 100.0));
+            progress.Report(0.75);
         }
+        progress.Report(1.0); // 100% progress
     }
 
     public async Task<SoftwareBitmap> ApplyImageObjectExtractorAsync(SoftwareBitmap inputImage, ImageObjectExtractorHint hint, CancellationToken cancellationToken = default)

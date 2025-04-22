@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using Microsoft.UI.Xaml.Data;
+using Microsoft.Windows.AI.Generative;
 using Microsoft.Windows.SemanticSearch;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,15 @@ internal partial class EmbeddingVectorConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value is IReadOnlyList<EmbeddingVector> embeddings)
+        if (value is LanguageModelEmbeddingVectorResult)
         {
+            var embeddings = (value as LanguageModelEmbeddingVectorResult).EmbeddingVectors;
             StringBuilder sb = new();
             for (var index = 0; index < embeddings.Count; ++index)
             {
-                var embeddingVector = embeddings[index];
+                EmbeddingVector embeddingVector = embeddings[index];
                 sb.Append('[');
-                var values = new float[embeddingVector.Count];
+                var values = new float[embeddingVector.Size];
                 embeddingVector.GetValues(values);
                 sb.Append(string.Join(", ", values));
                 if (sb.Length > 1024)
