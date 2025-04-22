@@ -183,12 +183,6 @@ namespace WindowsCopilotRuntimeSample
 
         private async Task<string> PerformTextRecognition()
         {
-            // The OCR model requires the LanguageModel to be used first or
-            // else it returns an interface not registered error.
-            // This issue is currently under investigation.
-            string prompt = "What is Windows App SDK?";
-            var output = await languageModel!.GenerateResponseAsync(prompt);
-
             ImageBuffer? imageBuffer = await LoadImageBufferFromFileAsync(pathToImage);
 
             if (imageBuffer == null)
