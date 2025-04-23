@@ -6,8 +6,8 @@ products:
 - windows
 - windows-app-sdk
 name: WindowsCopilotRuntimeSample
-description: Shows how to integrate the Windows Copilot Runtime APIs inside WinForms (unpackaged)
-urlFragment: cs-winforms
+description: Shows how to integrate the Windows Copilot Runtime APIs inside WinForms (unpackaged by default) with a packaging project
+urlFragment: cs-winforms-pckg
 extendedZipContent:
 - path: LICENSE
   target: LICENSE
@@ -24,7 +24,7 @@ extendedZipContent:
 2. Open the solution file `WindowsCopilotRuntimeSample.sln` in Visual Studio 2022.
 3. Change the Solution Platform to match the architecture of your Copilot+ PC.
 4. Right-click on the solution in Solution Explorer and select "Build" to build solution.
-5. Once the build is successful, right-click on the project in Solution Explorer and select "Set as Startup Project".
+5. Once the build is successful, right-click on the packaging project in Solution Explorer and select "Set as Startup Project".
 6. Press F5 or select "Start Debugging" from the Debug menu to run the sample.
 Note: The sample can also be run without debugging by selecting "Start Without Debugging" from the Debug menu or Ctrl+F5. 
 
@@ -44,3 +44,4 @@ The `MainForm` class in `MainForm.cs` is the main user interface for the Windows
 
 ## Related Links
 - [Windows Copilot Runtime Overview](https://learn.microsoft.com/windows/ai/apis/)
+- [Package and deploy your WinForms app with MSIX](https://learn.microsoft.com/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/winforms-plus-winappsdk#package-and-deploy-your-winforms-app-with-msix)
