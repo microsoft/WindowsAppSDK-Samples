@@ -21,7 +21,7 @@ if ($Clean) {
         Remove-Item $CleanTargetPath -recurse
       }
     }
-    Get-AppxPackage -Name "SingleProjWCRforWPFSparseDotNet" | Remove-AppxPackage
+    Get-AppxPackage -Name "WCRforWPFDotNetSingleProj" | Remove-AppxPackage
 }
 
 
