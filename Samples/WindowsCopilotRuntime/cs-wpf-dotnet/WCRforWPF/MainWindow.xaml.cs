@@ -91,13 +91,13 @@ public partial class MainWindow : Window
         try
         {
             this.FileContent.Text = "Loading AI models...";
-            this.Description.Text = "Loading AI models...";
+            this.Description.Text = this.FileContent.Text;
             await LoadAIModels();
         }
         catch (Exception ex)
         {
             this.FileContent.Text = "An error has occured: Loading AI models...";
-            this.Description.Text = "An error has occured:  Loading AI models...";
+            this.Description.Text = this.FileContent.Text;
             return;
         }
 
