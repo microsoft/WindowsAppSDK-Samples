@@ -100,10 +100,29 @@ public partial class MainWindow : Window
             this.Description.Text = "An error has occured:  Loading AI models...";
             return;
         }
-        this.FileContent.Text = "Performing Text Recognition";
-        var textInImage = await PerformTextRecognition();
-        this.Description.Text = "Performing Text Description";
-        await SummarizeImageText(textInImage);
+
+        string textInImage = "";
+        try
+        {
+            this.FileContent.Text = "Performing Text Recognition";
+            textInImage = await PerformTextRecognition();
+        }
+        catch (Exception ex)
+        {
+            this.FileContent.Text = "An error has occured: Performing Text Recognition...";
+            return;
+        }
+
+        try
+        {
+            this.Description.Text = "Performing Text Description";
+            await SummarizeImageText(textInImage);
+        }
+        catch (Exception ex)
+        {
+            this.Description.Text = "An error has occured: Performing Text Description...";
+            return;
+        }   
     }
 
     private async Task LoadAIModels()
@@ -131,21 +150,10 @@ public partial class MainWindow : Window
                 return;
         }
 
-        try
+        languageModel = await LanguageModel.CreateAsync();
+        if (languageModel == null)
         {
-            // There is a bug in 1.8 where the LanguageModel.GetReadyState() is not
-            // returning the correct state. The call to CreateAsync() will throw
-            // an exception if the state is not ready.The sample application
-            // will log the error and continue for now.
-            languageModel = await LanguageModel.CreateAsync();
-            if (languageModel == null)
-            {
-                throw new Exception("Failed to create LanguageModel instance.");
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Error creating LanguageModel: {ex.Message}");
+            throw new Exception("Failed to create LanguageModel instance.");
         }
 
         switch (TextRecognizer.GetReadyState())
