@@ -37,7 +37,7 @@ public partial class MainWindow : Window
     {
         _currentImage = null;
         this.Description.Text = "(picking a file)";
-        this.FileContent.Text = "(picking a file)";
+        this.FileContent.Text = this.Description.Text;
 
         var fileDialog = new Microsoft.Win32.OpenFileDialog();
         fileDialog.DefaultExt = ".jpg";
@@ -51,13 +51,13 @@ public partial class MainWindow : Window
             this.InputImage.Source = source;
         }
         this.Description.Text = "(done picking)";
-        this.FileContent.Text = "(done picking)";
+        this.FileContent.Text = this.Description.Text;
     }
 
     private void PasteImageContent(object sender, RoutedEventArgs e)
     {
         this.Description.Text = "(pasting)";
-        this.FileContent.Text = "(pasting)";
+        this.FileContent.Text = this.Description.Text;
         var clipboard = System.Windows.Clipboard.GetDataObject();
         if (clipboard == null)
         {
