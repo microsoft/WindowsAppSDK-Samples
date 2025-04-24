@@ -15,7 +15,6 @@ using Microsoft.Windows.AI.Generative;
 using Microsoft.Windows.Vision;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Microsoft.Windows.AI;
 
 namespace WCRforWPF;
 
@@ -122,8 +121,8 @@ public partial class MainWindow : Window
         }
 
         this.Description.Text = "Generating description...";
-        var imageDescription = await ig.DescribeAsync(_currentImage, ImageDescriptionKind.AccessibleDescription, null);
-        this.Description.Text = imageDescription.Description;
+        var imageDescription = await ig.DescribeAsync(_currentImage, ImageDescriptionScenario.Accessibility);
+        this.Description.Text = imageDescription.Response;
     }
 
     private TextRecognizer? _ocr;
@@ -135,12 +134,13 @@ public partial class MainWindow : Window
             this.FileContent.Text = "Loading OCR model...";
             try
             {
-                AIFeatureReadyState getReadyState = TextRecognizer.GetReadyState();
-                if (getReadyState == AIFeatureReadyState.Ready)
+                if (!TextRecognizer.IsAvailable())
                 {
                     this.FileContent.Text = "Making the OCR model available...";
-                    _ocr = await TextRecognizer.CreateAsync();
+                    var op = await TextRecognizer.MakeAvailableAsync();
                 }
+                this.FileContent.Text = "Loading OCR model...";
+                _ocr = await TextRecognizer.CreateAsync();
             }
             catch (Exception ex)
             {
@@ -158,11 +158,13 @@ public partial class MainWindow : Window
 
             try
             {
-                AIFeatureReadyState getReadyState = ImageDescriptionGenerator.GetReadyState();
-                if (getReadyState == AIFeatureReadyState.Ready)
+                if (!ImageDescriptionGenerator.IsAvailable())
                 {
-                    _ig = await ImageDescriptionGenerator.CreateAsync();
+                    this.Description.Text = "Making the descriptor available...";
+                    var op = await ImageDescriptionGenerator.MakeAvailableAsync();
                 }
+                this.Description.Text = "Loading image description generator...";
+                _ig = await ImageDescriptionGenerator.CreateAsync();
             }
             catch (Exception ex)
             {
