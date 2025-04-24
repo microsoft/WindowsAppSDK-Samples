@@ -7,13 +7,13 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="SingleProjWCRforWPFSparseDotNet"
+    Name="WCRforWPFDotNetSingleProj"
     Publisher="CN=Fabrikam Corporation, O=Fabrikam Corporation, L=Redmond, S=Washington, C=US"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>WCRforWPFPkg</DisplayName>
-    <PublisherDisplayName>jonwis</PublisherDisplayName>
+    <DisplayName>WCRforWPFDotNetSingleProj</DisplayName>
+    <PublisherDisplayName>User Name</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 

@@ -6,7 +6,6 @@ Param(
     [switch]$Clean
 )
 
-# FUTURE(YML2PS): Update build to no longer place generated files in sources directory
 if ($Clean) {
     $CleanTargets = @(
       'bin'
