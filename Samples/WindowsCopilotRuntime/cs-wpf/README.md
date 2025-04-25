@@ -22,7 +22,7 @@ extendedZipContent:
 
 ## Sample Overview
 
-The `MainForm` class in `MainForm.cs` is the main user interface for the Windows Copilot Runtime Sample application. It demonstrates how to use the Windows Copilot Runtime API to perform text recognition and summarization on an image. The key functionalities include:
+The `MainWindow` class in `MainWindow.xaml.cs` is the main user interface for the Windows Copilot Runtime Sample application. It demonstrates how to use the Windows Copilot Runtime API to perform text recognition and summarization on an image. The key functionalities include:
 
 - **Select File**: Allows the user to select an image file from their file system and displays the selected image in a PictureBox.
 - **Process Image**: Processes the selected image to extract text using Optical Character Recognition (OCR) and then summarizes the extracted text.
