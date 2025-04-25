@@ -55,6 +55,21 @@ the exe.
 
 ## Sample Overview
 
+The `MainWindow` class in `MainWindow.xaml.cs` is the main user interface for the Windows Copilot Runtime Sample application. It demonstrates how to use the Windows Copilot Runtime API to perform text recognition and summarization on an image. The key functionalities include:
+
+- **Select File**: Allows the user to select an image file from their file system and displays the selected image in a PictureBox.
+- **Process Image**: Processes the selected image to extract text using Optical Character Recognition (OCR) and then summarizes the extracted text.
+
+### Key Methods and Event Handlers
+
+- **SelectFile_Click**: Opens a file dialog for the user to select an image file and displays the selected image.
+- **ProcessButton_Click**: Handles the processing of the selected image, including loading AI models, performing text recognition, and summarizing the text.
+- **LoadAIModels**: Loads the necessary AI models (`TextRecognizer` and `LanguageModel`) for text recognition and summarization.
+- **PerformTextRecognition**: Uses the `TextRecognizer` to perform OCR on the selected image and extracts the text.
+- **SummarizeImageText**: Uses the `LanguageModel` to generate a summary of the extracted text given a prompt.
+
+### Sparse Packaging
+
 A sparse package allows unpackaged win32 apps to gain package identity without fully
 adopting the MSIX packaging format. This is particularly useful for applications that are not yet
 ready to have all their content inside an MSIX package but still need to use Windows extensibility
