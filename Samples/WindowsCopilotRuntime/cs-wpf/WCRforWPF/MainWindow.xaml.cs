@@ -15,6 +15,9 @@ using Microsoft.Windows.AI.Generative;
 using Microsoft.Windows.Vision;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Microsoft.Windows.AI;
+using Microsoft.Windows.AI.ContentModeration;
+using Windows.Storage.Streams;
 
 namespace WCRforWPF;
 
@@ -23,16 +26,18 @@ namespace WCRforWPF;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private ImageBuffer? _currentImage;
+    private LanguageModel? languageModel = null;
+    private TextRecognizer? textRecognizer = null;
     public MainWindow()
     {
         InitializeComponent();
     }
-
     private async void SelectFile_Click(object sender, RoutedEventArgs e)
     {
         _currentImage = null;
         this.Description.Text = "(picking a file)";
-        this.FileContent.Text = "(picking a file)";
+        this.FileContent.Text = this.Description.Text;
 
         var fileDialog = new Microsoft.Win32.OpenFileDialog();
         fileDialog.DefaultExt = ".jpg";
@@ -46,13 +51,13 @@ public partial class MainWindow : Window
             this.InputImage.Source = source;
         }
         this.Description.Text = "(done picking)";
-        this.FileContent.Text = "(done picking)";
+        this.FileContent.Text = this.Description.Text;
     }
 
     private void PasteImageContent(object sender, RoutedEventArgs e)
     {
         this.Description.Text = "(pasting)";
-        this.FileContent.Text = "(pasting)";
+        this.FileContent.Text = this.Description.Text;
         var clipboard = System.Windows.Clipboard.GetDataObject();
         if (clipboard == null)
         {
@@ -67,9 +72,6 @@ public partial class MainWindow : Window
             return;
         }
     }
-
-    private ImageDescriptionGenerator? _ig;
-    private ImageBuffer? _currentImage;
 
     private async Task<ImageBuffer> GetImageBufferFromFile(string path)
     {
@@ -86,92 +88,157 @@ public partial class MainWindow : Window
         this.FileContent.Text = "Extracting text...";
         this.Description.Text = "(waiting)";
 
-        // First, extract text from the image using the OCR model
-        var ocr = await EnsureTextRecognizerAsync();
-        if (ocr == null)
+        try
         {
-            this.FileContent.Text = "No OCR model available";
+            this.FileContent.Text = "Loading AI models...";
+            this.Description.Text = this.FileContent.Text;
+            await LoadAIModels();
+        }
+        catch (Exception ex)
+        {
+            this.FileContent.Text = "An error has occured: Loading AI models...";
+            this.Description.Text = this.FileContent.Text;
             return;
         }
 
-        // Use the current image selected
+        string textInImage = "";
+        try
+        {
+            this.FileContent.Text = "Performing Text Recognition";
+            textInImage = await PerformTextRecognition();
+        }
+        catch (Exception ex)
+        {
+            this.FileContent.Text = "An error has occured: Performing Text Recognition...";
+            return;
+        }
+
+        try
+        {
+            this.Description.Text = "Performing Text Description";
+            await SummarizeImageText(textInImage);
+        }
+        catch (Exception ex)
+        {
+            this.Description.Text = "An error has occured: Performing Text Description...";
+            return;
+        }   
+    }
+
+    private async Task LoadAIModels()
+    {
+        // Load the AI models needed for image processing
+        switch (LanguageModel.GetReadyState())
+        {
+            case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                System.Diagnostics.Debug.WriteLine("Ensure LanguageModel is ready");
+                var op = await LanguageModel.EnsureReadyAsync();
+                System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with status: {op.Status}");
+                if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                {
+                    this.Description.Text = "Language model not ready for use";
+                    throw new Exception("Language model not ready for use");
+                }
+                break;
+            case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
+                System.Diagnostics.Debug.WriteLine("Language model disabled by user");
+                this.Description.Text = "Language model disabled by user";
+                return;
+            case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
+                System.Diagnostics.Debug.WriteLine("Language model not supported on current system");
+                this.Description.Text = "Language model not supported on current system";
+                return;
+        }
+
+        languageModel = await LanguageModel.CreateAsync();
+        if (languageModel == null)
+        {
+            throw new Exception("Failed to create LanguageModel instance.");
+        }
+
+        switch (TextRecognizer.GetReadyState())
+        {
+            case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                System.Diagnostics.Debug.WriteLine("Ensure TextRecognizer is ready");
+                var op = await TextRecognizer.EnsureReadyAsync();
+                System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {op.Status}");
+                if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                {
+                    this.FileContent.Text = "Text recognizer not ready for use";
+                    throw new Exception("Text recognizer not ready for use");
+                }
+                break;
+            case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
+                System.Diagnostics.Debug.WriteLine("Text Recognizer disabled by user");
+                this.FileContent.Text = "Text recognizer disabled by user";
+                return;
+            case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
+                System.Diagnostics.Debug.WriteLine("Text Recognizer not supported on current system");
+                this.FileContent.Text = "Text recognizer not supported on current system";
+                return;
+        }
+
+        textRecognizer = await TextRecognizer.CreateAsync();
+        if (textRecognizer == null)
+        {
+            throw new Exception("Failed to create TextRecognizer instance.");
+        }
+    }
+
+    private async Task<string> PerformTextRecognition()
+    {
         if (_currentImage == null)
         {
-            this.FileContent.Text = "No image selected, paste or click the selector";
-            return;
+            throw new Exception("Failed to load image buffer.");
         }
 
-        var options = new TextRecognizerOptions();
-        options.MaxLineCount = 50;
-        this.FileContent.Text = "Extracting text...";
-        var imageText = await ocr.RecognizeTextFromImageAsync(_currentImage, options);
+        TextRecognizerOptions options = new TextRecognizerOptions { };
+        RecognizedText recognizedText = textRecognizer!.RecognizeTextFromImage(_currentImage, options);
 
-        this.FileContent.Text = "";
-        foreach (var line in imageText.Lines)
-        {
-            this.FileContent.Text += line.Text + "\n";
-        }
+        var recognizedTextLines = recognizedText.Lines.Select(line => line.Text);
+        string text = string.Join(Environment.NewLine, recognizedTextLines);
 
-        // Use the image descriptor and see what it thinks of the image
-        var ig = await EnsureDescriptionGenerator();
-        if (ig == null)
-        {
-            this.Description.Text = "No image descriptor available";
-            return;
-        }
-
-        this.Description.Text = "Generating description...";
-        var imageDescription = await ig.DescribeAsync(_currentImage, ImageDescriptionScenario.Accessibility);
-        this.Description.Text = imageDescription.Response;
+        this.FileContent.Text = text;
+        return text;
     }
 
-    private TextRecognizer? _ocr;
-
-    private async Task<TextRecognizer?> EnsureTextRecognizerAsync()
+    private async Task SummarizeImageText(string text)
     {
-        if (_ocr == null)
+        string systemPrompt = "You summarize user-provided text to a software developer audience." +
+            "Respond only with the summary and no additional text.";
+
+        // Update the property names to match the correct ones based on the provided type signature.  
+        var promptMaxAllowedSeverityLevel = new TextContentFilterSeverity {
+            Hate = SeverityLevel.Low,
+            Sexual = SeverityLevel.Low,
+            Violent = SeverityLevel.Low,
+            SelfHarm = SeverityLevel.Low
+        };
+
+        var responseMaxAllowedSeverityLevel = new TextContentFilterSeverity {
+            Hate = SeverityLevel.Low,
+            Sexual = SeverityLevel.Low,
+            Violent = SeverityLevel.Low,
+            SelfHarm = SeverityLevel.Low
+        };
+
+        var contentFilterOptions = new ContentFilterOptions {
+            PromptMaxAllowedSeverityLevel = promptMaxAllowedSeverityLevel,
+            ResponseMaxAllowedSeverityLevel = responseMaxAllowedSeverityLevel
+        };
+
+        if (languageModel != null)
         {
-            this.FileContent.Text = "Loading OCR model...";
-            try
-            {
-                if (!TextRecognizer.IsAvailable())
-                {
-                    this.FileContent.Text = "Making the OCR model available...";
-                    var op = await TextRecognizer.MakeAvailableAsync();
-                }
-                this.FileContent.Text = "Loading OCR model...";
-                _ocr = await TextRecognizer.CreateAsync();
-            }
-            catch (Exception ex)
-            {
-                this.FileContent.Text = $"Caught exception {ex} trying to load the OCR model";
-            }
+            // Create a context for the language model
+            var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
+            string prompt = "Summarize the following text: " + text;
+            var output = await languageModel.GenerateResponseAsync(languageModelContext, prompt, new LanguageModelOptions());
+            this.Description.Text = output.Text;
         }
-        return _ocr;
-    }
-
-    private async Task<ImageDescriptionGenerator?> EnsureDescriptionGenerator()
-    {
-        if (_ig == null)
+        else
         {
-            this.Description.Text = "Loading image description generator...";
-
-            try
-            {
-                if (!ImageDescriptionGenerator.IsAvailable())
-                {
-                    this.Description.Text = "Making the descriptor available...";
-                    var op = await ImageDescriptionGenerator.MakeAvailableAsync();
-                }
-                this.Description.Text = "Loading image description generator...";
-                _ig = await ImageDescriptionGenerator.CreateAsync();
-            }
-            catch (Exception ex)
-            {
-                this.Description.Text = $"Caught exception {ex} trying to load the image description generator";
-            }
+            System.Diagnostics.Debug.WriteLine("Error: LanguageModel is null but should have been created during LoadAIModels()");
+            this.Description.Text = "Error: LanguageModel is null";
         }
-
-        return _ig;
     }
 }

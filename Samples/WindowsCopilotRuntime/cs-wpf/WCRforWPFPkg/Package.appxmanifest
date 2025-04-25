@@ -8,12 +8,12 @@
 
   <Identity
     Name="6a6263cd-0e36-45b0-85cd-1a9555a405d5"
-    Publisher="CN=jonwis"
+    Publisher="CN=Fabrikam Corporation, O=Fabrikam Corporation, L=Redmond, S=Washington, C=US"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>WCRforWPFPkg</DisplayName>
-    <PublisherDisplayName>jonwis</PublisherDisplayName>
+    <PublisherDisplayName>User Name</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
