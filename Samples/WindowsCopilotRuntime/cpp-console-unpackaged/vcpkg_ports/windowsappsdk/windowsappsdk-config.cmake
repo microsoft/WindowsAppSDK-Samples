@@ -39,41 +39,4 @@ if(NOT TARGET Microsoft::WindowsAppSdk)
    )
 endif()
 
-function(add_winappsdk)
-    set(target_name "${ARGV0}")
-    set(wasdk_inc_path "${CMAKE_CURRENT_BINARY_DIR}/wasdk/inc")
-    set(wasdk_stamp "${wasdk_inc_path}/.done")
-
-    find_package(unofficial-webview2 CONFIG REQUIRED)
-    find_library(WEBVIEW2_WINMD "Microsoft.Web.WebView2.Core.winmd")
-
-    set(cppwinrt_args "")
-    string(APPEND cppwinrt_args "-ref sdk+\n")
-    string(APPEND cppwinrt_args "-ref \"${WEBVIEW2_WINMD}\"\n")
-    string(APPEND cppwinrt_args "-optimize\n")
-    string(APPEND cppwinrt_args "-output \"${wasdk_inc_path}\"\n")
-    string(APPEND cppwinrt_args "-verbose\n")
-
-
-    file(GLOB wasdk_winmds LIST_DIRECTORIES false "${WINAPPSDK_ROOT}/winmd/**/*.winmd")
-
-    foreach (winmd IN LISTS wasdk_winmds)
-        string(APPEND cppwinrt_args "-input \"${winmd}\"\n")
-        message("wasdk_projection: Adding winmd: ${winmd}")
-    endforeach()
-    
-    set(cppwinrt_rsp "${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}.cppwinrt.rsp")
-    file(WRITE "${cppwinrt_rsp}" "${cppwinrt_args}")
-
-    add_custom_command(
-        TARGET ${target_name}
-        PRE_BUILD
-        DEPENDS ${wasdk_winmds} ${webview2_winmds}
-        COMMAND "${CMAKE_COMMAND}" -E echo "Generating WinAppSDK projection for ${target_name}"
-        COMMAND "${CPPWINRT_TOOL}" "@${cppwinrt_rsp}"
-        COMMAND "${CMAKE_COMMAND}" -E touch "${wasdk_stamp}")
-
-#    add_custom_target(${target_name} DEPENDS "${wasdk_stamp}")
-endfunction()
-
 unset(_packages_dir)

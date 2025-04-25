@@ -7,7 +7,7 @@
   "license": null,
   "supports": "windows",
   "dependencies": [
-    { "name": "cppwinrt" },
-    { "name": "webview2" }
+    { "name": "cppwinrt", "host": true },
+    { "name": "webview2", "host": true }
   ]
 }

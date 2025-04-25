@@ -25,8 +25,6 @@ target_link_libraries(cmake-ai-generator
         DelayImp
 )
 
-add_winappsdk(cmake-ai-generator)
-
 # Delay loading this DLL ensures that the executable can _run_ on older Windows versions, but detect
 # whether or not the necessary manual WinAppRuntime support is there.
 target_link_options(cmake-ai-generator

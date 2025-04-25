@@ -13,8 +13,8 @@ Topics and concepts in this example include:
 -   Accessing the Windows App SDK implementation from an unpackaged native (C++) app
 -   Calling the Microsoft.Windows.AI.Generative.LanguageModel API to generate some text
 
-> **Special note:** The vcpkgs used for C++/WinRT, Windows App SDK, and WebView2 are unofficial as
-> of 19th March 2025. We're working on making them widely available.
+> **Special note:** The vcpkgs used for the Windows App SDK and WebView2 are unofficial as of 25th
+> April 2025. We're working on making them "offcial."
 
 > **Special note:** Windows Copilot Runtime is currently an Experimental feature. Consult its
 > license agreement to see how you can use it. The APIs are subject to change. Your customers will
@@ -54,10 +54,7 @@ Update your `vcpkg.json` to include the `windowsappsdk` package ([example](./vcp
 
 ```json
 {
-  "dependencies": [
-    "wil",
-    "windowsappsdk"
-  ]
+    "dependencies": ["wil", "cppwinrt", "windowsappsdk"]
 }
 ```
 
@@ -65,9 +62,7 @@ Update your `vcpkg-configuration` to include the vcpkg_port overlays you copied:
 
 ```json
 {
-  "overlay-ports": [
-    "vcpkg_ports"
-  ]
+    "overlay-ports": ["vcpkg_ports"]
 }
 ```
 
@@ -89,8 +84,8 @@ target_link_libraries(
 )
 ```
 
-If you are using the "Bootstrapper" support, copy the `install_target_runtime_dlls`
-function from [CMakeLists.txt](./CMakeLists.txt) so the 
+If you are using the "Bootstrapper" support, copy the `install_target_runtime_dlls` function from
+[CMakeLists.txt](./CMakeLists.txt) to the working directory of your app.
 
 ### Building
 
