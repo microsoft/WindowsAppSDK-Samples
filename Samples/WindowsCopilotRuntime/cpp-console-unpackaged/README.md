@@ -45,6 +45,9 @@ features of Windows App SDK and Copilot+ PCs.
 
 ### Using in your Own App
 
+> **Note**: More fully-featured CMake integration for C++WinRT is available from other sources.
+> Updates to this repo or the vcpkg port are welcome.
+
 Copy the content of `vcpkg_ports` into your build tree for both cppwinrt and windowsappsdk.
 
 Update your `vcpkg.json` to include the `windowsappsdk` package ([example](./vcpkg.json)):
@@ -68,9 +71,26 @@ Update your `vcpkg-configuration` to include the vcpkg_port overlays you copied:
 }
 ```
 
-Regenerate your CMake cache, and build.
+In your `CMakeLists.txt` add:
 
-> **Note**: More fully-featured CMake integration for C++WinRT is available from other sources.
+```cmake
+find_package(cppwinrt CONFIG REQUIRED)
+find_package(windowsappsdk CONFIG REQUIRED)
+```
+
+Then add the `windowsappsdk` and `cppwinrt` targets to your target's dependencies:
+
+```cmake
+target_link_libraries(
+    your_target
+    PRIVATE
+        Microsoft::CppWinRT
+        Microsoft::WindowsAppSdk
+)
+```
+
+If you are using the "Bootstrapper" support, copy the `install_target_runtime_dlls`
+function from [CMakeLists.txt](./CMakeLists.txt) so the 
 
 ### Building
 

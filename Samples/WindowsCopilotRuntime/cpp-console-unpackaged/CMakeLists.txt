@@ -7,7 +7,6 @@ project(cmake-ai-generator)
 find_package(wil CONFIG REQUIRED)
 find_package(cppwinrt CONFIG REQUIRED)
 find_package(windowsappsdk CONFIG REQUIRED)
-find_package(unofficial-webview2 CONFIG REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -21,10 +20,12 @@ target_link_libraries(cmake-ai-generator
         WindowsAppSdk::Bootstrap
     PRIVATE
         Microsoft::CppWinRT
-        WindowsAppSdk::WindowsAppSdk
+        Microsoft::WindowsAppSdk
         OneCoreUAP
         DelayImp
 )
+
+add_winappsdk(cmake-ai-generator)
 
 # Delay loading this DLL ensures that the executable can _run_ on older Windows versions, but detect
 # whether or not the necessary manual WinAppRuntime support is there.
