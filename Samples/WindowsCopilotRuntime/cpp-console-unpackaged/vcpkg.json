@@ -1,8 +1,6 @@
 {
   "dependencies": [
-    "cppwinrt",
     "wil",
-    "webview2",
     "windowsappsdk"
   ]
 }

@@ -2,7 +2,7 @@
 vcpkg_download_distfile(ARCHIVE
     URLS "https://www.nuget.org/api/v2/package/Microsoft.WindowsAppSDK/${VERSION}"
     FILENAME "Microsoft.WindowsAppSDK.${VERSION}.zip"
-    SHA512 dfc5f41ac1b48555bea277ca6f89ac7c4dd6766f5c58864876825c7eefd469b1c59484afa79ac84e2a281fc4fd983e611672dc8efc6b960a938a5b6bfa102f14
+    SHA512 00a4500de8e9f449a55fb73a6fe4305ae5e4edc3ac27618a76420567870e76e14da57d07b6953fd7c6f127d3ea42ac9f3aa26a20b347e6ee7b753ca61bb1bba8
 )
 
 
