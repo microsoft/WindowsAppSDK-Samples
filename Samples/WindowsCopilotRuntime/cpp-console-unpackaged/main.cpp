@@ -53,7 +53,7 @@ try
     auto readyState = winrt::Microsoft::Windows::AI::Generative::LanguageModel::EnsureReadyAsync().get();
     if (readyState.Status() != winrt::Microsoft::Windows::AI::AIFeatureReadyResultState::Success)
     {
-        std::cout << "Language model not availble yet, status: " << static_cast<int>(readyState.Status()) << std::endl;
+        std::cout << "Language model not available yet, status: " << static_cast<int>(readyState.Status()) << std::endl;
         throw std::runtime_error(std::format(
             "Language model cannot be made available, status {} error {} (ext error {}) - {}\n",
             static_cast<int>(readyState.Status()),
