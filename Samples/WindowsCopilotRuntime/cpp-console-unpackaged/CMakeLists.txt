@@ -7,7 +7,6 @@ project(cmake-ai-generator)
 find_package(wil CONFIG REQUIRED)
 find_package(cppwinrt CONFIG REQUIRED)
 find_package(windowsappsdk CONFIG REQUIRED)
-find_package(unofficial-webview2 CONFIG REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -21,7 +20,7 @@ target_link_libraries(cmake-ai-generator
         WindowsAppSdk::Bootstrap
     PRIVATE
         Microsoft::CppWinRT
-        WindowsAppSdk::WindowsAppSdk
+        Microsoft::WindowsAppSdk
         OneCoreUAP
         DelayImp
 )

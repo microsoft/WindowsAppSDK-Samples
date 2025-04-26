@@ -46,27 +46,22 @@ try
         prompt = L"Where did my treasures go?";
     }
 
-    // Check to see if the langauge model is available on this machine. If it's not, the workflow
-    // system can download it on demand. The very first download of the model takes more time than
-    // subsequent downloads.
+    // Get the language model ready for use. This may involve downloading the model and supporting
+    // components. You might want to show the user a progress indicator while that's happening.
     //
-    // An interactive app could show a progress dialog while MakeAvailableAsync() is running. This
-    // sample intentionally blocks until the model is available.
-    if (!winrt::Microsoft::Windows::AI::Generative::LanguageModel::IsAvailable())
+    // This sample intentionally blocks until the model is available.
+    auto readyState = winrt::Microsoft::Windows::AI::Generative::LanguageModel::EnsureReadyAsync().get();
+    if (readyState.Status() != winrt::Microsoft::Windows::AI::AIFeatureReadyResultState::Success)
     {
-        std::cout << "Fetching language model..." << std::endl << std::flush;
-        auto available = winrt::Microsoft::Windows::AI::Generative::LanguageModel::MakeAvailableAsync().get();
-        if (available.Status() != winrt::Microsoft::Windows::Management::Deployment::PackageDeploymentStatus::CompletedSuccess)
-        {
-            throw std::runtime_error(std::format(
-                "Failed to make language model available, status: {} (ext error {}) - {}\n",
-                static_cast<int>(available.Status()),
-                available.ExtendedError().value,
-                winrt::to_string(available.ErrorText())));
-        }
-
-        std::cout << "Language model is available." << std::endl;
+        std::cout << "Language model not available yet, status: " << static_cast<int>(readyState.Status()) << std::endl;
+        throw std::runtime_error(std::format(
+            "Language model cannot be made available, status {} error {} (ext error {}) - {}\n",
+            static_cast<int>(readyState.Status()),
+            static_cast<int>(readyState.Error()),
+            readyState.ExtendedError().value,
+            winrt::to_string(readyState.ErrorDisplayText())));
     }
+    std::cout << "Language model is available." << std::endl;
 
     // Create an instance of the language model to use in this app.  Creating can also take time as
     // the model is loaded into the system. Consider showing a progress indicator while CreateAsync
@@ -75,8 +70,8 @@ try
     // Your app can reuse instances of the LanguageModel once created.
     auto languageModel = winrt::Microsoft::Windows::AI::Generative::LanguageModel::CreateAsync().get();
     auto options = winrt::Microsoft::Windows::AI::Generative::LanguageModelOptions();
-    options.Skill(winrt::Microsoft::Windows::AI::Generative::LanguageModelSkill::General);
-    options.Temp(0.7f);
+    options.TopK(15);
+    options.Temperature(0.9f);
 
     // Request a response from the language model. The model will generate a response based on the
     // story prompt above.
@@ -87,19 +82,19 @@ try
         // with other generative language models, intermediate outputs may be changed or discarded
         // while the model is running. Your app should use the final Response string in its work,
         // but showing incremental progress is a great way to show the user something on the way.
-        auto responseWait = languageModel.GenerateResponseWithProgressAsync(options, instructions + prompt);
+        auto responseWait = languageModel.GenerateResponseAsync(instructions + prompt, options);
         responseWait.Progress([](auto const& sender, auto const& progress) {
             wprintf(L"%s", progress.c_str());
         });
 
         auto response = responseWait.get();
-        std::wcout << std::format(L"Response: {}\n(status {})", response.Response(), static_cast<unsigned int>(response.Status()))
+        std::wcout << std::format(L"Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()))
                    << std::endl;
     }
     else
     {
-        auto response = languageModel.GenerateResponseAsync(instructions + prompt).get();
-        std::wcout << std::format(L"Response: {}\n(status {})", response.Response(), static_cast<unsigned int>(response.Status()))
+        auto response = languageModel.GenerateResponseAsync(instructions + prompt, options).get();
+        std::wcout << std::format(L"Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()))
                    << std::endl;
     }
 

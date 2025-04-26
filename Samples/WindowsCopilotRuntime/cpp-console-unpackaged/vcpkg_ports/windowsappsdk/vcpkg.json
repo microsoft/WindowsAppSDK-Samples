@@ -1,13 +1,13 @@
 {
   "name": "windowsappsdk",
-  "version": "1.7.250127003-experimental3",
+  "version": "1.8.250410001-experimental1",
   "description": "The Windows App SDK empowers all Windows Desktop apps with modern Windows UI, APIs, and platform features, including back-compat support.",
   "homepage": "https://github.com/microsoft/windowsappsdk",
   "documentation": "https://docs.microsoft.com/windows/apps/windows-app-sdk/",
   "license": null,
   "supports": "windows",
   "dependencies": [
-    { "name": "cppwinrt" },
-    { "name": "webview2" }
+    { "name": "cppwinrt", "host": true },
+    { "name": "webview2", "host": true }
   ]
 }

@@ -29,20 +29,14 @@ if(NOT TARGET WindowsAppSdk::Runtime)
     )
 endif()
 
-if(NOT TARGET WindowsAppSdk::WindowsAppSdk)
-   add_library(WindowsAppSdk::WindowsAppSdk INTERFACE IMPORTED)
-   target_link_libraries(WindowsAppSdk::WindowsAppSdk INTERFACE
+if(NOT TARGET Microsoft::WindowsAppSdk)
+   add_library(Microsoft::WindowsAppSdk INTERFACE IMPORTED)
+ #  add_custom_target( DEPENDS "${wasdk_stamp}")
+   target_link_libraries(Microsoft::WindowsAppSdk INTERFACE
       WindowsAppSdk::DWriteCore
       WindowsAppSdk::Bootstrap
       WindowsAppSdk::Runtime
    )
 endif()
-
-# Outputs from this package
-
-file(GLOB_RECURSE WINAPPSDK_WINMDS 
-    "${_packages_dir}/lib/uap10.0/*.winmd"
-    "${_packages_dir}/lib/uap10.0.18362/*.winmd"
-    )
 
 unset(_packages_dir)
