@@ -17,7 +17,7 @@ extendedZipContent:
 - For system requirements, see [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
 - To ensure your development environment is set up correctly, see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 - Running this sample does require a [Windows Copilot + PC](https://learn.microsoft.com/windows/ai/npu-devices/)
-- This sample requires [Windows App SDK 1.7 Experimental3](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-17-experimental), which should be installed by Visual Studio when deploying or launching the app.
+- Running this sample also requires that the [Windows App SDK 1.8 Experimental1](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-18-experimental) framework package is installed on your Copilot+ PC.
 
 ### Suggested Environment
 
