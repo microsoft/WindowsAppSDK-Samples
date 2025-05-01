@@ -3,11 +3,11 @@
 using WindowsCopilotRuntimeSample.Models.Contracts;
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.Management.Deployment;
-using Microsoft.Windows.Vision;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Windows.AI;
+using Microsoft.Windows.AI.Imaging;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -19,7 +19,7 @@ internal class TextRecognizerModel : IModelManager
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (TextRecognizer.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+        if (TextRecognizer.GetReadyState() == AIFeatureReadyState.NotReady)
         {
             var textRecognizerDeploymentOperation = TextRecognizer.EnsureReadyAsync();
             textRecognizerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
@@ -38,8 +38,8 @@ internal class TextRecognizerModel : IModelManager
 
     }
 
-    public RecognizedText RecognizeTextFromImage(ImageBuffer inputImage, TextRecognizerOptions recognizerOptions)
+    public RecognizedText RecognizeTextFromImage(ImageBuffer inputImage)
     {
-        return Session.RecognizeTextFromImage(inputImage, recognizerOptions);
+        return Session.RecognizeTextFromImage(inputImage);
     }
 }

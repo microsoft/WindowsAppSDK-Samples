@@ -47,7 +47,6 @@ See [additional instructions](./cpp-console-unpackaged/README.md) for using [the
  ```
 - Alternatively, if you are using the Developer Command Prompt for Visual Studio, you can run the app as an ARM64 version using the following command, with the bootstrap property provided:
 ```powershell
-dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsPackageType=None -p:WindowsAppSdkBootstrapInitialize=true
+dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsPackageType=None -p:WindowsAppSDKSelfContained=true -p:SelfContained=true -p:WindowsAppSdkBootstrapInitialize=true
 ```
-- Self contained mode is fully supported by WCR apis.     
-- One careful consideration while using self contained mode. The OS ACL permissions prevent it to run inside any folder in `C:\Users` like `Downloads` because `WorksloadsSessionManager` running as a local service, cannot load WCR dlls from that folder with default permissions. This is by security choice, by design. The two ways to solve it are a) Move the self contained folder out of `C:\Users` where ACLs are not too restrictive or b) provide Local Service to access the said self contained folder within `C:\Users`. Only affects self contained mode, it doesn't affect other config modes.
+- One careful consideration while using unpackaged mode. The OS ACL permissions prevent it to run inside any folder in `C:\Users` like `Downloads` because `WorksloadsSessionManager` running as a local service, cannot load WCR dlls from that folder with default permissions. This is by security choice, by design. The two ways to solve it are a) Move the self-contained folder out of `C:\Users` where ACLs are not too restrictive or b) provide Local Service to access the said self-contained folder within `C:\Users`. Only affects unpackaged modes, it doesn't affect other config modes.

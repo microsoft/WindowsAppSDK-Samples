@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using Microsoft.UI.Xaml.Data;
-using Microsoft.Windows.AI.Generative;
-using Microsoft.Windows.SemanticSearch;
+using Microsoft.Windows.AI.Foundation;
+using Microsoft.Windows.AI.Text;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +13,7 @@ internal partial class EmbeddingVectorConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value is LanguageModelEmbeddingVectorResult)
+        if (value != null && value is LanguageModelEmbeddingVectorResult)
         {
             var embeddings = (value as LanguageModelEmbeddingVectorResult).EmbeddingVectors;
             StringBuilder sb = new();
