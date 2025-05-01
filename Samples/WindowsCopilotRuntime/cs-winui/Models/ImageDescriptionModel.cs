@@ -6,9 +6,10 @@ using Microsoft.Windows.Management.Deployment;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Windows.AI.Generative;
-using Microsoft.Windows.AI.ContentModeration;
+using Microsoft.Windows.AI.Text;
+using Microsoft.Windows.AI.ContentSafety;
 using Microsoft.Windows.AI;
+using Microsoft.Windows.AI.Imaging;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -19,7 +20,7 @@ class ImageDescriptionModel  : IModelManager
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (ImageDescriptionGenerator.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+        if (ImageDescriptionGenerator.GetReadyState() == AIFeatureReadyState.NotReady)
         {
             var imageDescriptionDeploymentOperation = ImageDescriptionGenerator.EnsureReadyAsync();
             imageDescriptionDeploymentOperation.Progress = (_, modelDeploymentProgress) =>

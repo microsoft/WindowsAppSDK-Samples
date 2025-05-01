@@ -20,7 +20,7 @@ partial class ImageDescriptionViewModel : InputImageViewModelBase<ImageDescripti
         _imageDescriptionCommand = new(
             async _ =>
             {
-                imageBuffer = ImageBuffer.CreateCopyFromBitmap(Input);
+                imageBuffer = ImageBuffer.CreateForSoftwareBitmap(Input);
                 return await Session.DescribeImage(imageBuffer);
             },
             (_) => IsAvailable && Input is not null);
