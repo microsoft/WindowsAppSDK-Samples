@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 using WindowsCopilotRuntimeSample.Models.Contracts;
 using WindowsCopilotRuntimeSample.Util;
-using Microsoft.Windows.SemanticSearch;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
-using Microsoft.Windows.AI.ContentModeration;
-using Microsoft.Windows.AI.Generative;
+using Microsoft.Windows.AI.ContentSafety;
+using Microsoft.Windows.AI.Text;
 using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml.Data;

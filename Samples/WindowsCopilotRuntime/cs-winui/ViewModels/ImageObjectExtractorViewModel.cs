@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using WindowsCopilotRuntimeSample.Models;
+using Microsoft.Windows.AI.Imaging;
 
 namespace WindowsCopilotRuntimeSample.ViewModels;
 
