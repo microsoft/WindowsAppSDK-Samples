@@ -44,6 +44,9 @@ Get-ChildItem -Recurse *.vcxproj -Path $PSScriptRoot | foreach-object {
         $content = $content -replace $oldVersionString, $newVersionString
     }
 
+    Write-Host "---------------------------------"
+    Write-Host $content
+    Write-Host "---------------------------------"
     Set-Content -Path $_.FullName -Value $content
     Write-Host "Modified " $_.FullName 
 }
