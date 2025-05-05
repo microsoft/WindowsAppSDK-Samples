@@ -3,13 +3,19 @@ Param(
     [string]$NuGetPackagesFolder = ""
 )
 
+# If the nuget packages folder is specified containing the latest versions,
+# go through them to get the versions of the component packages.
 $nugetPackageToVersionTable = @{"Microsoft.WindowsAppSDK" = $WinAppSDKVersion}
 if (!($NuGetPackagesFolder -eq ""))
 {
-    [xml]$publicNuspec = Get-Content -Encoding utf8 -Path (Join-Path $NuGetPackagesFolder "Microsoft.WindowsAppSDK.$WinAppSDKVersion\Microsoft.WindowsAppSDK.nuspec")
-    foreach ($dependency in $publicNuspec.package.metadata.dependencies.dependency)
-    {
-        $nugetPackageToVersionTable[$dependency.id] = $dependency.version
+    Get-ChildItem $NuGetPackagesFolder | 
+    Where-Object { $_.Name -like "Microsoft.WindowsAppSDK*" } | 
+    ForEach-Object { 
+        if ($_.Name -match "^(Microsoft\.WindowsAppSDK\.[a-zA-Z]+)\.([0-9].*)$")
+        {
+            $nugetPackageToVersionTable[$Matches[1]] = $Matches[2]
+            Write-Host "Found $($Matches[1]) - $($Matches[2])"
+        } 
     }
 }
 
