@@ -10,6 +10,7 @@ if (!($NuGetPackagesFolder -eq ""))
 {
     Get-ChildItem $NuGetPackagesFolder | 
     Where-Object { $_.Name -like "Microsoft.WindowsAppSDK*" } | 
+    Where-Object { $_.Name -notlike "*.nupkg" } |
     ForEach-Object { 
         if ($_.Name -match "^(Microsoft\.WindowsAppSDK\.[a-zA-Z]+)\.([0-9].*)$")
         {
