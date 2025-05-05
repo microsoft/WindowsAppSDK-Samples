@@ -6,9 +6,7 @@ Param(
 $nugetPackageToVersionTable = @{"Microsoft.WindowsAppSDK" = $WinAppSDKVersion}
 if (!($NuGetPackagesFolder -eq ""))
 {
-    Get-ChildItem -Recurse $NuGetPackagesFolder | ForEach-Object { Write-Host $_.FullName }
-
-    [xml]$publicNuspec = Get-Content -Encoding utf8 -Path (Join-Path $NuGetPackagesFolder "Microsoft.WindowsAppSDK\$WinAppSDKVersion\Microsoft.WindowsAppSDK.nuspec")
+    [xml]$publicNuspec = Get-Content -Encoding utf8 -Path (Join-Path $NuGetPackagesFolder "Microsoft.WindowsAppSDK.$WinAppSDKVersion\Microsoft.WindowsAppSDK.nuspec")
     foreach ($dependency in $publicNuspec.package.metadata.dependencies.dependency)
     {
         $nugetPackageToVersionTable[$dependency.id] = $dependency.version
