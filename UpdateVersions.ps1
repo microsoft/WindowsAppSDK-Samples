@@ -1,5 +1,5 @@
 Param(
-    [string]$WinAppSDKVersion = ""
+    [string]$WinAppSDKVersion = "",
     [string]$NuGetPackagesFolder = ""
 )
 
