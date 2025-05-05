@@ -39,7 +39,7 @@ Get-ChildItem -Recurse *.vcxproj -Path $PSScriptRoot | foreach-object {
     foreach ($nugetPackageToVersion in $nugetPackageToVersionTable.GetEnumerator())
     {
         $newVersionString = "\$($nugetPackageToVersion.Key)." + $WinAppSDKVersion + '\'
-        $oldVersionString = "\$($nugetPackageToVersion.Key).[0-9][-.0-9a-zA-Z]*\"
+        $oldVersionString = "\\$($nugetPackageToVersion.Key).[0-9][-.0-9a-zA-Z]*\\"
         $content = $content -replace $oldVersionString, $newVersionString
     }
 
