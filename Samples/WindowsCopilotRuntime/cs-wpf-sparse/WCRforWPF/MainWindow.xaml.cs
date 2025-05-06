@@ -11,12 +11,12 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing.Imaging;
 using Microsoft.Graphics.Imaging;
-using Microsoft.Windows.AI.Generative;
-using Microsoft.Windows.Vision;
+using Microsoft.Windows.AI.Text;
+using Microsoft.Windows.AI.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Microsoft.Windows.AI;
-using Microsoft.Windows.AI.ContentModeration;
+using Microsoft.Windows.AI.ContentSafety;
 using Windows.Storage.Streams;
 
 namespace WCRforWPF;
@@ -80,7 +80,7 @@ public partial class MainWindow : Window
         var decoder = await Windows.Graphics.Imaging.BitmapDecoder.CreateAsync(inputStream);
         var frame = await decoder.GetFrameAsync(0);
         var softwareBitmap = await frame.GetSoftwareBitmapAsync();
-        return ImageBuffer.CreateCopyFromBitmap(softwareBitmap);
+        return ImageBuffer.CreateForSoftwareBitmap(softwareBitmap);
     }
 
     private async void ProcessFile_Click(object sender, RoutedEventArgs e)
@@ -130,7 +130,7 @@ public partial class MainWindow : Window
         // Load the AI models needed for image processing
         switch (LanguageModel.GetReadyState())
         {
-            case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+            case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                 System.Diagnostics.Debug.WriteLine("Ensure LanguageModel is ready");
                 var op = await LanguageModel.EnsureReadyAsync();
                 System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with status: {op.Status}");
@@ -158,7 +158,7 @@ public partial class MainWindow : Window
 
         switch (TextRecognizer.GetReadyState())
         {
-            case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+            case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                 System.Diagnostics.Debug.WriteLine("Ensure TextRecognizer is ready");
                 var op = await TextRecognizer.EnsureReadyAsync();
                 System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {op.Status}");
@@ -192,8 +192,8 @@ public partial class MainWindow : Window
             throw new Exception("Failed to load image buffer.");
         }
 
-        TextRecognizerOptions options = new TextRecognizerOptions { };
-        RecognizedText recognizedText = textRecognizer!.RecognizeTextFromImage(_currentImage, options);
+        //TextRecognizerOptions options = new TextRecognizerOptions { };
+        RecognizedText recognizedText = textRecognizer!.RecognizeTextFromImage(_currentImage);//, options);
 
         var recognizedTextLines = recognizedText.Lines.Select(line => line.Text);
         string text = string.Join(Environment.NewLine, recognizedTextLines);

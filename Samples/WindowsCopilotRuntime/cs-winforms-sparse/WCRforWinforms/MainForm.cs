@@ -1,10 +1,10 @@
 ﻿using Microsoft.Graphics.Imaging;
-using Microsoft.Windows.AI.Generative;
-using Microsoft.Windows.Vision;
+using Microsoft.Windows.AI.Text;
+using Microsoft.Windows.AI.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.Storage;
-using Microsoft.Windows.AI.ContentModeration;
+using Microsoft.Windows.AI.ContentSafety;
 using Windows.ApplicationModel;
 
 namespace WindowsCopilotRuntimeSample
@@ -126,7 +126,7 @@ namespace WindowsCopilotRuntimeSample
             // Load the AI models needed for image processing
             switch (LanguageModel.GetReadyState())
             {
-                case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                     System.Diagnostics.Debug.WriteLine("Ensure LanguageModel is ready");
                     var op = await LanguageModel.EnsureReadyAsync();
                     System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with status: {op.Status}");
@@ -154,7 +154,7 @@ namespace WindowsCopilotRuntimeSample
 
             switch (TextRecognizer.GetReadyState())
             {
-                case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                     System.Diagnostics.Debug.WriteLine("Ensure TextRecognizer is ready");
                     var op = await TextRecognizer.EnsureReadyAsync();
                     System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {op.Status}");
@@ -190,8 +190,8 @@ namespace WindowsCopilotRuntimeSample
                 throw new Exception("Failed to load image buffer.");
             }
 
-            TextRecognizerOptions options = new TextRecognizerOptions { };
-            RecognizedText recognizedText = textRecognizer!.RecognizeTextFromImage(imageBuffer, options);
+            //TextRecognizerOptions options = new TextRecognizerOptions { };
+            RecognizedText recognizedText = textRecognizer!.RecognizeTextFromImage(imageBuffer);//, options);
 
             var recognizedTextLines = recognizedText.Lines.Select(line => line.Text);
             string text = string.Join(Environment.NewLine, recognizedTextLines);
@@ -208,7 +208,7 @@ namespace WindowsCopilotRuntimeSample
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
                 SoftwareBitmap bitmap = await decoder.GetSoftwareBitmapAsync();
 
-                return bitmap != null ? ImageBuffer.CreateBufferAttachedToBitmap(bitmap) : null;
+                return bitmap != null ? ImageBuffer.CreateForSoftwareBitmap(bitmap) : null;
             }
         }
 

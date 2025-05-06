@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250410001-experimental1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250505021-stable" />
   </ItemGroup>
 
 </Project>
