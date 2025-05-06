@@ -1,23 +1,12 @@
-﻿using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Graphics.Imaging;
+using Microsoft.Windows.AI.ContentSafety;
+using Microsoft.Windows.AI.Imaging;
+using Microsoft.Windows.AI.Text;
+using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Drawing.Imaging;
-using Microsoft.Graphics.Imaging;
-using Microsoft.Windows.AI.Generative;
-using Microsoft.Windows.Vision;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Microsoft.Windows.AI;
-using Microsoft.Windows.AI.ContentModeration;
-using Windows.Storage.Streams;
+//using Microsoft.Windows.Vision;
 
 namespace WCRforWPF;
 
@@ -28,13 +17,34 @@ public partial class MainWindow : Window
 {
     private ImageBuffer? _currentImage;
     private LanguageModel? languageModel = null;
-    private TextRecognizer? textRecognizer = null;
+    private Microsoft.Windows.AI.Imaging.TextRecognizer? textRecognizer = null;
     public MainWindow()
     {
         InitializeComponent();
     }
     private async void SelectFile_Click(object sender, RoutedEventArgs e)
     {
+
+        //using LanguageModel languageModel = await LanguageModel.CreateAsync();
+        //var textSummarizer = new TextSummarizer(languageModel);
+
+        //string text = @"Artificial Intelligence (AI) has become an integral part of modern society, 
+        //        influencing various industries and aspects of daily life. One of the most remarkable advancements 
+        //        in AI is the development of machine learning algorithms, which allow computers to learn from data 
+        //        and make predictions or decisions without being explicitly programmed. This technology is widely 
+        //        used in applications ranging from recommendation systems on streaming platforms to fraud detection 
+        //        in financial services.";
+
+        //var resultOperation = textSummarizer.SummarizeAsync(text);
+        ////var sbProgress = new StringBuilder();
+        ////resultOperation.Progress = (result, progress) =>
+        ////{
+        ////    sbProgress.Append(progress);
+        ////};
+
+        //var result = await resultOperation;
+
+
         _currentImage = null;
         this.Description.Text = "(picking a file)";
         this.FileContent.Text = this.Description.Text;
@@ -80,11 +90,14 @@ public partial class MainWindow : Window
         var decoder = await Windows.Graphics.Imaging.BitmapDecoder.CreateAsync(inputStream);
         var frame = await decoder.GetFrameAsync(0);
         var softwareBitmap = await frame.GetSoftwareBitmapAsync();
-        return ImageBuffer.CreateCopyFromBitmap(softwareBitmap);
+        return ImageBuffer.CreateForSoftwareBitmap(softwareBitmap);
     }
 
     private async void ProcessFile_Click(object sender, RoutedEventArgs e)
     {
+
+
+
         this.FileContent.Text = "Extracting text...";
         this.Description.Text = "(waiting)";
 
@@ -122,7 +135,7 @@ public partial class MainWindow : Window
         {
             this.Description.Text = "An error has occured: Performing Text Description...";
             return;
-        }   
+        }
     }
 
     private async Task LoadAIModels()
@@ -130,7 +143,7 @@ public partial class MainWindow : Window
         // Load the AI models needed for image processing
         switch (LanguageModel.GetReadyState())
         {
-            case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+            case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                 System.Diagnostics.Debug.WriteLine("Ensure LanguageModel is ready");
                 var op = await LanguageModel.EnsureReadyAsync();
                 System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with status: {op.Status}");
@@ -158,7 +171,7 @@ public partial class MainWindow : Window
 
         switch (TextRecognizer.GetReadyState())
         {
-            case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+            case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                 System.Diagnostics.Debug.WriteLine("Ensure TextRecognizer is ready");
                 var op = await TextRecognizer.EnsureReadyAsync();
                 System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {op.Status}");
@@ -192,8 +205,8 @@ public partial class MainWindow : Window
             throw new Exception("Failed to load image buffer.");
         }
 
-        TextRecognizerOptions options = new TextRecognizerOptions { };
-        RecognizedText recognizedText = textRecognizer!.RecognizeTextFromImage(_currentImage, options);
+        //TextRecognizerOptions options = new TextRecognizerOptions { };
+        RecognizedText recognizedText = textRecognizer!.RecognizeTextFromImage(_currentImage);
 
         var recognizedTextLines = recognizedText.Lines.Select(line => line.Text);
         string text = string.Join(Environment.NewLine, recognizedTextLines);
