@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 using WindowsCopilotRuntimeSample.Models.Contracts;
 using WindowsCopilotRuntimeSample.Util;
-using Microsoft.Windows.AI.Generative;
+using Microsoft.Windows.AI.Text;
 using Microsoft.Windows.Management.Deployment;
-using Microsoft.Windows.SemanticSearch;
+//using Microsoft.Windows.SemanticSearch;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Microsoft.Windows.AI.ContentModeration;
+using Microsoft.Windows.AI.ContentSafety;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Windows.AI;
 using System.Diagnostics;
@@ -27,7 +27,7 @@ internal class LanguageModelModel : IModelManager
     public async Task CreateModelSessionWithProgress(IProgress<double> progress,
                                                             CancellationToken cancellationToken = default)
     {
-        if (LanguageModel.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+        if (LanguageModel.GetReadyState() == AIFeatureReadyState.NotReady)
         {
             var languageModelDeploymentOperation = LanguageModel.EnsureReadyAsync();
             languageModelDeploymentOperation.Progress = (_, modelDeploymentProgress) =>

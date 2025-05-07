@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Microsoft.Windows.AI;
+using Microsoft.Windows.AI.Imaging;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -19,7 +20,7 @@ internal class ImageScalerModel : IModelManager
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (ImageScaler.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+        if (ImageScaler.GetReadyState() == AIFeatureReadyState.NotReady)
         {
             var imageScalerDeploymentOperation = ImageScaler.EnsureReadyAsync();
             imageScalerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>

@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using Microsoft.UI.Xaml.Data;
-using Microsoft.Windows.AI.Generative;
-using Microsoft.Windows.SemanticSearch;
+using Microsoft.Windows.AI.Foundation;
+using Microsoft.Windows.AI.Text;
+//using Microsoft.Windows.SemanticSearch;
 using System;
 using System.Collections.Generic;
 using System.Text;

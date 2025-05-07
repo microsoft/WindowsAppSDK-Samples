@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using Microsoft.Windows.AI.Generative;
+using Microsoft.Windows.AI.Text;
 using WindowsCopilotRuntimeSample.Models.Contracts;
 
 namespace WindowsCopilotRuntimeSample.ViewModels;

@@ -9,7 +9,8 @@ using Microsoft.Maui.Platform;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
-using Microsoft.Windows.AI.Generative;
+using Microsoft.Windows.AI.Imaging;
+using Microsoft.Windows.AI.Text;
 
 namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPage with the platform-specific implementation
 {

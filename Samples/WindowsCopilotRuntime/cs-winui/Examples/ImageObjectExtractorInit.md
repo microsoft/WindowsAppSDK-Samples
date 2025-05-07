@@ -1,4 +1,4 @@
-if (ImageObjectExtractor.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+if (ImageObjectExtractor.GetReadyState() == AIFeatureReadyState.NotReady)
 {
     var objectExtractorDeploymentOperation = ImageObjectExtractor.EnsureReadyAsync();
     await objectExtractorDeploymentOperation;

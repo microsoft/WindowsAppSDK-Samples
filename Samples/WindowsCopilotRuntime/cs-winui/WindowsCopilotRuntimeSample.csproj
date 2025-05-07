@@ -53,7 +53,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.1" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250410001-experimental1" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250505021-stable" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 

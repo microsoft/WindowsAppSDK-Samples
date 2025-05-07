@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Microsoft.Windows.AI;
+using Microsoft.Windows.AI.Imaging;
 
 namespace WindowsCopilotRuntimeSample.Models;
 
@@ -15,7 +16,7 @@ class ImageObjectExtractorModel : IModelManager
 {
     public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (ImageObjectExtractor.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+        if (ImageObjectExtractor.GetReadyState() == AIFeatureReadyState.NotReady)
         {
             var objectExtractorDeploymentOperation = ImageObjectExtractor.EnsureReadyAsync();
             objectExtractorDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
