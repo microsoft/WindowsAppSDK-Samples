@@ -57,6 +57,7 @@ internal class LanguageModelModel : IModelManager
     public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
         GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
     {
+
         var response = Session.GenerateResponseAsync(prompt);
         return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
             response,

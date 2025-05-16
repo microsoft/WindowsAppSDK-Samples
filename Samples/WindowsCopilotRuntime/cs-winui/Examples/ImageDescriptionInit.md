@@ -1,4 +1,4 @@
-if (ImageDescriptionGenerator.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+if (ImageDescriptionGenerator.GetReadyState() == AIFeatureReadyState.NotReady)
 {
     var imageDescriptionDeploymentOperation = ImageDescriptionGenerator.EnsureReadyAsync();
     await imageDescriptionDeploymentOperation;

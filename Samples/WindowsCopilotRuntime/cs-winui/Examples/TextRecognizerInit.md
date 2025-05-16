@@ -1,4 +1,4 @@
-if (TextRecognizer.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+if (TextRecognizer.GetReadyState() == AIFeatureReadyState.NotReady)
 {
     var textRecognizerDeploymentOperation = TextRecognizer.EnsureReadyAsync();
     await textRecognizerDeploymentOperation;
