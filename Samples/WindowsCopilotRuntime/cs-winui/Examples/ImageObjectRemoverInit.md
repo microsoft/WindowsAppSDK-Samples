@@ -1,5 +1,5 @@
 IProgress<PackageDeploymentProgress> progress;
-if (ImageObjectRemover.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+if (ImageObjectRemover.GetReadyState() == AIFeatureReadyState.NotReady)
 {
     var imageObjectRemoverDeploymentOperationAsync = ImageObjectRemover.EnsureReadyAsync();
     await imageObjectRemoverDeploymentOperationAsync;

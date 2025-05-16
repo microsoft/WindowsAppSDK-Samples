@@ -1,4 +1,4 @@
-if (ImageScaler.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+if (ImageScaler.GetReadyState() == AIFeatureReadyState.NotReady)
 {
     var imageScalerDeploymentOperation = ImageScaler.EnsureReadyAsync();
     await imageScalerDeploymentOperation;

@@ -1,4 +1,4 @@
-if (LanguageModel.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+if (LanguageModel.GetReadyState() == AIFeatureReadyState.NotReady)
 {
     var languageModelDeploymentOperation = LanguageModel.EnsureReadyAsync();
     await languageModelDeploymentOperation;
