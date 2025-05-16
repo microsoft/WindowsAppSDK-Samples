@@ -5,17 +5,17 @@ languages:
 products:
     - windows
     - windows-app-sdk
-name: "Windows Copilot Runtime"
+name: "Windows AI APIs Samples"
 urlFragment: WindowsCopilotRuntime
-description: "Shows how to use the Windows Copilot Runtime"
+description: "Shows how to use the Windows AI APIs"
 extendedZipContent:
     - path: LICENSE
       target: LICENSE
 ---
 
-# Windows Copilot Runtime Sample
+# Windows AI APIs Samples
 
-An app that demonstrates how to use the Windows Copilot Runtime with WinUI.
+An app that demonstrates how to use the Windows AI APIs with WinUI.
 
 ## Prerequisites
 
@@ -39,12 +39,11 @@ join the [Windows Insider Program](https://insider.windows.com).
 # Contributing to this project
 - Refer to the [contributing guide](./Contributing.md)
 
-## Special Considerations for Unpackaged & Self-Contained Mode with WCR
+## Special Considerations for Unpackaged and Self-Contained modes with WinAI Apis
 
-- This project is not intended to be fully functional when running as an unpackaged app. However, Windows Copilot Runtime (WCR) does support unpackaged apps.
+- Unpackaged app configuration is no longer supported. Every app using WinAI APIs must have an identity. One can use [sparse package config](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps) to achieve that with unpackaged binaries.
 - Self-contained mode is fully supported by WCR APIs as well.
-- The following command demonstrates how to run the app as an ARM64 unpackaged application in self-contained mode (for both WinAppSDK and .NET):
+- The following command demonstrates how to run the app as an ARM64 application in packaged self-contained mode (for both WinAppSDK and .NET):
 ```powershell
-dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsPackageType=None -p:WindowsAppSDKSelfContained=true -p:SelfContained=true -p:WindowsAppSdkBootstrapInitialize=true
+dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsAppSDKSelfContained=true -p:SelfContained=true.
 ```
-- One careful consideration while using unpackaged mode. The OS ACL permissions prevent it to run inside any folder in `C:\Users` like `Downloads` because `WorksloadsSessionManager` running as a local service, cannot load WCR dlls from that folder with default permissions. This is by security choice, by design. The two ways to solve it are a) Move the self-contained folder out of `C:\Users` where ACLs are not too restrictive or b) provide Local Service to access the said self-contained folder within `C:\Users`. Only affects unpackaged modes, it doesn't affect other config modes.
