@@ -64,6 +64,6 @@
     <ProjectReference Include="..\DrawingCsTestApp\DrawingCsTestApp.csproj" />
   </ItemGroup>
   <PropertyGroup>
-    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
+    <WindowsSdkPackageVersion>10.0.22621.55</WindowsSdkPackageVersion>
   </PropertyGroup>
 </Project>
