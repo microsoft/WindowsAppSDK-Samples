@@ -9,7 +9,8 @@ using Microsoft.Maui.Platform;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
-using Microsoft.Windows.AI.Generative;
+using Microsoft.Windows.AI.Imaging;
+using Microsoft.Windows.AI.Text;
 
 namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPage with the platform-specific implementation
 {
@@ -26,7 +27,7 @@ namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPag
             {
                 switch (ImageScaler.GetReadyState())
                 {
-                    case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                    case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                         System.Diagnostics.Debug.WriteLine("Calling ImageScaler.EnsureReadyAsync");
                         var op = await ImageScaler.EnsureReadyAsync();
                         System.Diagnostics.Debug.WriteLine($"ImageScaler.EnsureReadyAsync completed with Status: {op.Status}");
@@ -157,7 +158,7 @@ namespace MauiWindowsCopilotRuntimeSample // extending the partial class MainPag
             {
                 switch (LanguageModel.GetReadyState())
                 {
-                    case Microsoft.Windows.AI.AIFeatureReadyState.EnsureNeeded:
+                    case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                         System.Diagnostics.Debug.WriteLine("Calling LanguageModel.EnsureReadyAsync");
                         var op = await LanguageModel.EnsureReadyAsync();
                         System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with Status: {op.Status}");

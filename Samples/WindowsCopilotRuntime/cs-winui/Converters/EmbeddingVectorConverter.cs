@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.Windows.AI.Foundation;
 using Microsoft.Windows.AI.Text;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace WindowsCopilotRuntimeSample.Converters;
@@ -13,9 +12,9 @@ internal partial class EmbeddingVectorConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value != null && value is LanguageModelEmbeddingVectorResult)
+        if (value is LanguageModelEmbeddingVectorResult languageModelEmbeddingVectorResult)
         {
-            var embeddings = (value as LanguageModelEmbeddingVectorResult).EmbeddingVectors;
+            var embeddings = languageModelEmbeddingVectorResult.EmbeddingVectors;
             StringBuilder sb = new();
             for (var index = 0; index < embeddings.Count; ++index)
             {
