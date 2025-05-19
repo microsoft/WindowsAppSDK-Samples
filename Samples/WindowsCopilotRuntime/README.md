@@ -19,6 +19,11 @@ extendedZipContent:
 An app that demonstrates how to use the Windows AI APIs with WinUI, WPF, C#, C++, and other build
 environments.
 
+## Releases
+Stable features can be found in the [main](https://github.com/microsoft/WindowsAppSDK-Samples/tree/main/Samples/WindowsCopilotRuntime) branch. 
+
+Experimental features can be found in the [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsCopilotRuntime) branch
+
 ## Prerequisites
 
 -   See
