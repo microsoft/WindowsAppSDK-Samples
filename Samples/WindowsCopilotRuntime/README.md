@@ -23,6 +23,11 @@ environments.
 An app that demonstrates how to use the Windows AI APIs with WinUI.
 >>>>>>> 80d8fc10 (fixes)
 
+## Releases
+Stable features can be found in the [main](https://github.com/microsoft/WindowsAppSDK-Samples/tree/main/Samples/WindowsCopilotRuntime) branch. 
+
+Experimental features can be found in the [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsCopilotRuntime) branch
+
 ## Prerequisites
 
 -   See
