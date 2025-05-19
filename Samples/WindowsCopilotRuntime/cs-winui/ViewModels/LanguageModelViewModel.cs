@@ -44,15 +44,15 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     private SeverityLevel _violentContentSevToBlockForResponse = SeverityLevel.Minimum;
     private SeverityLevel _selfHarmContentSevToBlockForResponse = SeverityLevel.Minimum;
 
-    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithProgressCommand;
-    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithOptionsAndProgressCommand;
-    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithContextProgressCommand;
+    //private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithProgressCommand;
+    //private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithOptionsAndProgressCommand;
+    //private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithContextProgressCommand;
 
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceSummarizeSkills;
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceRewriteSkills;
     private readonly AsyncCommand<string, string> _generateResponseWithTextIntelligenceTextToTableSkills;
 
-    private readonly AsyncCommand<string, LanguageModelEmbeddingVectorResult> _generateEmbeddingVectorCommand;
+    //private readonly AsyncCommand<string, LanguageModelEmbeddingVectorResult> _generateEmbeddingVectorCommand;
 
     private readonly StringBuilder _responseProgress = new();
     private readonly StringBuilder _responseProgressTextIntelligence = new();
@@ -67,68 +67,68 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     public LanguageModelViewModel(LanguageModelModel languageModelSession)
         : base(languageModelSession)
     {
-        // GenerateResponseWithProgress
-        _generateResponseWithProgressCommand = new(
-            prompt =>
-            {
-                _responseProgress.Clear();
-                DispatchPropertyChanged(nameof(ResponseProgress));
+        //// GenerateResponseWithProgress
+        //_generateResponseWithProgressCommand = new(
+        //    prompt =>
+        //    {
+        //        _responseProgress.Clear();
+        //        DispatchPropertyChanged(nameof(ResponseProgress));
 
-                return Session.GenerateResponseWithProgressAsync(prompt!);
-            },
-            (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
+        //        return Session.GenerateResponseWithProgressAsync(prompt!);
+        //    },
+        //    (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
 
-        _generateResponseWithProgressCommand.ResultProgressHandler += OnResultProgress;
-        _generateResponseWithProgressCommand.ResultHandler += OnResult;
+        //_generateResponseWithProgressCommand.ResultProgressHandler += OnResultProgress;
+        //_generateResponseWithProgressCommand.ResultHandler += OnResult;
 
-        // GenerateResponseWithOptionsAndProgress
-        _generateResponseWithOptionsAndProgressCommand = new(
-            prompt =>
-            {
-                var languageModelOptions = new LanguageModelOptions();  // default values
+        //// GenerateResponseWithOptionsAndProgress
+        //_generateResponseWithOptionsAndProgressCommand = new(
+        //    prompt =>
+        //    {
+        //        var languageModelOptions = new LanguageModelOptions();  // default values
 
-                var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                    Hate = HateContentSevToBlockForPrompt,
-                    Sexual = SexualContentSevToBlockForPrompt,
-                    Violent = ViolentContentSevToBlockForPrompt,
-                    SelfHarm = SelfHarmContentSevToBlockForPrompt
-                };
+        //        var promptMinSeverityLevelToBlock = new TextContentFilterSeverity {
+        //            Hate = HateContentSevToBlockForPrompt,
+        //            Sexual = SexualContentSevToBlockForPrompt,
+        //            Violent = ViolentContentSevToBlockForPrompt,
+        //            SelfHarm = SelfHarmContentSevToBlockForPrompt
+        //        };
 
-                var responseMinSeverityLevelToBlock = new TextContentFilterSeverity {
-                    Hate = HateContentSevToBlockForResponse,
-                    Sexual = SexualContentSevToBlockForResponse,
-                    Violent = ViolentContentSevToBlockForResponse,
-                    SelfHarm = SelfHarmContentSevToBlockForResponse
-                };
+        //        var responseMinSeverityLevelToBlock = new TextContentFilterSeverity {
+        //            Hate = HateContentSevToBlockForResponse,
+        //            Sexual = SexualContentSevToBlockForResponse,
+        //            Violent = ViolentContentSevToBlockForResponse,
+        //            SelfHarm = SelfHarmContentSevToBlockForResponse
+        //        };
 
-                var contentFilterOptions = new ContentFilterOptions {
-                    PromptMaxAllowedSeverityLevel = promptMinSeverityLevelToBlock,
-                    ResponseMaxAllowedSeverityLevel = responseMinSeverityLevelToBlock
-                };
+        //        var contentFilterOptions = new ContentFilterOptions {
+        //            PromptMaxAllowedSeverityLevel = promptMinSeverityLevelToBlock,
+        //            ResponseMaxAllowedSeverityLevel = responseMinSeverityLevelToBlock
+        //        };
 
-                _responseProgress.Clear();
-                DispatchPropertyChanged(nameof(ResponseProgress));
+        //        _responseProgress.Clear();
+        //        DispatchPropertyChanged(nameof(ResponseProgress));
 
-                return Session.GenerateResponseWithOptionsAndProgressAsync(prompt!, languageModelOptions, contentFilterOptions);
-            },
-            (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
+        //        return Session.GenerateResponseWithOptionsAndProgressAsync(prompt!, languageModelOptions, contentFilterOptions);
+        //    },
+        //    (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
 
-        _generateResponseWithOptionsAndProgressCommand.ResultProgressHandler += OnResultProgress;
-        _generateResponseWithOptionsAndProgressCommand.ResultHandler += OnResult;
+        //_generateResponseWithOptionsAndProgressCommand.ResultProgressHandler += OnResultProgress;
+        //_generateResponseWithOptionsAndProgressCommand.ResultHandler += OnResult;
 
-        // GenerateResponseWithProgress
-        _generateResponseWithContextProgressCommand = new(
-            prompt =>
-            {
-                _responseProgress.Clear();
-                DispatchPropertyChanged(nameof(ResponseProgress));
+        //// GenerateResponseWithProgress
+        //_generateResponseWithContextProgressCommand = new(
+        //    prompt =>
+        //    {
+        //        _responseProgress.Clear();
+        //        DispatchPropertyChanged(nameof(ResponseProgress));
 
-                return Session.GenerateResponseWithContextAsync(prompt!, Context!);
-            },
-            (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
+        //        return Session.GenerateResponseWithContextAsync(prompt!, Context!);
+        //    },
+        //    (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
 
-        _generateResponseWithContextProgressCommand.ResultProgressHandler += OnResultProgress;
-        _generateResponseWithContextProgressCommand.ResultHandler += OnResult;
+        //_generateResponseWithContextProgressCommand.ResultProgressHandler += OnResultProgress;
+        //_generateResponseWithContextProgressCommand.ResultHandler += OnResult;
 
         // GenerateResponseWithTextIntelligenceSummarizeSkills
         _generateResponseWithTextIntelligenceSummarizeSkills = new(
@@ -166,13 +166,13 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
             },
             (prompt) => IsAvailable && !string.IsNullOrEmpty(TextIntelligencePrompt));
 
-        // GenerateEmbedding
-        _generateEmbeddingVectorCommand = new(
-            prompt =>
-            {
-                return Session.GenerateEmbeddingVectors(prompt!);
-            },
-            (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
+        //// GenerateEmbedding
+        //_generateEmbeddingVectorCommand = new(
+        //    prompt =>
+        //    {
+        //        return Session.GenerateEmbeddingVectors(prompt!);
+        //    },
+        //    (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
     }
 
     public string ResponseProgress => _responseProgress.ToString();
@@ -285,28 +285,28 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     /// Exercise the GenerateResponse method API for a language model session
     /// </summary>
 
-    public ICommand GenerateResponseWithProgressCommand => _generateResponseWithProgressCommand;
+    //public ICommand GenerateResponseWithProgressCommand => _generateResponseWithProgressCommand;
 
-    public ICommand GenerateResponseWithOptionsAndProgressCommand => _generateResponseWithOptionsAndProgressCommand;
+    //public ICommand GenerateResponseWithOptionsAndProgressCommand => _generateResponseWithOptionsAndProgressCommand;
     public ICommand GenerateResponseWithTextIntelligenceSummarizeSkills => _generateResponseWithTextIntelligenceSummarizeSkills;
     public ICommand GenerateResponseWithTextIntelligenceRewriteSkills => _generateResponseWithTextIntelligenceRewriteSkills;
     public ICommand GenerateResponseWithTextIntelligenceTextToTableSkills => _generateResponseWithTextIntelligenceTextToTableSkills;
 
-    public ICommand GenerateResponseWithContextProgressCommand  => _generateResponseWithContextProgressCommand;
+    //public ICommand GenerateResponseWithContextProgressCommand  => _generateResponseWithContextProgressCommand;
 
     /// <summary>
     /// Exercise the GenerateEmbeddingVector method API for a language model session
     /// </summary>
-    public ICommand GenerateEmbeddingVectorCommand => _generateEmbeddingVectorCommand;
+    //public ICommand GenerateEmbeddingVectorCommand => _generateEmbeddingVectorCommand;
 
     protected override void OnIsAvailableChanged()
     {
-        _generateResponseWithProgressCommand.FireCanExecuteChanged();
-        _generateResponseWithOptionsAndProgressCommand.FireCanExecuteChanged();
+        //_generateResponseWithProgressCommand.FireCanExecuteChanged();
+        //_generateResponseWithOptionsAndProgressCommand.FireCanExecuteChanged();
         _generateResponseWithTextIntelligenceSummarizeSkills.FireCanExecuteChanged();
         _generateResponseWithTextIntelligenceRewriteSkills.FireCanExecuteChanged();
         _generateResponseWithTextIntelligenceTextToTableSkills.FireCanExecuteChanged();
-        _generateResponseWithContextProgressCommand.FireCanExecuteChanged();
+        //_generateResponseWithContextProgressCommand.FireCanExecuteChanged();
     }
 
     private void OnResultProgress(object? sender, string progress)

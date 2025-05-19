@@ -16,7 +16,7 @@
             <!-- Other app resources here -->
             <local_converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <local_converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
-            <local_converters:EmbeddingVectorConverter x:Key="EmbeddingVectorConverter"/>
+            <!--<local_converters:EmbeddingVectorConverter x:Key="EmbeddingVectorConverter"/>-->
             <local_converters:ContentFilterOptionsSeverityLevelConverter x:Key="ContentFilterOptionsSeverityLevelConverter"/>
 
             <!--  Window width adaptive breakpoints.  -->

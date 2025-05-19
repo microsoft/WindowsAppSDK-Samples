@@ -54,70 +54,70 @@ internal class LanguageModelModel : IModelManager
     private TextRewriter SessionTextRewrite => _sessionTextRewrite ?? throw new InvalidOperationException("Text Rewriter session was not created yet");
     private TextToTableConverter SessionTextToTable => _sessionTextToTable ?? throw new InvalidOperationException("TextToTable converter session was not created yet");
 
-    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
-        GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
-    {
-
-        var response = Session.GenerateResponseAsync(prompt);
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
-            response,
-            result => result /* LanguageModelResponse */,
-            progress => progress
-        );
-    }
-
-    public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
-        GenerateResponseWithOptionsAndProgressAsync(string prompt, CancellationToken cancellationToken = default)
-    {
-        var response = Session.GenerateResponseAsync(prompt);
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
-            response,
-            result => result /* LanguageModelResponse */,
-            progress => progress
-        );
-    }
-
-    public LanguageModelEmbeddingVectorResult GenerateEmbeddingVectors(string prompt, CancellationToken cancellationToken = default)
-    {
-        var contentFilterOptions = new ContentFilterOptions();
-        var response = Session.GenerateEmbeddingVectors(prompt, contentFilterOptions);
-        return response;
-    }
-
-    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
-        GenerateResponseWithOptionsAndProgressAsync(string prompt, LanguageModelOptions languageModelOptions,
-        ContentFilterOptions? contentFilterOptions, CancellationToken cancellationToken = default)
-    {
-        IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
-        if (contentFilterOptions != null)
-        {
-            languageModelOptions.ContentFilterOptions = contentFilterOptions;
-        }
+    //public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
+    //    GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
+    //{
         
-        response = Session.GenerateResponseAsync(prompt, languageModelOptions);
+    //    var response = Session.GenerateResponseAsync(prompt);
+    //    return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+    //        response,
+    //        result => result /* LanguageModelResponse */,
+    //        progress => progress
+    //    );
+    //}
+
+    //public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
+    //    GenerateResponseWithOptionsAndProgressAsync(string prompt, CancellationToken cancellationToken = default)
+    //{
+    //    var response = Session.GenerateResponseAsync(prompt);
+    //    return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+    //        response,
+    //        result => result /* LanguageModelResponse */,
+    //        progress => progress
+    //    );
+    //}
+
+    //public LanguageModelEmbeddingVectorResult GenerateEmbeddingVectors(string prompt, CancellationToken cancellationToken = default)
+    //{
+    //    var contentFilterOptions = new ContentFilterOptions();
+    //    var response = Session.GenerateEmbeddingVectors(prompt, contentFilterOptions);
+    //    return response;
+    //}
+
+    //public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
+    //    GenerateResponseWithOptionsAndProgressAsync(string prompt, LanguageModelOptions languageModelOptions,
+    //    ContentFilterOptions? contentFilterOptions, CancellationToken cancellationToken = default)
+    //{
+    //    IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
+    //    if (contentFilterOptions != null)
+    //    {
+    //        languageModelOptions.ContentFilterOptions = contentFilterOptions;
+    //    }
         
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
-            response,
-            result => result /* LanguageModelResponseResult */,
-            progress => progress
-        );
-    }
+    //    response = Session.GenerateResponseAsync(prompt, languageModelOptions);
+        
+    //    return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+    //        response,
+    //        result => result /* LanguageModelResponseResult */,
+    //        progress => progress
+    //    );
+    //}
 
-    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
-        GenerateResponseWithContextAsync(string prompt, string contextPrompt, CancellationToken cancellationToken = default)
-    {
-        var languageModelOptions = new LanguageModelOptions();
-        var contentFilterOptions = new ContentFilterOptions();
-        var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
+    //public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
+    //    GenerateResponseWithContextAsync(string prompt, string contextPrompt, CancellationToken cancellationToken = default)
+    //{
+    //    var languageModelOptions = new LanguageModelOptions();
+    //    var contentFilterOptions = new ContentFilterOptions();
+    //    var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
 
-        var response = Session.GenerateResponseAsync(languageModelContext, prompt, languageModelOptions);
+    //    var response = Session.GenerateResponseAsync(languageModelContext, prompt, languageModelOptions);
 
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
-            response,
-            result => result /* LanguageModelResponseResult */,
-            progress => progress
-        );
-    }
+    //    return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+    //        response,
+    //        result => result /* LanguageModelResponseResult */,
+    //        progress => progress
+    //    );
+    //}
 
     public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
     GenerateResponseTextIntelligenceSummarizeWithProgressAsync(string prompt)

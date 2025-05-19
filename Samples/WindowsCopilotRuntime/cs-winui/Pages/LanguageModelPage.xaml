@@ -35,13 +35,13 @@
             <TextBlock Text="Language Model"
                     Style="{StaticResource TitleTextBlockStyle}"
                     Margin="10"/>
-            <TextBlock Text="The Language Model APIs let you complete text and generate embedding vectors from a given string of text."
+            <TextBlock Text="The Language Model APIs let you complete text and generate embedding vectors from a given string of text. Currently, only Text Intelligence skills are available in the stable version. Switch to feature/experimental branch to test out the experimental features of Windows AI Apis."
                     Style="{StaticResource BodyTextBlockStyle}"
                     Margin="10"/>
 
             <controls:ModelInitializationControl SourceFile="Examples/LanguageModelInit.md"/>
-
-            <TextBlock Text="Text Completion"
+            <!---  Language Model apis currently are not available in stable version of winappsdk. Switch to experimental version to enable them.  -->
+            <!--<TextBlock Text="Text Completion"
                     Margin="10"
                     Style="{StaticResource SubtitleTextBlockStyle}"/>
             <TextBlock Text="Text completion language models involve using advanced machine learning models to predict and generate the next sequence of words or sentences based on a given input prompt. These models, such as Phi-3, are trained on vast amounts of text data and can understand and generate human-like text that completes a given input prompt."
@@ -59,7 +59,7 @@
                     Margin="10">
                 <TabView IsAddTabButtonVisible="False">
                     <TabView.TabItems>
-                        <!--  Text Completion With progress  -->
+                        --><!--  Text Completion With progress  --><!--
                         <TabViewItem Header="GenerateResponse with Progress"
                                 IsClosable="False">
                             <StackPanel Orientation="Vertical"
@@ -104,7 +104,7 @@
                                         Margin="10"/>
                             </StackPanel>
                         </TabViewItem>
-                        <!--  Text Completion With progress and options -->
+                        --><!--  Text Completion With progress and options --><!--
                         <TabViewItem Header="GenerateResponse with options"
                                 IsClosable="False">
                             <StackPanel Orientation="Vertical"
@@ -145,7 +145,7 @@
                                         </StackPanel>
                                     </Grid>
 
-                                    <!-- ContentFilterOptions for response -->
+                                    --><!-- ContentFilterOptions for response --><!--
                                     <RichTextBlock TextWrapping="WrapWholeWords">
                                         <Paragraph>
                                             <Run FontWeight="Bold">Response</Run> Minimum content level to block.
@@ -200,7 +200,7 @@
                                         Margin="10"/>
                             </StackPanel>
                         </TabViewItem>
-                        <!--  Text Completion With context  -->
+                        --><!--  Text Completion With context  --><!--
                         <TabViewItem Header="GenerateResponse with Context"
                                 IsClosable="False">
                             <StackPanel Orientation="Vertical"
@@ -257,7 +257,7 @@
                         </TabViewItem>
                     </TabView.TabItems>
                 </TabView>
-            </Border>
+            </Border>-->
 
             <!-- Text Intelligence -->
             <TextBlock Text="Text Intelligence"
@@ -389,7 +389,7 @@
             </Border>
 
             <!--  Text Embedding  -->
-            <TextBlock Text="Text Embedding"
+            <!--<TextBlock Text="Text Embedding"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Margin="10"/>
             <TextBlock Text="Text embeddings are numerical representations of text that capture the semantic meaning of words, phrases, or entire documents. These embeddings are typically high-dimensional vectors where similar texts have similar vector representations. Text embeddings are used in various natural language processing (NLP) tasks such as text classification, sentiment analysis, and machine translation."
@@ -436,7 +436,7 @@
                     <controls:CodeBlockControl SourceFile="Examples/LanguageModelEmbedding.md"
                             Margin="10"/>
                 </StackPanel>
-            </Border>
+            </Border>-->
         </StackPanel>
     </ScrollViewer>
 </Page>
