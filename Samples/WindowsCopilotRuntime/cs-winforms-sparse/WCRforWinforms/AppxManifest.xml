@@ -26,9 +26,9 @@
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19000.0" MaxVersionTested="10.0.19000.0" />
     <PackageDependency
-           Name="Microsoft.WindowsAppRuntime.1.8-experimental1"
+           Name="Microsoft.WindowsAppRuntime.1.8-experimental2"
            Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-           MinVersion="8000.466.237.0" />
+           MinVersion="8000.500.1427.0" />
   </Dependencies>
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
