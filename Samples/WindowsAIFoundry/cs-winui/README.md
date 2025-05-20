@@ -43,7 +43,7 @@ join the [Windows Insider Program](https://insider.windows.com).
 
 See [additional instructions](./cpp-console-unpackaged/README.md) for using [the C++ & CMake sample](./cpp-console-unpackaged/CMakeLists.txt).
 
-## Special Considerations for Unpackaged and Self-Contained modes with WinAI Apis
+## Special Considerations for Unpackaged and Self-Contained modes with Windows AI Apis
 
 - Unpackaged app configuration is no longer supported. Every app using WinAI APIs must have an identity. One can use [sparse package config](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps) to achieve that with unpackaged binaries.
 - Self-contained mode is fully supported by Windows AI apis as well.
