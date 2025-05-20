@@ -41,7 +41,13 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Windows Input and Composition Gallery](https://github.com/microsoft/WindowsCompositionSamples): This collection of samples showcases Microsoft.UI.Composition and Microsoft.UI.Input APIs.
 - [WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery/): This is a sample app that showcases all of the WinUI 3 controls in action.
 
-## Requirements
+### Widgets
+- [Widgets](Samples/Widgets): These samples demonstrate how to author Windows Widgets with the Windows App SDK.
+
+### Windows AI Foundry
+- [Windows AI sample](Samples/WindowsAIFoundry/cs-winui/) : This sample demonstrate the usage of Windows AI apis within a C# WinUI app.
+
+## 💻 Requirements
 
 Thes Windows App SDK samples have the following system requirements:
 
