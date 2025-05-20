@@ -1,0 +1,37 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+ Licensed under the MIT License. -->
+<UserControl
+    x:Class="WindowsAISampleSample.Controls.CodeBlockControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WindowsAISampleSample.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="ExampleCode_Loaded">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Expander x:Name="expandedContent"
+                  IsExpanded="False"
+                  ExpandDirection="Down"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
+                  Header="Sample Code">
+            <Expander.Content>
+                <Grid>
+                    <RichTextBlock x:Name="codeBlock"/>
+                    <Button Click="CopyButton_Click"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="0,0,10,0">
+                        <SymbolIcon Symbol="Copy"/>
+                    </Button>
+                </Grid>
+            </Expander.Content>
+        </Expander>
+    </Grid>
+</UserControl>

@@ -1,0 +1,176 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+ Licensed under the MIT License. -->
+
+<!--xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"-->
+<!--NU1202: Package Microsoft.Toolkit.Uwp.UI.Animations 7.1.0-rc1 is not compatible with net5.0-windows10.0.19041 (.NETCoreApp,Version=v5.0) / win10-x86. Package Microsoft.Toolkit.Uwp.UI.Animations 7.1.0-rc1 supports: uap10.0.17763 (UAP,Version=v10.0.17763)-->
+<Page x:Name="page"
+      x:Class="WindowsAISampleSample.Pages.LanguageModelPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:WindowsAISampleSample"
+      xmlns:pages="using:WindowsAISampleSample.Pages"
+      xmlns:controls="using:WindowsAISampleSample.Controls"
+      xmlns:models="using:WindowsAISampleSample.ViewModels"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      d:DataContext="{d:DesignInstance Type=models:LanguageModelViewModel}"
+      DataContext="{Binding LanguageModel}"
+      NavigationCacheMode="Enabled">
+
+    <Page.Resources>
+        <DataTemplate x:Key="SeverityLevelItemTemplate">
+            <TextBlock Text="{Binding Converter={StaticResource ContentFilterOptionsSeverityLevelConverter}}"/>
+        </DataTemplate>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+            HorizontalAlignment="Stretch">
+        <StackPanel Orientation="Vertical"
+                HorizontalAlignment="Stretch"
+                Margin="20">
+
+            <TextBlock Text="Language Model"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="10"/>
+            <TextBlock Text="The Language Model APIs let you complete text and generate embedding vectors from a given string of text. Currently, only Text Intelligence skills are available in the stable version. Switch to feature/experimental branch to test out the experimental features of Windows AI apis."
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Margin="10"/>
+
+            <controls:ModelInitializationControl SourceFile="Examples/LanguageModelInit.md"/>
+            <!---  Language Model apis currently are not available in stable version of winappsdk. Switch to release/experimental version to enable them.  -->
+            
+
+            <!-- Text Intelligence -->
+            <TextBlock Text="Text Intelligence"
+           Margin="10"
+           Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <TextBlock Margin="10" TextWrapping="WrapWholeWords">
+                Select between a predefined set of Text Intelligence skills to perform common operations on input text.
+                We are using default values for Temp, TopP and TopK params in the sample.
+            </TextBlock>
+            <RichTextBlock Margin="10" TextWrapping="WrapWholeWords">
+                <Paragraph>
+                    <Run FontWeight="Bold">Summarize</Run> : Summarize the prompt text.
+                </Paragraph>
+                <Paragraph>
+                    <Run FontWeight="Bold">Rewrite</Run> : Rewrite, correct grammar, and enhance word choice of the prompt.
+                </Paragraph>
+                <!--There's a known bug for Text-To-Table skill where it will always return empty string. This has been fixed. Please uncomment this one afrer picking up a new nuget release-->
+                <!--
+                <Paragraph>
+                    <Run FontWeight="Bold">Text To table</Run> : Convert given prompt to table format.
+                </Paragraph>
+                -->
+            </RichTextBlock>
+            <Border BorderThickness="1"
+            CornerRadius="10"
+            BorderBrush="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+            Background="{ThemeResource CardBackgroundFillColorDefault}"
+            Margin="10">
+                <TabView IsAddTabButtonVisible="False">
+                    <TabView.TabItems>
+                        <!-- Summarize Section -->
+                        <TabViewItem Header="Summarize"
+                         IsClosable="False">
+                            <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            Margin="20">
+                                <TextBox Margin="10"
+                             Header="Prompt:"
+                             PlaceholderText="Enter your prompt here"
+                             Text="{Binding TextIntelligencePrompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsAvailable}"
+                             AutomationProperties.Name="multi-line TextBox"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"/>
+                                <TextBox Margin="10"
+                             Header="Language Model Result:"
+                             Text="{Binding ResponseProgressTextIntelligence}"
+                             IsReadOnly="True"
+                             IsEnabled="{Binding IsAvailable}"
+                             TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal"
+                                Margin="10">
+                                    <Button Command="{Binding GenerateResponseWithTextIntelligenceSummarizeSkills}"
+                                CommandParameter="{Binding TextIntelligencePrompt}"
+                                Margin="0,0,10,0">Generate Summarize Response</Button>
+                                    <ProgressRing Visibility="{Binding GenerateResponseWithTextIntelligenceSummarizeSkills.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </StackPanel>
+                                <controls:CodeBlockControl SourceFile="Examples/TextIntelligenceSummarize.md"
+                                 Margin="10"/>
+                            </StackPanel>
+                        </TabViewItem>
+                        <!-- Rewrite Section -->
+                        <TabViewItem Header="Rewrite"
+                         IsClosable="False">
+                            <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            Margin="20">
+                                <TextBox Margin="10"
+                             Header="Prompt:"
+                             PlaceholderText="Enter your prompt here"
+                             Text="{Binding TextIntelligencePrompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsAvailable}"
+                             AutomationProperties.Name="multi-line TextBox"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"/>
+                                <TextBox Margin="10"
+                             Header="Language Model Result:"
+                             Text="{Binding ResponseProgressTextIntelligence}"
+                             IsReadOnly="True"
+                             IsEnabled="{Binding IsAvailable}"
+                             TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal"
+                                Margin="10">
+                                    <Button Command="{Binding GenerateResponseWithTextIntelligenceRewriteSkills}"
+                                CommandParameter="{Binding TextIntelligencePrompt}"
+                                Margin="0,0,10,0">Generate Rewrite Response</Button>
+                                    <ProgressRing Visibility="{Binding GenerateResponseWithTextIntelligenceRewriteSkills.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </StackPanel>
+                                <controls:CodeBlockControl SourceFile="Examples/TextIntelligenceRewrite.md"
+                                Margin="10"/>
+                            </StackPanel>
+                        </TabViewItem>
+                        <!--There's a known bug for Text-To-Table skill where it will always return empty string. This has been fixed. Please uncomment this one afrer picking up a new nuget release-->
+                        <!-- TextToTable Section -->
+                        <!--
+                        <TabViewItem Header="Text To Table"
+                         IsClosable="False">
+                            <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            Margin="20">
+                                <TextBox Margin="10"
+                             Header="Prompt:"
+                             PlaceholderText="Enter your prompt here"
+                             Text="{Binding TextIntelligencePrompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsAvailable}"
+                             AutomationProperties.Name="multi-line TextBox"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"/>
+                                <TextBox Margin="10"
+                             Header="Language Model Result:"
+                             Text="{Binding GenerateResponseWithTextIntelligenceTextToTableSkills.Result}"
+                             IsReadOnly="True"
+                             IsEnabled="{Binding IsAvailable}"
+                             TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal"
+                                Margin="10">
+                                    <Button Command="{Binding GenerateResponseWithTextIntelligenceTextToTableSkills}"
+                                CommandParameter="{Binding TextIntelligencePrompt}"
+                                Margin="0,0,10,0">Generate Text To Table Response</Button>
+                                    <ProgressRing Visibility="{Binding GenerateResponseWithTextIntelligenceTextToTableSkills.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </StackPanel>
+                                <controls:CodeBlockControl SourceFile="Examples/TextIntelligenceTextToTable.md"
+                                Margin="10"/>
+                            </StackPanel>
+                        </TabViewItem>
+                        -->
+                    </TabView.TabItems>
+                </TabView>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

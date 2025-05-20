@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "WindowsAISample (Package)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": false,
+      "hotReloadEnabled": true
+    },
+    "WindowsAISample (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
