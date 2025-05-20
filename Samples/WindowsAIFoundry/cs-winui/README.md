@@ -44,7 +44,7 @@ See [additional instructions](./cpp-console-unpackaged/README.md) for using [the
 ## Special Considerations for Unpackaged and Self-Contained modes with WinAI Apis
 
 - Unpackaged app configuration is no longer supported. Every app using WinAI APIs must have an identity. One can use [sparse package config](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps) to achieve that with unpackaged binaries.
-- Self-contained mode is fully supported by WCR APIs as well.
+- Self-contained mode is fully supported by Windows AI apis as well.
 - The following command demonstrates how to run the app as an ARM64 application in packaged self-contained mode (for both WinAppSDK and .NET):
 ```powershell
 dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsAppSDKSelfContained=true -p:SelfContained=true.
