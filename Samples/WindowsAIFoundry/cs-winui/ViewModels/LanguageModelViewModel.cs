@@ -215,12 +215,9 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
     protected override void OnIsAvailableChanged()
     {
-        //_generateResponseWithProgressCommand.FireCanExecuteChanged();
-        //_generateResponseWithOptionsAndProgressCommand.FireCanExecuteChanged();
         _generateResponseWithTextIntelligenceSummarizeSkills.FireCanExecuteChanged();
         _generateResponseWithTextIntelligenceRewriteSkills.FireCanExecuteChanged();
         _generateResponseWithTextIntelligenceTextToTableSkills.FireCanExecuteChanged();
-        //_generateResponseWithContextProgressCommand.FireCanExecuteChanged();
     }
 
     private void OnResultProgress(object? sender, string progress)
