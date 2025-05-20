@@ -35,7 +35,7 @@
             <TextBlock Text="Language Model"
                     Style="{StaticResource TitleTextBlockStyle}"
                     Margin="10"/>
-            <TextBlock Text="The Language Model APIs let you complete text and generate embedding vectors from a given string of text. Currently, only Text Intelligence skills are available in the stable version. Switch to feature/experimental branch to test out the experimental features of Windows AI apis."
+            <TextBlock Text="The Language Model APIs let you complete text and generate embedding vectors from a given string of text. Currently, only Text Intelligence skills are available in the stable version. Switch to release/experimental branch to test out the experimental features of Windows AI apis."
                     Style="{StaticResource BodyTextBlockStyle}"
                     Margin="10"/>
 
