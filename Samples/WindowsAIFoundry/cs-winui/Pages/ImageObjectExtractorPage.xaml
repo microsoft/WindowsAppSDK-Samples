@@ -1,13 +1,13 @@
 ﻿<!-- Copyright (c) Microsoft Corporation.
  Licensed under the MIT License. -->
 <Page
-    x:Class="WindowsAISampleSample.Pages.ImageObjectExtractorPage"
+    x:Class="WindowsAISample.Pages.ImageObjectExtractorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WindowsAISampleSample"
-    xmlns:pages="using:WindowsAISampleSample.Pages"
-    xmlns:models="using:WindowsAISampleSample.ViewModels"
-    xmlns:controls="using:WindowsAISampleSample.Controls"
+    xmlns:local="using:WindowsAISample"
+    xmlns:pages="using:WindowsAISample.Pages"
+    xmlns:models="using:WindowsAISample.ViewModels"
+    xmlns:controls="using:WindowsAISample.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=models:ImageObjectExtractorViewModel}"

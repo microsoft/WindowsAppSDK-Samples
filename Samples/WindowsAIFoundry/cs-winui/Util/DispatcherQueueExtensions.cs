@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 public static class DispatcherQueueExtensions
 {

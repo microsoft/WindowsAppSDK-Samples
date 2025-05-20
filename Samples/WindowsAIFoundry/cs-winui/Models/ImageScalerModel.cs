@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
+using WindowsAISample.Models.Contracts;
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.Management.Deployment;
 using System;
@@ -10,7 +10,7 @@ using Windows.Graphics.Imaging;
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.Imaging;
 
-namespace WindowsAISampleSample.Models;
+namespace WindowsAISample.Models;
 
 internal class ImageScalerModel : IModelManager
 {

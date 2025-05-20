@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
+using WindowsAISample.Models.Contracts;
 
-namespace WindowsAISampleSample.ViewModels;
+namespace WindowsAISample.ViewModels;
 
 /// <summary>
 /// Our root model to expose all the AI Fabric API's

@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Util;
+using WindowsAISample.Util;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace WindowsAISampleSample.Controls;
+namespace WindowsAISample.Controls;
 
 public sealed partial class CodeBlockControl : UserControl
 {

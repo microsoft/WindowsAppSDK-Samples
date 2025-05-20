@@ -4,7 +4,7 @@ using System;
 using System.Windows.Input;
 using Windows.Foundation;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 /// <summary>
 /// Async command support with progress support

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
-using WindowsAISampleSample.Util;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 using Microsoft.Windows.AI.Text;
 using Microsoft.Windows.Management.Deployment;
 using System;
@@ -14,7 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.Windows.AI;
 using System.Diagnostics;
 
-namespace WindowsAISampleSample.Models;
+namespace WindowsAISample.Models;
 
 internal class LanguageModelModel : IModelManager
 {

@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WindowsAISampleSample.Models.Contracts;
+namespace WindowsAISample.Models.Contracts;
 
 internal interface IModelManager
 {

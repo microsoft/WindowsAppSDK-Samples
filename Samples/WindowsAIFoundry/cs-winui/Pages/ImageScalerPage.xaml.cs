@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 using Microsoft.UI.Xaml.Controls;
 
-namespace WindowsAISampleSample.Pages;
+namespace WindowsAISample.Pages;
 
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.

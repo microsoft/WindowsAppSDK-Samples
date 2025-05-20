@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.ViewModels;
+using WindowsAISample.ViewModels;
 using Microsoft.Graphics.Imaging;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Graphics;
 
-namespace WindowsAISampleSample.Pages;
+namespace WindowsAISample.Pages;
 
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.

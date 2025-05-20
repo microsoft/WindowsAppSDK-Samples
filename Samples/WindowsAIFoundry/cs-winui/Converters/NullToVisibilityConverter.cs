@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System;
 
-namespace WindowsAISampleSample.Converters;
+namespace WindowsAISample.Converters;
 
 internal partial class NullToVisibilityConverter : IValueConverter
 {

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 /// <summary>
 /// Lightweight model base class that implements INotifyPropertyChanged

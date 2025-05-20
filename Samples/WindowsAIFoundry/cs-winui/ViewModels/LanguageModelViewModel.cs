@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
-using WindowsAISampleSample.Util;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
@@ -12,9 +12,9 @@ using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml.Data;
 using System.Globalization;
 using System;
-using WindowsAISampleSample.Models;
+using WindowsAISample.Models;
 
-namespace WindowsAISampleSample.ViewModels;
+namespace WindowsAISample.ViewModels;
 
 /// <summary>
 /// A model to test the AI fabric Language Model API

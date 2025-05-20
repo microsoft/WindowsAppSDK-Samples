@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
-using WindowsAISampleSample.Util;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 using Microsoft.Windows.Management.Deployment;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
 using System.Windows.Input;
 
-namespace WindowsAISampleSample.ViewModels;
+namespace WindowsAISample.ViewModels;
 
 internal abstract class CopilotViewModelBase : ModelBase
 {

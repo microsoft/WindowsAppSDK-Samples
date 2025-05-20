@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
+using WindowsAISample.Models.Contracts;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using Windows.Graphics.Imaging;
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.Imaging;
 
-namespace WindowsAISampleSample.Models;
+namespace WindowsAISample.Models;
 
 class ImageObjectExtractorModel : IModelManager
 {

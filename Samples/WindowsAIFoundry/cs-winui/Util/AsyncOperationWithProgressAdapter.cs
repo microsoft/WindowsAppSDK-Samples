@@ -3,7 +3,7 @@
 using System;
 using Windows.Foundation;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 internal class AsyncOperationWithProgressAdapter<TResult, TProgress, TResultAdapter, TProgressAdapter> : IAsyncOperationWithProgress<TResultAdapter, TProgressAdapter>
 {

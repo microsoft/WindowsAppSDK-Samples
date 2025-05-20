@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using WindowsAISampleSample.Models.Contracts;
-using WindowsAISampleSample.Util;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using WinRT.Interop;
 
-namespace WindowsAISampleSample.ViewModels;
+namespace WindowsAISample.ViewModels;
 
 internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
     where T : IModelManager

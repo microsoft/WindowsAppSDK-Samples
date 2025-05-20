@@ -3,7 +3,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 internal sealed class DefaultAsyncCommandDelegate<TParameter, TResult> : IAsyncCommandDelegate<TParameter, TResult>
 {

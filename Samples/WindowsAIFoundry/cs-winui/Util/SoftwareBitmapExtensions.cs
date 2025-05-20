@@ -8,7 +8,7 @@ using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 internal static class SoftwareBitmapExtensions
 {

@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.ViewModels;
+using WindowsAISample.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace WindowsAISampleSample.Controls;
+namespace WindowsAISample.Controls;
 
 public sealed partial class ModelInitializationControl : UserControl
 {

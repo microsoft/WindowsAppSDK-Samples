@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 internal interface IAsyncCommandDelegate<TParameter, TResult>
 {

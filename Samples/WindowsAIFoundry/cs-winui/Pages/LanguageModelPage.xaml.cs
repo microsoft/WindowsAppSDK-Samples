@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace WindowsAISampleSample.Pages;
+namespace WindowsAISample.Pages;
 
 public sealed partial class LanguageModelPage : Page
 {

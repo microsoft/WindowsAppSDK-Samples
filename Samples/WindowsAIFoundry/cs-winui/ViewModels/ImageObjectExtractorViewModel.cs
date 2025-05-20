@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
-using WindowsAISampleSample.Util;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 using Microsoft.Graphics.Imaging;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -9,10 +9,10 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.Graphics;
 using Windows.Graphics.Imaging;
-using WindowsAISampleSample.Models;
+using WindowsAISample.Models;
 using Microsoft.Windows.AI.Imaging;
 
-namespace WindowsAISampleSample.ViewModels;
+namespace WindowsAISample.ViewModels;
 
 partial class ImageObjectExtractorViewModel : InputImageViewModelBase<ImageObjectExtractorModel>
 {

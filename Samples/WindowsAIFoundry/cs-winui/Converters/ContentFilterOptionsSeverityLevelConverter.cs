@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.Windows.AI.ContentSafety;
 using System;
 
-namespace WindowsAISampleSample.Converters;
+namespace WindowsAISample.Converters;
 
 internal partial class ContentFilterOptionsSeverityLevelConverter : IValueConverter
 {

@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
-using WindowsAISampleSample.Util;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;
 using Windows.Graphics.Imaging;
-using WindowsAISampleSample.Models;
+using WindowsAISample.Models;
 
-namespace WindowsAISampleSample.ViewModels;
+namespace WindowsAISample.ViewModels;
 
 internal partial class ImageScalerViewModel : InputImageViewModelBase<ImageScalerModel>
 {

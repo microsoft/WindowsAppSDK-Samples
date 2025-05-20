@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 internal static class StorageFileExtensions
 {

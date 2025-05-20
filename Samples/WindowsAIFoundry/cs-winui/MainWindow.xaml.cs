@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using WindowsAISampleSample.ViewModels;
-using WindowsAISampleSample.Pages;
+using WindowsAISample.ViewModels;
+using WindowsAISample.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace WindowsAISampleSample;
+namespace WindowsAISample;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.

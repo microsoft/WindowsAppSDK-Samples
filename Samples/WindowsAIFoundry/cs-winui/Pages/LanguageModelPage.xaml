@@ -4,13 +4,13 @@
 <!--xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"-->
 <!--NU1202: Package Microsoft.Toolkit.Uwp.UI.Animations 7.1.0-rc1 is not compatible with net5.0-windows10.0.19041 (.NETCoreApp,Version=v5.0) / win10-x86. Package Microsoft.Toolkit.Uwp.UI.Animations 7.1.0-rc1 supports: uap10.0.17763 (UAP,Version=v10.0.17763)-->
 <Page x:Name="page"
-      x:Class="WindowsAISampleSample.Pages.LanguageModelPage"
+      x:Class="WindowsAISample.Pages.LanguageModelPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:WindowsAISampleSample"
-      xmlns:pages="using:WindowsAISampleSample.Pages"
-      xmlns:controls="using:WindowsAISampleSample.Controls"
-      xmlns:models="using:WindowsAISampleSample.ViewModels"
+      xmlns:local="using:WindowsAISample"
+      xmlns:pages="using:WindowsAISample.Pages"
+      xmlns:controls="using:WindowsAISample.Controls"
+      xmlns:models="using:WindowsAISample.ViewModels"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"

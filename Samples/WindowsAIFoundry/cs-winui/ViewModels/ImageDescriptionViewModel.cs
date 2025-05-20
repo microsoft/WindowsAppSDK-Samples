@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISampleSample.Models.Contracts;
-using WindowsAISampleSample.Util;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 using Microsoft.Graphics.Imaging;
 using System.Windows.Input;
-using WindowsAISampleSample.Models;
+using WindowsAISample.Models;
 
-namespace WindowsAISampleSample.ViewModels;
+namespace WindowsAISample.ViewModels;
 
 partial class ImageDescriptionViewModel : InputImageViewModelBase<ImageDescriptionModel>
 {

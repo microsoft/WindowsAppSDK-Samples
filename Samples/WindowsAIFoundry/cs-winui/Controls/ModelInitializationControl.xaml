@@ -1,12 +1,12 @@
 ﻿<!-- Copyright (c) Microsoft Corporation.
  Licensed under the MIT License. -->
 <UserControl
-    x:Class="WindowsAISampleSample.Controls.ModelInitializationControl"
+    x:Class="WindowsAISample.Controls.ModelInitializationControl"
     x:Name="RootControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:WindowsAISampleSample.Controls"
-    xmlns:models="using:WindowsAISampleSample.ViewModels"
+    xmlns:controls="using:WindowsAISample.Controls"
+    xmlns:models="using:WindowsAISample.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=models:CopilotViewModelBase}"

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 
-namespace WindowsAISampleSample.Util;
+namespace WindowsAISample.Util;
 
 internal class AsyncOperationWithProgress<TResult, TProgress> : IAsyncOperationWithProgress<TResult, TProgress>
 {
