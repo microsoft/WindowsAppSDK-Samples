@@ -29,6 +29,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
@@ -118,4 +121,8 @@
     <ClInclude Include="PopupFrame.h" />
     <ClInclude Include="PreTranslateHandler.h" />
   </ItemGroup>
+<<<<<<< HEAD
 </Project>
+=======
+</Project>
+>>>>>>> release/experimental
