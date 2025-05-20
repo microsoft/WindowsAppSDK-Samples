@@ -1,0 +1,92 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+ Licensed under the MIT License. -->
+<Page
+    x:Class="WindowsAISample.Pages.ImageScalerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WindowsAISample"
+    xmlns:pages="using:WindowsAISample.Pages"
+    xmlns:controls="using:WindowsAISample.Controls"
+    xmlns:models="using:WindowsAISample.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    d:DataContext="{d:DesignInstance Type=models:ImageScalerViewModel}"
+    DataContext="{Binding ImageScaler}"
+    NavigationCacheMode="Enabled">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+            HorizontalAlignment="Stretch">
+        <StackPanel Orientation="Vertical"
+                HorizontalAlignment="Stretch"
+                Margin="20">
+
+            <TextBlock Text="Image Scaler"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="10"/>
+            <TextBlock Text="The Image Scaler API lets you scale an image up to super resolution using an AI model."
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Margin="10"/>
+
+            <controls:ModelInitializationControl SourceFile="Examples/ImageScalerInit.md"/>
+
+            <TextBlock Text="Scale Image"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Margin="10"/>
+            <TextBlock Text="Once the model is initialized, click the buton below to scale the image up by a selected factor."
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Margin="10"/>
+
+            <Border Margin="10"
+                    CornerRadius="10"
+                    BorderThickness="2"
+                    BorderBrush="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefault}">
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Vertical"
+                                Margin="10">
+                            <TextBlock Margin="10"
+                                    Style="{StaticResource BodyStrongTextBlockStyle}">Input image</TextBlock>
+                            <Image Source="{Binding InputSource}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                Margin="10"
+                                Grid.Column="1">
+                            <TextBlock Margin="10"
+                                    Style="{StaticResource BodyStrongTextBlockStyle}">Output image</TextBlock>
+                            <Image x:Name="OutputImage"
+                                    Source="{Binding ScaleCommand.Result}"/>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Margin="10">
+                        <Button Margin="0,0,10,0"
+                                Command="{Binding PickInputImageCommand}">Load Image</Button>
+                        <TextBlock Margin="0,5,10,0"
+                                Style="{StaticResource BodyTextBlockStyle}">Scale Factor:</TextBlock>
+                        <Slider Margin="0,0,10,0"
+                                Width="200"
+                                Minimum="0.1"
+                                StepFrequency="0.1"
+                                Maximum="5.0"
+                                Value="{Binding Factor, Mode=TwoWay}"/>
+
+                        <Button Margin="0,0,10,0"
+                                Command="{Binding ScaleCommand}">Scale Image</Button>
+                        <ProgressRing Visibility="{Binding ScaleCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    </StackPanel>
+                    <controls:CodeBlockControl SourceFile="Examples/ImageScaler.md"
+                            Margin="10"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
