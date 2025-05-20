@@ -1,6 +1,6 @@
 # Contributing
 
-This shows the project structure and how one can get started contributing to Windows Copilot Runtime (WCR) sample.
+This shows the project structure and how one can get started contributing to Windows AI sample.
 
 ## Project Structure
 
