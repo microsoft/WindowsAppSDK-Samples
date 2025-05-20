@@ -13,7 +13,7 @@ extendedZipContent:
       target: LICENSE
 ---
 
-# Windows AI Samples
+This shows the project structure and how one can get started contributing to Windows AI sample.
 
 An app that demonstrates how to use the Windows AI apis with WinUI.
 

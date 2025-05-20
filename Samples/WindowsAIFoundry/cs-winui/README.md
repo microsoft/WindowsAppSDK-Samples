@@ -30,6 +30,8 @@ Experimental features can be found in the [release/experimental](https://github.
 -   Make sure that your development environment is set up correctly&mdash;see
     [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 -   Use a Copilot+ PC
+-   Detailed instructions : [Get started building an app with Windows AI APIs](https://learn.microsoft.com/en-us/windows/ai/apis/model-setup)
+
 
 To get the latest updates to Windows and the development tools, and to help shape their development,
 join the [Windows Insider Program](https://insider.windows.com).
