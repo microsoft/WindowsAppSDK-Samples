@@ -1,18 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
-using WindowsAISample.Util;
+using Microsoft.Windows.AI;
+using Microsoft.Windows.AI.ContentSafety;
 using Microsoft.Windows.AI.Text;
-using Microsoft.Windows.Management.Deployment;
+using Microsoft.Windows.AI.Text.Experimental;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Microsoft.Windows.AI.ContentSafety;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.Windows.AI;
-using System.Diagnostics;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 
 namespace WindowsAISample.Models;
 
@@ -22,6 +19,7 @@ internal class LanguageModelModel : IModelManager
     private TextSummarizer? _sessionTextSummarize;
     private TextRewriter? _sessionTextRewrite;
     private TextToTableConverter? _sessionTextToTable;
+    private LanguageModelExperimental _languageModelExperimental;
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress,
                                                             CancellationToken cancellationToken = default)
@@ -45,7 +43,8 @@ internal class LanguageModelModel : IModelManager
         _sessionTextSummarize = new TextSummarizer(_session);
         _sessionTextRewrite = new TextRewriter(_session);
         _sessionTextToTable = new TextToTableConverter(_session);
-        
+        _languageModelExperimental = new LanguageModelExperimental(_session);
+
         progress.Report(1.0); // 100% progress
     }
 
@@ -169,5 +168,33 @@ internal class LanguageModelModel : IModelManager
         }
 
         return result;
+    }
+
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
+    GenerateResponseWithLoraAdapterAndContextAsync(string contextPrompt, string prompt, string filePath)
+    {
+        IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
+
+        var loraAdapter = _languageModelExperimental.LoadAdapter(filePath);
+        var options = new LanguageModelOptionsExperimental {
+            LoraAdapter = !string.IsNullOrEmpty(filePath) ? loraAdapter : null
+        };
+
+        if (contextPrompt != null)
+        {
+            var contentFilterOptions = new ContentFilterOptions();
+            var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
+            response = _languageModelExperimental.GenerateResponseAsync(languageModelContext, prompt, options);
+        }
+        else
+        {
+            response = _languageModelExperimental.GenerateResponseAsync(prompt, options);
+        }
+
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+            response,
+            result => result /* LanguageModelResponseResult */,
+            progress => progress
+        );
     }
 }

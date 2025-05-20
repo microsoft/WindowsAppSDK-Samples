@@ -437,6 +437,97 @@
                             Margin="10"/>
                 </StackPanel>
             </Border>
+
+            <!--  LoRA Adapters  -->
+            <TextBlock Text="Low Rank Adaptation (LoRA)"
+                Style="{StaticResource SubtitleTextBlockStyle}"
+                Margin="10"/>
+            <TextBlock Text="LoRA (Low Rank Adaptations) allow developers to customize Phi-Silica in a scalable manner. You can train your own LoRA adapter using the AI Toolkit for Visual Studio Code."
+                Style="{StaticResource BodyTextBlockStyle}"
+                Margin="10"/>
+
+            <TextBlock Text="To compare how a LoRA adapter affects Phi-Silica, first select an adapter file in .safetensors format. Then enter a context and prompt into the input below, and press the Generate button to see the inferencing results with and without the LoRA adapter applied."
+                Style="{StaticResource BodyTextBlockStyle}"
+                Margin="10"/>
+
+            <Border Margin="10"
+                CornerRadius="10"
+                BorderThickness="2"
+                BorderBrush="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                Background="{ThemeResource CardBackgroundFillColorSecondary}">
+
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Select LoRA Adapter -->
+                        <TextBlock Text="Adapter" Margin="10" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+                        <TextBox x:Name="AdapterTextBox" Text="{Binding AdapterFilePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Margin="0,10" Grid.Row="0" Grid.Column="1" />
+                        <Button Content="Select file" Command="{Binding PickInputAdapterCommand}" Width="100" Margin="10" Grid.Row="0" Grid.Column="2" />
+
+                        <!-- System Prompt/Context -->
+                        <TextBlock Text="Context" Margin="10" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+                        <TextBox x:Name="ContextTextbox" PlaceholderText="Enter context here" Text="{Binding Context, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding GenerateResponseWithLoRACommand.IsExecuting}"
+                            Margin="0,10" Grid.Row="1" Grid.Column="1" />
+
+                        <!-- Prompt -->
+                        <TextBlock Text="Prompt" Margin="10" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+                        <TextBox x:Name="PromptTextBox" PlaceholderText="Enter prompt here" Text="{Binding LoRAPrompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding GenerateResponseWithLoRACommand.IsExecuting}"
+                                 Margin="0,10" Grid.Row="2" Grid.Column="1" />
+                    </Grid>
+
+                    <!-- Response results -->
+                    <Grid Margin="10" Height="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                            <Button x:Name="GenerateResponseWithoutAdapterButton" Content="Generate Response without Adapter" Command="{Binding GenerateResponseWithoutLoRACommand}" CommandParameter="{Binding LoRAPrompt}" Margin="10"/>
+                            <ProgressRing Visibility="{Binding GenerateResponseWithoutLoRACommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                            <!-- Error -->
+                            <TextBox Header="Generate Response Error:"
+                             Text="{Binding GenerateResponseWithoutLoRACommand.Error.Message}"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             Margin="10"
+                             Visibility="{Binding GenerateResponseWithoutLoRACommand.Error, Converter={StaticResource NullToVisibilityConverter}}"/>
+                        </StackPanel>
+                        <TextBox x:Name="WithoutAdapterResult" Header="Result without Adapter" IsReadOnly="True" Text="{Binding ResponseProgressWithoutLoRA}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="0" Margin="10"/>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                            <Button x:Name="GenerateResponseWithAdapterButton" Content="Generate Response with Adapter" Command="{Binding GenerateResponseWithLoRACommand}" CommandParameter="{Binding LoRAPrompt}" Margin="10"/>
+                            <ProgressRing Visibility="{Binding GenerateResponseWithLoRACommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <!-- Error -->
+                            <TextBox Header="Generate Response Error:"
+                             Text="{Binding GenerateResponseWithLoRACommand.Error.Message}"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             Margin="10"
+                             Visibility="{Binding GenerateResponseWithLoRACommand.Error, Converter={StaticResource NullToVisibilityConverter}}"/>
+                        </StackPanel>
+                        <TextBox x:Name="WithAdapterResult" Header="Result with Adapter" IsReadOnly="True" Text="{Binding ResponseProgressWithLoRA}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="1" Margin="10"/>
+                    </Grid>
+
+                    <!-- Code sample -->
+                    <controls:CodeBlockControl SourceFile="Examples/LanguageModelWithAdapter.md" Margin="10"/>
+                </StackPanel>
+            </Border>
         </StackPanel>
     </ScrollViewer>
 </Page>
