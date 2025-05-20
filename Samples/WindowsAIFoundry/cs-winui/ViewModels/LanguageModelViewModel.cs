@@ -44,15 +44,10 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     private SeverityLevel _violentContentSevToBlockForResponse = SeverityLevel.Minimum;
     private SeverityLevel _selfHarmContentSevToBlockForResponse = SeverityLevel.Minimum;
 
-    //private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithProgressCommand;
-    //private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithOptionsAndProgressCommand;
-    //private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithContextProgressCommand;
 
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceSummarizeSkills;
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceRewriteSkills;
     private readonly AsyncCommand<string, string> _generateResponseWithTextIntelligenceTextToTableSkills;
-
-    //private readonly AsyncCommand<string, LanguageModelEmbeddingVectorResult> _generateEmbeddingVectorCommand;
 
     private readonly StringBuilder _responseProgress = new();
     private readonly StringBuilder _responseProgressTextIntelligence = new();
