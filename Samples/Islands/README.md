@@ -1,3 +1,4 @@
+---
 page_type: sample
 languages:
 - cppwinrt
@@ -92,7 +93,7 @@ DispatcherQueueController on a dedicated rendering thread. (main.cpp)
 * Press Ctrl+F5 to launch the app without attaching a debugger.
 * Press F5 to launch the app under a debugger.
 
-# Winforms app with Island
+# WinForms Island App
 
 The [cs-winforms-unpackaged](cs-winforms-unpackaged\README.md) directory shows how to use an island in an unpackaged WinForms app.
 
