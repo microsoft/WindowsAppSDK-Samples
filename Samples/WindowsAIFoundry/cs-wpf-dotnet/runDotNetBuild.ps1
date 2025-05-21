@@ -102,4 +102,4 @@ Write-Host "Running 'dotnet build /p:platform=$Platform /p:configuration=$Config
 dotnet build /p:restore /p:platform=$Platform /p:configuration=$Configuration 
 
 Write-Host "`nPlease Install '$PSScriptRoot\WindowsAISampleForWPF\.user\WindowsAISampleForWPF.certificate.sample.cer' to Local Machine/Trusted People Store before running"
-Write-Host "`nYou can find the MSIX at $PSScriptRoot\WindowsAISampleForWPF\bin\$Platform\$Configuration\net9.0-windows10.0.22621.0\win-$Platform\AppPackages\WindowsAISampleForWPF_Test"
+Write-Host "`nYou can find the MSIX at $PSScriptRoot\WindowsAISampleForWPF\AppPackages\WindowsAISampleForWPF_Test"

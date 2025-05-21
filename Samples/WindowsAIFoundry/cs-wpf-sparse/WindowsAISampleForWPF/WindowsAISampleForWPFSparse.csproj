@@ -7,7 +7,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <Platforms>x64;ARM64</Platforms>
-    <EnableMSIXTooling>true</EnableMSIXTooling>
   </PropertyGroup>
 
   <ItemGroup>

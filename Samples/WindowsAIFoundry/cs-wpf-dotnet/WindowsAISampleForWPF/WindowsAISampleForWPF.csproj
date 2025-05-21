@@ -73,11 +73,11 @@
       <_SignMsix_Executable>signtool.exe</_SignMsix_Executable>
       <_SignMsix_Parameters>/fd SHA256</_SignMsix_Parameters>
       <_SignMsixPassword_Parameters>/p "$(RepoTestCertificatePassword)"</_SignMsixPassword_Parameters>
-      <_SignMsixCommand>$(_SignMsix_Executable) sign $(_SignMsix_Parameters) $(_SignMsix_Options) /f "$(RepoTestCertificatePFX)" $(_SignMsixPassword_Parameters) "$(MSBuildThisFileDirectory)\$(AppxPackageDir)$(AppxPackageName)_Test\$(AppxBundleNameForOutput).msix"</_SignMsixCommand>
+      <_SignMsixCommand>$(_SignMsix_Executable) sign $(_SignMsix_Parameters) $(_SignMsix_Options) /f "$(RepoTestCertificatePFX)" $(_SignMsixPassword_Parameters) "$(AppxPackageDir)$(AppxPackageName)_Test\$(AppxBundleNameForOutput).msix"</_SignMsixCommand>
     </PropertyGroup>
     <Exec Command="$(_SignMsixCommand)"  Condition="'$(RepoTestCertificatePassword)' != ''"/>
     <Copy SourceFiles="@(BinplaceItem)"
-      DestinationFiles="@(BinplaceItem->'$(MSBuildThisFileDirectory)\$(AppxPackageDir)$(AppxPackageName)_Test\%(Filename)%(Extension)')"
+      DestinationFiles="@(BinplaceItem->'$(AppxPackageDir)$(AppxPackageName)_Test\%(Filename)%(Extension)')"
       SkipUnchangedFiles="true">
         <Output TaskParameter="CopiedFiles" ItemName="BinplaceItemCopied" />
     </Copy>
