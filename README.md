@@ -4,7 +4,16 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ## List of samples
 
-#### App Lifecycle and System Services
+This repository hosts samples for the [Windows App SDK](https://github.com/microsoft/WindowsAppSDK). Samples for various features shipping in the Windows App SDK will be added to this repository. For more information about the Windows App SDK, visit the [Windows App SDK documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/). To learn more about the Windows App SDK design or to contribute to the project, make feature proposals, or start discussions, visit the [Windows App SDK GitHub page](https://github.com/microsoft/WindowsAppSDK).
+
+## 💻 List of samples
+
+### Artificial Intelligence
+- [Windows AI sample](Samples/WindowsAIFoundry/cs-winui/) :  These samples demonstrate how to use the [Windows AI apis](https://learn.microsoft.com/windows/ai/apis/), like Phi Silica, Text Extraction (OCR) and Imaging APIs.
+  
+- [AI Dev Gallery](https://github.com/microsoft/ai-dev-gallery): The AI Dev Gallery is a collection of open-source samples showcasing how to integrate on-device AI capabilities into Windows apps using Windows Copilot Runtime and open-source models using ONNX.
+
+### App Lifecycle and System Services
 - [App Lifecycle](Samples/AppLifecycle): These samples demonstrate app instancing using the AppLifecycle APIs. They include the following features:
     - [Activation](Samples/AppLifecycle/Activation): These samples demonstrate support for rich activation kinds.
     - [Instancing](Samples/AppLifecycle/Instancing): These samples demonstrate support for single and selective multi-instancing.
@@ -41,7 +50,10 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Windows Input and Composition Gallery](https://github.com/microsoft/WindowsCompositionSamples): This collection of samples showcases Microsoft.UI.Composition and Microsoft.UI.Input APIs.
 - [WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery/): This is a sample app that showcases all of the WinUI 3 controls in action.
 
-## Requirements
+### Widgets
+- [Widgets](Samples/Widgets): These samples demonstrate how to author Windows Widgets with the Windows App SDK.
+
+## 💻 Requirements
 
 Thes Windows App SDK samples have the following system requirements:
 
