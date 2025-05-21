@@ -5,7 +5,7 @@ languages:
 products:
 - windows
 - windows-app-sdk
-name: MauiWindowsCopilotRuntimeSample
+name: MauiWindowsAISample
 description: Shows how to integrate the Windows AI APIs inside MAUI
 urlFragment: cs-maui
 extendedZipContent:
@@ -21,7 +21,7 @@ extendedZipContent:
 
 ## Build and Run the sample
 1. Clone the repository onto your Copilot+ PC.
-2. Open the solution file `MauiWindowsCopilotRuntimeSample.sln` in Visual Studio 2022.
+2. Open the solution file `MauiWindowsAISample.sln` in Visual Studio 2022.
 3. Ensure the debug toolbar has "Windows Machine" set as the target device.
 4. Press F5 or select "Start Debugging" from the Debug menu to run the sample.
 Note: The sample can also be run without debugging by selecting "Start Without Debugging" from the Debug menu or Ctrl+F5. 
@@ -34,7 +34,7 @@ generation and `ImageScaler` for image super resolution to scale and sharpen ima
 click the "Generate" button to generate a text response.
 
 The changes from the ".NET MAUI App" template are split across four files:
-- `MauiWindowsCopilotRuntimeSample.csproj`: Adds the required Windows App SDK package reference for the
+- `MauiWindowsAISample.csproj`: Adds the required Windows App SDK package reference for the
   Windows AI APIs. This reference needs to be conditioned only when building for Windows
   (see [Additional Notes](#additional-notes) below for details). This file also sets the necessary
   TargetFramework for Windows.
@@ -49,12 +49,12 @@ The changes from the ".NET MAUI App" template are split across four files:
   `ItemGroup` with the right Condition, like this:
 ```xml
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250127003-experimental3" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250515001-experimental2" />
 	</ItemGroup>
 ```
 - To access the Windows AI APIs, the project currently must set the TargetFramework for
   Windows to target 22621 or later.
-- The folder paths were shortened to `MauiWCRSample` to avoid MAX_PATH issues, particularly when
+- The folder paths were shortened to `MauiWindowsAISample` to avoid MAX_PATH issues, particularly when
   building the Android version.
 
 ## Related Links

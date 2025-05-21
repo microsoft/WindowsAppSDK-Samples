@@ -12,7 +12,7 @@ if ($Clean) {
       'obj'
     )
 
-    $ProjectRoot = (Join-Path $PSScriptRoot "WCRforWinforms")
+    $ProjectRoot = (Join-Path $PSScriptRoot "WindowsAISampleForWinForms")
     foreach ($CleanTarget in $CleanTargets)
     {
       $CleanTargetPath = (Join-Path $ProjectRoot $CleanTarget)
@@ -20,12 +20,12 @@ if ($Clean) {
         Remove-Item $CleanTargetPath -recurse
       }
     }
-    Get-AppxPackage -Name "WCRforWinformsSparse" | Remove-AppxPackage
+    Get-AppxPackage -Name "WindowsAISampleForWinFormsSparse" | Remove-AppxPackage
 }
 
 function Get-UserPath
 {
-    $root = Join-Path (Get-Item $PSScriptRoot ).FullName "WCRforWinforms"
+    $root = Join-Path (Get-Item $PSScriptRoot ).FullName "WindowsAISampleForWinForms"
     $user = Join-Path $root '.user'
     if (-not(Test-Path -Path $user -PathType Container))
     {
@@ -36,10 +36,10 @@ function Get-UserPath
 }
 
 $user_path = Get-UserPath
-$pwd_file = Join-Path $user_path 'wcrforwinforms.certificate.sample.pwd'
-$cert_thumbprint = Join-Path $user_path 'wcrforwinforms.certificate.sample.thumbprint'
-$cer = Join-Path $user_path 'wcrforwinforms.certificate.sample.cer'
-$pfx = Join-Path $user_path 'wcrforwinforms.certificate.sample.pfx'
+$pwd_file = Join-Path $user_path 'WindowsAISampleForWinForms.certificate.sample.pwd'
+$cert_thumbprint = Join-Path $user_path 'WindowsAISampleForWinForms.certificate.sample.thumbprint'
+$cer = Join-Path $user_path 'WindowsAISampleForWinForms.certificate.sample.cer'
+$pfx = Join-Path $user_path 'WindowsAISampleForWinForms.certificate.sample.pfx'
 
 if (-not (Test-Path $pfx))
 {
@@ -89,20 +89,20 @@ if (-not (Test-Path $pfx))
     Set-Content -Path $cert_thumbprint -Value $thumbprint -Force
     
     # Export the certificate
-    $cer = Join-Path $user_path 'wcrforwinforms.certificate.sample.cer'
+    $cer = Join-Path $user_path 'WindowsAISampleForWinForms.certificate.sample.cer'
     $export_cer = Export-Certificate -Cert $cert -FilePath $cer -Force
     $cert_personal = "cert:\CurrentUser\My\$thumbprint"
-    $pfx = Join-Path $user_path 'wcrforwinforms.certificate.sample.pfx'
+    $pfx = Join-Path $user_path 'WindowsAISampleForWinForms.certificate.sample.pfx'
     $export_pfx = Export-PfxCertificate -Cert $cert_personal -FilePath $pfx -Password $password    
 }
 
 msbuild /restore /p:platform=$Platform /p:configuration=$Configuration
 msbuild /p:platform=$Platform /p:configuration=$Configuration
 
-MakeAppx.exe pack /d "$PSScriptRoot\WCRforWinforms" /p "$PSScriptRoot\WCRforWinforms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWinformsSparse.msix" /nv /o
+MakeAppx.exe pack /d "$PSScriptRoot\WindowsAISampleForWinForms" /p "$PSScriptRoot\WindowsAISampleForWinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.msix" /nv /o
 
 $pwd_content = Get-Content -Path $pwd_file
-SignTool.exe sign /fd SHA256 /a /f "$PSScriptRoot\WCRforWinforms\.user\wcrforwinforms.certificate.sample.pfx" /p $pwd_content "$PSScriptRoot\WCRforWinforms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWinformsSparse.msix"
+SignTool.exe sign /fd SHA256 /a /f "$PSScriptRoot\WindowsAISampleForWinForms\.user\WindowsAISampleForWinForms.certificate.sample.pfx" /p $pwd_content "$PSScriptRoot\WindowsAISampleForWinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.msix"
 
-Write-Host "`nPlease Install '$PSScriptRoot\WCRforWinforms\.user\wcrforwinforms.certificate.sample.cer' to Local Machine/Trusted People Store before running"
-Write-Host "`nTo run the sample, run: $PSScriptRoot\WCRforWinforms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WCRforWinformsSparse.exe"
+Write-Host "`nPlease Install '$PSScriptRoot\WindowsAISampleForWinForms\.user\WindowsAISampleForWinForms.certificate.sample.cer' to Local Machine/Trusted People Store before running"
+Write-Host "`nTo run the sample, run: $PSScriptRoot\WindowsAISampleForWinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.exe"

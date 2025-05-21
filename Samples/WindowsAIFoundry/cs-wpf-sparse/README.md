@@ -26,7 +26,7 @@ Use "Developer Command Prompt for VS2022" as your command prompt environment
 ## Build and Run the sample
 
 This folder contains the cs-wpf-sparse sample which uses sparse package built on top of the WPF
-platform using WCR. BuildSparsePackage.ps1 is provided for the user which closely follows the steps
+platform using Windows AI APIs. BuildSparsePackage.ps1 is provided for the user which closely follows the steps
 from the link below
 
 https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps#add-the-package-identity-metadata-to-your-desktop-application-manifest
@@ -35,7 +35,7 @@ BuildSparsePackage.ps1 does the following:
 1) Build the solution in the desired platform and configuration provided in the parameters
  
 2) Run MakeAppx with the /nv option on the folder containing the AppxManifest
-    (cs-wpf-sparse\WCRforWPF\AppxManifest.xml) 
+    (cs-wpf-sparse\WindowsAISampleForWPF\AppxManifest.xml) 
     
     - The /nv flag is required to bypass validation of referenced file paths in the manifest. 
     
@@ -80,7 +80,7 @@ features that require package identity.
 Just doing the steps above does not yet grant the app package identity. The MSIX package still needs to
 be registered with the external location. 
 
-The RegisterSparsePackage() function in cs-wpf-sparse\WCRforWPF\App.xaml.cs does this for us. This
+The RegisterSparsePackage() function in cs-wpf-sparse\WindowsAISampleForWPF\App.xaml.cs does this for us. This
 process is described in the documentation linked above. This will give the app process identity if
 ran from the start menu. However, directly running the executable in the external location still
 does not give the process package identity. This difference in behavior is not noted in the article

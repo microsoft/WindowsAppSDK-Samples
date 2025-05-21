@@ -50,13 +50,13 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <ProjectGuid>452e35e4-200e-4b78-ad95-a2f4d69f79cf</ProjectGuid>
+    <ProjectGuid>d3508753-a6ff-4180-ad7b-ea4379a41b62</ProjectGuid>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
-    <EntryPointProjectUniqueName>..\WindowsAISampleForWinForms\WindowsAISample.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\WindowsAISampleForWPF\WindowsAISampleForWPF.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -77,6 +77,6 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WindowsAISampleForWinForms\WindowsAISample.csproj" />
+    <ProjectReference Include="..\WindowsAISampleForWPF\WindowsAISampleForWPF.csproj" />
   </ItemGroup>
 </Project>

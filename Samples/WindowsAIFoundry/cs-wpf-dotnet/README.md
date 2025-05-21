@@ -56,25 +56,25 @@ Because .NET CLI is incompatible with WAPProj, we must first convert the WAPProj
 SingleProjectMSIX This project was converted from a WAPProj to SingleProjectMSIX using the steps
 below https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/single-project-msix?tabs=csharp
 
-For the original WCRforWPF project with warpproj, please see:
-Samples\WindowsCopilotRuntime\cs-wpf
+For the original WindowsAISampleForWPF project with wapproj, please see:
+Samples\WindowsAIFoundry\cs-wpf
 
 Summary of the steps done:
-- Add EnableMsixTooling and PublishProfile properties to WCRforWPF.csproj
+- Add EnableMsixTooling and PublishProfile properties to WindowsAISampleForWPF.csproj
     ```
     <EnableMsixTooling>true</EnableMsixTooling>
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
     <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
     ```
 
-- Add WCRforWPF\Properties\launchSettings.json
+- Add WindowsAISampleForWPF\Properties\launchSettings.json
   This configures on how an application starts during development
   
 - Add /Properties/PublishProfiles/win10-$(platform).pubxml 
   This defines the publishing configuration for each platform is necessary for each platform you
   want to publish and deploy on. 
 
-- Move Package.appxmanifest and files under images from the WAPProj to WCRforWPF.csproj and remove
+- Move Package.appxmanifest and files under images from the WAPProj to WindowsAISampleForWPF.csproj and remove
   the WAPProj.
 
 - In configuration manager, check the deploy box in each of the configuration/platform you want to

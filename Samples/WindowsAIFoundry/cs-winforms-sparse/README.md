@@ -37,7 +37,7 @@ BuildSparsePackage.ps1 does the following:
 1) Build the solution in the desired platform and configuration provided in the parameters
  
 2) Run MakeAppx with the /nv option on the folder containing the AppxManifest
-    (cs-winforms-sparse\WCRforWinforms\AppxManifest.xml) 
+    (cs-winforms-sparse\WindowsAISampleForWinForms\AppxManifest.xml) 
     
     - The /nv flag is required to bypass validation of referenced file paths in the manifest. 
     
@@ -78,5 +78,5 @@ The `MainForm` class in `MainForm.cs` is the main user interface for the Windows
 
 ## Related Links
 - [Windows AI APIs Overview](https://learn.microsoft.com/windows/ai/apis/)
-- [WPF Sparse Package Sample (with WCR)](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsCopilotRuntime/cs-wpf-sparse)
+- [WPF Sparse Package Sample (with Windows AI APIs)](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsAIFoundry/cs-wpf-sparse)
 

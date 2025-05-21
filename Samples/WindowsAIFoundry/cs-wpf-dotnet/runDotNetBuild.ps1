@@ -13,7 +13,7 @@ if ($Clean) {
       'obj'
     )
     
-    $ProjectRoot = (Join-Path $PSScriptRoot "WCRforWPF")
+    $ProjectRoot = (Join-Path $PSScriptRoot "WindowsAISampleForWPF")
     foreach ($CleanTarget in $CleanTargets)
     {
       $CleanTargetPath = (Join-Path $ProjectRoot $CleanTarget)
@@ -21,13 +21,13 @@ if ($Clean) {
         Remove-Item $CleanTargetPath -recurse
       }
     }
-    Get-AppxPackage -Name "WCRforWPFDotNetSingleProj" | Remove-AppxPackage
+    Get-AppxPackage -Name "WindowsAISampleForWPFDotNetSingleProj" | Remove-AppxPackage
 }
 
 
 function Get-UserPath
 {
-    $root = Join-Path (Get-Item $PSScriptRoot ).FullName "WCRforWPF"
+    $root = Join-Path (Get-Item $PSScriptRoot ).FullName "WindowsAISampleForWPF"
     $user = Join-Path $root '.user'
     if (-not(Test-Path -Path $user -PathType Container))
     {
@@ -38,10 +38,10 @@ function Get-UserPath
 }
 
 $user_path = Get-UserPath
-$pwd_file = Join-Path $user_path 'wcrforwpf.certificate.sample.pwd'
-$cert_thumbprint = Join-Path $user_path 'wcrforwpf.certificate.sample.thumbprint'
-$cer = Join-Path $user_path 'wcrforwpf.certificate.sample.cer'
-$pfx = Join-Path $user_path 'wcrforwpf.certificate.sample.pfx'
+$pwd_file = Join-Path $user_path 'WindowsAISampleForWPF.certificate.sample.pwd'
+$cert_thumbprint = Join-Path $user_path 'WindowsAISampleForWPF.certificate.sample.thumbprint'
+$cer = Join-Path $user_path 'WindowsAISampleForWPF.certificate.sample.cer'
+$pfx = Join-Path $user_path 'WindowsAISampleForWPF.certificate.sample.pfx'
 
 if (-not (Test-Path $pfx))
 {
@@ -91,15 +91,15 @@ if (-not (Test-Path $pfx))
     Set-Content -Path $cert_thumbprint -Value $thumbprint -Force
     
     # Export the certificate
-    $cer = Join-Path $user_path 'wcrforwpf.certificate.sample.cer'
+    $cer = Join-Path $user_path 'WindowsAISampleForWPF.certificate.sample.cer'
     $export_cer = Export-Certificate -Cert $cert -FilePath $cer -Force
     $cert_personal = "cert:\CurrentUser\My\$thumbprint"
-    $pfx = Join-Path $user_path 'wcrforwpf.certificate.sample.pfx'
+    $pfx = Join-Path $user_path 'WindowsAISampleForWPF.certificate.sample.pfx'
     $export_pfx = Export-PfxCertificate -Cert $cert_personal -FilePath $pfx -Password $password    
 }
 
 Write-Host "Running 'dotnet build /p:platform=$Platform /p:configuration=$Configuration'"
 dotnet build /p:restore /p:platform=$Platform /p:configuration=$Configuration 
 
-Write-Host "`nPlease Install '$PSScriptRoot\WCRforWPF\.user\wcrforwpf.certificate.sample.cer' to Local Machine/Trusted People Store before running"
-Write-Host "`nYou can find the MSIX at $PSScriptRoot\WCRforWPF\bin\$Platform\$Configuration\net9.0-windows10.0.22621.0\win-$Platform\AppPackages\WCRforWPF_Test"
+Write-Host "`nPlease Install '$PSScriptRoot\WindowsAISampleForWPF\.user\WindowsAISampleForWPF.certificate.sample.cer' to Local Machine/Trusted People Store before running"
+Write-Host "`nYou can find the MSIX at $PSScriptRoot\WindowsAISampleForWPF\bin\$Platform\$Configuration\net9.0-windows10.0.22621.0\win-$Platform\AppPackages\WindowsAISampleForWPF_Test"

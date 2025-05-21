@@ -5,7 +5,7 @@ languages:
 products:
 - windows
 - windows-app-sdk
-name: WindowsCopilotRuntimeSample
+name: WindowsAISample
 description: Shows how to integrate the Windows AI APIs inside WinForms (unpackaged by default) with a packaging project
 urlFragment: cs-winforms-pckg
 extendedZipContent:
@@ -21,7 +21,7 @@ extendedZipContent:
 
 ## Build and Run the sample
 1. Clone the repository onto your Copilot+ PC.
-2. Open the solution file `WindowsCopilotRuntimeSample.sln` in Visual Studio 2022.
+2. Open the solution file `WindowsAISample.sln` in Visual Studio 2022.
 3. Change the Solution Platform to match the architecture of your Copilot+ PC.
 4. Right-click on the solution in Solution Explorer and select "Build" to build solution.
 5. Once the build is successful, right-click on the packaging project in Solution Explorer and select "Set as Startup Project".
