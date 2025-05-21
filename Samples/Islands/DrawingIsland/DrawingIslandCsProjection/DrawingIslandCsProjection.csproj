@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <!-- TODO: Why do we need to specify the latest Win11 SDK instead of RS5 SDK? -->
@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240701003-experimental2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250515001-experimental2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,3 +33,4 @@
   </ItemGroup>
 
 </Project>
+

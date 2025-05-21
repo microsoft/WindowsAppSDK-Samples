@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
@@ -45,8 +45,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250515001-experimental2" />
 	</ItemGroup>
 
 </Project>
+
