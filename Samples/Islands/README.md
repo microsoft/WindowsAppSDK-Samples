@@ -92,3 +92,8 @@ DispatcherQueueController on a dedicated rendering thread. (main.cpp)
 * Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 * Press Ctrl+F5 to launch the app without attaching a debugger.
 * Press F5 to launch the app under a debugger.
+
+# WinForms Island App
+
+The [cs-winforms-unpackaged](cs-winforms-unpackaged\README.md) directory shows how to use an island in an unpackaged WinForms app.
+
