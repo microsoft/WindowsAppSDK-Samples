@@ -8,7 +8,7 @@ products:
     - windows-app-sdk
 name: "Windows AI Samples"
 urlFragment: WindowsAISamples
-description: "Shows how to use the Windows AI apis"
+description: "Shows how to use the Windows AI APIs"
 extendedZipContent:
     - path: LICENSE
       target: LICENSE
@@ -16,7 +16,7 @@ extendedZipContent:
 
 # Windows AI Samples
 
-An app that demonstrates how to use the Windows AI apis with WinUI.
+An app that demonstrates how to use the Windows AI APIs with WinUI.
 
 ## Releases
 Stable features can be found in the [main](https://github.com/microsoft/WindowsAppSDK-Samples/tree/main/Samples/WindowsAIFoundry/cs-winui) branch. 
@@ -43,10 +43,10 @@ join the [Windows Insider Program](https://insider.windows.com).
 
 See [additional instructions](./cpp-console-unpackaged/README.md) for using [the C++ & CMake sample](./cpp-console-unpackaged/CMakeLists.txt).
 
-## Special Considerations for Unpackaged and Self-Contained modes with Windows AI apis
+## Special Considerations for Unpackaged and Self-Contained modes with Windows AI APIs
 
-- Unpackaged app configuration is no longer supported. Every app using Windows AI apis must have a package identity which can be granted to [apps with an external location](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps) to achieve that with unpackaged binaries.
-- Self-contained mode is fully supported by Windows AI apis as well.
+- Unpackaged app configuration is no longer supported. Every app using Windows AI APIs must have a package identity which can be granted to [apps with an external location](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps) to achieve that with unpackaged binaries.
+- Self-contained mode is fully supported by Windows AI APIs as well.
 - The following command demonstrates how to run the app as an ARM64 application in packaged self-contained mode (for both WinAppSDK and .NET):
 ```powershell
 dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsAppSDKSelfContained=true -p:SelfContained=true.

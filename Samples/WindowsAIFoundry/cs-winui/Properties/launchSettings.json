@@ -1,11 +1,11 @@
 {
   "profiles": {
-    "WindowsCopilotRuntime (Package)": {
+    "WindowsAISample (Package)": {
       "commandName": "MsixPackage",
       "nativeDebugging": false,
       "hotReloadEnabled": true
     },
-    "WindowsCopilotRuntime (Unpackaged)": {
+    "WindowsAISample (Unpackaged)": {
       "commandName": "Project"
     }
   }
