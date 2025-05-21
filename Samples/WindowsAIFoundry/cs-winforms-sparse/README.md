@@ -37,7 +37,7 @@ BuildSparsePackage.ps1 does the following:
 1) Build the solution in the desired platform and configuration provided in the parameters
  
 2) Run MakeAppx with the /nv option on the folder containing the AppxManifest
-    (cs-winforms-sparse\WindowsAISampleForWinForms\AppxManifest.xml) 
+    (cs-winforms-sparse\WinForms\AppxManifest.xml) 
     
     - The /nv flag is required to bypass validation of referenced file paths in the manifest. 
     

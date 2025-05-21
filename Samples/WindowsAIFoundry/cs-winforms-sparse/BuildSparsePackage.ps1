@@ -12,7 +12,7 @@ if ($Clean) {
       'obj'
     )
 
-    $ProjectRoot = (Join-Path $PSScriptRoot "WindowsAISampleForWinForms")
+    $ProjectRoot = (Join-Path $PSScriptRoot "WinForms")
     foreach ($CleanTarget in $CleanTargets)
     {
       $CleanTargetPath = (Join-Path $ProjectRoot $CleanTarget)
@@ -25,7 +25,7 @@ if ($Clean) {
 
 function Get-UserPath
 {
-    $root = Join-Path (Get-Item $PSScriptRoot ).FullName "WindowsAISampleForWinForms"
+    $root = Join-Path (Get-Item $PSScriptRoot ).FullName "WinForms"
     $user = Join-Path $root '.user'
     if (-not(Test-Path -Path $user -PathType Container))
     {
@@ -99,10 +99,10 @@ if (-not (Test-Path $pfx))
 msbuild /restore /p:platform=$Platform /p:configuration=$Configuration
 msbuild /p:platform=$Platform /p:configuration=$Configuration
 
-MakeAppx.exe pack /d "$PSScriptRoot\WindowsAISampleForWinForms" /p "$PSScriptRoot\WindowsAISampleForWinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.msix" /nv /o
+MakeAppx.exe pack /d "$PSScriptRoot\WinForms" /p "$PSScriptRoot\WinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.msix" /nv /o
 
 $pwd_content = Get-Content -Path $pwd_file
-SignTool.exe sign /fd SHA256 /a /f "$PSScriptRoot\WindowsAISampleForWinForms\.user\WindowsAISampleForWinForms.certificate.sample.pfx" /p $pwd_content "$PSScriptRoot\WindowsAISampleForWinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.msix"
+SignTool.exe sign /fd SHA256 /a /f "$PSScriptRoot\WinForms\.user\WindowsAISampleForWinForms.certificate.sample.pfx" /p $pwd_content "$PSScriptRoot\WinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.msix"
 
-Write-Host "`nPlease Install '$PSScriptRoot\WindowsAISampleForWinForms\.user\WindowsAISampleForWinForms.certificate.sample.cer' to Local Machine/Trusted People Store before running"
-Write-Host "`nTo run the sample, run: $PSScriptRoot\WindowsAISampleForWinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.exe"
+Write-Host "`nPlease Install '$PSScriptRoot\WinForms\.user\WindowsAISampleForWinForms.certificate.sample.cer' to Local Machine/Trusted People Store before running"
+Write-Host "`nTo run the sample, run: $PSScriptRoot\WinForms\bin\$Platform\$Configuration\net8.0-windows10.0.22621.0\WindowsAISampleForWinFormsSparse.exe"
