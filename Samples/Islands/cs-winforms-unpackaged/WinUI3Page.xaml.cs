@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -23,6 +23,8 @@ namespace WinFormsWithIsland
     /// </summary>
     public sealed partial class WinUI3Page : Page
     {
+        public List<string> MyItems { get; } = new List<string> { "Item 1", "Item 2", "Item 3", "Item 4" };
+
         public WinUI3Page()
         {
             this.InitializeComponent();

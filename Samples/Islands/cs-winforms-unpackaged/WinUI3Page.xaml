@@ -8,9 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     >
-    <!--Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" -->
     <StackPanel Margin="10">
         <Button x:Name="MyButton" Click="Button_Click">I am a WinUI3 Button</Button>
         <TextBox Text="I am a WinUI3 TextBox" />
+        <ComboBox ItemsSource="{x:Bind MyItems}" />
     </StackPanel>
 </Page>
