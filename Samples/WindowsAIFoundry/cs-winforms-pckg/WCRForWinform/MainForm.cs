@@ -8,9 +8,9 @@ using Windows.Storage.Streams;
 
 namespace WindowsCopilotRuntimeSample
 {
-    // This is a sample application that demonstrates how to use the Windows Copilot Runtime API
+    // This is a sample application that demonstrates how to use the Windows AI APIs
     // to perform text recognition and summarization on an image.
-    // To learn more about the Windows Copilot Runtime API usage, visit https://learn.microsoft.com/windows/ai/apis/
+    // To learn more about the Windows AI API usage, visit https://learn.microsoft.com/windows/ai/apis/
     public partial class MainForm : Form
     {
         private string pathToImage = string.Empty;

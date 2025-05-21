@@ -8,18 +8,18 @@
             Padding="30,0"
             Spacing="25">
             <Label
-                Text="MAUI using WCR"
+                Text="MAUI using Windows AI APIs"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
 
             <Label
-                Text="Sample of .NET Multi-platform App UI using Windows Copilot Runtime APIs"
+                Text="Sample of .NET Multi-platform App UI using Windows AI APIs"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Sample of dot net Multi platform App U I using WIndows Copilot Runtime" />
+                SemanticProperties.Description="Sample of dotnet Multi-platform App UI using Windows AI APIs" />
 
             <Label
-                Text="Sample of image scaling using Windows Copilot Runtime" />
+                Text="Sample of image scaling using Windows AI APIs" />
 
             <HorizontalStackLayout Spacing="10">
                 <Image Source="enhance.png" HeightRequest="200" SemanticProperties.Description="blurry picture about flowers" />
@@ -40,7 +40,7 @@
 
             <VerticalStackLayout x:Name="textGenerationPanel" Spacing="25">
                 <Label
-                    Text="Sample of text generation using Windows Copilot Runtime" />
+                    Text="Sample of text generation using Windows AI APIs" />
 
                 <Grid ColumnSpacing="10">
                     <Grid.ColumnDefinitions>

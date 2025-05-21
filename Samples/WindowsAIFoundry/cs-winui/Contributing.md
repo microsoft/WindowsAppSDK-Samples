@@ -7,7 +7,7 @@ products:
     - windows-app-sdk
 name: "Windows AI Samples"
 urlFragment: WindowsAISamples
-description: "Shows how to use the Windows AI apis"
+description: "Shows how to use the Windows AI APIs"
 extendedZipContent:
     - path: LICENSE
       target: LICENSE
@@ -15,7 +15,7 @@ extendedZipContent:
 
 This shows the project structure and how one can get started contributing to Windows AI sample.
 
-An app that demonstrates how to use the Windows AI apis with WinUI.
+An app that demonstrates how to use the Windows AI APIs with WinUI.
 
 ## Releases
 Stable features can be found in the [main](https://github.com/microsoft/WindowsAppSDK-Samples/tree/main/Samples/WindowsAIFoundry/cs-winui) branch. 
@@ -29,7 +29,7 @@ Experimental features can be found in the [release/experimental](https://github.
 -   Make sure that your development environment is set up correctly&mdash;see
     [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 -   Use a Copilot+ PC
--   Detailed instructions : [Set up your development environment to build Windows Copilot Runtime APIs](https://learn.microsoft.com/en-us/windows/ai/apis/model-setup)
+-   Detailed instructions : [Set up your development environment to build Windows AI APIs](https://learn.microsoft.com/en-us/windows/ai/apis/model-setup)
 
 
 To get the latest updates to Windows and the development tools, and to help shape their development,

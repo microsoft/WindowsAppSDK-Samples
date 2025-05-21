@@ -6,7 +6,7 @@ products:
 - windows
 - windows-app-sdk
 name: cs-winforms-sparse
-description: Shows how to integrate the Windows Copilot Runtime APIs inside WinForms (with package identity)
+description: Shows how to integrate the Windows AI APIs inside WinForms (with package identity)
 urlFragment: cs-winforms-sparse
 extendedZipContent:
 - path: LICENSE
@@ -16,7 +16,7 @@ extendedZipContent:
 ## Prerequisites
 - For system requirements, see [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
 - To ensure your development environment is set up correctly, see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
-- Running this sample does require a [Windows Copilot + PC](https://learn.microsoft.com/windows/ai/npu-devices/)
+- Running this sample does require a [Windows Copilot+ PC](https://learn.microsoft.com/windows/ai/npu-devices/)
 - Running this sample also requires that the [Windows App SDK 1.8 Experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-18-experimental) framework package is installed on your Copilot+ PC.
 
 ### Suggested Environment
@@ -25,7 +25,7 @@ Use "Developer Command Prompt for VS2022" as your command prompt environment
 
 ## Build and Run the sample
 
-This folder contains the `cs-winforms-sparse` sample, which demonstrates the use of a sparse package built on the WinForms platform with the Windows Copilot Runtime (WCR). A sparse package enables unpackaged Win32 applications to
+This folder contains the `cs-winforms-sparse` sample, which demonstrates the use of a sparse package for a WinForms application using Windows AI APIs. A sparse package enables unpackaged Win32 applications to
 utilize package identity and access APIs requiring package identity without converting to a full MSIX package.
 
 
@@ -63,7 +63,7 @@ form is shown.
 `Program.cs` serves as the application's entry point. Its primary responsibilities include registering the sparse package to provide the executable with package identity and activating the application.
 It also ensures that the executable without package identity does not run concurrently.
 
-The `MainForm` class in `MainForm.cs` is the main user interface for the Windows Copilot Runtime Sample application. It demonstrates how to use the Windows Copilot Runtime API to perform text recognition and summarization on an image. The key functionalities include:
+The `MainForm` class in `MainForm.cs` is the main user interface for the Windows AI APIs Sample application. It demonstrates how to use the Windows AI APIs to perform text recognition and summarization on an image. The key functionalities include:
 
 - **Select File**: Allows the user to select an image file from their file system and displays the selected image in a PictureBox.
 - **Process Image**: Processes the selected image to extract text using Optical Character Recognition (OCR) and then summarizes the extracted text.
@@ -77,6 +77,6 @@ The `MainForm` class in `MainForm.cs` is the main user interface for the Windows
 - **SummarizeImageText**: Uses the `LanguageModel` to generate a summary of the extracted text given a prompt.
 
 ## Related Links
-- [Windows Copilot Runtime Overview](https://learn.microsoft.com/windows/ai/apis/)
+- [Windows AI APIs Overview](https://learn.microsoft.com/windows/ai/apis/)
 - [WPF Sparse Package Sample (with WCR)](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsCopilotRuntime/cs-wpf-sparse)
 

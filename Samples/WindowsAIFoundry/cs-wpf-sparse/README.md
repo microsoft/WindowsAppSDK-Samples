@@ -6,7 +6,7 @@ products:
 - windows
 - windows-app-sdk
 name: cs-wpf-sparse
-description: Shows how to integrate the Windows Copilot Runtime APIs in a sparse WPF package
+description: Shows how to integrate the Windows AI APIs in a sparse WPF package
 urlFragment: cs-wpf-sparse
 extendedZipContent:
 - path: LICENSE
@@ -16,7 +16,7 @@ extendedZipContent:
 ## Prerequisites
 - For system requirements, see [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
 - To ensure your development environment is set up correctly, see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
-- Running this sample does require a [Windows Copilot + PC](https://learn.microsoft.com/windows/ai/npu-devices/)
+- Running this sample does require a [Windows Copilot+ PC](https://learn.microsoft.com/windows/ai/npu-devices/)
 - Running this sample also requires that the [Windows App SDK 1.8 Experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-18-experimental) framework package is installed on your Copilot+ PC.
 
 ### Suggested Environment
@@ -55,7 +55,7 @@ the exe.
 
 ## Sample Overview
 
-The `MainWindow` class in `MainWindow.xaml.cs` is the main user interface for the Windows Copilot Runtime Sample application. It demonstrates how to use the Windows Copilot Runtime API to perform text recognition and summarization on an image. The key functionalities include:
+The `MainWindow` class in `MainWindow.xaml.cs` is the main user interface for the Windows AI APIs Sample application. It demonstrates how to use the Windows AI APIs to perform text recognition and summarization on an image. The key functionalities include:
 
 - **Select File**: Allows the user to select an image file from their file system and displays the selected image in a PictureBox.
 - **Process Image**: Processes the selected image to extract text using Optical Character Recognition (OCR) and then summarizes the extracted text.
@@ -106,4 +106,4 @@ needed to register the package.
 ### Additional Notes
 
 ## Related Links
-- [Windows Copilot Runtime Overview](https://learn.microsoft.com/windows/ai/apis/)
+- [Windows AI APIs Overview](https://learn.microsoft.com/windows/ai/apis/)
