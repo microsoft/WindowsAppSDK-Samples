@@ -21,10 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\SamplesCommon\SamplesCommon\SamplesCommon.csproj" />
   </ItemGroup>
 </Project>
+
+
