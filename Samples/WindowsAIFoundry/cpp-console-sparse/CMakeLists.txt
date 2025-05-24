@@ -53,3 +53,15 @@ endfunction()
 install_target_runtime_dlls(TARGETS WindowsAppSdk::Bootstrap
     DESTINATION ${CMAKE_BINARY_DIR}
 )
+
+# Copy the AppxManifest content to the binary directory
+file(
+    COPY 
+        "Images"
+        "install.ps1"
+        "AppxManifest.xml"
+    DESTINATION 
+        ${CMAKE_BINARY_DIR})
+
+message(STATUS "Install the package by running ${CMAKE_BINARY_DIR}/install.ps1")
+message(STATUS "Or, Add-AppxPackage -Path \"${CMAKE_BINARY_DIR}/AppxManifest.xml\" -ExternalLocation \"${CMAKE_BINARY_DIR}\" -Register -ForceUpdateFromAnyVersion")
