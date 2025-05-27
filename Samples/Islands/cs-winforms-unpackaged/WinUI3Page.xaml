@@ -9,8 +9,8 @@
     mc:Ignorable="d"
     >
     <StackPanel Margin="10">
-        <Button x:Name="MyButton" Click="Button_Click">I am a WinUI3 Button</Button>
-        <TextBox Text="I am a WinUI3 TextBox" />
+        <Button x:Name="MyButton" Click="Button_Click">I am a WinUI 3 Button</Button>
+        <TextBox Text="I am a WinUI 3 TextBox" />
         <ComboBox ItemsSource="{x:Bind MyItems}" />
     </StackPanel>
 </Page>

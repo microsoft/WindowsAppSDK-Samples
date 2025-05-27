@@ -52,11 +52,11 @@ namespace WinFormsWithIsland
             // This typically happens when the user is tabbing through the controls in the Xaml content and reaches the first or last control.
             if (e.Request.Reason == XamlSourceFocusNavigationReason.First)
             {
-                FocusNextFocusableWinFormsControl(this.Parent, this, true /*forward*/);
+                FocusNextFocusableWinFormsControl(this.Parent!, this, true /*forward*/);
             }
             else if (e.Request.Reason == XamlSourceFocusNavigationReason.Last)
             {
-                FocusNextFocusableWinFormsControl(this.Parent, this, false /*forward*/);
+                FocusNextFocusableWinFormsControl(this.Parent!, this, false /*forward*/);
             }
         }
 
@@ -135,7 +135,7 @@ namespace WinFormsWithIsland
         private static void FocusNextFocusableWinFormsControl(System.Windows.Forms.Control parent, System.Windows.Forms.Control start, bool forward)
         {
             // GetNextControl can return controls that aren't tab stops, so keep going until we find one that is.
-            System.Windows.Forms.Control next = start;
+            System.Windows.Forms.Control? next = start;
             do
             {
                 next = parent.GetNextControl(next, forward);

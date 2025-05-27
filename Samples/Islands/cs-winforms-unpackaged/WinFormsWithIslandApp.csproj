@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
 
     <!-- Island-support: Use the TargetFramework that specifies WindowsAppSDK's minimum Windows version -->
-    <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -27,8 +27,7 @@
 
   <ItemGroup>
     <!-- Island-support: Reference the WindowsAppSDK and packages it depends on -->
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
   </ItemGroup>
 
 </Project>

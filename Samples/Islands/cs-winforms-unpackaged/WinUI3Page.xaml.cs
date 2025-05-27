@@ -32,7 +32,7 @@ namespace WinFormsWithIsland
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MyButton.Content = "WinUI button clicked";
+            MyButton.Content = "WinUI 3 button clicked";
         }
     }
 }

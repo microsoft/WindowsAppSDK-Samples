@@ -11,7 +11,7 @@ namespace WinFormsWithIsland
     internal class WindowsAppSdkHelper
     {
         /// <summary>
-        /// Call when your app starts to use the WindowsAppSDK UI stack (including WinUI3).
+        /// Call when your app starts to use the WindowsAppSDK UI stack (including WinUI 3).
         /// Apps using the WindowsAppSDK UI stack are required to call ContentPreTranslateMessage.
         /// </summary>
         public static void EnableContentPreTranslateMessageInEventLoop()
