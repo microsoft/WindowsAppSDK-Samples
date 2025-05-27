@@ -5,7 +5,6 @@ cmake_minimum_required(VERSION 3.21)
 project(cmake-ai-generator)
 
 find_package(wil CONFIG REQUIRED)
-find_package(cppwinrt CONFIG REQUIRED)
 find_package(windowsappsdk CONFIG REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -19,7 +18,6 @@ target_link_libraries(cmake-ai-generator
     INTERFACE
         WindowsAppSdk::Bootstrap
     PRIVATE
-        Microsoft::CppWinRT
         Microsoft::WindowsAppSdk
         OneCoreUAP
         DelayImp

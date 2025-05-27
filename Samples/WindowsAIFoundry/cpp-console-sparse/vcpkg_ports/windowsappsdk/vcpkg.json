@@ -5,15 +5,5 @@
   "homepage": "https://github.com/microsoft/windowsappsdk",
   "documentation": "https://docs.microsoft.com/windows/apps/windows-app-sdk/",
   "license": null,
-  "supports": "windows",
-  "dependencies": [
-    {
-      "name": "cppwinrt",
-      "host": true
-    },
-    {
-      "name": "webview2",
-      "host": true
-    }
-  ]
+  "supports": "windows"
 }
