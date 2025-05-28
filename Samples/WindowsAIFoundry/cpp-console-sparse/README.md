@@ -1,7 +1,7 @@
 # Using Windows AI Foundry in C++ with CMake
 
 This sample shows how to use Windows App SDK and the [Windows AI Foundry](https://developer.microsoft.com/windows/ai/) 
-Generative AI APIs from a C++ app built using CMake. You can use the CMakeLists and vcpkg ports
+APIs from a C++ app built using CMake. You can use the CMakeLists and vcpkg ports
 it contains to build your own apps.
 
 While the sample is a simple console mode application, you can also use it with the UI framework of
@@ -11,7 +11,7 @@ Topics and concepts in this example include:
 
 -   Referencing the Windows App SDK and C++/WinRT vcpkgs in CMake
 -   Accessing the Windows App SDK implementation from an unpackaged native (C++) app
--   Calling the Microsoft.Windows.AI.Generative.LanguageModel API to generate some text
+-   Calling the Microsoft.Windows.AI.Text.LanguageModel API to generate some text
 
 > [!NOTE]
 > The vcpkg defined for the Windows App SDK is under development as of 28th
@@ -46,13 +46,13 @@ features of Windows App SDK and Copilot+ PCs.
 
 ### Using in your Own App
 
-Copy the content of `vcpkg_ports` into your build tree for both cppwinrt and windowsappsdk.
+Copy the content of `vcpkg_ports` into your build tree for windowsappsdk.
 
 Update your `vcpkg.json` to include the `windowsappsdk` package ([example](./vcpkg.json)):
 
 ```json
 {
-    "dependencies": ["wil", "cppwinrt", "windowsappsdk"]
+    "dependencies": ["wil", "windowsappsdk"]
 }
 ```
 
@@ -67,23 +67,18 @@ Update your `vcpkg-configuration` to include the vcpkg_port overlays you copied:
 In your `CMakeLists.txt` add:
 
 ```cmake
-find_package(cppwinrt CONFIG REQUIRED)
 find_package(windowsappsdk CONFIG REQUIRED)
 ```
 
-Then add the `windowsappsdk` and `cppwinrt` targets to your target's dependencies:
+Then add the `windowsappsdk` target to your target's dependencies:
 
 ```cmake
 target_link_libraries(
     your_target
     PRIVATE
-        Microsoft::CppWinRT
         Microsoft::WindowsAppSdk
 )
 ```
-
-If you are using the "Bootstrapper" support, copy the `install_target_runtime_dlls` function from
-[CMakeLists.txt](./CMakeLists.txt) to the working directory of your app.
 
 ### Packaging
 
@@ -123,7 +118,20 @@ Open this sample directory in Visual Studio 2022 with _File > Open > Folder_.
 
 Change the target build type to match your Copilot+ PC's architecture, like `arm64-debug`.
 
-Use _Build > Build all_ - this pulls down the Windows App SDK kit, C++/WinRT, and related tools.
+Use _Build > Build all_ - this pulls down the Windows App SDK and its dependencies.
+
+### Deploying
+
+With Windows App SDK 1.8 Experimental 2, the Windows AI APIs now require package identity.
+Unpackaged configurations are no longer supported, whether self-contained or loading the
+Windows App Runtime via the bootstrapper.  This sample provides package identity via 
+"sparse packaging" the app from an external location.
+
+To loose deploy (directly from an AppxManifest.xml) a sparse package for the sample,
+run the **install.ps1** script after a successful build.
+
+The AppxManifest.xml contains a PackageReference to the Windows App Runtime, 
+which Windows will automatically reference and initialize for the app.
 
 Once complete, the output is registered as a package with external location (a "sparse package.")
 When done with the sample, remove this package by running this in PowerShell:
@@ -134,8 +142,12 @@ Get-AppxPackage *WindowsAISampleForCppCMakeSparse* | Remove-AppxPackage
 
 ### Running
 
-Run this project with _Debug > Start Debugging_. You should see output like:
+To debug the deployed sparse package for the sample (see above) in Visual Studio,
+select **Debug|Other Debug Targets|Debug Installed App Package...**, browse to the
+app named **WindowsAISampleForCppCMakeSparse**, and click start.  Any previously set
+breakpoints should be enabled and hit, when appropriate.
 
+The app should produce the following console output:
 ```
 Generating response...
 Response: In the emerald valleys of Valoria, there dwelled a benevolent dragon named ...
@@ -147,8 +159,13 @@ Response: In the emerald valleys of Valoria, there dwelled a benevolent dragon n
 
 ### Configuration
 
+<<<<<<< HEAD
 On entry, the `--progress` argument enables incremental output while content is being
 generated. Any other parameters are treated as part of the story prompt.
+=======
+On entry, arguments like `--progress` are pulled out of the command line.
+Any remaining text is considered part of the prompt.
+>>>>>>> origin/user/jonwis/sparse-packaged
 
 ### Using the Language Model
 
