@@ -85,6 +85,35 @@ target_link_libraries(
 If you are using the "Bootstrapper" support, copy the `install_target_runtime_dlls` function from
 [CMakeLists.txt](./CMakeLists.txt) to the working directory of your app.
 
+### Packaging
+
+Using Windows AI Foundry generative-AI APIs requires an app have package identity. The sample
+has a simple [AppxManifest.xml](./AppxManifest.xml) providing identity and a reference to the
+Windows App SDK:
+
+```xml
+<Package>
+    <!-- Define the identity of this package. Be sure to replace with your publisher identity
+        or the one assigned by the Microsoft Store for your app. -->
+    <Identity
+    Name="WindowsAISampleForCppCMakeSparse"
+    Publisher="CN=Fabrikam Corporation, O=Fabrikam Corporation, L=Redmond, S=Washington, C=US"
+    Version="1.0.0.0" />
+```
+
+Add the reference to the Windows App SDK framework package:
+
+```xml
+<Package>
+  <Dependencies>
+    <PackageDependency
+        Name="Microsoft.WindowsAppRuntime.1.8-experimental2"
+        Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+        MinVersion="8000.500.1427.0" />
+```
+
+Be sure to update the `Name` and `MinVersion` for your target Windows App SDK version.
+
 ### Building
 
 > **Note:** The rest of these instructions assume you're using Visual Studio 2022. Your build tools'
@@ -95,6 +124,13 @@ Open this sample directory in Visual Studio 2022 with _File > Open > Folder_.
 Change the target build type to match your Copilot+ PC's architecture, like `arm64-debug`.
 
 Use _Build > Build all_ - this pulls down the Windows App SDK kit, C++/WinRT, and related tools.
+
+Once complete, the output is registered as a package with external location (a "sparse package.")
+When done with the sample, remove this package by running this in PowerShell:
+
+```powershell
+Get-AppxPackage *WindowsAISampleForCppCMakeSparse* | Remove-AppxPackage
+```
 
 ### Running
 
@@ -109,24 +145,10 @@ Response: In the emerald valleys of Valoria, there dwelled a benevolent dragon n
 
 ## Structure
 
-The sample has several phases:
-
 ### Configuration
 
-On entry, arguments like `--manual-bootstrap` and `--progress` are pulled out of the command line.
-Any remaining text is considered part of the prompt.
-
-### Loading Windows App Runtime
-
-As as an unpackaged framework-bound application, this sample creates a runtime reference to the
-Windows App Runtime. Your app can use the built-in `Bootstrapper` type, which finds the correct
-version of the runtime and configures the process for its use. Your app's installer must deploy the
-`Microsoft.WindowsAppRuntime.Bootstrap.dll` in a place your app can load it at runtime.
-
-Apps that cannot deploy the bootstrapper DLL can use the built-in Windows methods
-`TryCreatePackageDependency` and `AddPackageDependency` to find and load the runtime.
-
-> **Note:** Packaged apps should instead specify a `<PackageReference/>` in their MSIX manifest.
+On entry, the `--progress` argument enables incremental output while content is being
+generated. Any other parameters are treated as part of the story prompt.
 
 ### Using the Language Model
 

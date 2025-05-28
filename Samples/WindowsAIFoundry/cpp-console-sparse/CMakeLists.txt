@@ -20,14 +20,7 @@ target_link_libraries(cmake-ai-generator
     PRIVATE
         Microsoft::WindowsAppSdk
         OneCoreUAP
-        DelayImp
 )
-
-# Delay loading this DLL ensures that the executable can _run_ on older Windows versions, but detect
-# whether or not the necessary manual WinAppRuntime support is there.
-target_link_options(cmake-ai-generator
-    PRIVATE
-    "/delayload:api-ms-win-appmodel-runtime-l1-1-5.dll")
 
 function(install_target_runtime_dlls)
   set(single_value_args DESTINATION)
@@ -56,10 +49,13 @@ install_target_runtime_dlls(TARGETS WindowsAppSdk::Bootstrap
 file(
     COPY 
         "Images"
-        "install.ps1"
         "AppxManifest.xml"
     DESTINATION 
-        ${CMAKE_BINARY_DIR})
+        ${CMAKE_BINARY_DIR}
+)
 
-message(STATUS "Install the package by running ${CMAKE_BINARY_DIR}/install.ps1")
-message(STATUS "Or, Add-AppxPackage -Path \"${CMAKE_BINARY_DIR}/AppxManifest.xml\" -ExternalLocation \"${CMAKE_BINARY_DIR}\" -Register -ForceUpdateFromAnyVersion")
+# Register the app package after build for in-place launch & debugging
+add_custom_command(TARGET cmake-ai-generator POST_BUILD
+    COMMAND powershell -ExecutionPolicy Bypass -Command "Add-AppxPackage -Path \"${CMAKE_BINARY_DIR}/AppxManifest.xml\" -ExternalLocation \"${CMAKE_BINARY_DIR}\" -Register -ForceUpdateFromAnyVersion"
+    COMMENT "Registering the app package"
+    )
