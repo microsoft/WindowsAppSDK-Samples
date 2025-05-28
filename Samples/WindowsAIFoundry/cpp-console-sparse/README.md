@@ -17,7 +17,8 @@ Topics and concepts in this example include:
 > The vcpkg defined for the Windows App SDK is under development as of 28th
 > May 2025. We're working on making them "offcial."
 
-> [!NOTE] Windows AI Foundry is currently an Experimental feature. Consult its license agreement to
+> [!NOTE]
+> Windows AI Foundry is currently an Experimental feature. Consult its license agreement to
 > see how you can use it. The APIs are subject to change. Your customers will not have the
 > [Windows App SDK 1.8-experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/experimental-channel#version-18-experimental-180-experimental2)
 > framework package for production use.
