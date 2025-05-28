@@ -1,6 +1,6 @@
-# Using Windows Copilot Runtime in C++ with CMake
+# Using Windows AI Foundry in C++ with CMake
 
-This sample shows how to use Windows App SDK and the Windows Copilot Runtime Generative AI APIs from
+This sample shows how to use Windows App SDK and the Windows AI Foundry Runtime Generative AI APIs from
 a C++ app built using CMake. You can use the CMakeLists and vcpkg ports it contains to build your
 own apps.
 
@@ -16,7 +16,7 @@ Topics and concepts in this example include:
 > **Special note:** The vcpkgs used for the Windows App SDK and WebView2 are unofficial as of 25th
 > April 2025. We're working on making them "offcial."
 
-> **Special note:** Windows Copilot Runtime is currently an Experimental feature. Consult its
+> **Special note:** Windows AI Foundry is currently an Experimental feature. Consult its
 > license agreement to see how you can use it. The APIs are subject to change. Your customers will
 > not have the
 > [Windows App SDK 1.8-experimental1](https://learn.microsoft.com/windows/apps/windows-app-sdk/experimental-channel#version-18-experimental-180-experimental1)
@@ -24,7 +24,7 @@ Topics and concepts in this example include:
 
 ## Building
 
-You can build this project and change it to see examples of using the Windows Copilot Runtime
+You can build this project and change it to see examples of using the Windows AI Foundry
 features of Windows App SDK and Copilot+ PCs.
 
 ### Prerequisites
@@ -132,7 +132,7 @@ Apps that cannot deploy the bootstrapper DLL can use the built-in Windows method
 
 ### Using the Language Model
 
-To use Windows Copilot Runtime Generative AI features, your app must ensure the model is available,
+To use Windows AI Foundry Generative AI features, your app must ensure the model is available,
 then create an instance of the model to use. Your customers' systems may not have the models yet,
 and the `EnsureReadyAsync` method will acquire and install them for your app to use.
 
