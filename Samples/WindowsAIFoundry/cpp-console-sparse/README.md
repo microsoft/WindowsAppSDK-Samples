@@ -159,13 +159,8 @@ Response: In the emerald valleys of Valoria, there dwelled a benevolent dragon n
 
 ### Configuration
 
-<<<<<<< HEAD
 On entry, the `--progress` argument enables incremental output while content is being
 generated. Any other parameters are treated as part of the story prompt.
-=======
-On entry, arguments like `--progress` are pulled out of the command line.
-Any remaining text is considered part of the prompt.
->>>>>>> origin/user/jonwis/sparse-packaged
 
 ### Using the Language Model
 
