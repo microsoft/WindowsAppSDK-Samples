@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+
+    <!-- Island-support: Use the TargetFramework that specifies WindowsAppSDK's minimum Windows version -->
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Island-support: WindowsAppSDK supports only these platforms:-->
+    <Platforms>x64;x86;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
+
+    <!-- Island-support: Setting WindowsPackageType to "None" sets up machinery to 
+      automatically load the WindowsAppSDK framework package when the program runs.  
+      https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/use-windows-app-sdk-run-time
+      -->
+    <WindowsPackageType>None</WindowsPackageType>
+
+    <!-- Island-support: This is a bit of a hack to prevent Microsoft.WinFX.targets from being imported.
+      When this targets file gets imported, it tries to build our Xaml files for WPF, which won't work.
+    -->
+    <ImportFrameworkWinFXTargets>true</ImportFrameworkWinFXTargets>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Island-support: Reference the WindowsAppSDK and packages it depends on -->
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
+  </ItemGroup>
+
+</Project>
