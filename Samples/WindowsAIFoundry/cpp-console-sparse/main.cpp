@@ -11,7 +11,7 @@
 #include <span>
 #include <iostream>
 #include <format>
-#include <variant>
+#include <print>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.Windows.AI.Text.h>
 #include <winrt/Microsoft.Windows.Management.Deployment.h>
@@ -43,15 +43,15 @@ try
     auto readyState = winrt::Microsoft::Windows::AI::Text::LanguageModel::EnsureReadyAsync().get();
     if (readyState.Status() != winrt::Microsoft::Windows::AI::AIFeatureReadyResultState::Success)
     {
-        std::cout << "Language model not available yet, status: " << static_cast<int>(readyState.Status()) << std::endl;
+        std::println("Language model not available yet, status: {:x}", static_cast<int>(readyState.Status()));
         throw std::runtime_error(std::format(
-            "Language model cannot be made available, status {} error {} (ext error {}) - {}\n",
+            "Language model cannot be made available, status {} error {} (ext error {:x}) - {}\n",
             static_cast<int>(readyState.Status()),
             static_cast<int>(readyState.Error()),
             readyState.ExtendedError().value,
             winrt::to_string(readyState.ErrorDisplayText())));
     }
-    std::cout << "Language model is available." << std::endl;
+    std::println("Language model is available.");
 
     // Create an instance of the language model to use in this app.  Creating can also take time as
     // the model is loaded into the system. Consider showing a progress indicator while CreateAsync
@@ -65,7 +65,7 @@ try
 
     // Request a response from the language model. The model will generate a response based on the
     // story prompt above.
-    std::cout << "Generating response..." << std::endl << std::flush;
+    std::println("Generating response...");
     if (useProgress)
     {
         // Your app can show incremental progress updates as the model is generating a response. As
@@ -74,31 +74,29 @@ try
         // but showing incremental progress is a great way to show the user something on the way.
         auto responseWait = languageModel.GenerateResponseAsync(instructions + prompt, options);
         responseWait.Progress([](auto const& sender, auto const& progress) {
-            wprintf(L"%s", progress.c_str());
+            std::print(std::cout, "{}", progress);
         });
 
         auto response = responseWait.get();
-        std::wcout << std::format(L"Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()))
-                   << std::endl;
+        std::println(std::cout, "Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()));
     }
     else
     {
         auto response = languageModel.GenerateResponseAsync(instructions + prompt, options).get();
-        std::wcout << std::format(L"Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()))
-                   << std::endl;
+        std::println(std::cout, "Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()));
     }
 
     return 0;
 }
 catch (std::exception const& e)
 {
-    std::cerr << std::format("Exception: {}", e.what()) << std::endl;
+    std::println(std::cerr, "Exception: {}\n", e.what());
     return -1;
 }
 catch (...)
 {
     auto ex = wil::ResultFromCaughtException();
-    std::cerr << std::format("Exception: 0x{:08x}", static_cast<uint32_t>(ex)) << std::endl;
+    std::println(std::cerr, "Exception: 0x{:08x}", static_cast<uint32_t>(ex));
     return ex;
 }
 
@@ -118,10 +116,10 @@ void ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& promp
         }
         else if ((arg == L"--help") || (arg == L"-h"))
         {
-            std::wcout << std::format(L"Usage {} [--progress] <prompt text>\n", args[0]) << std::endl;
-            std::wcout << L"  --progress: Show progress updates." << std::endl;
-            std::wcout << L"  --help, -h: Show this help message." << std::endl;
-            std::wcout << L"  <prompt text>: The prompt to use for the language model." << std::endl;
+            std::println(std::cout, "Usage {} [--progress] <prompt text>\n", winrt::to_string(args[0]));
+            std::println(std::cout, "  --progress: Show progress updates.");
+            std::println(std::cout, "  --help, -h: Show this help message.");
+            std::println(std::cout, "  <prompt text>: The prompt to use for the language model.");
             exit(0);
         }
         else

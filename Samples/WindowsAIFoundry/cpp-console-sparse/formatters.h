@@ -4,13 +4,11 @@
 
 #include <format>
 
-namespace std
-{
 template <typename CharT>
-struct formatter<winrt::hstring, CharT>
+struct std::formatter<winrt::hstring, CharT>
 {
     template <class ParseContext>
-    constexpr auto parse(ParseContext& ctx)
+    constexpr auto parse(ParseContext& ctx) const
     {
         auto it = ctx.begin();
         if (it != ctx.end() && *it != '}')
@@ -22,9 +20,9 @@ struct formatter<winrt::hstring, CharT>
     }
 
     template <class Context>
-    constexpr auto format(winrt::hstring const& str, Context& ctx) const
+    auto format(winrt::hstring const& str, Context& ctx) const
     {
-        return std::ranges::copy(str.c_str(), str.c_str() + str.size(), ctx.out());
+        auto utf8 = winrt::to_string(str);
+        return std::copy(utf8.begin(), utf8.end(), ctx.out());
     }
 };
-} // namespace std

@@ -7,7 +7,7 @@ project(cmake-ai-generator)
 find_package(wil CONFIG REQUIRED)
 find_package(windowsappsdk CONFIG REQUIRED)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 add_executable(cmake-ai-generator
     main.cpp
