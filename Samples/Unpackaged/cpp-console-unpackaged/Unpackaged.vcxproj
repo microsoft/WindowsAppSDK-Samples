@@ -52,6 +52,7 @@
     <!-- WindowsPackageType=None enables auto-initialization of the WinAppSDK framework-->
     <WindowsPackageType>None</WindowsPackageType>
     <WinUISDKReferences>False</WinUISDKReferences>
+    <DefaultLanguage>en-US</DefaultLanguage>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
