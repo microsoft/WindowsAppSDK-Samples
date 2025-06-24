@@ -484,24 +484,24 @@ int wmain(int argc, wchar_t* argv[]) noexcept
             return 0; // Help was displayed
         }
 
-        winrt::init_apartment();
-
-        // Create ONNX Runtime environment
-        // This should be done before registering any provider libraries
-        Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "CppConsoleDesktop");
-
-        // The Infrastructure class is used to acquire and register execution provider libraries
-        winrt::Microsoft::Windows::AI::MachineLearning::Infrastructure infrastructure;
-
-        // Use WinML to update packages if requested
-        if (options.download_packages)
+        auto env = Ort::Env();
+        std::cout << "ONNX Version string: " << Ort::GetVersionString() << std::endl;
+        std::cout << "Getting available providers..." << std::endl;
+        auto catalog = winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderCatalog::GetDefault();
+        auto providers = catalog.FindAllProviders();
+        for (const auto& provider : providers)
         {
-            std::cout << "Downloading packages..." << std::endl;
-            infrastructure.DownloadPackagesAsync().get();
+            std::wcout << "Provider: " << provider.Name().c_str() << std::endl;
+            provider.EnsureReadyAsync().get();
+            provider.TryRegister();
         }
 
-        // Always register execution provider libraries
-        infrastructure.RegisterExecutionProviderLibrariesAsync().get();
+        auto devices = env.GetEpDevices();
+        std::cout << "ONNX providers registered: " << std::endl;
+        for (const auto& device : devices)
+        {
+            std::cout << device.EpName() << " " << std::endl;
+        }
 
         std::filesystem::path executableFolder = GetExecutablePath().parent_path();
 
