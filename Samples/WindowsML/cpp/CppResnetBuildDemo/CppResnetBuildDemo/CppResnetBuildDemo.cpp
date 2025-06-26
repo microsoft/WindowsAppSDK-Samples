@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 #include "ResnetModelHelper.hpp"
 
@@ -8,7 +8,6 @@
 #include <utility>
 #include <vector>
 #include <win_onnxruntime_cxx_api.h>
-#include <WinMLBootstrap.h>
 #include <winrt/base.h>
 #include <winrt/Microsoft.Windows.AI.MachineLearning.h>
 
@@ -17,14 +16,24 @@ int wmain(int argc, wchar_t* argv[]) noexcept
     std::ignore = argc;
     std::ignore = argv;
 
-    winrt::init_apartment();
-    // Initialize ONNX Runtime
-    Ort::Env env(ORT_LOGGING_LEVEL_ERROR, "CppConsoleDesktop");
+    auto env = Ort::Env();
+    std::cout << "ONNX Version string: " << Ort::GetVersionString() << std::endl;
+    std::cout << "Getting available providers..." << std::endl;
+    auto catalog = winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderCatalog::GetDefault();
+    auto providers = catalog.FindAllProviders();
+    for (const auto& provider : providers)
+    {
+        std::wcout << "Provider: " << provider.Name().c_str() << std::endl;
+        provider.EnsureReadyAsync().get();
+        provider.TryRegister();
+    }
 
-    // Use WinML to download and register Execution Providers
-    winrt::Microsoft::Windows::AI::MachineLearning::Infrastructure infrastructure;
-    infrastructure.DownloadPackagesAsync().get();
-    infrastructure.RegisterExecutionProviderLibrariesAsync().get();
+    auto devices = env.GetEpDevices();
+    std::cout << "ONNX providers registered: " << std::endl;
+    for (const auto& device : devices)
+    {
+        std::cout << device.EpName() << " " << std::endl;
+    }
 
     // Set the auto EP selection policy
     Ort::SessionOptions sessionOptions;
