@@ -20,6 +20,8 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
+    <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\ModelInitializationControl.xaml" />
@@ -50,8 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250610002-experimental3" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
