@@ -49,6 +49,13 @@ int wmain(int argc, wchar_t* argv[]) noexcept
     std::filesystem::path compiledModelPath = L"";
     bool isCompiledModelAvailable = std::filesystem::exists(compiledModelPath);
 
+    if (modelPath.empty())
+    {
+        std::cerr << "Please specify the path to the ResNet model in the program source code." << std::endl;
+        std::cerr << "Exiting..." << std::endl;
+        return 1;
+    }
+
     if (isCompiledModelAvailable)
     {
         std::cout << "Using compiled model: " << compiledModelPath << std::endl;

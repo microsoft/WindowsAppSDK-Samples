@@ -162,7 +162,14 @@ internal class Program
             string modelPath = @"";
             string compiledModelPath = @"";
 
-            //Create Onnx session
+            if (string.IsNullOrEmpty(modelPath))
+            {
+                Console.WriteLine("Please specify the path to the ResNet model in the program source code.");
+                Console.WriteLine("Exiting ...");
+                return -1;
+            }
+
+            // Create Onnx session
             Console.WriteLine("Creating session ...");
             var sessionOptions = new SessionOptions();
             // Set EP Selection Policy
