@@ -395,23 +395,8 @@ internal class Program
             // Pass the options by reference to CreateInstanceWithOptions
             using OrtEnv ortEnv = OrtEnv.CreateInstanceWithOptions(ref envOptions);
 
-            Infrastructure infrastructure = new();
-
-            // Only download packages if the download option is enabled
-            if (options.Download)
-            {
-                try
-                {
-                    Console.WriteLine("Downloading packages ...");
-                    await infrastructure.DownloadPackagesAsync();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"WARNING: Failed to download packages: {ex.Message}");
-                }
-            }
-
-            await infrastructure.RegisterExecutionProviderLibrariesAsync();
+            var catalog = ExecutionProviderCatalog.GetDefault();
+            var registeredProviders = await catalog.EnsureAndRegisterAllAsync();
 
             string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
             string modelPath = options.ModelPath.Contains(Path.DirectorySeparatorChar) ?
