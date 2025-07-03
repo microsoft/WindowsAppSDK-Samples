@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
+using Microsoft.Windows.AI.MachineLearning;
+using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -149,10 +150,8 @@ internal class Program
             OrtEnv ortEnv = OrtEnv.CreateInstanceWithOptions(ref envOptions);
 
             // Use WinML to download and register Execution Providers
-            Microsoft.Windows.AI.MachineLearning.Infrastructure infrastructure = new();
-            Console.WriteLine("Ensure EPs are downloaded ...");
-            await infrastructure.DownloadPackagesAsync();
-            await infrastructure.RegisterExecutionProviderLibrariesAsync();
+            var catalog = ExecutionProviderCatalog.GetDefault();
+            var registeredProviders = await catalog.EnsureAndRegisterAllAsync();
 
             // Prepare paths
             string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;

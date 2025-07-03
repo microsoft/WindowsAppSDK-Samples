@@ -33,10 +33,8 @@ EnvironmentCreationOptions envOptions = new()
 OrtEnv ortEnv = OrtEnv.CreateInstanceWithOptions(ref envOptions);
 
 // Use WinML to download and register Execution Providers
-Microsoft.Windows.AI.MachineLearning.Infrastructure infrastructure = new();
-Console.WriteLine("Ensure EPs are downloaded ...");
-await infrastructure.DownloadPackagesAsync();
-await infrastructure.RegisterExecutionProviderLibrariesAsync();
+var catalog = ExecutionProviderCatalog.GetDefault();
+var registeredProviders = await catalog.EnsureAndRegisterAllAsync();
 
 //Create Onnx session
 Console.WriteLine("Creating session ...");
