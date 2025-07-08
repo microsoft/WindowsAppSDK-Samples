@@ -4,8 +4,8 @@
 pillow
 numpy
 onnxruntime-winml==1.22.0.post2
-winrt-runtime==3.2.1
-winrt-Windows.Foundation==3.2.1
-winrt-Windows.Foundation.Collections==3.2.1
-winui3-microsoft-windows-ai-machinelearning==3.2.1.1.8.???.dev4
-winui3-microsoft_windows-applicationmodel-dynamicdependency-bootstrap==3.2.1.1.8.???.dev4
+winrt-runtime~=3.2.1.0
+winrt-Windows.Foundation~=3.2.1.0
+winrt-Windows.Foundation.Collections~=3.2.1.0
+winui3-Microsoft.Windows.AI.MachineLearning==1!1.8.???.dev4
+winui3-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap==1!1.8.???.dev4
