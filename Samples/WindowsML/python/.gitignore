@@ -1,0 +1,4 @@
+/Model/*
+!/Model/SqueezeNet.LICENSE.txt
+/Images/*
+!/Images/dog.jpg
