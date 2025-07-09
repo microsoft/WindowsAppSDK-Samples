@@ -1,0 +1,11 @@
+--index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple
+--extra-index-url https://pypi.org/simple
+
+pillow
+numpy
+onnxruntime-winml==1.22.0.post2
+winrt-runtime~=3.2.1.0
+winrt-Windows.Foundation~=3.2.1.0
+winrt-Windows.Foundation.Collections~=3.2.1.0
+winui3-Microsoft.Windows.AI.MachineLearning==1!1.8.250702007.dev4
+winui3-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap==1!1.8.250702007.dev4
