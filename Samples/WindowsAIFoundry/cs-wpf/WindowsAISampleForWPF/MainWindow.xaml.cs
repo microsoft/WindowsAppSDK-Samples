@@ -81,7 +81,7 @@ public partial class MainWindow : Window
             this.Description.Text = this.FileContent.Text;
             await LoadAIModels();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             this.FileContent.Text = "An error has occured: Loading AI models...";
             this.Description.Text = this.FileContent.Text;
@@ -94,7 +94,7 @@ public partial class MainWindow : Window
             this.FileContent.Text = "Performing Text Recognition";
             textInImage = await PerformTextRecognition();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             this.FileContent.Text = "An error has occured: Performing Text Recognition...";
             return;
@@ -105,7 +105,7 @@ public partial class MainWindow : Window
             this.Description.Text = "Performing Text Description";
             await SummarizeImageText(textInImage);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             this.Description.Text = "An error has occured: Performing Text Description...";
             return;
@@ -172,7 +172,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private async Task<string> PerformTextRecognition()
+    private Task<string> PerformTextRecognition()
     {
         if (_currentImage == null)
         {
@@ -185,7 +185,7 @@ public partial class MainWindow : Window
         string text = string.Join(Environment.NewLine, recognizedTextLines);
 
         this.FileContent.Text = text;
-        return text;
+        return Task.FromResult(text);
     }
 
     private async Task SummarizeImageText(string text)
