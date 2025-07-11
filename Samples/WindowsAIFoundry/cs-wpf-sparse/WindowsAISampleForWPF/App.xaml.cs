@@ -104,11 +104,11 @@ public partial class App : Application
     // proved to be a proper solution to avoid this issue.
     private void OnStartUp(Object sender, StartupEventArgs e)
     {
-        RestartWithIdentityIfNecessary();
+        _ = RestartWithIdentityIfNecessaryAsync();
         InitializeComponent();
     }
 
-    private async Task RestartWithIdentityIfNecessary()
+    private async Task RestartWithIdentityIfNecessaryAsync()
     {
         // If we are in the packaged process, then present the MainWindow
         if (IsPackagedProcess())
@@ -128,7 +128,12 @@ public partial class App : Application
     private async Task RegisterSparsePackage()
     {
         // We expect the MSIX to be in the same directory as the exe. 
-        string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        string? exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        if (exePath == null)
+        {
+            throw new InvalidOperationException("Could not determine the directory of the executing assembly.");
+        }
+        
         string externalLocation = exePath;
         string sparsePkgPath = exePath + "\\WindowsAISampleForWPFSparse.msix";
 
@@ -172,13 +177,13 @@ public partial class App : Application
             throw new Exception("Failed to create ApplicationActivationManager!");
         }
         var applicationActivationManager = (NativeMethods.IApplicationActivationManager)applicationActivationManagerAsObject;
-        applicationActivationManager.ActivateApplication(appUserModelId, null, NativeMethods.ActivateOptions.None, out uint processId);
+        applicationActivationManager.ActivateApplication(appUserModelId, string.Empty, NativeMethods.ActivateOptions.None, out uint processId);
     }
 
     private static bool IsPackagedProcess()
     {
         int length = 0;
-        int result = NativeMethods.GetCurrentPackageFullName(ref length, null);
+        int result = NativeMethods.GetCurrentPackageFullName(ref length, null!);
         if (result == 15700) // APPMODEL_ERROR_NO_PACKAGE
         {
             return false;

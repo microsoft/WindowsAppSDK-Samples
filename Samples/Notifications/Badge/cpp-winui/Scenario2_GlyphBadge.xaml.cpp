@@ -28,7 +28,7 @@ namespace winrt::cpp_winui::implementation
         Scenario2_GlyphBadge::rootPage = MainPage::Current();
     }
 
-    void Scenario2_GlyphBadge::badgeButton_Click(IInspectable const& sender, RoutedEventArgs const& e) {
+    void Scenario2_GlyphBadge::badgeButton_Click(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e) {
         auto button = sender.as<Button>();
         auto tag = button.Tag().as<hstring>();
 
