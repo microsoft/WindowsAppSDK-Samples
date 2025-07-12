@@ -58,7 +58,7 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250515001-experimental2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DrawingCppTestApp\DrawingCppTestApp.vcxproj" />
@@ -67,3 +67,4 @@
     <WindowsSdkPackageVersion>10.0.22621.55</WindowsSdkPackageVersion>
   </PropertyGroup>
 </Project>
+

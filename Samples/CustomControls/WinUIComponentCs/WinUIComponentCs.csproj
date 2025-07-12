@@ -11,7 +11,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.1" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250515001-experimental2" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -21,4 +21,5 @@
 	</ItemGroup>
 
 </Project>
+
 
