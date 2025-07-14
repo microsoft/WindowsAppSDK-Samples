@@ -19,7 +19,7 @@ internal class LanguageModelModel : IModelManager
     private TextSummarizer? _sessionTextSummarize;
     private TextRewriter? _sessionTextRewrite;
     private TextToTableConverter? _sessionTextToTable;
-    private LanguageModelExperimental _languageModelExperimental;
+    private LanguageModelExperimental? _languageModelExperimental;
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress,
                                                             CancellationToken cancellationToken = default)
@@ -52,6 +52,7 @@ internal class LanguageModelModel : IModelManager
     private TextSummarizer SessionTextSummarize => _sessionTextSummarize ?? throw new InvalidOperationException("Text summarizer session was not created yet");
     private TextRewriter SessionTextRewrite => _sessionTextRewrite ?? throw new InvalidOperationException("Text Rewriter session was not created yet");
     private TextToTableConverter SessionTextToTable => _sessionTextToTable ?? throw new InvalidOperationException("TextToTable converter session was not created yet");
+    private LanguageModelExperimental SessionLanguageModelExperimental => _languageModelExperimental ?? throw new InvalidOperationException("Language Model Experimental session was not created yet");
 
     public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
         GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
@@ -175,7 +176,7 @@ internal class LanguageModelModel : IModelManager
     {
         IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
 
-        var loraAdapter = _languageModelExperimental.LoadAdapter(filePath);
+        var loraAdapter = SessionLanguageModelExperimental.LoadAdapter(filePath);
         var options = new LanguageModelOptionsExperimental {
             LoraAdapter = !string.IsNullOrEmpty(filePath) ? loraAdapter : null
         };
@@ -184,11 +185,11 @@ internal class LanguageModelModel : IModelManager
         {
             var contentFilterOptions = new ContentFilterOptions();
             var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
-            response = _languageModelExperimental.GenerateResponseAsync(languageModelContext, prompt, options);
+            response = SessionLanguageModelExperimental.GenerateResponseAsync(languageModelContext, prompt, options);
         }
         else
         {
-            response = _languageModelExperimental.GenerateResponseAsync(prompt, options);
+            response = SessionLanguageModelExperimental.GenerateResponseAsync(prompt, options);
         }
 
         return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(

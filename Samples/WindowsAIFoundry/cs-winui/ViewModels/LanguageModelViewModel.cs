@@ -187,7 +187,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
                 _responseProgressWithLoRA.Clear();
                 DispatchPropertyChanged(nameof(ResponseProgressWithLoRA));
 
-                return Session.GenerateResponseWithLoraAdapterAndContextAsync(Context, prompt!, AdapterFilePath!);
+                return Session.GenerateResponseWithLoraAdapterAndContextAsync(Context ?? string.Empty, prompt!, AdapterFilePath!);
             },
             (prompt) => IsAvailable && !string.IsNullOrEmpty(LoRAPrompt));
 
@@ -229,7 +229,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
             var file = await picker.PickSingleFileAsync();
             if (file != null)
             {
-                DispatcherQueue.EnqueueAsync(async () =>
+                await DispatcherQueue.EnqueueAsync(() =>
                 {
                     AdapterFilePath = file.Path;
                 });
