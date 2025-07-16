@@ -64,7 +64,7 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250515001-experimental2">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>
@@ -72,3 +72,4 @@
     <ProjectReference Include="..\SampleWidgetProviderApp\SampleWidgetProviderApp.vcxproj" />
   </ItemGroup>
 </Project>
+

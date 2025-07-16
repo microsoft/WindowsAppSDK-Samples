@@ -65,7 +65,7 @@
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250515001-experimental2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CsWpfState\CsWpfState.csproj">
@@ -74,3 +74,4 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
+
