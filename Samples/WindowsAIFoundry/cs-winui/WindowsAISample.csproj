@@ -22,6 +22,8 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
+    <!-- Suppress CS8305: Feature is for evaluation purposes only and is subject to change or removal in future updates. -->
+    <NoWarn>$(NoWarn);8305</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\ModelInitializationControl.xaml" />
