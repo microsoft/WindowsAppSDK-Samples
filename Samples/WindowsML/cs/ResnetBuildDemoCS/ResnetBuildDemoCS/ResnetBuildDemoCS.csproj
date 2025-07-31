@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <WindowsPackageType>None</WindowsPackageType>
+    <Platforms>ARM64;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
