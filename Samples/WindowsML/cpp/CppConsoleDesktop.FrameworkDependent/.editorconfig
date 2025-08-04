@@ -1,0 +1,39 @@
+root = true
+
+[*]
+end_of_line = crlf
+insert_final_newline = true
+
+[*.md]
+indent_size = 4
+indent_style = space
+trim_trailing_whitespace = true
+
+[{*.props,*.targets}]
+indent_size = 2
+indent_style = space
+
+[{*.vcxproj,*.vcxproj.filters}]
+indent_size = 2
+indent_style = space
+insert_final_newline = false
+
+[*.py]
+indent_size = 4
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.ps1]
+indent_size = 4
+indent_style = space
+trim_trailing_whitespace = true
+
+[{*.xml,nuget.config}]
+indent_size = 2
+indent_style = space
+
+[{*.h,*.cpp}]
+indent_size = 4
+indent_style = space
+trim_trailing_whitespace = true
+insert_final_newline = true
