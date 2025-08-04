@@ -9,7 +9,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <win_onnxruntime_cxx_api.h>
+#include <winml/onnxruntime_cxx_api.h>
 #include <windows.h>
 #include <winrt/base.h>
 #include <winrt/Microsoft.Windows.AI.MachineLearning.h>

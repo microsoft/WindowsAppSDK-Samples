@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.WindowsAppSDK.Runtime.1.8.250702007-experimental4\build\native\Microsoft.WindowsAppSDK.Runtime.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.Runtime.1.8.250702007-experimental4\build\native\Microsoft.WindowsAppSDK.Runtime.props')" />
+  <Import Project="packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.props')" />
+  <Import Project="packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.props" Condition="Exists('packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" />
+  <Import Project="packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.props')" />
+  <Import Project="packages\Microsoft.WindowsAppSDK.ML.1.8.1054-preview-g4c0c9eea59\build\native\Microsoft.WindowsAppSDK.ML.props" Condition="Exists('packages\Microsoft.WindowsAppSDK.ML.1.8.1054-preview-g4c0c9eea59\build\native\Microsoft.WindowsAppSDK.ML.props')" />
+  <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.240915.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.240915.1\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64" Configuration="Debug" Platform="x64" />
+    <ProjectConfiguration Include="Release|x64" Configuration="Release" Platform="x64" />
+    <ProjectConfiguration Include="Debug|ARM64" Configuration="Debug" Platform="ARM64" />
+    <ProjectConfiguration Include="Release|ARM64" Configuration="Release" Platform="ARM64" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{3341505b-863b-4df5-9a43-b84a635d1ae9}</ProjectGuid>
+    <RootNamespace>CppConsoleDesktopFrameworkDependent</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsPackageType>None</WindowsPackageType>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <!-- Framework-dependent deployment (default) -->
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\CppConsoleDesktop\CppConsoleDesktop\CppConsoleDesktop.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="..\CppConsoleDesktop\CppConsoleDesktop\SqueezeNet.onnx" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\CppConsoleDesktop\CppConsoleDesktop\SqueezeNet.Labels.txt" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Image source : https://brandcentral.microsoft.com/asset-detail.html?id=L2NvbnRlbnQvZGFtL3NvdXJjZS9taWNyb3NvZnQtcHJvZHVjdHMtc2VydmljZXMvYXp1cmUvcGhvdG9ncmFwaHkvMjAxNy9DTE8xN19henVyZV8wMTY%3D&searchType=simple&fuzzyTerm= -->
+    <Content Include="..\CppConsoleDesktop\CppConsoleDesktop\image.jpg" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.240915.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.240915.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="packages\Microsoft.WindowsAppSDK.ML.1.8.1054-preview-g4c0c9eea59\build\native\Microsoft.WindowsAppSDK.ML.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.ML.1.8.1054-preview-g4c0c9eea59\build\native\Microsoft.WindowsAppSDK.ML.targets')" />
+    <Import Project="packages\Microsoft.WindowsAppSDK.Runtime.1.8.250702007-experimental4\build\native\Microsoft.WindowsAppSDK.Runtime.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.Runtime.1.8.250702007-experimental4\build\native\Microsoft.WindowsAppSDK.Runtime.targets')" />
+    <Import Project="packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.targets" Condition="Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.targets')" />
+    <Import Project="packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets" Condition="Exists('packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets')" />
+    <Import Project="packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.targets" Condition="Exists('packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.240915.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.240915.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.240915.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.240915.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.ML.1.8.1054-preview-g4c0c9eea59\build\native\Microsoft.WindowsAppSDK.ML.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.ML.1.8.1054-preview-g4c0c9eea59\build\native\Microsoft.WindowsAppSDK.ML.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.ML.1.8.1054-preview-g4c0c9eea59\build\native\Microsoft.WindowsAppSDK.ML.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.ML.1.8.1054-preview-g4c0c9eea59\build\native\Microsoft.WindowsAppSDK.ML.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.Runtime.1.8.250702007-experimental4\build\native\Microsoft.WindowsAppSDK.Runtime.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.Runtime.1.8.250702007-experimental4\build\native\Microsoft.WindowsAppSDK.Runtime.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.Runtime.1.8.250702007-experimental4\build\native\Microsoft.WindowsAppSDK.Runtime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.Runtime.1.8.250702007-experimental4\build\native\Microsoft.WindowsAppSDK.Runtime.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.targets'))" />
+  </Target>
+</Project>
