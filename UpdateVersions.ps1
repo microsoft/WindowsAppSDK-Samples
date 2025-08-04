@@ -18,7 +18,7 @@ if (!($NuGetPackagesFolder -eq ""))
     ForEach-Object { 
         if ($_.Name -match "^(Microsoft\.WindowsAppSDK\.[a-zA-Z]+)\.([0-9].*)$" -or
             $_.Name -match "^(Microsoft\.Windows\.SDK\.BuildTools\.MSIX)\.([0-9].*)$" -or
-            $_.Name -match "^(Microsoft\.Windows.\SDK\.BuildTools)\.([0-9].*)$" -or
+            $_.Name -match "^(Microsoft\.Windows\.SDK\.BuildTools)\.([0-9].*)$" -or
             $_.Name -match "^(Microsoft\.Web\.WebView2)\.([0-9].*)$")
         {
             $nugetPackageToVersionTable[$Matches[1]] = $Matches[2]
