@@ -202,8 +202,7 @@ void ConfigureExecutionProviders(Ort::SessionOptions& session_options, Ort::Env&
         }
         else if (ep_name == "OpenVINOExecutionProvider")
         {
-            // Configure threading for OpenVINO EP, pick the first device found.
-            ep_options.Add("num_of_threads", "4");
+            // Configure OpenVINO EP - pick the first device found.
             session_options.AppendExecutionProvider_V2(env, {devices.front()}, ep_options);
             std::cout << "Successfully added " << ep_name << " EP (first device only)" << std::endl;
         }
