@@ -1,12 +1,6 @@
 ﻿using Microsoft.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Interop;
-using Windows.UI;
 using WinUILib;
 
 namespace SimpleWpfXamlIslandApp
@@ -43,6 +37,7 @@ namespace SimpleWpfXamlIslandApp
             grid.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Colors.LightGray);
             grid.RowDefinitions.Add(new Microsoft.UI.Xaml.Controls.RowDefinition { Height = new Microsoft.UI.Xaml.GridLength(1, Microsoft.UI.Xaml.GridUnitType.Star) });
             grid.RowDefinitions.Add(new Microsoft.UI.Xaml.Controls.RowDefinition { Height = new Microsoft.UI.Xaml.GridLength(1, Microsoft.UI.Xaml.GridUnitType.Star) });
+        //    grid.RowDefinitions.Add(new Microsoft.UI.Xaml.Controls.RowDefinition { Height = new Microsoft.UI.Xaml.GridLength(1, Microsoft.UI.Xaml.GridUnitType.Star) });
 
             var winUiButton = new MyCustomButton();
             winUiButton.Click += (s, e) =>
@@ -50,6 +45,12 @@ namespace SimpleWpfXamlIslandApp
                 System.Windows.MessageBox.Show("Hello from WinUI!");
             };
             grid.Children.Add(winUiButton);
+
+            //var customUserControl = new CustomUserControl();
+
+            //grid.Children.Add(customUserControl);
+
+            //Microsoft.UI.Xaml.Controls.Grid.SetRow(customUserControl, 1);
 
             var listView = new CustomListView {
 

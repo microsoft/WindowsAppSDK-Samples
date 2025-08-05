@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1
+namespace SimpleWpfXamlIslandApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -26,6 +26,7 @@ namespace WpfApp1
             _controller = Microsoft.UI.Dispatching.DispatcherQueueController.CreateOnCurrentThread();
 
             var xamlApp = new XamlApp();
+          //  var libXamlApp = new WinUILib.XamlApp();
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
