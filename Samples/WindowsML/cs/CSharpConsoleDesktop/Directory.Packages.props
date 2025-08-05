@@ -3,6 +3,6 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250805005-experimental" />
   </ItemGroup>
 </Project>
