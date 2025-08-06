@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
@@ -27,6 +28,7 @@ namespace WinUIApp
     public partial class App : Application
     {
         private Window? _window;
+        WindowsXamlManager _windowsXamlManager;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -34,6 +36,8 @@ namespace WinUIApp
         /// </summary>
         public App()
         {
+            _windowsXamlManager = WindowsXamlManager.InitializeForCurrentThread();
+
             InitializeComponent();
         }
 
@@ -43,6 +47,10 @@ namespace WinUIApp
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            //this.Resources.MergedDictionaries.Add(new Microsoft.UI.Xaml.Controls.XamlControlsResources());
+            //this.Resources.MergedDictionaries.Add(new Microsoft.UI.Xaml.ResourceDictionary {
+            //    Source = new Uri("ms-appx:///WinUIApp/ListViewStyles.xbf")
+            //});
             //_window = new MainWindow();
             //_window.Activate();
         }
