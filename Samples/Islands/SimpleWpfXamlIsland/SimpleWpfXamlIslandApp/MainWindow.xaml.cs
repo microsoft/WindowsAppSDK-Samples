@@ -25,8 +25,9 @@ namespace SimpleWpfXamlIslandApp
         {
             _controller = Microsoft.UI.Dispatching.DispatcherQueueController.CreateOnCurrentThread();
 
-            var xamlApp = new XamlApp();
-          //  var libXamlApp = new WinUILib.XamlApp();
+            // var xamlApp = new XamlApp();
+            //  var libXamlApp = new WinUILib.XamlApp();
+            var winUIApp = new WinUIApp.App();
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
