@@ -20,10 +20,16 @@ namespace WinUIApp
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        public App()
+        public App(IXamlMetadataProvider provider)
         {
             this.ResourceManagerRequested += App_ResourceManagerRequested;
-            _xamlMetaDataProvider = new Microsoft.UI.Xaml.XamlTypeInfo.XamlControlsXamlMetaDataProvider();
+
+            _xamlMetaDataProvider = provider;
+
+            //_xamlMetaDataProvider = new Microsoft.UI.Xaml.XamlTypeInfo.XamlControlsXamlMetaDataProvider();
+            //new Microsoft.UI.Xaml.XamlTypeInfo.XamlControlsXamlMetaDataProvider();
+
+
 
             _windowsXamlManager = WindowsXamlManager.InitializeForCurrentThread();
 

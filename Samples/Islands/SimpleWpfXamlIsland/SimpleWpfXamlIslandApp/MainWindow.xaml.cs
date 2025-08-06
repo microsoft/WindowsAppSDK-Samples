@@ -27,7 +27,7 @@ namespace SimpleWpfXamlIslandApp
 
             // var xamlApp = new XamlApp();
             //  var libXamlApp = new WinUILib.XamlApp();
-            var winUIApp = new WinUIApp.App();
+            var winUIApp = new WinUIApp.App(new WinUILib.WinUILib_XamlTypeInfo.XamlMetaDataProvider());
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
