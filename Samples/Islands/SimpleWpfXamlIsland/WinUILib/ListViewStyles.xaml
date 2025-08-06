@@ -7,7 +7,8 @@
 
     <DataTemplate x:Key="ListViewItemTemplate">
         <Grid>
-            <local:MyCustomButton Content="{Binding .}"/>
+            <!--<local:MyCustomButton Content="{Binding .}"/>-->
+            <Button Content="this is fake..."/>
         </Grid>
     </DataTemplate>
 

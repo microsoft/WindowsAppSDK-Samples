@@ -40,7 +40,7 @@ namespace SimpleWpfXamlIslandApp
             grid.RowDefinitions.Add(new Microsoft.UI.Xaml.Controls.RowDefinition { Height = new Microsoft.UI.Xaml.GridLength(1, Microsoft.UI.Xaml.GridUnitType.Star) });
         //    grid.RowDefinitions.Add(new Microsoft.UI.Xaml.Controls.RowDefinition { Height = new Microsoft.UI.Xaml.GridLength(1, Microsoft.UI.Xaml.GridUnitType.Star) });
 
-            var winUiButton = new MyCustomButton2();
+            var winUiButton = new MyCustomButton();
             winUiButton.Click += (s, e) =>
             {
                 System.Windows.MessageBox.Show("Hello from WinUI!");
@@ -53,13 +53,15 @@ namespace SimpleWpfXamlIslandApp
 
             //Microsoft.UI.Xaml.Controls.Grid.SetRow(customUserControl, 1);
 
-            var listView = new CustomListView2 {
+            
+            var listView = new CustomListView {
 
                 ItemsSource = new List<string> { "Item 1", "Item 2", "Item 3" },
             };
 
             Microsoft.UI.Xaml.Controls.Grid.SetRow(listView, 1);
             grid.Children.Add(listView);
+            
 
             _xamlSource.Content = grid;
         }

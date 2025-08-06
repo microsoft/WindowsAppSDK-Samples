@@ -1,21 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Hosting;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
+using Microsoft.UI.Xaml.Markup;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,7 +11,7 @@ namespace WinUIApp
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, IXamlMetadataProvider
     {
         private Window? _window;
         WindowsXamlManager _windowsXamlManager;
@@ -36,9 +22,17 @@ namespace WinUIApp
         /// </summary>
         public App()
         {
+            this.ResourceManagerRequested += App_ResourceManagerRequested;
+            _xamlMetaDataProvider = new Microsoft.UI.Xaml.XamlTypeInfo.XamlControlsXamlMetaDataProvider();
+
             _windowsXamlManager = WindowsXamlManager.InitializeForCurrentThread();
 
-            InitializeComponent();
+            //InitializeComponent();
+        }
+
+        private void App_ResourceManagerRequested(object sender, ResourceManagerRequestedEventArgs args)
+        {
+            args.CustomResourceManager = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager("WinUILib.pri");
         }
 
         /// <summary>
@@ -47,6 +41,11 @@ namespace WinUIApp
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            this.Resources.MergedDictionaries.Add(new Microsoft.UI.Xaml.Controls.XamlControlsResources());
+            this.Resources.MergedDictionaries.Add(new Microsoft.UI.Xaml.ResourceDictionary {
+                Source = new Uri("ms-appx:///WinUILib/ListViewStyles.xbf")
+            });
+
             //this.Resources.MergedDictionaries.Add(new Microsoft.UI.Xaml.Controls.XamlControlsResources());
             //this.Resources.MergedDictionaries.Add(new Microsoft.UI.Xaml.ResourceDictionary {
             //    Source = new Uri("ms-appx:///WinUIApp/ListViewStyles.xbf")
@@ -54,5 +53,23 @@ namespace WinUIApp
             //_window = new MainWindow();
             //_window.Activate();
         }
+
+        IXamlType IXamlMetadataProvider.GetXamlType(string fullName)
+        {
+            return _xamlMetaDataProvider.GetXamlType(fullName);
+        }
+
+        IXamlType IXamlMetadataProvider.GetXamlType(System.Type type)
+        {
+            return _xamlMetaDataProvider.GetXamlType(type);
+        }
+
+        XmlnsDefinition[] IXamlMetadataProvider.GetXmlnsDefinitions()
+        {
+            return _xamlMetaDataProvider.GetXmlnsDefinitions();
+        }
+
+        IXamlMetadataProvider _xamlMetaDataProvider;
+
     }
 }

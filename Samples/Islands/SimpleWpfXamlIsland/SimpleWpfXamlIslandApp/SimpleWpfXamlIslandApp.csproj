@@ -28,7 +28,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WinUIApp\WinUIApp.csproj" />
 	  <ProjectReference Include="..\WinUILib\WinUILib.csproj" />
 	</ItemGroup>
 </Project>
