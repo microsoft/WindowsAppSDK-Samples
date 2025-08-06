@@ -7,7 +7,7 @@
 #include <iostream>
 #include <utility>
 #include <vector>
-#include <win_onnxruntime_cxx_api.h>
+#include <winml/onnxruntime_cxx_api.h>
 #include <winrt/base.h>
 #include <winrt/Microsoft.Windows.AI.MachineLearning.h>
 
