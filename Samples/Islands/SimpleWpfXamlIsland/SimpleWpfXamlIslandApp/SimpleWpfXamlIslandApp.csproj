@@ -13,8 +13,6 @@
 
 		<WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
 
-		<ApplicationDefinition>XamlApp.xaml</ApplicationDefinition>
-
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible($(TargetFramework), 'net8.0'))">
@@ -28,7 +26,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WinUIApp\WinUIApp.csproj" />
 	  <ProjectReference Include="..\WinUILib\WinUILib.csproj" />
 	</ItemGroup>
 </Project>
