@@ -27,14 +27,14 @@ namespace SimpleWpfXamlIslandApp
 
             // var xamlApp = new XamlApp();
             //  var libXamlApp = new WinUILib.XamlApp();
-            var winUIApp = new WinUIApp.App();
+            var winUIApp = new WinUILib.XamlApp(new WinUILib.WinUILib_XamlTypeInfo.XamlMetaDataProvider());
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _winUIControl = new WinUIControlHost(ControlHostElement.ActualHeight, ControlHostElement.ActualWidth);
+            _winUIControl = new WinUIControlHost();
             ControlHostElement.Child = _winUIControl;
         }
 

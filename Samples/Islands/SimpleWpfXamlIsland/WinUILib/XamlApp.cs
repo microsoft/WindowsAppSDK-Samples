@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Hosting;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Markup;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,17 @@ namespace WinUILib
 {
     public class XamlApp : Microsoft.UI.Xaml.Application, IXamlMetadataProvider
     {
-        public XamlApp()
+         
+        public XamlApp(IXamlMetadataProvider provider)
         {
-            _xamlMetaDataProvider = new Microsoft.UI.Xaml.XamlTypeInfo.XamlControlsXamlMetaDataProvider();
+            ResourceManagerRequested += App_ResourceManagerRequested;
+            _xamlMetaDataProvider = provider;
             _windowsXamlManager = WindowsXamlManager.InitializeForCurrentThread();
+        }
+
+        private void App_ResourceManagerRequested(object sender, ResourceManagerRequestedEventArgs args)
+        {
+            args.CustomResourceManager = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager("WinUILib.pri");
         }
 
         override protected void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)

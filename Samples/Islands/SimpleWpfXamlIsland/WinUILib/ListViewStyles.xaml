@@ -7,7 +7,7 @@
 
     <DataTemplate x:Key="ListViewItemTemplate">
         <Grid>
-            <local:MyCustomButton Content="{Binding .}"/>
+            <local:MyCustomButton />
         </Grid>
     </DataTemplate>
 
