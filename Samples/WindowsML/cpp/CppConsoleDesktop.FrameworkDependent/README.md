@@ -69,7 +69,7 @@ If setting up a new framework-dependent project:
    ```xml
    <package id="Microsoft.WindowsAppSDK.Foundation" version="1.8.250701000-experimental" targetFramework="native" />
    <package id="Microsoft.WindowsAppSDK.InteractiveExperiences" version="1.8.250626001-experimental" targetFramework="native" />
-   <package id="Microsoft.WindowsAppSDK.Runtime" version="1.8.250805005-experimental" targetFramework="native" />
+   <package id="Microsoft.WindowsAppSDK.Runtime" version="1.8.250810002-experimental" targetFramework="native" />
    <package id="Microsoft.WindowsAppSDK.Base" version="1.8.250509001-experimental" targetFramework="native" />
    ```
 

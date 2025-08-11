@@ -297,8 +297,7 @@ internal class Program
                     break;
 
                 case "OpenVINOExecutionProvider":
-                    // Configure threading for OpenVINO EP
-                    epOptions["num_of_threads"] = "4";
+                    // Append the first device
                     sessionOptions.AppendExecutionProvider(environment, [devices[0]], epOptions);
                     Console.WriteLine($"Successfully added {epName} EP (first device only)");
                     break;
