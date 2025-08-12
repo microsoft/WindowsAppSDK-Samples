@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>x64;ARM64</Platforms>
@@ -10,14 +10,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="SqueezeNet.Labels.txt" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="SqueezeNet.onnx" CopyToOutputDirectory="PreserveNewest" />
-    <!-- Image source : https://brandcentral.microsoft.com/asset-detail.html?id=L2NvbnRlbnQvZGFtL3NvdXJjZS9taWNyb3NvZnQtcHJvZHVjdHMtc2VydmljZXMvYXp1cmUvcGhvdG9ncmFwaHkvMjAxNy9DTE8xN19henVyZV8wMTY%3D&searchType=simple&fuzzyTerm= -->
-    <Content Include="image.jpg" CopyToOutputDirectory="PreserveNewest" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
   </ItemGroup>
 
+  <!-- Shared content files -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <Content Include="..\..\..\Resources\SqueezeNet.Labels.txt">
+      <Link>SqueezeNet.Labels.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Resources\SqueezeNet.onnx">
+      <Link>SqueezeNet.onnx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Resources\image.jpg">
+      <Link>image.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64" Configuration="Debug" Platform="x64" />
+    <ProjectConfiguration Include="Release|x64" Configuration="Release" Platform="x64" />
+    <ProjectConfiguration Include="Debug|ARM64" Configuration="Debug" Platform="ARM64" />
+    <ProjectConfiguration Include="Release|ARM64" Configuration="Release" Platform="ARM64" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{A1B2C3D4-5678-9012-3456-789012345678}</ProjectGuid>
+    <RootNamespace>ConsoleClient</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ConsoleClient.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WindowsMLWrapper\WindowsMLWrapper.vcxproj">
+      <Project>{B8F65F4C-1234-4567-8901-123456789ABC}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Target Name="CopyDLLs" AfterTargets="Build">
+    <ItemGroup>
+      <DLLFiles Include="..\WindowsMLWrapper\$(Platform)\$(Configuration)\WindowsMLWrapper.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DLLFiles)" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

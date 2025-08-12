@@ -1,0 +1,59 @@
+<Project>
+  <PropertyGroup>
+    <!-- Enable central package management -->
+    <!-- <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally> -->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Central NuGet package versions for all WindowsML samples -->
+    <WindowsAppSDKVersion>1.8.250810002-experimental</WindowsAppSDKVersion>
+    <WindowsAppSDKWinUIVersion>1.8.250701000-experimental</WindowsAppSDKWinUIVersion>
+    <WindowsAppSDKBaseVersion>1.8.250509001-experimental</WindowsAppSDKBaseVersion>
+    <WindowsAppSDKFoundationVersion>1.8.250701000-experimental</WindowsAppSDKFoundationVersion>
+    <WindowsAppSDKInteractiveExperiencesVersion>1.8.250626001-experimental</WindowsAppSDKInteractiveExperiencesVersion>
+    <WindowsAppSDKDWriteVersion>1.8.25052801-experimental3</WindowsAppSDKDWriteVersion>
+    <WindowsAppSDKWidgetsVersion>1.8.250610001-experimental</WindowsAppSDKWidgetsVersion>
+    <WindowsAppSDKAIVersion>1.8.407-experimental</WindowsAppSDKAIVersion>
+    <WindowsAppSDKMLVersion>1.8.1056-experimental</WindowsAppSDKMLVersion>
+    <WindowsAppSDKRuntimeVersion>1.8.250810002-experimental</WindowsAppSDKRuntimeVersion>
+    <CppWinRTVersion>2.0.240405.15</CppWinRTVersion>
+    <WindowsSDKBuildToolsVersion>10.0.26100.1</WindowsSDKBuildToolsVersion>
+    <WebView2Version>1.0.3179.45</WebView2Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Global settings for all WindowsML projects -->
+    <TargetFramework Condition="'$(MSBuildProjectExtension)' == '.csproj'">net8.0-windows10.0.17763.0</TargetFramework>
+    <TargetPlatformMinVersion Condition="'$(MSBuildProjectExtension)' == '.csproj'">10.0.17763.0</TargetPlatformMinVersion>
+    <WindowsTargetPlatformVersion Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platforms>x64;ARM64</Platforms>
+    <RuntimeIdentifiers Condition="'$(MSBuildProjectExtension)' == '.csproj'">win-x64;win-arm64</RuntimeIdentifiers>
+    <Nullable Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</Nullable>
+    <ImplicitUsings Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</ImplicitUsings>
+    <AllowUnsafeBlocks Condition="'$(MSBuildProjectExtension)' == '.csproj'">true</AllowUnsafeBlocks>
+    <!-- WindowsML specific settings -->
+    <WindowsPackageType Condition="'$(MSBuildProjectExtension)' == '.csproj'">None</WindowsPackageType>
+    <WindowsAppSdkBootstrapInitialize Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">true</WindowsAppSdkBootstrapInitialize>
+  </PropertyGroup>
+
+  <!-- Central package version management (C# projects only) -->
+  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
+  </ItemGroup>
+
+  <!-- Shared content files for all projects -->
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\SqueezeNet.Labels.txt" Condition="Exists('$(MSBuildThisFileDirectory)Resources\SqueezeNet.Labels.txt')">
+      <Link>SqueezeNet.Labels.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\SqueezeNet.onnx" Condition="Exists('$(MSBuildThisFileDirectory)Resources\SqueezeNet.onnx')">
+      <Link>SqueezeNet.onnx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\image.jpg" Condition="Exists('$(MSBuildThisFileDirectory)Resources\image.jpg')">
+      <Link>image.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

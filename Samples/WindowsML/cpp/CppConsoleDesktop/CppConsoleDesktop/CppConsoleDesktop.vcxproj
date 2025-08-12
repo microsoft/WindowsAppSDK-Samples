@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.1.8.250810002-experimental\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.1.8.250810002-experimental\build\native\Microsoft.WindowsAppSDK.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.250701000-experimental\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.250701000-experimental\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.Widgets.1.8.250610001-experimental\build\native\Microsoft.WindowsAppSDK.Widgets.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Widgets.1.8.250610001-experimental\build\native\Microsoft.WindowsAppSDK.Widgets.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.Runtime.1.8.250810002-experimental\build\native\Microsoft.WindowsAppSDK.Runtime.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Runtime.1.8.250810002-experimental\build\native\Microsoft.WindowsAppSDK.Runtime.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.ML.1.8.1056-experimental\build\native\Microsoft.WindowsAppSDK.ML.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.ML.1.8.1056-experimental\build\native\Microsoft.WindowsAppSDK.ML.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.AI.1.8.407-experimental\build\native\Microsoft.WindowsAppSDK.AI.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.AI.1.8.407-experimental\build\native\Microsoft.WindowsAppSDK.AI.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.250701000-experimental\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.250701000-experimental\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.250626001-experimental\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.250626001-experimental\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.DWrite.1.8.25052801-experimental3\build\Microsoft.WindowsAppSDK.DWrite.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.DWrite.1.8.25052801-experimental3\build\Microsoft.WindowsAppSDK.DWrite.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.1.8.250810002-experimental\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.1.8.250810002-experimental\build\native\Microsoft.WindowsAppSDK.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.250701000-experimental\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.250701000-experimental\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.Widgets.1.8.250610001-experimental\build\native\Microsoft.WindowsAppSDK.Widgets.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.Widgets.1.8.250610001-experimental\build\native\Microsoft.WindowsAppSDK.Widgets.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.Runtime.1.8.250810002-experimental\build\native\Microsoft.WindowsAppSDK.Runtime.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.Runtime.1.8.250810002-experimental\build\native\Microsoft.WindowsAppSDK.Runtime.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.ML.1.8.1056-experimental\build\native\Microsoft.WindowsAppSDK.ML.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.ML.1.8.1056-experimental\build\native\Microsoft.WindowsAppSDK.ML.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.AI.1.8.407-experimental\build\native\Microsoft.WindowsAppSDK.AI.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.AI.1.8.407-experimental\build\native\Microsoft.WindowsAppSDK.AI.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.250701000-experimental\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.250701000-experimental\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.250626001-experimental\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.250626001-experimental\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" />
+  <Import Project="..\..\..\packages\Microsoft.WindowsAppSDK.DWrite.1.8.25052801-experimental3\build\Microsoft.WindowsAppSDK.DWrite.props" Condition="Exists('..\..\..\packages\Microsoft.WindowsAppSDK.DWrite.1.8.25052801-experimental3\build\Microsoft.WindowsAppSDK.DWrite.props')" />
   <Import Project="..\packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Base.1.8.250509001-experimental\build\native\Microsoft.WindowsAppSDK.Base.props')" />
   <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.props" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" />
   <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.props')" />
@@ -50,10 +50,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="SqueezeNet.onnx" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="SqueezeNet.Labels.txt" CopyToOutputDirectory="PreserveNewest" />
-    <!-- Image source : https://brandcentral.microsoft.com/asset-detail.html?id=L2NvbnRlbnQvZGFtL3NvdXJjZS9taWNyb3NvZnQtcHJvZHVjdHMtc2VydmljZXMvYXp1cmUvcGhvdG9ncmFwaHkvMjAxNy9DTE8xN19henVyZV8wMTY%3D&searchType=simple&fuzzyTerm= -->
-    <Content Include="image.jpg" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Shared content files -->
+    <Content Include="..\..\..\Resources\SqueezeNet.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Resources\SqueezeNet.Labels.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Resources\image.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
