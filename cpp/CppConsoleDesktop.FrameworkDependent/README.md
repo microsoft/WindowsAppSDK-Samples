@@ -1,12 +1,13 @@
 # CppConsoleDesktop.FrameworkDependent
 
-This is a framework-dependent variant of the WindowsML C++ console desktop sample.
+This is a framework-dependent variant of the WindowsML C++ console desktop sample that uses shared helpers.
 
 ## Key Differences from Original
 
 - **Deployment**: Framework-dependent (`WindowsAppSDKSelfContained=false`)
 - **Package Dependencies**: Uses both ML and Runtime packages for framework-dependent deployment
-- **Source Files**: References the same source files from `../CppConsoleDesktop/CppConsoleDesktop/`
+- **Shared Helpers**: Uses the same shared helper classes from `../../Shared/cpp/`
+- **Source Files**: References the main application source from `../CppConsoleDesktop/CppConsoleDesktop.cpp`
 - **Runtime Dependencies**: Requires WindowsAppSDK Runtime to be installed on target machine
 
 ## Features
@@ -15,18 +16,6 @@ This is a framework-dependent variant of the WindowsML C++ console desktop sampl
 - Relies on WindowsAppSDK Runtime package installed on target machine
 - Shared runtime components reduce deployment size
 - Follows the recommended deployment pattern for WindowsAppSDK applications
-
-## Build
-
-```powershell
-# Restore packages first
-nuget restore packages.config -PackagesDirectory packages
-
-# Build the project
-msbuild CppConsoleDesktop.FrameworkDependent.vcxproj /p:Platform=x64 /p:Configuration=Release
-```
-
-> **Note**: If you encounter package restore issues in Visual Studio, use the command-line `nuget restore` as shown above.
 
 ## Package Dependencies
 

@@ -6,27 +6,9 @@ This is a self-contained variant of the WindowsML C++ console desktop sample.
 
 - **Deployment**: Self-contained (`WindowsAppSDKSelfContained=true`)
 - **Package Dependencies**: Uses minimal package set with ML and Base packages for proper binary deployment
-- **Source Files**: References the same source files from `../CppConsoleDesktop/CppConsoleDesktop/`
-- **Binary Deployment**: ONNX Runtime binaries are bundled in a `winml\` subdirectory alongside the application
-
-## Features
-
-- Self-contained deployment with all ML dependencies bundled
-- No external WindowsAppSDK runtime required on target machine
-- ONNX Runtime binaries deployed locally for standalone operation
-- Portable deployment that runs without framework dependencies
-
-## Build
-
-```powershell
-# Restore packages first
-nuget restore packages.config -PackagesDirectory packages
-
-# Build the project
-msbuild CppConsoleDesktop.SelfContained.vcxproj /p:Platform=x64 /p:Configuration=Release
-```
-
-> **Note**: If you encounter package restore issues in Visual Studio, use the command-line `nuget restore` as shown above.
+- **Shared Helpers**: Uses the same shared helper classes from `../../Shared/cpp/`
+- **Source Files**: References the main application source from `../CppConsoleDesktop/CppConsoleDesktop.cpp`
+- **Binary Deployment**: ONNX Runtime binaries are bundled alongside the application
 
 ## Package Dependencies
 

@@ -1,0 +1,28 @@
+<Project>
+  <PropertyGroup>
+    <!-- Central NuGet package versions for C++ WindowsML samples -->
+    <WindowsAppSDKVersion>1.8.250810002-experimental</WindowsAppSDKVersion>
+    <WindowsAppSDKWinUIVersion>1.8.250701000-experimental</WindowsAppSDKWinUIVersion>
+    <WindowsAppSDKBaseVersion>1.8.250509001-experimental</WindowsAppSDKBaseVersion>
+    <WindowsAppSDKFoundationVersion>1.8.250701000-experimental</WindowsAppSDKFoundationVersion>
+    <WindowsAppSDKInteractiveExperiencesVersion>1.8.250626001-experimental</WindowsAppSDKInteractiveExperiencesVersion>
+    <WindowsAppSDKDWriteVersion>1.8.25052801-experimental3</WindowsAppSDKDWriteVersion>
+    <WindowsAppSDKWidgetsVersion>1.8.250610001-experimental</WindowsAppSDKWidgetsVersion>
+    <WindowsAppSDKAIVersion>1.8.407-experimental</WindowsAppSDKAIVersion>
+    <WindowsAppSDKMLVersion>1.8.1056-experimental</WindowsAppSDKMLVersion>
+    <WindowsAppSDKRuntimeVersion>1.8.250810002-experimental</WindowsAppSDKRuntimeVersion>
+    <CppWinRTVersion>2.0.240405.15</CppWinRTVersion>
+    <WindowsSDKBuildToolsVersion>10.0.26100.1</WindowsSDKBuildToolsVersion>
+    <WebView2Version>1.0.3179.45</WebView2Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- C++ specific settings only -->
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platforms>x64;ARM64</Platforms>
+    <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
+    
+    <!-- Disable central package management for C++ projects -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>
