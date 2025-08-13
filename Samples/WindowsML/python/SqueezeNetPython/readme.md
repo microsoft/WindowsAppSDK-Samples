@@ -22,3 +22,7 @@ extendedZipContent:
 ```PowerShell
 pip install -r requirements.txt
 ```
+Please also install the provided wheel files. As those are not published to a public source.
+* Install WindowsAppRuntime
+
+Please install the correct WindowsAppRuntime with the provided installer.
