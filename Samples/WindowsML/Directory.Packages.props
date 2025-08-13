@@ -5,14 +5,14 @@
   
   <ItemGroup>
     <!-- WindowsAppSDK packages -->
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250810002-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250812004-experimental" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="1.8.407-experimental" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="1.8.250509001-experimental" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.DWrite" Version="1.8.25052801-experimental3" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.250701000-experimental" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.8.250626001-experimental" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="1.8.1056-experimental" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.250810002-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="1.8.1058-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.250812004-experimental" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Widgets" Version="1.8.250610001-experimental" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.250701000-experimental" />
     
