@@ -6,7 +6,7 @@
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml::Controls;
-    using namespace winrt::CppUnpackagedAppNotifications::implementation;
+    using namespace winrt::CppAppNotifications::implementation;
 }
 
 void NotifyUser::CouldNotSendToast()
