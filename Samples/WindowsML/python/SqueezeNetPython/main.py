@@ -104,22 +104,25 @@ if __name__ == "__main__":
 
     images_folder = resource_path / "Images"
 
-    for image_file in images_folder.iterdir():  
-        print(f"Running inference on image: {image_file}")
-        print("Preparing input ...")
-        img_array = load_and_preprocess_image(image_file)
-        print("Running inference ...")
-        input_name = session.get_inputs()[0].name
-        # warmup
-        for i in range(100):
-            results = session.run(None, {input_name: img_array})[0]
-        # measure
-        start_time = time.perf_counter()
-        for i in range(100):
-            results = session.run(None, {input_name: img_array})[0]
-        end_time = time.perf_counter()
-        print_results(labels, results, is_logit=False)
-        print(f"Inference time {"NPU" if useNPU else "GPU"}: {(end_time - start_time)*10:.4f} milliseconds")
+    def run(name, session):
+        for image_file in images_folder.iterdir():  
+            print(f"Running inference on image: {image_file}")
+            print("Preparing input ...")
+            img_array = load_and_preprocess_image(image_file)
+            print("Running inference ...")
+            input_name = session.get_inputs()[0].name
+            # warmup
+            for i in range(100):
+                results = session.run(None, {input_name: img_array})[0]
+            # measure
+            start_time = time.perf_counter()
+            for i in range(100):
+                results = session.run(None, {input_name: img_array})[0]
+            end_time = time.perf_counter()
+            print_results(labels, results, is_logit=False)
+            print(f"Inference time {name}: {(end_time - start_time)*10:.4f} milliseconds")
+
+    run("NPU" if useNPU else "GPU", session)
 
     # CPU
     if useWinML:
@@ -131,15 +134,4 @@ if __name__ == "__main__":
         providers=providers
     )
 
-    for image_file in images_folder.iterdir():  
-        img_array = load_and_preprocess_image(image_file)
-        input_name = session.get_inputs()[0].name
-        # warmup
-        for i in range(100):
-            results = session.run(None, {input_name: img_array})[0]
-        # measure
-        start_time = time.perf_counter()
-        for i in range(100):
-            results = session.run(None, {input_name: img_array})[0]
-        end_time = time.perf_counter()
-        print(f"Inference time CPU: {(end_time - start_time)*10:.4f} milliseconds")
+    run("CPU", session)
