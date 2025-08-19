@@ -59,9 +59,11 @@ def print_results(labels, results, is_logit=False):
 
 if __name__ == "__main__":
     useWinML = "--onnx" not in sys.argv
+    useNPU = "--gpu" not in sys.argv
     print("Registering execution providers ...")
     if useWinML:
         register_execution_providers()
+    print(ort.get_available_providers())
     
     print("Creating session ...")
 
@@ -71,7 +73,7 @@ if __name__ == "__main__":
     session_options = ort.SessionOptions()
     # Change your policy here.
     if useWinML:
-        session_options.set_provider_selection_policy(ort.OrtExecutionProviderDevicePolicy.PREFER_NPU)
+        session_options.set_provider_selection_policy(ort.OrtExecutionProviderDevicePolicy.PREFER_NPU if useNPU else ort.OrtExecutionProviderDevicePolicy.PREFER_GPU)
         assert session_options.has_providers()
 
     if compiled_model_path.exists():
@@ -87,9 +89,9 @@ if __name__ == "__main__":
             print("Model compilation failed:", e)
             print("Falling back to uncompiled model")
 
-    model_path_to_use = compiled_model_path if compiled_model_path.exists() and useWinML else model_path
+    model_path_to_use = compiled_model_path if compiled_model_path.exists() and useWinML and useNPU else model_path
 
-    providers = None if useWinML else ['QNNExecutionProvider']
+    providers = None if useWinML else ['QNNExecutionProvider' if useNPU else 'DmlExecutionProvider']
     provider_options = None if useWinML else [{"htp_performance_mode": "burst"}]
     session = ort.InferenceSession(
         model_path_to_use,
@@ -109,15 +111,15 @@ if __name__ == "__main__":
         print("Running inference ...")
         input_name = session.get_inputs()[0].name
         # warmup
-        for i in range(10):
+        for i in range(100):
             results = session.run(None, {input_name: img_array})[0]
         # measure
         start_time = time.perf_counter()
-        for i in range(10):
+        for i in range(100):
             results = session.run(None, {input_name: img_array})[0]
         end_time = time.perf_counter()
         print_results(labels, results, is_logit=False)
-        print(f"Inference time NPU: {(end_time - start_time)*100:.4f} milliseconds")
+        print(f"Inference time {"NPU" if useNPU else "GPU"}: {(end_time - start_time)*10:.4f} milliseconds")
 
     # CPU
     if useWinML:
@@ -133,11 +135,11 @@ if __name__ == "__main__":
         img_array = load_and_preprocess_image(image_file)
         input_name = session.get_inputs()[0].name
         # warmup
-        for i in range(10):
+        for i in range(100):
             results = session.run(None, {input_name: img_array})[0]
         # measure
         start_time = time.perf_counter()
-        for i in range(10):
+        for i in range(100):
             results = session.run(None, {input_name: img_array})[0]
         end_time = time.perf_counter()
-        print(f"Inference time CPU: {(end_time - start_time)*100:.4f} milliseconds")
+        print(f"Inference time CPU: {(end_time - start_time)*10:.4f} milliseconds")
