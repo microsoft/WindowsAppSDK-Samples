@@ -8,6 +8,7 @@ import onnxruntime as ort
 import subprocess
 import sys
 import json
+import time
 
 def register_execution_providers():
     # Run this in another process to avoid a issue where 
@@ -57,8 +58,10 @@ def print_results(labels, results, is_logit=False):
     print("-"*50)
 
 if __name__ == "__main__":
+    useWinML = "--onnx" not in sys.argv
     print("Registering execution providers ...")
-    register_execution_providers()
+    if useWinML:
+        register_execution_providers()
     
     print("Creating session ...")
 
@@ -67,8 +70,9 @@ if __name__ == "__main__":
     compiled_model_path = resource_path / "Model" / "SqueezeNet_ctx.onnx"
     session_options = ort.SessionOptions()
     # Change your policy here.
-    session_options.set_provider_selection_policy(ort.OrtExecutionProviderDevicePolicy.PREFER_NPU)
-    assert session_options.has_providers()
+    if useWinML:
+        session_options.set_provider_selection_policy(ort.OrtExecutionProviderDevicePolicy.PREFER_NPU)
+        assert session_options.has_providers()
 
     if compiled_model_path.exists():
         print("Using compiled model")
@@ -83,21 +87,57 @@ if __name__ == "__main__":
             print("Model compilation failed:", e)
             print("Falling back to uncompiled model")
 
-    model_path_to_use = compiled_model_path if compiled_model_path.exists() else model_path
+    model_path_to_use = compiled_model_path if compiled_model_path.exists() and useWinML else model_path
 
+    providers = None if useWinML else ['QNNExecutionProvider']
+    provider_options = None if useWinML else [{"htp_performance_mode": "burst"}]
     session = ort.InferenceSession(
         model_path_to_use,
         sess_options=session_options,
+        providers=providers,
+        provider_options=provider_options
     )
 
     labels = load_labels(resource_path / "Model" / "SqueezeNet.Labels.txt")
 
     images_folder = resource_path / "Images"
+
     for image_file in images_folder.iterdir():  
         print(f"Running inference on image: {image_file}")
         print("Preparing input ...")
         img_array = load_and_preprocess_image(image_file)
         print("Running inference ...")
         input_name = session.get_inputs()[0].name
-        results = session.run(None, {input_name: img_array})[0]
+        # warmup
+        for i in range(10):
+            results = session.run(None, {input_name: img_array})[0]
+        # measure
+        start_time = time.perf_counter()
+        for i in range(10):
+            results = session.run(None, {input_name: img_array})[0]
+        end_time = time.perf_counter()
         print_results(labels, results, is_logit=False)
+        print(f"Inference time NPU: {(end_time - start_time)*100:.4f} milliseconds")
+
+    # CPU
+    if useWinML:
+        session_options.set_provider_selection_policy(ort.OrtExecutionProviderDevicePolicy.PREFER_CPU)
+    providers = None if useWinML else ['CPUExecutionProvider']
+    session = ort.InferenceSession(
+        model_path,
+        sess_options=session_options,
+        providers=providers
+    )
+
+    for image_file in images_folder.iterdir():  
+        img_array = load_and_preprocess_image(image_file)
+        input_name = session.get_inputs()[0].name
+        # warmup
+        for i in range(10):
+            results = session.run(None, {input_name: img_array})[0]
+        # measure
+        start_time = time.perf_counter()
+        for i in range(10):
+            results = session.run(None, {input_name: img_array})[0]
+        end_time = time.perf_counter()
+        print(f"Inference time CPU: {(end_time - start_time)*100:.4f} milliseconds")
