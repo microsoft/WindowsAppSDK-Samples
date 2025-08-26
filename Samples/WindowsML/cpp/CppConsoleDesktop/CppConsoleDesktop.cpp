@@ -8,7 +8,7 @@
 #include <winrt/base.h>
 #include <winrt/Windows.Foundation.h>
 #include "WindowsMLShared.h"
-
+#include <WindowsAppSDK-VersionInfo.h>
 using namespace winrt::Windows::Foundation;
 using namespace WindowsML::Shared;
 
