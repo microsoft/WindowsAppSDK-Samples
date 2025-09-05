@@ -20,8 +20,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+using Microsoft.Windows.Storage.Pickers;
 using Microsoft.UI.Composition.Effects;
 using Microsoft.UI.Xaml.Hosting;
 
@@ -228,19 +227,20 @@ namespace MaterialCreator
                 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            FileOpenPicker openPicker = new FileOpenPicker();
+            FileOpenPicker openPicker = new FileOpenPicker(MainWindow.CurrentWindow.AppWindow.Id);
             openPicker.ViewMode = PickerViewMode.Thumbnail;
             openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
             openPicker.FileTypeFilter.Add(".jpg");
             openPicker.FileTypeFilter.Add(".jpeg");
             openPicker.FileTypeFilter.Add(".png");
-            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, WinRT.Interop.WindowNative.GetWindowHandle(MainWindow.CurrentWindow));
-            StorageFile file = await openPicker.PickSingleFileAsync();
+            
+            var result = await openPicker.PickSingleFileAsync();
 
-            if (file != null)
+            if (result != null)
             {
-                Filename.Text = file.Name;
-                ((ImageLayer)Layer).File = file;
+                Filename.Text = System.IO.Path.GetFileName(result.Path);
+                ((ImageLayer)Layer).FilePath = result.Path;
+                await ((ImageLayer)Layer).LoadResources();
             }
         }
 

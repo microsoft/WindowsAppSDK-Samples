@@ -27,7 +27,7 @@ namespace winrt
     using namespace Windows::Graphics::Effects;
     using namespace Windows::Graphics::Imaging;
     using namespace Windows::Storage;
-    using namespace Windows::Storage::Pickers;
+    using namespace Microsoft::Windows::Storage::Pickers;
     using namespace Windows::Storage::Search;
     using namespace Windows::Storage::Streams;
     using namespace Windows::UI;
@@ -576,13 +576,18 @@ namespace winrt::PhotoEditor::implementation
 
     IAsyncAction DetailPage::SaveButton_Click(IInspectable const&, RoutedEventArgs const&)
     {
-        // Setup the picker.
-        auto picker = FileSavePicker{};
+        auto picker = FileSavePicker{ App::Window().AppWindow().Id() };
         picker.SuggestedStartLocation(PickerLocationId::PicturesLibrary);
         picker.SuggestedFileName(L"New Image");
         picker.FileTypeChoices().Insert(L"Images", winrt::single_threaded_vector<hstring>({ L".jpg" }));
 
-        if (auto file = co_await picker.PickSaveFileAsync())
+        auto result = co_await picker.PickSaveFileAsync();
+        if (!result)
+        {
+            return;
+        }
+
+        if (auto file = co_await Windows::Storage::StorageFile::GetFileFromPathAsync(result.Path()))
         {
             if (auto stream = co_await file.OpenAsync(Windows::Storage::FileAccessMode::ReadWrite))
             {

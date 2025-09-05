@@ -32,7 +32,7 @@
 #include "winrt/Microsoft.UI.Windowing.h"
 #include "winrt/Windows.ApplicationModel.h"
 #include "Winrt/Microsoft.UI.Xaml.Media.Imaging.h"
-#include <winrt/Windows.Storage.Pickers.h>
+#include <winrt/Microsoft.Windows.Storage.Pickers.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Windows.Media.Playback.h>

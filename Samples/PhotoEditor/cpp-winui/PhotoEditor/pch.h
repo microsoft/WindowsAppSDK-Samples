@@ -40,7 +40,7 @@
 #include <winrt/Windows.Graphics.Imaging.h>
 #include <winrt/Windows.Storage.FileProperties.h>
 #include <winrt/Windows.Storage.h>
-#include <winrt/Windows.Storage.Pickers.h>
+#include <winrt/Microsoft.Windows.Storage.Pickers.h>
 #include <winrt/Windows.Storage.Search.h>
 #include <winrt/Windows.Storage.Streams.h>
 #include <wil/cppwinrt_helpers.h>
