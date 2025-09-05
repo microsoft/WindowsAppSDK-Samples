@@ -48,12 +48,12 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
 
         _pickInputImageCommand = new(async _ =>
         {
-            var picker = new FileOpenPicker(App.window.Id);
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
+            var picker = new FileOpenPicker(App.window.Id)
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter = { ".jpg", ".jpeg", ".png" },
+            };
 
             var result = await picker.PickSingleFileAsync();
             if (result == null)
@@ -81,12 +81,12 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
 
         _pickMaskImageCommand = new(async _ =>
         {
-            var picker = new FileOpenPicker(App.Windows.Id);
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
+            var picker = new FileOpenPicker(App.Windows.Id)
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter = { ".jpg", ".jpeg", ".png" },
+            };
 
             var result = await picker.PickSingleFileAsync();
             if (result == null)

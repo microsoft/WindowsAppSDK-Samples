@@ -212,9 +212,10 @@ namespace PhotoEditor
                         SuggestedStartLocation = PickerLocationId.PicturesLibrary,
                         SuggestedFileName = item.ImageFile.DisplayName,
                         SuggestedFolder = await item.ImageFile.GetParentAsync().Path,
+                        FileTypeChoices = {
+                            {"JPEG files", new[] { ".jpg" }},
+                        },
                     };
-
-                    fileSavePicker.FileTypeChoices.Add("JPEG files", new List<string>() { ".jpg" });
 
                     var result = await fileSavePicker.PickSaveFileAsync();
                     StorageFile outputFile;

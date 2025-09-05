@@ -246,12 +246,14 @@ namespace CompositionSampleGallery
         /// <returns>StorageFile that contains the selected video.</returns>
         private async Task<StorageFile> OpenFile()
         {
-            var picker = new FileOpenPicker(default);
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.VideosLibrary;
-            // We could technically support more formats, all we would have to do is add them
-            // to the FileTypeFilter colleciton. For now we'll just use mp4 files.
-            picker.FileTypeFilter.Add(".mp4");
+            var picker = new FileOpenPicker(default)
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.VideosLibrary,
+                // We could technically support more formats, all we would have to do is add them
+                // to the FileTypeFilter colleciton. For now we'll just use mp4 files.
+                FileTypeFilter = { ".mp4" },
+            };
 
             var result = await picker.PickSingleFileAsync();
             return await StorageFile.CreateFromPathAsync(result.Path);

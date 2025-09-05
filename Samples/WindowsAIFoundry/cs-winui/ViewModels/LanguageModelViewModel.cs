@@ -217,11 +217,12 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
         _pickInputAdapterCommand = new(async _ =>
         {
-            var picker = new FileOpenPicker(App.Window.Id);
-
-            picker.ViewMode = PickerViewMode.List;
-            picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-            picker.FileTypeFilter.Add(".safetensors");
+            var picker = new FileOpenPicker(App.Window.Id)
+            {
+                ViewMode = PickerViewMode.List,
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                FileTypeFilter = { ".safetensors" },
+            };
 
             var result = await picker.PickSingleFileAsync();
             if (result == null)

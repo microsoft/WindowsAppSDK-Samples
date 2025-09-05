@@ -227,12 +227,12 @@ namespace MaterialCreator
                 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            FileOpenPicker openPicker = new FileOpenPicker(MainWindow.CurrentWindow.AppWindow.Id);
-            openPicker.ViewMode = PickerViewMode.Thumbnail;
-            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            openPicker.FileTypeFilter.Add(".jpg");
-            openPicker.FileTypeFilter.Add(".jpeg");
-            openPicker.FileTypeFilter.Add(".png");
+            var openPicker = new FileOpenPicker(MainWindow.CurrentWindow.AppWindow.Id)
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter = { ".jpg", ".jpeg", ".png" }
+            };
             
             var result = await openPicker.PickSingleFileAsync();
 
