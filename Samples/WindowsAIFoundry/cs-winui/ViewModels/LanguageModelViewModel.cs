@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 using Microsoft.Windows.AI.ContentSafety;
 using Microsoft.Windows.AI.Text;
+using Microsoft.Windows.Storage.Pickers;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
-using Windows.Storage.Pickers;
 using WindowsAISample.Models;
 using WindowsAISample.Util;
 using WinRT.Interop;
@@ -217,16 +217,19 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
         _pickInputAdapterCommand = new(async _ =>
         {
-            var picker = new FileOpenPicker();
-            var window = App.Window;
-            var hwnd = WindowNative.GetWindowHandle(window);
-            InitializeWithWindow.Initialize(picker, hwnd);
+            var picker = new FileOpenPicker(App.Window.Id);
 
             picker.ViewMode = PickerViewMode.List;
             picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             picker.FileTypeFilter.Add(".safetensors");
 
-            var file = await picker.PickSingleFileAsync();
+            var result = await picker.PickSingleFileAsync();
+            if (result == null)
+            {
+                return false;
+            }
+
+            var file = await StorageFile.CreateFromPathAsync(result.Path);
             if (file != null)
             {
                 await DispatcherQueue.EnqueueAsync(() =>

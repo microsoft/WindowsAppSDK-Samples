@@ -29,7 +29,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
-using Windows.Storage.Pickers;
+using Microsoft.Windows.Storage.Pickers;
 
 namespace MaterialCreator
 {
@@ -115,14 +115,19 @@ namespace MaterialCreator
                     await dialog.ShowAsync();
 
                     // Launch the picker
-                    FileOpenPicker openPicker = new FileOpenPicker();
+                    FileOpenPicker openPicker = new FileOpenPicker(MainWindow.CurrentWindow.AppWindow.Id);
                     openPicker.ViewMode = PickerViewMode.Thumbnail;
                     openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
                     openPicker.FileTypeFilter.Add(".jpg");
                     openPicker.FileTypeFilter.Add(".jpeg");
                     openPicker.FileTypeFilter.Add(".png");
-                    WinRT.Interop.InitializeWithWindow.Initialize(openPicker, WinRT.Interop.WindowNative.GetWindowHandle(MainWindow.CurrentWindow));
-                    return await openPicker.PickSingleFileAsync();
+                    var newResult = await openPicker.PickSingleFileAsync();
+
+                    if (newResult != null && !string.IsNullOrEmpty(newResult.Path))
+                    {
+                        return await StorageFile.GetFileFromPathAsync(newResult.Path);
+                    }
+                    return null;
                 }
                 else
                 {
