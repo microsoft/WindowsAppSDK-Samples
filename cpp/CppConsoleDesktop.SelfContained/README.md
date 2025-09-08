@@ -10,11 +10,14 @@ This is a self-contained variant of the WindowsML C++ console desktop sample.
 - **Source Files**: References the main application source from `../CppConsoleDesktop/CppConsoleDesktop.cpp`
 - **Binary Deployment**: ONNX Runtime binaries are bundled alongside the application
 
-## Package Dependencies
+## Required NuGet Package References
 
-- WindowsAppSDK ML package (core machine learning functionality)
-- WindowsAppSDK Base package (required for proper binary deployment)
-- CppWinRT package (Windows Runtime projections)
-- Windows SDK Build Tools packages (build-time dependencies)
+- Microsoft.WindowsAppSDK.ML
+- Microsoft.WindowsAppSDK.Base
+- Microsoft.WindowsAppSDK.Foundation
+- Microsoft.WindowsAppSDK.InteractiveExperiences
+- Microsoft.Windows.CppWinRT
+- Microsoft.Windows.SDK.BuildTools
+- Microsoft.Windows.SDK.BuildTools.MSIX
 
 See `packages.config` for current package versions.
