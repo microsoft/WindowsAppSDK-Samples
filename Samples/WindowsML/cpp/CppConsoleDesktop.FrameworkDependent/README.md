@@ -17,15 +17,16 @@ This is a framework-dependent variant of the WindowsML C++ console desktop sampl
 - Shared runtime components reduce deployment size
 - Follows the recommended deployment pattern for WindowsAppSDK applications
 
-## Package Dependencies
+## Required NuGet Package References
 
-- WindowsAppSDK ML package (core machine learning functionality)
-- WindowsAppSDK Runtime package (framework runtime components)
-- WindowsAppSDK Base package (required for proper binary deployment)
-- WindowsAppSDK Foundation package (required for Windows App SDK bootstrap functionality)
-- WindowsAppSDK InteractiveExperiences package (required dependency for Foundation - provides UI metadata including Microsoft.UI.WindowId)
-- CppWinRT package (Windows Runtime projections)
-- Windows SDK Build Tools packages (build-time dependencies)
+- Microsoft.WindowsAppSDK.ML
+- Microsoft.WindowsAppSDK.Runtime  
+- Microsoft.WindowsAppSDK.Base
+- Microsoft.WindowsAppSDK.Foundation
+- Microsoft.WindowsAppSDK.InteractiveExperiences
+- Microsoft.Windows.CppWinRT
+- Microsoft.Windows.SDK.BuildTools
+- Microsoft.Windows.SDK.BuildTools.MSIX
 
 See `packages.config` for current package versions.
 
@@ -56,10 +57,10 @@ If setting up a new framework-dependent project:
 
 1. Add the required packages to `packages.config`:
    ```xml
-   <package id="Microsoft.WindowsAppSDK.Foundation" version="1.8.250701000-experimental" targetFramework="native" />
-   <package id="Microsoft.WindowsAppSDK.InteractiveExperiences" version="1.8.250626001-experimental" targetFramework="native" />
-   <package id="Microsoft.WindowsAppSDK.Runtime" version="1.8.250812004-experimental" targetFramework="native" />
-   <package id="Microsoft.WindowsAppSDK.Base" version="1.8.250509001-experimental" targetFramework="native" />
+   <package id="Microsoft.WindowsAppSDK.Foundation" version="[version]" targetFramework="native" />
+   <package id="Microsoft.WindowsAppSDK.InteractiveExperiences" version="[version]" targetFramework="native" />
+   <package id="Microsoft.WindowsAppSDK.Runtime" version="[version]" targetFramework="native" />
+   <package id="Microsoft.WindowsAppSDK.Base" version="[version]" targetFramework="native" />
    ```
 
 2. Set the bootstrap property at the top of your `.vcxproj` file (before any imports):
