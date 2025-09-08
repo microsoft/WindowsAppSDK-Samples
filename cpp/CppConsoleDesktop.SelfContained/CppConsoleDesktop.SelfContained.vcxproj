@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Enable self-contained deployment BEFORE any imports -->
+  <PropertyGroup>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  </PropertyGroup>
   <Import Project="..\..\packages\Microsoft.WindowsAppSDK.Base.1.8.250831001\build\native\Microsoft.WindowsAppSDK.Base.props" Condition="Exists('..\..\packages\Microsoft.WindowsAppSDK.Base.1.8.250831001\build\native\Microsoft.WindowsAppSDK.Base.props')" />
   <Import Project="..\..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.props" Condition="Exists('..\..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.20250508.1\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" />
   <Import Project="..\..\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('..\..\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233\build\Microsoft.Windows.SDK.BuildTools.props')" />
@@ -21,8 +25,6 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <WindowsPackageType>None</WindowsPackageType>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <!-- Enable self-contained deployment -->
-    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">

@@ -9,8 +9,5 @@
     <Nullable Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</Nullable>
     <ImplicitUsings Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</ImplicitUsings>
     <AllowUnsafeBlocks Condition="'$(MSBuildProjectExtension)' == '.csproj'">true</AllowUnsafeBlocks>
-    <!-- WindowsML specific settings -->
-    <WindowsPackageType Condition="'$(MSBuildProjectExtension)' == '.csproj'">None</WindowsPackageType>
-    <WindowsAppSdkBootstrapInitialize Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">true</WindowsAppSdkBootstrapInitialize>
   </PropertyGroup>
 </Project>
