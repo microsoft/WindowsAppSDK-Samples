@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <WindowsPackageType>None</WindowsPackageType>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
