@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <WindowsPackageType>None</WindowsPackageType>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
