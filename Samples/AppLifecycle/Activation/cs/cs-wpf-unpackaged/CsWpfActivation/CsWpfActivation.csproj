@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.250701000-experimental" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.250702007-experimental4" />
   </ItemGroup>
 
 </Project>
