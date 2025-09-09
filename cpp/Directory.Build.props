@@ -1,16 +1,16 @@
 <Project>
   <PropertyGroup>
     <!-- Central NuGet package versions for C++ WindowsML samples -->
-    <WindowsAppSDKVersion>1.8.250907001</WindowsAppSDKVersion>
+    <WindowsAppSDKVersion>1.8.250909001</WindowsAppSDKVersion>
     <WindowsAppSDKWinUIVersion>1.8.250906003</WindowsAppSDKWinUIVersion>
     <WindowsAppSDKBaseVersion>1.8.250831001</WindowsAppSDKBaseVersion>
     <WindowsAppSDKFoundationVersion>1.8.250906002</WindowsAppSDKFoundationVersion>
     <WindowsAppSDKInteractiveExperiencesVersion>1.8.250906004</WindowsAppSDKInteractiveExperiencesVersion>
     <WindowsAppSDKDWriteVersion>1.8.25090401</WindowsAppSDKDWriteVersion>
     <WindowsAppSDKWidgetsVersion>1.8.250904007</WindowsAppSDKWidgetsVersion>
-    <WindowsAppSDKAIVersion>1.8.36</WindowsAppSDKAIVersion>
+    <WindowsAppSDKAIVersion>1.8.37</WindowsAppSDKAIVersion>
     <WindowsAppSDKMLVersion>1.8.2088</WindowsAppSDKMLVersion>
-    <WindowsAppSDKRuntimeVersion>1.8.250907001</WindowsAppSDKRuntimeVersion>
+    <WindowsAppSDKRuntimeVersion>1.8.250909001</WindowsAppSDKRuntimeVersion>
     <CppWinRTVersion>2.0.240405.15</CppWinRTVersion>
     <WindowsSDKBuildToolsVersion>10.0.26100.4654</WindowsSDKBuildToolsVersion>
     <WebView2Version>1.0.3179.45</WebView2Version>
