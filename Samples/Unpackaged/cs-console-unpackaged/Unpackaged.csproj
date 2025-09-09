@@ -10,6 +10,7 @@
     <WindowsPackageType>None</WindowsPackageType>
     <!--Bug - Required for non-WinUI apps, remove once resolved -->
     <WinUISDKReferences>False</WinUISDKReferences>
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
   </PropertyGroup>
 
   <ItemGroup>
