@@ -10,11 +10,11 @@
     <WindowsPackageType>None</WindowsPackageType>
     <!--Bug - Required for non-WinUI apps, remove once resolved -->
     <WinUISDKReferences>False</WinUISDKReferences>
-    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.250702007-experimental4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.250702007-experimental4" />
   </ItemGroup>
 
 </Project>
