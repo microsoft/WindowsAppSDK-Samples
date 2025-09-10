@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <WindowsPackageType>None</WindowsPackageType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="System.Numerics.Tensors" />
+  </ItemGroup>
+
+  <!-- Include shared helper files -->
+  <ItemGroup>
+    <Compile Include="..\..\..\Shared\cs\ArgumentParser.cs" Link="Shared\ArgumentParser.cs" />
+    <Compile Include="..\..\..\Shared\cs\ExecutionProviderManager.cs" Link="Shared\ExecutionProviderManager.cs" />
+    <Compile Include="..\..\..\Shared\cs\ImageProcessor.cs" Link="Shared\ImageProcessor.cs" />
+    <Compile Include="..\..\..\Shared\cs\ModelManager.cs" Link="Shared\ModelManager.cs" />
+    <Compile Include="..\..\..\Shared\cs\InferenceEngine.cs" Link="Shared\InferenceEngine.cs" />
+    <Compile Include="..\..\..\Shared\cs\ResultProcessor.cs" Link="Shared\ResultProcessor.cs" />
+  </ItemGroup>
+
+  <!-- Include resource files -->
+  <ItemGroup>
+    <Content Include="..\..\..\Resources\SqueezeNet.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Resources\SqueezeNet.Labels.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Resources\image.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

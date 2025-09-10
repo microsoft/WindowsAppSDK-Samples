@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+    <msix xmlns="urn:schemas-microsoft-com:msix.v1"
+            publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+            packageName="WindowsMLCppConsoleDesktop"
+            applicationId="WindowsMLCppConsoleDesktop"
+        />
+    <assemblyIdentity version="1.0.0.0" name="WindowsMLCppConsoleDesktop" type="win32"/>
+    <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+        <application>
+            <maxversiontested Id="10.0.26100.1742"/>
+            <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+        </application>
+    </compatibility>
+</assembly>
