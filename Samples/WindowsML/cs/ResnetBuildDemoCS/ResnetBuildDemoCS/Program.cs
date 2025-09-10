@@ -84,8 +84,7 @@ internal class Program
             stream.Seek(0);
 
             var decoder = await BitmapDecoder.CreateAsync(stream);
-            var transform = new BitmapTransform()
-            {
+            var transform = new BitmapTransform() {
                 ScaledWidth = (uint)width,
                 ScaledHeight = (uint)height,
                 InterpolationMode = BitmapInterpolationMode.Fant
@@ -140,8 +139,7 @@ internal class Program
         try
         {
             // Create a new instance of EnvironmentCreationOptions
-            EnvironmentCreationOptions envOptions = new()
-            {
+            EnvironmentCreationOptions envOptions = new() {
                 logId = "ResnetBuildDemo",
                 logLevel = OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR
             };
@@ -157,7 +155,7 @@ internal class Program
             string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
             string labelsPath = Path.Combine(executableFolder, "ResNet50Labels.txt");
             string imagePath = Path.Combine(executableFolder, "dog.jpg");
-            
+
             // TODO: Please use AITK Model Conversion tool to download and convert Resnet, and paste the converted path here
             string modelPath = @"";
             string compiledModelPath = @"";
