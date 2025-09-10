@@ -1,16 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using WindowsAISample.Models.Contracts;
-using WindowsAISample.Util;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Windows.Storage.Pickers;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Graphics.Imaging;
-using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using WinRT.Interop;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 
 namespace WindowsAISample.ViewModels;
 
@@ -46,68 +46,38 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
             });
         });
 
-        _pickInputImageCommand = new(async _ =>
+        // Local helper to reduce duplication
+        async Task<bool> PickImageAsync(Func<SoftwareBitmap, Task> setAction, bool convertToGray8 = false)
         {
-            var picker = new FileOpenPicker();
-            var window = App.Window;
-            var hwnd = WindowNative.GetWindowHandle(window);
-            InitializeWithWindow.Initialize(picker, hwnd);
-
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            var picker = new FileOpenPicker(App.WindowId)
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
             picker.FileTypeFilter.Add(".jpg");
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
 
             var file = await picker.PickSingleFileAsync();
-            if (file != null)
-            {
-                using (IRandomAccessStream readStream = await file.OpenReadAsync())
-                {
-                    var decoder = await BitmapDecoder.CreateAsync(readStream);
-                    var softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
-                    await SetInputImageAsync(softwareBitmap);
-                }
+            if (file == null || string.IsNullOrEmpty(file.Path))
+                return false;
 
-                return true;
+            using var fs = new FileStream(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
+            using IRandomAccessStream readStream = fs.AsRandomAccessStream();
+            var decoder = await BitmapDecoder.CreateAsync(readStream);
+            var softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+
+            if (convertToGray8)
+            {
+                softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Gray8);
             }
 
-            return false;
+            await setAction(softwareBitmap);
+            return true;
+        }
 
-        },
-        _ => true);
-
-        _pickMaskImageCommand = new(async _ =>
-        {
-            var picker = new FileOpenPicker();
-            var window = App.Window;
-            var hwnd = WindowNative.GetWindowHandle(window);
-            InitializeWithWindow.Initialize(picker, hwnd);
-
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
-
-            var file = await picker.PickSingleFileAsync();
-            if (file != null)
-            {
-                using (IRandomAccessStream readStream = await file.OpenReadAsync())
-                {
-                    var decoder = await BitmapDecoder.CreateAsync(readStream);
-                    var softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
-                    var gray8SoftwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Gray8);
-                    await SetMaskImageAsync(gray8SoftwareBitmap);
-                }
-
-                return true;
-            }
-
-            return false;
-
-        },
-        _ => true);
+        _pickInputImageCommand = new(async _ => await PickImageAsync(SetInputImageAsync), _ => true);
+        _pickMaskImageCommand = new(async _ => await PickImageAsync(SetMaskImageAsync, convertToGray8: true), _ => true);
     }
 
     protected virtual string GetFactoryInputImagePath()
