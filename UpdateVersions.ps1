@@ -1,7 +1,49 @@
 Param(
-    [string]$WinAppSDKVersion = "",
+    [Parameter(Mandatory=$true)]
+    [string]$WinAppSDKVersion,
     [string]$NuGetPackagesFolder = ""
 )
+
+# Prerequisites
+# If the NuGetPackagesFolder parameter wasn't provided, 
+# Install the version of WinAppSDK in 'packages' folder first,
+if ($NuGetPackagesFolder -eq "") {
+    $NuGetPackagesFolder = Join-Path $PSScriptRoot "packages"
+    Write-Host "NuGetPackagesFolder not supplied. Using default: $NuGetPackagesFolder"
+
+    if (!(Test-Path $NuGetPackagesFolder)) {
+        Write-Host "Packages folder not found. Will perform a minimal restore to populate it."       
+    }
+
+    $nugetToolDir = Join-Path $PSScriptRoot ".nuget"
+    $nugetExe = Join-Path $nugetToolDir "nuget.exe"
+    if (!(Test-Path $nugetExe)) {
+        if (!(Test-Path $nugetToolDir)) { New-Item -ItemType Directory -Path $nugetToolDir | Out-Null }
+        Write-Host "Downloading nuget.exe..."
+        Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile $nugetExe
+    }
+
+    # If the WinAppSDK package (any variant) isn't already present, install just that
+    # package (and its dependencies) at the requested version directly.
+    $hasWinAppSdk = Get-ChildItem -Path $NuGetPackagesFolder -ErrorAction SilentlyContinue | Where-Object { $_.Name -like "Microsoft.WindowsAppSDK.*" } | Select-Object -First 1
+    if (-not $hasWinAppSdk) {
+        if ([string]::IsNullOrWhiteSpace($WinAppSDKVersion)) {
+            Write-Warning "WinAppSDKVersion not supplied; cannot install Microsoft.WindowsAppSDK package automatically."
+        } else {
+            if (!(Test-Path $NuGetPackagesFolder)) { New-Item -ItemType Directory -Path $NuGetPackagesFolder | Out-Null }
+            Write-Host "Installing Microsoft.WindowsAppSDK $WinAppSDKVersion into $NuGetPackagesFolder (running inside folder)"
+            Push-Location $NuGetPackagesFolder
+            try {
+                & $nugetExe install Microsoft.WindowsAppSDK -Version $WinAppSDKVersion -OutputDirectory . -Prerelease -DependencyVersion Highest | Write-Host
+            }
+            finally {
+                Pop-Location
+            }
+        }
+    } else {
+        Write-Host "Detected existing Microsoft.WindowsAppSDK package; skipping install."
+    }
+}
 
 # First, add the metapackage
 $nugetPackageToVersionTable = @{"Microsoft.WindowsAppSDK" = $WinAppSDKVersion}
