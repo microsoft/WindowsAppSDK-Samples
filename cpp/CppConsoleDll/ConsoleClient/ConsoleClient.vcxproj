@@ -40,16 +40,8 @@
       <Project>{B8F65F4C-1234-4567-8901-123456789ABC}</Project>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <Private>true</Private>
     </ProjectReference>
   </ItemGroup>
-  <Target Name="CopyDLLs" AfterTargets="Build">
-    <ItemGroup>
-      <DLLFiles Include="$(SolutionDir)x64\$(Configuration)\WindowsMLWrapper.dll" />
-    </ItemGroup>
-    <Copy SourceFiles="@(DLLFiles)" DestinationFolder="$(OutDir)" />
-  </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-
-
-
