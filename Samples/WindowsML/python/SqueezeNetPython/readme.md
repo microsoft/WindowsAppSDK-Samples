@@ -21,7 +21,7 @@ extendedZipContent:
 * Create a python environment with Python 3.10 - 3.13
 * Install the latest WinML python packages
 ```PowerShell
-pip install --upgrade -r requirements.txt 
+pip install --upgrade --pre -r requirements.txt 
 ```
 ### Install WindowsAppRuntime
 Please install the WindowsAppRuntime that matches the version of the python package `wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap`
