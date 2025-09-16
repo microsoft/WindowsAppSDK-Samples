@@ -13,9 +13,14 @@ class WinML:
         global _instance
         if _instance is None:
             _instance = super(WinML, cls).__new__(cls, *args, **kwargs)
+            _instance._initialized = False
         return _instance
 
     def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
+
         self._fix_winrt_runtime()
         from winui3.microsoft.windows.applicationmodel.dynamicdependency.bootstrap import (
             InitializeOptions,
