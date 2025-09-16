@@ -11,16 +11,16 @@ function Get-FileFromUri {
     param (
         [Parameter(Mandatory=$true)][string]$Uri,
         [Parameter(Mandatory=$true)][string]$OutFile,
-        [Parameter(Mandatory=$true)][string]$ExpectedMD5
+        [Parameter(Mandatory=$true)][string]$ExpectedHash
     )
     
     $needsDownload = $true
     Write-Host "Downloading $OutFile from $Uri" -ForegroundColor Cyan
     
     if (Test-Path $OutFile -PathType Leaf) {
-        Write-Host "File exists. Verifying MD5 checksum..." -ForegroundColor Yellow
-        $md5 = Get-FileHash -Path $OutFile -Algorithm MD5
-        if ($md5.Hash -eq $ExpectedMD5) {
+        Write-Host "File exists. Verifying checksum..." -ForegroundColor Yellow
+        $hash = Get-FileHash -Path $OutFile -Algorithm SHA256
+        if ($hash.Hash -eq $ExpectedHash) {
             Write-Host "File checksum matches. Using existing file." -ForegroundColor Green
             $needsDownload = $false
         } else {
@@ -44,9 +44,9 @@ function Get-FileFromUri {
 # Download the model file
 $modelPath = Join-Path $targetPath 'SqueezeNet.onnx'
 $modelUri = 'https://github.com/microsoft/Windows-Machine-Learning/blob/02b586811c8beb1ae2208c8605393267051257ae/SharedContent/models/SqueezeNet.onnx?raw=true'
-Get-FileFromUri -Uri $modelUri -OutFile $modelPath -ExpectedMD5 "3EA0D4AECA899A4F99216FC4BEBD9D0D" | Out-Null
+Get-FileFromUri -Uri $modelUri -OutFile $modelPath -ExpectedHash "D95E2191E056F1912A9B8F6000DA3B9C7818441B9EB48137033C2ADBF6398BC8" | Out-Null
 
 # Download the labels file
 $labelsPath = Join-Path $targetPath 'SqueezeNet.Labels.txt'
 $labelsUri = 'https://github.com/microsoft/Windows-Machine-Learning/blob/02b586811c8beb1ae2208c8605393267051257ae/Samples/SqueezeNetObjectDetection/Desktop/cpp/Labels.txt?raw=true'
-Get-FileFromUri -Uri $labelsUri -OutFile $labelsPath -ExpectedMD5 "7317EA720B83CB3CADB75AD91419F6A8" | Out-Null
+Get-FileFromUri -Uri $labelsUri -OutFile $labelsPath -ExpectedHash "DC1FD0D4747096D3AA690BD65EC2F51FDB3E5117535BFBCE46FA91088A8F93A9" | Out-Null
