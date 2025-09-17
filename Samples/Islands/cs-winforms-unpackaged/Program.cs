@@ -17,6 +17,11 @@ namespace WinFormsWithIslandApp
             // Island-support: This is necessary for Xaml controls, resources, and metatdata to work correctly.
             var xamlApp = new XamlApp();
 
+            // Island-support: We need to add the SampleWinUIClassLibrary's XamlMetaDataProvider so that the Xaml parser
+            // can find the Xaml controls in the SampleWinUIClassLibrary (like "SampleUserControl").
+            // Without this, you will get a XamlParseException.
+            xamlApp.AddProvider(new SampleWinUIClassLibrary.SampleWinUIClassLibrary_XamlTypeInfo.XamlMetaDataProvider());
+
             // Island-support: This allows the WindowsAppSDK UI stack to process messages before the WinForms message loop.
             WindowsAppSdkHelper.EnableContentPreTranslateMessageInEventLoop();
 

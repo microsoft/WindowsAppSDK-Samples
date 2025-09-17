@@ -102,6 +102,10 @@ This sample is an "unpackaged" app, so it will run like a WinForms/Win32 app doe
 
 This sample uses Windows App SDK as a "framework package".  This means that the Windows App SDK runtime must be installed for it to run.
 
+It also shows how to use a UserControl named "SampleUserControl" that's defined in a separate "WinUI Class Library" DLL called
+"SampleWinUIClassLibrary".  To make this work, the XamlApp type knows how to route Xaml metadata requests to the SampleWinUIClassLibrary's
+XamlMetadataProvider object.
+
 ## Prerequisites
 
 * See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
