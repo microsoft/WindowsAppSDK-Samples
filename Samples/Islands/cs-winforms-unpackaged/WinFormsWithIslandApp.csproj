@@ -27,7 +27,11 @@
 
   <ItemGroup>
     <!-- Island-support: Reference the WindowsAppSDK and packages it depends on -->
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250907003" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SampleWinUIClassLibrary\SampleWinUIClassLibrary.csproj" />
   </ItemGroup>
 
 </Project>

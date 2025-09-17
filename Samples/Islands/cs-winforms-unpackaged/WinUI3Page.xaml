@@ -7,10 +7,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:sample="using:SampleWinUIClassLibrary"
     >
     <StackPanel Margin="10">
         <Button x:Name="MyButton" Click="Button_Click">I am a WinUI 3 Button</Button>
         <TextBox Text="I am a WinUI 3 TextBox" />
         <ComboBox ItemsSource="{x:Bind MyItems}" />
+        <sample:SampleUserControl />
     </StackPanel>
 </Page>
