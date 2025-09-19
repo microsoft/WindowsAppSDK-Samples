@@ -1,6 +1,6 @@
 # Windows ML Samples
 
-This repository contains comprehensive samples demonstrating how to use [Windows ML](https://learn.microsoft.com/en-us/windows/ai/new-windows-ml/overview) and [ONNX Runtime](https://onnxruntime.ai/) for machine learning inference on Windows. These samples show integration across different programming languages, UI frameworks, and Windows App SDK deployment scenarios.
+This repository contains comprehensive samples demonstrating how to use [Windows ML](https://learn.microsoft.com/en-us/windows/ai/new-windows-ml/overview) and [ONNX Runtime](https://onnxruntime.ai/) for machine learning inference on Windows. These samples emphasize Windows ML integration with various Windows technologies via the Windows App SDK. Samples for the ONNX Runtime can be found in [this repository](https://github.com/microsoft/onnxruntime-inference-examples).
 
 ## Overview
 
@@ -14,7 +14,7 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 
 - **Windows 11 PC** running version 24H2 (build 26100) or greater
 - **Visual Studio 2022** with C++ and .NET workloads
-- **Windows App SDK 1.8** or later
+- **Windows App SDK 1.8.1** or later
 - **Python 3.10-3.13** for Python samples on x64 and ARM64 devices
 
 ## Sample Categories
@@ -76,5 +76,6 @@ These samples detect and utilize the CPU, GPU, and NPU.
 
 - [Windows ML Documentation](https://learn.microsoft.com/en-us/windows/ai/new-windows-ml/overview)
 - [ONNX Runtime Documentation](https://onnxruntime.ai/docs/)
+- [ONNX Runtime Samples](https://github.com/microsoft/onnxruntime-inference-examples)
 - [Windows App SDK Documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
 - [Report Issues](https://github.com/microsoft/WindowsAppSDK-Samples/issues)
