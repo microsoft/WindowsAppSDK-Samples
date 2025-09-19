@@ -10,7 +10,7 @@ For example here are phi-3-mini-128k models in the foundry library.
 
 ```cmd
 
-foundry model ls --filter alias=phi-3-mini-128k
+c:\> foundry model ls --filter alias=phi-3-mini-128k
 
 Alias                          Device     Task               File Size    License      Model ID
 -----------------------------------------------------------------------------------------------

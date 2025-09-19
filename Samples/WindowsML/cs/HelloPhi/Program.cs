@@ -116,7 +116,6 @@ do
         int totalTokens = outputSequence.Length;
         Console.WriteLine($"Tokens: {totalTokens} Time: {runTimeInSeconds:0.00} Tokens per second: {totalTokens / runTimeInSeconds:0.00}");
     }
-
     else if (option == 2) //Streaming Output
     {
         using GeneratorParams generatorParams = new(model);
