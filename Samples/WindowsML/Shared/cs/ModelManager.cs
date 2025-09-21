@@ -77,10 +77,20 @@ namespace WindowsML.Shared
                 Console.WriteLine($"Using EP selection policy: {options.EpPolicy.Value}");
                 sessionOptions.SetEpSelectionPolicy(options.EpPolicy.Value);
             }
+            else if (!string.IsNullOrEmpty(options.EpName))
+            {
+                Console.WriteLine($"Using explicit execution provider: {options.EpName}");
+                if (!ExecutionProviderManager.ConfigureSelectedExecutionProvider(sessionOptions,
+                                                                                 ortEnv,
+                                                                                 options.EpName,
+                                                                                 options.DeviceType))
+                {
+                    throw new Exception("Failed to configure selected execution provider");
+                }
+            }
             else
             {
-                Console.WriteLine("Using explicit EP configuration");
-                ExecutionProviderManager.ConfigureExecutionProviders(sessionOptions, ortEnv);
+                throw new Exception("Could not find an EP selection policy or an explicit execution provider.");
             }
 
             return new InferenceSession(modelPath, sessionOptions);
@@ -142,9 +152,19 @@ namespace WindowsML.Shared
                     {
                         tempSessionOptions.SetEpSelectionPolicy(options.EpPolicy.Value);
                     }
+                    else if (!string.IsNullOrEmpty(options.EpName))
+                    {
+                        if (!ExecutionProviderManager.ConfigureSelectedExecutionProvider(tempSessionOptions,
+                                                                                          ortEnv,
+                                                                                          options.EpName,
+                                                                                          options.DeviceType))
+                        {
+                            throw new Exception("Failed to configure selected execution provider");
+                        }
+                    }
                     else
                     {
-                        ExecutionProviderManager.ConfigureExecutionProviders(tempSessionOptions, ortEnv);
+                        throw new Exception("Could not find an EP selection policy or an explicit execution provider.");
                     }
 
                     CompileModel(tempSessionOptions, modelPath, compiledModelPath);

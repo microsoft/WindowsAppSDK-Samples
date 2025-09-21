@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using Windows.Storage;
 using WindowsML.Shared;
+using Microsoft.UI.Xaml.Controls;
 
 namespace WindowsMLSample
 {
@@ -47,10 +48,8 @@ namespace WindowsMLSample
         {
             try
             {
-                // Display execution provider information first
-                ResultsText.Text = "Getting available providers...\n";
+                ResultsText.Text = "Enumerating execution providers...\n";
 
-                // Get provider information directly from ExecutionProviderCatalog
                 var catalog = ExecutionProviderCatalog.GetDefault();
                 var providers = catalog.FindAllProviders();
                 var providerInfo = new StringBuilder();
@@ -64,12 +63,21 @@ namespace WindowsMLSample
                     providerInfo.AppendLine();
                 }
 
-                providerInfo.AppendLine("========================================");
-                providerInfo.AppendLine("Loading model...");
-                ResultsText.Text = providerInfo.ToString();
+                bool allowDownload = AllowProviderDownloadCheckBox.IsChecked ?? false;
+                await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
 
-                await LoadModelAsync();
-                await LoadAndRunDemoAsync();
+                using (var discoveryEnv = ModelManager.CreateEnvironment("WinUIDiscovery"))
+                {
+                    var devices = discoveryEnv.GetEpDevices();
+                    PopulateEpCombo(devices);
+                    PopulateDeviceCombo(devices);
+                }
+
+                EpCombo.SelectionChanged += EpCombo_SelectionChanged;
+
+                providerInfo.AppendLine("========================================");
+                providerInfo.AppendLine("Select an execution provider (and device if required) then click 'Load / Reload Model'.");
+                ResultsText.Text = providerInfo.ToString();
             }
             catch (Exception ex)
             {
@@ -79,47 +87,49 @@ namespace WindowsMLSample
 
         private async Task LoadModelAsync()
         {
-            // Use checkbox value for provider downloads
-            bool allowDownload = AllowProviderDownloadCheckBox.IsChecked ?? false;
-
-            // Create ONNX Runtime environment using shared helper
-            _ortEnv = ModelManager.CreateEnvironment("WindowsMLWinUISample");
-
-            // Initialize execution providers using shared helper  
-            await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
-
-            // Get application directory and resolve paths using shared helper
-            var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (string.IsNullOrEmpty(appDirectory))
+            if (EpCombo.SelectedItem == null)
             {
-                throw new InvalidOperationException("Could not determine application directory");
+                ResultsText.Text = "Select an execution provider first.";
+                return;
             }
 
-            // Create options for path resolution
-            var options = new Options {
-                ModelPath = "SqueezeNet.onnx"
+            bool allowDownload = AllowProviderDownloadCheckBox.IsChecked ?? false;
+
+            _session?.Dispose();
+            _session = null;
+            _ortEnv?.Dispose();
+            _ortEnv = null;
+
+            _ortEnv = ModelManager.CreateEnvironment("WindowsMLWinUISample");
+            await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
+
+            var selectedEp = EpCombo.SelectedItem?.ToString();
+            var selectedDeviceType = (DeviceCombo.IsEnabled ? DeviceCombo.SelectedItem?.ToString() : null);
+
+            if (DeviceCombo.IsEnabled && selectedDeviceType == null)
+            {
+                ResultsText.Text = "Select a device type for the selected execution provider.";
+                return;
+            }
+
+            var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                               ?? throw new InvalidOperationException("Could not determine application directory");
+
+            var options = new Options
+            {
+                ModelPath = "SqueezeNet.onnx",
+                EpName = selectedEp,
+                DeviceType = selectedDeviceType
             };
 
-            // Resolve file paths using shared helper
             var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
-
-            // Override paths to use app directory
             modelPath = Path.Combine(appDirectory, "SqueezeNet.onnx");
             labelsPath = Path.Combine(appDirectory, "SqueezeNet.Labels.txt");
 
-            if (!File.Exists(modelPath))
-            {
-                throw new FileNotFoundException($"Model file not found: {modelPath}");
-            }
-            if (!File.Exists(labelsPath))
-            {
-                throw new FileNotFoundException($"Labels file not found: {labelsPath}");
-            }
+            if (!File.Exists(modelPath)) throw new FileNotFoundException($"Model file not found: {modelPath}");
+            if (!File.Exists(labelsPath)) throw new FileNotFoundException($"Labels file not found: {labelsPath}");
 
-            // Create inference session using shared helper
             _session = ModelManager.CreateSession(modelPath, options, _ortEnv);
-
-            // Load labels using shared helper
             _labels = ResultProcessor.LoadLabels(labelsPath).ToList();
         }
 
@@ -145,9 +155,13 @@ namespace WindowsMLSample
         {
             try
             {
-                ResultsText.Text = "Reloading model with new settings...";
+                ResultsText.Text = "Loading / reloading model...";
                 await LoadModelAsync();
-                await LoadAndRunDemoAsync();
+                if (_session != null)
+                {
+                    ResultsText.Text += "\nRunning demo inference...";
+                    await LoadAndRunDemoAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -204,6 +218,79 @@ namespace WindowsMLSample
             catch (Exception ex)
             {
                 ResultsText.Text = $"Inference failed: {ex.Message}";
+            }
+        }
+
+        private void PopulateEpCombo(IEnumerable<OrtEpDevice> devices)
+        {
+            EpCombo.Items.Clear();
+            var epGroups = devices
+                .GroupBy(d => d.EpName)
+                .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase);
+
+            foreach (var g in epGroups)
+            {
+                EpCombo.Items.Add(g.Key);
+            }
+
+            if (EpCombo.Items.Count > 0)
+            {
+                EpCombo.SelectedIndex = 0;
+            }
+        }
+
+        private void PopulateDeviceCombo(IEnumerable<OrtEpDevice> devices)
+        {
+            DeviceCombo.Items.Clear();
+            DeviceCombo.IsEnabled = false;
+
+            var selectedEp = EpCombo.SelectedItem?.ToString();
+            if (string.IsNullOrEmpty(selectedEp))
+            {
+                return;
+            }
+
+            var epDevices = devices.Where(d => d.EpName == selectedEp).ToList();
+
+            // Generalized: any EP with multiple distinct hardware device types
+            var types = epDevices
+                .Select(d => d.HardwareDevice.Type.ToString())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(s => s, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (types.Count == 1)
+            {
+                DeviceCombo.Items.Add(types[0]);
+                DeviceCombo.SelectedIndex = 0;
+            }
+            else if (types.Count > 1)
+            {
+                DeviceCombo.IsEnabled = true;
+                foreach (var t in types)
+                {
+                    DeviceCombo.Items.Add(t);
+                }
+                DeviceCombo.SelectedIndex = 0;
+            }
+            else
+            {
+                // Log an error – no devices for selected EP
+                ResultsText.Text = $"No devices found for selected execution provider: {selectedEp}";
+            }
+        }
+
+        private void EpCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                using var env = ModelManager.CreateEnvironment("WinUIDeviceRefresh");
+                var devices = env.GetEpDevices();
+                PopulateDeviceCombo(devices);
+            }
+            catch (Exception ex)
+            {
+                ResultsText.Text = $"Device refresh failed: {ex.Message}";
             }
         }
 

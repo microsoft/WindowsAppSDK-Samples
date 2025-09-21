@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 
 namespace WindowsMLWinFormsSample
@@ -40,12 +40,64 @@ namespace WindowsMLWinFormsSample
             this.imagePathLabel = new Label();
             this.label1 = new Label();
             this.label2 = new Label();
+            // New EP related controls
+            this.epLabel = new Label();
+            this.epCombo = new ComboBox();
+            this.deviceLabel = new Label();
+            this.deviceCombo = new ComboBox();
+            this.reloadSessionButton = new Button();
             ((System.ComponentModel.ISupportInitialize)(this.selectedImagePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
+            // epLabel
+            // 
+            this.epLabel.AutoSize = true;
+            this.epLabel.Location = new Point(12, 12);
+            this.epLabel.Name = "epLabel";
+            this.epLabel.Size = new Size(108, 15);
+            this.epLabel.TabIndex = 100;
+            this.epLabel.Text = "Execution Provider:";
+            // 
+            // epCombo
+            // 
+            this.epCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.epCombo.Location = new Point(140, 8);
+            this.epCombo.Name = "epCombo";
+            this.epCombo.Size = new Size(260, 23);
+            this.epCombo.TabIndex = 101;
+            this.epCombo.SelectedIndexChanged += new EventHandler(this.EpCombo_SelectedIndexChanged);
+            // 
+            // deviceLabel
+            // 
+            this.deviceLabel.AutoSize = true;
+            this.deviceLabel.Location = new Point(12, 44);
+            this.deviceLabel.Name = "deviceLabel";
+            this.deviceLabel.Size = new Size(72, 15);
+            this.deviceLabel.TabIndex = 102;
+            this.deviceLabel.Text = "Device Type:";
+            // 
+            // deviceCombo
+            // 
+            this.deviceCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.deviceCombo.Enabled = false;
+            this.deviceCombo.Location = new Point(140, 40);
+            this.deviceCombo.Name = "deviceCombo";
+            this.deviceCombo.Size = new Size(180, 23);
+            this.deviceCombo.TabIndex = 103;
+            // 
+            // reloadSessionButton
+            // 
+            this.reloadSessionButton.Location = new Point(340, 37);
+            this.reloadSessionButton.Name = "reloadSessionButton";
+            this.reloadSessionButton.Size = new Size(140, 30);
+            this.reloadSessionButton.TabIndex = 104;
+            this.reloadSessionButton.Text = "Load / Reload Model";
+            this.reloadSessionButton.UseVisualStyleBackColor = true;
+            this.reloadSessionButton.Click += new EventHandler(this.ReloadSessionButton_Click);
+            // 
             // selectImageButton
             // 
-            this.selectImageButton.Location = new Point(12, 12);
+            this.selectImageButton.Location = new Point(12, 78);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new Size(120, 35);
             this.selectImageButton.TabIndex = 0;
@@ -56,7 +108,7 @@ namespace WindowsMLWinFormsSample
             // runInferenceButton
             // 
             this.runInferenceButton.Enabled = false;
-            this.runInferenceButton.Location = new Point(150, 12);
+            this.runInferenceButton.Location = new Point(150, 78);
             this.runInferenceButton.Name = "runInferenceButton";
             this.runInferenceButton.Size = new Size(120, 35);
             this.runInferenceButton.TabIndex = 1;
@@ -67,7 +119,7 @@ namespace WindowsMLWinFormsSample
             // allowProviderDownloadCheckBox
             // 
             this.allowProviderDownloadCheckBox.AutoSize = true;
-            this.allowProviderDownloadCheckBox.Location = new Point(290, 20);
+            this.allowProviderDownloadCheckBox.Location = new Point(290, 86);
             this.allowProviderDownloadCheckBox.Name = "allowProviderDownloadCheckBox";
             this.allowProviderDownloadCheckBox.Size = new Size(205, 19);
             this.allowProviderDownloadCheckBox.TabIndex = 7;
@@ -77,7 +129,7 @@ namespace WindowsMLWinFormsSample
             // selectedImagePictureBox
             // 
             this.selectedImagePictureBox.BorderStyle = BorderStyle.FixedSingle;
-            this.selectedImagePictureBox.Location = new Point(12, 105);
+            this.selectedImagePictureBox.Location = new Point(12, 171);
             this.selectedImagePictureBox.Name = "selectedImagePictureBox";
             this.selectedImagePictureBox.Size = new Size(400, 300);
             this.selectedImagePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
@@ -87,7 +139,7 @@ namespace WindowsMLWinFormsSample
             // resultsTextBox
             // 
             this.resultsTextBox.Font = new Font("Consolas", 9F);
-            this.resultsTextBox.Location = new Point(430, 105);
+            this.resultsTextBox.Location = new Point(430, 171);
             this.resultsTextBox.Multiline = true;
             this.resultsTextBox.Name = "resultsTextBox";
             this.resultsTextBox.ReadOnly = true;
@@ -99,7 +151,7 @@ namespace WindowsMLWinFormsSample
             // imagePathLabel
             // 
             this.imagePathLabel.AutoSize = false;
-            this.imagePathLabel.Location = new Point(12, 60);
+            this.imagePathLabel.Location = new Point(12, 126);
             this.imagePathLabel.Name = "imagePathLabel";
             this.imagePathLabel.Size = new Size(400, 20);
             this.imagePathLabel.TabIndex = 4;
@@ -109,7 +161,7 @@ namespace WindowsMLWinFormsSample
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.label1.Location = new Point(12, 85);
+            this.label1.Location = new Point(12, 151);
             this.label1.Name = "label1";
             this.label1.Size = new Size(94, 15);
             this.label1.TabIndex = 5;
@@ -119,7 +171,7 @@ namespace WindowsMLWinFormsSample
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.label2.Location = new Point(430, 85);
+            this.label2.Location = new Point(430, 151);
             this.label2.Name = "label2";
             this.label2.Size = new Size(127, 15);
             this.label2.TabIndex = 6;
@@ -129,7 +181,12 @@ namespace WindowsMLWinFormsSample
             // 
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(970, 425);
+            this.ClientSize = new Size(970, 488);
+            this.Controls.Add(this.reloadSessionButton);
+            this.Controls.Add(this.deviceCombo);
+            this.Controls.Add(this.deviceLabel);
+            this.Controls.Add(this.epCombo);
+            this.Controls.Add(this.epLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.imagePathLabel);
@@ -157,5 +214,11 @@ namespace WindowsMLWinFormsSample
         private Label imagePathLabel;
         private Label label1;
         private Label label2;
+        // EP selection designer fields
+        private Label epLabel;
+        private ComboBox epCombo;
+        private Label deviceLabel;
+        private ComboBox deviceCombo;
+        private Button reloadSessionButton;
     }
 }

@@ -12,12 +12,14 @@ namespace WindowsML.Shared
     /// </summary>
     public class Options
     {
-        public ExecutionProviderDevicePolicy? EpPolicy { get; set; } = null; // Default: null (DISABLE)
+        public ExecutionProviderDevicePolicy? EpPolicy { get; set; } = null; // Policy-based (mutually exclusive with EpName)
+        public string? EpName { get; set; } = null; // Explicit EP name (mutually exclusive with EpPolicy)
+        public string? DeviceType { get; set; } = null; // Optional value to declare CPU | GPU | NPU
         public bool Compile { get; set; } = false;
         public bool Download { get; set; } = false;
-        public string ModelPath { get; set; } = "SqueezeNet.onnx"; // Default: SqueezeNet.onnx
-        public string OutputPath { get; set; } = "SqueezeNet_ctx.onnx"; // Default: SqueezeNet_ctx.onnx
-        public string ImagePath { get; set; } = string.Empty; // Mandatory field
+        public string ModelPath { get; set; } = "SqueezeNet.onnx";
+        public string OutputPath { get; set; } = "SqueezeNet_ctx.onnx";
+        public string ImagePath { get; set; } = string.Empty;
     }
 
     public static class ArgumentParser
@@ -62,6 +64,20 @@ namespace WindowsML.Shared
                         }
                         break;
 
+                    case "--ep_name":
+                        if (i + 1 < args.Length)
+                        {
+                            options.EpName = args[++i];
+                        }
+                        break;
+
+                    case "--device_type":
+                        if (i + 1 < args.Length)
+                        {
+                            options.DeviceType = args[++i].ToUpperInvariant();
+                        }
+                        break;
+
                     case "--compile":
                         options.Compile = true;
                         break;
@@ -92,9 +108,43 @@ namespace WindowsML.Shared
                         break;
                     case "--help":
                     case "-h":
+                        PrintHelp();
+                        throw new Exception("Help requested");
                     default:
                         PrintHelp();
-                        throw new Exception($"Invalid arguments");
+                        throw new Exception($"Invalid argument: {args[i]}");
+                }
+            }
+
+            // Mutual exclusivity validation
+            if (options.EpPolicy.HasValue && !string.IsNullOrEmpty(options.EpName))
+            {
+                Console.WriteLine("ERROR: Specify only one of --ep_policy or --ep_name.");
+                PrintHelp();
+                throw new Exception("Mutually exclusive EP options");
+            }
+
+            if (!options.EpPolicy.HasValue && string.IsNullOrEmpty(options.EpName))
+            {
+                Console.WriteLine("ERROR: You must specify one of --ep_policy or --ep_name.");
+                PrintHelp();
+                throw new Exception("Missing EP selection");
+            }
+
+            if (!string.IsNullOrEmpty(options.DeviceType))
+            {
+                if (string.IsNullOrEmpty(options.EpName))
+                {
+                    Console.WriteLine("ERROR: --device_type requires --ep_name to be specified.");
+                    PrintHelp();
+                    throw new Exception("Missing ep_name for device_type");
+                }
+
+                if (options.DeviceType != "CPU" && options.DeviceType != "GPU" && options.DeviceType != "NPU")
+                {
+                    Console.WriteLine("ERROR: Invalid --device_type value. Valid values: CPU GPU NPU.");
+                    PrintHelp();
+                    throw new Exception("Invalid device_type value");
                 }
             }
 
@@ -115,12 +165,19 @@ namespace WindowsML.Shared
         {
             Console.WriteLine("Options:");
             Console.WriteLine("  --ep_policy <policy>        Set execution provider policy (NPU, CPU, GPU, DEFAULT, DISABLE)");
+            Console.WriteLine("  --ep_name <name>            Explicit execution provider name (mutually exclusive with --ep_policy)");
+            Console.WriteLine("  --device_type <type>        Optional hardware device type to use when EP supports multiple (e.g. CPU, GPU, NPU)");
             Console.WriteLine("  --compile                   Compile the model");
             Console.WriteLine("  --download                  Download required packages");
             Console.WriteLine("  --model <path>              Path to input ONNX model (default: SqueezeNet.onnx)");
             Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: SqueezeNet_ctx.onnx)");
             Console.WriteLine("  --image_path <path>         Path to the input image (default: image.jpg in the executable directory)");
             Console.WriteLine("  --help, -h                  Display this help message");
+            Console.WriteLine();
+            Console.WriteLine("Exactly one of --ep_policy or --ep_name must be specified.");
+            Console.WriteLine();
+            Console.WriteLine("Available execution providers (name, vendor, device type):");
+            ExecutionProviderManager.PrintExecutionProviderHelpTable();
         }
     }
 }

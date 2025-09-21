@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.Windows.AI.MachineLearning;
 
@@ -19,6 +23,12 @@ namespace WindowsML.Shared
             Console.WriteLine("Getting available providers...");
             var catalog = ExecutionProviderCatalog.GetDefault();
             var providers = catalog.FindAllProviders();
+
+            if (providers is null || providers.Length == 0)
+            {
+                Console.WriteLine("No execution providers found in catalog.");
+                return;
+            }
 
             foreach (var provider in providers)
             {
@@ -57,15 +67,12 @@ namespace WindowsML.Shared
             // Print each device with its provider name
             foreach (KeyValuePair<string, List<OrtEpDevice>> epGroup in epDeviceMap)
             {
-                List<OrtEpDevice> devices = epGroup.Value;
-
-                foreach (OrtEpDevice device in devices)
+                foreach (var device in epGroup.Value)
                 {
-                    string epName = device.EpName;
-                    string vendor = device.EpVendor;
-                    string deviceType = device.HardwareDevice.Type.ToString();
-
-                    Console.WriteLine("{0,-32} {1,-16} {2,-12}", epName, vendor, deviceType);
+                    Console.WriteLine("{0,-32} {1,-16} {2,-12}",
+                        device.EpName,
+                        device.EpVendor,
+                        device.HardwareDevice.Type.ToString());
                 }
             }
 
@@ -73,72 +80,111 @@ namespace WindowsML.Shared
         }
 
         /// <summary>
-        /// Configure execution providers
+        /// Configure one explicitly selected execution provider (optional device type if provider exposes multiple).
+        /// Returns true on success, false otherwise (prints guidance on failure).
         /// </summary>
-        public static void ConfigureExecutionProviders(SessionOptions sessionOptions, OrtEnv environment)
+        public static bool ConfigureSelectedExecutionProvider(SessionOptions sessionOptions,
+                                                              OrtEnv environment,
+                                                              string epName,
+                                                              string? deviceType)
         {
-            // Get all available EP devices from the environment
+            // Discover devices
             IReadOnlyList<OrtEpDevice> epDevices = environment.GetEpDevices();
 
-            Console.WriteLine($"Discovered {epDevices.Count} execution provider device(s)");
-
-            // Accumulate devices by ep_name
-            Dictionary<string, List<OrtEpDevice>> epDeviceMap = new(StringComparer.OrdinalIgnoreCase);
-
-            // Group devices by EP name
-            foreach (OrtEpDevice device in epDevices)
+            // Accumulate devices by EP name
+            var epDeviceMap = new Dictionary<string, List<OrtEpDevice>>(StringComparer.OrdinalIgnoreCase);
+            foreach (var d in epDevices)
             {
-                string epName = device.EpName;
-
-                if (!epDeviceMap.ContainsKey(epName))
+                if (!epDeviceMap.TryGetValue(d.EpName, out var list))
                 {
-                    epDeviceMap[epName] = [];
+                    list = new List<OrtEpDevice>();
+                    epDeviceMap[d.EpName] = list;
                 }
-
-                epDeviceMap[epName].Add(device);
+                list.Add(d);
             }
 
-            // Print the execution provider information
-            PrintDeviceInfo(epDeviceMap);
-
-            // Configure execution providers
-            foreach (KeyValuePair<string, List<OrtEpDevice>> epGroup in epDeviceMap)
+            if (string.IsNullOrWhiteSpace(epName))
             {
-                string epName = epGroup.Key;
-                List<OrtEpDevice> devices = epGroup.Value;
+                Console.WriteLine("ERROR: --ep_name is required when not using --ep_policy.");
+                PrintDeviceInfo(epDeviceMap);
+                return false;
+            }
 
-                // Configure EP with all its devices
-                Dictionary<string, string> epOptions = new(StringComparer.OrdinalIgnoreCase);
+            if (!epDeviceMap.TryGetValue(epName, out var devicesForEp))
+            {
+                Console.WriteLine($"ERROR: Execution provider '{epName}' not found among discovered devices.");
+                PrintDeviceInfo(epDeviceMap);
+                return false;
+            }
 
-                switch (epName)
+            var selectedDevices = new List<OrtEpDevice>();
+
+            if (!string.IsNullOrWhiteSpace(deviceType))
+            {
+                Console.WriteLine($"Searching for device type '{deviceType}' for provider '{epName}'.");
+                var match = devicesForEp.FirstOrDefault(d => string.Equals(d.HardwareDevice.Type.ToString(), deviceType, StringComparison.OrdinalIgnoreCase));
+                if (match == null)
                 {
-                    case "VitisAIExecutionProvider":
-                        sessionOptions.AppendExecutionProvider(environment, devices, epOptions);
-                        Console.WriteLine($"Successfully added {epName} EP");
-                        break;
-
-                    case "OpenVINOExecutionProvider":
-                        // Append the first device
-                        sessionOptions.AppendExecutionProvider(environment, [devices[0]], epOptions);
-                        Console.WriteLine($"Successfully added {epName} EP (first device only)");
-                        break;
-
-                    case "QNNExecutionProvider":
-                        // Configure performance mode for QNN EP
-                        epOptions["htp_performance_mode"] = "high_performance";
-                        sessionOptions.AppendExecutionProvider(environment, devices, epOptions);
-                        Console.WriteLine($"Successfully added {epName} EP");
-                        break;
-
-                    case "NvTensorRTRTXExecutionProvider":
-                        // Configure performance mode for TensorRT RTX EP
-                        sessionOptions.AppendExecutionProvider(environment, devices, epOptions);
-                        Console.WriteLine($"Successfully added {epName} EP");
-                        break;
-
-                    default:
-                        break;
+                    Console.WriteLine($"ERROR: Device type '{deviceType}' not found for provider '{epName}'.");
+                    return false;
                 }
+                selectedDevices.Add(match);
+                Console.WriteLine($"Using device type '{deviceType}' for provider '{epName}'.");
+            }
+            else
+            {
+                // No device type specified: use all devices for this EP
+                selectedDevices.AddRange(devicesForEp);
+                Console.WriteLine($"No device type specified; using the following device(s) for provider '{epName}':");
+                foreach (var d in selectedDevices)
+                {
+                    Console.WriteLine($"  {d.HardwareDevice.Type}");
+                }
+            }
+
+            try
+            {
+                var epOptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                sessionOptions.AppendExecutionProvider(environment, selectedDevices, epOptions);
+                Console.WriteLine($"Successfully added {epName} execution provider");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR: Failed to append execution provider '{epName}': {ex.Message}");
+                return false;
+            }
+        }
+
+        public static void PrintExecutionProviderHelpTable()
+        {
+            try
+            {
+                EnvironmentCreationOptions envOptions = new() {
+                };
+
+                var env = OrtEnv.CreateInstanceWithOptions(ref envOptions);
+                var devices = env.GetEpDevices();
+                if (devices.Count == 0)
+                {
+                    Console.WriteLine("(No execution provider devices discovered)");
+                    return;
+                }
+                var epDeviceMap = new Dictionary<string, List<OrtEpDevice>>(StringComparer.OrdinalIgnoreCase);
+                foreach (var d in devices)
+                {
+                    if (!epDeviceMap.TryGetValue(d.EpName, out var list))
+                    {
+                        list = new List<OrtEpDevice>();
+                        epDeviceMap[d.EpName] = list;
+                    }
+                    list.Add(d);
+                }
+                PrintDeviceInfo(epDeviceMap);
+            }
+            catch
+            {
+                Console.WriteLine("(Execution provider enumeration unavailable in help context)");
             }
         }
     }

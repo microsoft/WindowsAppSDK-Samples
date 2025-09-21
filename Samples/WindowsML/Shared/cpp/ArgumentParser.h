@@ -19,7 +19,11 @@ namespace Shared
     {
         bool compile_model = false;
         bool download_packages = false;
+        // Policy-based EP selection (mutually exclusive with explicit ep_name)
         std::optional<OrtExecutionProviderDevicePolicy> ep_policy;
+        // Explicit EP selection
+        std::wstring ep_name; // e.g. L"QNNExecutionProvider"
+        std::optional<std::wstring> device_type; // Only for OpenVINOExecutionProvider: NPU | GPU | CPU (uppercase)
         std::wstring image_path;
         std::wstring model_path;
         std::wstring output_path;

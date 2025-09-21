@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 #include "InferenceEngine.h"
 #include "ExecutionProviderManager.h"
@@ -24,7 +24,7 @@ namespace Shared
         {
             // Use explicit configuration
             std::cout << "Using explicit EP configuration" << std::endl;
-            ExecutionProviderManager::ConfigureExecutionProviders(sessionOptions, env);
+            ExecutionProviderManager::ConfigureSelectedExecutionProvider(sessionOptions, env, options.ep_name, options.device_type);
         }
 
         return sessionOptions;
