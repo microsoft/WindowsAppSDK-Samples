@@ -2,15 +2,9 @@
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 
 using Microsoft.ML.OnnxRuntime;
-using Microsoft.ML.OnnxRuntime.Tensors;
 using Microsoft.Windows.AI.MachineLearning;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using Windows.Graphics.Imaging;
-using Windows.Media;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using WindowsML.Shared;
 
 namespace WindowsMLWinFormsSample
@@ -60,20 +54,49 @@ namespace WindowsMLWinFormsSample
                 providerInfo.AppendLine("Available Execution Providers:");
                 providerInfo.AppendLine("========================================");
 
-                foreach (var provider in providers)
+                if (providers is not null)
                 {
-                    providerInfo.AppendLine($"Provider: {provider.Name}");
-                    providerInfo.AppendLine($"  Ready state: {provider.ReadyState}");
-                    providerInfo.AppendLine();
+                    foreach (var provider in providers)
+                    {
+                        providerInfo.AppendLine($"Provider: {provider.Name}");
+                        providerInfo.AppendLine($"  Ready state: {provider.ReadyState}");
+                        providerInfo.AppendLine();
+                    }
                 }
+
+                // Initialize providers (downloads optional) so that device discovery is accurate
+                await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowProviderDownloadCheckBox.Checked);
+
+                // Create a temporary environment just to discover devices for populating dropdowns
+                using var discoveryEnv = ModelManager.CreateEnvironment("WinFormsDiscovery");
+                var devices = discoveryEnv.GetEpDevices();
+
+                var epGroups = devices
+                    .GroupBy(d => d.EpName)
+                    .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                epCombo.Items.Clear();
+                foreach (var grp in epGroups)
+                {
+                    epCombo.Items.Add(grp.Key);
+                }
+
+                if (epCombo.Items.Count > 0)
+                {
+                    epCombo.SelectedIndex = 0;
+                }
+
+                // Populate device combo based on initial EP selection
+                PopulateDeviceCombo(discoveryEnv);
 
                 providerInfo.AppendLine("========================================");
                 providerInfo.AppendLine("Loading model...");
                 resultsTextBox.Text = providerInfo.ToString();
                 Application.DoEvents(); // Update UI
 
-                await LoadModelAndLabelsAsync();
-                resultsTextBox.Text += "\r\nModel loaded successfully. Select an image and click 'Run Inference' to see classification results.";
+                // Only load model after user clicks the Load/Reload button (gives chance to change EP/device)
+                resultsTextBox.Text += "\r\nSelect EP/device (if required) then click 'Load / Reload Model'.";
             }
             catch (Exception ex)
             {
@@ -83,26 +106,41 @@ namespace WindowsMLWinFormsSample
 
         private async Task LoadModelAndLabelsAsync()
         {
-            // Use checkbox value for provider downloads
+            if (epCombo.SelectedItem == null)
+            {
+                resultsTextBox.Text = "Select an execution provider first.";
+                return;
+            }
+
+            // Dispose previous session if reloading
+            _session?.Dispose();
+            _session = null;
+
             bool allowDownload = allowProviderDownloadCheckBox.Checked;
 
-            // Create ONNX Runtime environment using shared helper
             var ortEnv = ModelManager.CreateEnvironment("WindowsMLWinFormsSample");
-
-            // Initialize execution providers using shared helper  
             await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
 
-            // Get model and labels paths using shared helper
-            string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-            var options = new Options { ModelPath = "SqueezeNet.onnx" };
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
+            var options = new Options
+            {
+                ModelPath = "SqueezeNet.onnx",
+                EpName = epCombo.SelectedItem!.ToString(),
+                DeviceType = deviceCombo.Enabled ? deviceCombo.SelectedItem?.ToString() : null
+            };
 
-            // Create inference session using shared helper
+            // Validate device selection for any EP
+            if (deviceCombo.Enabled && deviceCombo.SelectedItem == null)
+            {
+                resultsTextBox.Text = "Select a device type for the selected execution provider.";
+                return;
+            }
+
+            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
             string actualModelPath = ModelManager.ResolveActualModelPath(options, modelPath, compiledModelPath, ortEnv);
             _session = ModelManager.CreateSession(actualModelPath, options, ortEnv);
-
-            // Load labels using shared helper
             _labels = ResultProcessor.LoadLabels(labelsPath).ToList();
+
+            resultsTextBox.Text += "\r\nModel loaded.";
         }
 
         private void SelectImageButton_Click(object sender, EventArgs e)
@@ -179,6 +217,66 @@ namespace WindowsMLWinFormsSample
 
             sb.AppendLine("-------------------------------------------");
             return sb.ToString();
+        }
+
+        // Generalized device population: any EP with multiple distinct hardware device types
+        private void PopulateDeviceCombo(OrtEnv env)
+        {
+            deviceCombo.Items.Clear();
+            deviceCombo.Enabled = false;
+
+            var selectedEp = epCombo.SelectedItem?.ToString();
+            if (string.IsNullOrEmpty(selectedEp)) return;
+
+            var devices = env.GetEpDevices()
+                             .Where(d => d.EpName == selectedEp)
+                             .ToList();
+
+            var types = devices
+                .Select(d => d.HardwareDevice.Type.ToString())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(s => s, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (types.Count == 1)
+            {
+                deviceCombo.Items.Add(types[0]);
+                deviceCombo.SelectedIndex = 0; // disabled, just display
+                deviceCombo.Enabled = false;
+            }
+            else if (types.Count > 1)
+            {
+                foreach (var t in types)
+                {
+                    deviceCombo.Items.Add(t);
+                }
+                deviceCombo.SelectedIndex = 0;
+                deviceCombo.Enabled = true;
+            }
+            else
+            {
+                // Log an error – no devices for selected EP
+                resultsTextBox.Text = $"No devices found for selected execution provider: {selectedEp}";
+            }
+        }
+
+        private void EpCombo_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            try
+            {
+                using var env = ModelManager.CreateEnvironment("WinFormsDeviceRefresh");
+                PopulateDeviceCombo(env);
+            }
+            catch (Exception ex)
+            {
+                resultsTextBox.Text = $"Failed refreshing devices: {ex.Message}";
+            }
+        }
+
+        private async void ReloadSessionButton_Click(object? sender, EventArgs e)
+        {
+            resultsTextBox.Text = "Loading / reloading model...";
+            await LoadModelAndLabelsAsync();
         }
     }
 }

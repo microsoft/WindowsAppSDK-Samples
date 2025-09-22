@@ -12,46 +12,63 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <!-- Controls Row -->
         <Grid Grid.Row="0" Margin="0,0,0,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>  <!-- Row 0: EP selection -->
+                <RowDefinition Height="Auto"/>  <!-- Row 1: Image selection -->
+                <RowDefinition Height="Auto"/>  <!-- Row 2: Download checkbox -->
             </Grid.RowDefinitions>
-            
-            <!-- First row: Image selection and inference -->
+
+            <!-- Row 0: EP selection -->
             <Grid Grid.Row="0" Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Execution Provider:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <ComboBox x:Name="EpCombo" Grid.Column="1" Width="190" VerticalAlignment="Center"/>
+                <TextBlock Text="Device Type:" Grid.Column="2" Margin="16,0,8,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="DeviceCombo" Grid.Column="3" Width="130" VerticalAlignment="Center" IsEnabled="False"/>
+                <Button x:Name="ReloadSessionButton" Grid.Column="4" Content="Load / Reload Model" Padding="10,5" Margin="16,0,0,0"/>
+            </Grid>
+
+            <!-- Row 1: Image selection and inference -->
+            <Grid Grid.Row="1" Margin="0,0,0,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button Name="SelectImageButton" Click="SelectImageButton_Click" Content="Select Image" Grid.Column="0" Margin="0,0,10,0" Padding="10,5" HorizontalAlignment="Left"/>
-                <TextBox Name="ImagePathTextBox" Grid.Column="1" Margin="0,0,10,0" VerticalAlignment="Center" IsReadOnly="True" Text="No image selected"/>
-                <Button Name="RunInferenceButton" Content="Run Inference" Grid.Column="2" Padding="10,5" HorizontalAlignment="Right" Click="RunInferenceButton_Click" IsEnabled="False"/>
+                <Button x:Name="SelectImageButton" Click="SelectImageButton_Click" Content="Select Image" Grid.Column="0" Margin="0,0,10,0" Padding="10,5" HorizontalAlignment="Left"/>
+                <TextBox x:Name="ImagePathTextBox" Grid.Column="1" Margin="0,0,10,0" VerticalAlignment="Center" IsReadOnly="True" Text="No image selected"/>
+                <Button x:Name="RunInferenceButton" Content="Run Inference" Grid.Column="2" Padding="10,5" HorizontalAlignment="Right" Click="RunInferenceButton_Click" IsEnabled="False"/>
             </Grid>
-            
+
             <!-- Second row: Provider download checkbox -->
-            <Grid Grid.Row="1">
-                <CheckBox Name="AllowProviderDownloadCheckBox" Content="Allow execution provider downloads" HorizontalAlignment="Left" IsChecked="False" Margin="0,5,0,0"/>
+            <Grid Grid.Row="2">
+                <CheckBox x:Name="AllowProviderDownloadCheckBox" Content="Allow execution provider downloads" HorizontalAlignment="Left" IsChecked="False" Margin="0,5,0,0"/>
             </Grid>
         </Grid>
-        
+
         <!-- Image Display Row -->
         <GroupBox Header="Selected Image" Grid.Row="1" Margin="0,0,0,10" MinHeight="250">
             <Border BorderBrush="Gray" BorderThickness="1" Background="LightGray">
-                <Image Name="SelectedImage" Stretch="Uniform" MaxHeight="200"/>
+                <Image x:Name="SelectedImage" Stretch="Uniform" MaxHeight="200"/>
             </Border>
         </GroupBox>
-        
+
         <!-- Results Row -->
         <GroupBox Header="Classification Results" Grid.Row="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <TextBox Name="ResultsTextBox" 
-                         AcceptsReturn="True" 
-                         VerticalScrollBarVisibility="Auto" 
-                         IsReadOnly="True" 
+                <TextBox x:Name="ResultsTextBox"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         IsReadOnly="True"
                          FontFamily="Consolas"
                          Background="White"
                          BorderThickness="0"
