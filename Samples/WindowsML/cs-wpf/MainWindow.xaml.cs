@@ -144,7 +144,7 @@ namespace WindowsMLSampleForWPF
                 return;
             }
 
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
+            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, _ortEnv);
             string actualModelPath = ModelManager.ResolveActualModelPath(options, modelPath, compiledModelPath, _ortEnv);
             _session = ModelManager.CreateSession(actualModelPath, options, _ortEnv);
             _labels = ResultProcessor.LoadLabels(labelsPath).ToList();

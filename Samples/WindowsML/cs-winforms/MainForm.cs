@@ -135,7 +135,7 @@ namespace WindowsMLWinFormsSample
                 return;
             }
 
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
+            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, ortEnv);
             string actualModelPath = ModelManager.ResolveActualModelPath(options, modelPath, compiledModelPath, ortEnv);
             _session = ModelManager.CreateSession(actualModelPath, options, ortEnv);
             _labels = ResultProcessor.LoadLabels(labelsPath).ToList();

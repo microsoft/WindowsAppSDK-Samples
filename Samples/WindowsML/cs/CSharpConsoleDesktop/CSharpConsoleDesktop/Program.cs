@@ -20,8 +20,8 @@ internal class Program
             // Initialize execution providers using shared helper  
             await ModelManager.InitializeExecutionProvidersAsync(options.Download);
 
-            // Resolve file paths using shared helper
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
+            // Resolve file paths using shared helper with intelligent model variant selection
+            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, ortEnv);
             Console.WriteLine($"Image path: {options.ImagePath}");
 
             // Determine actual model path (with compilation support) using shared helper

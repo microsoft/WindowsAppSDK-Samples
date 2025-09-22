@@ -122,9 +122,7 @@ namespace WindowsMLSample
                 DeviceType = selectedDeviceType
             };
 
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
-            modelPath = Path.Combine(appDirectory, "SqueezeNet.onnx");
-            labelsPath = Path.Combine(appDirectory, "SqueezeNet.Labels.txt");
+            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, _ortEnv);
 
             if (!File.Exists(modelPath)) throw new FileNotFoundException($"Model file not found: {modelPath}");
             if (!File.Exists(labelsPath)) throw new FileNotFoundException($"Labels file not found: {labelsPath}");
