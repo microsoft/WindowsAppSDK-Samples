@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#include "common.h"
+#include "timing.h"
 #include <cassert>
 
 void Timing::RecordStartTimestamp()
@@ -40,42 +40,4 @@ void Timing::Log(const int prompt_tokens_length, const int new_tokens_length)
               << ", New tokens per second: " << new_tokens_length / run_time.count() << " tps"
               << std::setprecision(default_precision) << std::endl;
     std::cout << "-------------" << std::endl;
-}
-
-bool FileExists(const char* path)
-{
-    return static_cast<bool>(std::ifstream(path));
-}
-
-std::string Trim(const std::string& str)
-{
-    const size_t first = str.find_first_not_of(' ');
-    if (std::string::npos == first)
-    {
-        return str;
-    }
-    const size_t last = str.find_last_not_of(' ');
-    return str.substr(first, (last - first + 1));
-}
-
-static void print_usage(int /*argc*/, char** argv)
-{
-    std::cerr << "usage: " << argv[0] << " <model_path> <execution_provider>" << std::endl;
-    std::cerr << "  model_path: [required] Path to the folder containing onnx models, genai_config.json, etc." << std::endl;
-    std::cerr << "  execution_provider: [optional] Force use of a particular execution provider (e.g. \"cpu\")" << std::endl;
-    std::cerr << "                      If not specified, EP / provider options specified in genai_config.json will be used."
-              << std::endl;
-}
-
-bool parse_args(int argc, char** argv, std::string& model_path)
-{
-    if (argc < 2)
-    {
-        print_usage(argc, argv);
-        return false;
-    }
-
-    model_path = argv[1];
-
-    return true;
 }

@@ -4,7 +4,7 @@
 #include <csignal>
 #include <string>
 
-#include "common.h"
+#include "timing.h"
 #include "ort_genai.h"
 #include <exception>
 #include <iostream>
@@ -120,6 +120,28 @@ void CXX_API(const char* model_path)
 
         g_generator = nullptr; // Clear the generator after use
     }
+}
+
+static void print_usage(int /*argc*/, char** argv)
+{
+    std::cerr << "usage: " << argv[0] << " <model_path> <execution_provider>" << std::endl;
+    std::cerr << "  model_path: [required] Path to the folder containing onnx models, genai_config.json, etc." << std::endl;
+    std::cerr << "  execution_provider: [optional] Force use of a particular execution provider (e.g. \"cpu\")" << std::endl;
+    std::cerr << "                      If not specified, EP / provider options specified in genai_config.json will be used."
+              << std::endl;
+}
+
+bool parse_args(int argc, char** argv, std::string& model_path)
+{
+    if (argc < 2)
+    {
+        print_usage(argc, argv);
+        return false;
+    }
+
+    model_path = argv[1];
+
+    return true;
 }
 
 int main(int argc, char** argv)
