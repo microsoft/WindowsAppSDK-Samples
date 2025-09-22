@@ -3,6 +3,9 @@
 
 using Microsoft.ML.OnnxRuntimeGenAI;
 
+using System.Text;
+using System.Text.Json;
+
 static void PrintUsage()
 {
     Console.WriteLine("Usage:");
@@ -75,9 +78,34 @@ static string GetPrompt(bool interactive)
     if (interactive)
     {
         Console.WriteLine("Prompt: (Use quit() to exit)");
-        prompt = Console.ReadLine();
+        prompt = Console.ReadLine() ?? string.Empty;
     }
     return prompt;
+}
+
+static string BuildChatTemplateMessages(string prompt)
+{
+    using var stream = new MemoryStream();
+    using var writer = new Utf8JsonWriter(stream);
+
+    writer.WriteStartArray();
+
+    // System message
+    writer.WriteStartObject();
+    writer.WriteString("role", "system");
+    writer.WriteString("content", "You are a helpful AI assistant.");
+    writer.WriteEndObject();
+
+    // User message
+    writer.WriteStartObject();
+    writer.WriteString("role", "user");
+    writer.WriteString("content", prompt);
+    writer.WriteEndObject();
+
+    writer.WriteEndArray();
+    writer.Flush();
+
+    return Encoding.UTF8.GetString(stream.ToArray());
 }
 
 do
@@ -91,7 +119,8 @@ do
     {
         break;
     }
-    string messages = $@"[{{""role"":""system"",""content"":""You are a helpful AI assistant.""}},{{""role"":""user"",""content"":""{prompt}""}}]";
+    string messages = BuildChatTemplateMessages(prompt);
+
     Sequences sequences = tokenizer.Encode(tokenizer.ApplyChatTemplate("", messages, "", true));
 
     if (option == 1) // Complete Output
