@@ -152,7 +152,7 @@ namespace Shared
         // Set default image path if not specified
         if (outputImagePath.empty())
         {
-            outputImagePath = executableFolder / L"image.jpg";
+            outputImagePath = executableFolder / L"image.png";
         }
     }
 

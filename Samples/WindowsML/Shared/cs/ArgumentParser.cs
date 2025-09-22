@@ -152,7 +152,7 @@ namespace WindowsML.Shared
             if (string.IsNullOrWhiteSpace(options.ImagePath))
             {
                 string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-                options.ImagePath = Path.Combine(executableFolder, "image.jpg");
+                options.ImagePath = Path.Combine(executableFolder, "image.png");
             }
 
             return options;
@@ -171,7 +171,7 @@ namespace WindowsML.Shared
             Console.WriteLine("  --download                  Download required packages");
             Console.WriteLine("  --model <path>              Path to input ONNX model (default: SqueezeNet.onnx)");
             Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: SqueezeNet_ctx.onnx)");
-            Console.WriteLine("  --image_path <path>         Path to the input image (default: image.jpg in the executable directory)");
+            Console.WriteLine("  --image_path <path>         Path to the input image (default: sample kitten image)");
             Console.WriteLine("  --help, -h                  Display this help message");
             Console.WriteLine();
             Console.WriteLine("Exactly one of --ep_policy or --ep_name must be specified.");

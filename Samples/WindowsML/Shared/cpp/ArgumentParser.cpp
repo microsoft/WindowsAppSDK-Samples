@@ -156,7 +156,7 @@ namespace Shared
                    << L"  --download                    Download required packages\n"
                    << L"  --model <path>                Path to the input ONNX model (default: SqueezeNet.onnx in executable directory)\n"
                    << L"  --compiled_output <path>      Path for compiled output model (default: SqueezeNet_ctx.onnx)\n"
-                   << L"  --image_path <path>           Path to the input image (default: image.jpg in the executable directory)\n"
+                   << L"  --image_path <path>           Path to the input image (default: sample kitten image)\n"
                    << L"\n"
                    << L"Exactly one of --ep_policy or --ep_name must be specified.\n"
                    << L"\nAvailable execution providers (name, vendor, device type):\n";

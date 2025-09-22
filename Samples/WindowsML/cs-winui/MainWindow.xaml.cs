@@ -137,7 +137,7 @@ namespace WindowsMLSample
         {
             // Get application directory
             var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var imagePath = Path.Combine(appDirectory!, "image.jpg");
+            var imagePath = Path.Combine(appDirectory, "image.png");
 
             if (!File.Exists(imagePath))
             {

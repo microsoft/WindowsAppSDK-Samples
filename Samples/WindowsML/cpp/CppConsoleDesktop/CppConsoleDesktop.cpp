@@ -38,7 +38,7 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
             options.output_path.empty() ? executableFolder / L"SqueezeNet_ctx.onnx" : std::filesystem::path(options.output_path);
 
         std::filesystem::path imagePath =
-            options.image_path.empty() ? executableFolder / L"image.jpg" : std::filesystem::path(options.image_path);
+            options.image_path.empty() ? executableFolder / L"image.png" : std::filesystem::path(options.image_path);
 
         // Determine the actual model to use
         std::filesystem::path actualModelPath =
