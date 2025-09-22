@@ -88,9 +88,6 @@
     <Copy SourceFiles="$(SqueezeNetModelFileINT8)" DestinationFiles="$(OutputPath)\SqueezeNet-int8.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
     <Copy SourceFiles="$(SqueezeNetModelFileQDQ)" DestinationFiles="$(OutputPath)\SqueezeNet-qdq.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
     
-    <!-- Copy default SqueezeNet.onnx (FP32 variant for backward compatibility) -->
-    <Copy SourceFiles="$(SqueezeNetModelFileFP32)" DestinationFiles="$(OutputPath)\SqueezeNet.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
-    
     <!-- Copy labels file -->
     <Copy SourceFiles="$(SqueezeNetLabelsFile)" DestinationFiles="$(OutputPath)\SqueezeNet.Labels.txt" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
     
