@@ -4,7 +4,7 @@
 
 ## Obtain a model
 
-You can download a published model from Hugging Face or [Foundry Local](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-local/get-started).
+You can download a published model from [Hugging Face](https://huggingface.co/) or [Foundry Local](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-local/get-started).
 
 For example here are phi-3-mini-128k models in the foundry library.
 
