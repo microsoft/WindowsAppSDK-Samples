@@ -69,10 +69,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CppWinRT" Version="2.0.221104.6" />
     <PackageReference Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.220914.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cpp-console.vcxproj" />
   </ItemGroup>
 </Project>
+
 

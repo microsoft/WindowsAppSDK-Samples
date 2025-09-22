@@ -80,3 +80,4 @@
     <ProjectReference Include="..\WindowsAISampleForWPF\WindowsAISampleForWPF.csproj" />
   </ItemGroup>
 </Project>
+

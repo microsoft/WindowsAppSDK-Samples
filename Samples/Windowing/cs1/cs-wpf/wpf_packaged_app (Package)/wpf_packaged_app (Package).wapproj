@@ -53,11 +53,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
   </ItemGroup>
   <PropertyGroup>
     <EntryPointProjectUniqueName>..\wpf_packaged_app\wpf_packaged_app.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
+
 
