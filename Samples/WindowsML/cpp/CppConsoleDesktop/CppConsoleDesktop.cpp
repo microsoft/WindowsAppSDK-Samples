@@ -31,14 +31,24 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
         std::wstring executablePath = ModelManager::GetExecutablePath();
         std::filesystem::path executableFolder = std::filesystem::path(executablePath).parent_path();
 
-        std::filesystem::path modelPath =
-            options.model_path.empty() ? executableFolder / L"SqueezeNet.onnx" : std::filesystem::path(options.model_path);
+        std::filesystem::path modelPath;
+        if (options.model_path.empty())
+        {
+            // Use intelligent model variant selection based on execution provider and device capabilities
+            ModelVariant actualVariant = ModelManager::DetermineModelVariant(options, env);
+            modelPath = ModelManager::GetModelVariantPath(executableFolder, actualVariant);
+        }
+        else
+        {
+            // Use user-specified model path
+            modelPath = std::filesystem::path(options.model_path);
+        }
 
         std::filesystem::path outputPath =
             options.output_path.empty() ? executableFolder / L"SqueezeNet_ctx.onnx" : std::filesystem::path(options.output_path);
 
         std::filesystem::path imagePath =
-            options.image_path.empty() ? executableFolder / L"image.jpg" : std::filesystem::path(options.image_path);
+            options.image_path.empty() ? executableFolder / L"image.png" : std::filesystem::path(options.image_path);
 
         // Determine the actual model to use
         std::filesystem::path actualModelPath =

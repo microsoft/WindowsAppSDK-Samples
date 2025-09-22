@@ -66,12 +66,11 @@ namespace WindowsMLSample
                 bool allowDownload = AllowProviderDownloadCheckBox.IsChecked ?? false;
                 await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
 
-                using (var discoveryEnv = ModelManager.CreateEnvironment("WinUIDiscovery"))
-                {
-                    var devices = discoveryEnv.GetEpDevices();
-                    PopulateEpCombo(devices);
-                    PopulateDeviceCombo(devices);
-                }
+                // Create the single OrtEnv instance for this application
+                _ortEnv ??= ModelManager.CreateEnvironment("WindowsMLWinUISample");
+                var devices = _ortEnv.GetEpDevices();
+                PopulateEpCombo(devices);
+                PopulateDeviceCombo(devices);
 
                 EpCombo.SelectionChanged += EpCombo_SelectionChanged;
 
@@ -97,10 +96,9 @@ namespace WindowsMLSample
 
             _session?.Dispose();
             _session = null;
-            _ortEnv?.Dispose();
-            _ortEnv = null;
 
-            _ortEnv = ModelManager.CreateEnvironment("WindowsMLWinUISample");
+            // Create OrtEnv only once per application instance
+            _ortEnv ??= ModelManager.CreateEnvironment("WindowsMLWinUISample");
             await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
 
             var selectedEp = EpCombo.SelectedItem?.ToString();
@@ -122,9 +120,7 @@ namespace WindowsMLSample
                 DeviceType = selectedDeviceType
             };
 
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
-            modelPath = Path.Combine(appDirectory, "SqueezeNet.onnx");
-            labelsPath = Path.Combine(appDirectory, "SqueezeNet.Labels.txt");
+            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, _ortEnv);
 
             if (!File.Exists(modelPath)) throw new FileNotFoundException($"Model file not found: {modelPath}");
             if (!File.Exists(labelsPath)) throw new FileNotFoundException($"Labels file not found: {labelsPath}");
@@ -137,7 +133,7 @@ namespace WindowsMLSample
         {
             // Get application directory
             var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var imagePath = Path.Combine(appDirectory!, "image.jpg");
+            var imagePath = Path.Combine(appDirectory, "image.png");
 
             if (!File.Exists(imagePath))
             {
@@ -284,9 +280,12 @@ namespace WindowsMLSample
         {
             try
             {
-                using var env = ModelManager.CreateEnvironment("WinUIDeviceRefresh");
-                var devices = env.GetEpDevices();
-                PopulateDeviceCombo(devices);
+                // Use the shared OrtEnv instance for device refresh
+                if (_ortEnv != null)
+                {
+                    var devices = _ortEnv.GetEpDevices();
+                    PopulateDeviceCombo(devices);
+                }
             }
             catch (Exception ex)
             {

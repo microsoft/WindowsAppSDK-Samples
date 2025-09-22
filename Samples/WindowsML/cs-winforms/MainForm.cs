@@ -14,6 +14,7 @@ namespace WindowsMLWinFormsSample
         private string? _selectedImagePath;
         private InferenceSession? _session;
         private List<string> _labels = new();
+        private OrtEnv? _ortEnv;
 
         public MainForm()
         {
@@ -37,6 +38,7 @@ namespace WindowsMLWinFormsSample
         private void MainForm_FormClosed(object? sender, FormClosedEventArgs e)
         {
             _session?.Dispose();
+            _ortEnv?.Dispose();
         }
 
         private async Task InitializeAsync()
@@ -67,9 +69,9 @@ namespace WindowsMLWinFormsSample
                 // Initialize providers (downloads optional) so that device discovery is accurate
                 await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowProviderDownloadCheckBox.Checked);
 
-                // Create a temporary environment just to discover devices for populating dropdowns
-                using var discoveryEnv = ModelManager.CreateEnvironment("WinFormsDiscovery");
-                var devices = discoveryEnv.GetEpDevices();
+                // Create the single OrtEnv instance for this application if not already created
+                _ortEnv ??= ModelManager.CreateEnvironment("WindowsMLWinFormsSample");
+                var devices = _ortEnv.GetEpDevices();
 
                 var epGroups = devices
                     .GroupBy(d => d.EpName)
@@ -88,7 +90,7 @@ namespace WindowsMLWinFormsSample
                 }
 
                 // Populate device combo based on initial EP selection
-                PopulateDeviceCombo(discoveryEnv);
+                PopulateDeviceCombo(_ortEnv);
 
                 providerInfo.AppendLine("========================================");
                 providerInfo.AppendLine("Loading model...");
@@ -118,7 +120,8 @@ namespace WindowsMLWinFormsSample
 
             bool allowDownload = allowProviderDownloadCheckBox.Checked;
 
-            var ortEnv = ModelManager.CreateEnvironment("WindowsMLWinFormsSample");
+            // Ensure we have the shared OrtEnv instance
+            _ortEnv ??= ModelManager.CreateEnvironment("WindowsMLWinFormsSample");
             await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
 
             var options = new Options
@@ -135,9 +138,9 @@ namespace WindowsMLWinFormsSample
                 return;
             }
 
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
-            string actualModelPath = ModelManager.ResolveActualModelPath(options, modelPath, compiledModelPath, ortEnv);
-            _session = ModelManager.CreateSession(actualModelPath, options, ortEnv);
+            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, _ortEnv);
+            string actualModelPath = ModelManager.ResolveActualModelPath(options, modelPath, compiledModelPath, _ortEnv);
+            _session = ModelManager.CreateSession(actualModelPath, options, _ortEnv);
             _labels = ResultProcessor.LoadLabels(labelsPath).ToList();
 
             resultsTextBox.Text += "\r\nModel loaded.";
@@ -264,8 +267,11 @@ namespace WindowsMLWinFormsSample
         {
             try
             {
-                using var env = ModelManager.CreateEnvironment("WinFormsDeviceRefresh");
-                PopulateDeviceCombo(env);
+                // Use the shared OrtEnv instance for device refresh
+                if (_ortEnv != null)
+                {
+                    PopulateDeviceCombo(_ortEnv);
+                }
             }
             catch (Exception ex)
             {

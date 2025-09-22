@@ -77,28 +77,27 @@ namespace WindowsMLSampleForWPF
                 bool allowDownload = AllowProviderDownloadCheckBox.IsChecked ?? false;
                 await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
 
-                using (var discoveryEnv = ModelManager.CreateEnvironment("WpfDiscovery"))
+                // Create the single OrtEnv instance for this application
+                _ortEnv ??= ModelManager.CreateEnvironment("WindowsMLSampleForWPF");
+                var devices = _ortEnv.GetEpDevices();
+
+                var epGroups = devices
+                    .GroupBy(d => d.EpName)
+                    .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                EpCombo.Items.Clear();
+                foreach (var grp in epGroups)
                 {
-                    var devices = discoveryEnv.GetEpDevices();
-
-                    var epGroups = devices
-                        .GroupBy(d => d.EpName)
-                        .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase)
-                        .ToList();
-
-                    EpCombo.Items.Clear();
-                    foreach (var grp in epGroups)
-                    {
-                        EpCombo.Items.Add(grp.Key);
-                    }
-
-                    if (EpCombo.Items.Count > 0)
-                    {
-                        EpCombo.SelectedIndex = 0;
-                    }
-
-                    PopulateDeviceCombo(discoveryEnv);
+                    EpCombo.Items.Add(grp.Key);
                 }
+
+                if (EpCombo.Items.Count > 0)
+                {
+                    EpCombo.SelectedIndex = 0;
+                }
+
+                PopulateDeviceCombo(_ortEnv);
 
                 EpCombo.SelectionChanged += EpCombo_SelectionChanged;
                 ReloadSessionButton.Click += ReloadSessionButton_Click;
@@ -123,12 +122,11 @@ namespace WindowsMLSampleForWPF
 
             _session?.Dispose();
             _session = null;
-            _ortEnv?.Dispose();
-            _ortEnv = null;
 
             bool allowDownload = AllowProviderDownloadCheckBox.IsChecked ?? false;
 
-            _ortEnv = ModelManager.CreateEnvironment("WindowsMLSampleForWPF");
+            // Create OrtEnv only once per application instance
+            _ortEnv ??= ModelManager.CreateEnvironment("WindowsMLSampleForWPF");
             await ModelManager.InitializeExecutionProvidersAsync(allowDownload: allowDownload);
 
             var options = new Options
@@ -144,7 +142,7 @@ namespace WindowsMLSampleForWPF
                 return;
             }
 
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options);
+            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, _ortEnv);
             string actualModelPath = ModelManager.ResolveActualModelPath(options, modelPath, compiledModelPath, _ortEnv);
             _session = ModelManager.CreateSession(actualModelPath, options, _ortEnv);
             _labels = ResultProcessor.LoadLabels(labelsPath).ToList();
@@ -271,8 +269,11 @@ namespace WindowsMLSampleForWPF
         {
             try
             {
-                using var env = ModelManager.CreateEnvironment("WpfDeviceRefresh");
-                PopulateDeviceCombo(env);
+                // Use the shared OrtEnv instance for device refresh
+                if (_ortEnv != null)
+                {
+                    PopulateDeviceCombo(_ortEnv);
+                }
             }
             catch (Exception ex)
             {

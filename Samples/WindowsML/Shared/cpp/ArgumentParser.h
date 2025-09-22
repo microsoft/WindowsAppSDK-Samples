@@ -13,6 +13,15 @@ namespace Shared
 {
 
     /// <summary>
+    /// Model variant enumeration
+    /// </summary>
+    enum class ModelVariant
+    {
+        Default,    // Default quantized model (for NPU/CPU)
+        FP32        // FP32 non-quantized model (for GPU)
+    };
+
+    /// <summary>
     /// Command-line options structure
     /// </summary>
     struct CommandLineOptions
@@ -27,6 +36,7 @@ namespace Shared
         std::wstring image_path;
         std::wstring model_path;
         std::wstring output_path;
+        ModelVariant model_variant = ModelVariant::Default; // Model precision/format selection
     };
 
     /// <summary>
