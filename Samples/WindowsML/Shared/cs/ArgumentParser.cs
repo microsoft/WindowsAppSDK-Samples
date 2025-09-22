@@ -8,6 +8,17 @@ using System.Reflection;
 namespace WindowsML.Shared
 {
     /// <summary>
+    /// Model variant enumeration
+    /// </summary>
+    public enum ModelVariant
+    {
+        Auto,    // Auto-select based on device type
+        FP32,    // 32-bit floating point
+        INT8,    // 8-bit integer quantized
+        QDQ      // Quantize-Dequantize format
+    }
+
+    /// <summary>
     /// Command-line argument parsing for WindowsML samples
     /// </summary>
     public class Options
@@ -17,9 +28,10 @@ namespace WindowsML.Shared
         public string? DeviceType { get; set; } = null; // Optional value to declare CPU | GPU | NPU
         public bool Compile { get; set; } = false;
         public bool Download { get; set; } = false;
-        public string ModelPath { get; set; } = "SqueezeNet.onnx";
+        public string ModelPath { get; set; } = string.Empty;
         public string OutputPath { get; set; } = "SqueezeNet_ctx.onnx";
         public string ImagePath { get; set; } = string.Empty;
+        public ModelVariant Variant { get; set; } = ModelVariant.Auto;
     }
 
     public static class ArgumentParser
@@ -106,6 +118,19 @@ namespace WindowsML.Shared
                             options.ImagePath = args[++i];
                         }
                         break;
+
+                    case "--fp32":
+                        options.Variant = ModelVariant.FP32;
+                        break;
+
+                    case "--int8":
+                        options.Variant = ModelVariant.INT8;
+                        break;
+
+                    case "--qdq":
+                        options.Variant = ModelVariant.QDQ;
+                        break;
+
                     case "--help":
                     case "-h":
                         PrintHelp();
@@ -152,7 +177,27 @@ namespace WindowsML.Shared
             if (string.IsNullOrWhiteSpace(options.ImagePath))
             {
                 string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-                options.ImagePath = Path.Combine(executableFolder, "image.jpg");
+                options.ImagePath = Path.Combine(executableFolder, "image.png");
+            }
+
+            // Auto-deduce model variant from execution provider if not explicitly set and no custom model specified
+            if (options.Variant == ModelVariant.Auto && string.IsNullOrWhiteSpace(options.ModelPath))
+            {
+                if (options.EpPolicy.HasValue)
+                {
+                    options.Variant = options.EpPolicy.Value switch
+                    {
+                        ExecutionProviderDevicePolicy.PREFER_NPU or ExecutionProviderDevicePolicy.PREFER_CPU => ModelVariant.INT8,
+                        ExecutionProviderDevicePolicy.PREFER_GPU or ExecutionProviderDevicePolicy.DEFAULT or _ => ModelVariant.FP32
+                    };
+                    Console.WriteLine($"Auto-selected {options.Variant} model variant for {options.EpPolicy.Value} execution");
+                }
+                else
+                {
+                    // Default to FP32 when using explicit EP name
+                    options.Variant = ModelVariant.FP32;
+                    Console.WriteLine("Auto-selected FP32 model variant for explicit execution provider");
+                }
             }
 
             return options;
@@ -169,9 +214,14 @@ namespace WindowsML.Shared
             Console.WriteLine("  --device_type <type>        Optional hardware device type to use when EP supports multiple (e.g. CPU, GPU, NPU)");
             Console.WriteLine("  --compile                   Compile the model");
             Console.WriteLine("  --download                  Download required packages");
-            Console.WriteLine("  --model <path>              Path to input ONNX model (default: SqueezeNet.onnx)");
+            Console.WriteLine("  --model <path>              Path to input ONNX model (optional, default: SqueezeNet)");
+            Console.WriteLine("                              If not provided, you can specify model variant with:");
+            Console.WriteLine("                                --fp32    FP32 model variant (32-bit floating point)");
+            Console.WriteLine("                                --int8    INT8 model variant (8-bit integer quantized)");
+            Console.WriteLine("                                --qdq     QDQ model variant (Quantize-Dequantize format)");
+            Console.WriteLine("                              Auto-selection: INT8 for NPU/CPU, FP32 for GPU/DEFAULT");
             Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: SqueezeNet_ctx.onnx)");
-            Console.WriteLine("  --image_path <path>         Path to the input image (default: image.jpg in the executable directory)");
+            Console.WriteLine("  --image_path <path>         Path to the input image (default: sample kitten image)");
             Console.WriteLine("  --help, -h                  Display this help message");
             Console.WriteLine();
             Console.WriteLine("Exactly one of --ep_policy or --ep_name must be specified.");

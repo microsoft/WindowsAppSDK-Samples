@@ -152,8 +152,36 @@ namespace Shared
         // Set default image path if not specified
         if (outputImagePath.empty())
         {
-            outputImagePath = executableFolder / L"image.jpg";
+            outputImagePath = executableFolder / L"image.png";
         }
+    }
+
+    std::wstring ModelManager::GetModelVariantPath(
+        const std::filesystem::path& executableFolder,
+        ModelVariant variant)
+    {
+        std::wstring suffix;
+        
+        switch (variant)
+        {
+            case ModelVariant::FP32:
+                suffix = L"fp32";
+                break;
+            case ModelVariant::INT8:
+                suffix = L"int8";
+                break;
+            case ModelVariant::QDQ:
+                suffix = L"qdq";
+                break;
+            case ModelVariant::Auto:
+            default:
+                suffix = L"fp32"; // fallback, though this shouldn't happen
+                break;
+        }
+
+        std::wstring modelPath = executableFolder / (L"SqueezeNet-" + suffix + L".onnx");
+        std::wcout << L"Using model variant: " << suffix << L" -> " << modelPath << std::endl;
+        return modelPath;
     }
 
 } // namespace Shared

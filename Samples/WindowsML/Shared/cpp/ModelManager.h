@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <windows.h>
+#include "ArgumentParser.h"
 
 namespace WindowsML
 {
@@ -52,6 +53,13 @@ namespace Shared
             const std::wstring& modelPath,
             std::wstring& outputModelPath,
             std::wstring& outputImagePath);
+
+        /// <summary>
+        /// Get model path for specified variant (ArgumentParser already determined the variant)
+        /// </summary>
+        static std::wstring GetModelVariantPath(
+            const std::filesystem::path& executableFolder,
+            ModelVariant variant);
 
     private:
         static std::filesystem::path GetModulePath(HMODULE module);

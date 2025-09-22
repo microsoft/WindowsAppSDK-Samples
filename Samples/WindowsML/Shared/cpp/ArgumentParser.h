@@ -13,6 +13,17 @@ namespace Shared
 {
 
     /// <summary>
+    /// Model variant enumeration
+    /// </summary>
+    enum class ModelVariant
+    {
+        Auto,    // Auto-select based on device type
+        FP32,    // 32-bit floating point
+        INT8,    // 8-bit integer quantized
+        QDQ      // Quantize-Dequantize format
+    };
+
+    /// <summary>
     /// Command-line options structure
     /// </summary>
     struct CommandLineOptions
@@ -27,6 +38,7 @@ namespace Shared
         std::wstring image_path;
         std::wstring model_path;
         std::wstring output_path;
+        ModelVariant model_variant = ModelVariant::Auto; // Model precision/format selection
     };
 
     /// <summary>
@@ -49,6 +61,11 @@ namespace Shared
         /// Convert hardware device type to string for display
         /// </summary>
         static std::string ToString(OrtHardwareDeviceType policy);
+
+        /// <summary>
+        /// Convert model variant to string for display
+        /// </summary>
+        static std::string ToString(ModelVariant variant);
 
     private:
         static void PrintUsage();

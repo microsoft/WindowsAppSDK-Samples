@@ -11,12 +11,19 @@ This sample demonstrates how to use ONNX Runtime in a C++ desktop application, f
 ```
 CppConsoleDesktop.exe [options]
 Options:
-  --ep_policy <policy>  Set execution provider policy (NPU, CPU, GPU, DEFAULT, DISABLE). Default: DISABLE
-  --compile            Compile the model
-  --download           Download required packages
-  --model <path>       Path to input ONNX model (default: SqueezeNet.onnx in executable directory)
+  --ep_policy <policy>          Set execution provider selection policy (NPU, CPU, GPU, DEFAULT, DISABLE)
+  --ep_name <name>              Explicit execution provider name (mutually exclusive with --ep_policy)
+  --device_type <type>          Device type for OpenVINOExecutionProvider (NPU, GPU, CPU) when multiple present
+  --compile                     Compile the model
+  --download                    Download required packages
+  --model <path>                Path to input ONNX model (optional, default: SqueezeNet)
+                                If not provided, you can specify model variant with:
+                                  --fp32    FP32 model variant (32-bit floating point)
+                                  --int8    INT8 model variant (8-bit integer quantized)
+                                  --qdq     QDQ model variant (Quantize-Dequantize format)
+                                Auto-selection: INT8 for NPU/CPU, FP32 for GPU/DEFAULT
   --compiled_output <path>      Path for compiled output model (default: SqueezeNet_ctx.onnx)
-  --image_path <path>           Path to the input image (default: image.jpg in the executable directory)
+  --image_path <path>           Path to the input image (default: sample kitten image)
 ```
 
 ## Key Features

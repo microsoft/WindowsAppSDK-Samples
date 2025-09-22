@@ -36,14 +36,45 @@ namespace WindowsML.Shared
         }
 
         /// <summary>
+        /// Get model path for specified variant (ArgumentParser already determined the variant)
+        /// </summary>
+        public static string GetModelVariantPath(string executableFolder, ModelVariant variant)
+        {
+            string suffix = variant switch
+            {
+                ModelVariant.FP32 => "fp32",
+                ModelVariant.INT8 => "int8", 
+                ModelVariant.QDQ => "qdq",
+                ModelVariant.Auto => "fp32", // fallback, though this shouldn't happen
+                _ => "fp32" // fallback
+            };
+
+            string modelPath = Path.Combine(executableFolder, $"SqueezeNet-{suffix}.onnx");
+            Console.WriteLine($"Using model variant: {suffix} -> {modelPath}");
+            return modelPath;
+        }
+
+        /// <summary>
         /// Resolve model paths
         /// </summary>
         public static (string modelPath, string compiledModelPath, string labelsPath) ResolvePaths(Options options)
         {
             string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
 
-            string modelPath = options.ModelPath.Contains(Path.DirectorySeparatorChar) ?
-                options.ModelPath : Path.Combine(executableFolder, options.ModelPath);
+            string modelPath;
+            
+            // Check if user specified a custom model path
+            if (!string.IsNullOrWhiteSpace(options.ModelPath))
+            {
+                // User provided custom model path - use it as-is
+                modelPath = options.ModelPath.Contains(Path.DirectorySeparatorChar) ?
+                    options.ModelPath : Path.Combine(executableFolder, options.ModelPath);
+            }
+            else
+            {
+                // Using default SqueezeNet model - use the variant determined by ArgumentParser
+                modelPath = GetModelVariantPath(executableFolder, options.Variant);
+            }
 
             string compiledModelPath = options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
                 options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
