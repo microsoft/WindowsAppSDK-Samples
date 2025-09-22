@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Enable WinML header include path -->
-  <Import Project="..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0-20250919-945529-6deb570f\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props" Condition="Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0-20250919-945529-6deb570f\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props')" />
+  <Import Project="..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props" Condition="Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props')" />
   <PropertyGroup>
     <WinMLEnableDefaultOrtHeaderIncludePath>true</WinMLEnableDefaultOrtHeaderIncludePath>
   </PropertyGroup>
@@ -76,7 +76,7 @@
     <Import Project="..\..\packages\Microsoft.WindowsAppSDK.Runtime.1.8.250916003\build\native\Microsoft.WindowsAppSDK.Runtime.targets" Condition="Exists('..\..\packages\Microsoft.WindowsAppSDK.Runtime.1.8.250916003\build\native\Microsoft.WindowsAppSDK.Runtime.targets')" />
     <Import Project="..\..\packages\Microsoft.WindowsAppSDK.Widgets.1.8.250904007\build\native\Microsoft.WindowsAppSDK.Widgets.targets" Condition="Exists('..\..\packages\Microsoft.WindowsAppSDK.Widgets.1.8.250904007\build\native\Microsoft.WindowsAppSDK.Widgets.targets')" />
     <Import Project="..\..\packages\Microsoft.WindowsAppSDK.1.8.250916003\build\native\Microsoft.WindowsAppSDK.targets" Condition="Exists('..\..\packages\Microsoft.WindowsAppSDK.1.8.250916003\build\native\Microsoft.WindowsAppSDK.targets')" />
-    <Import Project="..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0-20250919-945529-6deb570f\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets" Condition="Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0-20250919-945529-6deb570f\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets')" />
+    <Import Project="..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets" Condition="Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -108,7 +108,7 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.WindowsAppSDK.Widgets.1.8.250904007\build\native\Microsoft.WindowsAppSDK.Widgets.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.WindowsAppSDK.Widgets.1.8.250904007\build\native\Microsoft.WindowsAppSDK.Widgets.targets'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.WindowsAppSDK.1.8.250916003\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.WindowsAppSDK.1.8.250916003\build\native\Microsoft.WindowsAppSDK.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.WindowsAppSDK.1.8.250916003\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.WindowsAppSDK.1.8.250916003\build\native\Microsoft.WindowsAppSDK.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0-20250919-945529-6deb570f\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0-20250919-945529-6deb570f\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0-20250919-945529-6deb570f\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0-20250919-945529-6deb570f\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets'))" />
   </Target>
 </Project>
