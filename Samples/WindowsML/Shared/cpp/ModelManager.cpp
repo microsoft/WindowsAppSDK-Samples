@@ -152,8 +152,105 @@ namespace Shared
         // Set default image path if not specified
         if (outputImagePath.empty())
         {
-            outputImagePath = executableFolder / L"image.jpg";
+            outputImagePath = executableFolder / L"image.png";
         }
+    }
+
+    std::wstring ModelManager::GetModelVariantPath(
+        const std::filesystem::path& executableFolder,
+        ModelVariant variant)
+    {
+        std::wstring modelPath;
+        
+        switch (variant)
+        {
+            case ModelVariant::FP32:
+                modelPath = executableFolder / L"SqueezeNet.fp32.onnx";
+                break;
+            case ModelVariant::Default:
+            default:
+                modelPath = executableFolder / L"SqueezeNet.onnx";
+                break;
+        }
+
+        std::wcout << L"Using model variant: " << (variant == ModelVariant::FP32 ? L"FP32" : L"Default") << L" -> " << modelPath << std::endl;
+        return modelPath;
+    }
+
+    ModelVariant ModelManager::DetermineModelVariant(const CommandLineOptions& options, Ort::Env& env)
+    {
+        // If user explicitly set a custom model path, variant doesn't matter
+        if (!options.model_path.empty())
+        {
+            return options.model_variant; // Use whatever was set (default is Default)
+        }
+
+        // For EP policy, we can determine based on the policy
+        if (options.ep_policy.has_value())
+        {
+            ModelVariant variant;
+            switch (options.ep_policy.value())
+            {
+                case OrtExecutionProviderDevicePolicy_PREFER_GPU:
+                    variant = ModelVariant::FP32;
+                    std::wcout << L"Auto-selected FP32 model variant for GPU execution\n";
+                    break;
+                case OrtExecutionProviderDevicePolicy_PREFER_NPU:
+                case OrtExecutionProviderDevicePolicy_PREFER_CPU:
+                case OrtExecutionProviderDevicePolicy_DEFAULT:
+                default:
+                    variant = ModelVariant::Default;
+                    std::wcout << L"Auto-selected Default model variant for NPU/CPU execution\n";
+                    break;
+            }
+            return variant;
+        }
+
+        // For explicit EP name, we need to check what device types are available
+        if (!options.ep_name.empty())
+        {
+            try
+            {
+                std::vector<Ort::ConstEpDevice> devices = env.GetEpDevices();
+                
+                // If user specified a device type, use that
+                if (options.device_type.has_value())
+                {
+                    ModelVariant variant = (options.device_type.value() == L"GPU") ? ModelVariant::FP32 : ModelVariant::Default;
+                    std::wcout << L"Auto-selected " << (variant == ModelVariant::FP32 ? L"FP32" : L"Default") 
+                              << L" model variant for " << options.ep_name << L" with device type " << options.device_type.value() << std::endl;
+                    return variant;
+                }
+                
+                // Otherwise, check if any of the available devices for this EP are GPU
+                for (const auto& device : devices)
+                {
+                    // Convert wide string to narrow string properly
+                    std::string epName;
+                    size_t convertedChars = 0;
+                    char buffer[256];
+                    if (wcstombs_s(&convertedChars, buffer, sizeof(buffer), options.ep_name.c_str(), _TRUNCATE) == 0)
+                    {
+                        epName = buffer;
+                    }
+                    
+                    if (device.EpName() == epName && device.Device().Type() == OrtHardwareDeviceType_GPU)
+                    {
+                        std::wcout << L"Auto-selected FP32 model variant for " << options.ep_name << L" (GPU device available)\n";
+                        return ModelVariant::FP32;
+                    }
+                }
+            }
+            catch (const std::exception& ex)
+            {
+                std::wcout << L"Warning: Could not determine device type for " << options.ep_name << L": " 
+                          << std::wstring(ex.what(), ex.what() + strlen(ex.what())) << std::endl;
+            }
+        }
+
+        // Default fallback
+        std::wcout << L"Auto-selected Default model variant (fallback)\n";
+        return ModelVariant::Default;
     }
 
 } // namespace Shared

@@ -8,6 +8,15 @@ using System.Reflection;
 namespace WindowsML.Shared
 {
     /// <summary>
+    /// Model variant enumeration
+    /// </summary>
+    public enum ModelVariant
+    {
+        Default,    // Default quantized model (for NPU/CPU)
+        FP32        // FP32 non-quantized model (for GPU)
+    }
+
+    /// <summary>
     /// Command-line argument parsing for WindowsML samples
     /// </summary>
     public class Options
@@ -17,9 +26,10 @@ namespace WindowsML.Shared
         public string? DeviceType { get; set; } = null; // Optional value to declare CPU | GPU | NPU
         public bool Compile { get; set; } = false;
         public bool Download { get; set; } = false;
-        public string ModelPath { get; set; } = "SqueezeNet.onnx";
+        public string ModelPath { get; set; } = string.Empty;
         public string OutputPath { get; set; } = "SqueezeNet_ctx.onnx";
         public string ImagePath { get; set; } = string.Empty;
+        public ModelVariant Variant { get; set; } = ModelVariant.Default;
     }
 
     public static class ArgumentParser
@@ -152,7 +162,7 @@ namespace WindowsML.Shared
             if (string.IsNullOrWhiteSpace(options.ImagePath))
             {
                 string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-                options.ImagePath = Path.Combine(executableFolder, "image.jpg");
+                options.ImagePath = Path.Combine(executableFolder, "image.png");
             }
 
             return options;
@@ -171,7 +181,7 @@ namespace WindowsML.Shared
             Console.WriteLine("  --download                  Download required packages");
             Console.WriteLine("  --model <path>              Path to input ONNX model (default: SqueezeNet.onnx)");
             Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: SqueezeNet_ctx.onnx)");
-            Console.WriteLine("  --image_path <path>         Path to the input image (default: image.jpg in the executable directory)");
+            Console.WriteLine("  --image_path <path>         Path to the input image (default: sample kitten image)");
             Console.WriteLine("  --help, -h                  Display this help message");
             Console.WriteLine();
             Console.WriteLine("Exactly one of --ep_policy or --ep_name must be specified.");

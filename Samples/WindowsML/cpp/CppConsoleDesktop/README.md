@@ -16,7 +16,7 @@ Options:
   --download           Download required packages
   --model <path>       Path to input ONNX model (default: SqueezeNet.onnx in executable directory)
   --compiled_output <path>      Path for compiled output model (default: SqueezeNet_ctx.onnx)
-  --image_path <path>           Path to the input image (default: image.jpg in the executable directory)
+  --image_path <path>           Path to the input image (default: sample kitten image)
 ```
 
 ## Key Features

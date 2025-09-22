@@ -36,14 +36,136 @@ namespace WindowsML.Shared
         }
 
         /// <summary>
-        /// Resolve model paths
+        /// Determine the best model variant based on execution provider configuration
+        /// </summary>
+        public static ModelVariant DetermineModelVariant(Options options, OrtEnv ortEnv)
+        {
+            // If user explicitly set a custom model path, variant doesn't matter
+            if (!string.IsNullOrWhiteSpace(options.ModelPath))
+            {
+                return options.Variant; // Use whatever was set (default is Default)
+            }
+
+            // For EP policy, we can determine based on the policy
+            if (options.EpPolicy.HasValue)
+            {
+                var variant = options.EpPolicy.Value switch
+                {
+                    ExecutionProviderDevicePolicy.PREFER_GPU => ModelVariant.FP32,
+                    ExecutionProviderDevicePolicy.PREFER_NPU or ExecutionProviderDevicePolicy.PREFER_CPU or ExecutionProviderDevicePolicy.DEFAULT or _ => ModelVariant.Default
+                };
+                Console.WriteLine($"Auto-selected {variant} model variant for {options.EpPolicy.Value} execution");
+                return variant;
+            }
+
+            // For explicit EP name, we need to check what device types are available
+            if (!string.IsNullOrEmpty(options.EpName))
+            {
+                try
+                {
+                    var devices = ortEnv.GetEpDevices();
+                    var epDevices = devices.Where(d => d.EpName.Equals(options.EpName, StringComparison.OrdinalIgnoreCase)).ToList();
+                    
+                    // If user specified a device type, use that
+                    if (!string.IsNullOrEmpty(options.DeviceType))
+                    {
+                        var variant = options.DeviceType.ToUpperInvariant() == "GPU" ? ModelVariant.FP32 : ModelVariant.Default;
+                        Console.WriteLine($"Auto-selected {variant} model variant for {options.EpName} with device type {options.DeviceType}");
+                        return variant;
+                    }
+                    
+                    // Otherwise, check if any of the available devices for this EP are GPU
+                    bool hasGpu = epDevices.Any(d => d.HardwareDevice.Type.ToString().Equals("GPU", StringComparison.OrdinalIgnoreCase));
+                    if (hasGpu)
+                    {
+                        Console.WriteLine($"Auto-selected FP32 model variant for {options.EpName} (GPU device available)");
+                        return ModelVariant.FP32;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Warning: Could not determine device type for {options.EpName}: {ex.Message}");
+                }
+            }
+
+            // Default fallback
+            Console.WriteLine("Auto-selected Default model variant (fallback)");
+            return ModelVariant.Default;
+        }
+
+        /// <summary>
+        /// Get model path for specified variant
+        /// </summary>
+        public static string GetModelVariantPath(string executableFolder, ModelVariant variant)
+        {
+            string modelPath = variant switch
+            {
+                ModelVariant.FP32 => Path.Combine(executableFolder, "SqueezeNet.fp32.onnx"),
+                ModelVariant.Default => Path.Combine(executableFolder, "SqueezeNet.onnx"),
+                _ => Path.Combine(executableFolder, "SqueezeNet.onnx") // fallback
+            };
+
+            Console.WriteLine($"Using model variant: {variant} -> {modelPath}");
+            return modelPath;
+        }
+
+        /// <summary>
+        /// Resolve model paths with intelligent variant selection
+        /// </summary>
+        public static (string modelPath, string compiledModelPath, string labelsPath) ResolvePaths(Options options, OrtEnv ortEnv)
+        {
+            string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
+
+            string modelPath;
+            
+            // Check if user specified a custom model path
+            if (!string.IsNullOrWhiteSpace(options.ModelPath))
+            {
+                // User provided custom model path - use it as-is
+                modelPath = options.ModelPath.Contains(Path.DirectorySeparatorChar) ?
+                    options.ModelPath : Path.Combine(executableFolder, options.ModelPath);
+            }
+            else
+            {
+                // Using default SqueezeNet model - determine the best variant based on EP configuration
+                var variant = DetermineModelVariant(options, ortEnv);
+                modelPath = GetModelVariantPath(executableFolder, variant);
+            }
+
+            string compiledModelPath = options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
+                options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
+
+            string labelsPath = Path.Combine(executableFolder, "SqueezeNet.Labels.txt");
+
+            if (!File.Exists(labelsPath))
+            {
+                throw new FileNotFoundException($"Labels file not found: {labelsPath}");
+            }
+
+            return (modelPath, compiledModelPath, labelsPath);
+        }
+
+        /// <summary>
+        /// Resolve model paths (legacy method for backward compatibility)
         /// </summary>
         public static (string modelPath, string compiledModelPath, string labelsPath) ResolvePaths(Options options)
         {
             string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
 
-            string modelPath = options.ModelPath.Contains(Path.DirectorySeparatorChar) ?
-                options.ModelPath : Path.Combine(executableFolder, options.ModelPath);
+            string modelPath;
+            
+            // Check if user specified a custom model path
+            if (!string.IsNullOrWhiteSpace(options.ModelPath))
+            {
+                // User provided custom model path - use it as-is
+                modelPath = options.ModelPath.Contains(Path.DirectorySeparatorChar) ?
+                    options.ModelPath : Path.Combine(executableFolder, options.ModelPath);
+            }
+            else
+            {
+                // Using default SqueezeNet model - use the variant from options (will be Default)
+                modelPath = GetModelVariantPath(executableFolder, options.Variant);
+            }
 
             string compiledModelPath = options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
                 options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
