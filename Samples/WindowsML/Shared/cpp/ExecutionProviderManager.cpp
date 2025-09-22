@@ -159,6 +159,9 @@ namespace Shared
     {
         try
         {
+            // Call InitializeProvidersAsync first to ensure any providers from the catalog are registered and show up in the list
+            InitializeProviders(false);
+
             Ort::Env env{};
             auto devices = env.GetEpDevices();
             if (!devices.empty())

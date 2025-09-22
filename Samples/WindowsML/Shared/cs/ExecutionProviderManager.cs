@@ -156,10 +156,13 @@ namespace WindowsML.Shared
             }
         }
 
-        public static void PrintExecutionProviderHelpTable()
+        public static async Task PrintExecutionProviderHelpTable()
         {
             try
             {
+                // Call InitializeProvidersAsync first to ensure any providers from the catalog are registered and show up in the list
+                await InitializeProvidersAsync(allowDownload: false);
+
                 EnvironmentCreationOptions envOptions = new() {
                 };
 
