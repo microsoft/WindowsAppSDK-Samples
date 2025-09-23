@@ -28,6 +28,27 @@
     </Content>
   </ItemGroup>
 
+  <!-- Include SqueezeNet model files in MSIX package -->
+  <Target Name="IncludeSqueezeNetFilesInPackage" AfterTargets="CopySqueezeNetModelToOutput" BeforeTargets="_ComputeAppxPackagePayload">
+    <ItemGroup>
+      <AppxPackagePayload Include="$(OutputPath)SqueezeNet.onnx">
+        <TargetPath>SqueezeNet.onnx</TargetPath>
+      </AppxPackagePayload>
+      <AppxPackagePayload Include="$(OutputPath)SqueezeNet.fp32.onnx">
+        <TargetPath>SqueezeNet.fp32.onnx</TargetPath>
+      </AppxPackagePayload>
+      <AppxPackagePayload Include="$(OutputPath)SqueezeNet.Labels.txt">
+        <TargetPath>SqueezeNet.Labels.txt</TargetPath>
+      </AppxPackagePayload>
+      <AppxPackagePayload Include="$(OutputPath)SqueezeNet.LICENSE.txt">
+        <TargetPath>SqueezeNet.LICENSE.txt</TargetPath>
+      </AppxPackagePayload>
+      <AppxPackagePayload Include="$(OutputPath)image.png">
+        <TargetPath>image.png</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="System.Numerics.Tensors" />

@@ -56,11 +56,14 @@ namespace WindowsMLSample
                 providerInfo.AppendLine("Available Execution Providers:");
                 providerInfo.AppendLine("========================================");
 
-                foreach (var provider in providers)
+                if (providers is not null)
                 {
-                    providerInfo.AppendLine($"Provider: {provider.Name}");
-                    providerInfo.AppendLine($"  Ready state: {provider.ReadyState}");
-                    providerInfo.AppendLine();
+                    foreach (var provider in providers)
+                    {
+                        providerInfo.AppendLine($"Provider: {provider.Name}");
+                        providerInfo.AppendLine($"  Ready state: {provider.ReadyState}");
+                        providerInfo.AppendLine();
+                    }
                 }
 
                 bool allowDownload = AllowProviderDownloadCheckBox.IsChecked ?? false;
