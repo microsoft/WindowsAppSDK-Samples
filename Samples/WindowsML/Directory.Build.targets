@@ -1,0 +1,14 @@
+<Project>
+  <!-- Automatic package restore for packages.config projects (C++ projects) -->
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
+    <RestorePackagesConfig>true</RestorePackagesConfig>
+    <RestorePackagesPath>$(MSBuildThisFileDirectory)packages</RestorePackagesPath>
+  </PropertyGroup>
+
+  <!-- Ensure packages are restored before build for packages.config projects -->
+  <Target Name="RestorePackagesConfigPackages" BeforeTargets="PrepareForBuild" Condition="'$(MSBuildProjectExtension)' == '.vcxproj' AND Exists('$(MSBuildProjectDirectory)\packages.config')">
+    <Exec Command="nuget restore &quot;$(MSBuildProjectDirectory)\packages.config&quot; -PackagesDirectory &quot;$(RestorePackagesPath)&quot; -NonInteractive -ConfigFile &quot;$(MSBuildThisFileDirectory)..\NuGet.Config&quot;" 
+          ContinueOnError="false"
+          Condition="!Exists('$(RestorePackagesPath)')" />
+  </Target>
+</Project>

@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <!-- Global settings for all WindowsML projects -->
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetPlatformMinVersion Condition="'$(MSBuildProjectExtension)' == '.csproj'">10.0.22621.0</TargetPlatformMinVersion>
+    <WindowsTargetPlatformVersion Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platforms>x64;ARM64</Platforms>
+    <RuntimeIdentifiers Condition="'$(MSBuildProjectExtension)' == '.csproj'">win-x64;win-arm64</RuntimeIdentifiers>
+    <Nullable Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</Nullable>
+    <ImplicitUsings Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</ImplicitUsings>
+    <AllowUnsafeBlocks Condition="'$(MSBuildProjectExtension)' == '.csproj'">true</AllowUnsafeBlocks>
+  </PropertyGroup>
+</Project>
