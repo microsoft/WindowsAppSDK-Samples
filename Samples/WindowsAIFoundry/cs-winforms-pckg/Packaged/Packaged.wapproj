@@ -80,3 +80,4 @@
     <ProjectReference Include="..\WindowsAISampleForWinForms\WindowsAISample.csproj" />
   </ItemGroup>
 </Project>
+
