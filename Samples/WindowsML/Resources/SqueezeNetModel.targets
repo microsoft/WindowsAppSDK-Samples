@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Define properties for model download -->
+  <PropertyGroup>
+    <!-- Model URLs - FP32 (non-quantized for GPU) -->
+    <SqueezeNetModelUrlFP32>https://github.com/onnx/models/raw/b1eeaa1ac722dcc1cd1a8284bde34393dab61c3d/validated/vision/classification/squeezenet/model/squeezenet1.1-7.onnx</SqueezeNetModelUrlFP32>
+    <!-- Note: Default quantized model (SqueezeNet.onnx) is checked into Resources folder -->
+    <SqueezeNetLabelsUrl>https://github.com/microsoft/Windows-Machine-Learning/raw/02b586811c8beb1ae2208c8605393267051257ae/Samples/SqueezeNetObjectDetection/Desktop/cpp/Labels.txt</SqueezeNetLabelsUrl>
+    <SqueezeNetImageUrl>https://github.com/microsoft/Windows-Machine-Learning/raw/638cd40abc408e7049219e5d7b4fe164c304f2a2/SharedContent/media/kitten_224.png</SqueezeNetImageUrl>
+    
+    <!-- Use a shared location under Resources/obj for all projects -->
+    <SqueezeNetModelTempDir>$(MSBuildThisFileDirectory)obj\SqueezeNetModel</SqueezeNetModelTempDir>
+    
+    <!-- Downloaded model file paths -->
+    <SqueezeNetModelFileFP32>$(SqueezeNetModelTempDir)\SqueezeNet.fp32.onnx</SqueezeNetModelFileFP32>
+    <SqueezeNetLabelsFile>$(SqueezeNetModelTempDir)\SqueezeNet.Labels.txt</SqueezeNetLabelsFile>
+    <SqueezeNetImageFile>$(SqueezeNetModelTempDir)\image.png</SqueezeNetImageFile>
+    
+    <!-- Resources folder files (checked in) -->
+    <SqueezeNetModelFileDefault>$(MSBuildThisFileDirectory)SqueezeNet.onnx</SqueezeNetModelFileDefault>
+    <SqueezeNetLicenseFile>$(MSBuildThisFileDirectory)SqueezeNet.LICENSE.txt</SqueezeNetLicenseFile>
+  </PropertyGroup>
+
+  <!-- Create temp directory for downloaded model -->
+  <Target Name="CreateSqueezeNetModelDirectory" BeforeTargets="Build">
+    <MakeDir Directories="$(SqueezeNetModelTempDir)" Condition="!Exists('$(SqueezeNetModelTempDir)')" />
+  </Target>
+
+  <!-- Download SqueezeNet models if they don't exist -->
+  <Target Name="DownloadSqueezeNetModel" BeforeTargets="Build" DependsOnTargets="CreateSqueezeNetModelDirectory">
+    <Message Text="Checking for SqueezeNet models in: $(SqueezeNetModelTempDir)" Importance="high" />
+    
+    <!-- Download FP32 model file if it doesn't exist -->
+    <DownloadFile 
+      SourceUrl="$(SqueezeNetModelUrlFP32)" 
+      DestinationFolder="$(SqueezeNetModelTempDir)" 
+      DestinationFileName="SqueezeNet.fp32.onnx"
+      Condition="!Exists('$(SqueezeNetModelFileFP32)')"
+      ContinueOnError="true" />
+    <Warning Text="SqueezeNet FP32 model download may have been interrupted by antivirus scanning or network issues. The file may become available shortly as antivirus completes its scan."
+             Condition="!Exists('$(SqueezeNetModelFileFP32)')" />
+    
+    <!-- Note: Default quantized model (SqueezeNet.onnx) is checked into Resources folder -->
+    
+    <!-- Download labels file if it doesn't exist -->
+    <DownloadFile 
+      SourceUrl="$(SqueezeNetLabelsUrl)" 
+      DestinationFolder="$(SqueezeNetModelTempDir)" 
+      DestinationFileName="SqueezeNet.Labels.txt"
+      Condition="!Exists('$(SqueezeNetLabelsFile)')"
+      ContinueOnError="true" />
+    <Warning Text="SqueezeNet labels file download may have been interrupted by antivirus scanning or network issues. The file may become available shortly as antivirus completes its scan."
+             Condition="!Exists('$(SqueezeNetLabelsFile)')" />
+    
+    <!-- Download image file if it doesn't exist -->
+    <DownloadFile 
+      SourceUrl="$(SqueezeNetImageUrl)" 
+      DestinationFolder="$(SqueezeNetModelTempDir)" 
+      DestinationFileName="image.png"
+      Condition="!Exists('$(SqueezeNetImageFile)')"
+      ContinueOnError="true" />
+    <Warning Text="Sample image file download may have been interrupted by antivirus scanning or network issues. The file may become available shortly as antivirus completes its scan."
+             Condition="!Exists('$(SqueezeNetImageFile)')" />
+  </Target>
+
+  <!-- Copy downloaded files to output directory -->
+  <Target Name="CopySqueezeNetModelToOutput" BeforeTargets="Build" DependsOnTargets="DownloadSqueezeNetModel">
+    <!-- Copy FP32 model to output directory with retry for antivirus interference -->
+    <Copy SourceFiles="$(SqueezeNetModelFileFP32)" DestinationFiles="$(OutputPath)\SqueezeNet.fp32.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    
+    <!-- Copy default quantized model from Resources folder -->
+    <Copy SourceFiles="$(SqueezeNetModelFileDefault)" DestinationFiles="$(OutputPath)\SqueezeNet.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    
+    <!-- Copy license file from Resources folder -->
+    <Copy SourceFiles="$(SqueezeNetLicenseFile)" DestinationFiles="$(OutputPath)\SqueezeNet.LICENSE.txt" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    
+    <!-- Copy labels file -->
+    <Copy SourceFiles="$(SqueezeNetLabelsFile)" DestinationFiles="$(OutputPath)\SqueezeNet.Labels.txt" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    
+    <!-- Copy image file -->
+    <Copy SourceFiles="$(SqueezeNetImageFile)" DestinationFiles="$(OutputPath)\image.png" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+  </Target>
+
+</Project>
