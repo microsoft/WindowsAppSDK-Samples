@@ -149,7 +149,7 @@ internal class Program
 
             // Use WinML to download and register Execution Providers
             var catalog = ExecutionProviderCatalog.GetDefault();
-            var registeredProviders = await catalog.EnsureAndRegisterAllAsync();
+            var registeredProviders = await catalog.EnsureAndRegisterCertifiedAsync();
 
             // Prepare paths
             string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
