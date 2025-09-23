@@ -2,9 +2,6 @@
   "profiles": {
     "WindowsMLSample (Package)": {
       "commandName": "MsixPackage"
-    },
-    "WindowsMLSample (Unpackaged)": {
-      "commandName": "Project"
     }
   }
 }
