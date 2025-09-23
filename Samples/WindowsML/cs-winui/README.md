@@ -27,7 +27,7 @@ This sample demonstrates how to use Windows ML in a **WinUI 3** packaged or unpa
 ## Usage
 
 1. **Launch Application** - The app automatically loads and displays execution provider information
-2. **Auto-Demo** - Sample image (`image.jpg`) is automatically loaded and classified on startup
+2. **Auto-Demo** - Sample image is automatically loaded and classified on startup
 3. **Configure Providers** - Use "Allow Provider Download" checkbox to enable automatic EP downloads
 4. **Reload Model** - Click "Reload Model" to reinitialize with new provider settings
 5. **View Results** - See the top 5 predictions displayed automatically
