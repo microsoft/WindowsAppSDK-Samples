@@ -5,10 +5,17 @@
 #include <string>
 
 #include "timing.h"
-#include "ort_genai.h"
 #include <exception>
 #include <iostream>
 #include <ostream>
+
+#include <winrt/Windows.Foundation.h>
+#include <algorithm>
+#include <winrt/base.h>
+
+#include <winrt/Microsoft.Windows.AI.MachineLearning.h>
+
+#include "ort_genai.h"
 
 // C++ API Example for Model Question-Answering
 // This example demonstrates how to use the C++ API of the ONNX Runtime GenAI library
@@ -25,6 +32,35 @@ void TerminateGeneration(int)
     }
 
     g_generator->SetRuntimeOption("terminate_session", "1");
+}
+
+void InitializeProviders(bool allowDownload)
+{
+    std::cout << "Getting available providers..." << std::endl;
+    auto catalog = winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderCatalog::GetDefault();
+    auto providers = catalog.FindAllProviders();
+    for (const auto& provider : providers)
+    {
+        std::wcout << L"Provider: " << provider.Name().c_str() << std::endl;
+        try
+        {
+            auto readyState = provider.ReadyState();
+            std::wcout << L"  Ready state: " << static_cast<int>(readyState) << std::endl;
+
+            // Only call EnsureReadyAsync if we allow downloads or if the provider is already ready
+            if (allowDownload || readyState != winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyState::NotPresent)
+            {
+                std::wcout << L"  EnsureReadyAsync" << std::endl;
+                provider.EnsureReadyAsync().get();
+            }
+
+            provider.TryRegister();
+        }
+        catch (...)
+        {
+            // Continue if provider fails to initialize
+        }
+    }
 }
 
 void CXX_API(const char* model_path)
@@ -146,14 +182,14 @@ bool parse_args(int argc, char** argv, std::string& model_path)
 
 int main(int argc, char** argv)
 {
+    bool allowDownload = true;
+    InitializeProviders(allowDownload);
+
     std::string model_path;
     if (!parse_args(argc, argv, model_path))
     {
         return -1;
     }
-
-    // Responsible for cleaning up the library during shutdown
-    OgaHandle handle;
 
     std::cout << "-------------------------" << std::endl;
     std::cout << "Hello, ORT GenAI Model-QA!" << std::endl;
@@ -162,6 +198,8 @@ int main(int argc, char** argv)
     std::cout << "C++ API" << std::endl;
     try
     {
+        // Responsible for cleaning up the library during shutdown
+        OgaHandle handle;
         CXX_API(model_path.c_str());
     }
     catch (const std::exception& e)

@@ -2,9 +2,48 @@
 // Licensed under the MIT License.
 
 using Microsoft.ML.OnnxRuntimeGenAI;
+using Microsoft.Windows.AI.MachineLearning;
 
 using System.Text;
 using System.Text.Json;
+
+static async Task InitializeProvidersAsync(bool allowDownload)
+{
+    Console.WriteLine("Getting available providers...");
+    var catalog = ExecutionProviderCatalog.GetDefault();
+    var providers = catalog.FindAllProviders();
+
+    if (providers is null || providers.Length == 0)
+    {
+        Console.WriteLine("No execution providers found in catalog.");
+        return;
+    }
+
+    foreach (var provider in providers)
+    {
+        Console.WriteLine($"Provider: {provider.Name}");
+        try
+        {
+            var readyState = provider.ReadyState;
+            Console.WriteLine($"  Ready state: {readyState}");
+
+            // Only call EnsureReadyAsync if we allow downloads or if the provider is already ready
+            if (allowDownload || readyState != ExecutionProviderReadyState.NotPresent)
+            {
+                Console.WriteLine($"  EnsureReadyAsync: {provider.Name}");
+                await provider.EnsureReadyAsync();
+            }
+
+            var registerResult = provider.TryRegister();
+            Console.WriteLine($"  TryRegister: {registerResult}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"  Failed to initialize provider {provider.Name}: {ex.Message}");
+            // Continue with other providers
+        }
+    }
+}
 
 static void PrintUsage()
 {
@@ -55,6 +94,8 @@ Console.WriteLine("-------------");
 
 Console.WriteLine("Model path: " + modelPath);
 Console.WriteLine("Interactive: " + interactive);
+
+InitializeProvidersAsync(allowDownload: true).Wait();
 
 using Config config = new(modelPath);
 using Model model = new(config);
