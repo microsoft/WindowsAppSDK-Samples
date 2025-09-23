@@ -113,8 +113,6 @@ if (interactive)
 int minLength = 50;
 int maxLength = 500;
 
-
-
 static string GetPrompt(bool interactive)
 {
     string prompt = "def is_prime(num):"; // Example prompt
