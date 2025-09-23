@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights r        auto spByteAccess = reference.as<::Windows::Foundation::IMemoryBufferByteAccess>();served.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 #include "ImageProcessor.h"
 #include <MemoryBuffer.h>
