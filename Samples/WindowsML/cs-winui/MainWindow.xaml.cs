@@ -135,7 +135,8 @@ namespace WindowsMLSample
         private async Task LoadAndRunDemoAsync()
         {
             // Get application directory
-            var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                               ?? throw new InvalidOperationException("Could not determine application directory");   
             var imagePath = Path.Combine(appDirectory, "image.png");
 
             if (!File.Exists(imagePath))
