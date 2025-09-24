@@ -27,10 +27,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
+using System.IO;
 using SamplesCommon;
 using Windows.Foundation;
 using Windows.UI;
-using Windows.Storage.Pickers;
+using Microsoft.Windows.Storage.Pickers;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.Graphics.Effects;
@@ -221,20 +222,24 @@ namespace MaterialCreator
             }
             else
             {
-                FileOpenPicker openPicker = new FileOpenPicker();
-                openPicker.ViewMode = PickerViewMode.Thumbnail;
-                openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                openPicker.FileTypeFilter.Add(".jpg");
-                openPicker.FileTypeFilter.Add(".jpeg");
-                openPicker.FileTypeFilter.Add(".png");
-                WinRT.Interop.InitializeWithWindow.Initialize(openPicker, WinRT.Interop.WindowNative.GetWindowHandle(MainWindow.CurrentWindow));
-                StorageFile file = await openPicker.PickSingleFileAsync();
+                var openPicker = new FileOpenPicker(MainWindow.CurrentWindow.AppWindow.Id)
+                {
+                    ViewMode = PickerViewMode.Thumbnail,
+                    SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                    FileTypeFilter = { ".jpg", ".jpeg", ".png" },
+                };
 
-                if (file != null)
+                var result = await openPicker.PickSingleFileAsync();
+                if (result != null)
                 {
                     BitmapImage bitmapImage = new BitmapImage();
-                    IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-                    bitmapImage.SetSource(stream);
+
+                    // Use System.IO to create a file stream directly from the path
+                    using (var fileStream = File.OpenRead(result.Path))
+                    {
+                        var randomAccessStream = fileStream.AsRandomAccessStream();
+                        await bitmapImage.SetSourceAsync(randomAccessStream);
+                    }
 
                     PreviewPanel.Background = new ImageBrush()
                     {
