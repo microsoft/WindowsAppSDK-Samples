@@ -187,7 +187,10 @@ namespace WindowsML.Shared
             Console.WriteLine("Exactly one of --ep_policy or --ep_name must be specified.");
             Console.WriteLine();
             Console.WriteLine("Available execution providers (name, vendor, device type):");
-            ExecutionProviderManager.PrintExecutionProviderHelpTable();
+            ExecutionProviderManager
+                .PrintExecutionProviderHelpTable()
+                .GetAwaiter()
+                .GetResult();
         }
     }
 }
