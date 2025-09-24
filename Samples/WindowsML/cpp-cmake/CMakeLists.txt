@@ -9,7 +9,7 @@ cmake_policy(SET CMP0117 NEW) # MSVC RTTI flag /GR is not added to CMAKE_CXX_FLA
 if(CMAKE_GENERATOR MATCHES "^Visual Studio")
     # To prevent builds (including try_compile) from picking up top-level 'Directory.Build.*' files,
     # write versions specific to the CMake builds at the root of the CMake build.
-    file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.rsp" "-m -graphBuild:True -p:UseMultiToolTask=True")
+    file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.rsp" "-m -graphBuild:true -p:UseMultiToolTask=true -nodeReuse:false")
     file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.props" "<Project></Project>")
     file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.targets" "<Project></Project>")
 elseif(CMAKE_GENERATOR MATCHES "^Ninja")
@@ -29,13 +29,22 @@ include(FetchContent)
 FetchContent_Declare(
   CMakeNuGetPackage
   GIT_REPOSITORY https://github.com/mschofie/NuGetCMakePackage
-  GIT_TAG 74545405a30aa3e358665ea1431948f61875edad
+  GIT_TAG d9fb6703b84b2cb5d65a317d1d7022da8a1f0518
 )
 
 FetchContent_MakeAvailable(CMakeNuGetPackage)
 
-add_nuget_library(Microsoft.Windows.ImplementationLibrary 1.0.250325.1)
-add_nuget_library(Microsoft.Windows.CppWinRT 2.0.250303.1)
+add_nuget_packages(
+    PACKAGES
+        Microsoft.Windows.ImplementationLibrary 1.0.240803.1
+        Microsoft.Windows.CppWinRT 2.0.240405.15
+        Microsoft.WindowsAppSDK.Runtime 1.8.250916003
+        Microsoft.WindowsAppSDK.ML 1.8.2091
+)
+
+find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)
+find_package(Microsoft.WindowsAppSDK.Runtime CONFIG REQUIRED)
+find_package(Microsoft.WindowsAppSDK.ML CONFIG REQUIRED)
 
 set(RESNET_MODEL_FILES
     ${CMAKE_SOURCE_DIR}/../Resources/ResNet50/model.Labels.txt
