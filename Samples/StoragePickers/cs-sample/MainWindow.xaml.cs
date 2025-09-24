@@ -210,9 +210,12 @@ namespace FilePickersAppSinglePackaged
                     if (!string.IsNullOrEmpty(choicesJson))
                     {
                         var choices = System.Text.Json.JsonSerializer.Deserialize(choicesJson, SourceGenerationContext.Default.DictionaryStringListString);
-                        foreach (var choice in choices)
+                        if (choices != null)
                         {
-                            picker.FileTypeChoices.Add(choice.Key, choice.Value);
+                            foreach (var choice in choices)
+                            {
+                                picker.FileTypeChoices.Add(choice.Key, choice.Value);
+                            }
                         }
                     }
                 }
