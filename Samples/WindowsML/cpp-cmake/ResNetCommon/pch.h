@@ -3,8 +3,9 @@
 // clang-format off
 #include <unknwn.h>
 #include <windows.h>
-#include <winrt/base.h>
+#include <wil/cppwinrt.h>
 #include <wil/win32_helpers.h>
+#include <winrt/base.h>
 // clang-format on
 
 #include <cstdint>

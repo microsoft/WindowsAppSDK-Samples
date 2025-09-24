@@ -3,9 +3,6 @@
 #----------------------------------------------------------------------------------------------------------------------
 project(ResNetConsoleDesktop.SelfContained LANGUAGES CXX)
 
-add_nuget_library(Microsoft.WindowsAppSDK.Runtime 1.8.250907001)
-add_nuget_library(Microsoft.WindowsAppSDK.ML 1.8.2084)
-
 add_executable(ResNetConsoleDesktop.SelfContained
     app.manifest
     main.cpp
