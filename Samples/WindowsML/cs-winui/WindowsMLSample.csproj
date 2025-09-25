@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <!-- Include SqueezeNet model files in MSIX package -->
-  <Target Name="IncludeSqueezeNetFilesInPackage" AfterTargets="CopySqueezeNetModelToOutput" BeforeTargets="_ComputeAppxPackagePayload">
+  <Target Name="IncludeSqueezeNetFilesInPackage" DependsOnTargets="CopySqueezeNetModelToOutput" BeforeTargets="_ComputeAppxPackagePayload">
     <ItemGroup>
       <AppxPackagePayload Include="$(OutputPath)SqueezeNet.onnx">
         <TargetPath>SqueezeNet.onnx</TargetPath>
