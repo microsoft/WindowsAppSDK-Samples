@@ -12,11 +12,12 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
 
+            <!-- Define the TestGroupStyle here -->
             <Style x:Key="TestGroupStyle" TargetType="StackPanel">
-                <Setter Property="Spacing" Value="8" />
-                <Setter Property="Padding" Value="0,0,0,12" />
-                <Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                <Setter Property="Spacing" Value="8"/>
+                <Setter Property="Padding" Value="0,0,0,12"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}"/>
+                <Setter Property="BorderThickness" Value="0,0,0,1"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

@@ -1,86 +1,99 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "MainWindow.xaml.h"
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-
 #include <algorithm>
 #include <chrono>
-#include <cwchar>
-#include <cwctype>
-#include <ctime>
 #include <filesystem>
 #include <iomanip>
 #include <sstream>
+#include <string>
 #include <string_view>
+#include <vector>
+
+#include <winrt/Windows.Data.Json.h>
+
+using namespace winrt;
+using namespace Microsoft::UI::Xaml;
+using namespace Microsoft::UI::Windowing;
+using namespace Microsoft::Windows::Storage::Pickers;
+using namespace Windows::Data::Json;
 
 namespace
 {
+    std::wstring TrimString(std::wstring_view text)
+    {
+        auto start = text.find_first_not_of(L" \t\r\n'\"");
+        if (start == std::wstring_view::npos)
+        {
+            return {};
+        }
+
+        auto end = text.find_last_not_of(L" \t\r\n'\"");
+        return std::wstring{ text.substr(start, end - start + 1) };
+    }
+
     bool IsChecked(Microsoft::UI::Xaml::Controls::CheckBox const& checkbox)
     {
-        if (auto isChecked = checkbox.IsChecked())
+        if (auto value = checkbox.IsChecked())
         {
-            return isChecked.Value();
+            return value.Value();
         }
 
         return false;
+    }
+
+    std::wstring FileNameFromPath(std::wstring_view path)
+    {
+        if (path.empty())
+        {
+            return {};
+        }
+
+        std::filesystem::path fsPath{ path };
+        return fsPath.filename().wstring();
     }
 }
 
 namespace winrt::FilePickersAppSinglePackaged::implementation
 {
-    using Microsoft::UI::Xaml::Controls::CheckBox;
-    using Microsoft::Windows::Storage::Pickers::FileOpenPicker;
-    using Microsoft::Windows::Storage::Pickers::FileSavePicker;
-    using Microsoft::Windows::Storage::Pickers::FolderPicker;
-    using Microsoft::Windows::Storage::Pickers::PickerLocationId;
-    using Microsoft::Windows::Storage::Pickers::PickerViewMode;
-    using Windows::Data::Json::JsonObject;
-    using Windows::Data::Json::JsonValueType;
-
     MainWindow::MainWindow()
     {
-        // Xaml objects should not call InitializeComponent during construction.
-        // See https://github.com/microsoft/cppwinrt/tree/master/nuget#initializecomponent
         InitializeComponent();
-
         Title(L"File Pickers Sample App");
 
-        if (auto appWindow = AppWindow())
+        if (auto appWindow = this->AppWindow())
         {
-            Windows::Graphics::SizeInt32 newSize{ 1800, 1100 };
-            try
-            {
-                appWindow.Resize(newSize);
-            }
-            catch (winrt::hresult_error const&)
-            {
-                // Ignore if resize is not supported.
-            }
+            appWindow.Resize({ 1800, 1100 });
         }
     }
 
     void MainWindow::LogResult(winrt::hstring const& message)
     {
-        auto now = std::chrono::system_clock::now();
-        std::time_t nowTime = std::chrono::system_clock::to_time_t(now);
-        std::tm localTime{};
-        localtime_s(&localTime, &nowTime);
+        using namespace std::chrono;
 
-    wchar_t buffer[9]{};
-    wcsftime(buffer, sizeof(buffer) / sizeof(wchar_t), L"%H:%M:%S", &localTime);
+        auto now = system_clock::now();
+        auto rawTime = system_clock::to_time_t(now);
+        tm localTime{};
+        localtime_s(&localTime, &rawTime);
 
-        std::wstringstream stream;
-        stream << L"[" << buffer << L"] " << message.c_str();
+        std::wstringstream timestampStream;
+        timestampStream << std::put_time(&localTime, L"%H:%M:%S");
 
-        std::wstring existingText{ ResultsTextBlock().Text().c_str() };
-        stream << L"\n" << existingText;
+        std::wstring existing{ ResultsTextBlock().Text().c_str() };
 
-    auto combined = stream.str();
-    ResultsTextBlock().Text(winrt::hstring{ combined });
+        std::wstring newEntry;
+        newEntry.reserve(existing.size() + message.size() + 16);
+        newEntry.append(L"[");
+        newEntry.append(timestampStream.str());
+        newEntry.append(L"] ");
+        newEntry.append(message.c_str());
+        newEntry.append(L"\n");
+        newEntry.append(existing);
+
+        ResultsTextBlock().Text(winrt::hstring{ newEntry });
     }
 
     PickerLocationId MainWindow::GetSelectedNewLocationId()
@@ -115,50 +128,20 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
 
     std::vector<winrt::hstring> MainWindow::GetFileFilters()
     {
-        auto rawInput = FileTypeFilterInput().Text();
-        std::wstring input{ rawInput.c_str() };
-
-        auto trim = [](std::wstring_view value)
-        {
-            size_t start = 0;
-            size_t end = value.size();
-
-            while (start < end && std::iswspace(static_cast<wint_t>(value[start])))
-            {
-                ++start;
-            }
-
-            while (end > start && std::iswspace(static_cast<wint_t>(value[end - 1])))
-            {
-                --end;
-            }
-
-            return std::wstring{ value.substr(start, end - start) };
-        };
+        std::wstring text{ FileTypeFilterInput().Text().c_str() };
+        std::replace(text.begin(), text.end(), L';', L',');
 
         std::vector<winrt::hstring> filters;
-        std::wstring current;
-        for (wchar_t ch : input)
-        {
-            if (ch == L',' || ch == L';')
-            {
-                auto trimmed = trim(current);
-                if (!trimmed.empty())
-                {
-                    filters.emplace_back(trimmed);
-                }
-                current.clear();
-            }
-            else
-            {
-                current.push_back(ch);
-            }
-        }
 
-        auto trimmed = trim(current);
-        if (!trimmed.empty())
+        std::wstringstream stream{ text };
+        std::wstring item;
+        while (std::getline(stream, item, L','))
         {
-            filters.emplace_back(trimmed);
+            auto trimmed = TrimString(item);
+            if (!trimmed.empty())
+            {
+                filters.emplace_back(trimmed);
+            }
         }
 
         if (filters.empty())
@@ -169,11 +152,13 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
         return filters;
     }
 
-    Windows::Foundation::IAsyncAction MainWindow::NewPickSingleFile_Click(winrt::Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&)
+    winrt::fire_and_forget MainWindow::NewPickSingleFile_Click(winrt::Windows::Foundation::IInspectable const&, RoutedEventArgs const&)
     {
+        auto lifetime = get_strong();
+
         try
         {
-            FileOpenPicker picker{ AppWindow().Id() };
+            FileOpenPicker picker{ this->AppWindow().Id() };
 
             if (IsChecked(CommitButtonCheckBox()))
             {
@@ -202,14 +187,12 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
             auto result = co_await picker.PickSingleFileAsync();
             if (result)
             {
-                std::filesystem::path path{ result.Path().c_str() };
-                auto fileName = path.filename().wstring();
+                std::wstring path{ result.Path().c_str() };
+                std::wstring fileName = FileNameFromPath(path);
 
-          std::wstringstream stream;
-                stream << L"New FileOpenPicker - PickSingleFileAsync:\nFile: " << fileName
-              << L"\nPath: " << result.Path().c_str();
-          auto message = stream.str();
-          LogResult(winrt::hstring{ message });
+                std::wstringstream message;
+                message << L"New FileOpenPicker - PickSingleFileAsync:\nFile: " << fileName << L"\nPath: " << path;
+                LogResult(winrt::hstring{ message.str() });
             }
             else
             {
@@ -218,17 +201,21 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
         }
         catch (winrt::hresult_error const& ex)
         {
-            LogResult(L"Error in New FileOpenPicker: " + ex.message());
+            std::wstring message = L"Error in New FileOpenPicker: ";
+            message.append(ex.message().c_str());
+            LogResult(winrt::hstring{ message });
         }
 
         co_return;
     }
 
-    Windows::Foundation::IAsyncAction MainWindow::NewPickMultipleFiles_Click(winrt::Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&)
+    winrt::fire_and_forget MainWindow::NewPickMultipleFiles_Click(winrt::Windows::Foundation::IInspectable const&, RoutedEventArgs const&)
     {
+        auto lifetime = get_strong();
+
         try
         {
-            FileOpenPicker picker{ AppWindow().Id() };
+            FileOpenPicker picker{ this->AppWindow().Id() };
 
             if (IsChecked(CommitButtonCheckBox()))
             {
@@ -257,15 +244,16 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
             auto results = co_await picker.PickMultipleFilesAsync();
             if (results && results.Size() > 0)
             {
-                std::wstringstream stream;
-                stream << L"New FileOpenPicker - PickMultipleFilesAsync: " << results.Size() << L" files\n";
-                for (auto const& file : results)
+                std::wstringstream message;
+                message << L"New FileOpenPicker - PickMultipleFilesAsync: " << results.Size() << L" files\n";
+
+                for (auto const& item : results)
                 {
-                    std::filesystem::path path{ file.Path().c_str() };
-                    stream << L"- " << path.filename().wstring() << L": " << file.Path().c_str() << L"\n";
+                    std::wstring path{ item.Path().c_str() };
+                    message << L"- " << FileNameFromPath(path) << L": " << path << L"\n";
                 }
-                auto message = stream.str();
-                LogResult(winrt::hstring{ message });
+
+                LogResult(winrt::hstring{ message.str() });
             }
             else
             {
@@ -274,17 +262,21 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
         }
         catch (winrt::hresult_error const& ex)
         {
-            LogResult(L"Error in New PickMultipleFilesAsync: " + ex.message());
+            std::wstring message = L"Error in New PickMultipleFilesAsync: ";
+            message.append(ex.message().c_str());
+            LogResult(winrt::hstring{ message });
         }
 
         co_return;
     }
 
-    Windows::Foundation::IAsyncAction MainWindow::NewFileTypeChoices_Click(winrt::Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&)
+    winrt::fire_and_forget MainWindow::NewFileTypeChoices_Click(winrt::Windows::Foundation::IInspectable const&, RoutedEventArgs const&)
     {
+        auto lifetime = get_strong();
+
         try
         {
-            FileSavePicker picker{ AppWindow().Id() };
+            FileSavePicker picker{ this->AppWindow().Id() };
 
             if (IsChecked(SuggestedFileNameCheckBox()))
             {
@@ -298,42 +290,45 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
 
             if (IsChecked(SuggestedFolderCheckBox()))
             {
-                picker.SuggestedFolder(SuggestedFolderInput().Text());
+                auto folder = TrimString(SuggestedFolderInput().Text().c_str());
+                if (!folder.empty())
+                {
+                    picker.SuggestedFolder(winrt::hstring{ folder });
+                }
             }
 
             picker.FileTypeChoices().Clear();
             if (IsChecked(FileTypeChoicesCheckBox()))
             {
-                auto jsonText = FileTypeChoicesInput().Text();
+                auto jsonText = TrimString(FileTypeChoicesInput().Text().c_str());
                 if (!jsonText.empty())
                 {
-                    try
+                    JsonObject jsonObject;
+                    if (JsonObject::TryParse(jsonText, jsonObject))
                     {
-                        auto jsonObject = JsonObject::Parse(jsonText);
                         for (auto const& kvp : jsonObject)
                         {
+                            std::vector<winrt::hstring> values;
                             if (kvp.Value().ValueType() == JsonValueType::Array)
                             {
-                                auto array = kvp.Value().GetArray();
-                                auto extensions = winrt::single_threaded_vector<winrt::hstring>();
-                                for (auto const& item : array)
+                                for (auto const& value : kvp.Value().GetArray())
                                 {
-                                    if (item.ValueType() == JsonValueType::String)
+                                    if (value.ValueType() == JsonValueType::String)
                                     {
-                                        extensions.Append(item.GetString());
+                                        values.emplace_back(value.GetString());
                                     }
                                 }
+                            }
 
-                                if (extensions.Size() > 0)
-                                {
-                                    picker.FileTypeChoices().Insert(kvp.Key(), extensions);
-                                }
+                            if (!values.empty())
+                            {
+                                picker.FileTypeChoices().Insert(kvp.Key(), winrt::single_threaded_vector(std::move(values)));
                             }
                         }
                     }
-                    catch (winrt::hresult_error const& ex)
+                    else
                     {
-                        LogResult(L"Invalid FileTypeChoices JSON: " + ex.message());
+                        LogResult(L"Error in New FileSavePicker: Unable to parse FileTypeChoices JSON");
                     }
                 }
             }
@@ -351,14 +346,12 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
             auto result = co_await picker.PickSaveFileAsync();
             if (result)
             {
-                std::filesystem::path path{ result.Path().c_str() };
-                auto fileName = path.filename().wstring();
+                std::wstring path{ result.Path().c_str() };
+                std::wstring fileName = FileNameFromPath(path);
 
-          std::wstringstream stream;
-                stream << L"New FileSavePicker picked file: \n" << fileName
-              << L"\nPath: " << result.Path().c_str();
-          auto message = stream.str();
-          LogResult(winrt::hstring{ message });
+                std::wstringstream message;
+                message << L"New FileSavePicker picked file: \n" << fileName << L"\nPath: " << path;
+                LogResult(winrt::hstring{ message.str() });
             }
             else
             {
@@ -367,17 +360,21 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
         }
         catch (winrt::hresult_error const& ex)
         {
-            LogResult(L"Error in New FileTypeChoices: " + ex.message());
+            std::wstring message = L"Error in New FileTypeChoices: ";
+            message.append(ex.message().c_str());
+            LogResult(winrt::hstring{ message });
         }
 
         co_return;
     }
 
-    Windows::Foundation::IAsyncAction MainWindow::NewPickFolder_Click(winrt::Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&)
+    winrt::fire_and_forget MainWindow::NewPickFolder_Click(winrt::Windows::Foundation::IInspectable const&, RoutedEventArgs const&)
     {
+        auto lifetime = get_strong();
+
         try
         {
-            FolderPicker picker{ AppWindow().Id() };
+            FolderPicker picker{ this->AppWindow().Id() };
 
             if (IsChecked(CommitButtonCheckBox()))
             {
@@ -392,14 +389,12 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
             auto result = co_await picker.PickSingleFolderAsync();
             if (result)
             {
-                std::filesystem::path path{ result.Path().c_str() };
-                auto folderName = path.filename().wstring();
+                std::wstring path{ result.Path().c_str() };
+                std::wstring folderName = FileNameFromPath(path);
 
-          std::wstringstream stream;
-                stream << L"New FolderPicker - PickSingleFolderAsync:\nFolder: " << folderName
-              << L"\nPath: " << result.Path().c_str();
-          auto message = stream.str();
-          LogResult(winrt::hstring{ message });
+                std::wstringstream message;
+                message << L"New FolderPicker - PickSingleFolderAsync:\nFolder: " << folderName << L"\nPath: " << path;
+                LogResult(winrt::hstring{ message.str() });
             }
             else
             {
@@ -408,7 +403,9 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
         }
         catch (winrt::hresult_error const& ex)
         {
-            LogResult(L"Error in New FolderPicker: " + ex.message());
+            std::wstring message = L"Error in New FolderPicker: ";
+            message.append(ex.message().c_str());
+            LogResult(winrt::hstring{ message });
         }
 
         co_return;

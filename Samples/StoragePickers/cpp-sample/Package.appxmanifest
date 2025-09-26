@@ -8,11 +8,11 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="472672fc-4149-48bc-83cd-acebb3caa293"
+    Name="44ffc3a8-f534-4f58-bd42-83a352101b1b"
     Publisher="CN=xiaomgao"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="472672fc-4149-48bc-83cd-acebb3caa293" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="44ffc3a8-f534-4f58-bd42-83a352101b1b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>FilePickersAppSinglePackaged</DisplayName>

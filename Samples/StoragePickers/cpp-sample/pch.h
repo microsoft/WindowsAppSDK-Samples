@@ -22,9 +22,6 @@
 #include <winrt/Microsoft.UI.Xaml.Navigation.h>
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
-#include <winrt/Microsoft.UI.Windowing.h>
-#include <winrt/Microsoft.Windows.Storage.Pickers.h>
-#include <winrt/Microsoft.Windows.Storage.h>
-#include <winrt/Windows.Data.Json.h>
-#include <winrt/Windows.Graphics.h>
 #include <wil/cppwinrt_helpers.h>
+#include <winrt/Microsoft.Windows.Storage.Pickers.h>
+#include <winrt/Microsoft.UI.Windowing.h>

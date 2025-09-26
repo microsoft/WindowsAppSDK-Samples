@@ -4,9 +4,5 @@ namespace FilePickersAppSinglePackaged
     runtimeclass MainWindow : Microsoft.UI.Xaml.Window
     {
         MainWindow();
-        Windows.Foundation.IAsyncAction NewPickSingleFile_Click(Object sender, Microsoft.UI.Xaml.RoutedEventArgs args);
-        Windows.Foundation.IAsyncAction NewPickMultipleFiles_Click(Object sender, Microsoft.UI.Xaml.RoutedEventArgs args);
-        Windows.Foundation.IAsyncAction NewFileTypeChoices_Click(Object sender, Microsoft.UI.Xaml.RoutedEventArgs args);
-        Windows.Foundation.IAsyncAction NewPickFolder_Click(Object sender, Microsoft.UI.Xaml.RoutedEventArgs args);
     }
 }
