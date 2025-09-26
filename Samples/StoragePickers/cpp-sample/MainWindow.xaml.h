@@ -1,19 +1,24 @@
 #pragma once
 
 #include "MainWindow.g.h"
+#include <vector>
 
 namespace winrt::FilePickersAppSinglePackaged::implementation
 {
     struct MainWindow : MainWindowT<MainWindow>
     {
-        MainWindow()
-        {
-            // Xaml objects should not call InitializeComponent during construction.
-            // See https://github.com/microsoft/cppwinrt/tree/master/nuget#initializecomponent
-        }
+        MainWindow();
 
-        int32_t MyProperty();
-        void MyProperty(int32_t value);
+        Windows::Foundation::IAsyncAction NewPickSingleFile_Click(winrt::Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
+        Windows::Foundation::IAsyncAction NewPickMultipleFiles_Click(winrt::Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
+        Windows::Foundation::IAsyncAction NewFileTypeChoices_Click(winrt::Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
+        Windows::Foundation::IAsyncAction NewPickFolder_Click(winrt::Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
+
+    private:
+        void LogResult(winrt::hstring const& message);
+        Microsoft::Windows::Storage::Pickers::PickerLocationId GetSelectedNewLocationId();
+        Microsoft::Windows::Storage::Pickers::PickerViewMode GetSelectedNewViewMode();
+        std::vector<winrt::hstring> GetFileFilters();
     };
 }
 
