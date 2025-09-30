@@ -22,6 +22,11 @@
     <SqueezeNetLicenseFile>$(MSBuildThisFileDirectory)SqueezeNet.LICENSE.txt</SqueezeNetLicenseFile>
   </PropertyGroup>
 
+  <!-- Ensure copy target participates in Build for managed and native projects -->
+  <PropertyGroup>
+    <BuildDependsOn>CopySqueezeNetModelToOutput;$(BuildDependsOn)</BuildDependsOn>
+  </PropertyGroup>
+
   <!-- Create temp directory for downloaded model -->
   <Target Name="CreateSqueezeNetModelDirectory" BeforeTargets="Build">
     <MakeDir Directories="$(SqueezeNetModelTempDir)" Condition="!Exists('$(SqueezeNetModelTempDir)')" />
