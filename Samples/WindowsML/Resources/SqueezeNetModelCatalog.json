@@ -1,0 +1,67 @@
+{
+  "base": "https://learn.microsoft.com/azure/ai-foundry/foundry-local/reference/reference-catalog-api",
+  "models": [
+    {
+      "alias": "squeezenet",
+      "name": "squeezenet",
+      "version": "1",
+      "modelType": "ONNX",
+      "publisher": "microsoft",
+      "executionProvider": "CPUExecutionProvider",
+      "description": "",
+      "modelSizeBytes": 1250000,
+      "license": "BSD",
+      "licenseUri": "https://github.com/microsoft/WindowsAppSDK-Samples/raw/refs/heads/release/experimental/Samples/WindowsML/cpp/CppConsoleDesktop/CppConsoleDesktop/SqueezeNet.LICENSE.txt",
+      "licenseText": "This model is provided under the License Terms available at \u003Chttps://github.com/microsoft/WindowsAppSDK-Samples/raw/refs/heads/release/experimental/Samples/WindowsML/cpp/CppConsoleDesktop/CppConsoleDesktop/SqueezeNet.LICENSE.txt\u003E",
+      "uri": "https://github.com/microsoft/WindowsAppSDK-Samples/raw/refs/heads/release/experimental/Samples/WindowsML/cpp/CppConsoleDesktop/CppConsoleDesktop",
+      "files": [
+        {
+          "name": "SqueezeNet.onnx",
+          "uri": "https://github.com/microsoft/WindowsAppSDK-Samples/raw/refs/heads/main/Samples/WindowsML/Resources/SqueezeNet.onnx",
+          "sha256": "d7f93e79ba1284a3ff2b4cea317d79f3e98e64acfce725ad5f4e8197864aef73"
+        },
+        {
+          "name": "SqueezeNet.Labels.txt",
+          "uri": "https://github.com/microsoft/Windows-Machine-Learning/raw/02b586811c8beb1ae2208c8605393267051257ae/Samples/SqueezeNetObjectDetection/Desktop/cpp/Labels.txt",
+          "sha256": "dc1fd0d4747096d3aa690bd65ec2f51fdb3e5117535bfbce46fa91088a8f93a9"
+        },
+        {
+          "name": "image.png",
+          "uri": "https://github.com/microsoft/Windows-Machine-Learning/raw/638cd40abc408e7049219e5d7b4fe164c304f2a2/SharedContent/media/kitten_224.png",
+          "sha256": "e49fb5cd0c31b07984784e50a809825370d8adeac31c9f86ff396f64da635010"
+        }
+      ]
+    },
+    {
+      "alias": "squeezenet-fp32",
+      "name": "squeezenet-fp32",
+      "version": "1.1-7",
+      "modelType": "ONNX",
+      "publisher": "microsoft",
+      "executionProvider": "NvTensorRTRTXExecutionProvider",
+      "description": "",
+      "modelSizeBytes": 4730000,
+      "license": "BSD",
+      "licenseUri": "https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/WindowsML/Resources/SqueezeNet.LICENSE.txt",
+      "licenseText": "This model is provided under the License Terms available at \u003Chttps://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/WindowsML/Resources/SqueezeNet.LICENSE.txt\u003E",
+      "uri": "https://github.com/onnx/models/raw/b1eeaa1ac722dcc1cd1a8284bde34393dab61c3d/validated/vision/classification/squeezenet/model",
+      "files": [
+        {
+          "name": "SqueezeNet-fp32.onnx",
+          "uri": "https://github.com/onnx/models/raw/b1eeaa1ac722dcc1cd1a8284bde34393dab61c3d/validated/vision/classification/squeezenet/model/squeezenet1.1-7.onnx",
+          "sha256": "1eeff551a67ae8d565ca33b572fc4b66e3ef357b0eb2863bb9ff47a918cc4088"
+        },
+        {
+          "name": "SqueezeNet.Labels.txt",
+          "uri": "https://github.com/microsoft/Windows-Machine-Learning/raw/02b586811c8beb1ae2208c8605393267051257ae/Samples/SqueezeNetObjectDetection/Desktop/cpp/Labels.txt",
+          "sha256": "dc1fd0d4747096d3aa690bd65ec2f51fdb3e5117535bfbce46fa91088a8f93a9"
+        },
+        {
+          "name": "image.png",
+          "uri": "https://github.com/microsoft/Windows-Machine-Learning/raw/638cd40abc408e7049219e5d7b4fe164c304f2a2/SharedContent/media/kitten_224.png",
+          "sha256": "e49fb5cd0c31b07984784e50a809825370d8adeac31c9f86ff396f64da635010"
+        }
+      ]
+    }
+  ]
+}
