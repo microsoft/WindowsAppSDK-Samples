@@ -132,7 +132,7 @@
 
                                     <StackPanel Style="{StaticResource TestGroupStyle}">
                                         <CheckBox x:Name="FileTypeChoicesCheckBox" Content="Set FileTypeChoices"/>
-                                        <TextBox x:Name="FileTypeChoicesInput" PlaceholderText="Enter default extension" Text=' { "Document": [".txt", ".doc", ".pdf"], "Pictures" : [".png", ".jpg", ".jpeg"] } '/>
+                                        <TextBox x:Name="FileTypeChoicesInput" PlaceholderText="Enter JSON file type choices" Text=' { "Document": [".txt", ".doc", ".pdf"], "Pictures" : [".png", ".jpg", ".jpeg"] } '/>
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal" Spacing="8">
