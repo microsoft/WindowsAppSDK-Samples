@@ -4,6 +4,7 @@
 using Microsoft.ML.OnnxRuntime;
 using System.IO;
 using System.Reflection;
+using Microsoft.Windows.AI.MachineLearning;
 
 namespace WindowsML.Shared
 {
@@ -112,14 +113,69 @@ namespace WindowsML.Shared
         /// <summary>
         /// Resolve model paths with intelligent variant selection
         /// </summary>
-        public static (string modelPath, string compiledModelPath, string labelsPath) ResolvePaths(Options options, OrtEnv ortEnv)
+        public static async Task<(string modelPath, string compiledModelPath, string labelsPath)> ResolvePaths(Options options, OrtEnv ortEnv)
         {
             string executableFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-
             string modelPath;
-            
-            // Check if user specified a custom model path
-            if (!string.IsNullOrWhiteSpace(options.ModelPath))
+            string labelsPath = Path.Combine(executableFolder, "SqueezeNet.Labels.txt");
+
+            if (options.UseModelCatalog)
+            {
+                Console.WriteLine("Using model catalog...");
+                
+                // Build source
+                string sampleCatalogJsonPath = Path.Combine(executableFolder, "SqueezeNetModelCatalog.json");
+                var uri = new System.Uri(sampleCatalogJsonPath);
+                var sampleCatalogSource = await CatalogModelSource.CreateFromUri(uri);
+                
+                WinMLModelCatalog modelCatalog = new WinMLModelCatalog(new[] { sampleCatalogSource });
+                
+                // Use intelligent model variant selection based on execution provider and device capabilities
+                ModelVariant actualVariant = DetermineModelVariant(options, ortEnv);
+                
+                CatalogModelInfo modelFromCatalog;
+                
+                string modelVariantName = (actualVariant == ModelVariant.FP32) ? "squeezenet-fp32" : "squeezenet";
+                
+                modelFromCatalog = await modelCatalog.FindModel(modelVariantName);
+                
+                if (modelFromCatalog != null)
+                {
+                    var additionalHeaders = new Dictionary<string, string>();
+                    var catalogModelInstanceOp = modelFromCatalog.GetInstance(additionalHeaders);
+                    
+                    catalogModelInstanceOp.Progress += (operation, progress) => {
+                        Console.Write($"Model download progress: {progress}%\r");
+                    };
+                    
+                    var catalogModelInstanceResult = await catalogModelInstanceOp;
+                    
+                    if (catalogModelInstanceResult.Status == CatalogModelStatus.Available)
+                    {
+                        var catalogModelInstance = catalogModelInstanceResult.Instance;
+                        var modelPaths = catalogModelInstance.ModelPaths;
+                        
+                        string modelFolderPath = modelPaths[0];
+                        string modelName = $"{modelVariantName}.onnx";
+                        modelPath = Path.Combine(modelFolderPath, modelName);
+                        Console.WriteLine($"Using model from catalog at: {modelPath}");
+                        
+                        // Get labels
+                        labelsPath = Path.Combine(modelFolderPath, "SqueezeNet.Labels.txt");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Model download failed. Falling back to executableFolder");
+                        modelPath = GetModelVariantPath(executableFolder, actualVariant);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Model with alias or ID '{modelVariantName}' not found in catalog. Falling back to executableFolder");
+                    modelPath = GetModelVariantPath(executableFolder, actualVariant);
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(options.ModelPath))
             {
                 // User provided custom model path - use it as-is
                 modelPath = options.ModelPath.Contains(Path.DirectorySeparatorChar) ?
@@ -134,8 +190,6 @@ namespace WindowsML.Shared
 
             string compiledModelPath = options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
                 options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
-
-            string labelsPath = Path.Combine(executableFolder, "SqueezeNet.Labels.txt");
 
             if (!File.Exists(labelsPath))
             {

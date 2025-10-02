@@ -123,7 +123,7 @@ namespace WindowsMLSample
                 DeviceType = selectedDeviceType
             };
 
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, _ortEnv);
+            var (modelPath, compiledModelPath, labelsPath) = await ModelManager.ResolvePaths(options, _ortEnv);
 
             if (!File.Exists(modelPath)) throw new FileNotFoundException($"Model file not found: {modelPath}");
             if (!File.Exists(labelsPath)) throw new FileNotFoundException($"Labels file not found: {labelsPath}");
