@@ -13,7 +13,7 @@
     <Nullable>enable</Nullable>
 
 	  <!-- make it unpackaged: -->
-	  <WindowsPackageType>None</WindowsPackageType>
+	  <!--WindowsPackageType>None</WindowsPackageType-->
 
 	  <!-- make app self contained: -->
 	  <!--WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained-->
