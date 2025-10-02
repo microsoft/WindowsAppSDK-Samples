@@ -136,7 +136,7 @@
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <Button Content="Pick File To Save" Click="NewFileTypeChoices_Click"/>
+                                        <Button Content="Pick File To Save" Click="NewPickSaveFile_Click"/>
                                     </StackPanel>
 
                                 </StackPanel>

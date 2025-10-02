@@ -104,7 +104,10 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
         case 1: return PickerLocationId::ComputerFolder;
         case 2: return PickerLocationId::Desktop;
         case 3: return PickerLocationId::Downloads;
+        
+        // HomeGroup is excluded from the new PickerLocationId enum. This example demonstrates how the error would look like.
         case 4: return static_cast<PickerLocationId>(4);
+
         case 5: return PickerLocationId::MusicLibrary;
         case 6: return PickerLocationId::PicturesLibrary;
         case 7: return PickerLocationId::VideosLibrary;
@@ -175,7 +178,6 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
                 picker.SuggestedStartLocation(GetSelectedNewLocationId());
             }
 
-            picker.FileTypeFilter().Clear();
             if (IsChecked(FileTypeFilterCheckBox()))
             {
                 for (auto const& filter : GetFileFilters())
@@ -232,7 +234,6 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
                 picker.SuggestedStartLocation(GetSelectedNewLocationId());
             }
 
-            picker.FileTypeFilter().Clear();
             if (IsChecked(FileTypeFilterCheckBox()))
             {
                 for (auto const& filter : GetFileFilters())
@@ -270,7 +271,7 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
         co_return;
     }
 
-    winrt::fire_and_forget MainWindow::NewFileTypeChoices_Click(winrt::Windows::Foundation::IInspectable const&, RoutedEventArgs const&)
+    winrt::fire_and_forget MainWindow::NewPickSaveFile_Click(winrt::Windows::Foundation::IInspectable const&, RoutedEventArgs const&)
     {
         auto lifetime = get_strong();
 
@@ -297,7 +298,6 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
                 }
             }
 
-            picker.FileTypeChoices().Clear();
             if (IsChecked(FileTypeChoicesCheckBox()))
             {
                 auto jsonText = TrimString(FileTypeChoicesInput().Text().c_str());

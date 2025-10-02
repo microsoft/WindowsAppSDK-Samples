@@ -43,7 +43,10 @@ namespace FilePickersAppSinglePackaged
                 case 1: return Microsoft.Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
                 case 2: return Microsoft.Windows.Storage.Pickers.PickerLocationId.Desktop;
                 case 3: return Microsoft.Windows.Storage.Pickers.PickerLocationId.Downloads;
+
+                // HomeGroup is excluded from the new PickerLocationId enum. This example demonstrates how the error would look like.
                 case 4: return (Microsoft.Windows.Storage.Pickers.PickerLocationId)4;
+
                 case 5: return Microsoft.Windows.Storage.Pickers.PickerLocationId.MusicLibrary;
                 case 6: return Microsoft.Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
                 case 7: return Microsoft.Windows.Storage.Pickers.PickerLocationId.VideosLibrary;
@@ -69,7 +72,7 @@ namespace FilePickersAppSinglePackaged
         {
             string input = FileTypeFilterInput.Text?.Trim() ?? "";
             if (string.IsNullOrEmpty(input))
-                return new string[] { "*" };
+                return ["*"];
 
             return input.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.Trim())
@@ -85,6 +88,8 @@ namespace FilePickersAppSinglePackaged
             try
             {
                 // Initialize new picker with AppWindow.Id
+                //     for console apps, use the `default` as app window id, for instance:
+                //     var picker = new Microsoft.Windows.Storage.Pickers.FileOpenPicker(default);
                 var picker = new Microsoft.Windows.Storage.Pickers.FileOpenPicker(this.AppWindow.Id);
 
                 if (CommitButtonCheckBox.IsChecked == true)
@@ -102,7 +107,6 @@ namespace FilePickersAppSinglePackaged
                     picker.SuggestedStartLocation = GetSelectedNewLocationId();
                 }
 
-                picker.FileTypeFilter.Clear();
                 if (FileTypeFilterCheckBox.IsChecked == true)
                 {
                     foreach (var filter in GetFileFilters())
@@ -131,6 +135,9 @@ namespace FilePickersAppSinglePackaged
         {
             try
             {
+                // Initialize new picker with AppWindow.Id
+                //     for console apps, use the `default` as app window id, for instance:
+                //     var picker = new Microsoft.Windows.Storage.Pickers.FileOpenPicker(default);
                 var picker = new Microsoft.Windows.Storage.Pickers.FileOpenPicker(this.AppWindow.Id);
 
                 if (CommitButtonCheckBox.IsChecked == true)
@@ -148,7 +155,6 @@ namespace FilePickersAppSinglePackaged
                     picker.SuggestedStartLocation = GetSelectedNewLocationId();
                 }
 
-                picker.FileTypeFilter.Clear();
                 if (FileTypeFilterCheckBox.IsChecked == true)
                 {
                     foreach (var filter in GetFileFilters())
@@ -182,10 +188,13 @@ namespace FilePickersAppSinglePackaged
 
         #region FileSavePicker Tests
 
-        private async void NewFileTypeChoices_Click(object sender, RoutedEventArgs e)
+        private async void NewPickSaveFile_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Initialize new picker with AppWindow.Id
+                //     for console apps, use the `default` as app window id, for instance:
+                //     var picker = new Microsoft.Windows.Storage.Pickers.FileSavePicker(default);
                 var picker = new Microsoft.Windows.Storage.Pickers.FileSavePicker(this.AppWindow.Id);
 
                 if (SuggestedFileNameCheckBox.IsChecked == true)
@@ -203,7 +212,6 @@ namespace FilePickersAppSinglePackaged
                     picker.SuggestedFolder = SuggestedFolderInput.Text;
                 }
 
-                picker.FileTypeChoices.Clear();
                 if (FileTypeChoicesCheckBox.IsChecked == true)
                 {
                     var choicesJson = (string)FileTypeChoicesInput.Text;
@@ -254,6 +262,9 @@ namespace FilePickersAppSinglePackaged
         {
             try
             {
+                // Initialize new picker with AppWindow.Id
+                //     for console apps, use the `default` as app window id, for instance:
+                //     var picker = new Microsoft.Windows.Storage.Pickers.FolderPicker(default);
                 var picker = new Microsoft.Windows.Storage.Pickers.FolderPicker(this.AppWindow.Id);
 
                 if (CommitButtonCheckBox.IsChecked == true)
