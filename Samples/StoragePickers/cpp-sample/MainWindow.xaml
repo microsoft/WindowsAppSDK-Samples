@@ -125,14 +125,14 @@
                                         <!-- SuggestedFolder Tests -->
                                         <StackPanel Style="{StaticResource TestGroupStyle}">
                                             <CheckBox x:Name="SuggestedFolderCheckBox" Content="Set SuggestedFolder"/>
-                                            <TextBox x:Name="SuggestedFolderInput" PlaceholderText="Enter default extension" Text='C:\Temp'/>
+                                            <TextBox x:Name="SuggestedFolderInput" PlaceholderText="Enter folder path" Text='C:\Temp'/>
                                         </StackPanel>
                                     </StackPanel>
 
 
                                     <StackPanel Style="{StaticResource TestGroupStyle}">
                                         <CheckBox x:Name="FileTypeChoicesCheckBox" Content="Set FileTypeChoices"/>
-                                        <TextBox x:Name="FileTypeChoicesInput" PlaceholderText="Enter default extension" Text=' { "Document": [".txt", ".doc", ".pdf"], "Pictures" : [".png", ".jpg", ".jpeg"] } '/>
+                                        <TextBox x:Name="FileTypeChoicesInput" PlaceholderText="Enter JSON file type choices" Text=' { "Document": [".txt", ".doc", ".pdf"], "Pictures" : [".png", ".jpg", ".jpeg"] } '/>
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal" Spacing="8">
