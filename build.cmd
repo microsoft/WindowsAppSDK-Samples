@@ -102,6 +102,7 @@ if exist "%VS_INSTALL_PATH%\Common7\Tools\VsDevCmd.bat" (
 :EnsureDeveloperCommandPromptEnd
 if "%VSINSTALLDIR%"=="" (
     echo Failed to automatically configure the Visual Studio environment.
+    goto :usage
 )
 goto :eof
 
