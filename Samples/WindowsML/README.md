@@ -29,6 +29,12 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 | [CppConsoleDll](cpp/CppConsoleDll/) | DLL usage pattern | WindowsML in shared library, memory management |
 | [CppResnetBuildDemo](cpp/CppResnetBuildDemo/) | ResNet model demo from the [Windows ML session](https://www.youtube.com/watch?v=AQjOq8qSsbE) at Build 2025 | Model conversion, EP compilation, detailed tutorial |
 
+### C++ ABI Samples
+
+| Sample | Description | Key Features |
+|--------|-------------|--------------|
+| [cpp-abi](cpp-abi/) | Direct ABI implementation using raw COM interfaces | Automatic ABI header generation, no projections |
+
 ### C# Samples
 
 #### Console Applications
