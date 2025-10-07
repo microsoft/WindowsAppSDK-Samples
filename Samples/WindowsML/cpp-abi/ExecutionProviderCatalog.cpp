@@ -13,6 +13,8 @@
 #include <combaseapi.h>
 #include <wrl/wrappers/corewrappers.h>
 #include <stdexcept>
+#include <sstream>
+#include <iomanip>
 
 namespace CppAbiEPEnumerationSample
 {
@@ -39,7 +41,10 @@ namespace CppAbiEPEnumerationSample
 
         if (FAILED(hr))
         {
-            throw std::runtime_error("Failed to create ExecutionProviderCatalog");
+            std::ostringstream oss;
+            oss << "Failed to create ExecutionProviderCatalog (HRESULT: 0x" 
+                << std::hex << std::uppercase << static_cast<unsigned int>(hr) << ")";
+            throw std::runtime_error(oss.str());
         }
     }
 
