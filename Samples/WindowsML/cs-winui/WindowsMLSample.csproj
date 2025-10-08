@@ -3,12 +3,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>WindowsMLSample</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <PublishProfile Condition="Exists('$(MSBuildProjectDirectory)\Properties\PublishProfiles\win-$(Platform).pubxml')">win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled Condition="'$(AppxPackageSigningEnabled)' == '' and ('$(PackageCertificateThumbprint)' != '' or '$(PackageCertificateKeyFile)' != '')">True</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled Condition="'$(AppxPackageSigningEnabled)' == ''">False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
