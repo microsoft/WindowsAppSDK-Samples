@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 #pragma once
 
@@ -28,6 +28,7 @@ namespace Shared
     {
         bool compile_model = false;
         bool download_packages = false;
+        bool use_model_catalog = false;
         // Policy-based EP selection (mutually exclusive with explicit ep_name)
         std::optional<OrtExecutionProviderDevicePolicy> ep_policy;
         // Explicit EP selection

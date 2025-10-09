@@ -20,6 +20,8 @@
     <!-- Resources folder files (checked in) -->
     <SqueezeNetModelFileDefault>$(MSBuildThisFileDirectory)SqueezeNet.onnx</SqueezeNetModelFileDefault>
     <SqueezeNetLicenseFile>$(MSBuildThisFileDirectory)SqueezeNet.LICENSE.txt</SqueezeNetLicenseFile>
+
+    <SqueezeNetModelCatalogFile>$(MSBuildThisFileDirectory)SqueezeNetModelCatalog.json</SqueezeNetModelCatalogFile>
   </PropertyGroup>
 
   <!-- Ensure copy target participates in Build for managed and native projects -->
@@ -85,6 +87,10 @@
 
     <!-- Copy image file -->
     <Copy SourceFiles="$(SqueezeNetImageFile)" DestinationFiles="$(TargetDir)image.png" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    
+    <!-- Copy sample catalog file from Resources folder -->
+    <Copy SourceFiles="$(SqueezeNetModelCatalogFile)" DestinationFiles="$(TargetDir)SqueezeNetModelCatalog.json" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+
   </Target>
 
 </Project>

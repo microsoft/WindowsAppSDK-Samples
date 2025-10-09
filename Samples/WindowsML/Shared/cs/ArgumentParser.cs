@@ -26,6 +26,7 @@ namespace WindowsML.Shared
         public string? DeviceType { get; set; } = null; // Optional value to declare CPU | GPU | NPU
         public bool Compile { get; set; } = false;
         public bool Download { get; set; } = false;
+        public bool UseModelCatalog { get; set; } = false;
         public string ModelPath { get; set; } = string.Empty;
         public string OutputPath { get; set; } = "SqueezeNet_ctx.onnx";
         public string ImagePath { get; set; } = string.Empty;
@@ -94,6 +95,10 @@ namespace WindowsML.Shared
 
                     case "--download":
                         options.Download = true;
+                        break;
+                        
+                    case "--use_model_catalog":
+                        options.UseModelCatalog = true;
                         break;
 
                     case "--model":
@@ -179,6 +184,7 @@ namespace WindowsML.Shared
             Console.WriteLine("  --device_type <type>        Optional hardware device type to use when EP supports multiple (e.g. CPU, GPU, NPU)");
             Console.WriteLine("  --compile                   Compile the model");
             Console.WriteLine("  --download                  Download required packages");
+            Console.WriteLine("  --use_model_catalog         Use the model catalog for model discovery");
             Console.WriteLine("  --model <path>              Path to input ONNX model (default: SqueezeNet.onnx)");
             Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: SqueezeNet_ctx.onnx)");
             Console.WriteLine("  --image_path <path>         Path to the input image (default: sample kitten image)");

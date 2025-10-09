@@ -21,7 +21,8 @@ internal class Program
             await ModelManager.InitializeExecutionProvidersAsync(options.Download);
 
             // Resolve file paths using shared helper with intelligent model variant selection
-            var (modelPath, compiledModelPath, labelsPath) = ModelManager.ResolvePaths(options, ortEnv);
+            // This now supports model catalog functionality when options.UseModelCatalog is true
+            var (modelPath, compiledModelPath, labelsPath) = await ModelManager.ResolvePaths(options, ortEnv);
             Console.WriteLine($"Image path: {options.ImagePath}");
 
             // Determine actual model path (with compilation support) using shared helper
