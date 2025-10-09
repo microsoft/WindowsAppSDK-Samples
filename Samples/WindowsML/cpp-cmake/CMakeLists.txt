@@ -9,7 +9,7 @@ cmake_policy(SET CMP0117 NEW) # MSVC RTTI flag /GR is not added to CMAKE_CXX_FLA
 if(CMAKE_GENERATOR MATCHES "^Visual Studio")
     # To prevent builds (including try_compile) from picking up top-level 'Directory.Build.*' files,
     # write versions specific to the CMake builds at the root of the CMake build.
-    file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.rsp" "-m -graphBuild:true -p:UseMultiToolTask=true -nodeReuse:false")
+    file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.rsp" "-m -graphBuild:true -p:UseMultiToolTask=true -nodeReuse:false -terminalLogger:auto")
     file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.props" "<Project></Project>")
     file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.targets" "<Project></Project>")
 elseif(CMAKE_GENERATOR MATCHES "^Ninja")
@@ -20,30 +20,27 @@ endif()
 
 project(WinMLSamples LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD_LIBRARIES "")
-set(CMAKE_C_STANDARD_LIBRARIES "")
-set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT Embedded)
-
 include(FetchContent)
 
 FetchContent_Declare(
-  CMakeNuGetPackage
+  NuGetCMakePackage
   GIT_REPOSITORY https://github.com/mschofie/NuGetCMakePackage
-  GIT_TAG 47f603ef27f876c9132db81ba3c2895b3059c90c
+  GIT_TAG b13e013481605d134f498fd9fc3a123c416da197
 )
 
-FetchContent_MakeAvailable(CMakeNuGetPackage)
+FetchContent_MakeAvailable(NuGetCMakePackage)
 
 add_nuget_packages(
     PACKAGES
-        Microsoft.Windows.ImplementationLibrary 1.0.240803.1
         Microsoft.Windows.CppWinRT 2.0.240405.15
-        Microsoft.WindowsAppSDK.Runtime 1.8.250916003
+        Microsoft.Windows.ImplementationLibrary 1.0.240803.1
+        Microsoft.WindowsAppSDK.Foundation 1.8.250906002
+        Microsoft.WindowsAppSDK.InteractiveExperiences 1.8.250906004
         Microsoft.WindowsAppSDK.ML 1.8.2091
+        Microsoft.WindowsAppSDK.Runtime 1.8.250916003
 )
 
 find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)
-find_package(Microsoft.WindowsAppSDK.Runtime CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.ML CONFIG REQUIRED)
 
 set(RESNET_MODEL_FILES
@@ -68,6 +65,17 @@ endmacro()
 
 # Common configuration
 #
+
+# Enable CMake support for Generators to include folders in their generated build output.
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(DIRECTORY APPEND PROPERTY VS_SOLUTION_ITEMS
+    .clangd
+    .editorconfig
+    .gitignore
+    CMakePresets.json
+    readme.md
+)
+
 include(./Configuration.cmake)
 
 link_libraries(Configuration)

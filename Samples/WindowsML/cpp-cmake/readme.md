@@ -4,6 +4,10 @@
 
 This folder contains samples showing how to consume WindowsML from C++ using a CMake-based build.
 
+> [!IMPORTANT]
+> These CMake samples are exploring WindowsAppSDK consumption through CMake using the experimental project: <https://github.com/mschofie/NuGetCMakePackage>.
+> Please try out the samples, and provide feedback on the approach in the <https://github.com/mschofie/NuGetCMakePackage> repository.
+
 ## Getting Started
 
 In addition to the requirements called out in [the repository README.md](../../../README.md), the CMake builds require CMake 3.31 or higher. You can install CMake on Windows using WinGet with:

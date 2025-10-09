@@ -21,4 +21,5 @@ target_link_libraries(ResNetCommon
     PRIVATE
         Microsoft.Windows.CppWinRT
         Microsoft.Windows.ImplementationLibrary
+        Microsoft.WindowsAppSDK.ML
 )

@@ -29,7 +29,6 @@ target_compile_options(Configuration
 
 target_link_options(Configuration
     INTERFACE
-        $<$<CXX_COMPILER_ID:MSVC>:/MANIFEST:NO>
         $<$<CXX_COMPILER_ID:MSVC>:$<$<NOT:$<CONFIG:Debug>>:/LTCG>>
         $<$<CXX_COMPILER_ID:MSVC>:$<$<NOT:$<CONFIG:Debug>>:/INCREMENTAL:NO>>
 )

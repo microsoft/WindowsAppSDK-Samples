@@ -1,6 +1,7 @@
 #include "ResNetModelHelper.hpp"
-#include "winml/onnxruntime_c_api.h"
 
+#include <ranges>
+#include <winml/onnxruntime_c_api.h>
 #include <cstdint>
 #include <filesystem>
 #include <iostream>
@@ -8,9 +9,10 @@
 #include <vector>
 #include <winrt/base.h>
 #include <winrt/Microsoft.Windows.AI.MachineLearning.h>
-
 #include <winml/onnxruntime_cxx_api.h>
 #include <winml/Runtime.h>
+
+using namespace ResNetModelHelper;
 
 int wmain(int argc, wchar_t* argv[]) noexcept
 {
@@ -36,16 +38,24 @@ int wmain(int argc, wchar_t* argv[]) noexcept
         auto providers = catalog.FindAllProviders();
         for (const auto& provider : providers)
         {
-            std::wcout << L"Provider    : " << std::wstring_view{provider.Name()} << L'\n';
-            std::wcout << L" ReadyState : " << std::to_underlying(provider.ReadyState()) << L'\n';
+            std::wcout << L"Provider            : " << std::wstring_view{provider.Name()} << L'\n';
+            std::wcout << L" ReadyState         : " << provider.ReadyState() << L'\n';
             winrt::Windows::Foundation::IAsyncOperationWithProgress action = provider.EnsureReadyAsync();
 
             action.Progress([](const auto& sender, double progress) {
-                std::wcout << L"  Progress  : " << progress << L"%\n";
+                std::wcout << L" Progress      : " << progress << L"%\n";
             });
 
-            action.get();
-            provider.TryRegister();
+            winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyResult result = action.get();
+            std::wcout << L" ReadyResultState   : " << result.Status() << L'\n';
+            std::wcout << L" ExtendedError      : 0x" << std::hex << result.ExtendedError() << L'\n';
+            std::wcout << L" DiagnosticText     : " << result.DiagnosticText() << L'\n';
+
+            winrt::hresult errorCode = action.ErrorCode();
+            std::wcout << L" ErrorCode          : " << errorCode << L'\n';
+
+            const bool registerResult = provider.TryRegister();
+            std::wcout << L" registerResult     : " << registerResult << L'\n';
         }
 
         std::vector<Ort::ConstEpDevice> devices = env.GetEpDevices();
@@ -147,16 +157,16 @@ int wmain(int argc, wchar_t* argv[]) noexcept
         std::vector<float> results;
         if (inputType == ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT16)
         {
-            auto outputData = outputTensors[0].GetTensorMutableData<uint16_t>();
+            const auto* outputData = outputTensors[0].GetTensorData<uint16_t>();
             size_t outputSize = outputTensors[0].GetTensorTypeAndShapeInfo().GetElementCount();
-            std::vector<uint16_t> outputFloat16(outputData, outputData + outputSize);
+            std::vector<uint16_t> outputFloat16(std::from_range, std::span{outputData, outputSize});
             results = ResNetModelHelper::ConvertFloat16ToFloat32(outputFloat16);
         }
         else
         {
-            auto outputData = outputTensors[0].GetTensorMutableData<float>();
+            const auto* outputData = outputTensors[0].GetTensorData<float>();
             size_t outputSize = outputTensors[0].GetTensorTypeAndShapeInfo().GetElementCount();
-            results.assign(outputData, outputData + outputSize);
+            results = std::vector{std::from_range, std::span{outputData, outputSize}};
         }
 
         // Load labels and print result
