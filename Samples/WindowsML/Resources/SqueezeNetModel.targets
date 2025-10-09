@@ -24,6 +24,11 @@
     <SqueezeNetModelCatalogFile>$(MSBuildThisFileDirectory)SqueezeNetModelCatalog.json</SqueezeNetModelCatalogFile>
   </PropertyGroup>
 
+  <!-- Ensure copy target participates in Build for managed and native projects -->
+  <PropertyGroup>
+    <BuildDependsOn>CopySqueezeNetModelToOutput;$(BuildDependsOn)</BuildDependsOn>
+  </PropertyGroup>
+
   <!-- Create temp directory for downloaded model -->
   <Target Name="CreateSqueezeNetModelDirectory" BeforeTargets="Build">
     <MakeDir Directories="$(SqueezeNetModelTempDir)" Condition="!Exists('$(SqueezeNetModelTempDir)')" />
@@ -69,22 +74,23 @@
   <!-- Copy downloaded files to output directory -->
   <Target Name="CopySqueezeNetModelToOutput" BeforeTargets="Build" DependsOnTargets="DownloadSqueezeNetModel">
     <!-- Copy FP32 model to output directory with retry for antivirus interference -->
-    <Copy SourceFiles="$(SqueezeNetModelFileFP32)" DestinationFiles="$(OutputPath)\SqueezeNet.fp32.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    <Copy SourceFiles="$(SqueezeNetModelFileFP32)" DestinationFiles="$(TargetDir)SqueezeNet.fp32.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
     
     <!-- Copy default quantized model from Resources folder -->
-    <Copy SourceFiles="$(SqueezeNetModelFileDefault)" DestinationFiles="$(OutputPath)\SqueezeNet.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    <Copy SourceFiles="$(SqueezeNetModelFileDefault)" DestinationFiles="$(TargetDir)SqueezeNet.onnx" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
     
     <!-- Copy license file from Resources folder -->
-    <Copy SourceFiles="$(SqueezeNetLicenseFile)" DestinationFiles="$(OutputPath)\SqueezeNet.LICENSE.txt" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
-    
-    <!-- Copy labels file -->
-    <Copy SourceFiles="$(SqueezeNetLabelsFile)" DestinationFiles="$(OutputPath)\SqueezeNet.Labels.txt" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
-    
-    <!-- Copy image file -->
-    <Copy SourceFiles="$(SqueezeNetImageFile)" DestinationFiles="$(OutputPath)\image.png" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    <Copy SourceFiles="$(SqueezeNetLicenseFile)" DestinationFiles="$(TargetDir)SqueezeNet.LICENSE.txt" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
 
+    <!-- Copy labels file -->
+    <Copy SourceFiles="$(SqueezeNetLabelsFile)" DestinationFiles="$(TargetDir)SqueezeNet.Labels.txt" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+
+    <!-- Copy image file -->
+    <Copy SourceFiles="$(SqueezeNetImageFile)" DestinationFiles="$(TargetDir)image.png" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    
     <!-- Copy sample catalog file from Resources folder -->
-    <Copy SourceFiles="$(SqueezeNetModelCatalogFile)" DestinationFiles="$(OutputPath)\SqueezeNetModelCatalog.json" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+    <Copy SourceFiles="$(SqueezeNetModelCatalogFile)" DestinationFiles="$(TargetDir)SqueezeNetModelCatalog.json" SkipUnchangedFiles="true" Retries="5" RetryDelayMilliseconds="1000" />
+
   </Target>
 
 </Project>
