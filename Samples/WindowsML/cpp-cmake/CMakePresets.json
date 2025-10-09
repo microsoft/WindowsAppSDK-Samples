@@ -11,6 +11,7 @@
       "binaryDir": "${sourceDir}/__output/${presetName}",
       "hidden": true,
       "cacheVariables": {
+        "CMAKE_MSVC_DEBUG_INFORMATION_FORMAT": "Embedded",
         "CMAKE_SYSTEM_VERSION": "10.0.26100.0",
         "CPPWINRT_PROJECTION_ROOT_PATH": "${sourceDir}/__cppwinrt",
         "CPPWINRT_VERSION": "2.0.250303.1",

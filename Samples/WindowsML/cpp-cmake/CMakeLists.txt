@@ -20,30 +20,27 @@ endif()
 
 project(WinMLSamples LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD_LIBRARIES "")
-set(CMAKE_C_STANDARD_LIBRARIES "")
-set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT Embedded)
-
 include(FetchContent)
 
 FetchContent_Declare(
   CMakeNuGetPackage
   GIT_REPOSITORY https://github.com/mschofie/NuGetCMakePackage
-  GIT_TAG 47f603ef27f876c9132db81ba3c2895b3059c90c
+  GIT_TAG 02ea486e68554e9fcd85b819cd86377a9899ae6b
 )
 
 FetchContent_MakeAvailable(CMakeNuGetPackage)
 
 add_nuget_packages(
     PACKAGES
-        Microsoft.Windows.ImplementationLibrary 1.0.240803.1
         Microsoft.Windows.CppWinRT 2.0.240405.15
-        Microsoft.WindowsAppSDK.Runtime 1.8.250916003
+        Microsoft.Windows.ImplementationLibrary 1.0.240803.1
+        Microsoft.WindowsAppSDK.Foundation 1.8.250906002
+        Microsoft.WindowsAppSDK.InteractiveExperiences 1.8.250906004
         Microsoft.WindowsAppSDK.ML 1.8.2091
+        Microsoft.WindowsAppSDK.Runtime 1.8.250916003
 )
 
 find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)
-find_package(Microsoft.WindowsAppSDK.Runtime CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.ML CONFIG REQUIRED)
 
 set(RESNET_MODEL_FILES
