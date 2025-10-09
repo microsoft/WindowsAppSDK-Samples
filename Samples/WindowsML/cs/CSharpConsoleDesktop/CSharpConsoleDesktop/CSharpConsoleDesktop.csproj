@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <WindowsPackageType>None</WindowsPackageType>
+    <SelfContained>True</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
