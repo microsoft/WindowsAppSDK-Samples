@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <WindowsPackageType>None</WindowsPackageType>
     <SelfContained>True</SelfContained>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
