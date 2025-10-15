@@ -82,16 +82,16 @@ namespace winrt::DynamicRefreshRateTool::implementation
 
 	winrt::Windows::Foundation::IAsyncAction MainWindow::ChooseFolder_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
 	{
-		Windows::Storage::Pickers::FolderPicker picker;
-		picker.ViewMode(Windows::Storage::Pickers::PickerViewMode::List);
-		picker.SuggestedStartLocation(Windows::Storage::Pickers::PickerLocationId::ComputerFolder);
-		picker.as<IInitializeWithWindow>()->Initialize(GetActiveWindow());
+		Microsoft::Windows::Storage::Pickers::FolderPicker picker{ this->AppWindow().Id() };
+		picker.ViewMode(Microsoft::Windows::Storage::Pickers::PickerViewMode::List);
+		picker.SuggestedStartLocation(Microsoft::Windows::Storage::Pickers::PickerLocationId::ComputerFolder);
 
-
-		if (auto loggingFolder = co_await picker.PickSingleFolderAsync())
+		if (auto result = co_await picker.PickSingleFolderAsync())
 		{
-			m_loggingFolder = loggingFolder;
-			FolderPath().Text(m_loggingFolder.Path());
+			// Store the picked folder path directly as a string
+			auto folderPath = result.Path();
+			m_loggingFolderPath = std::wstring{ folderPath };
+			FolderPath().Text(folderPath);
 			FolderPath().Visibility(Visibility::Visible);
 			FolderNotSelected().Visibility(Visibility::Collapsed);
 			LoggingToggleSwitch().IsEnabled(true);
@@ -114,7 +114,7 @@ namespace winrt::DynamicRefreshRateTool::implementation
 
 	void MainWindow::StartLogging()
 	{
-		m_logger.emplace(std::wstring(m_loggingFolder.Path().c_str()));
+		m_logger.emplace(m_loggingFolderPath);
 	}
 
 	void MainWindow::StopLogging()
