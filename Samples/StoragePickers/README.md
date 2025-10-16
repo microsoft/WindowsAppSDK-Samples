@@ -20,21 +20,21 @@
 
 3. Create and Trust your own test certification
 
-![alt text](images/deploy3.png)
+![img](images/deploy3.png)
 
-![alt text](images/deploy4.png)
+![img](images/deploy4.png)
 
 4. Create package
 
-![alt text](images/deploy5.png)
+![img](images/deploy5.png)
 
 5. Open the built result
 
-![alt text](images/deploy6.png)
+![img](images/deploy6.png)
 
 5. Run Install.ps1 in powershell
 
-![alt text](images/deploy7.png)
+![img](images/deploy7.png)
 
 *Note:*
 
@@ -69,13 +69,15 @@ if ($DependencyPackages.FullName.Count -gt 0)
 ```
 
 Screenshot of this error:
-![alt text](images/deploy8.png)
+![img](images/deploy8.png)
 
 Screenshot of this mitigation:
 
-![alt text](images/deploy9.png)
+![img](images/deploy9.png)
 
-Once the dependency *.appx files are installed, this project can be smoothly debugged in Visual Studio.
+With the dependency *.appx files correctly installed, the project should be debugged in Visual Studio smoothly.
+
+![img](images/deploy10.png)
 
 
 ## 🚀 Run
@@ -87,5 +89,6 @@ Once the dependency *.appx files are installed, this project can be smoothly deb
 
 ## More to explore
 
-- [Storage pickers specs](https://github.com/microsoft/WindowsAppSDK/blob/release/1.8-stable/specs/Storage.Pickers/Microsoft.Windows.Storage.Pickers.md)
-- [Windows App SDK](https://github.com/microsoft/WindowsAppSDK/tree/main)
+- [Microsoft.Windows.Storage.Pickers Namespace](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.windows.storage.pickers)
+- [Design Specs of Microsoft.Windows.Storage.Pickers](https://github.com/microsoft/WindowsAppSDK/blob/release/1.8-stable/specs/Storage.Pickers/Microsoft.Windows.Storage.Pickers.md)
+- [Windows App SDK](https://github.com/microsoft/WindowsAppSDK/)
