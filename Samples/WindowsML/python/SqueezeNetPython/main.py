@@ -5,21 +5,9 @@ from pathlib import Path
 from PIL import Image
 import numpy as np
 import onnxruntime as ort
-import subprocess
-import sys
-import json
+from winml import WinML
 
-def register_execution_providers():
-    # Run this in another process to avoid a issue where 
-    # the pywinrt module stops the tensorRT execution provider from loading.
-    worker_script = str(Path(__file__).parent / 'winml_worker.py')
-    result = subprocess.check_output([sys.executable, worker_script], text=True)
-    paths = json.loads(result)
-    for item in paths.items():
-        ort.register_execution_provider_library(item[0], item[1])
-        print(f"Registered execution provider: {item[0]} with library path: {item[1]}")
-
-def load_and_preprocess_image(image_path):
+def load_and_preprocess_image(image_path: Path) -> np.ndarray:
     img = Image.open(image_path)    
     if img.mode != 'RGB':
         img = img.convert('RGB')
@@ -32,12 +20,12 @@ def load_and_preprocess_image(image_path):
     img_array = np.expand_dims(img_array, axis=0)
     return img_array.astype(np.float32)
 
-def load_labels(label_file):
+def load_labels(label_file: Path) -> list[str]:
     with open(label_file, 'r') as f:
         labels = [line.strip().split(',')[1] for line in f.readlines()]
     return labels
 
-def print_results(labels, results, is_logit=False):
+def print_results(labels : list[str], results: np.ndarray, is_logit=False) -> None:
     def softmax(x):
         exp_x = np.exp(x - np.max(x))
         return exp_x / exp_x.sum()
@@ -58,36 +46,35 @@ def print_results(labels, results, is_logit=False):
 
 if __name__ == "__main__":
     print("Registering execution providers ...")
-    register_execution_providers()
-    
-    print("Creating session ...")
+    registered_eps = WinML().register_execution_providers_to_ort()
+    print(f"Registered execution providers: {registered_eps}")
 
     resource_path = Path(__file__).parent.parent 
-    model_path = resource_path / "Model" / "SqueezeNet.onnx"
-    compiled_model_path = resource_path / "Model" / "SqueezeNet_ctx.onnx"
+
+    print("Setting session options ...")
     session_options = ort.SessionOptions()
     # Change your policy here.
     session_options.set_provider_selection_policy(ort.OrtExecutionProviderDevicePolicy.PREFER_NPU)
-    assert session_options.has_providers()
 
-    if compiled_model_path.exists():
-        print("Using compiled model")
-    else:
-        print("No compiled model found, attempting to create compiled model at ", compiled_model_path)  
+    print("Compiling model ...")
+    model_path = resource_path / "Model" / "SqueezeNet.onnx"
+    compiled_model_path = resource_path / "Model" / "SqueezeNet_ctx.onnx"
+    if not compiled_model_path.exists():
         model_compiler = ort.ModelCompiler(session_options, model_path)
-        print("Starting compile, this may take a few moments..." )
-        try:
-            model_compiler.compile_to_file(compiled_model_path)
-            print("Model compiled successfully")
-        except Exception as e:
-            print("Model compilation failed:", e)
-            print("Falling back to uncompiled model")
+        model_compiler.compile_to_file(str(compiled_model_path))
+    else:
+        print("Using existing compiled model.")
+    if compiled_model_path.exists():
+        print("Using compiled model.")
+        model_path_to_use = compiled_model_path
+    else:
+        print("No compile output. Using original model.")
+        model_path_to_use = model_path
 
-    model_path_to_use = compiled_model_path if compiled_model_path.exists() else model_path
-
+    print("Creating session ...")
     session = ort.InferenceSession(
         model_path_to_use,
-        sess_options=session_options,
+        sess_options=session_options
     )
 
     labels = load_labels(resource_path / "Model" / "SqueezeNet.Labels.txt")
@@ -100,4 +87,6 @@ if __name__ == "__main__":
         print("Running inference ...")
         input_name = session.get_inputs()[0].name
         results = session.run(None, {input_name: img_array})[0]
+        if not isinstance(results, np.ndarray):
+            raise TypeError("Unexpected output type from model.")
         print_results(labels, results, is_logit=False)

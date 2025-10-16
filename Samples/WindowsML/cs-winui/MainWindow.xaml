@@ -1,0 +1,87 @@
+<!-- Copyright (c) Microsoft Corporation.
+ Licensed under the MIT License. -->
+
+<Window
+    x:Class="WindowsMLSample.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WindowsMLSample"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Windows ML Sample - SqueezeNet Image Classification">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Grid.Row="0"
+                   Text="SqueezeNet Image Classification Sample"
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24"/>
+
+        <!-- Controls -->
+        <Grid Grid.Row="1" Margin="0,0,0,24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Row 0: EP & Device selection + reload -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12">
+                <TextBlock Text="Execution Provider:" VerticalAlignment="Center"/>
+                <ComboBox x:Name="EpCombo" Width="220" VerticalAlignment="Center"/>
+                <TextBlock Text="Device:" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                <ComboBox x:Name="DeviceCombo" Width="140" VerticalAlignment="Center" IsEnabled="False"/>
+                <Button x:Name="ReloadModelButton"
+                        Content="Load / Reload Model"
+                        Click="ReloadModelButton_Click"/>
+            </StackPanel>
+
+            <!-- Row 1: Provider download checkbox -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
+                <CheckBox x:Name="AllowProviderDownloadCheckBox"
+                          Content="Allow execution provider downloads"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Image Display Area -->
+        <Border Grid.Row="2"
+                Background="LightGray"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                CornerRadius="4"
+                Margin="0,0,0,24">
+            <Image x:Name="SelectedImage"
+                   Stretch="Uniform"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   MaxHeight="300"/>
+        </Border>
+
+        <!-- Results Area -->
+        <ScrollViewer Grid.Row="3">
+            <StackPanel>
+                <TextBlock Text="Classification Results:"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           Margin="0,0,0,12"/>
+                <Border Background="{ThemeResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="12">
+                    <TextBlock x:Name="ResultsText"
+                               Text="Loading..."
+                               TextWrapping="Wrap"
+                               FontFamily="Consolas"/>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

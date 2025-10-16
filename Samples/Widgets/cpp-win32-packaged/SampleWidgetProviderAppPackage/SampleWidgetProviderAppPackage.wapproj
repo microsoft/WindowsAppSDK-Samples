@@ -35,7 +35,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>7C9DBD64-9DC7-4706-8FDA-8Df2A43184FE</ProjectGuid>
-    <TargetPlatformVersion>10.0.22000.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <AssetTargetFallback>net6.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -64,7 +64,7 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>
@@ -72,4 +72,5 @@
     <ProjectReference Include="..\SampleWidgetProviderApp\SampleWidgetProviderApp.vcxproj" />
   </ItemGroup>
 </Project>
+
 

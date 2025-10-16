@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <WindowsPackageType>None</WindowsPackageType>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="System.Numerics.Tensors" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Include="..\Shared\cs\ArgumentParser.cs" />
+    <Compile Include="..\Shared\cs\ExecutionProviderManager.cs" />
+    <Compile Include="..\Shared\cs\ImageProcessor.cs" />
+    <Compile Include="..\Shared\cs\ModelManager.cs" />
+    <Compile Include="..\Shared\cs\InferenceEngine.cs" />
+    <Compile Include="..\Shared\cs\ResultProcessor.cs" />
+  </ItemGroup>
+
+  <Import Project="..\Resources\SqueezeNetModel.targets" />
+
+</Project>

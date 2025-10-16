@@ -1,7 +1,6 @@
 @echo off
 if "%1"=="/?" goto :usage
 if "%1"=="-?" goto :usage
-if "%VSINSTALLDIR%" == "" goto :usage
 
 setlocal enabledelayedexpansion enableextensions
 
@@ -13,6 +12,13 @@ set sample_filter=%3\
 
 if "%platform%"=="" set platform=x64
 if "%configuration%"=="" set configuration=Release
+
+call :EnsureDeveloperCommandPrompt
+
+if "%VSINSTALLDIR%"=="" (
+    echo Visual Studio Developer Command Prompt not detected and automatic initialization failed.
+    goto :usage
+)
 
 if not exist ".\.nuget" mkdir ".\.nuget"
 if not exist ".\.nuget\nuget.exe" powershell -Command "Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile .\.nuget\nuget.exe"
@@ -64,9 +70,46 @@ endlocal
 
 goto :eof
 
+:EnsureDeveloperCommandPrompt
+if not "%VSINSTALLDIR%"=="" goto :eof
+
+echo Visual Studio Developer Command Prompt not detected. Attempting to initialize automatically...
+
+set "VS_INSTALL_PATH="
+for %%P in ("%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" "%ProgramFiles%\Microsoft Visual Studio\Installer\vswhere.exe") do (
+    if exist %%~P (
+        for /f "usebackq tokens=*" %%I in (`"%%~P" -latest -requires Microsoft.Component.MSBuild -property installationPath`) do (
+            if not defined VS_INSTALL_PATH (
+                set "VS_INSTALL_PATH=%%~I"
+            )
+        )
+        if defined VS_INSTALL_PATH goto :VsInstallFound
+    )
+)
+goto :EnsureDeveloperCommandPromptEnd
+
+:VsInstallFound
+if exist "%VS_INSTALL_PATH%\Common7\Tools\VsDevCmd.bat" (
+    set "VSDEVCMD_ARGS=-no_logo"
+    if /i "%platform%"=="x86" set "VSDEVCMD_ARGS=!VSDEVCMD_ARGS! -arch=x86"
+    if /i "%platform%"=="win32" set "VSDEVCMD_ARGS=!VSDEVCMD_ARGS! -arch=x86"
+    if /i "%platform%"=="x64" set "VSDEVCMD_ARGS=!VSDEVCMD_ARGS! -arch=x64"
+    if /i "%platform%"=="arm" set "VSDEVCMD_ARGS=!VSDEVCMD_ARGS! -arch=arm"
+    if /i "%platform%"=="arm64" set "VSDEVCMD_ARGS=!VSDEVCMD_ARGS! -arch=arm64"
+    call "%VS_INSTALL_PATH%\Common7\Tools\VsDevCmd.bat" !VSDEVCMD_ARGS!
+)
+
+:EnsureDeveloperCommandPromptEnd
+if "%VSINSTALLDIR%"=="" (
+    echo Failed to automatically configure the Visual Studio environment.
+    echo Please manually run it from a Developer Command Prompt instead.
+)
+goto :eof
+
 :usage
 echo Usage:
-echo     This script should be run under a Visual Studio Developer Command Prompt.
+echo     This script tries to initialize a Visual Studio Developer Command Prompt.
+echo     If that fails, please manually run it from a Developer Command Prompt instead.
 echo.
 echo     build.cmd [Platform] [Configuration] [Sample]
 echo.
