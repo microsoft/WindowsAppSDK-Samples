@@ -6,11 +6,81 @@
 
 ## 📸 Screenshot of App Layout
 
-![img](screenshot-storage-pickers.png)
+![img](images/screenshot-storage-pickers.png)
+
+## Deploy the Sample Packaged App Locally
+
+1. Open `cpp-sample/FilePickersAppSinglePackaged.sln` or `cs-sample/FilePickersAppSinglePackaged.sln` in Visual Studio, right click on the project, select "Package and Publish" > "Create App Package"
+
+![img](images/deploy1.png)
+
+2. Select Sideloading > Next
+
+![img](images/deploy2.png)
+
+3. Create and Trust your own test certification
+
+![alt text](images/deploy3.png)
+
+![alt text](images/deploy4.png)
+
+4. Create package
+
+![alt text](images/deploy5.png)
+
+5. Open the built result
+
+![alt text](images/deploy6.png)
+
+5. Run Install.ps1 in powershell
+
+![alt text](images/deploy7.png)
+
+*Note:*
+
+If encountering error like below:
+
+> Add-AppxPackage: Cannot find path 'C:\FilePickersAppSinglePackaged_1.0.1.0_x64_Debug_Test\Dependencies\x86\Microsoft.VCLibs.x86.Debug.14.00.appx C:\FilePickersAppSinglePackaged_1.0.1.0_x64_Debug_Test\Dependencies\x86\Microsoft.VCLibs.x86.Debug.14.00.Desktop.appx C:\FilePickersAppSinglePackaged_1.0.1.0_x64_Debug_Test\Dependencies\x64\Microsoft.VCLibs.x64.Debug.14.00.appx C:\FilePickersAppSinglePackaged_1.0.1.0_x64_Debug_Test\Dependencies\x64\Microsoft.VCLibs.x64.Debug.14.00.Desktop.appx' because it does not exist.
+
+Replace lines 483-491 in `Add-AppDevPackage.ps1` with below script and try again:
+
+```ps
+if ($DependencyPackages.FullName.Count -gt 0)
+{
+    Write-Host $UiStrings.DependenciesFound
+    $DependencyPackages.FullName
+    
+
+    # Install dependencies one by one first
+    foreach ($dep in $DependencyPackages.FullName) {
+        echo "Installing dependency: $dep"
+        try {
+            Add-AppxPackage -Path $dep -ForceApplicationShutdown
+            echo "Successfully installed: $dep"
+        } catch {
+            echo "Failed to install dependency: $dep - $($_.Exception.Message)"
+        }
+    }
+    
+    # Now install the main package
+    echo "Installing main package: $($DeveloperPackagePath.FullName)"
+    Add-AppxPackage -Path $DeveloperPackagePath.FullName -ForceApplicationShutdown
+}
+```
+
+Screenshot of this error:
+![alt text](images/deploy8.png)
+
+Screenshot of this mitigation:
+
+![alt text](images/deploy9.png)
+
+Once the dependency *.appx files are installed, this project can be smoothly debugged in Visual Studio.
+
 
 ## 🚀 Run
 
-1. Open `cpp-sample/FilePickersAppSinglePackaged.sln` or `cs-sample/FilePickersAppSinglePackaged.sln` in Visual Studio 2022.
+1. Open `cpp-sample/FilePickersAppSinglePackaged.sln` or `cs-sample/FilePickersAppSinglePackaged.sln` in Visual Studio.
 1. Restore NuGet packages and ensure the Windows App SDK 1.8 runtime is installed locally.
 1. Build and run.
 
