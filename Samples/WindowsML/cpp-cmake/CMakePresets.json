@@ -1,0 +1,66 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 31,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows",
+      "binaryDir": "${sourceDir}/__output/${presetName}",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MSVC_DEBUG_INFORMATION_FORMAT": "Embedded",
+        "CMAKE_SYSTEM_VERSION": "10.0.26100.0",
+        "CPPWINRT_PROJECTION_ROOT_PATH": "${sourceDir}/__cppwinrt",
+        "CPPWINRT_VERSION": "2.0.250303.1",
+        "NUGET_PACKAGE_ROOT_PATH": "${sourceDir}/__packages"
+      }
+    },
+    {
+      "name": "windows-vs",
+      "inherits": "windows",
+      "hidden": true,
+      "displayName": "Windows Visual Studio Generator presets",
+      "generator": "Visual Studio 17 2022"
+    },
+    {
+      "name": "windows-vs-x64",
+      "inherits": "windows-vs",
+      "displayName": "Windows, Visual Studio Generator, x64",
+      "architecture": "x64"
+    },
+    {
+      "name": "windows-vs-arm64",
+      "inherits": "windows-vs",
+      "displayName": "Windows, Visual Studio Generator, arm64",
+      "architecture": "arm64"
+    },
+    {
+      "name": "windows-msvc",
+      "binaryDir": "${sourceDir}/__output/${presetName}-$env{Platform}",
+      "inherits": "windows",
+      "displayName": "Windows MSVC/Ninja Generator presets",
+      "description": "Windows MSVC Ninja Multi-Config Generator",
+      "generator": "Ninja Multi-Config",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-vs-x64",
+      "configurePreset": "windows-vs-x64"
+    },
+    {
+      "name": "windows-vs-arm64",
+      "configurePreset": "windows-vs-arm64"
+    },
+    {
+      "name": "windows-msvc",
+      "configurePreset": "windows-msvc"
+    }
+  ]
+}
