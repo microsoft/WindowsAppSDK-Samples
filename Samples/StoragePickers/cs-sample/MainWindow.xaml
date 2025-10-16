@@ -125,7 +125,7 @@
                                         <!-- SuggestedFolder Tests -->
                                         <StackPanel Style="{StaticResource TestGroupStyle}">
                                             <CheckBox x:Name="SuggestedFolderCheckBox" Content="Set SuggestedFolder"/>
-                                            <TextBox x:Name="SuggestedFolderInput" PlaceholderText="Enter default extension" Text='C:\Temp'/>
+                                            <TextBox x:Name="SuggestedFolderInput" PlaceholderText="Enter folder path" Text='C:\Temp'/>
                                         </StackPanel>
                                     </StackPanel>
 
