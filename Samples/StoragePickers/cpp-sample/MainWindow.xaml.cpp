@@ -132,7 +132,6 @@ namespace winrt::FilePickersAppSinglePackaged::implementation
     std::vector<winrt::hstring> MainWindow::GetFileFilters()
     {
         std::wstring text{ FileTypeFilterInput().Text().c_str() };
-        std::replace(text.begin(), text.end(), L';', L',');
 
         std::vector<winrt::hstring> filters;
 

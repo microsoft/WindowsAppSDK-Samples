@@ -74,7 +74,7 @@ namespace FilePickersAppSinglePackaged
             if (string.IsNullOrEmpty(input))
                 return ["*"];
 
-            return input.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+            return input.Split([','], StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.Trim())
                         .ToArray();
         }

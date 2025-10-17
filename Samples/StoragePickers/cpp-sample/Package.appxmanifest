@@ -9,7 +9,7 @@
 
   <Identity
     Name="44ffc3a8-f534-4f58-bd42-83a352101b1b"
-    Publisher="CN=xiaomgao"
+    Publisher="CN=windowsappsdk.storagepickers.testapp"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="44ffc3a8-f534-4f58-bd42-83a352101b1b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
