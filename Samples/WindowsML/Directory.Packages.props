@@ -5,7 +5,7 @@
   <ItemGroup>
     <!-- WindowsAppSDK packages -->
     <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.10.0" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.251017016-stable" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="1.8.38" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="1.8.250831001" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.DWrite" Version="1.8.25090401" />

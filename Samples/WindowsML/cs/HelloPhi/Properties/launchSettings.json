@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HelloPhi": {
+      "commandName": "Project",
+      "commandLineArgs": "-use_model_catalog"
+    }
+  }
+}

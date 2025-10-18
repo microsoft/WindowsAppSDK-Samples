@@ -1,0 +1,66 @@
+{
+  "models": [
+    {
+      "id": "phi-4-mini-instruct-onnx",
+      "name": "phi-4-mini-instruct-onnx",
+      "version": "1.0.0",
+      "publisher": "Microsoft Corporation",
+      "executionProviders": [
+        {
+          "name": "CPUExecutionProvider"
+        },
+        {
+          "name": "DmlExecutionProvider"
+        }
+      ],
+      "description": "Phi-4-Mini is a lightweight open model built upon synthetic data and filtered publicly available websites - with a focus on high-quality, reasoning dense data.",
+      "modelSizeBytes": 4724336,
+      "license": "MIT",
+      "licenseUri": "https://opensource.org/licenses/MIT",
+      "licenseText": "MIT License",
+      "uri": "https://huggingface.co/microsoft/Phi-4-mini-reasoning-onnx/resolve/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+      "files": [
+        {
+          "name": "added_tokens.json",
+          "sha256": "d4f2aceb0f20b71dd1f4bcc7e052e4412946bf281840b8f83d39f259571af486"
+        },
+        {
+          "name": "config.json",
+          "sha256": "2283ba68d420b7fddf4be894361142dfa34636c0a81e3af819cc1e660f128f6c"
+        },
+        {
+          "name": "genai_config.json",
+          "sha256": "0fcfa1e663f2bc867f8dc62fae65dd0924f0a4d68b43d1234df742dd19171470"
+        },
+        {
+          "name": "model.onnx",
+          "sha256": "929ee60b9dfcca848a2c62c6533e18c6e74d9d657e01f577e5b54602c02e5ad5"
+        },
+        {
+          "name": "model.onnx.data",
+          "sha256": "fd04a1bdfd475e5909a7a90a948b4fb425b4a565293ec36e34df7ac8c39fe8a4"
+        },
+        {
+          "name": "special_tokens_map.json",
+          "sha256": "aff38493227d813e29fcf8406e8e90062f1f031aa47d589325e9c31d89ac7cc3"
+        },
+        {
+          "name": "tokenizer.json",
+          "sha256": "f08ed885956f70d877a4d9078ec9e3119d8b68a8d579003e230be18cad66911c"
+        },
+        {
+          "name": "tokenizer_config.json",
+          "sha256": "16d7cf2abc1139ffc61368dbbacd521d1be29baa30e461382f3bea947cba16ec"
+        },
+        {
+          "name": "vocab.json",
+          "sha256": "6cb65a857824fa6615bb1782d95d882617a8bbce1da0317118586b36f39e98bd"
+        },
+        {
+          "name": "merges.txt",
+          "sha256": "856ce61180bb689282eed6b3a6838bb1f438399be23aefe9d20eb379791fb4ad"
+        }
+      ]
+    }
+  ]
+}

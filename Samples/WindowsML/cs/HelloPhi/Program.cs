@@ -6,6 +6,7 @@ using Microsoft.Windows.AI.MachineLearning;
 
 using System.Text;
 using System.Text.Json;
+using Windows.Foundation;
 
 static async Task InitializeProvidersAsync(bool allowDownload)
 {
@@ -26,14 +27,14 @@ static async Task InitializeProvidersAsync(bool allowDownload)
         {
             var readyState = provider.ReadyState;
             Console.WriteLine($"  Ready state: {readyState}");
-
+        
             // Only call EnsureReadyAsync if we allow downloads or if the provider is already ready
             if (allowDownload || readyState != ExecutionProviderReadyState.NotPresent)
             {
                 Console.WriteLine($"  EnsureReadyAsync: {provider.Name}");
                 await provider.EnsureReadyAsync();
             }
-
+        
             var registerResult = provider.TryRegister();
             Console.WriteLine($"  TryRegister: {registerResult}");
         }
@@ -52,6 +53,8 @@ static void PrintUsage()
     Console.WriteLine("\t\t\t\tPath to the model");
     Console.WriteLine("  --non-interactive (optional)");
     Console.WriteLine("\t\t\t\tInteractive mode");
+    Console.WriteLine("  -use_model_catalog (optional)");
+    Console.WriteLine("\t\t\t\tUse ModelCatalog APIs to get the model path");
 }
 
 using OgaHandle ogaHandle = new();
@@ -64,6 +67,7 @@ if (args.Length < 1)
 
 bool interactive = true;
 string modelPath = string.Empty;
+bool useModelCatalog = false;
 
 uint i = 0;
 while (i < args.Length)
@@ -79,13 +83,67 @@ while (i < args.Length)
         {
             modelPath = Path.Combine(args[i + 1]);
         }
+        i++;
+    }
+    else if (arg == "-use_model_catalog")
+    {
+        useModelCatalog = true;
     }
     i++;
 }
 
+// If useModelCatalog is true, then we will use ModelCatalog APIs to get the model path
+if (useModelCatalog)
+{
+    try
+    {
+        string catalogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SampleModelCatalog.json");
+        Console.WriteLine($"Using model catalog: {catalogPath}");
+        
+        var catalogSource = await ModelCatalogSource.CreateFromUriAsync(new Uri(catalogPath));
+        var modelCatalog = new ModelCatalog(new[] { catalogSource });
+
+        // Use the model ID from SampleModelCatalog.json
+        Console.WriteLine("Finding model in catalog...");
+        var modelInfo = modelCatalog.FindModelAsync("phi-4-mini-instruct-onnx").Get();
+        
+        // Show progress for GetInstanceAsync operation
+        Console.WriteLine("Getting model instance from catalog:");
+        
+        // Setup progress handler for GetInstanceAsync
+        var getInstanceOperation = modelInfo.GetInstanceAsync(new Dictionary<string, string>());
+        getInstanceOperation.Progress = (sender, progressValue) => 
+        {
+            // Simple progress display with percentage
+            int percent = (int)(progressValue * 100);
+            Console.Write($"\rProgress: {percent}%");
+        };
+        
+        var resultInfo = await getInstanceOperation;
+        Console.WriteLine("\rCompleted getting model instance.                ");
+        
+        var catalogModelInstance = resultInfo.GetInstance();
+        
+        if (catalogModelInstance.ModelPaths.Count > 0)
+        {
+            modelPath = catalogModelInstance.ModelPaths[0];
+            Console.WriteLine($"Found model path from catalog: {modelPath}");
+        }
+        else
+        {
+            throw new Exception("No model paths found in catalog model instance.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Failed to get model from catalog: {ex.Message}");
+        Environment.Exit(-1);
+    }
+}
+
 if (string.IsNullOrEmpty(modelPath))
 {
-    throw new Exception("Model path must be specified");
+    throw new Exception("Model path must be specified either directly with -m or by using -use_model_catalog");
 }
 
 Console.WriteLine("-------------");
@@ -172,12 +230,18 @@ do
         using Generator generator = new(model, generatorParams);
         generator.AppendTokenSequences(sequences);
         System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
-        while (!generator.IsDone())
+        
+        // Fix for CS9202 error
+        bool isDone = false;
+        while (!isDone)
         {
             generator.GenerateNextToken();
+            isDone = generator.IsDone();
         }
 
-        ReadOnlySpan<int> outputSequence = generator.GetSequence(0);
+        int[] outputSequence = new int[generator.GetSequence(0).Length];
+        generator.GetSequence(0).CopyTo(outputSequence);
+        
         string outputString = tokenizer.Decode(outputSequence);
         watch.Stop();
         double runTimeInSeconds = watch.Elapsed.TotalSeconds;
@@ -195,15 +259,24 @@ do
         using Generator generator = new(model, generatorParams);
         generator.AppendTokenSequences(sequences);
         System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
-        while (!generator.IsDone())
+        
+        // Fix for CS9202 error
+        bool isDone = false;
+        while (!isDone)
         {
             generator.GenerateNextToken();
-            Console.Write(tokenizerStream.Decode(generator.GetSequence(0)[^1]));
+            int lastToken = generator.GetSequence(0)[generator.GetSequence(0).Length - 1];
+            Console.Write(tokenizerStream.Decode(lastToken));
+            isDone = generator.IsDone();
         }
+        
         Console.WriteLine();
         watch.Stop();
         double runTimeInSeconds = watch.Elapsed.TotalSeconds;
-        ReadOnlySpan<int> outputSequence = generator.GetSequence(0);
+        
+        int[] outputSequence = new int[generator.GetSequence(0).Length];
+        generator.GetSequence(0).CopyTo(outputSequence);
+        
         int totalTokens = outputSequence.Length;
         Console.WriteLine($"Streaming Tokens: {totalTokens} Time: {runTimeInSeconds:0.00} Tokens per second: {totalTokens / runTimeInSeconds:0.00}");
     }
