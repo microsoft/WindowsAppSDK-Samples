@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
@@ -22,8 +22,6 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
-    <!-- Suppress CS8305: Feature is for evaluation purposes only and is subject to change or removal in future updates. -->
-    <NoWarn>$(NoWarn);8305</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\ModelInitializationControl.xaml" />
