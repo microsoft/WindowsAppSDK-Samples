@@ -8,6 +8,8 @@
       <!-- Setting this to be compatible with CFG -->
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <SDLCheck>true</SDLCheck>
+      <!-- Treat C4100 (unreferenced parameter) as error -->
+      <TreatSpecificWarningsAsErrors>4100;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
     </ClCompile>
     <Link>
       <!-- dynamicbase is required for enabling CFG -->
