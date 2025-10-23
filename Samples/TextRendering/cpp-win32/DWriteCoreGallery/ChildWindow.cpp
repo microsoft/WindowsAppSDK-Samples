@@ -69,13 +69,13 @@ void ChildWindow::Move(int pixelLeft, int pixelTop, int pixelWidth, int pixelHei
     SetWindowPos(m_hwnd, nullptr, pixelLeft, pixelTop, pixelWidth, pixelHeight, SWP_SHOWWINDOW | SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
-LRESULT ChildWindow::Handle_Create(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_Create(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     m_hwnd = hwnd;
     return 0;
 }
 
-LRESULT ChildWindow::Handle_Paint(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_Paint(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     PAINTSTRUCT ps;
     auto hdc = wil::BeginPaint(hwnd, &ps);
@@ -108,32 +108,32 @@ LRESULT ChildWindow::Handle_LButtonDown(HWND hwnd, UINT message, WPARAM wParam, 
     }
 }
 
-LRESULT ChildWindow::Handle_LButtonUp(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_LButtonUp(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     OnLeftButtonUp();
     return 0;
 }
 
-LRESULT ChildWindow::Handle_MouseMove(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_MouseMove(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM lParam)
 {
     OnMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
     return 0;
 }
 
 
-LRESULT ChildWindow::Handle_VScroll(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_VScroll(HWND hwnd, UINT /*message*/, WPARAM wParam, LPARAM /*lParam*/)
 {
     OnVSCroll(LOWORD(wParam));
     return 0;
 }
 
-LRESULT ChildWindow::Handle_MouseWheel(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_MouseWheel(HWND hwnd, UINT /*message*/, WPARAM wParam, LPARAM /*lParam*/)
 {
     OnMouseWheel(static_cast<int16_t>(HIWORD(wParam)));
     return 0;
 }
 
-LRESULT ChildWindow::Handle_Size(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_Size(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     RECT clientRect;
     GetClientRect(hwnd, &clientRect);
@@ -144,7 +144,7 @@ LRESULT ChildWindow::Handle_Size(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
     return 0;
 }
 
-LRESULT ChildWindow::Handle_Command(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_Command(HWND /*hwnd*/, UINT /*message*/, WPARAM wParam, LPARAM lParam)
 {
     if (lParam != 0)
     {
@@ -157,13 +157,13 @@ LRESULT ChildWindow::Handle_Command(HWND hwnd, UINT message, WPARAM wParam, LPAR
     }
 }
 
-LRESULT ChildWindow::Handle_SetFocus(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_SetFocus(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     OnFocus(true);
     return 0;
 }
 
-LRESULT ChildWindow::Handle_KillFocus(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_KillFocus(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     OnFocus(false);
     return 0;

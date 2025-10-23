@@ -85,7 +85,7 @@ FontFamilyListWindow::FontFamilyListWindow(
     SetItemCount(familyCount);
 }
 
-void FontFamilyListWindow::DrawItem(TextRenderer* textRenderer, int itemIndex, bool isSelected)
+void FontFamilyListWindow::DrawItem(TextRenderer* textRenderer, int itemIndex, bool /*isSelected*/)
 {
     // Create the text layout object.
     auto textLayout = CreateTextLayout(m_textFormat.get(), m_familyNames[itemIndex]);
