@@ -182,7 +182,7 @@ HRESULT STDMETHODCALLTYPE ResourceFontFileStream::ReadFileFragment(
 
 // IDWriteFontFileStream method
 void STDMETHODCALLTYPE ResourceFontFileStream::ReleaseFileFragment(
-    void* fragmentContext
+    void* /*fragmentContext*/
 ) noexcept
 {
     // The data exists for the lifetime of the module, so this is a no-op.

@@ -178,7 +178,7 @@ void FontFaceListWindow::SetFontFamily(
     ListWindow::SetItemCount(fontCount);
 }
 
-void FontFaceListWindow::DrawItem(TextRenderer* textRenderer, int itemIndex, bool isSelected)
+void FontFaceListWindow::DrawItem(TextRenderer* textRenderer, int itemIndex, bool /*isSelected*/)
 {
     auto& item = m_fontItems[itemIndex];
 
