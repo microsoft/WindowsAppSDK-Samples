@@ -209,7 +209,7 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
 
 // IDWriteTextRenderer1 method
 HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
-    _In_opt_ void* clientDrawingContext,
+    _In_opt_ void* /*clientDrawingContext*/,
     FLOAT baselineOriginX,
     FLOAT baselineOriginY,
     DWRITE_GLYPH_ORIENTATION_ANGLE orientationAngle,

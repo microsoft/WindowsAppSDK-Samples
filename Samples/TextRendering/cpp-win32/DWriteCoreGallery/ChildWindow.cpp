@@ -157,13 +157,13 @@ LRESULT ChildWindow::Handle_Command(HWND /*hwnd*/, UINT /*message*/, WPARAM wPar
     }
 }
 
-LRESULT ChildWindow::Handle_SetFocus(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT ChildWindow::Handle_SetFocus(HWND /*hwnd*/, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     OnFocus(true);
     return 0;
 }
 
-LRESULT ChildWindow::Handle_KillFocus(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT ChildWindow::Handle_KillFocus(HWND /*hwnd*/, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     OnFocus(false);
     return 0;
