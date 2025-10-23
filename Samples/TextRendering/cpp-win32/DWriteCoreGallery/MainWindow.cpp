@@ -54,7 +54,7 @@ MainWindow::MainWindow(int nShowCmd)
     UpdateWindow(m_hwnd);
 }
 
-LRESULT MainWindow::OnCreate(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::OnCreate(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     m_hwnd = hwnd;
     m_textRenderer = new TextRenderer{ hwnd };

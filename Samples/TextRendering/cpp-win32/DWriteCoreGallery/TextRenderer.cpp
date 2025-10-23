@@ -191,8 +191,8 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
     FLOAT baselineOriginY,
     DWRITE_MEASURING_MODE measuringMode,
     _In_ DWRITE_GLYPH_RUN const* glyphRun,
-    _In_ DWRITE_GLYPH_RUN_DESCRIPTION const* /*glyphRunDescription*/,
-    _In_opt_ IUnknown* /*clientDrawingEffect*/
+    _In_ DWRITE_GLYPH_RUN_DESCRIPTION const* glyphRunDescription,
+    _In_opt_ IUnknown* clientDrawingEffect
 ) noexcept
 {
     return DrawGlyphRun(
@@ -228,7 +228,7 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
             D2D_POINT_2F{ baselineOriginX, baselineOriginY }
         );
 
-        RETURN_IF_FAILED(m_renderTarget->DrawGlyphRunWithColorSupport(
+        THROW_IF_FAILED(m_renderTarget->DrawGlyphRunWithColorSupport(
             baselineOriginX,
             baselineOriginY,
             measuringMode,
@@ -307,7 +307,7 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawInlineObject(
     _In_ IDWriteInlineObject* inlineObject,
     BOOL isSideways,
     BOOL isRightToLeft,
-    _In_opt_ IUnknown* /*clientDrawingEffect*/
+    _In_opt_ IUnknown* clientDrawingEffect
 ) noexcept
 {
     return DrawInlineObject(
@@ -331,7 +331,7 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawInlineObject(
     _In_ IDWriteInlineObject* inlineObject,
     BOOL isSideways,
     BOOL isRightToLeft,
-    _In_opt_ IUnknown* /*clientDrawingEffect*/
+    _In_opt_ IUnknown* clientDrawingEffect
 ) noexcept
 {
     try

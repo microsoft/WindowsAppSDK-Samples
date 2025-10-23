@@ -95,7 +95,7 @@ LRESULT ChildWindow::Handle_KeyDown(HWND hwnd, UINT message, WPARAM wParam, LPAR
     }
 }
 
-LRESULT ChildWindow::Handle_LButtonDown(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ChildWindow::Handle_LButtonDown(HWND /*hwnd*/, UINT message, WPARAM wParam, LPARAM lParam)
 {
     // Send the message to the parent window if it's not handled by the current window.
     if (OnLeftButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)))
@@ -108,26 +108,26 @@ LRESULT ChildWindow::Handle_LButtonDown(HWND hwnd, UINT message, WPARAM wParam, 
     }
 }
 
-LRESULT ChildWindow::Handle_LButtonUp(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT ChildWindow::Handle_LButtonUp(HWND /*hwnd*/, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     OnLeftButtonUp();
     return 0;
 }
 
-LRESULT ChildWindow::Handle_MouseMove(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM lParam)
+LRESULT ChildWindow::Handle_MouseMove(HWND /*hwnd*/, UINT /*message*/, WPARAM /*wParam*/, LPARAM lParam)
 {
     OnMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
     return 0;
 }
 
 
-LRESULT ChildWindow::Handle_VScroll(HWND hwnd, UINT /*message*/, WPARAM wParam, LPARAM /*lParam*/)
+LRESULT ChildWindow::Handle_VScroll(HWND /*hwnd*/, UINT /*message*/, WPARAM wParam, LPARAM /*lParam*/)
 {
     OnVSCroll(LOWORD(wParam));
     return 0;
 }
 
-LRESULT ChildWindow::Handle_MouseWheel(HWND hwnd, UINT /*message*/, WPARAM wParam, LPARAM /*lParam*/)
+LRESULT ChildWindow::Handle_MouseWheel(HWND /*hwnd*/, UINT /*message*/, WPARAM wParam, LPARAM /*lParam*/)
 {
     OnMouseWheel(static_cast<int16_t>(HIWORD(wParam)));
     return 0;
