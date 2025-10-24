@@ -11,7 +11,7 @@
     <PackageVersion Include="Microsoft.WindowsAppSDK.DWrite" Version="1.8.25090401" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.250906002" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.8.250906004" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="1.8.2091" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="1.8.2108" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.250916003" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Widgets" Version="1.8.250904007" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.250906003" />
