@@ -126,9 +126,9 @@ namespace WindowsML.Shared
                 // Build source
                 string sampleCatalogJsonPath = Path.Combine(executableFolder, "SqueezeNetModelCatalog.json");
                 var uri = new System.Uri(sampleCatalogJsonPath);
-                var sampleCatalogSource = await CatalogModelSource.CreateFromUri(uri);
+                var sampleCatalogSource = await ModelCatalogSource.CreateFromUriAsync(uri);
                 
-                WinMLModelCatalog modelCatalog = new WinMLModelCatalog(new[] { sampleCatalogSource });
+                ModelCatalog modelCatalog = new ModelCatalog(new[] { sampleCatalogSource });
                 
                 // Use intelligent model variant selection based on execution provider and device capabilities
                 ModelVariant actualVariant = DetermineModelVariant(options, ortEnv);
@@ -137,7 +137,7 @@ namespace WindowsML.Shared
                 
                 string modelVariantName = (actualVariant == ModelVariant.FP32) ? "squeezenet-fp32" : "squeezenet";
                 
-                modelFromCatalog = await modelCatalog.FindModel(modelVariantName);
+                modelFromCatalog = await modelCatalog.FindModelAsync(modelVariantName);
                 
                 if (modelFromCatalog != null)
                 {
@@ -150,7 +150,7 @@ namespace WindowsML.Shared
                     
                     var catalogModelInstanceResult = await catalogModelInstanceOp;
                     
-                    if (catalogModelInstanceResult.Status == CatalogModelStatus.Available)
+                    if (catalogModelInstanceResult.Status == CatalogModelInstanceStatus.Available)
                     {
                         var catalogModelInstance = catalogModelInstanceResult.Instance;
                         var modelPaths = catalogModelInstance.ModelPaths;

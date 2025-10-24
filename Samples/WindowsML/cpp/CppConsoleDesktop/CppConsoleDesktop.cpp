@@ -41,9 +41,9 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
 
             auto sampleCatalogJsonPath = executableFolder / L"SqueezeNetModelCatalog.json";
             auto uri = winrt::Windows::Foundation::Uri(sampleCatalogJsonPath.c_str());
-            auto sampleCatalogSource = winrt::Microsoft::Windows::AI::MachineLearning::CatalogModelSource::CreateFromUri(uri).get();
+            auto sampleCatalogSource = winrt::Microsoft::Windows::AI::MachineLearning::ModelCatalogSource::CreateFromUriAsync(uri).get();
 
-            winrt::Microsoft::Windows::AI::MachineLearning::WinMLModelCatalog modelCatalog({sampleCatalogSource});
+            winrt::Microsoft::Windows::AI::MachineLearning::ModelCatalog modelCatalog({sampleCatalogSource});
 
             // Use intelligent model variant selection based on execution provider and device capabilities
             ModelVariant actualVariant = ModelManager::DetermineModelVariant(options, env);
@@ -52,11 +52,11 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
 
             std::wstring modelVariantName = (actualVariant == ModelVariant::FP32) ? L"squeezenet-fp32" : L"squeezenet";
 
-            modelFromCatalog = modelCatalog.FindModel(modelVariantName.c_str()).get();
+            modelFromCatalog = modelCatalog.FindModelAsync(modelVariantName.c_str()).get();
 
             if (modelFromCatalog != nullptr)
             {
-                auto catalogModelInstanceOp = modelFromCatalog.GetInstance({});
+                auto catalogModelInstanceOp = modelFromCatalog.GetInstanceAsync({});
 
                 catalogModelInstanceOp.Progress([](auto const& /*operation*/, double progress) {
                     std::wcout << L"Model download progress: " << progress << L"%\r";
@@ -64,9 +64,9 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
 
                 auto catalogModelInstanceResult = co_await catalogModelInstanceOp;
 
-                if (catalogModelInstanceResult.Status() == winrt::Microsoft::Windows::AI::MachineLearning::CatalogModelStatus::Available)
+                if (catalogModelInstanceResult.Status() == winrt::Microsoft::Windows::AI::MachineLearning::CatalogModelInstanceStatus::Available)
                 {
-                    auto catalogModelInstance = catalogModelInstanceResult.Instance();
+                    auto catalogModelInstance = catalogModelInstanceResult.GetInstance();
                     auto modelPaths = catalogModelInstance.ModelPaths();
 
                     auto modelFolderPath = std::filesystem::path(modelPaths.GetAt(0).c_str());
