@@ -142,7 +142,7 @@ namespace WindowsML.Shared
                 if (modelFromCatalog != null)
                 {
                     var additionalHeaders = new Dictionary<string, string>();
-                    var catalogModelInstanceOp = modelFromCatalog.GetInstance(additionalHeaders);
+                    var catalogModelInstanceOp = modelFromCatalog.GetInstanceAsync(additionalHeaders);
                     
                     catalogModelInstanceOp.Progress += (operation, progress) => {
                         Console.Write($"Model download progress: {progress}%\r");
@@ -152,7 +152,7 @@ namespace WindowsML.Shared
                     
                     if (catalogModelInstanceResult.Status == CatalogModelInstanceStatus.Available)
                     {
-                        var catalogModelInstance = catalogModelInstanceResult.Instance;
+                        var catalogModelInstance = catalogModelInstanceResult.GetInstance();
                         var modelPaths = catalogModelInstance.ModelPaths;
                         
                         string modelFolderPath = modelPaths[0];
