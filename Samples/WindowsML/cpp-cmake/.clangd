@@ -1,0 +1,11 @@
+CompileFlags:
+  Add: ['-std:c++latest', '/EHsc']
+Diagnostics:
+  ClangTidy:
+    Add:
+      - modernize-*
+      - bugprone-*
+      - cppcoreguidelines-*
+      - readability-*
+    Remove:
+      - modernize-use-trailing-return-type
