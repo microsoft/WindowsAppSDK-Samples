@@ -1,0 +1,9 @@
+﻿CoCreateInstance
+IFileOpenDialog
+FileOpenDialog
+IShellItem
+SIGDN
+FILEOPENDIALOGOPTIONS
+CLSCTX
+HWND
+PWSTR

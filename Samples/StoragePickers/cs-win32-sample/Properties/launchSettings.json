@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ComparePickerPermissions (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ComparePickerPermissions (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

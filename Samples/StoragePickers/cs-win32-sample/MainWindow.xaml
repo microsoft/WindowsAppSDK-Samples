@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="ComparePickerPermissions.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ComparePickerPermissions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="ComparePickerPermissions">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <StackPanel 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center" 
+            Spacing="20">
+
+            <TextBlock 
+                Text="CsWin32 COM File Picker Demo" 
+                FontSize="24" 
+                FontWeight="Bold"
+                HorizontalAlignment="Center"/>
+
+            <Button 
+                x:Name="OpenFileButton"
+                Content="Open File Picker (COM API)"
+                Click="OpenFileButton_Click"
+                HorizontalAlignment="Center"
+                MinWidth="250"/>
+
+            <Button 
+                x:Name="OpenFileButtonSDK"
+                Content="Open File Picker WinAppSDK"
+                Click="OpenFileButtonSDK_Click"
+                HorizontalAlignment="Center"
+                MinWidth="250"/>
+
+            <Button 
+                x:Name="OpenFileButtonUWP"
+                Content="Open File Picker UWP"
+                Click="OpenFileButtonUWP_Click"
+                HorizontalAlignment="Center"
+                MinWidth="250"/>
+
+            <TextBlock 
+                x:Name="StatusText"
+                Text="Click a button to open the picker"
+                TextWrapping="Wrap"
+                HorizontalAlignment="Center"
+                MaxWidth="600"/>
+
+            <ScrollViewer 
+                MaxHeight="300" 
+                MaxWidth="600"
+                VerticalScrollBarVisibility="Auto">
+                <TextBlock 
+                    x:Name="ResultText"
+                    TextWrapping="Wrap"
+                    FontFamily="Consolas"
+                    FontSize="12"/>
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
+</Window>
