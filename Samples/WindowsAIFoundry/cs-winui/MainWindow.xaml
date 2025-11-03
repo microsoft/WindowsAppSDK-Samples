@@ -29,6 +29,9 @@
             <NavigationViewItem Content="Image Object Extractor"
                     Tag="ImageObjectExtractor"
                     Icon="Cut"/>
+            <NavigationViewItem Content="Image Foreground Extractor"
+                    Tag="ImageForegroundExtractor"
+                    Icon="ContactInfo"/>
             <NavigationViewItem Content="Image Description"
                     Tag="ImageDescription"
                     Icon="Caption"/>
