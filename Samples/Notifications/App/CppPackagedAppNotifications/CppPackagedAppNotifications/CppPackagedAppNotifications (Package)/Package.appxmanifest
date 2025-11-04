@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  IgnorableNamespaces="uap rescap">
+
+<Identity
+    Name="4e7bdd5e-c13e-405b-9f4e-6462002dda2e"
+    Publisher="CN=erlangl"
+    Version="1.0.0.0" />
+
+  <Properties>
+    <DisplayName>CppPackagedAppNotifications (Package)</DisplayName>
+    <PublisherDisplayName>erlangl</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="CppPackagedAppNotifications (Package)"
+        Description="CppPackagedAppNotifications (Package)"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
+      </uap:VisualElements>
+
+	  <Extensions>
+		<!--Register the OM CLSID for Push Notifications-->
+		<com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="CppPackagedAppNotifications.exe" DisplayName="SampleBackgroundApp" Arguments="----WindowsAppRuntimePushServer:">
+              <com:Class Id="4e7bdd5e-c13e-405b-9f4e-6462002dda2e" DisplayName="Windows App SDK Push" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+		  
+	    <!--Specify which CLSID to activate when a toast is clicked-->
+	    <desktop:Extension Category="windows.toastNotificationActivation">
+          <desktop:ToastNotificationActivation ToastActivatorCLSID="4e1cdfbb-7bdc-48e3-8fb5-4451897781f9" />
+	    </desktop:Extension>
+
+	    <!--Register the COM CLSID for App Notifications-->
+	    <com:Extension Category="windows.comServer">
+		  <com:ComServer>
+		    <com:ExeServer Executable="CppPackagedAppNotifications.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
+		      <com:Class Id="4e1cdfbb-7bdc-48e3-8fb5-4451897781f9" DisplayName="Toast activator"/>
+		    </com:ExeServer>
+		  </com:ComServer>
+	    </com:Extension>
+	  </Extensions>
+	</Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>
