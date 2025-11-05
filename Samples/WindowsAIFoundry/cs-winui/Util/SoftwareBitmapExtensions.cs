@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+using Microsoft.Graphics.Imaging;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;

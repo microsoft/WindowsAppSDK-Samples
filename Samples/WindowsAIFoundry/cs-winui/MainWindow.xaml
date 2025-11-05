@@ -38,9 +38,15 @@
             <NavigationViewItem Content="Text Recognizer"
                     Tag="TextRecognizer"
                     Icon="Directions"/>
+<<<<<<< HEAD
             <NavigationViewItem Content="Image Object Remover"
                     Tag="ImageObjectRemover"
                     Icon="Cut"/>
+=======
+            <NavigationViewItem Content="Video Scaler"
+                    Tag="VideoScaler"
+                    Icon="Video"/>
+>>>>>>> f3b58076 (change)
         </NavigationView.MenuItems>
         <Frame Margin="0,0,0,0"
                 x:Name="rootFrame"/>
