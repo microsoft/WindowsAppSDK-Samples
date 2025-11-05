@@ -16,6 +16,7 @@ internal class CopilotRootViewModel
         ImageScaler = new(new Models.ImageScalerModel());
         ImageObjectExtractor = new(new Models.ImageObjectExtractorModel());
         ImageDescriptionGenerator = new(new Models.ImageDescriptionModel());
+        VideoScaler = new(new Models.VideoScalerModel());
     }
 
     public LanguageModelViewModel LanguageModel { get; }
@@ -28,4 +29,5 @@ internal class CopilotRootViewModel
 
     public ImageObjectExtractorViewModel ImageObjectExtractor { get; }
 
+    public VideoScalerViewModel VideoScaler { get; }
 }

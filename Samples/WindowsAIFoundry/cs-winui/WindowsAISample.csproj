@@ -33,10 +33,12 @@
     <None Remove="Examples\LanguageModelWithProgress.md" />
     <None Remove="Examples\TextRecognizer.md" />
     <None Remove="Examples\TextRecognizerInit.md" />
+    <None Remove="Examples\VideoScalerInit.md" />
     <None Remove="Pages\ExampleCode.xaml" />
     <None Remove="Pages\ImageDescriptionPage.xaml" />
     <None Remove="Pages\ImageObjectExtractorPage.xaml" />
     <None Remove="Pages\ImageScalerPage.xaml" />
+    <None Remove="Pages\VideoScalerPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,8 +55,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.1" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
+    <PackageReference Include="Microsoft.Windows.AI.Video" Version="1.2512.156-stable-g3f4446bac0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
+    <!--<PackageReference Include="Microsoft.WindowsAppSDK.AI" Version="1.8.38" />-->
+    <PackageReference Include="Microsoft.WindowsAppSDK.ML" Version="1.8.2091" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -101,6 +106,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\TextRecognizerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\VideoScalerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

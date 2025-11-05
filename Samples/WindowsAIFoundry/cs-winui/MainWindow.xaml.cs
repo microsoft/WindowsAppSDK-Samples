@@ -41,6 +41,9 @@ public sealed partial class MainWindow : Window
                 case "TextRecognizer":
                     rootFrame.Navigate(typeof(TextRecognizerPage));
                     break;
+                case "VideoScaler":
+                    rootFrame.Navigate(typeof(VideoScalerPage));
+                    break;
             }
         }
     }
