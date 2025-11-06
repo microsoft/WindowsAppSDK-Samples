@@ -41,6 +41,20 @@ Get-ChildItem -Recurse packages.config -Path $PSScriptRoot | foreach-object {
     Write-Host "Modified " $_.FullName 
 }
 
+Get-ChildItem -Recurse Directory.Packages.props -Path $PSScriptRoot | foreach-object {
+    $content = Get-Content $_.FullName -Raw
+
+    foreach ($nugetPackageToVersion in $nugetPackageToVersionTable.GetEnumerator())
+    {
+        $newVersionString = 'PackageVersion Include="' + $nugetPackageToVersion.Key + '" Version="' + $nugetPackageToVersion.Value + '"'
+        $oldVersionString = 'PackageVersion Include="' + $nugetPackageToVersion.Key + '" Version="[-.0-9a-zA-Z]*"'
+        $content = $content -replace $oldVersionString, $newVersionString
+    }
+
+    Set-Content -Path $_.FullName -Value $content
+    Write-Host "Modified " $_.FullName 
+}
+
 Get-ChildItem -Recurse *.vcxproj -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
 
