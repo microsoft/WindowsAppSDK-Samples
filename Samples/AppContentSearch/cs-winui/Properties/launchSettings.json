@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Notes (Package)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
+    },
+    "Notes (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

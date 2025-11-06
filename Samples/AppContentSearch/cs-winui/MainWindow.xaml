@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window
+    x:Class="Notes.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Notes"
+    xmlns:controls="using:Notes.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Notes.ViewModels" 
+    mc:Ignorable="d">
+    <Window.SystemBackdrop>
+        <MicaBackdrop/>
+    </Window.SystemBackdrop>
+
+    <Grid
+        x:Name="AppRootGrid" 
+        RowDefinitions="Auto,*"
+        ColumnDefinitions="2*, Auto">
+
+        <TitleBar x:Name="AppTitleBar"
+                  Title="Contoso Notes"
+                  Grid.ColumnSpan="2">
+            <TitleBar.Content>
+                <controls:SearchView x:Name="searchView"
+                         Grid.RowSpan="2"
+                         IsEnabled="False" />
+            </TitleBar.Content>
+            <TitleBar.RightHeader>
+                <StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top">
+                    <ToggleButton
+                        x:Name="ChatPaneToggleButton"
+                        IsEnabled="False"
+                        Click="AskMyNotesClicked"
+                        Padding="13,11"
+                        Margin="2">
+                        <ToggleButton.Resources>
+                            <StaticResource x:Key="ToggleButtonBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+                            <StaticResource x:Key="ToggleButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+                            <StaticResource x:Key="ToggleButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+                            <StaticResource x:Key="ToggleButtonBackgroundDisabled" ResourceKey="SubtleFillColorTransparentBrush" />
+                            <StaticResource x:Key="ToggleButtonBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+                            <StaticResource x:Key="ToggleButtonBorderBrushPointerOver" ResourceKey="SubtleFillColorTransparentBrush" />
+                            <StaticResource x:Key="ToggleButtonBorderBrushPressed" ResourceKey="SubtleFillColorTransparentBrush" />
+                            <StaticResource x:Key="ToggleButtonBorderBrushDisabled" ResourceKey="SubtleFillColorTransparentBrush" />
+                            <StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="ControlElevationBorderBrush" />
+                            <StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
+                            <StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+                            <StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="ControlFillColorDefaultBrush" />
+                            <StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+                            <StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+                            <StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="AIAccentGradientBrush" />
+                            <StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="AIAccentGradientBrush" />
+                            <StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="AIAccentGradientBrush" />
+                        </ToggleButton.Resources>
+                        <FontIcon
+                            FontSize="16"
+                            Glyph="&#xEAB7;"/>
+                    </ToggleButton>
+                    <CommandBar Grid.Column="2"
+                        Background="Transparent"
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        IsOpen="False"
+                        DefaultLabelPosition="Right">
+                        <CommandBar.SecondaryCommands>
+                            <AppBarButton Label="Index All"
+                              Click="indexButton_Click"
+                              Icon="Refresh">
+                            </AppBarButton>
+                            <AppBarButton Label="Delete Index"
+                              Click="deleteIndexButton_Click"
+                              Icon="Delete">
+                            </AppBarButton>
+                        </CommandBar.SecondaryCommands>
+                    </CommandBar>
+                </StackPanel>
+            </TitleBar.RightHeader>
+        </TitleBar>
+
+        <NavigationView x:Name="navView"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        IsPaneOpen="True"
+                        IsBackButtonVisible="Collapsed"
+                        IsPaneToggleButtonVisible="False"
+                        PaneDisplayMode="Left"
+                        Loaded="NavView_Loaded"
+                        MenuItemsSource="{x:Bind VM.Notes}"
+                        SelectionChanged="NavView_SelectionChanged">
+            <NavigationView.PaneCustomContent>
+                <Grid Margin="18,4,18,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Height="36"
+                                Margin="0,2,0,0"
+                                Padding="0"
+                                HorizontalAlignment="Left"
+                                Click="NewButton_Click">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8"
+                                        Padding="8, 0">
+                                <FontIcon FontFamily="Segoe UI Emoji"
+                                          FontSize="14"
+                                          Glyph="➕" />
+                                <TextBlock>New</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
+
+            </NavigationView.PaneCustomContent>
+            <NavigationView.MenuItemTemplateSelector>
+                <local:MenuItemTemplateSelector>
+                    <local:MenuItemTemplateSelector.NoteTemplate>
+                        <DataTemplate x:DataType="viewmodels:NoteViewModel">
+                            <NavigationViewItem>
+                                <NavigationViewItem.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Delete"
+                                                        Click="DeleteMenuItem_Click"
+                                                        Tag="{x:Bind}" />
+                                    </MenuFlyout>
+                                </NavigationViewItem.ContextFlyout>
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="8"
+                                    Height="42">
+                                    <FontIcon
+                                        FontFamily="Segoe UI Emoji"
+                                        FontSize="20"
+                                        Glyph="📝"/>
+                                    <TextBlock
+                                        Text="{x:Bind Title, Mode=OneWay}"
+                                        FontSize="14"
+                                        CharacterSpacing="20"
+                                        FontFamily="Segoe UI"
+                                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                        MaxWidth="230"
+                                        TextTrimming="CharacterEllipsis"
+                                        VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </NavigationViewItem>
+                        </DataTemplate>
+                    </local:MenuItemTemplateSelector.NoteTemplate>
+                    <local:MenuItemTemplateSelector.DefaultTemplate>
+                        <DataTemplate x:DataType="NavigationViewItem">
+                            <NavigationViewItem
+                                HorizontalContentAlignment="Stretch"
+                                Content="{x:Bind Content}"
+                                SelectsOnInvoked="{x:Bind SelectsOnInvoked}"/>
+                        </DataTemplate>
+                    </local:MenuItemTemplateSelector.DefaultTemplate>
+                </local:MenuItemTemplateSelector>
+            </NavigationView.MenuItemTemplateSelector>
+            <NavigationView.Content>
+                <Frame x:Name="navFrame"/>
+            </NavigationView.Content>
+        </NavigationView>
+
+        <controls:AttachmentView
+            x:Name="attachmentView"
+            Grid.Row="1"/>
+
+        <controls:ChatSessionView x:Name="chatSessionView"
+                               Grid.Row="1"
+                               Grid.Column="1"
+                               Visibility="Collapsed"
+                               Width="350" />
+
+
+    </Grid>
+</Window>
