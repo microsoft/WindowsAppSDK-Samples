@@ -126,10 +126,10 @@ namespace WindowsML.Shared
                 // Build source
                 string sampleCatalogJsonPath = Path.Combine(executableFolder, "SqueezeNetModelCatalog.json");
                 var uri = new System.Uri(sampleCatalogJsonPath);
-                var sampleCatalogSource = await ModelCatalogSource.CreateFromUriAsync(uri);
-
-                ModelCatalog modelCatalog = new ModelCatalog(new[] { sampleCatalogSource });
-
+                var sampleCatalogSource = await CatalogModelSource.CreateFromUri(uri);
+                
+                WinMLModelCatalog modelCatalog = new WinMLModelCatalog(new[] { sampleCatalogSource });
+                
                 // Use intelligent model variant selection based on execution provider and device capabilities
                 ModelVariant actualVariant = DetermineModelVariant(options, ortEnv);
                 
@@ -137,12 +137,12 @@ namespace WindowsML.Shared
                 
                 string modelVariantName = (actualVariant == ModelVariant.FP32) ? "squeezenet-fp32" : "squeezenet";
                 
-                modelFromCatalog = await modelCatalog.FindModelAsync(modelVariantName);
+                modelFromCatalog = await modelCatalog.FindModel(modelVariantName);
                 
                 if (modelFromCatalog != null)
                 {
                     var additionalHeaders = new Dictionary<string, string>();
-                    var catalogModelInstanceOp = modelFromCatalog.GetInstanceAsync(additionalHeaders);
+                    var catalogModelInstanceOp = modelFromCatalog.GetInstance(additionalHeaders);
                     
                     catalogModelInstanceOp.Progress += (operation, progress) => {
                         Console.Write($"Model download progress: {progress}%\r");
@@ -150,9 +150,9 @@ namespace WindowsML.Shared
                     
                     var catalogModelInstanceResult = await catalogModelInstanceOp;
                     
-                    if (catalogModelInstanceResult.Status == CatalogModelInstanceStatus.Available)
+                    if (catalogModelInstanceResult.Status == CatalogModelStatus.Available)
                     {
-                        using var catalogModelInstance = catalogModelInstanceResult.GetInstance();
+                        var catalogModelInstance = catalogModelInstanceResult.Instance;
                         var modelPaths = catalogModelInstance.ModelPaths;
                         
                         string modelFolderPath = modelPaths[0];

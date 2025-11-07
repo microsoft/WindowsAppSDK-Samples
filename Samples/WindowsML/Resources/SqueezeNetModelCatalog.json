@@ -2,15 +2,13 @@
   "base": "https://learn.microsoft.com/azure/ai-foundry/foundry-local/reference/reference-catalog-api",
   "models": [
     {
-      "id": "squeezenet",
+      "alias": "squeezenet",
       "name": "squeezenet",
       "version": "1",
+      "modelType": "ONNX",
       "publisher": "microsoft",
-      "executionProviders": [
-        {
-          "name": "CPUExecutionProvider"
-        }
-      ],
+      "executionProvider": "CPUExecutionProvider",
+      "description": "",
       "modelSizeBytes": 1250000,
       "license": "BSD",
       "licenseUri": "https://github.com/microsoft/WindowsAppSDK-Samples/raw/refs/heads/release/experimental/Samples/WindowsML/cpp/CppConsoleDesktop/CppConsoleDesktop/SqueezeNet.LICENSE.txt",
@@ -35,15 +33,13 @@
       ]
     },
     {
-      "id": "squeezenet-fp32",
+      "alias": "squeezenet-fp32",
       "name": "squeezenet-fp32",
       "version": "1.1-7",
+      "modelType": "ONNX",
       "publisher": "microsoft",
-      "executionProviders": [
-        {
-          "name": "NvTensorRTRTXExecutionProvider"
-        }
-      ],
+      "executionProvider": "NvTensorRTRTXExecutionProvider",
+      "description": "",
       "modelSizeBytes": 4730000,
       "license": "BSD",
       "licenseUri": "https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/WindowsML/Resources/SqueezeNet.LICENSE.txt",
