@@ -34,10 +34,10 @@ add_nuget_packages(
     PACKAGES
         Microsoft.Windows.CppWinRT 2.0.240405.15
         Microsoft.Windows.ImplementationLibrary 1.0.240803.1
-        Microsoft.WindowsAppSDK.Foundation 1.8.250906002
-        Microsoft.WindowsAppSDK.InteractiveExperiences 1.8.250906004
-        Microsoft.WindowsAppSDK.ML 1.8.2091
-        Microsoft.WindowsAppSDK.Runtime 1.8.250916003
+        Microsoft.WindowsAppSDK.Foundation 1.8.251104000
+        Microsoft.WindowsAppSDK.InteractiveExperiences 1.8.251104001
+        Microsoft.WindowsAppSDK.ML 1.8.2109
+        Microsoft.WindowsAppSDK.Runtime 1.8.251106002
 )
 
 find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)

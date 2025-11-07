@@ -5,16 +5,16 @@
   <ItemGroup>
     <!-- WindowsAppSDK packages -->
     <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.10.0" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="1.8.38" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="1.8.39" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="1.8.250831001" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.DWrite" Version="1.8.25090401" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.250906002" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.8.250906004" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="1.8.2108" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.250916003" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.251104000" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.8.251104001" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="1.8.2109" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.251106002" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Widgets" Version="1.8.250904007" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.250906003" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.251105000" />
     <!-- Other dependencies -->
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
