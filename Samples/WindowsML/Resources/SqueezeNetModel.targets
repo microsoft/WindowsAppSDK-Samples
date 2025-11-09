@@ -50,15 +50,6 @@
     </None>
   </ItemGroup>
 
-  <!-- Surface static assets directly to Publish/ResolvedFileToPublish -->
-  <ItemGroup>
-    <ResolvedFileToPublish Include="@(SqueezeNetStaticAsset)">
-      <RelativePath>%(SqueezeNetStaticAsset.TargetPath)</RelativePath>
-      <TargetPath>%(SqueezeNetStaticAsset.TargetPath)</TargetPath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </ResolvedFileToPublish>
-  </ItemGroup>
 
   <!-- Create temp directory for downloaded model -->
   <Target Name="CreateSqueezeNetModelDirectory" BeforeTargets="Build;GetCopyToOutputDirectoryItems;GetCopyToPublishDirectoryItems">
@@ -122,24 +113,6 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </None>
-      <ResolvedFileToPublish Include="$(SqueezeNetModelFileFP32)" Condition="Exists('$(SqueezeNetModelFileFP32)')">
-        <RelativePath>SqueezeNet.fp32.onnx</RelativePath>
-        <TargetPath>SqueezeNet.fp32.onnx</TargetPath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
-      <ResolvedFileToPublish Include="$(SqueezeNetLabelsFile)" Condition="Exists('$(SqueezeNetLabelsFile)')">
-        <RelativePath>SqueezeNet.Labels.txt</RelativePath>
-        <TargetPath>SqueezeNet.Labels.txt</TargetPath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
-      <ResolvedFileToPublish Include="$(SqueezeNetImageFile)" Condition="Exists('$(SqueezeNetImageFile)')">
-        <RelativePath>image.png</RelativePath>
-        <TargetPath>image.png</TargetPath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
 
