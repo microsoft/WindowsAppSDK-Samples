@@ -44,7 +44,7 @@
 
   <ItemGroup>
     <None Include="@(SqueezeNetStaticAsset)">
-      <TargetPath>%(SqueezeNetStaticAsset.TargetPath)</TargetPath>
+      <Link>%(SqueezeNetStaticAsset.TargetPath)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -96,20 +96,20 @@
   <!-- Register downloaded assets with MSBuild once they are available so SDK copy targets see them -->
   <Target Name="RegisterSqueezeNetGeneratedAssets"
           DependsOnTargets="DownloadSqueezeNetModel"
-          BeforeTargets="GetCopyToOutputDirectoryItems;GetCopyToPublishDirectoryItems">
+          BeforeTargets="GetCopyToOutputDirectoryItems;GetCopyToPublishDirectoryItems;AssignTargetPaths">
     <ItemGroup>
       <None Include="$(SqueezeNetModelFileFP32)" Condition="Exists('$(SqueezeNetModelFileFP32)')">
-        <TargetPath>SqueezeNet.fp32.onnx</TargetPath>
+        <Link>SqueezeNet.fp32.onnx</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </None>
       <None Include="$(SqueezeNetLabelsFile)" Condition="Exists('$(SqueezeNetLabelsFile)')">
-        <TargetPath>SqueezeNet.Labels.txt</TargetPath>
+        <Link>SqueezeNet.Labels.txt</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </None>
       <None Include="$(SqueezeNetImageFile)" Condition="Exists('$(SqueezeNetImageFile)')">
-        <TargetPath>image.png</TargetPath>
+        <Link>image.png</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </None>
