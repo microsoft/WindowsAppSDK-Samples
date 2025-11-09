@@ -116,5 +116,5 @@
       </None>
     </ItemGroup>
   </Target>
-
+  <Target Name="CopySqueezeNetModelToOutput" DependsOnTargets="ResolveSqueezeNetAssets" />
 </Project>
