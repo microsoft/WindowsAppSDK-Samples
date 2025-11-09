@@ -29,43 +29,34 @@
     <BuildDependsOn>CopySqueezeNetModelToOutput;$(BuildDependsOn)</BuildDependsOn>
   </PropertyGroup>
 
-  <!-- Register model assets with MSBuild so they flow through standard copy/publish pipelines -->
+  <!-- Register static assets (checked into repo) so they flow through standard copy/publish pipelines -->
   <ItemGroup>
-    <SqueezeNetAsset Include="$(SqueezeNetModelFileDefault)">
+    <SqueezeNetStaticAsset Include="$(SqueezeNetModelFileDefault)">
       <TargetPath>SqueezeNet.onnx</TargetPath>
-    </SqueezeNetAsset>
-    <SqueezeNetAsset Include="$(SqueezeNetLicenseFile)">
+    </SqueezeNetStaticAsset>
+    <SqueezeNetStaticAsset Include="$(SqueezeNetLicenseFile)">
       <TargetPath>SqueezeNet.LICENSE.txt</TargetPath>
-    </SqueezeNetAsset>
-    <SqueezeNetAsset Include="$(SqueezeNetModelCatalogFile)">
+    </SqueezeNetStaticAsset>
+    <SqueezeNetStaticAsset Include="$(SqueezeNetModelCatalogFile)">
       <TargetPath>SqueezeNetModelCatalog.json</TargetPath>
-    </SqueezeNetAsset>
-    <SqueezeNetAsset Include="$(SqueezeNetModelFileFP32)">
-      <TargetPath>SqueezeNet.fp32.onnx</TargetPath>
-    </SqueezeNetAsset>
-    <SqueezeNetAsset Include="$(SqueezeNetLabelsFile)">
-      <TargetPath>SqueezeNet.Labels.txt</TargetPath>
-    </SqueezeNetAsset>
-    <SqueezeNetAsset Include="$(SqueezeNetImageFile)">
-      <TargetPath>image.png</TargetPath>
-    </SqueezeNetAsset>
+    </SqueezeNetStaticAsset>
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="@(SqueezeNetAsset)">
-      <TargetPath>%(SqueezeNetAsset.TargetPath)</TargetPath>
+    <None Include="@(SqueezeNetStaticAsset)">
+      <TargetPath>%(SqueezeNetStaticAsset.TargetPath)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
 
   <!-- Create temp directory for downloaded model -->
-  <Target Name="CreateSqueezeNetModelDirectory" BeforeTargets="Build">
+  <Target Name="CreateSqueezeNetModelDirectory" BeforeTargets="Build;GetCopyToOutputDirectoryItems;GetCopyToPublishDirectoryItems">
     <MakeDir Directories="$(SqueezeNetModelTempDir)" Condition="!Exists('$(SqueezeNetModelTempDir)')" />
   </Target>
 
   <!-- Download SqueezeNet models if they don't exist -->
-  <Target Name="DownloadSqueezeNetModel" BeforeTargets="Build" DependsOnTargets="CreateSqueezeNetModelDirectory">
+  <Target Name="DownloadSqueezeNetModel" BeforeTargets="Build;GetCopyToOutputDirectoryItems;GetCopyToPublishDirectoryItems" DependsOnTargets="CreateSqueezeNetModelDirectory">
     <Message Text="Checking for SqueezeNet models in: $(SqueezeNetModelTempDir)" Importance="high" />
     
     <!-- Download FP32 model file if it doesn't exist -->
@@ -99,6 +90,29 @@
       ContinueOnError="true" />
     <Warning Text="Sample image file download may have been interrupted by antivirus scanning or network issues. The file may become available shortly as antivirus completes its scan."
              Condition="!Exists('$(SqueezeNetImageFile)')" />
+  </Target>
+
+  <!-- Register downloaded assets with MSBuild once they are available so SDK copy targets see them -->
+  <Target Name="RegisterSqueezeNetGeneratedAssets"
+          DependsOnTargets="DownloadSqueezeNetModel"
+          BeforeTargets="GetCopyToOutputDirectoryItems;GetCopyToPublishDirectoryItems">
+    <ItemGroup>
+      <None Include="$(SqueezeNetModelFileFP32)" Condition="Exists('$(SqueezeNetModelFileFP32)')">
+        <TargetPath>SqueezeNet.fp32.onnx</TargetPath>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </None>
+      <None Include="$(SqueezeNetLabelsFile)" Condition="Exists('$(SqueezeNetLabelsFile)')">
+        <TargetPath>SqueezeNet.Labels.txt</TargetPath>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </None>
+      <None Include="$(SqueezeNetImageFile)" Condition="Exists('$(SqueezeNetImageFile)')">
+        <TargetPath>image.png</TargetPath>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </None>
+    </ItemGroup>
   </Target>
 
   <!-- Copy downloaded files to output directory -->
