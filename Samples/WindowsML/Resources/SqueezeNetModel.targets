@@ -72,49 +72,48 @@
   </Target>
 
   <Target Name="ResolveSqueezeNetAssets" DependsOnTargets="DownloadSqueezeNetModel" BeforeTargets="GetCopyToOutputDirectoryItems">
-    <!-- Register static resources so build/publish/publish single-file all pick them up -->
+    <!-- Capture the full set of SqueezeNet assets with their desired output names -->
     <ItemGroup>
-      <None Include="$(SqueezeNetModelFileDefault)">
+      <SqueezeNetAsset Include="$(SqueezeNetModelFileDefault)">
         <TargetPath>SqueezeNet.onnx</TargetPath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <Visible>false</Visible>
-      </None>
-      <None Include="$(SqueezeNetLicenseFile)">
+        <Static>true</Static>
+      </SqueezeNetAsset>
+      <SqueezeNetAsset Include="$(SqueezeNetLicenseFile)">
         <TargetPath>SqueezeNet.LICENSE.txt</TargetPath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <Visible>false</Visible>
-      </None>
-      <None Include="$(SqueezeNetModelCatalogFile)">
+        <Static>true</Static>
+      </SqueezeNetAsset>
+      <SqueezeNetAsset Include="$(SqueezeNetModelCatalogFile)">
         <TargetPath>SqueezeNetModelCatalog.json</TargetPath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <Visible>false</Visible>
-      </None>
+        <Static>true</Static>
+      </SqueezeNetAsset>
+      <SqueezeNetAsset Include="$(SqueezeNetModelFileFP32)" Condition="Exists('$(SqueezeNetModelFileFP32)')">
+        <TargetPath>SqueezeNet.fp32.onnx</TargetPath>
+      </SqueezeNetAsset>
+      <SqueezeNetAsset Include="$(SqueezeNetLabelsFile)" Condition="Exists('$(SqueezeNetLabelsFile)')">
+        <TargetPath>SqueezeNet.Labels.txt</TargetPath>
+      </SqueezeNetAsset>
+      <SqueezeNetAsset Include="$(SqueezeNetImageFile)" Condition="Exists('$(SqueezeNetImageFile)')">
+        <TargetPath>image.png</TargetPath>
+      </SqueezeNetAsset>
     </ItemGroup>
 
-    <!-- Register downloaded artifacts once they exist so pipeline publishing keeps them -->
+    <!-- Register assets with the build so publish, single-file, etc. include them automatically -->
     <ItemGroup>
-      <None Include="$(SqueezeNetModelFileFP32)" Condition="Exists('$(SqueezeNetModelFileFP32)')">
-        <TargetPath>SqueezeNet.fp32.onnx</TargetPath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <Visible>false</Visible>
-      </None>
-      <None Include="$(SqueezeNetLabelsFile)" Condition="Exists('$(SqueezeNetLabelsFile)')">
-        <TargetPath>SqueezeNet.Labels.txt</TargetPath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <Visible>false</Visible>
-      </None>
-      <None Include="$(SqueezeNetImageFile)" Condition="Exists('$(SqueezeNetImageFile)')">
-        <TargetPath>image.png</TargetPath>
+      <None Include="@(SqueezeNetAsset)">
+        <TargetPath>%(SqueezeNetAsset.TargetPath)</TargetPath>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <Visible>false</Visible>
       </None>
     </ItemGroup>
   </Target>
-  <Target Name="CopySqueezeNetModelToOutput" DependsOnTargets="ResolveSqueezeNetAssets" />
+
+  <Target Name="CopySqueezeNetModelToOutput" DependsOnTargets="ResolveSqueezeNetAssets">
+    <!-- Maintain legacy behavior for projects that expect the files to be copied immediately -->
+    <Copy SourceFiles="@(SqueezeNetAsset)"
+          DestinationFiles="@(SqueezeNetAsset->'$(TargetDir)%(TargetPath)')"
+          SkipUnchangedFiles="true"
+          Retries="5"
+          RetryDelayMilliseconds="1000" />
+  </Target>
 </Project>
