@@ -1,9 +1,0 @@
-AddPackageDependency
-TryCreatePackageDependency
-RemovePackageDependency
-GetCurrentThreadEffectiveToken
-GetTokenInformation
-TOKEN_USER
-HeapFree
-GetProcessHeap
-SHLoadIndirectString
