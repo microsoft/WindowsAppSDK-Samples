@@ -83,7 +83,7 @@ public partial class MainWindow : Window
         }
         catch (Exception)
         {
-            this.FileContent.Text = "An error has occured: Loading AI models...";
+            this.FileContent.Text = "An error has occurred: Loading AI models...";
             this.Description.Text = this.FileContent.Text;
             return;
         }
@@ -96,7 +96,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            this.FileContent.Text = "An error has occured: Performing Text Recognition..." + ex.Message;
+            this.FileContent.Text = "An error has occurred: Performing Text Recognition..." + ex.Message;
             return;
         }
 
@@ -107,7 +107,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            this.Description.Text = "An error has occured: Performing Image Description..." + ex.Message;
+            this.Description.Text = "An error has occurred: Performing Image Description..." + ex.Message;
             return;
         }   
     }
