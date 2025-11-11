@@ -25,6 +25,7 @@ extendedZipContent:
 3. Ensure the debug toolbar has "Windows Machine" set as the target device.
 4. Press F5 or select "Start Debugging" from the Debug menu to run the sample.
 Note: The sample can also be run without debugging by selecting "Start Without Debugging" from the Debug menu or Ctrl+F5. 
+5. If there is build error on maui workload cannot be found, please execute ```dotnet workload install maui``` at the folder.
 
 ## Sample Overview
 
