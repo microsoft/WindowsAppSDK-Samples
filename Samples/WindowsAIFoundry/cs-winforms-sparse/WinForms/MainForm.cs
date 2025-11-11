@@ -10,12 +10,12 @@ using Windows.Storage.Streams;
 namespace WindowsAISample
 {
     // This is a sample application that demonstrates how to use the Windows AI APIs
-    // to perform text recognition and summarization on an image.
+    // to perform text recognition and image description on an image.
     // To learn more about the Windows AI API usage, visit https://learn.microsoft.com/windows/ai/apis/
     public partial class MainForm : Form
     {
         private string pathToImage = string.Empty;
-        private LanguageModel? languageModel = null;
+        private ImageDescriptionGenerator? imageDescriptionGenerator = null;
         private TextRecognizer? textRecognizer = null;
 
         public MainForm(string? args)
@@ -102,14 +102,14 @@ namespace WindowsAISample
 
             try
             {
-                richTextBoxForImageSummary.Text = "Summarizing image text...";
-                await SummarizeImageText(textInImage);
+                richTextBoxForImageSummary.Text = "Describing image...";
+                await DescribeImage();
             }
             catch (Exception ex)
             {
                 TaskDialog.ShowDialog(this, new TaskDialogPage {
                     Caption = "Windows AI WinForms Sample Error",
-                    Heading = "An error occurred while summarizing the text in the image",
+                    Heading = "An error occurred while describing the image",
                     Text = ex.Message,
                     Icon = TaskDialogIcon.Error,
                     Buttons = new TaskDialogButtonCollection
@@ -124,41 +124,41 @@ namespace WindowsAISample
         private async Task LoadAIModels()
         {
             // Load the AI models needed for image processing
-            switch (LanguageModel.GetReadyState())
+            switch (ImageDescriptionGenerator.GetReadyState())
             {
                 case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
-                    System.Diagnostics.Debug.WriteLine("Ensure LanguageModel is ready");
-                    var op = await LanguageModel.EnsureReadyAsync();
-                    System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with status: {op.Status}");
-                    if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                    System.Diagnostics.Debug.WriteLine("Ensure ImageDescriptionGenerator is ready");
+                    var opImage = await ImageDescriptionGenerator.EnsureReadyAsync();
+                    System.Diagnostics.Debug.WriteLine($"ImageDescriptionGenerator.EnsureReadyAsync completed with status: {opImage.Status}");
+                    if (opImage.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                     {
-                        richTextBoxForImageSummary.Text = "Language model not ready for use";
-                        throw new Exception("Language model not ready for use");
+                        richTextBoxForImageSummary.Text = "Image description generator not ready for use";
+                        throw new Exception("Image description generator not ready for use");
                     }
                     break;
                 case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
-                    System.Diagnostics.Debug.WriteLine("Language model disabled by user");
-                    richTextBoxForImageSummary.Text = "Language model disabled by user";
+                    System.Diagnostics.Debug.WriteLine("Image Description Generator disabled by user");
+                    richTextBoxForImageSummary.Text = "Image description generator disabled by user";
                     return;
                 case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
-                    System.Diagnostics.Debug.WriteLine("Language model not supported on current system");
-                    richTextBoxForImageSummary.Text = "Language model not supported on current system";
+                    System.Diagnostics.Debug.WriteLine("Image Description Generator not supported on current system");
+                    richTextBoxForImageSummary.Text = "Image description generator not supported on current system";
                     return;
             }
 
-            languageModel = await LanguageModel.CreateAsync();
-            if (languageModel == null)
+            imageDescriptionGenerator = await ImageDescriptionGenerator.CreateAsync();
+            if (imageDescriptionGenerator == null)
             {
-                throw new Exception("Failed to create LanguageModel instance.");
+                throw new Exception("Failed to create ImageDescriptionGenerator instance.");
             }
 
             switch (TextRecognizer.GetReadyState())
             {
                 case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                     System.Diagnostics.Debug.WriteLine("Ensure TextRecognizer is ready");
-                    var op = await TextRecognizer.EnsureReadyAsync();
-                    System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {op.Status}");
-                    if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                    var opText = await TextRecognizer.EnsureReadyAsync();
+                    System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {opText.Status}");
+                    if (opText.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                     {
                         richTextBoxForImageText.Text = "Text recognizer not ready for use";
                         throw new Exception("Text recognizer not ready for use");
@@ -199,6 +199,26 @@ namespace WindowsAISample
             return text;
         }
 
+        private async Task DescribeImage()
+        {
+            ImageBuffer? imageBuffer = await LoadImageBufferFromFileAsync(pathToImage);
+
+            if (imageBuffer == null)
+            {
+                throw new Exception("Failed to load image buffer.");
+            }
+
+            ContentFilterOptions filterOptions = new();
+            var result = await imageDescriptionGenerator!.DescribeAsync(imageBuffer, ImageDescriptionKind.BriefDescription, filterOptions);
+
+            if (result.Status != ImageDescriptionResultStatus.Complete)
+            {
+                throw new Exception($"Image description failed with status: {result.Status}");
+            }
+
+            richTextBoxForImageSummary.Text = result.Description;
+        }
+
         private async Task<ImageBuffer?> LoadImageBufferFromFileAsync(string filePath)
         {
             StorageFile file = await StorageFile.GetFileFromPathAsync(filePath);
@@ -209,43 +229,6 @@ namespace WindowsAISample
 
                 return bitmap != null ? ImageBuffer.CreateForSoftwareBitmap(bitmap) : null;
             }
-        }
-
-        private async Task SummarizeImageText(string text)
-        {
-            string systemPrompt = "You summarize user-provided text to a software developer audience." +
-                "Respond only with the summary and no additional text.";
-
-            // Update the property names to match the correct ones based on the provided type signature.  
-            var promptMaxAllowedSeverityLevel = new TextContentFilterSeverity
-            {
-                Hate = SeverityLevel.Low,
-                Sexual = SeverityLevel.Low,
-                Violent = SeverityLevel.Low,
-                SelfHarm = SeverityLevel.Low
-            };
-
-            var responseMaxAllowedSeverityLevel = new TextContentFilterSeverity
-            {
-                Hate = SeverityLevel.Low,
-                Sexual = SeverityLevel.Low,
-                Violent = SeverityLevel.Low,
-                SelfHarm = SeverityLevel.Low
-            };
-
-            var contentFilterOptions = new ContentFilterOptions
-            {
-                PromptMaxAllowedSeverityLevel = promptMaxAllowedSeverityLevel,
-                ResponseMaxAllowedSeverityLevel = responseMaxAllowedSeverityLevel
-            };
-
-            // Create a context for the language model  
-            var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
-            string prompt = "Summarize the following text: " + text;
-
-            var output = await languageModel!.GenerateResponseAsync(languageModelContext, prompt, new LanguageModelOptions());
-
-            richTextBoxForImageSummary.Text = output.Text;
         }
     }
 }
