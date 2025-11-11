@@ -146,10 +146,10 @@ internal static class SoftwareBitmapExtensions
 
         for (int i = 0, j = 0; i < bgrBuffer.Length; i += 3, j += 4)
         {
-            bgraBuffer[j] = bgrBuffer[i];     // B
-            bgraBuffer[j + 1] = bgrBuffer[i + 1]; // G
-            bgraBuffer[j + 2] = bgrBuffer[i + 2]; // R
-            bgraBuffer[j + 3] = 255;              // A (full opacity)
+            bgraBuffer[j] = bgrBuffer[i];           // B
+            bgraBuffer[j + 1] = bgrBuffer[i + 1];   // G
+            bgraBuffer[j + 2] = bgrBuffer[i + 2];   // R
+            bgraBuffer[j + 3] = 255;                // A (full opacity)
         }
 
         // Create SoftwareBitmap and copy data
