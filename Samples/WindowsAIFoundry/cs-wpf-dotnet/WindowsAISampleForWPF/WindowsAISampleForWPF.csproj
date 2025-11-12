@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -14,8 +14,12 @@
     <AppxPackageName>WindowsAISampleForWPF</AppxPackageName>
     <AppxBundleNameForOutput>WindowsAISampleForWPF</AppxBundleNameForOutput>
     <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+    <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
+    <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
   </PropertyGroup>
-
+	<ItemGroup>
+		<AppxManifest Include="Package.appxmanifest" />
+	</ItemGroup>
   <ItemGroup>
     <None Remove="Images\LockScreenLogo.scale-200.png" />
     <None Remove="Images\SplashScreen.scale-200.png" />
