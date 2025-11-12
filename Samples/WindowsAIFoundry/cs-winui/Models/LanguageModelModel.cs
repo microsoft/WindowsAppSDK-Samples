@@ -82,6 +82,38 @@ internal class LanguageModelModel : IModelManager
         );
     }
 
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
+    GenerateResponseTextIntelligenceDescribeWithProgressAsync(string prompt)
+    {
+        IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
+
+        response = SessionTextRewrite.RewriteCustomAsync(prompt, "Make me sound like Yoda");
+        
+        // Add completion handler to debug any errors
+        response.Completed = (asyncInfo, asyncStatus) =>
+        {
+            if (asyncStatus == AsyncStatus.Error)
+            {
+                Debug.WriteLine($"RewriteCustomAsync failed with error: {asyncInfo.ErrorCode?.Message}");
+            }
+            else if (asyncStatus == AsyncStatus.Completed)
+            {
+                var result = asyncInfo.GetResults();
+                Debug.WriteLine($"RewriteCustomAsync completed with status: {result.Status}");
+                if (result.Status == LanguageModelResponseStatus.Error)
+                {
+                    Debug.WriteLine($"Model returned error.");
+                }
+            }
+        };
+
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+            response,
+            result => result /* LanguageModelResponseResult */,
+            progress => progress
+        );
+    }
+
     public string 
     GenerateResponseTextIntelligenceTextToTableAsync(string prompt)
     {
