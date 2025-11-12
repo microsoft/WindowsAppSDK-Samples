@@ -30,6 +30,10 @@ namespace Shared
         {
             options.download_packages = true;
         }
+        else if (arguments[i] == L"--use_model_catalog")
+        {
+            options.use_model_catalog = true;
+        }
         else if (arguments[i] == L"--model" && i + 1 < arguments.size())
         {
             options.model_path = arguments[++i];
@@ -99,6 +103,14 @@ namespace Shared
         return false;
     }
 
+    // Mutual exclusivity validation between use_model_catalog and model_path
+    if (options.use_model_catalog && !options.model_path.empty())
+    {
+        std::wcout << L"ERROR: Specify only one of --use_model_catalog or --model.\n";
+        PrintUsage();
+        return false;
+    }
+
     // Optional early validation of device_type token
     if (options.device_type.has_value())
     {
@@ -154,11 +166,13 @@ namespace Shared
                    << L"  --device_type <type>          Device type for OpenVINOExecutionProvider (NPU, GPU, CPU) when multiple present\n"
                    << L"  --compile                     Compile the model\n"
                    << L"  --download                    Download required packages\n"
+                   << L"  --use_model_catalog           Use the model catalog for model selection\n"
                    << L"  --model <path>                Path to the input ONNX model (default: SqueezeNet.onnx in executable directory)\n"
                    << L"  --compiled_output <path>      Path for compiled output model (default: SqueezeNet_ctx.onnx)\n"
                    << L"  --image_path <path>           Path to the input image (default: sample kitten image)\n"
                    << L"\n"
                    << L"Exactly one of --ep_policy or --ep_name must be specified.\n"
+                   << L"--use_model_catalog and --model are mutually exclusive.\n"
                    << L"\nAvailable execution providers (name, vendor, device type):\n";
         ExecutionProviderManager::PrintExecutionProviderHelpTable();
     }
