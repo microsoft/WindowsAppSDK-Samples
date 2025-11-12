@@ -31,7 +31,13 @@ internal class VideoScalerModel : IModelManager
 
         progress.Report(0.5);
 
-        if (VideoScaler.GetReadyState() == AIFeatureReadyState.NotReady)
+        var readyState = VideoScaler.GetReadyState();
+        if (readyState == AIFeatureReadyState.NotSupportedOnCurrentSystem)
+        {
+            throw new InvalidOperationException("VideoScaler not supported on current system (hardware requirements not met)");
+        }
+
+        if (readyState == AIFeatureReadyState.NotReady)
         {
             var videoScalerDeploymentOperation = VideoScaler.EnsureReadyAsync();
             videoScalerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
