@@ -97,7 +97,7 @@ internal static class SoftwareBitmapExtensions
         return segmentedBitmap;
     }
 
-    public static ImageBuffer ConvertToBgr8ImageBuffer(SoftwareBitmap input)
+    public static ImageBuffer ConvertToBgr8ImageBuffer(this SoftwareBitmap input)
     {
         var bgraBitmap = input;
         if (input.BitmapPixelFormat != BitmapPixelFormat.Bgra8)
@@ -127,7 +127,7 @@ internal static class SoftwareBitmapExtensions
             width * 3);
     }
 
-    public static SoftwareBitmap ConvertBgr8ImageBufferToBgra8SoftwareBitmap(ImageBuffer bgrImageBuffer)
+    public static SoftwareBitmap ConvertBgr8ImageBufferToBgra8SoftwareBitmap(this ImageBuffer bgrImageBuffer)
     {
         if (bgrImageBuffer.PixelFormat != ImageBufferPixelFormat.Bgr8)
         {

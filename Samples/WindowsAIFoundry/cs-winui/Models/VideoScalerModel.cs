@@ -51,7 +51,7 @@ internal class VideoScalerModel : IModelManager
 
     public SoftwareBitmap ScaleVideoFrame(SoftwareBitmap inputFrame)
     {
-        ImageBuffer inputImageBuffer = SoftwareBitmapExtensions.ConvertToBgr8ImageBuffer(inputFrame);
+        ImageBuffer inputImageBuffer = inputFrame.ConvertToBgr8ImageBuffer();
         var size = (uint)(inputFrame.PixelWidth * inputFrame.PixelHeight * 3);
         IBuffer outputBuffer = new global::Windows.Storage.Streams.Buffer(size);
         outputBuffer.Length = size;
@@ -67,6 +67,6 @@ internal class VideoScalerModel : IModelManager
             throw new Exception($"Failed to scale video frame: {result.Status}");
         }
 
-        return SoftwareBitmapExtensions.ConvertBgr8ImageBufferToBgra8SoftwareBitmap(outputImageBuffer);
+        return outputImageBuffer.ConvertBgr8ImageBufferToBgra8SoftwareBitmap();
     }
 }
