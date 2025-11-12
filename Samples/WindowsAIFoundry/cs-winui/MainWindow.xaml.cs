@@ -35,6 +35,9 @@ public sealed partial class MainWindow : Window
                 case "ImageObjectExtractor":
                     rootFrame.Navigate(typeof(ImageObjectExtractorPage));
                     break;
+                case "ImageForegroundExtractor":
+                    rootFrame.Navigate(typeof(ImageForegroundExtractorPage));
+                    break;
                 case "ImageDescription":
                     rootFrame.Navigate(typeof (ImageDescriptionPage));
                     break;
