@@ -125,53 +125,57 @@ namespace WindowsML.Shared
                 
                 // Build source
                 string sampleCatalogJsonPath = Path.Combine(executableFolder, "SqueezeNetModelCatalog.json");
-                var uri = new System.Uri(sampleCatalogJsonPath);
-                var sampleCatalogSource = await ModelCatalogSource.CreateFromUriAsync(uri);
-                
-                ModelCatalog modelCatalog = new ModelCatalog(new[] { sampleCatalogSource });
-                
+
                 // Use intelligent model variant selection based on execution provider and device capabilities
                 ModelVariant actualVariant = DetermineModelVariant(options, ortEnv);
-                
-                CatalogModelInfo modelFromCatalog;
-                
-                string modelVariantName = (actualVariant == ModelVariant.FP32) ? "squeezenet-fp32" : "squeezenet";
-                
-                modelFromCatalog = await modelCatalog.FindModelAsync(modelVariantName);
-                
-                if (modelFromCatalog != null)
+                if (File.Exists(sampleCatalogJsonPath))
                 {
-                    var additionalHeaders = new Dictionary<string, string>();
-                    var catalogModelInstanceOp = modelFromCatalog.GetInstanceAsync(additionalHeaders);
-                    
-                    catalogModelInstanceOp.Progress += (operation, progress) => {
-                        Console.Write($"Model download progress: {progress}%\r");
-                    };
-                    
-                    var catalogModelInstanceResult = await catalogModelInstanceOp;
-                    
-                    if (catalogModelInstanceResult.Status == CatalogModelInstanceStatus.Available)
+                    var uri = new System.Uri(sampleCatalogJsonPath);
+                    var sampleCatalogSource = await ModelCatalogSource.CreateFromUriAsync(uri);
+                    ModelCatalog modelCatalog = new ModelCatalog(new[] { sampleCatalogSource });
+                    CatalogModelInfo modelFromCatalog;
+                    string modelVariantName = (actualVariant == ModelVariant.FP32) ? "squeezenet-fp32" : "squeezenet";
+                    modelFromCatalog = await modelCatalog.FindModelAsync(modelVariantName);
+                    if (modelFromCatalog != null)
                     {
-                        var catalogModelInstance = catalogModelInstanceResult.GetInstance();
-                        var modelPaths = catalogModelInstance.ModelPaths;
-                        
-                        string modelFolderPath = modelPaths[0];
-                        string modelName = $"{modelVariantName}.onnx";
-                        modelPath = Path.Combine(modelFolderPath, modelName);
-                        Console.WriteLine($"Using model from catalog at: {modelPath}");
-                        
-                        // Get labels
-                        labelsPath = Path.Combine(modelFolderPath, "SqueezeNet.Labels.txt");
+                        var additionalHeaders = new Dictionary<string, string>();
+                        var catalogModelInstanceOp = modelFromCatalog.GetInstanceAsync(additionalHeaders);
+
+                        catalogModelInstanceOp.Progress += (operation, progress) =>
+                        {
+                            Console.Write($"Model download progress: {progress}%\r");
+                        };
+
+                        var catalogModelInstanceResult = await catalogModelInstanceOp;
+
+                        if (catalogModelInstanceResult.Status == CatalogModelInstanceStatus.Available)
+                        {
+                            using var catalogModelInstance = catalogModelInstanceResult.GetInstance();
+                            var modelPaths = catalogModelInstance.ModelPaths;
+
+                            string modelFolderPath = modelPaths[0];
+                            string modelName = $"{modelVariantName}.onnx";
+                            modelPath = Path.Combine(modelFolderPath, modelName);
+                            Console.WriteLine($"Using model from catalog at: {modelPath}");
+
+                            // Get labels
+                            labelsPath = Path.Combine(modelFolderPath, "SqueezeNet.Labels.txt");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Model download failed. Falling back to executableFolder");
+                            modelPath = GetModelVariantPath(executableFolder, actualVariant);
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Model download failed. Falling back to executableFolder");
+                        Console.WriteLine($"Model with alias or ID '{modelVariantName}' not found in catalog. Falling back to executableFolder");
                         modelPath = GetModelVariantPath(executableFolder, actualVariant);
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"Model with alias or ID '{modelVariantName}' not found in catalog. Falling back to executableFolder");
+                    Console.WriteLine("Model catalog JSON file not found. Falling back to executableFolder");
                     modelPath = GetModelVariantPath(executableFolder, actualVariant);
                 }
             }
