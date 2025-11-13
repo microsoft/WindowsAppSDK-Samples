@@ -142,7 +142,7 @@ TextRenderer::OrientationTransform::~OrientationTransform()
 
 // IDWritePixelSnapping method
 HRESULT STDMETHODCALLTYPE TextRenderer::IsPixelSnappingDisabled(
-    _In_opt_ void* clientDrawingContext,
+    _In_opt_ void* /*clientDrawingContext*/,
     _Out_ BOOL* isDisabled
     ) noexcept
 {
@@ -152,7 +152,7 @@ HRESULT STDMETHODCALLTYPE TextRenderer::IsPixelSnappingDisabled(
 
 // IDWritePixelSnapping method
 HRESULT STDMETHODCALLTYPE TextRenderer::GetCurrentTransform(
-    _In_opt_ void* clientDrawingContext,
+    _In_opt_ void* /*clientDrawingContext*/,
     _Out_ DWRITE_MATRIX* transform
     ) noexcept
 {
@@ -162,7 +162,7 @@ HRESULT STDMETHODCALLTYPE TextRenderer::GetCurrentTransform(
 
 // IDWritePixelSnapping method
 HRESULT STDMETHODCALLTYPE TextRenderer::GetPixelsPerDip(
-    _In_opt_ void* clientDrawingContext,
+    _In_opt_ void* /*clientDrawingContext*/,
     _Out_ FLOAT* pixelsPerDip
     ) noexcept
 {
@@ -209,14 +209,14 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
 
 // IDWriteTextRenderer1 method
 HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
-    _In_opt_ void* clientDrawingContext,
+    _In_opt_ void* /*clientDrawingContext*/,
     FLOAT baselineOriginX,
     FLOAT baselineOriginY,
     DWRITE_GLYPH_ORIENTATION_ANGLE orientationAngle,
     DWRITE_MEASURING_MODE measuringMode,
     _In_ DWRITE_GLYPH_RUN const* glyphRun,
-    _In_ DWRITE_GLYPH_RUN_DESCRIPTION const* glyphRunDescription,
-    _In_opt_ IUnknown* clientDrawingEffect
+    _In_ DWRITE_GLYPH_RUN_DESCRIPTION const* /*glyphRunDescription*/,
+    _In_opt_ IUnknown* /*clientDrawingEffect*/
 ) noexcept
 {
     try
@@ -228,7 +228,7 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
             D2D_POINT_2F{ baselineOriginX, baselineOriginY }
         );
 
-        RETURN_IF_FAILED(m_renderTarget->DrawGlyphRunWithColorSupport(
+        THROW_IF_FAILED(m_renderTarget->DrawGlyphRunWithColorSupport(
             baselineOriginX,
             baselineOriginY,
             measuringMode,
@@ -247,11 +247,11 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawGlyphRun(
 
 // IDWriteTextRenderer method
 HRESULT STDMETHODCALLTYPE TextRenderer::DrawUnderline(
-    _In_opt_ void* clientDrawingContext,
-    FLOAT baselineOriginX,
-    FLOAT baselineOriginY,
-    _In_ DWRITE_UNDERLINE const* underline,
-    _In_opt_ IUnknown* clientDrawingEffect
+    _In_opt_ void* /*clientDrawingContext*/,
+    FLOAT /*baselineOriginX*/,
+    FLOAT /*baselineOriginY*/,
+    _In_ DWRITE_UNDERLINE const* /*underline*/,
+    _In_opt_ IUnknown* /*clientDrawingEffect*/
 ) noexcept
 {
     // TODO - text decorations
@@ -260,12 +260,12 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawUnderline(
 
 // IDWriteTextRenderer1 method
 HRESULT STDMETHODCALLTYPE TextRenderer::DrawUnderline(
-    _In_opt_ void* clientDrawingContext,
-    FLOAT baselineOriginX,
-    FLOAT baselineOriginY,
-    DWRITE_GLYPH_ORIENTATION_ANGLE orientationAngle,
-    _In_ DWRITE_UNDERLINE const* underline,
-    _In_opt_ IUnknown* clientDrawingEffect
+    _In_opt_ void* /*clientDrawingContext*/,
+    FLOAT /*baselineOriginX*/,
+    FLOAT /*baselineOriginY*/,
+    DWRITE_GLYPH_ORIENTATION_ANGLE /*orientationAngle*/,
+    _In_ DWRITE_UNDERLINE const* /*underline*/,
+    _In_opt_ IUnknown* /*clientDrawingEffect*/
 ) noexcept
 {
     // TODO - text decorations
@@ -274,11 +274,11 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawUnderline(
 
 // IDWriteTextRenderer method
 HRESULT STDMETHODCALLTYPE TextRenderer::DrawStrikethrough(
-    _In_opt_ void* clientDrawingContext,
-    FLOAT baselineOriginX,
-    FLOAT baselineOriginY,
-    _In_ DWRITE_STRIKETHROUGH const* strikethrough,
-    _In_opt_ IUnknown* clientDrawingEffect
+    _In_opt_ void* /*clientDrawingContext*/,
+    FLOAT /*baselineOriginX*/,
+    FLOAT /*baselineOriginY*/,
+    _In_ DWRITE_STRIKETHROUGH const* /*strikethrough*/,
+    _In_opt_ IUnknown* /*clientDrawingEffect*/
 ) noexcept
 {
     // TODO - text decorations
@@ -287,12 +287,12 @@ HRESULT STDMETHODCALLTYPE TextRenderer::DrawStrikethrough(
 
 // IDWriteTextRenderer1 method
 HRESULT STDMETHODCALLTYPE TextRenderer::DrawStrikethrough(
-    _In_opt_ void* clientDrawingContext,
-    FLOAT baselineOriginX,
-    FLOAT baselineOriginY,
-    DWRITE_GLYPH_ORIENTATION_ANGLE orientationAngle,
-    _In_ DWRITE_STRIKETHROUGH const* strikethrough,
-    _In_opt_ IUnknown* clientDrawingEffect
+    _In_opt_ void* /*clientDrawingContext*/,
+    FLOAT /*baselineOriginX*/,
+    FLOAT /*baselineOriginY*/,
+    DWRITE_GLYPH_ORIENTATION_ANGLE /*orientationAngle*/,
+    _In_ DWRITE_STRIKETHROUGH const* /*strikethrough*/,
+    _In_opt_ IUnknown* /*clientDrawingEffect*/
 ) noexcept
 {
     // TODO - text decorations

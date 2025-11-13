@@ -14,7 +14,7 @@ namespace WindowsAISampleForWPF;
 public partial class MainWindow : Window
 {
     private ImageBuffer? _currentImage;
-    private LanguageModel? languageModel = null;
+    private ImageDescriptionGenerator? imageDescriptionGenerator = null;
     private TextRecognizer? textRecognizer = null;
     public MainWindow()
     {
@@ -83,7 +83,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            this.FileContent.Text = "An error has occured: Loading AI models...";
+                this.FileContent.Text = "An error has occurred: Loading AI models..." + ex.Message;
             this.Description.Text = this.FileContent.Text;
             return;
         }
@@ -96,18 +96,18 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            this.FileContent.Text = "An error has occured: Performing Text Recognition...";
+                this.FileContent.Text = "An error has occurred: Performing Text Recognition..." + ex.Message;
             return;
         }
 
         try
         {
-            this.Description.Text = "Performing Text Description";
-            await SummarizeImageText(textInImage);
+            this.Description.Text = "Performing Image Description";
+            await DescribeImage();
         }
         catch (Exception ex)
         {
-            this.Description.Text = "An error has occured: Performing Text Description...";
+                this.Description.Text = "An error has occurred: Performing Image Description..." + ex.Message;
             return;
         }   
     }
@@ -115,41 +115,41 @@ public partial class MainWindow : Window
     private async Task LoadAIModels()
     {
         // Load the AI models needed for image processing
-        switch (LanguageModel.GetReadyState())
+        switch (ImageDescriptionGenerator.GetReadyState())
         {
             case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
-                System.Diagnostics.Debug.WriteLine("Ensure LanguageModel is ready");
-                var op = await LanguageModel.EnsureReadyAsync();
-                System.Diagnostics.Debug.WriteLine($"LanguageModel.EnsureReadyAsync completed with status: {op.Status}");
-                if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                System.Diagnostics.Debug.WriteLine("Ensure ImageDescriptionGenerator is ready");
+                var opImage = await ImageDescriptionGenerator.EnsureReadyAsync();
+                System.Diagnostics.Debug.WriteLine($"ImageDescriptionGenerator.EnsureReadyAsync completed with status: {opImage.Status}");
+                if (opImage.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                 {
-                    this.Description.Text = "Language model not ready for use";
-                    throw new Exception("Language model not ready for use");
+                    this.FileContent.Text = "Image description generator not ready for use";
+                    throw new Exception("Image description generator not ready for use");
                 }
                 break;
             case Microsoft.Windows.AI.AIFeatureReadyState.DisabledByUser:
-                System.Diagnostics.Debug.WriteLine("Language model disabled by user");
-                this.Description.Text = "Language model disabled by user";
+                System.Diagnostics.Debug.WriteLine("Image Description Generator disabled by user");
+                this.FileContent.Text = "Image description generator disabled by user";
                 return;
             case Microsoft.Windows.AI.AIFeatureReadyState.NotSupportedOnCurrentSystem:
-                System.Diagnostics.Debug.WriteLine("Language model not supported on current system");
-                this.Description.Text = "Language model not supported on current system";
+                System.Diagnostics.Debug.WriteLine("Image Description Generator not supported on current system");
+                this.FileContent.Text = "Image description generator not supported on current system";
                 return;
         }
 
-        languageModel = await LanguageModel.CreateAsync();
-        if (languageModel == null)
+        imageDescriptionGenerator = await ImageDescriptionGenerator.CreateAsync();
+        if (imageDescriptionGenerator == null)
         {
-            throw new Exception("Failed to create LanguageModel instance.");
+            throw new Exception("Failed to create ImageDescriptionGenerator instance.");
         }
 
         switch (TextRecognizer.GetReadyState())
         {
             case Microsoft.Windows.AI.AIFeatureReadyState.NotReady:
                 System.Diagnostics.Debug.WriteLine("Ensure TextRecognizer is ready");
-                var op = await TextRecognizer.EnsureReadyAsync();
-                System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {op.Status}");
-                if (op.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
+                var opText = await TextRecognizer.EnsureReadyAsync();
+                System.Diagnostics.Debug.WriteLine($"TextRecognizer.EnsureReadyAsync completed with status: {opText.Status}");
+                if (opText.Status != Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                 {
                     this.FileContent.Text = "Text recognizer not ready for use";
                     throw new Exception("Text recognizer not ready for use");
@@ -172,7 +172,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private async Task<string> PerformTextRecognition()
+    private Task<string> PerformTextRecognition()
     {
         if (_currentImage == null)
         {
@@ -185,46 +185,24 @@ public partial class MainWindow : Window
         string text = string.Join(Environment.NewLine, recognizedTextLines);
 
         this.FileContent.Text = text;
-        return text;
+        return Task.FromResult(text);
     }
 
-    private async Task SummarizeImageText(string text)
+    private async Task DescribeImage()
     {
-        string systemPrompt = "You summarize user-provided text to a software developer audience." +
-            "Respond only with the summary and no additional text.";
-
-        // Update the property names to match the correct ones based on the provided type signature.  
-        var promptMaxAllowedSeverityLevel = new TextContentFilterSeverity {
-            Hate = SeverityLevel.Low,
-            Sexual = SeverityLevel.Low,
-            Violent = SeverityLevel.Low,
-            SelfHarm = SeverityLevel.Low
-        };
-
-        var responseMaxAllowedSeverityLevel = new TextContentFilterSeverity {
-            Hate = SeverityLevel.Low,
-            Sexual = SeverityLevel.Low,
-            Violent = SeverityLevel.Low,
-            SelfHarm = SeverityLevel.Low
-        };
-
-        var contentFilterOptions = new ContentFilterOptions {
-            PromptMaxAllowedSeverityLevel = promptMaxAllowedSeverityLevel,
-            ResponseMaxAllowedSeverityLevel = responseMaxAllowedSeverityLevel
-        };
-
-        if (languageModel != null)
+        if (_currentImage == null)
         {
-            // Create a context for the language model
-            var languageModelContext = languageModel!.CreateContext(systemPrompt, contentFilterOptions);
-            string prompt = "Summarize the following text: " + text;
-            var output = await languageModel.GenerateResponseAsync(languageModelContext, prompt, new LanguageModelOptions());
-            this.Description.Text = output.Text;
+            throw new Exception("Failed to load image buffer.");
         }
-        else
+
+        ContentFilterOptions filterOptions = new();
+        var result = await imageDescriptionGenerator!.DescribeAsync(_currentImage, ImageDescriptionKind.BriefDescription, filterOptions);
+
+        if (result.Status != ImageDescriptionResultStatus.Complete)
         {
-            System.Diagnostics.Debug.WriteLine("Error: LanguageModel is null but should have been created during LoadAIModels()");
-            this.Description.Text = "Error: LanguageModel is null";
+            throw new Exception($"Image description failed with status: {result.Status}");
         }
+
+        this.Description.Text = result.Description;
     }
 }

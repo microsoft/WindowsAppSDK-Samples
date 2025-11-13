@@ -1,0 +1,24 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- WindowsAppSDK packages -->
+    <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.10.1" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental3" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="2.0.57-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="2.0.0-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.DWrite" Version="2.0.0-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="2.0.8-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="2.0.3-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="2.0.44-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Runtime" Version="2.0.0-experimental3" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Widgets" Version="2.0.2-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="2.0.3-experimental" />
+    <!-- Other dependencies -->
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
+    <PackageVersion Include="CppWinRT" Version="2.0.240405.15" />
+    <PackageVersion Include="System.Numerics.Tensors" Version="9.0.0" />
+  </ItemGroup>
+</Project>

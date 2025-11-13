@@ -29,11 +29,11 @@
   ./build.ps1 -Platform arm64 -Configuration Debug -Sample AppLifecycle
   (Build only the AppLifecycle sample solutions for arm64 Debug.)
 #>
-#[CmdletBinding()] parameters
+# Parameter definitions
 [CmdletBinding()] param(
-  [Parameter(Position=0)] [ValidateSet('x86','x64','arm64','auto')] [string]$Platform = 'auto',
-  [Parameter(Position=1)] [ValidateSet('Debug','Release')] [string]$Configuration = 'Release',
-  [Parameter(Position=2)] [string]$Sample = '',
+  [Parameter(Position = 0)] [ValidateSet('x86', 'x64', 'arm64', 'auto')] [string]$Platform = 'auto',
+  [Parameter(Position = 1)] [ValidateSet('Debug', 'Release')] [string]$Configuration = 'Release',
+  [Parameter(Position = 2)] [string]$Sample = '',
   [switch]$Help
 )
 
@@ -74,14 +74,16 @@ function Initialize-VSEnvironment {
 }
 
 # Resolve-Platform: Turn 'auto' into a concrete platform value.
-function Resolve-Platform { param([string]$PlatformValue)
+function Resolve-Platform {
+  param([string]$PlatformValue)
   if ($PlatformValue -ne 'auto') { return $PlatformValue }
   $detected = 'x64'
   try {
     $osArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLowerInvariant()
     switch ($osArch) { 'arm64' { $detected = 'arm64' } 'x86' { $detected = 'x86' } default { $detected = 'x64' } }
     if ($detected -eq 'x86' -and $env:PROCESSOR_ARCHITEW6432) { $detected = 'x64' }
-  } catch {}
+  }
+  catch {}
   Write-Host "Auto-detected platform: $detected" -ForegroundColor Yellow
   return $detected
 }
@@ -94,13 +96,15 @@ function Initialize-NuGetEnvironment {
 }
 
 # Get-Solutions: Discover which solutions to build.
-function Get-Solutions { param([string]$SampleFilter)
+function Get-Solutions {
+  param([string]$SampleFilter)
   $targetRoot = $null; $solutions = @()
   if (-not [string]::IsNullOrWhiteSpace($SampleFilter)) {
     $targetRoot = Join-Path $samplesRoot $SampleFilter
     if (-not (Test-Path $targetRoot)) { Write-Error "Sample path not found: $targetRoot"; exit 1 }
     $solutions = Get-ChildItem -Path $targetRoot -Filter *.sln -Recurse | Sort-Object FullName
-  } else {
+  }
+  else {
     $currentDir = Get-Location
     $localSolutions = Get-ChildItem -Path $currentDir -Filter *.sln -File -ErrorAction SilentlyContinue | Sort-Object FullName
     if ($localSolutions) { Write-Host "Detected $($localSolutions.Count) solution(s) in current directory: $currentDir" -ForegroundColor Yellow; $solutions = $localSolutions }
@@ -109,20 +113,22 @@ function Get-Solutions { param([string]$SampleFilter)
   return $solutions
 }
 
- # Restore-Solution: Perform NuGet restore for a solution (.sln) using repo nuget.exe.
- function Restore-Solution { param([string]$SolutionPath)
-   Write-Host "Restoring: $SolutionPath" -ForegroundColor Cyan
-   & $nugetExe restore $SolutionPath -ConfigFile (Join-Path $samplesRoot 'nuget.config') -PackagesDirectory $packagesDir
-   if ($LASTEXITCODE -ne 0) { Write-Error 'NuGet restore failed.'; exit $LASTEXITCODE }
- }
+# Restore-Solution: Perform NuGet restore for a solution (.sln) using repo nuget.exe.
+function Restore-Solution {
+  param([string]$SolutionPath)
+  Write-Host "Restoring: $SolutionPath" -ForegroundColor Cyan
+  & $nugetExe restore $SolutionPath -ConfigFile (Join-Path $samplesRoot 'nuget.config') -PackagesDirectory $packagesDir
+  if ($LASTEXITCODE -ne 0) { Write-Error 'NuGet restore failed.'; exit $LASTEXITCODE }
+}
 
- # Build-Solution: Invoke MSBuild on a solution with platform/config and emit binlog.
- function Build-Solution { param([string]$SolutionPath,[string]$Platform,[string]$Configuration)
-   $binlog = Join-Path (Split-Path $SolutionPath -Parent) ("{0}.binlog" -f ([IO.Path]::GetFileNameWithoutExtension($SolutionPath)))
-   Write-Host "Building:  $SolutionPath" -ForegroundColor Cyan
-   & msbuild /warnaserror /p:Platform=$Platform /p:Configuration=$Configuration /p:NugetPackageDirectory=$packagesDir /bl:"$binlog" "$SolutionPath"
-   if ($LASTEXITCODE -ne 0) { Write-Error 'MSBuild failed.'; exit $LASTEXITCODE }
- }
+# Build-Solution: Invoke MSBuild on a solution with platform/config and emit binlog.
+function Build-Solution {
+  param([string]$SolutionPath, [string]$Platform, [string]$Configuration)
+  $binlog = Join-Path (Split-Path $SolutionPath -Parent) ("{0}.binlog" -f ([IO.Path]::GetFileNameWithoutExtension($SolutionPath)))
+  Write-Host "Building:  $SolutionPath" -ForegroundColor Cyan
+  & msbuild /warnaserror /p:Platform=$Platform /p:Configuration=$Configuration /p:NugetPackageDirectory=$packagesDir /bl:"$binlog" "$SolutionPath"
+  if ($LASTEXITCODE -ne 0) { Write-Error 'MSBuild failed.'; exit $LASTEXITCODE }
+}
 
 # --- Main Execution Flow ---
 if ($Help -or $PSBoundParameters.ContainsKey('?')) { Show-Usage; return }

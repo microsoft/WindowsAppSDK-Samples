@@ -57,6 +57,8 @@
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\WindowsAISampleForWPF\WindowsAISampleForWPF.csproj</EntryPointProjectUniqueName>
+    <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
+    <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -80,3 +82,4 @@
     <ProjectReference Include="..\WindowsAISampleForWPF\WindowsAISampleForWPF.csproj" />
   </ItemGroup>
 </Project>
+

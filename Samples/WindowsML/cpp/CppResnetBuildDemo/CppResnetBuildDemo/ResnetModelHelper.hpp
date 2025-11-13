@@ -11,19 +11,19 @@
 
 namespace ResnetModelHelper
 {
-    std::filesystem::path GetExecutablePath();
+std::filesystem::path GetExecutablePath();
 
-    winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Graphics::Imaging::SoftwareBitmap> LoadImageFileAsync(winrt::hstring filePath);
+winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Graphics::Imaging::SoftwareBitmap> LoadImageFileAsync(winrt::hstring filePath);
 
-    std::vector<float> BindSoftwareBitmapAsTensor(const winrt::Windows::Graphics::Imaging::SoftwareBitmap& bitmap);
+std::vector<float> BindSoftwareBitmapAsTensor(const winrt::Windows::Graphics::Imaging::SoftwareBitmap& bitmap);
 
-    std::vector<std::string> LoadLabels(const std::filesystem::path& labelsPath);
+std::vector<std::string> LoadLabels(const std::filesystem::path& labelsPath);
 
-    std::vector<float> Softmax(const std::vector<float>& logits);
+std::vector<float> Softmax(const std::vector<float>& logits);
 
-    std::vector<uint16_t> ConvertFloat32ToFloat16(const std::vector<float>& float32Data);
+std::vector<uint16_t> ConvertFloat32ToFloat16(const std::vector<float>& float32Data);
 
-    std::vector<float> ConvertFloat16ToFloat32(const std::vector<uint16_t>& float16Data);
+std::vector<float> ConvertFloat16ToFloat32(const std::vector<uint16_t>& float16Data);
 
-    void PrintResults(const std::vector<std::string>& labels, const std::vector<float>& results);
-}
+void PrintResults(const std::vector<std::string>& labels, const std::vector<float>& results);
+} // namespace ResnetModelHelper

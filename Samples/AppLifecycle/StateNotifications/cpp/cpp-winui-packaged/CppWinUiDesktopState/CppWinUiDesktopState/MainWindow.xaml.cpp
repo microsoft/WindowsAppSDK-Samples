@@ -61,25 +61,25 @@ void winrt::CppWinUiDesktopState::implementation::MainWindow::OutputFormattedMes
 void winrt::CppWinUiDesktopState::implementation::MainWindow::RegisterPowerManagerCallbacks()
 {
     batteryToken = PowerManager::BatteryStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnBatteryStatusChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnBatteryStatusChanged(); });
     powerToken = PowerManager::PowerSupplyStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnPowerSupplyStatusChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnPowerSupplyStatusChanged(); });
     powerSourceToken = PowerManager::PowerSourceKindChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnPowerSourceKindChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnPowerSourceKindChanged(); });
     chargeToken = PowerManager::RemainingChargePercentChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnRemainingChargePercentChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnRemainingChargePercentChanged(); });
     dischargeToken = PowerManager::RemainingDischargeTimeChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnRemainingDischargeTimeChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnRemainingDischargeTimeChanged(); });
     displayToken = PowerManager::DisplayStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnDisplayStatusChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnDisplayStatusChanged(); });
     energyToken = PowerManager::EnergySaverStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnEnergySaverStatusChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnEnergySaverStatusChanged(); });
     powerModeToken = PowerManager::EffectivePowerModeChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnPowerModeChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnPowerModeChanged(); });
     userPresenceToken = PowerManager::UserPresenceStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnUserPresenceStatusChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnUserPresenceStatusChanged(); });
     systemSuspendToken = PowerManager::SystemSuspendStatusChanged([&](
-        const auto&, winrt::Windows::Foundation::IInspectable obj) { OnSystemSuspendStatusChanged(); });
+        const auto&, winrt::Windows::Foundation::IInspectable /*obj*/) { OnSystemSuspendStatusChanged(); });
 
     if (batteryToken && powerToken && powerSourceToken && chargeToken && dischargeToken)
     {
