@@ -113,20 +113,28 @@ function Get-Solutions {
   return $solutions
 }
 
-# Restore-Solution: Perform NuGet restore for a solution (.sln) using repo nuget.exe.
+# Test-HasPackagesConfig: Check if a solution directory contains any packages.config files.
+function Test-HasPackagesConfig {
+  param([string]$SolutionPath)
+  $solutionDir = Split-Path -Parent $SolutionPath
+  $packagesConfigFiles = Get-ChildItem -Path $solutionDir -Filter 'packages.config' -Recurse -ErrorAction SilentlyContinue
+  return ($packagesConfigFiles.Count -gt 0)
+}
+
+# Restore-Solution: Restore packages via nuget.exe for solutions with packages.config.
 function Restore-Solution {
   param([string]$SolutionPath)
-  Write-Host "Restoring: $SolutionPath" -ForegroundColor Cyan
+  Write-Host "Restoring (NuGet): $SolutionPath" -ForegroundColor Cyan
   & $nugetExe restore $SolutionPath -ConfigFile (Join-Path $samplesRoot 'nuget.config') -PackagesDirectory $packagesDir
   if ($LASTEXITCODE -ne 0) { Write-Error 'NuGet restore failed.'; exit $LASTEXITCODE }
 }
 
-# Build-Solution: Invoke MSBuild on a solution with platform/config and emit binlog.
+# Build-Solution: Invoke MSBuild with /restore on a solution with platform/config and emit binlog.
 function Build-Solution {
   param([string]$SolutionPath, [string]$Platform, [string]$Configuration)
   $binlog = Join-Path (Split-Path $SolutionPath -Parent) ("{0}.binlog" -f ([IO.Path]::GetFileNameWithoutExtension($SolutionPath)))
   Write-Host "Building:  $SolutionPath" -ForegroundColor Cyan
-  & msbuild /warnaserror /p:Platform=$Platform /p:Configuration=$Configuration /p:NugetPackageDirectory=$packagesDir /bl:"$binlog" "$SolutionPath"
+  & msbuild /m /p:BuildInParallel=true /restore /warnaserror /p:Platform=$Platform /p:Configuration=$Configuration /p:NugetPackageDirectory=$packagesDir /bl:"$binlog" "$SolutionPath"
   if ($LASTEXITCODE -ne 0) { Write-Error 'MSBuild failed.'; exit $LASTEXITCODE }
 }
 
@@ -157,7 +165,9 @@ $startTime = Get-Date
 Write-Host "Building $($solutions.Count) solution(s) for Platform=$Platform Configuration=$Configuration" -ForegroundColor Green
 foreach ($sln in $solutions) {
   Write-Host '---' -ForegroundColor Cyan
-  Restore-Solution -SolutionPath $sln.FullName
+  if (Test-HasPackagesConfig -SolutionPath $sln.FullName) {
+    Restore-Solution -SolutionPath $sln.FullName
+  }
   Build-Solution -SolutionPath $sln.FullName -Platform $Platform -Configuration $Configuration
 }
 
@@ -166,4 +176,5 @@ $endTime = Get-Date
 
 Write-Host '---'
 Write-Host ("Start time: {0}. End time: {1}" -f $startTime.ToLongTimeString(), $endTime.ToLongTimeString())
-Write-Host ("   Elapsed: {0}" -f [System.String]::Format('{0:hh\\:mm\\:ss\.ff}', $stopwatch.Elapsed))
+$elapsedMessage = [System.String]::Format('{0:hh\:mm\:ss\.ff}', $stopwatch.Elapsed)
+Write-Host "   Elapsed: $elapsedMessage"
