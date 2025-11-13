@@ -5,7 +5,7 @@
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <Platforms>x64;x86;ARM64</Platforms>
-    <RuntimeIdentifiers>win10-x64;win10-x86;win10-arm64;win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x64;win-x86;win-arm64;win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <StartupObject>CsWpfActivation.Program</StartupObject>
   </PropertyGroup>
 
@@ -18,6 +18,7 @@
   </ItemGroup>
 
 </Project>
+
 
 
 

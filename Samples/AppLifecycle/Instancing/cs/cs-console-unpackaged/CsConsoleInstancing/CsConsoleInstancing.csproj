@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <Platforms>x64;x86;ARM64</Platforms>
-    <RuntimeIdentifiers>win10-x64;win10-x86;win10-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
     <ApplicationIcon>H.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -13,6 +13,7 @@
   </ItemGroup>
 
 </Project>
+
 
 
 
