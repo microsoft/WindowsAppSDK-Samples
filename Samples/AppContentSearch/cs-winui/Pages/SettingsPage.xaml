@@ -1,0 +1,107 @@
+<Page
+    x:Class="Notes.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Notes.Pages"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls">
+
+    <Page.Resources>
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <ScrollViewer>
+            <Grid Padding="36,24,36,36">
+                <StackPanel
+                    MaxWidth="1000"
+                    HorizontalAlignment="Stretch"
+                    Spacing="{StaticResource SettingsCardSpacing}">
+
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Settings" Margin="12,0,0,0"/>
+
+                    <!-- Language Model Settings Expander -->
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Language Models" />
+                    <toolkit:SettingsExpander x:Name="ModelSourceExpander" Header="ModelSource">
+                        <ComboBox SelectionChanged="ModelSource_SelectionChanged">
+                            <ComboBoxItem x:Name="cbPhiSilica" Content="Windows AI APIs LanguageModel (Phi Silica)" IsSelected="True"/>
+                            <ComboBoxItem x:Name="cbAzure" Content="Azure OpenAI"/>
+                            <ComboBoxItem x:Name="cbFoundry" Content="Foundry Local"/>
+                        </ComboBox>
+
+                        <toolkit:SettingsExpander.Items>
+                            <!-- Azure Settings Card -->
+                            <toolkit:SettingsCard x:Name="AzureSettingsCard" Header="AzureSettings" Visibility="Collapsed" HorizontalContentAlignment="Left" ContentAlignment="Left">
+                                <StackPanel Margin="-42,-24,0,12" Spacing="8">
+                                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Azure Settings" />
+                                    <PasswordBox x:Name="txtAzureApiKey" Header="API Key" PlaceholderText="Enter your API key" />
+                                    <TextBox x:Name="txtAzureEndpointUri" Header="Endpoint URI" PlaceholderText="https://YOUR_RESOURCE_NAME.openai.azure.com/" />
+                                    <TextBox x:Name="txtAzureDeploymentName" Header="Model Deployment Name:" PlaceholderText="e.g. gpt-4o" />
+                                </StackPanel>
+                            </toolkit:SettingsCard>
+
+                            <!-- Foundry Settings Card -->
+                            <toolkit:SettingsCard x:Name="FoundrySettingsCard" Visibility="Collapsed" HorizontalContentAlignment="Left" ContentAlignment="Left">
+                                <StackPanel Margin="-42,-24,0,12" Spacing="8">
+                                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Foundry Settings" />
+                                    <ComboBox x:Name="cbFoundryModel" Header="AI Foundry Model" PlaceholderText="Select a model" Width="260"/>
+
+                                    <!-- Model Download Section -->
+                                    <TextBlock Text="Download Models:" Margin="0,16,0,0" />
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <ComboBox x:Name="cbAvailableModels" PlaceholderText="Select model to download" Width="260"/>
+                                        <Button x:Name="btnDownloadModel" Content="Download" Click="DownloadModel_Click" IsEnabled="False"/>
+                                        <Button x:Name="btnRefreshModels" Content="Refresh" Click="RefreshModels_Click"/>
+                                    </StackPanel>
+
+                                    <!-- Download Progress -->
+                                    <StackPanel x:Name="spDownloadProgress" Visibility="Collapsed" Spacing="4" Margin="0,8,0,0">
+                                        <TextBlock x:Name="txtDownloadStatus" Text="Downloading..." />
+                                        <ProgressBar x:Name="pbDownloadProgress" Value="0" Maximum="100" />
+                                    </StackPanel>
+
+                                    <!-- Downloaded Models List -->
+                                    <TextBlock Text="Downloaded Models" Margin="0,16,0,0" />
+                                    <ListView x:Name="lvDownloadedModels" MaxHeight="150" SelectionMode="None" HorizontalAlignment="Stretch">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding Alias}" VerticalAlignment="Center"/>
+                                                    <Button Grid.Column="1" Content="Remove" Click="RemoveModel_Click" Tag="{Binding}" Margin="8,0,0,0"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackPanel>
+                            </toolkit:SettingsCard>
+                        </toolkit:SettingsExpander.Items>
+                    </toolkit:SettingsExpander>
+
+                    <!-- Image / Bounding Box Settings Expander -->
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Image Overlays" />
+                    <toolkit:SettingsCard Header="Image Result Overlays" Description="Show bounding boxes on image search results">
+                        <StackPanel Padding="0" Spacing="12">
+                            <ToggleSwitch
+                                 x:Name="tsShowBoundingBoxes"
+                                 OffContent="Off"
+                                 OnContent="On"/>
+                        </StackPanel>
+                    </toolkit:SettingsCard>
+
+                    <Button x:Name="btnSave" Content="Save" Margin="0,16,0,0" Click="SaveButton_Click" Width="120" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Left" IsEnabled="False"/>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

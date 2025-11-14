@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes", "Notes.csproj", "{DB0EC506-054D-44C7-50E7-440A96C593E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Release|ARM64 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB0EC506-054D-44C7-50E7-440A96C593E2}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{DB0EC506-054D-44C7-50E7-440A96C593E2}.Debug|ARM64.Build.0 = Debug|ARM64
+		{DB0EC506-054D-44C7-50E7-440A96C593E2}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{DB0EC506-054D-44C7-50E7-440A96C593E2}.Release|ARM64.ActiveCfg = Release|ARM64
+		{DB0EC506-054D-44C7-50E7-440A96C593E2}.Release|ARM64.Build.0 = Release|ARM64
+		{DB0EC506-054D-44C7-50E7-440A96C593E2}.Release|ARM64.Deploy.0 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF3F85CE-E309-4547-838D-FBD37B2B6942}
+	EndGlobalSection
+EndGlobal

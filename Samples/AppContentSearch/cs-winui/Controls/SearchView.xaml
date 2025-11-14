@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Notes.Controls.SearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:Notes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewmodels="using:Notes.ViewModels"
+             xmlns:tkconverters="using:CommunityToolkit.WinUI.UI.Converters"
+             mc:Ignorable="d">
+
+    <Grid
+        x:Name="Root"
+        LostFocus="Root_LostFocus">
+        <Grid.Resources>
+            <DataTemplate
+                x:Name="TextSearchResultDataTemplate"
+                x:DataType="local:SearchResult">
+                <ItemContainer
+                    BringIntoViewRequested="OnItemContainerBringIntoViewRequested">
+                    <StackPanel Orientation="Vertical"
+                                Spacing="4"
+                                Padding="12">
+                        <TextBlock Text="{x:Bind Title}"
+                                   FontWeight="Bold" />
+                        <TextBlock Text="{x:Bind MostRelevantSentence}"
+                                   MaxLines="3"
+                                   TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </ItemContainer>
+            </DataTemplate>
+
+            <DataTemplate x:Name="ImageSearchResultDataTemplate"
+                          x:DataType="local:SearchResult">
+                <ItemContainer BringIntoViewRequested="OnItemContainerBringIntoViewRequested">
+                    <Grid x:Name="ImageHost"
+                          Width="180"
+                          Height="180"
+                          Tag="{x:Bind}"
+                          SizeChanged="ImageHost_SizeChanged">
+                        <Image x:Name="ResultImage"
+                         Source="{x:Bind Path}"
+                         Stretch="Uniform"
+                         ImageOpened="OnResultImageOpened"/>
+                        <Rectangle x:Name="OverlayRectangle"
+                             Visibility="Collapsed"
+                             IsHitTestVisible="False"
+                             Stroke="Orange"
+                             StrokeThickness="2"
+                             Fill="#3CFF5000"
+                             RadiusX="2"
+                             RadiusY="2"/>
+                    </Grid>
+                </ItemContainer>
+            </DataTemplate>
+        </Grid.Resources>
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Popup x:Name="ResultsPopUp"
+                   Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   Margin="-400,0,0,0"
+                   ShouldConstrainToRootBounds="False"
+                   IsOpen="{x:Bind ViewModel.ShowResults, Mode=OneWay}">
+                <StackPanel x:Name="ResultsStackPanel"
+                            Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
+                            BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Width="400"
+                            Padding="8"
+                            Spacing="12"
+                            Margin="0,-8,0,0">
+
+                    <TextBlock x:Name="NoResultsTextBlock"
+                               Visibility="{x:Bind ViewModel.ShowNoResults, Mode=OneWay}">No Results Found</TextBlock>
+
+                    <!-- Image Results List -->
+                    <StackPanel Visibility="{x:Bind ViewModel.ShowImageResults, Mode=OneWay}">
+                        <TextBlock x:Name="ImageResultsTextBlock"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}" Margin="4,12">Image Results</TextBlock>
+
+                        <ItemsView x:Name="resultsImageItemsView"
+                                   ItemsSource="{x:Bind ViewModel.ImageResults}"
+                                   ItemInvoked="ResultsItemsView_ItemInvoked"
+                                   IsItemInvokedEnabled="True"
+                                   SelectionMode="None"
+                                   ItemTemplate="{StaticResource ImageSearchResultDataTemplate}">
+                            <ItemsView.Layout>
+                                <LinedFlowLayout ItemsStretch="Fill"
+                                                 LineHeight="200"
+                                                 LineSpacing="5"
+                                                 MinItemSpacing="5" />
+                            </ItemsView.Layout>
+                        </ItemsView>
+                    </StackPanel>
+                    
+
+                    <!-- Text Results List -->
+                    <StackPanel Visibility="{x:Bind ViewModel.ShowTextResults, Mode=OneWay}">
+                        <TextBlock x:Name="TextResultsTextBlock"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}" 
+                                   Margin="4,12">Text Results</TextBlock>
+
+                        <ItemsView x:Name="resultsTextItemsView"
+                                   ItemsSource="{x:Bind ViewModel.TextResults}"
+                                   ItemInvoked="ResultsItemsView_ItemInvoked"
+                                   IsItemInvokedEnabled="True"
+                                   SelectionMode="None"
+                                   ItemTemplate="{StaticResource TextSearchResultDataTemplate}">
+                        </ItemsView>
+                    </StackPanel>
+                    
+                </StackPanel>
+
+            </Popup>
+           
+            <Grid>
+                <AutoSuggestBox
+                    x:Name="SearchBox"
+                    Height="32"
+                    Width="400"
+                    PlaceholderText="Search for anything..."
+                    QuerySubmitted="SearchBox_QuerySubmitted">
+                    <AutoSuggestBox.QueryIcon>
+                        <FontIcon
+                            x:Name="SearchBoxQueryIcon"
+                            FontSize="16"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE3721;" />
+                    </AutoSuggestBox.QueryIcon>
+                </AutoSuggestBox>
+                <ProgressBar
+                    x:Name="IndexProgressBar"
+                    Foreground="{StaticResource AIAccentGradientBrush}"
+                    Background="Transparent"
+                    Visibility="Collapsed"
+                    Width="400"
+                    Margin="2,28,2,0"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
