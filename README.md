@@ -10,7 +10,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ### Artificial Intelligence
 
-- [Windows AI sample](Samples/WindowsAIFoundry/cs-winui/):  These samples demonstrate how to use the [Windows AI APIs](https://learn.microsoft.com/windows/ai/apis/), like Phi Silica, Text Extraction (OCR) and Imaging APIs.
+- [Windows AI APIs](Samples/WindowsAIFoundry/cs-winui/):  These samples demonstrate how to use the [Windows AI APIs](https://learn.microsoft.com/windows/ai/apis/), like Phi Silica, Text Extraction (OCR) and Imaging APIs.
 
 - [Windows ML](Samples/WindowsML): These samples demonstrate running hardware-accelerated ONNX models (CPU, GPU, or NPU when available) on Windows using C++, C#, and Python. See the [Windows ML overview](https://learn.microsoft.com/windows/ai/new-windows-ml/overview).
 
