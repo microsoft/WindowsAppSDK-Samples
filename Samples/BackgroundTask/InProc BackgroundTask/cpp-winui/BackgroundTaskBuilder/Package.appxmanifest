@@ -52,7 +52,7 @@
 			<com:Extension Category="windows.comServer">
 				<com:ComServer>
 					<com:ExeServer Executable="BackgroundTaskBuilder.exe" DisplayName="BackgroundTask"
-									 LaunchAndActivationPermission="O:PSG:BUD:(A;;11;;;IU)(A;;11;;;S-1-15-2-1)S:(ML;;NX;;;LW)">
+									 LaunchAndActivationPermission="O:PSG:BUD:(A;;2032127;;;IU)(A;;2032127;;;S-1-15-2-1)(A;;2032127;;;S-1-15-2-2)S:(ML;;NX;;;LW)">
 						<com:Class Id="12345678-1234-1234-1234-1234567890CD" DisplayName="BackgroundTask" />
 					</com:ExeServer>
 				</com:ComServer>
