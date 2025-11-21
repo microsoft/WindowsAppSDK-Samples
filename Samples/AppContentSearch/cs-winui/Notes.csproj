@@ -1,0 +1,149 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+		<RootNamespace>Notes</RootNamespace>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>x64;ARM64</Platforms>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+		<Nullable>enable</Nullable>
+		<UseWinUI>true</UseWinUI>
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<NoWarn>MVVMTK0045;CS8305</NoWarn>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Assets\Icon\**" />
+		<Compile Remove="Helper\**" />
+		<Content Remove="Assets\Icon\**" />
+		<EmbeddedResource Remove="Assets\Icon\**" />
+		<EmbeddedResource Remove="Helper\**" />
+		<None Remove="Assets\Icon\**" />
+		<None Remove="Helper\**" />
+		<Page Remove="Assets\Icon\**" />
+		<Page Remove="Helper\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Remove="Assets\mockText.txt" />
+	</ItemGroup>
+
+	<!-- <ItemGroup>
+		<ProjectReference Include="..\..\product\APIs\Projection\Microsoft.Windows.AI.Search.Projection\Microsoft.Windows.AI.Search.Projection.csproj" />
+		<ProjectReference Include="..\..\product\APIs\Projection\Microsoft.Windows.AI.Text.Projection\Microsoft.Windows.AI.Text.Projection.csproj" />
+	</ItemGroup> -->
+
+	<ItemGroup>
+		<None Remove="Assets\Notes.ico" />
+		<None Remove="Controls\AttachmentView.xaml" />
+		<None Remove="Controls\ChatSessionView.xaml" />
+		<None Remove="Controls\SearchView.xaml" />
+	</ItemGroup>
+
+	<!-- <ItemGroup>
+		<AdditionalFiles Include="NativeMethods.txt" />
+	</ItemGroup> -->
+
+	<ItemGroup>
+		<Content Include="Assets\SplashScreen.scale-200.png" />
+		<Content Include="Assets\LockScreenLogo.scale-200.png" />
+		<Content Include="Assets\Square150x150Logo.scale-200.png" />
+		<Content Include="Assets\Square44x44Logo.scale-200.png" />
+		<Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+		<Content Include="Assets\Wide310x150Logo.scale-200.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Manifest Include="$(ApplicationManifest)" />
+	</ItemGroup>
+
+	<!-- 
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
+		<PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
+		<PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
+		<PackageReference Include="Microsoft.AI.Foundry.Local" Version="0.3.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
+		<PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="9.3.0-preview.1.25114.11" />
+		<PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental2" />
+		<PackageReference Include="OpenAI" Version="2.2.0-beta.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<Page Update="Controls\AttachmentView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<Page Update="Controls\SearchView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<Page Update="Controls\SettingsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<!-- 
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+	</PropertyGroup>
+
+	<!-- Publish Properties -->
+	<PropertyGroup>
+		<PublishReadyToRun>False</PublishReadyToRun>
+		<PublishTrimmed>False</PublishTrimmed>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PRIResource Remove="Helper\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<Page Update="Controls\ChatSessionView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<!-- <ItemGroup>
+	  <Compile Remove="C:\.tools\.nuget\packages\microsoft.windowsappsdk.packages\1.8.250515001-experimental2\buildTransitive\..\include\WindowsAppSDK-VersionInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="C:\.tools\.nuget\packages\microsoft.windowsappsdk.packages\1.8.250515001-experimental2\buildTransitive\..\include\WindowsAppSDK-VersionInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="C:\.tools\.nuget\packages\microsoft.windowsappsdk.packages\1.8.250515001-experimental2\buildTransitive\..\include\WindowsAppSDK-VersionInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="C:\.tools\.nuget\packages\microsoft.windowsappsdk.packages\1.8.250515001-experimental2\buildTransitive\..\include\WindowsAppSDK-VersionInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="C:\.tools\.nuget\packages\microsoft.windowsappsdk.packages\1.8.250515001-experimental2\buildTransitive\..\include\WindowsAppSDK-VersionInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="C:\.tools\.nuget\packages\microsoft.windowsappsdk.packages\1.8.250515001-experimental2\buildTransitive\..\include\WindowsAppSDK-VersionInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="C:\.tools\.nuget\packages\microsoft.windowsappsdk.packages\1.8.250515001-experimental2\buildTransitive\..\include\WindowsAppSDK-VersionInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="C:\.tools\.nuget\packages\microsoft.windowsappsdk.packages\1.8.250515001-experimental2\buildTransitive\..\include\WindowsAppSDK-VersionInfo.cs" />
+	</ItemGroup> -->
+	<ItemGroup>
+	  <PRIResource Remove="Assets\Icon\**" />
+	</ItemGroup>
+</Project>
