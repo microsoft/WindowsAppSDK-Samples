@@ -67,12 +67,12 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.CppWinRT" Version="2.0.221104.6" />
-    <PackageReference Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.220914.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
+    <PackageReference Include="Microsoft.WindowsAppSDK">
+      <IncludeAssets>build</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cpp-console.vcxproj" />
+    <ProjectReference Include="..\cpp-console.vcxproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 </Project>
 

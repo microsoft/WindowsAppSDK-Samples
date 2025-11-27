@@ -58,12 +58,12 @@
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CppWinUiDesktopInstancing\CppWinUiDesktopInstancing.vcxproj">
+    <ProjectReference Include="..\CppWinUiDesktopInstancing\CppWinUiDesktopInstancing.vcxproj" ReferenceOutputAssembly="false">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003">
+    <PackageReference Include="Microsoft.WindowsAppSDK">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>
