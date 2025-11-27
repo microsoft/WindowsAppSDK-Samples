@@ -5,12 +5,29 @@
     <Platforms>x64;ARM64</Platforms>
     
     <!-- Disable central package management for C++ projects -->
-    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     
     <!-- Namespace output directories to prevent conflicts -->
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\bin\</OutDir>
     <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\obj\</IntDir>
+    <MSBuildWarningsAsMessages>MSB8027</MSBuildWarningsAsMessages>
+    <NoWarn>MSB8027</NoWarn>
   </PropertyGroup>
+
+<ItemDefinitionGroup>
+  <Link>
+    <DisableSpecificWarnings>4042</DisableSpecificWarnings>
+  </Link>
+</ItemDefinitionGroup>
+
+<ItemDefinitionGroup>
+  <Link>
+    <IgnoreSpecificDefaultLibraries>
+      WindowsAppRuntimeAutoInitializer.obj;
+      %(IgnoreSpecificDefaultLibraries)
+    </IgnoreSpecificDefaultLibraries>
+  </Link>
+</ItemDefinitionGroup>
 
   <ItemDefinitionGroup>
     <ClCompile>

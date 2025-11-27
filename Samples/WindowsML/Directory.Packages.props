@@ -17,6 +17,9 @@
     <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="2.0.3-experimental" />
     <!-- Other dependencies -->
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
+    <PackageVersion Include="Microsoft.Windows.AbiWinRT" Version="2.0.210330.2" />
+    <PackageVersion Include="Microsoft.Windows.CppWinRT" Version="2.0.240111.5" />
+    <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.240803.1"/>
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
     <PackageVersion Include="CppWinRT" Version="2.0.240405.15" />
     <PackageVersion Include="System.Numerics.Tensors" Version="9.0.0" />
