@@ -4,7 +4,7 @@
 #pragma once
 #include "pch.h"
 
-namespace winrt::CppUnpackagedAppNotifications
+namespace winrt::CppAppNotifications
 {
     struct SampleConfig
     {

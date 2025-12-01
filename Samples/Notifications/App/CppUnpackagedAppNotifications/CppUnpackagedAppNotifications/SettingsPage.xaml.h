@@ -5,7 +5,7 @@
 
 #include "SettingsPage.g.h"
 
-namespace winrt::CppUnpackagedAppNotifications::implementation
+namespace winrt::CppAppNotifications::implementation
 {
     struct SettingsPage : SettingsPageT<SettingsPage>
     {
@@ -15,7 +15,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     };
 }
 
-namespace winrt::CppUnpackagedAppNotifications::factory_implementation
+namespace winrt::CppAppNotifications::factory_implementation
 {
     struct SettingsPage : SettingsPageT<SettingsPage, implementation::SettingsPage>
     {
