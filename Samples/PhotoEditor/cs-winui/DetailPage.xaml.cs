@@ -5,10 +5,12 @@ using Microsoft.Graphics.Canvas;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Microsoft.Windows.Storage.Pickers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -205,18 +207,22 @@ namespace PhotoEditor
                         ds.DrawImage(img);
                     }
 
-
-                    var fileSavePicker = new FileSavePicker()
+                    var fileSavePicker = new FileSavePicker(App.WindowId)
                     {
                         SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-                        SuggestedSaveFile = item.ImageFile
+                        SuggestedFileName = item.ImageFile.DisplayName,
+                        SuggestedFolder = await item.ImageFile.GetParentAsync().Path,
+                        FileTypeChoices = {
+                            {"JPEG files", new[] { ".jpg" }},
+                        },
                     };
 
-                    fileSavePicker.FileTypeChoices.Add("JPEG files", new List<string>() { ".jpg" });
-
-                    WinRT.Interop.InitializeWithWindow.Initialize(fileSavePicker, App.WindowHandle);
-
-                    var outputFile = await fileSavePicker.PickSaveFileAsync();
+                    var result = await fileSavePicker.PickSaveFileAsync();
+                    StorageFile outputFile;
+                    if (result)
+                    {
+                        outputFile = await StorageFile.GetFileFromPathAsync(result.Path);
+                    }
 
                     if (outputFile != null)
                     {
