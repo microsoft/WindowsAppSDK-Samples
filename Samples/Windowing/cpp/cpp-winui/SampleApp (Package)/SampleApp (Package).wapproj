@@ -61,11 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleApp\SampleApp.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

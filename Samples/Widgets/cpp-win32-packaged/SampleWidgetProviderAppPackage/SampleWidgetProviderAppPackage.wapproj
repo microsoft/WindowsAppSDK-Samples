@@ -69,7 +69,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SampleWidgetProviderApp\SampleWidgetProviderApp.vcxproj" />
+    <ProjectReference Include="..\SampleWidgetProviderApp\SampleWidgetProviderApp.vcxproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 </Project>
 
