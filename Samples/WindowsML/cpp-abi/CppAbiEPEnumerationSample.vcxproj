@@ -41,8 +41,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="Microsoft.Windows.AbiWinRT" />
+    <PackageReference Include="Microsoft.Web.WebView2" GeneratePathProperty="true" />
   </ItemGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -67,6 +67,11 @@
     <!-- Add Windows SDK metadata as reference for type resolution -->
     <Reference Include="Windows">
       <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0\Windows.winmd</HintPath>
+      <IsSystemReference>true</IsSystemReference>
+      <WinMDFile>true</WinMDFile>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Core">
+      <HintPath>$(PkgMicrosoft_Web_WebView2)\lib\Microsoft.Web.WebView2.Core.winmd</HintPath>
       <IsSystemReference>true</IsSystemReference>
       <WinMDFile>true</WinMDFile>
     </Reference>
