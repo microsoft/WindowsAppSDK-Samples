@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Core -->
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental3" />
+  </ItemGroup>
+</Project>

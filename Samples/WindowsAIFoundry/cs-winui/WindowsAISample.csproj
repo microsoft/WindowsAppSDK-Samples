@@ -56,7 +56,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Graphics.Win2D" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental3" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -117,5 +117,3 @@
     </Page>
   </ItemGroup>
 </Project>
-
-
