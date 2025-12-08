@@ -7,6 +7,7 @@
     <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.10.1" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental3" />
     <!-- Other dependencies -->
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
     <PackageVersion Include="Microsoft.Windows.AbiWinRT" Version="2.0.210330.2" />
     <PackageVersion Include="Microsoft.Windows.CppWinRT" Version="2.0.240111.5" />
     <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.240803.1"/>
