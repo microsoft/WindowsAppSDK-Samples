@@ -1,4 +1,23 @@
 <Project>
+  <!-- Security settings for Control Flow Guard (CFG) and other mitigations -->
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /Qspectre</AdditionalOptions>
+      <!-- /GS Enable Control Flow Guard -->
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <!-- Setting this to be compatible with CFG -->
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <!-- dynamicbase is required for enabling CFG -->
+      <AdditionalOptions>%(AdditionalOptions) /dynamicbase</AdditionalOptions>
+      <!-- /GS Enable Control Flow Guard -->
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <CETCompat Condition="'$(Platform)'!='ARM64'">true</CETCompat>
+    </Link>
+  </ItemDefinitionGroup>
+
   <PropertyGroup>
     <!-- Central NuGet package versions for C++ WindowsML samples -->
     <WindowsAppSDKVersion>1.8.251106002</WindowsAppSDKVersion>
