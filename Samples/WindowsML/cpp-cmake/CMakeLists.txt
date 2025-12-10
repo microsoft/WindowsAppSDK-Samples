@@ -25,7 +25,7 @@ include(FetchContent)
 FetchContent_Declare(
   NuGetCMakePackage
   GIT_REPOSITORY https://github.com/mschofie/NuGetCMakePackage
-  GIT_TAG 601ad6dfb1a08d06267d8202aaf70c55a37965da
+  GIT_TAG dc9e92672c6eb1c11f0d29d4f94731b3404cc096
 )
 
 FetchContent_MakeAvailable(NuGetCMakePackage)
@@ -40,8 +40,9 @@ add_nuget_packages(
         Microsoft.WindowsAppSDK.Runtime 1.8.251106002
 )
 
-find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.ML CONFIG REQUIRED)
+find_package(Microsoft.WindowsAppSDK.Foundation CONFIG REQUIRED)
+find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)
 
 set(RESNET_MODEL_FILES
     ${CMAKE_SOURCE_DIR}/../Resources/ResNet50/model.Labels.txt
