@@ -15,7 +15,135 @@
 #include <WindowsAppSDK-VersionInfo.h>
 #include <MddBootstrap.h>
 
+#include <appmodel.h>
+#include <winml/onnxruntime_cxx_api.h>
+#include <WindowsAppSDK-VersionInfo.h>
+
+static wchar_t* g_packageFullName = nullptr;
+static wchar_t* g_packageDependencyId = nullptr;
+static HRESULT g_initializationResult = E_NOT_VALID_STATE;
+static PACKAGEDEPENDENCY_CONTEXT g_packageContext = nullptr;
+
+///
+///
+///
+static inline bool IsRunningOnArm64()
+{
+#if defined(_M_ARM64EC) || defined(_M_ARM64)
+    return true;
+#else
+    static const bool isArm64Native = [] {
+        USHORT processMachine{};
+        USHORT nativeMachine{};
+        const auto result{::IsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine)};
+        return (0 == result) || (nativeMachine == IMAGE_FILE_MACHINE_ARM64);
+    }();
+    return isArm64Native;
+#endif
+}
+
+///
+///
+///
+static inline PackageDependencyProcessorArchitectures GetPackageDependencyProcessorArchitectures()
+{
+#if defined(_M_ARM64)
+    const PackageDependencyProcessorArchitectures architectures = PackageDependencyProcessorArchitectures_Arm64;
+#elif defined(_M_X64)
+    const PackageDependencyProcessorArchitectures architectures = PackageDependencyProcessorArchitectures_X64;
+#elif defined(_M_ARM64EC)
+    const PackageDependencyProcessorArchitectures architectures =
+        IsRunningOnArm64() ? PackageDependencyProcessorArchitectures_Arm64 : PackageDependencyProcessorArchitectures_X64;
+#endif
+    return architectures;
+}
+
+///
+///
+///
+WINMLBOOTSTRAP_API HRESULT ME_WinMLInitialize(const wchar_t* const packageFamilyName, int major, int minor, int build)
+{
+    if (g_packageDependencyId != nullptr)
+    {
+        return g_initializationResult;
+    }
+
+    // Create the package dependency
+    {
+        PSID userContext = nullptr;
+
+        PACKAGE_VERSION minVersion;
+        minVersion.Major = major;
+        minVersion.Minor = minor;
+        minVersion.Build = build;
+        minVersion.Revision = 0;
+
+        const PackageDependencyProcessorArchitectures architectures = GetPackageDependencyProcessorArchitectures();
+
+        const PackageDependencyLifetimeKind lifetimeKind = PackageDependencyLifetimeKind_Process;
+
+        const wchar_t* lifetimeArtifact = nullptr;
+
+        CreatePackageDependencyOptions options = CreatePackageDependencyOptions_None;
+
+        HRESULT result = S_OK;
+        result = TryCreatePackageDependency(
+            userContext,
+            packageFamilyName,
+            minVersion,
+            architectures,
+            lifetimeKind,
+            lifetimeArtifact,
+            options,
+            &g_packageDependencyId);
+
+        if (FAILED(result))
+        {
+            return result;
+        }
+
+        if (!g_packageDependencyId)
+        {
+            return E_UNEXPECTED;
+        }
+    }
+
+    // Add the package dependency
+    {
+        int rank = 0;
+        AddPackageDependencyOptions options = AddPackageDependencyOptions_PrependIfRankCollision;
+
+        g_initializationResult = AddPackageDependency(g_packageDependencyId, rank, options, &g_packageContext, &g_packageFullName);
+    }
+
+    return g_initializationResult;
+}
+
+WINMLBOOTSTRAP_API void ME_WinMLUninitialize()
+{
+    if (g_packageDependencyId)
+    {
+        ::HeapFree(::GetProcessHeap(), 0, g_packageDependencyId);
+        g_packageDependencyId = nullptr;
+    }
+
+    if (g_packageFullName)
+    {
+        ::HeapFree(::GetProcessHeap(), 0, g_packageFullName);
+        g_packageFullName = nullptr;
+    }
+
+    if (g_packageContext)
+    {
+        ::RemovePackageDependency(g_packageContext);
+        g_packageContext = nullptr;
+    }
+
+    g_initializationResult = E_NOT_VALID_STATE;
+}
+
 using namespace ResNetModelHelper;
+
 int wmain(int argc, wchar_t* argv[]) noexcept
 {
     std::ignore = argc;
@@ -23,16 +151,21 @@ int wmain(int argc, wchar_t* argv[]) noexcept
 
     try
     {
-        std::cout << WINDOWSAPPSDK_RELEASE_MAJORMINOR << std::endl;
+        std::wcout << "WINDOWSAPPSDK_RUNTIME_PACKAGE_FRAMEWORK_PACKAGEFAMILYNAME_W:" << WINDOWSAPPSDK_RUNTIME_PACKAGE_FRAMEWORK_PACKAGEFAMILYNAME_W << std::endl;
+        std::wcout << "WINDOWSAPPSDK_RELEASE_MAJOR:" << WINDOWSAPPSDK_RELEASE_MAJOR << std::endl;
+        std::wcout << "WINDOWSAPPSDK_RELEASE_MINOR:" << WINDOWSAPPSDK_RELEASE_MINOR << std::endl;
+        std::wcout << "WINDOWSAPPSDK_RELEASE_PATCH:" << WINDOWSAPPSDK_RELEASE_PATCH << std::endl;
 
-        const UINT32 c_majorMinorVersion{WINDOWSAPPSDK_RELEASE_MAJORMINOR};
-        PCWSTR c_versionTag{WINDOWSAPPSDK_RELEASE_VERSION_TAG_W};
-        const PACKAGE_VERSION c_minVersion{WINDOWSAPPSDK_RUNTIME_VERSION_UINT64};
-        const auto c_options{MddBootstrapInitializeOptions_OnNoMatch_ShowUI};
-        const HRESULT hr{::MddBootstrapInitialize2(c_majorMinorVersion, c_versionTag, c_minVersion, c_options)};
-        if (FAILED(hr))
+        HRESULT hr = ME_WinMLInitialize(
+            WINDOWSAPPSDK_RUNTIME_PACKAGE_FRAMEWORK_PACKAGEFAMILYNAME_W,
+            WINDOWSAPPSDK_RELEASE_MAJOR,
+            WINDOWSAPPSDK_RELEASE_MINOR,
+            WINDOWSAPPSDK_RELEASE_PATCH);
+
+            if (FAILED(hr))
         {
-            exit(hr);
+            std::cerr << "Failed to initialize WinML bootstrap: " << std::hex << hr << std::endl;
+            return -1;
         }
 
         // Initialize WinML runtime first. This will add the necessary package dependencies to the process, and initialize the OnnxRuntime.
