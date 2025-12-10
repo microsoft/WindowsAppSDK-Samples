@@ -18,6 +18,7 @@ target_link_libraries(ResNetConsoleDesktop
         ResNetCommon
         Microsoft.WindowsAppSDK.ML_Framework # Use 'framework' mode.
         Microsoft.Windows.ImplementationLibrary
+        Microsoft.WindowsAppSDK.Foundation
 )
 
 post_build_runtime_dll_copy(ResNetConsoleDesktop)

@@ -12,8 +12,10 @@
 #include <winml/onnxruntime_cxx_api.h>
 #include <winml/Runtime.h>
 
-using namespace ResNetModelHelper;
+#include <WindowsAppSDK-VersionInfo.h>
+#include <MddBootstrap.h>
 
+using namespace ResNetModelHelper;
 int wmain(int argc, wchar_t* argv[]) noexcept
 {
     std::ignore = argc;
@@ -21,6 +23,18 @@ int wmain(int argc, wchar_t* argv[]) noexcept
 
     try
     {
+        std::cout << WINDOWSAPPSDK_RELEASE_MAJORMINOR << std::endl;
+
+        const UINT32 c_majorMinorVersion{WINDOWSAPPSDK_RELEASE_MAJORMINOR};
+        PCWSTR c_versionTag{WINDOWSAPPSDK_RELEASE_VERSION_TAG_W};
+        const PACKAGE_VERSION c_minVersion{WINDOWSAPPSDK_RUNTIME_VERSION_UINT64};
+        const auto c_options{MddBootstrapInitializeOptions_OnNoMatch_ShowUI};
+        const HRESULT hr{::MddBootstrapInitialize2(c_majorMinorVersion, c_versionTag, c_minVersion, c_options)};
+        if (FAILED(hr))
+        {
+            exit(hr);
+        }
+
         // Initialize WinML runtime first. This will add the necessary package dependencies to the process, and initialize the OnnxRuntime.
         Microsoft::Windows::AI::MachineLearning::WinMLRuntime winmlRuntime;
         if (FAILED(winmlRuntime.GetHResult()))
