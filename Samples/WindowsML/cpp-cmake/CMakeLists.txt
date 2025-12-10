@@ -25,7 +25,7 @@ include(FetchContent)
 FetchContent_Declare(
   NuGetCMakePackage
   GIT_REPOSITORY https://github.com/mschofie/NuGetCMakePackage
-  GIT_TAG b13e013481605d134f498fd9fc3a123c416da197
+  GIT_TAG 601ad6dfb1a08d06267d8202aaf70c55a37965da
 )
 
 FetchContent_MakeAvailable(NuGetCMakePackage)
