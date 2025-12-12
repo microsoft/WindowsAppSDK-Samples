@@ -1,5 +1,4 @@
 pillow
 numpy
-onnxruntime-winml
 wasdk-Microsoft.Windows.AI.MachineLearning[all]
 wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap
