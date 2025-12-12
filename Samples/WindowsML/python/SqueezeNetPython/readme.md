@@ -19,9 +19,10 @@ extendedZipContent:
 ```
 ### Prepare the python environment
 * Create a python environment with Python 3.10 - 3.13
+* Ensure that your Python installation is not from the Microsoft Store (you can install an unpackaged version from python.org or via winget). The sample depends on using the Windows App SDK dynamic dependency API, which is only valid for unpackaged apps.
 * Install the latest WinML python packages
 ```PowerShell
-pip install --upgrade --pre -r requirements.txt 
+.\Install-Requirements.ps1
 ```
 ### Install WindowsAppRuntime
 Please install the WindowsAppRuntime that matches the version of the python package `wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap`
