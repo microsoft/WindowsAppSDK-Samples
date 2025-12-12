@@ -1,0 +1,3 @@
+# onnxruntime-winml from ORT-Nightly feed
+--index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple/
+onnxruntime-winml
