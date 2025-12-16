@@ -28,6 +28,3 @@
     <ProjectReference Include="..\..\..\SamplesCommon\SamplesCommon\SamplesCommon.csproj" />
   </ItemGroup>
 </Project>
-
-
-

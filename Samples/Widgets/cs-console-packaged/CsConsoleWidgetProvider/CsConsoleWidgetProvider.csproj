@@ -46,7 +46,3 @@
 
   <Import Project="..\WidgetHelper\WidgetHelper.projitems" Label="Shared" />
 </Project>
-
-
-
-

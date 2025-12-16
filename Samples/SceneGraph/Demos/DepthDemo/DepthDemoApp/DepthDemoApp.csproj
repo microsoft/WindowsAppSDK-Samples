@@ -22,6 +22,3 @@
     <ProjectReference Include="..\..\..\ExpressionBuilder\ExpressionBuilder\ExpressionBuilder.csproj" />
   </ItemGroup>
 </Project>
-
-
-

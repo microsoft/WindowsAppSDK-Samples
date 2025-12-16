@@ -41,8 +41,3 @@
     <ProjectReference Include="..\WinUIComponentCs\WinUIComponentCs.csproj" />
   </ItemGroup>
 </Project>
-
-
-
-
-

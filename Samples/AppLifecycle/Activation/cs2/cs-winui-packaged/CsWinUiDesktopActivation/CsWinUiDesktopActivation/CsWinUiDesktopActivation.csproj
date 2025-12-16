@@ -15,8 +15,3 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 </Project>
-
-
-
-
-
