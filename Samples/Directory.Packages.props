@@ -32,5 +32,6 @@
     <PackageVersion Include="System.Numerics.Tensors" Version="9.0.0" />
     <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.6.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" />
   </ItemGroup>
 </Project>
