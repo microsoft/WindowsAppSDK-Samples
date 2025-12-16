@@ -1,15 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.Extensions.AI;
 using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
 using Notes.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Foundation;
 using System.Threading;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Storage;
 
 namespace Notes
 {
@@ -65,7 +64,7 @@ namespace Notes
             }
 
             cancellationToken.ThrowIfCancellationRequested();
-            
+
             var context = await AppDataContext.GetCurrentAsync();
 
             IEnumerable<AppIndexQueryMatch>? textMatches = null;
@@ -73,9 +72,10 @@ namespace Notes
             await Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                AppIndexQuery? query = appContentIndexer.CreateQuery(searchText);
-                textMatches = query.GetNextTextMatches(top);
-                imageMatches = query.GetNextImageMatches(top);
+                AppIndexTextQuery? textQuery = appContentIndexer.CreateTextQuery(searchText);
+                AppIndexImageQuery? imageQuery = appContentIndexer.CreateImageQuery(searchText);
+                textMatches = textQuery.GetNextMatches(top);
+                imageMatches = imageQuery.GetNextMatches(top);
             }, cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -85,7 +85,7 @@ namespace Notes
                 foreach (var match in textMatches)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    
+
                     int matchcontentId = int.Parse(match.ContentId);
                     var note = await context.Notes.FindAsync(matchcontentId);
 
@@ -99,6 +99,7 @@ namespace Notes
                         {
                             string matchingData = await NoteViewModel.LoadTextContentByIdAsync(note.Filename);
                             string matchingString = matchingData.Substring(textMatch.TextOffset, Math.Min(500, matchingData.Length - textMatch.TextOffset));
+                            var attachmentsFolder = await GetAttachmentsFolderAsync();
                             var searchResult = new SearchResult
                             {
                                 Content = matchingString,
@@ -106,7 +107,8 @@ namespace Notes
                                 ContentSubType = ContentSubType.None,
                                 SourceId = note.Id,
                                 Title = note.Title,
-                                MostRelevantSentence = matchingString
+                                MostRelevantSentence = matchingString,
+                                Path = attachmentsFolder.Path + "\\" + note.Filename
                             };
 
                             results.Add(searchResult);
@@ -126,7 +128,7 @@ namespace Notes
                 foreach (var match in imageMatches)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    
+
                     int matchContentId = int.Parse(match.ContentId);
                     var image = await context.Attachments.FindAsync(matchContentId);
 

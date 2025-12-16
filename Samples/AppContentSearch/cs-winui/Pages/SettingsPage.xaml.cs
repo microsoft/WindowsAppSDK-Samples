@@ -35,7 +35,7 @@ namespace Notes.Pages
             InitializeComponent();
 
             // Ensure save button starts disabled and stays disabled during initialization
-            btnSave.IsEnabled = false;
+            SaveButton.IsEnabled = false;
 
             LoadSettings();
             _foundryInitTask = PopulateFoundryModelsAsync();
@@ -44,14 +44,14 @@ namespace Notes.Pages
             _ = PopulateAvailableModelsAsync();
 
             // Setup event handlers
-            cbAvailableModels.SelectionChanged += CbAvailableModels_SelectionChanged;
-            cbFoundryModel.SelectionChanged += CbFoundryModel_SelectionChanged;
+            AvailableModelsComboBox.SelectionChanged += AvailableModelsComboBox_SelectionChanged;
+            FoundryModelComboBox.SelectionChanged += FoundryModelComboBox_SelectionChanged;
 
             // Add change tracking event handlers
-            txtAzureApiKey.PasswordChanged += OnSettingChanged;
-            txtAzureEndpointUri.TextChanged += OnSettingChanged;
-            txtAzureDeploymentName.TextChanged += OnSettingChanged;
-            tsShowBoundingBoxes.Toggled += OnSettingChanged;
+            AzureApiKeyPasswordBox.PasswordChanged += OnSettingChanged;
+            AzureEndpointUriTextBox.TextChanged += OnSettingChanged;
+            AzureDeploymentNameTextBox.TextChanged += OnSettingChanged;
+            ShowBoundingBoxesToggleSwitch.Toggled += OnSettingChanged;
         }
 
         private void OnSettingChanged(object sender, object e)
@@ -65,8 +65,8 @@ namespace Notes.Pages
 
         private async Task PopulateFoundryModelsAsync()
         {
-            cbFoundryModel.IsEnabled = false;
-            cbFoundryModel.Items.Clear();
+            FoundryModelComboBox.IsEnabled = false;
+            FoundryModelComboBox.Items.Clear();
 
             try
             {
@@ -89,7 +89,7 @@ namespace Notes.Pages
                     var alias = m.Alias;
                     if (added.Add(alias))
                     {
-                        cbFoundryModel.Items.Add(new ComboBoxItem
+                        FoundryModelComboBox.Items.Add(new ComboBoxItem
                         {
                             Content = alias,
                         });
@@ -106,11 +106,11 @@ namespace Notes.Pages
 
                 if (savedModelIndex >= 0)
                 {
-                    cbFoundryModel.SelectedIndex = savedModelIndex;
+                    FoundryModelComboBox.SelectedIndex = savedModelIndex;
                 }
-                else if (cbFoundryModel.SelectedItem == null && cbFoundryModel.Items.Count > 0)
+                else if (FoundryModelComboBox.SelectedItem == null && FoundryModelComboBox.Items.Count > 0)
                 {
-                    cbFoundryModel.SelectedIndex = 0;
+                    FoundryModelComboBox.SelectedIndex = 0;
                 }
 
                 // Update downloaded models list
@@ -122,7 +122,7 @@ namespace Notes.Pages
             }
             finally
             {
-                cbFoundryModel.IsEnabled = true;
+                FoundryModelComboBox.IsEnabled = true;
 
                 // Capture original values after all async initialization is complete
                 UpdateOriginalValues();
@@ -146,13 +146,13 @@ namespace Notes.Pages
                 var cachedModels = await _foundryManager.ListCachedModelsAsync();
                 var cachedAliases = cachedModels.Select(m => m.Alias).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-                cbAvailableModels.Items.Clear();
+                AvailableModelsComboBox.Items.Clear();
                 foreach (var model in catalogModels)
                 {
                     // Only show models that aren't already downloaded
                     if (!cachedAliases.Contains(model.Alias))
                     {
-                        cbAvailableModels.Items.Add(new ComboBoxItem
+                        AvailableModelsComboBox.Items.Add(new ComboBoxItem
                         {
                             Content = model.Alias,
                             Tag = model
@@ -173,7 +173,7 @@ namespace Notes.Pages
                 _foundryManager ??= new FoundryLocalManager();
                 var cached = await _foundryManager.ListCachedModelsAsync();
 
-                lvDownloadedModels.ItemsSource = cached.ToList();
+                DownloadedModelsListView.ItemsSource = cached.ToList();
             }
             catch (Exception ex)
             {
@@ -181,12 +181,12 @@ namespace Notes.Pages
             }
         }
 
-        private void CbAvailableModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AvailableModelsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            btnDownloadModel.IsEnabled = cbAvailableModels.SelectedItem != null;
+            DownloadModelButton.IsEnabled = AvailableModelsComboBox.SelectedItem != null;
         }
 
-        private void CbFoundryModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void FoundryModelComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Only update save button state if initialization is complete
             if (!_isInitializing)
@@ -197,15 +197,15 @@ namespace Notes.Pages
 
         private async void DownloadModel_Click(object sender, RoutedEventArgs e)
         {
-            if (cbAvailableModels.SelectedItem is not ComboBoxItem selectedItem || selectedItem.Tag is not ModelInfo modelInfo)
+            if (AvailableModelsComboBox.SelectedItem is not ComboBoxItem selectedItem || selectedItem.Tag is not ModelInfo modelInfo)
                 return;
 
             // Show progress UI
-            spDownloadProgress.Visibility = Visibility.Visible;
-            txtDownloadStatus.Text = $"Downloading {modelInfo.Alias}...";
-            pbDownloadProgress.IsIndeterminate = false;
-            pbDownloadProgress.Value = 0;
-            btnDownloadModel.IsEnabled = false;
+            DownloadProgressStackPanel.Visibility = Visibility.Visible;
+            DownloadStatusTextBlock.Text = $"Downloading {modelInfo.Alias}...";
+            DownloadProgressBar.IsIndeterminate = false;
+            DownloadProgressBar.Value = 0;
+            DownloadModelButton.IsEnabled = false;
 
             try
             {
@@ -218,16 +218,16 @@ namespace Notes.Pages
                     // Update the UI with progress information
                     DispatcherQueue.TryEnqueue(() =>
                     {
-                        pbDownloadProgress.Value = progress.Percentage * 100;
-                        txtDownloadStatus.Text = $"Downloading {modelInfo.Alias}... {progress.Percentage:P0}";
+                        DownloadProgressBar.Value = progress.Percentage * 100;
+                        DownloadStatusTextBlock.Text = $"Downloading {modelInfo.Alias}... {progress.Percentage:P0}";
                     });
                 }
 
                 // Download completed
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    txtDownloadStatus.Text = $"Successfully downloaded {modelInfo.Alias}";
-                    pbDownloadProgress.Value = 100;
+                    DownloadStatusTextBlock.Text = $"Successfully downloaded {modelInfo.Alias}";
+                    DownloadProgressBar.Value = 100;
                 });
 
                 // Refresh the model lists
@@ -236,18 +236,18 @@ namespace Notes.Pages
 
                 // Hide progress after a delay
                 await Task.Delay(2000);
-                spDownloadProgress.Visibility = Visibility.Collapsed;
+                DownloadProgressStackPanel.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
-                txtDownloadStatus.Text = $"Failed to download {modelInfo.Alias}: {ex.Message}";
-                pbDownloadProgress.Value = 0;
+                DownloadStatusTextBlock.Text = $"Failed to download {modelInfo.Alias}: {ex.Message}";
+                DownloadProgressBar.Value = 0;
 
                 Debug.WriteLine($"DownloadModel_Click error: {ex.Message}");
             }
             finally
             {
-                btnDownloadModel.IsEnabled = true;
+                DownloadModelButton.IsEnabled = true;
             }
         }
 
@@ -317,15 +317,15 @@ namespace Notes.Pages
             localSettings.Values[ModelSourceKey] = GetSelectedModelSource();
 
             // Azure
-            localSettings.Values["AzureOpenAIApiKey"] = txtAzureApiKey.Password;
-            localSettings.Values["AzureOpenAIEndpointUri"] = txtAzureEndpointUri.Text;
-            localSettings.Values["AzureOpenAIDeploymentName"] = txtAzureDeploymentName.Text;
+            localSettings.Values["AzureOpenAIApiKey"] = AzureApiKeyPasswordBox.Password;
+            localSettings.Values["AzureOpenAIEndpointUri"] = AzureEndpointUriTextBox.Text;
+            localSettings.Values["AzureOpenAIDeploymentName"] = AzureDeploymentNameTextBox.Text;
 
             // Foundry
             localSettings.Values[FoundryModelKey] = GetFoundryModelSelection();
 
             // Bounding boxes
-            localSettings.Values[ShowBoundingBoxesKey] = tsShowBoundingBoxes.IsOn;
+            localSettings.Values[ShowBoundingBoxesKey] = ShowBoundingBoxesToggleSwitch.IsOn;
 
             // Update original values to reflect saved state
             UpdateOriginalValues();
@@ -338,23 +338,23 @@ namespace Notes.Pages
 
             string modelSource = localSettings.Values[ModelSourceKey] as string ?? "phi";
 
-            cbPhiSilica.IsSelected = modelSource == "phi";
-            cbAzure.IsSelected = modelSource == "azure";
-            cbFoundry.IsSelected = modelSource == "foundry";
+            PhiSilicaComboBoxItem.IsSelected = modelSource == "phi";
+            AzureComboBoxItem.IsSelected = modelSource == "azure";
+            FoundryComboBoxItem.IsSelected = modelSource == "foundry";
 
-            txtAzureApiKey.Password = localSettings.Values["AzureOpenAIApiKey"] as string ?? "";
-            txtAzureEndpointUri.Text = localSettings.Values["AzureOpenAIEndpointUri"] as string ?? "";
-            txtAzureDeploymentName.Text = localSettings.Values["AzureOpenAIDeploymentName"] as string ?? "";
+            AzureApiKeyPasswordBox.Password = localSettings.Values["AzureOpenAIApiKey"] as string ?? "";
+            AzureEndpointUriTextBox.Text = localSettings.Values["AzureOpenAIEndpointUri"] as string ?? "";
+            AzureDeploymentNameTextBox.Text = localSettings.Values["AzureOpenAIDeploymentName"] as string ?? "";
 
             string? savedFoundryModel = localSettings.Values[FoundryModelKey] as string;
             if (!string.IsNullOrWhiteSpace(savedFoundryModel))
             {
-                var item = cbFoundryModel.Items
+                var item = FoundryModelComboBox.Items
                     .OfType<ComboBoxItem>()
                     .FirstOrDefault(i => (string)i.Content == savedFoundryModel);
                 if (item != null)
                 {
-                    cbFoundryModel.SelectedItem = item;
+                    FoundryModelComboBox.SelectedItem = item;
                 }
             }
 
@@ -362,11 +362,11 @@ namespace Notes.Pages
             if (localSettings.Values.ContainsKey(ShowBoundingBoxesKey) &&
                 localSettings.Values[ShowBoundingBoxesKey] is bool b)
             {
-                tsShowBoundingBoxes.IsOn = b;
+                ShowBoundingBoxesToggleSwitch.IsOn = b;
             }
             else
             {
-                tsShowBoundingBoxes.IsOn = true;
+                ShowBoundingBoxesToggleSwitch.IsOn = true;
             }
 
             UpdateSourceDependentFields();
@@ -377,33 +377,33 @@ namespace Notes.Pages
         private void UpdateOriginalValues()
         {
             _originalModelSource = GetSelectedModelSource();
-            _originalAzureApiKey = txtAzureApiKey.Password;
-            _originalAzureEndpointUri = txtAzureEndpointUri.Text;
-            _originalAzureDeploymentName = txtAzureDeploymentName.Text;
+            _originalAzureApiKey = AzureApiKeyPasswordBox.Password;
+            _originalAzureEndpointUri = AzureEndpointUriTextBox.Text;
+            _originalAzureDeploymentName = AzureDeploymentNameTextBox.Text;
             _originalFoundryModel = GetFoundryModelSelection();
-            _originalShowBoundingBoxes = tsShowBoundingBoxes.IsOn;
+            _originalShowBoundingBoxes = ShowBoundingBoxesToggleSwitch.IsOn;
         }
 
         private bool HasChanges()
         {
             return GetSelectedModelSource() != _originalModelSource ||
-                   txtAzureApiKey.Password != _originalAzureApiKey ||
-                   txtAzureEndpointUri.Text != _originalAzureEndpointUri ||
-                   txtAzureDeploymentName.Text != _originalAzureDeploymentName ||
+                   AzureApiKeyPasswordBox.Password != _originalAzureApiKey ||
+                   AzureEndpointUriTextBox.Text != _originalAzureEndpointUri ||
+                   AzureDeploymentNameTextBox.Text != _originalAzureDeploymentName ||
                    GetFoundryModelSelection() != _originalFoundryModel ||
-                   tsShowBoundingBoxes.IsOn != _originalShowBoundingBoxes;
+                   ShowBoundingBoxesToggleSwitch.IsOn != _originalShowBoundingBoxes;
         }
 
         private string GetSelectedModelSource()
         {
-            if (cbAzure.IsSelected == true) return "azure";
-            if (cbFoundry.IsSelected == true) return "foundry";
+            if (AzureComboBoxItem.IsSelected == true) return "azure";
+            if (FoundryComboBoxItem.IsSelected == true) return "foundry";
             return "phi";
         }
 
         private string GetFoundryModelSelection()
         {
-            return (cbFoundryModel.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
+            return (FoundryModelComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
         }
 
         private void ModelSource_SelectionChanged(object sender, RoutedEventArgs e)
@@ -419,8 +419,8 @@ namespace Notes.Pages
 
         private void UpdateSourceDependentFields()
         {
-            bool isAzure = cbAzure.IsSelected == true;
-            bool isFoundry = cbFoundry.IsSelected == true;
+            bool isAzure = AzureComboBoxItem.IsSelected == true;
+            bool isFoundry = FoundryComboBoxItem.IsSelected == true;
 
             if (AzureSettingsCard == null || FoundrySettingsCard == null) return;
 
@@ -438,7 +438,7 @@ namespace Notes.Pages
             // Don't update button state during initialization
             if (_isInitializing)
             {
-                btnSave.IsEnabled = false;
+                SaveButton.IsEnabled = false;
                 return;
             }
 
@@ -447,13 +447,13 @@ namespace Notes.Pages
             bool isValidConfiguration = true;
 
             // Additional validation: if Foundry is selected, ensure a model is chosen
-            if (cbFoundry.IsSelected == true)
+            if (FoundryComboBoxItem.IsSelected == true)
             {
-                isValidConfiguration = cbFoundryModel.SelectedItem != null && !string.IsNullOrWhiteSpace(GetFoundryModelSelection());
+                isValidConfiguration = FoundryModelComboBox.SelectedItem != null && !string.IsNullOrWhiteSpace(GetFoundryModelSelection());
             }
 
             // Enable save button only if there are changes AND configuration is valid
-            btnSave.IsEnabled = hasChanges && isValidConfiguration;
+            SaveButton.IsEnabled = hasChanges && isValidConfiguration;
         }
     }
 }

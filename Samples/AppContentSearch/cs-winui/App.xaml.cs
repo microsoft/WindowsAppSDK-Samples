@@ -1,12 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-
-using Azure.AI.OpenAI;
 using Microsoft.UI.Xaml;
-using OpenAI.Chat;
-using System;
-using System.ClientModel;
-using System.Diagnostics;
-using Windows.Storage;
 
 namespace Notes
 {

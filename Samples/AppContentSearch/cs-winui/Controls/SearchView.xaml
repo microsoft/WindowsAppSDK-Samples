@@ -17,7 +17,7 @@
                 x:Name="TextSearchResultDataTemplate"
                 x:DataType="local:SearchResult">
                 <ItemContainer
-                    BringIntoViewRequested="OnItemContainerBringIntoViewRequested">
+                    BringIntoViewRequested="ItemContainer_BringIntoViewRequested">
                     <StackPanel Orientation="Vertical"
                                 Spacing="4"
                                 Padding="12">
@@ -32,7 +32,7 @@
 
             <DataTemplate x:Name="ImageSearchResultDataTemplate"
                           x:DataType="local:SearchResult">
-                <ItemContainer BringIntoViewRequested="OnItemContainerBringIntoViewRequested">
+                <ItemContainer BringIntoViewRequested="ItemContainer_BringIntoViewRequested">
                     <Grid x:Name="ImageHost"
                           Width="180"
                           Height="180"
@@ -41,7 +41,7 @@
                         <Image x:Name="ResultImage"
                          Source="{x:Bind Path}"
                          Stretch="Uniform"
-                         ImageOpened="OnResultImageOpened"/>
+                         ImageOpened="ResultImage_ImageOpened"/>
                         <Rectangle x:Name="OverlayRectangle"
                              Visibility="Collapsed"
                              IsHitTestVisible="False"

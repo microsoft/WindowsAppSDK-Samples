@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.AI.Foundry.Local;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
 using Notes.Controls;
 using Notes.Pages;
 using Notes.ViewModels;
-using OpenAI;
 using System;
-using System.ClientModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
@@ -22,7 +19,7 @@ namespace Notes
         public static ChatSessionView? ChatSessionView;
         public static SearchView? SearchView;
         public static MainWindow? Instance;
-        public static AppContentIndexer? appContentIndexer;
+        public static AppContentIndexer? AppContentIndexer;
         public ViewModel VM;
 
         private Task _initializeAppContentIndexerTask;
@@ -36,11 +33,11 @@ namespace Notes
             this.SetTitleBar(AppTitleBar);
 
             this.Title = AppTitleBar.Title;
-            this.AppWindow.SetIcon("Assets/TextPad.ico");
+            this.AppWindow.SetIcon("Assets/ContosoNote.ico");
 
             Instance = this;
-            SearchView = searchView;
-            ChatSessionView = chatSessionView;
+            SearchView = AppSearchView;
+            ChatSessionView = AppChatSessionView;
 
             VM.Notes.CollectionChanged += Notes_CollectionChanged;
 
@@ -68,7 +65,7 @@ namespace Notes
 
             if (note != null)
             {
-                navView.SelectedItem = note;
+                NavView.SelectedItem = note;
 
                 if (attachmentId.HasValue)
                 {
@@ -105,26 +102,26 @@ namespace Notes
                     throw getOrCreateResult.ExtendedError;
                 }
 
-                appContentIndexer = getOrCreateResult.Indexer;
+                AppContentIndexer = getOrCreateResult.Indexer;
             });
 
             DispatcherQueue.TryEnqueue(() =>
             {
                 ChatPaneToggleButton.IsEnabled = true;
-                searchView.SetSearchBoxInitializingCompleted();
+                AppSearchView.SetSearchBoxInitializingCompleted();
 
                 var status = getOrCreateResult?.Status;
 
                 switch (status)
                 {
                     case GetOrCreateIndexStatus.CreatedNew:
-                        _ = indexAll();
+                        _ = IndexAllAsync();
                         break;
                     case GetOrCreateIndexStatus.OpenedExisting:
-                        searchView.SetSearchBoxIndexingCompleted();
+                        AppSearchView.SetSearchBoxIndexingCompleted();
                         break;
                     default:
-                        searchView.SetSearchBoxInitializingCompleted();
+                        AppSearchView.SetSearchBoxInitializingCompleted();
                         break;
                 }
             });
@@ -132,32 +129,32 @@ namespace Notes
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            if (navView.MenuItems.Count > 0)
-                navView.SelectedItem = navView.MenuItems[0];
+            if (NavView.MenuItems.Count > 0)
+                NavView.SelectedItem = NavView.MenuItems[0];
         }
 
         private void Notes_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            if (navView.SelectedItem == null && VM.Notes.Count > 0)
-                navView.SelectedItem = VM.Notes[0];
+            if (NavView.SelectedItem == null && VM.Notes.Count > 0)
+                NavView.SelectedItem = VM.Notes[0];
         }
 
         private async void NewButton_Click(object sender, RoutedEventArgs e)
         {
             var note = await VM.CreateNewNote();
-            navView.SelectedItem = note;
+            NavView.SelectedItem = note;
         }
 
         private void NavView_SelectionChanged(NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected)
             {
-                navFrame.Navigate(typeof(Notes.Pages.SettingsPage));
+                NavFrame.Navigate(typeof(Notes.Pages.SettingsPage));
                 return;
             }
             if (args.SelectedItem is NoteViewModel note)
             {
-                navFrame.Navigate(typeof(NotesPage), note);
+                NavFrame.Navigate(typeof(NotesPage), note);
             }
         }
 
@@ -170,21 +167,21 @@ namespace Notes
                 await VM.RemoveNoteAsync(note);
             }
 
-            if (navFrame.CurrentSourcePageType == typeof(NotesPage) && navFrame.CanGoBack)
+            if (NavFrame.CurrentSourcePageType == typeof(NotesPage) && NavFrame.CanGoBack)
             {
-                navFrame.GoBack();
+                NavFrame.GoBack();
             }
         }
 
         private void ToggleChatPane()
         {
-            chatSessionView.Visibility =
-                chatSessionView.Visibility == Visibility.Visible ?
+            AppChatSessionView.Visibility =
+                AppChatSessionView.Visibility == Visibility.Visible ?
                 Visibility.Collapsed :
                 Visibility.Visible;
         }
 
-        private void AskMyNotesClicked(object sender, RoutedEventArgs e)
+        private void ChatPaneToggleButton_Click(object sender, RoutedEventArgs e)
         {
             ToggleChatPane();
 
@@ -196,11 +193,11 @@ namespace Notes
 
         public async void OpenAttachmentView(AttachmentViewModel attachment, string? attachmentText = null, Windows.Foundation.Rect? boundingBox = null)
         {
-            await attachmentView.UpdateAttachment(attachment, attachmentText, boundingBox);
-            attachmentView.Show();
+            await AttachmentView.UpdateAttachment(attachment, attachmentText, boundingBox);
+            AttachmentView.Show();
         }
 
-        private async Task indexAll()
+        private async Task IndexAllAsync()
         {
             SearchView?.SetSearchBoxInitializingCompleted();
 
@@ -228,24 +225,24 @@ namespace Notes
             // Results may be partial during the staging phase.
             SearchView?.StartIndexProgressBarStaging();
 
-            if (appContentIndexer != null)
+            if (AppContentIndexer != null)
             {
-                await appContentIndexer.WaitForIndexingIdleAsync(int.MaxValue);
+                await AppContentIndexer.WaitForIndexingIdleAsync(TimeSpan.MaxValue);
             }
 
             // Indexing is fully completed.
             SearchView?.SetSearchBoxIndexingCompleted();
         }
 
-        private async void indexButton_Click(object sender, RoutedEventArgs e)
+        private async void IndexButton_Click(object sender, RoutedEventArgs e)
         {
-            if (appContentIndexer != null)
+            if (AppContentIndexer != null)
             {
-                await indexAll();
+                await IndexAllAsync();
             }
         }
 
-        private async void deleteIndexButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteIndexButton_Click(object sender, RoutedEventArgs e)
         {
             await NoteViewModel.ManualDeleteIndex();
         }

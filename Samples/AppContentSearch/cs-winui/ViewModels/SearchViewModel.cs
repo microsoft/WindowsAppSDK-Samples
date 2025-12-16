@@ -68,13 +68,13 @@ namespace Notes.ViewModels
                     return;
                 }
 
-                if (MainWindow.appContentIndexer == null)
+                if (MainWindow.AppContentIndexer == null)
                 {
-                    Debug.WriteLine("appContentIndexer is null");
+                    Debug.WriteLine("AppContentIndexer is null");
                     return;
                 }
 
-                var results = await Utils.SearchAsync(MainWindow.appContentIndexer, _searchText, cancellationToken: cancellationToken);
+                var results = await Utils.SearchAsync(MainWindow.AppContentIndexer, _searchText, cancellationToken: cancellationToken);
 
                 // Check if we were cancelled before updating UI
                 if (cancellationToken.IsCancellationRequested)

@@ -43,17 +43,17 @@ namespace Notes
 
         public async static Task RemoveAttachment(Attachment attachment)
         {
-            if (MainWindow.appContentIndexer != null)
+            if (MainWindow.AppContentIndexer != null)
             {
                 await Task.Run(() =>
                 {
-                    MainWindow.appContentIndexer.Remove(attachment.Id.ToString());
+                    MainWindow.AppContentIndexer.Remove(attachment.Id.ToString());
                 });
                 Debug.WriteLine($"Deleted image from index: {attachment.Filename}");
             }
             else
             {
-                Debug.WriteLine("appContentIndexer is null");
+                Debug.WriteLine("AppContentIndexer is null");
             }
         }
 
@@ -94,11 +94,11 @@ namespace Notes
 
                 Debug.WriteLine($"Indexing image {attachment.Filename}");
 
-                if (MainWindow.appContentIndexer != null)
+                if (MainWindow.AppContentIndexer != null)
                 {
                     await Task.Run(() =>
                     {
-                        MainWindow.appContentIndexer.AddOrUpdate(imageContent);
+                        MainWindow.AppContentIndexer.AddOrUpdate(imageContent);
                     });
                     attachment.IsProcessed = true;
                     Debug.WriteLine($"Indexed image {attachment.Filename}");
@@ -124,11 +124,11 @@ namespace Notes
 
                 Debug.WriteLine($"Indexing image {attachment.Filename}");
 
-                if (MainWindow.appContentIndexer != null)
+                if (MainWindow.AppContentIndexer != null)
                 {
                     await Task.Run(() =>
                     {
-                        MainWindow.appContentIndexer.AddOrUpdate(imageContent);
+                        MainWindow.AppContentIndexer.AddOrUpdate(imageContent);
                     });
                     attachment.IsProcessed = true;
                     Debug.WriteLine($"Indexed image {attachment.Filename}");

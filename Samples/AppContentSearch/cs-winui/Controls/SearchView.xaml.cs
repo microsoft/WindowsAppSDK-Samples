@@ -138,7 +138,7 @@ namespace Notes.Controls
             ViewModel.HandleQuerySubmitted(sender.Text);
         }
 
-        private void OnItemContainerBringIntoViewRequested(UIElement sender, BringIntoViewRequestedEventArgs args)
+        private void ItemContainer_BringIntoViewRequested(UIElement sender, BringIntoViewRequestedEventArgs args)
         {
             // When the popup is being hidden we get a spurious BringIntoView request which the Repeater doesn't handle well.
             // We can avoid that by marking the event as handled when the results panel is not visible.
@@ -148,7 +148,7 @@ namespace Notes.Controls
             }
         }
 
-        private void OnResultImageOpened(object sender, RoutedEventArgs e)
+        private void ResultImage_ImageOpened(object sender, RoutedEventArgs e)
         {
             if (sender is Image img && img.Parent is Grid g)
             {

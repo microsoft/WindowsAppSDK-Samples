@@ -3,7 +3,6 @@
 using Azure.AI.OpenAI;
 using Microsoft.Extensions.AI;
 using Notes.ViewModels;
-using OpenAI;
 using OpenAI.Chat;
 using System;
 using System.ClientModel;
@@ -39,8 +38,8 @@ public class AzureOpenAIProvider : ILanguageModelProvider
             string? endpoint = localSettings.Values["AzureOpenAIEndpointUri"] as string;
             string? deployment = localSettings.Values["AzureOpenAIDeploymentName"] as string;
 
-            return !string.IsNullOrEmpty(apiKey) && 
-                   !string.IsNullOrEmpty(endpoint) && 
+            return !string.IsNullOrEmpty(apiKey) &&
+                   !string.IsNullOrEmpty(endpoint) &&
                    !string.IsNullOrEmpty(deployment);
         }
     }

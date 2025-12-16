@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -21,7 +22,6 @@ internal class PhiSilicaClient : IChatClient
     private const float DefaultTemperature = 1;
 
     private LanguageModel? _languageModel;
-    private LanguageModelContext? _languageModelContext;
 
     public ChatClientMetadata Metadata { get; }
 
@@ -68,7 +68,7 @@ internal class PhiSilicaClient : IChatClient
             throw new InvalidOperationException("Language model is not loaded.");
         }
 
-        var prompt = GetPrompt(chatMessages);
+        string prompt = GetPromptAsString(chatMessages);
 
         await foreach (var part in GenerateStreamResponseAsync(prompt, options, cancellationToken))
         {
@@ -121,43 +121,26 @@ internal class PhiSilicaClient : IChatClient
         return (languageModelOptions, contentFilterOptions);
     }
 
-    private string GetPrompt(IEnumerable<ChatMessage> history)
+    private string GetPromptAsString(IEnumerable<ChatMessage> chatHistory)
     {
-        if (!history.Any())
+        if (!chatHistory.Any())
         {
             return string.Empty;
         }
 
-        string prompt = string.Empty;
+        StringBuilder prompt = new StringBuilder();
 
-        var firstMessage = history.FirstOrDefault();
-
-        _languageModelContext = firstMessage?.Role == ChatRole.System ?
-            _languageModel?.CreateContext(firstMessage.Text, new ContentFilterOptions()) :
-            _languageModel?.CreateContext();
-
-        for (var i = 0; i < history.Count(); i++)
+        for (var i = 0; i < chatHistory.Count(); i++)
         {
-            var message = history.ElementAt(i);
-            if (message.Role == ChatRole.System)
+            var message = chatHistory.ElementAt(i);
+
+            if (!string.IsNullOrEmpty(message.Text))
             {
-                if (i > 0)
-                {
-                    throw new ArgumentException("Only first message can be a system message");
-                }
-            }
-            else if (message.Role == ChatRole.User)
-            {
-                string msgText = message.Text ?? string.Empty;
-                prompt += msgText;
-            }
-            else if (message.Role == ChatRole.Assistant)
-            {
-                prompt += message.Text;
+                prompt.AppendLine(message.Text);
             }
         }
 
-        return prompt;
+        return prompt.ToString();
     }
 
     public void Dispose()
@@ -217,12 +200,12 @@ internal class PhiSilicaClient : IChatClient
         IAsyncOperationWithProgress<LanguageModelResponseResult, string>? progress;
         if (options == null)
         {
-            progress = _languageModel.GenerateResponseAsync(_languageModelContext, prompt, new LanguageModelOptions());
+            progress = _languageModel.GenerateResponseAsync(prompt, new LanguageModelOptions());
         }
         else
         {
             var (modelOptions, filterOptions) = GetModelOptions(options);
-            progress = _languageModel.GenerateResponseAsync(_languageModelContext, prompt, modelOptions);
+            progress = _languageModel.GenerateResponseAsync(prompt, modelOptions);
         }
 
         progress.Progress = (result, value) =>

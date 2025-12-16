@@ -10,7 +10,7 @@
 
     <Grid
         x:Name="Root"
-        Background="{ThemeResource SmokeFillColorDefaultBrush}" Padding="20, 60" Tapped="BackgroundTapped">
+        Background="{ThemeResource SmokeFillColorDefaultBrush}" Padding="20, 60" Tapped="Root_Tapped">
         <Grid
             x:Name="ImageGrid"
             HorizontalAlignment="Stretch"
@@ -22,7 +22,6 @@
             CornerRadius="8">
 
             <ScrollViewer
-                x:Name="rootScrollViewer"
                 ZoomMode="Enabled"
                 MaxZoomFactor="1"
                 MinZoomFactor="0.5"

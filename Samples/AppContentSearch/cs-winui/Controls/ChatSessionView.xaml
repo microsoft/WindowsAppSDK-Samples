@@ -17,7 +17,7 @@
         Padding="4"
         VerticalAlignment="Stretch">
 
-        <Button Click="clearChatButton_Click"
+        <Button Click="ClearChatButton_Click"
                 Style="{StaticResource SubtleButtonStyle}"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
@@ -54,34 +54,58 @@
                         </Grid>
 
                         <!-- Reference List -->
-                        <StackPanel Grid.Row="1" Margin="0,12">
-                            <ItemsRepeater
-                                ItemsSource="{x:Bind ReferencedFiles}">
+                        <StackPanel Grid.Row="1"
+                                    Margin="0,0,0,32"
+                                    Width="320"
+                                    Visibility="{x:Bind ShowReferences, Mode=OneWay}"
+                                    CornerRadius="{ThemeResource OverlayCornerRadius}"
+                                    Background="{ThemeResource CardBackgroundFillColorDefault}">
+                            <TextBlock Text="{x:Bind CountString, Mode=OneWay}"
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                       HorizontalAlignment="left"
+                                       Margin="24, 18" />
+                            <Border BorderThickness="1"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" />
+                            <ItemsRepeater ItemsSource="{x:Bind ReferencedFiles}"
+                                           Background="{ThemeResource CardBackgroundFillColorDefault}"
+                                           Margin="12"
+                                           HorizontalAlignment="Left">
                                 <ItemsRepeater.Layout>
-                                    <LinedFlowLayout LineSpacing="3" MinItemSpacing="3"/>
+                                    <StackLayout Spacing="5" />
                                 </ItemsRepeater.Layout>
                                 <ItemsRepeater.ItemTemplate>
                                     <DataTemplate x:DataType="local:SearchResult">
                                         <Button Tag="{x:Bind}"
-                                             CornerRadius="8"
-                                             Padding="8, 2"
-                                             MaxWidth="200"
-                                             Height="28"
-                                            Click="OnReferenceClick">
+                                                CornerRadius="8"
+                                                Padding="8, 2"
+                                                Height="64"
+                                                Width="294"
+                                                HorizontalContentAlignment="Stretch"
+                                                Style="{ThemeResource SubtleButtonStyle}"
+                                                Click="OnReferenceClick">
                                             <StackPanel Orientation="Horizontal">
-                                                <FontIcon 
-                                                 FontFamily="Segoe UI Emoji"
-                                                 FontSize="14"
-                                                 Glyph="{x:Bind local:SearchResult.ContentTypeToGlyph(ContentType)}" />
-                                                <TextBlock 
-                                                 Margin="4, 0, 0, 0"
-                                                 Text="{x:Bind Title}"
-                                                 FontSize="12"
-                                                 VerticalAlignment="Center"
-                                                 MaxWidth="130"
-                                                 TextWrapping="WrapWholeWords"
-                                                 MaxLines="2"
-                                                 TextTrimming="WordEllipsis" />
+                                                <FontIcon FontFamily="Segoe UI Emoji"
+                                                          FontSize="30"
+                                                          Glyph="{x:Bind local:SearchResult.ContentTypeToGlyph(ContentType)}" />
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Margin="16,0,0,0"
+                                                               Text="{x:Bind Title}"
+                                                               FontSize="14"
+                                                               Width="230"
+                                                               VerticalAlignment="Center"
+                                                               TextWrapping="WrapWholeWords"
+                                                               TextTrimming="WordEllipsis"
+                                                               MaxLines="1" />
+                                                    <TextBlock Margin="16,3,0,0"
+                                                               Text="{x:Bind Path}"
+                                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                               FontSize="14"
+                                                               Width="230"
+                                                               VerticalAlignment="Center"
+                                                               TextWrapping="WrapWholeWords"
+                                                               TextTrimming="WordEllipsis"
+                                                               MaxLines="1" />
+                                                </StackPanel>
                                             </StackPanel>
                                         </Button>
                                     </DataTemplate>
@@ -102,13 +126,13 @@
             VerticalAlignment="Bottom"
             ColumnDefinitions="*, Auto">
             <TextBox 
-                x:Name="txtRequest"
+                x:Name="RequestTextBox"
                 HorizontalAlignment="Stretch"
                 PlaceholderText="Ask Your Documents"
                 TextWrapping="Wrap"
                 Padding="7"
                 Margin="2" />
-            <Button x:Name="siSend"
+            <Button x:Name="SendButton"
                     AllowFocusOnInteraction="False"
                     ToolTipService.ToolTip="Send (Enter)"
                     HorizontalAlignment="Right"

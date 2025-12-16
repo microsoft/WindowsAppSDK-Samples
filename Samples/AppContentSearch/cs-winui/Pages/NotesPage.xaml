@@ -331,7 +331,7 @@
                     </Grid.ColumnDefinitions>
                     <FontIcon FontFamily="Segoe UI Emoji" FontSize="30" Glyph="📝" VerticalAlignment="Center"/>
                     <TextBox
-                        x:Name="TitleTxt"
+                        x:Name="TitleText"
                         Grid.Column="1"
                         Background="Transparent"
                         HorizontalAlignment="Stretch"

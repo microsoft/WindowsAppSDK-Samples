@@ -5,17 +5,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Shapes;
 using Notes.Models;
 using Notes.ViewModels;
 using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.Media.Core;
 using Windows.Storage;
 
 namespace Notes.Controls
@@ -25,7 +19,6 @@ namespace Notes.Controls
         private DispatcherQueue? _dispatcher;
         private Rect? _boundingBox;
 
-        public ObservableCollection<TranscriptionBlock> TranscriptionBlocks { get; set; } = new ObservableCollection<Models.TranscriptionBlock>();
         public AttachmentViewModel? AttachmentVM { get; set; }
         public bool AutoScrollEnabled { get; set; } = true;
 
@@ -46,14 +39,13 @@ namespace Notes.Controls
 
         public void Hide()
         {
-            TranscriptionBlocks.Clear();
             AttachmentImage.Source = null;
             AttachmentImageTextRect.Visibility = Visibility.Collapsed;
             _boundingBox = null;
             this.Visibility = Visibility.Collapsed;
         }
 
-        private void BackgroundTapped(object sender, TappedRoutedEventArgs e)
+        private void Root_Tapped(object sender, TappedRoutedEventArgs e)
         {
             // hide the search view only when the background was tapped but not any of the content inside
             if (e.OriginalSource as Grid == Root)

@@ -212,17 +212,17 @@ namespace Notes.ViewModels
 
         public async Task RemoveNoteFromIndexAsync()
         {
-            if (MainWindow.appContentIndexer != null && Note != null)
+            if (MainWindow.AppContentIndexer != null && Note != null)
             {
                 await Task.Run(() =>
                 {
-                    MainWindow.appContentIndexer.Remove(Note.Id.ToString());
+                    MainWindow.AppContentIndexer.Remove(Note.Id.ToString());
                 });
                 Debug.WriteLine($"Deleted note from index: {Note.Filename}");
             }
             else
             {
-                Debug.Write("appContentIndexer is null");
+                Debug.Write("AppContentIndexer is null");
             }
         }
 
@@ -239,11 +239,11 @@ namespace Notes.ViewModels
 
         public async static Task ManualDeleteIndex()
         {
-            if (MainWindow.appContentIndexer != null)
+            if (MainWindow.AppContentIndexer != null)
             {
                 await Task.Run(() =>
                 {
-                    MainWindow.appContentIndexer.RemoveAll();
+                    MainWindow.AppContentIndexer.RemoveAll();
                 });
                 Debug.WriteLine($"Deleted Index");
             }
@@ -269,11 +269,11 @@ namespace Notes.ViewModels
             IndexableAppContent textContent = AppManagedIndexableAppContent.CreateFromString(Note.Id.ToString(), Title + Content);
             Debug.WriteLine($"Indexing note {Note.Title}");
 
-            if (MainWindow.appContentIndexer != null)
+            if (MainWindow.AppContentIndexer != null)
             {
                 await Task.Run(() =>
                 {
-                    MainWindow.appContentIndexer.AddOrUpdate(textContent);
+                    MainWindow.AppContentIndexer.AddOrUpdate(textContent);
                 });
                 Debug.WriteLine($"Indexed note {Note.Title}");
             }
@@ -300,11 +300,11 @@ namespace Notes.ViewModels
             IndexableAppContent textContent = AppManagedIndexableAppContent.CreateFromString(Note.Id.ToString(), Title + Content);
             Debug.WriteLine($"Indexing note {Note.Title}");
 
-            if (MainWindow.appContentIndexer != null)
+            if (MainWindow.AppContentIndexer != null)
             {
                 await Task.Run(() =>
                 {
-                    MainWindow.appContentIndexer.AddOrUpdate(textContent);
+                    MainWindow.AppContentIndexer.AddOrUpdate(textContent);
                 });
                 Debug.WriteLine($"Indexed note {Note.Title}");
             }
@@ -316,7 +316,7 @@ namespace Notes.ViewModels
 
         private async Task SaveContentToFileDeleteAndReIndex()
         {
-            if (MainWindow.appContentIndexer != null)
+            if (MainWindow.AppContentIndexer != null)
             {
                 var folder = await Utils.GetLocalFolderAsync();
                 var file = await folder.GetFileAsync(Note.Filename);
@@ -326,7 +326,7 @@ namespace Notes.ViewModels
 
                 await Task.Run(() =>
                 {
-                    MainWindow.appContentIndexer.Remove(Note.Id.ToString());
+                    MainWindow.AppContentIndexer.Remove(Note.Id.ToString());
                 });
                 Debug.WriteLine($"Deleted note {Note.Title}");
 
@@ -335,7 +335,7 @@ namespace Notes.ViewModels
 
                 await Task.Run(() =>
                 {
-                    MainWindow.appContentIndexer.AddOrUpdate(textContent);
+                    MainWindow.AppContentIndexer.AddOrUpdate(textContent);
                 });
                 Debug.WriteLine($"Indexed note {Note.Title}");
 

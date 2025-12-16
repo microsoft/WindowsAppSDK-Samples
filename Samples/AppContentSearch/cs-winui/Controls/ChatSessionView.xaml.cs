@@ -18,22 +18,22 @@ public sealed partial class ChatSessionView : UserControl
     {
         this.InitializeComponent();
 
-        siSend.Click += SiSend_Click;
-        txtRequest.KeyDown += TxtRequest_KeyDown;
+        SendButton.Click += SendButton_Click;
+        RequestTextBox.KeyDown += RequestTextBox_KeyDown;
     }
 
     public void InitializeChatSessionViewModel()
-    {   
+    {
         if (ChatSessionViewModel == null)
         {
             ChatSessionViewModel = new ChatSessionViewModel();
         }
-    }   
+    }
 
-    private void SiSend_Click(object sender, RoutedEventArgs e)
+    private void SendButton_Click(object sender, RoutedEventArgs e)
     {
-        var message = txtRequest.Text;
-        txtRequest.Text = string.Empty;
+        var message = RequestTextBox.Text;
+        RequestTextBox.Text = string.Empty;
 
         Task.Run(() =>
         {
@@ -41,12 +41,12 @@ public sealed partial class ChatSessionView : UserControl
         });
     }
 
-    private void TxtRequest_KeyDown(object sender, KeyRoutedEventArgs e)
+    private void RequestTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
     {
         if (e.Key == VirtualKey.Enter)
         {
-            var message = txtRequest.Text;
-            txtRequest.Text = string.Empty;
+            var message = RequestTextBox.Text;
+            RequestTextBox.Text = string.Empty;
 
             Task.Run(() =>
             {
@@ -63,7 +63,7 @@ public sealed partial class ChatSessionView : UserControl
         }
     }
 
-    private async void clearChatButton_Click(object sender, RoutedEventArgs e)
+    private async void ClearChatButton_Click(object sender, RoutedEventArgs e)
     {
         await ClearChatHistory();
     }

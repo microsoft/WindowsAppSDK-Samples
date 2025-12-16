@@ -148,12 +148,12 @@ public class PhiSilicaProvider : ILanguageModelProvider
         return original ?? new ChatResponseUpdate { Role = ExtChatRole.Assistant, Text = text };
     }
 
-    private IList<Microsoft.Extensions.AI.ChatMessage> BuildPhiChatMessages(ChatContext context)
+    private IList<ChatMessage> BuildPhiChatMessages(ChatContext context)
     {
-        var combinedSystemPrompt = $"{SystemPrimaryPrompt}\r\n{SystemSecondaryPrompt}";
-        var list = new List<Microsoft.Extensions.AI.ChatMessage>
+        ;
+        var list = new List<ChatMessage>
         {
-            new(ExtChatRole.System, combinedSystemPrompt)
+            new(ExtChatRole.System, SystemPrimaryPrompt)
         };
 
         foreach (var sr in context.Data)
@@ -168,6 +168,8 @@ public class PhiSilicaProvider : ILanguageModelProvider
                 list.Add(new(ExtChatRole.User, sr.Content));
             }
         }
+
+        list.Add(new(ExtChatRole.System, SystemSecondaryPrompt));
 
         foreach (var h in context.ChatHistory)
         {

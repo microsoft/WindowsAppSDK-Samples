@@ -79,12 +79,12 @@ public class ChatSessionViewModel
 
     public async Task<bool> SendRequest(string message)
     {
-        if (MainWindow.appContentIndexer == null) return false;
+        if (MainWindow.AppContentIndexer == null) return false;
 
         _dispatcherQueue?.TryEnqueue(() => SessionEntryViewModels.Add(
             new SessionEntryViewModel(message, ChatRole.User, _backgroundBrush[ChatRole.User], _foregroundBrush[ChatRole.User])));
 
-        var foundSources = await Utils.SearchAsync(MainWindow.appContentIndexer, message, top: 5);
+        var foundSources = await Utils.SearchAsync(MainWindow.AppContentIndexer, message, top: 5);
         if (foundSources == null) return true;
 
         var chatContext = new ChatContext(foundSources, SessionEntryViewModels);
@@ -95,7 +95,9 @@ public class ChatSessionViewModel
             ChatRole.Assistant,
             _backgroundBrush[ChatRole.Assistant],
             _foregroundBrush[ChatRole.Assistant],
-            null);
+            "",
+            null,
+            Visibility.Collapsed);
 
         _dispatcherQueue?.TryEnqueue(() => SessionEntryViewModels.Add(assistantEntry));
 
@@ -131,6 +133,18 @@ public class ChatSessionViewModel
             {
                 assistantEntry.ReferencedFiles.Add(file);
             }
+
+            var refFiles = assistantEntry.ReferencedFiles;
+
+            assistantEntry.ShowReferences =
+                (refFiles != null && refFiles.Count > 0) ?
+                    Visibility.Visible :
+                    Visibility.Collapsed;
+
+            assistantEntry.CountString =
+                (refFiles != null && refFiles.Count > 0) ?
+                    $"{refFiles.Count} files found" :
+                    "No files found";
         });
         return true;
     }
@@ -146,12 +160,20 @@ public partial class SessionEntryViewModel : ObservableObject
     [ObservableProperty]
     private string message;
 
+    [ObservableProperty]
+    private Visibility showReferences;
+
+    [ObservableProperty]
+    private string countString;
+
     public SessionEntryViewModel(
         string message,
         ChatRole participant,
         Brush backgroundBrush,
         Brush foregroundBrush,
-        ObservableCollection<SearchResult>? referencedFiles = null)
+        string countString = "",
+        ObservableCollection<SearchResult>? referencedFiles = null,
+        Visibility showReferences = Visibility.Collapsed)
     {
         this.message = message ?? string.Empty;
         Participant = participant;
@@ -159,7 +181,9 @@ public partial class SessionEntryViewModel : ObservableObject
         ForegroundBrush = foregroundBrush;
         ReferencedFiles = referencedFiles ?? new ObservableCollection<SearchResult>();
         HorizontalAlignment = participant == ChatRole.User ? HorizontalAlignment.Right : HorizontalAlignment.Left;
-        Margin = new Thickness(participant == ChatRole.User ? 64 : 0, 4, 0, 0);
+        Margin = new Thickness(participant == ChatRole.User ? 64 : 0, 4, 0, 32);
+        this.showReferences = showReferences;
+        this.countString = countString;
     }
 
     public ChatRole Participant { get; }

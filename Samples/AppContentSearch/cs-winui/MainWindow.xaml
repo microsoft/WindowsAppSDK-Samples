@@ -22,7 +22,7 @@
                   Title="Contoso Notes"
                   Grid.ColumnSpan="2">
             <TitleBar.Content>
-                <controls:SearchView x:Name="searchView"
+                <controls:SearchView x:Name="AppSearchView"
                          Grid.RowSpan="2"
                          IsEnabled="False" />
             </TitleBar.Content>
@@ -33,11 +33,14 @@
                     VerticalAlignment="Top">
                     <ToggleButton
                         x:Name="ChatPaneToggleButton"
+                        Foreground="{ThemeResource AIAccentGradientBrush}"
                         IsEnabled="False"
-                        Click="AskMyNotesClicked"
+                        Click="ChatPaneToggleButton_Click"
                         Padding="13,11"
                         Margin="2">
                         <ToggleButton.Resources>
+                            <StaticResource x:Key="ToggleButtonForegroundPointerOver" ResourceKey="AIAccentGradientBrush" />
+                            <StaticResource x:Key="ToggleButtonForegroundPressed" ResourceKey="AIAccentGradientBrush" />
                             <StaticResource x:Key="ToggleButtonBackground" ResourceKey="SubtleFillColorTransparentBrush" />
                             <StaticResource x:Key="ToggleButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
                             <StaticResource x:Key="ToggleButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
@@ -67,11 +70,11 @@
                         DefaultLabelPosition="Right">
                         <CommandBar.SecondaryCommands>
                             <AppBarButton Label="Index All"
-                              Click="indexButton_Click"
+                              Click="IndexButton_Click"
                               Icon="Refresh">
                             </AppBarButton>
                             <AppBarButton Label="Delete Index"
-                              Click="deleteIndexButton_Click"
+                              Click="DeleteIndexButton_Click"
                               Icon="Delete">
                             </AppBarButton>
                         </CommandBar.SecondaryCommands>
@@ -80,7 +83,7 @@
             </TitleBar.RightHeader>
         </TitleBar>
 
-        <NavigationView x:Name="navView"
+        <NavigationView x:Name="NavView"
                         Grid.Row="1"
                         Grid.Column="0"
                         IsPaneOpen="True"
@@ -161,15 +164,15 @@
                 </local:MenuItemTemplateSelector>
             </NavigationView.MenuItemTemplateSelector>
             <NavigationView.Content>
-                <Frame x:Name="navFrame"/>
+                <Frame x:Name="NavFrame"/>
             </NavigationView.Content>
         </NavigationView>
 
         <controls:AttachmentView
-            x:Name="attachmentView"
+            x:Name="AttachmentView"
             Grid.Row="1"/>
 
-        <controls:ChatSessionView x:Name="chatSessionView"
+        <controls:ChatSessionView x:Name="AppChatSessionView"
                                Grid.Row="1"
                                Grid.Column="1"
                                Visibility="Collapsed"
