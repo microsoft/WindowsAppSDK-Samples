@@ -53,6 +53,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="Microsoft.Windows.CppWinRT" />
+    <PackageReference Include="Microsoft.VCRTForwarders.140" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
