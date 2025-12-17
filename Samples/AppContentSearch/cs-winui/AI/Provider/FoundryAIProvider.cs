@@ -24,7 +24,7 @@ public class FoundryAIProvider : ILanguageModelProvider
     private OpenAIClient? _foundryClient;
     private ChatClient? _foundryChatClient;
     private string? _foundryModelId;
-    private Task? _foundryInitTask;
+    private readonly Task? _foundryInitTask;
     private string? _foundryModelAliasRequested;
 
     private const string FoundryModelKey = "FoundryModelName";
@@ -152,12 +152,9 @@ public class FoundryAIProvider : ILanguageModelProvider
                 }
 
                 var update = enumerator.Current;
-                foreach (var part in update.ContentUpdate)
+                foreach (var part in update.ContentUpdate.Where(part => !string.IsNullOrEmpty(part.Text)))
                 {
-                    if (!string.IsNullOrEmpty(part.Text))
-                    {
-                        yield return Append(entry, part.Text);
-                    }
+                    yield return Append(entry, part.Text);
                 }
 
                 await Task.Yield();
@@ -263,9 +260,8 @@ public class FoundryAIProvider : ILanguageModelProvider
 
         list.Add(new SystemChatMessage(SystemSecondaryPrompt));
 
-        foreach (var h in context.ChatHistory)
+        foreach (var h in context.ChatHistory.Where(h => !string.IsNullOrEmpty(h.Message)))
         {
-            if (string.IsNullOrEmpty(h.Message)) continue;
             list.Add(h.Participant == AppChatRole.User
                 ? new UserChatMessage(h.Message)
                 : new AssistantChatMessage(h.Message));

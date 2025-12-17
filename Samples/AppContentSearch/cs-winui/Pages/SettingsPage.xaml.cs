@@ -14,12 +14,12 @@ namespace Notes.Pages
 {
     public sealed partial class SettingsPage : Page
     {
-        private const string ModelSourceKey = "ModelSource";          // "phi" | "azure" | "foundry"
+        private const string ModelSourceKey = "ModelSource"; // "phi" | "azure" | "foundry"
         private const string FoundryModelKey = "FoundryModelName";
         private const string ShowBoundingBoxesKey = "ShowBoundingBoxes"; // bool
 
         private FoundryLocalManager? _foundryManager;
-        private Task? _foundryInitTask;
+        private readonly Task? _foundryInitTask;
         private bool _isInitializing = true; // Track initialization state
 
         // Original settings values for change tracking
@@ -359,15 +359,7 @@ namespace Notes.Pages
             }
 
             // Bounding boxes (default: true)
-            if (localSettings.Values.ContainsKey(ShowBoundingBoxesKey) &&
-                localSettings.Values[ShowBoundingBoxesKey] is bool b)
-            {
-                ShowBoundingBoxesToggleSwitch.IsOn = b;
-            }
-            else
-            {
-                ShowBoundingBoxesToggleSwitch.IsOn = true;
-            }
+            ShowBoundingBoxesToggleSwitch.IsOn = localSettings.Values[ShowBoundingBoxesKey] is bool b ? b : true;
 
             UpdateSourceDependentFields();
             // Don't call UpdateOriginalValues() or UpdateSaveButtonState() here
@@ -396,8 +388,8 @@ namespace Notes.Pages
 
         private string GetSelectedModelSource()
         {
-            if (AzureComboBoxItem.IsSelected == true) return "azure";
-            if (FoundryComboBoxItem.IsSelected == true) return "foundry";
+            if (AzureComboBoxItem.IsSelected) return "azure";
+            if (FoundryComboBoxItem.IsSelected) return "foundry";
             return "phi";
         }
 
@@ -419,8 +411,8 @@ namespace Notes.Pages
 
         private void UpdateSourceDependentFields()
         {
-            bool isAzure = AzureComboBoxItem.IsSelected == true;
-            bool isFoundry = FoundryComboBoxItem.IsSelected == true;
+            bool isAzure = AzureComboBoxItem.IsSelected;
+            bool isFoundry = FoundryComboBoxItem.IsSelected;
 
             if (AzureSettingsCard == null || FoundrySettingsCard == null) return;
 
@@ -447,7 +439,7 @@ namespace Notes.Pages
             bool isValidConfiguration = true;
 
             // Additional validation: if Foundry is selected, ensure a model is chosen
-            if (FoundryComboBoxItem.IsSelected == true)
+            if (FoundryComboBoxItem.IsSelected)
             {
                 isValidConfiguration = FoundryModelComboBox.SelectedItem != null && !string.IsNullOrWhiteSpace(GetFoundryModelSelection());
             }

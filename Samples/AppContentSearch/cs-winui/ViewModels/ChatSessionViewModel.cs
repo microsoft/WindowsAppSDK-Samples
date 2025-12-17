@@ -58,7 +58,7 @@ public class ChatSessionViewModel
 
     public static Microsoft.UI.Dispatching.DispatcherQueue? _dispatcherQueue { get; set; }
 
-    private LanguageModelManager _languageModelManager = new LanguageModelManager();
+    private readonly LanguageModelManager _languageModelManager = new LanguageModelManager();
 
     public ChatSessionViewModel()
     {

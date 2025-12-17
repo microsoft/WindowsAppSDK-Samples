@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 
 using Microsoft.Extensions.AI;
-using Microsoft.UI.Xaml.Controls;
 using Notes.AI;
 using Notes.ViewModels;
 using System;
@@ -30,7 +29,7 @@ public class LanguageModelManager
 
     public LanguageModelManager()
     {
-        _providers = new Dictionary<LanguageModelType, ILanguageModelProvider> {};
+        _providers = new Dictionary<LanguageModelType, ILanguageModelProvider> { };
 
         var modelType = LoadConfiguredModelType();
         _currentProvider = _providers[modelType];
@@ -103,10 +102,9 @@ public class LanguageModelManager
 
     public async Task<bool> SwitchToProviderAsync(LanguageModelType modelType, CancellationToken cancellationToken = default)
     {
-        if (!_providers.ContainsKey(modelType))
+        if (!_providers.TryGetValue(modelType, out var provider))
             return false;
 
-        var provider = _providers[modelType];
         if (!provider.IsAvailable)
             return false;
 

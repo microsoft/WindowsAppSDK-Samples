@@ -8,6 +8,7 @@ using System;
 using System.ClientModel;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -189,9 +190,8 @@ public class AzureOpenAIProvider : ILanguageModelProvider
 
         list.Add(new SystemChatMessage(SystemSecondaryPrompt));
 
-        foreach (var h in context.ChatHistory)
+        foreach (var h in context.ChatHistory.Where(h => !string.IsNullOrEmpty(h.Message)))
         {
-            if (string.IsNullOrEmpty(h.Message)) continue;
             list.Add(h.Participant == AppChatRole.User
                 ? new UserChatMessage(h.Message)
                 : new AssistantChatMessage(h.Message));

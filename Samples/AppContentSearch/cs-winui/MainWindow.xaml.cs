@@ -16,13 +16,19 @@ namespace Notes
 {
     public sealed partial class MainWindow : Window
     {
-        public static ChatSessionView? ChatSessionView;
-        public static SearchView? SearchView;
-        public static MainWindow? Instance;
-        public static AppContentIndexer? AppContentIndexer;
+        private static ChatSessionView? _chatSessionView;
+        private static SearchView? _searchView;
+        private static MainWindow? _instance;
+        private static AppContentIndexer? _appContentIndexer;
+
+        public static ChatSessionView? ChatSessionView => _chatSessionView;
+        public static SearchView? SearchView => _searchView;
+        public static MainWindow? Instance => _instance;
+        public static AppContentIndexer? AppContentIndexer => _appContentIndexer;
+
         public ViewModel VM;
 
-        private Task _initializeAppContentIndexerTask;
+        private readonly Task _initializeAppContentIndexerTask;
 
         public MainWindow()
         {
@@ -35,9 +41,9 @@ namespace Notes
             this.Title = AppTitleBar.Title;
             this.AppWindow.SetIcon("Assets/ContosoNote.ico");
 
-            Instance = this;
-            SearchView = AppSearchView;
-            ChatSessionView = AppChatSessionView;
+            _instance = this;
+            _searchView = AppSearchView;
+            _chatSessionView = AppChatSessionView;
 
             VM.Notes.CollectionChanged += Notes_CollectionChanged;
 
@@ -45,7 +51,7 @@ namespace Notes
 
             DispatcherQueue.TryEnqueue(async () =>
             {
-                SearchView?.SetSearchBoxInitializing();
+                _searchView?.SetSearchBoxInitializing();
 
                 try
                 {
@@ -69,7 +75,7 @@ namespace Notes
 
                 if (attachmentId.HasValue)
                 {
-                    var attachmentViewModel = note.Attachments.Where(a => a.Attachment.Id == attachmentId).FirstOrDefault();
+                    var attachmentViewModel = note.Attachments.Where(a => a.Attachment.Id == attachmentId.Value).FirstOrDefault();
                     if (attachmentViewModel == null)
                     {
                         var context = await AppDataContext.GetCurrentAsync();
@@ -92,7 +98,7 @@ namespace Notes
             GetOrCreateIndexResult? getOrCreateResult = null;
             await Task.Run(() =>
             {
-                getOrCreateResult = AppContentIndexer.GetOrCreateIndex("NotesIndex");
+                getOrCreateResult = Microsoft.Windows.AI.Search.Experimental.AppContentIndex.AppContentIndexer.GetOrCreateIndex("NotesIndex");
                 if (getOrCreateResult == null)
                 {
                     throw new Exception("GetOrCreateIndexResult is null");
@@ -102,7 +108,7 @@ namespace Notes
                     throw getOrCreateResult.ExtendedError;
                 }
 
-                AppContentIndexer = getOrCreateResult.Indexer;
+                _appContentIndexer = getOrCreateResult.Indexer;
             });
 
             DispatcherQueue.TryEnqueue(() =>
@@ -185,9 +191,9 @@ namespace Notes
         {
             ToggleChatPane();
 
-            if (ChatSessionView?.ChatSessionViewModel == null)
+            if (_chatSessionView?.ChatSessionViewModel == null)
             {
-                ChatSessionView?.InitializeChatSessionViewModel();
+                _chatSessionView?.InitializeChatSessionViewModel();
             }
         }
 
@@ -199,14 +205,14 @@ namespace Notes
 
         private async Task IndexAllAsync()
         {
-            SearchView?.SetSearchBoxInitializingCompleted();
+            _searchView?.SetSearchBoxInitializingCompleted();
 
             var notes = this.VM.Notes;
             int total = notes.Count;
 
             var progress = new Progress<double>(percent =>
             {
-                SearchView?.SetIndexProgressBar(percent);
+                _searchView?.SetIndexProgressBar(percent);
                 Debug.WriteLine($"Indexing progress: {percent:F2}%");
             });
 
@@ -223,20 +229,20 @@ namespace Notes
 
             // After adding all files to the staging phase of the index, we wait until the index fully completes.
             // Results may be partial during the staging phase.
-            SearchView?.StartIndexProgressBarStaging();
+            _searchView?.StartIndexProgressBarStaging();
 
-            if (AppContentIndexer != null)
+            if (_appContentIndexer != null)
             {
-                await AppContentIndexer.WaitForIndexingIdleAsync(TimeSpan.MaxValue);
+                await _appContentIndexer.WaitForIndexingIdleAsync(TimeSpan.MaxValue);
             }
 
             // Indexing is fully completed.
-            SearchView?.SetSearchBoxIndexingCompleted();
+            _searchView?.SetSearchBoxIndexingCompleted();
         }
 
         private async void IndexButton_Click(object sender, RoutedEventArgs e)
         {
-            if (AppContentIndexer != null)
+            if (_appContentIndexer != null)
             {
                 await IndexAllAsync();
             }

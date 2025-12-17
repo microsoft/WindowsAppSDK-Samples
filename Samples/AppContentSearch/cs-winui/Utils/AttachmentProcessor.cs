@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.Extensions.AI;
 using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
 using Notes.Models;
 using System;
@@ -17,10 +16,10 @@ namespace Notes
     {
         public static EventHandler<AttachmentProcessedEventArgs>? AttachmentProcessed;
 
-        private static List<Attachment> _toBeProcessed = new();
+        private readonly static List<Attachment> _toBeProcessed = new();
         private static bool _isProcessing = false;
 
-        
+
 
         public async static Task AddAttachment(Attachment attachment)
         {

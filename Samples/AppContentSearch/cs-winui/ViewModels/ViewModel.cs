@@ -44,21 +44,26 @@ namespace Notes.ViewModels
 
         public async Task RemoveNoteAsync(NoteViewModel noteViewModel)
         {
+            if (noteViewModel == null)
+            {
+                return;
+            }
+
             // Remove all attachments associated with the Note.
             foreach (var attachment in noteViewModel.Attachments.ToList())
             {
-                if (noteViewModel != null && attachment != null)
+                if (attachment != null)
                 {
                     await noteViewModel.RemoveAttachmentAsync(attachment);
                 }
             }
-              
+
             // Remove from the observable collection.
-            Notes.Remove(noteViewModel!);
+            Notes.Remove(noteViewModel);
 
             // Delete the file from local storage.
             var folder = await Utils.GetLocalFolderAsync();
-            var file = await folder.TryGetItemAsync(noteViewModel?.Note.Filename) as StorageFile;
+            var file = await folder.TryGetItemAsync(noteViewModel.Note.Filename) as StorageFile;
 
             if (file != null)
             {
@@ -67,14 +72,14 @@ namespace Notes.ViewModels
 
             // Remove from data context and index.
             var dataContext = await AppDataContext.GetCurrentAsync();
-            var note = dataContext.Notes.FirstOrDefault(n => n.Filename == noteViewModel!.Note.Filename);
+            var note = dataContext.Notes.FirstOrDefault(n => n.Filename == noteViewModel.Note.Filename);
 
             if (note != null)
             {
                 dataContext.Notes.Remove(note);
                 await dataContext.SaveChangesAsync();
-                await noteViewModel!.RemoveNoteFromIndexAsync();
-            }            
+                await noteViewModel.RemoveNoteFromIndexAsync();
+            }
         }
 
         private async Task LoadNotes()
@@ -84,22 +89,19 @@ namespace Notes.ViewModels
 
             StorageFolder notesFolder = await Utils.GetLocalFolderAsync();
             var files = await notesFolder.GetFilesAsync();
-            var filenames = files.ToDictionary(f => f.Name, f=> f);
+            var filenames = files.ToDictionary(f => f.Name, f => f);
 
-            foreach (var note in savedNotes)
+            foreach (var note in savedNotes.Where(n => n.Filename != null))
             {
-                if (note.Filename != null)
+                if (filenames.ContainsKey(note.Filename!))
                 {
-                    if (filenames.ContainsKey(note.Filename))
-                    {
-                        filenames.Remove(note.Filename);
-                        Notes.Add(new NoteViewModel(note));
-                    }
-                    else
-                    {
-                        // delete note from db
-                        dataContext.Notes.Remove(note);
-                    }
+                    filenames.Remove(note.Filename!);
+                    Notes.Add(new NoteViewModel(note));
+                }
+                else
+                {
+                    // delete note from db
+                    dataContext.Notes.Remove(note);
                 }
             }
 

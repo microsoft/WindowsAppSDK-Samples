@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.AI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
@@ -32,7 +31,7 @@ namespace Notes.ViewModels
         [ObservableProperty]
         private string content = string.Empty;
 
-        private DispatcherTimer _saveTimer;
+        private readonly DispatcherTimer _saveTimer;
         private bool _contentLoaded = false;
 
         public DispatcherQueue? DispatcherQueue { get; set; }
@@ -98,7 +97,7 @@ namespace Notes.ViewModels
         }
 
         public static async Task<string> LoadTextContentByIdAsync(string contentId)
-        { 
+        {
             var folder = await Utils.GetLocalFolderAsync();
             var file = await folder.GetFileAsync(contentId);
             var returnedContent = await FileIO.ReadTextAsync(file);
@@ -111,7 +110,7 @@ namespace Notes.ViewModels
             var folder = await Utils.GetAttachmentsFolderAsync();
             var file = await folder.GetFileAsync(contentId);
             byte[] imageBytes = System.IO.File.ReadAllBytes(file.Path);
-            
+
             // FYI, the base64 string representation would be str = Convert.ToBase64String(imageBytes);
             return imageBytes;
         }
@@ -133,15 +132,13 @@ namespace Notes.ViewModels
                 Note = Note
             };
 
-            if (new string[] { ".png", ".jpg", ".jpeg", ".bmp"}.Contains(file.FileType.ToLower()))
+            if (new string[] { ".png", ".jpg", ".jpeg", ".bmp" }.Contains(file.FileType.ToLower()))
             {
                 attachment.Type = NoteAttachmentType.Image;
             }
-            else if (new string[] { ".mp3", ".wav", ".m4a", ".opus", ".waptt" }.Contains(file.FileType))
+            else if (new string[] { ".mp3", ".wav", ".m4a", ".opus", ".watt" }.Contains(file.FileType))
             {
-                attachment.Type = NoteAttachmentType.Audio;
-                shouldCopyFile = false;
-                throw new NotSupportedException("audio files are not supported");                
+                throw new NotSupportedException("audio files are not supported");
             }
             else if (file.FileType == ".mp4")
             {
@@ -173,7 +170,7 @@ namespace Notes.ViewModels
         {
             // save bitmap to file
             var attachmentsFolder = await Utils.GetAttachmentsFolderAsync();
-            var file = await attachmentsFolder.CreateFileAsync(Guid.NewGuid().ToString() + ".png", CreationCollisionOption.GenerateUniqueName);
+            var file = await attachmentsFolder.CreateFileAsync(Guid.NewGuid() + ".png", CreationCollisionOption.GenerateUniqueName);
 
             using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
             {
@@ -204,7 +201,7 @@ namespace Notes.ViewModels
             }
 
             var context = await AppDataContext.GetCurrentAsync();
-            context.Attachments.Remove(attachment);            
+            context.Attachments.Remove(attachment);
 
             await context.SaveChangesAsync();
             await AttachmentProcessor.RemoveAttachment(attachment);
@@ -261,9 +258,6 @@ namespace Notes.ViewModels
 
         public async Task ReindexAsync()
         {
-            var folder = await Utils.GetLocalFolderAsync();
-            var file = await folder.GetFileAsync(Note.Filename);
-
             await this.LoadContentAsync();
 
             IndexableAppContent textContent = AppManagedIndexableAppContent.CreateFromString(Note.Id.ToString(), Title + Content);

@@ -16,7 +16,7 @@ namespace Notes.Controls
 {
     public sealed partial class AttachmentView : UserControl
     {
-        private DispatcherQueue? _dispatcher;
+        private readonly DispatcherQueue? _dispatcher;
         private Rect? _boundingBox;
 
         public AttachmentViewModel? AttachmentVM { get; set; }
@@ -94,24 +94,28 @@ namespace Notes.Controls
             AttachmentImageTextRect.Visibility = Visibility.Collapsed;
 
             if (_boundingBox is null)
+            {
                 return;
+            }
 
             // Respect user preference
             var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (settings.Values.TryGetValue("ShowBoundingBoxes", out var val) && val is bool showBoxes)
+            if (settings.Values.TryGetValue("ShowBoundingBoxes", out var val) && val is bool showBoxes && !showBoxes)
             {
-                if (!showBoxes)
-                    return;
+                return;
             }
 
             if (AttachmentImage.Source is not BitmapImage bmp)
+            {
                 return;
+            }
 
             double imageW = AttachmentImage.ActualWidth;
             double imageH = AttachmentImage.ActualHeight;
             if (imageW <= 0 || imageH <= 0)
+            {
                 return;
-
+            }
 
             double pixelW = bmp.PixelWidth > 0 ? bmp.PixelWidth : imageW;
             double pixelH = bmp.PixelHeight > 0 ? bmp.PixelHeight : imageH;

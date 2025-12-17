@@ -35,9 +35,11 @@ namespace Notes.Pages
 
     public sealed partial class NotesPage : Page
     {
-        public static string AttachmentsFolderPath = "";
+        private static string _attachmentsFolderPath = "";
+        public static string AttachmentsFolderPath => _attachmentsFolderPath;
 
-        private NoteViewModel? ViewModel;
+        private NoteViewModel? _viewModel;
+        public NoteViewModel? ViewModel => _viewModel;
 
         public NotesPage()
         {
@@ -48,16 +50,16 @@ namespace Notes.Pages
         {
             if (e.Parameter != null)
             {
-                ViewModel = (NoteViewModel)e.Parameter;
-                ViewModel.DispatcherQueue = DispatcherQueue;
+                _viewModel = (NoteViewModel)e.Parameter;
+                _viewModel.DispatcherQueue = DispatcherQueue;
 
-                await ViewModel.LoadContentAsync();
+                await _viewModel.LoadContentAsync();
 
                 var paragraphFormat = ContentsRichEditBox.Document.GetDefaultParagraphFormat();
                 paragraphFormat.SetLineSpacing(Microsoft.UI.Text.LineSpacingRule.OneAndHalf, 2f);
                 ContentsRichEditBox.Document.SetDefaultParagraphFormat(paragraphFormat);
 
-                ContentsRichEditBox.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, ViewModel.Content);
+                ContentsRichEditBox.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, _viewModel.Content);
                 ContentsRichEditBox.IsEnabled = true;
                 ContentsRichEditBox.Focus(FocusState.Programmatic);
             }
@@ -66,7 +68,7 @@ namespace Notes.Pages
         private async void AttachmentsItemsView_Loaded(object sender, RoutedEventArgs e)
         {
             var attachmentsFolder = await Utils.GetAttachmentsFolderAsync();
-            AttachmentsFolderPath = attachmentsFolder.Path;
+            _attachmentsFolderPath = attachmentsFolder.Path;
         }
 
         private void ContentsRichEditBox_TextChanged(object sender, RoutedEventArgs e)
@@ -78,10 +80,10 @@ namespace Notes.Pages
 
             ContentsRichEditBox.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out var content);
 
-            if (ViewModel != null && ViewModel.Content.Trim() != content.Trim())
+            if (_viewModel != null && _viewModel.Content.Trim() != content.Trim())
             {
                 Debug.WriteLine("Text changed");
-                ViewModel.Content = content.Trim();
+                _viewModel.Content = content.Trim();
             }
         }
 
@@ -102,7 +104,7 @@ namespace Notes.Pages
 
         private async Task HandleDataPackage(DataPackageView dataPackage)
         {
-            if (ViewModel != null)
+            if (_viewModel != null)
             {
                 MainWindow.SearchView?.StartIndexProgressBarStaging();
 
@@ -112,7 +114,7 @@ namespace Notes.Pages
                     var imageStream = await imageStreamReference.OpenReadAsync();
                     BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
 
-                    await ViewModel.AddAttachmentAsync(await decoder.GetSoftwareBitmapAsync());
+                    await _viewModel.AddAttachmentAsync(await decoder.GetSoftwareBitmapAsync());
                 }
                 else if (dataPackage.Contains(StandardDataFormats.StorageItems))
                 {
@@ -122,7 +124,7 @@ namespace Notes.Pages
                     {
                         if (storageItem is StorageFile storageFile)
                         {
-                            await ViewModel.AddAttachmentAsync(storageFile);
+                            await _viewModel.AddAttachmentAsync(storageFile);
                         }
                     }
                 }
@@ -135,9 +137,9 @@ namespace Notes.Pages
         {
             var attachment = (sender as FrameworkElement)?.Tag as AttachmentViewModel;
 
-            if (ViewModel != null && attachment != null)
+            if (_viewModel != null && attachment != null)
             {
-                await ViewModel.RemoveAttachmentAsync(attachment);
+                await _viewModel.RemoveAttachmentAsync(attachment);
             }
         }
 
@@ -159,9 +161,9 @@ namespace Notes.Pages
 
         private async void IndexManual_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel != null)
+            if (_viewModel != null)
             {
-                await ViewModel.ManualSaveAndIndex();
+                await _viewModel.ManualSaveAndIndex();
             }
         }
     }

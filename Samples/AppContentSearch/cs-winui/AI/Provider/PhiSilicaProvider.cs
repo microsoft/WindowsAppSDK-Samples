@@ -4,6 +4,7 @@ using Microsoft.Extensions.AI;
 using Notes.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Notes.AI;
 public class PhiSilicaProvider : ILanguageModelProvider
 {
     private PhiSilicaClient? _phiSilicaClient;
-    private Task<PhiSilicaClient?>? _phiInitTask;
+    private readonly Task<PhiSilicaClient?>? _phiInitTask;
 
     private const string SystemPrimaryPrompt =
         "You are a helpful assistant. Your output should be ONLY in plain text. There should be NO markdown elements.";
@@ -171,9 +172,8 @@ public class PhiSilicaProvider : ILanguageModelProvider
 
         list.Add(new(ExtChatRole.System, SystemSecondaryPrompt));
 
-        foreach (var h in context.ChatHistory)
+        foreach (var h in context.ChatHistory.Where(h => !string.IsNullOrEmpty(h.Message)))
         {
-            if (string.IsNullOrEmpty(h.Message)) continue;
             var role = h.Participant == AppChatRole.User ? ExtChatRole.User : ExtChatRole.Assistant;
             list.Add(new(role, h.Message));
         }
