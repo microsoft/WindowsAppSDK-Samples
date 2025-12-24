@@ -26,35 +26,36 @@ Param(
 if ($NuGetPackagesFolder -eq "") {
     $NuGetPackagesFolder = Join-Path $PSScriptRoot "packages"
     Write-Host "NuGetPackagesFolder not supplied. Using default: $NuGetPackagesFolder"
+}
 
-    if (!(Test-Path $NuGetPackagesFolder)) {
-        Write-Host "Packages folder not found. Will perform a minimal restore to populate it."       
-    }
+if (!(Test-Path $NuGetPackagesFolder)) {
+    New-Item -ItemType Directory -Path $NuGetPackagesFolder -Force | Out-Null
+}
 
-    $nugetToolDir = Join-Path $PSScriptRoot ".nuget"
-    $nugetExe = Join-Path $nugetToolDir "nuget.exe"
-    if (!(Test-Path $nugetExe)) {
-        if (!(Test-Path $nugetToolDir)) { New-Item -ItemType Directory -Path $nugetToolDir | Out-Null }
-        Write-Host "Downloading nuget.exe..."
-        Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile $nugetExe
-    }
+$nugetToolDir = Join-Path $PSScriptRoot ".nuget"
+$nugetExe = Join-Path $nugetToolDir "nuget.exe"
+if (!(Test-Path $nugetExe)) {
+    if (!(Test-Path $nugetToolDir)) { New-Item -ItemType Directory -Path $nugetToolDir | Out-Null }
+    Write-Host "Downloading nuget.exe..."
+    Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile $nugetExe
+}
 
-    # Always install/refresh the requested Microsoft.WindowsAppSDK version (idempotent if already present).
-    if ([string]::IsNullOrWhiteSpace($WinAppSDKVersion)) {
-        $winAppSdkNugetUrl = "https://www.nuget.org/packages/Microsoft.WindowsAppSDK/"
-        Write-Warning "WinAppSDKVersion not supplied; cannot install Microsoft.WindowsAppSDK package automatically."
-        Write-Warning "Visit $winAppSdkNugetUrl to determine the latest version, then rerun the script."
+# Always install/refresh the requested Microsoft.WindowsAppSDK version (idempotent if already present).
+if ([string]::IsNullOrWhiteSpace($WinAppSDKVersion)) {
+    $winAppSdkNugetUrl = "https://www.nuget.org/packages/Microsoft.WindowsAppSDK/"
+    Write-Warning "WinAppSDKVersion not supplied; cannot install Microsoft.WindowsAppSDK package automatically."
+    Write-Warning "Visit $winAppSdkNugetUrl to determine the latest version, then rerun the script."
+    exit 1
+}
+else {
+    if (!(Test-Path $NuGetPackagesFolder)) { New-Item -ItemType Directory -Path $NuGetPackagesFolder | Out-Null }
+    Write-Host "Installing Microsoft.WindowsAppSDK $WinAppSDKVersion into $NuGetPackagesFolder (running inside folder)"
+    Push-Location $NuGetPackagesFolder
+    try {
+        & $nugetExe install Microsoft.WindowsAppSDK -Version $WinAppSDKVersion -OutputDirectory . -Prerelease -DependencyVersion Highest | Write-Host
     }
-    else {
-        if (!(Test-Path $NuGetPackagesFolder)) { New-Item -ItemType Directory -Path $NuGetPackagesFolder | Out-Null }
-        Write-Host "Installing Microsoft.WindowsAppSDK $WinAppSDKVersion into $NuGetPackagesFolder (running inside folder)"
-        Push-Location $NuGetPackagesFolder
-        try {
-            & $nugetExe install Microsoft.WindowsAppSDK -Version $WinAppSDKVersion -OutputDirectory . -Prerelease -DependencyVersion Highest | Write-Host
-        }
-        finally {
-            Pop-Location
-        }
+    finally {
+        Pop-Location
     }
 }
 
@@ -62,22 +63,20 @@ if ($NuGetPackagesFolder -eq "") {
 $nugetPackageToVersionTable = @{"Microsoft.WindowsAppSDK" = $WinAppSDKVersion }
 
 # When a populated packages folder is available, harvest dependency versions from it.
-if (!($NuGetPackagesFolder -eq "")) {
-    Get-ChildItem $NuGetPackagesFolder |
-    Sort-Object Name |
-    Where-Object { $_.Name -like "Microsoft.WindowsAppSDK.*" -or 
-        $_.Name -like "Microsoft.Windows.SDK.BuildTools.*" -or 
-        $_.Name -like "Microsoft.Web.WebView2.*" } | 
-    Where-Object { $_.Name -notlike "*.nupkg" } |
-    ForEach-Object { 
-        if ($_.Name -match "^(Microsoft\.WindowsAppSDK\.[a-zA-Z]+)\.([0-9].*)$" -or
-            $_.Name -match "^(Microsoft\.Windows\.SDK\.BuildTools\.MSIX)\.([0-9].*)$" -or
-            $_.Name -match "^(Microsoft\.Windows\.SDK\.BuildTools)\.([0-9].*)$" -or
-            $_.Name -match "^(Microsoft\.Web\.WebView2)\.([0-9].*)$") {
-            $nugetPackageToVersionTable[$Matches[1]] = $Matches[2]
-            Write-Host "Found $($Matches[1]) - $($Matches[2])"
-        } 
-    }
+Get-ChildItem $NuGetPackagesFolder |
+Sort-Object Name |
+Where-Object { $_.Name -like "Microsoft.WindowsAppSDK.*" -or 
+    $_.Name -like "Microsoft.Windows.SDK.BuildTools.*" -or 
+    $_.Name -like "Microsoft.Web.WebView2.*" } | 
+Where-Object { $_.Name -notlike "*.nupkg" } |
+ForEach-Object { 
+    if ($_.Name -match "^(Microsoft\.WindowsAppSDK\.[a-zA-Z]+)\.([0-9].*)$" -or
+        $_.Name -match "^(Microsoft\.Windows\.SDK\.BuildTools\.MSIX)\.([0-9].*)$" -or
+        $_.Name -match "^(Microsoft\.Windows\.SDK\.BuildTools)\.([0-9].*)$" -or
+        $_.Name -match "^(Microsoft\.Web\.WebView2)\.([0-9].*)$") {
+        $nugetPackageToVersionTable[$Matches[1]] = $Matches[2]
+        Write-Host "Found $($Matches[1]) - $($Matches[2])"
+    } 
 }
 
 Get-ChildItem -Recurse Directory.Packages.props -Path $PSScriptRoot | foreach-object {
@@ -92,4 +91,3 @@ Get-ChildItem -Recurse Directory.Packages.props -Path $PSScriptRoot | foreach-ob
     Set-Content -Path $_.FullName -Value $content
     Write-Host "Modified " $_.FullName 
 }
-
