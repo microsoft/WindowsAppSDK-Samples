@@ -29,12 +29,13 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
     <AppContainerApplication>false</AppContainerApplication>
-    <AppxPackage>false</AppxPackage>
+    <AppxPackage>true</AppxPackage>
     <ApplicationType>Windows Store</ApplicationType>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
     <UseWinUI>true</UseWinUI>
+		<EnableMsixTooling>true</EnableMsixTooling>
     <!-- Declare supported RuntimeIdentifiers explicitly -->
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
   </PropertyGroup>
@@ -116,6 +117,11 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+	<ItemGroup Condition="'$(WindowsPackageType)'!='None' and Exists('Package.appxmanifest')">
+		<AppxManifest Include="Package.appxmanifest">
+			<SubType>Designer</SubType>
+		</AppxManifest>
+	</ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />
   </ItemGroup>
@@ -154,5 +160,30 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Midl>
   </ItemGroup>
+	<ItemGroup>
+		<Image Include="Assets\LockScreenLogo.scale-200.png" />
+		<Image Include="Assets\SplashScreen.scale-200.png" />
+		<Image Include="Assets\Square150x150Logo.scale-200.png" />
+		<Image Include="Assets\Square44x44Logo.scale-200.png" />
+		<Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+		<Image Include="Assets\StoreLogo.png" />
+		<Image Include="Assets\Wide310x150Logo.scale-200.png" />
+	</ItemGroup>
+	<!--
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+	<!--
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+	</PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
