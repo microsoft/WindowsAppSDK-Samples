@@ -37,7 +37,14 @@ $nugetExe = Join-Path $nugetToolDir "nuget.exe"
 if (!(Test-Path $nugetExe)) {
     if (!(Test-Path $nugetToolDir)) { New-Item -ItemType Directory -Path $nugetToolDir | Out-Null }
     Write-Host "Downloading nuget.exe..."
-    Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile $nugetExe
+    try {
+        Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe `
+            -OutFile $nugetExe `
+            -ErrorAction Stop
+    }
+    catch {
+        Write-Warning "Failed to download nuget.exe: $($_.Exception.Message)"
+    }
 }
 
 # Always install/refresh the requested Microsoft.WindowsAppSDK version (idempotent if already present).
