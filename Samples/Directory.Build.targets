@@ -8,4 +8,21 @@
   <ItemGroup Condition="'$(Platform)'=='ARM64'">
     <PublishReadyToRunExclude Include="WinRT.Runtime.dll" />
   </ItemGroup>
+
+  <!-- Auto-restore NuGet for native vcxproj (PackageReference) when building inside VS -->
+  <Target Name="EnsureNuGetRestoreForVcxproj" BeforeTargets="PrepareForBuild" Condition="
+            '$(BuildingInsideVisualStudio)' == 'true'
+            and '$(DesignTimeBuild)' != 'true'
+            and '$(RestoreInProgress)' != 'true'
+            and '$(MSBuildProjectExtension)' == '.vcxproj'
+            and '$(RestoreProjectStyle)' == 'PackageReference'
+            and '$(MSBuildProjectExtensionsPath)' != ''
+            and !Exists('$(MSBuildProjectExtensionsPath)project.assets.json')
+          ">
+
+    <Message Importance="normal" Text="NuGet assets missing for $(MSBuildProjectName); running Restore...; IntDir=$(IntDir); BaseIntermediateOutputPath=$(BaseIntermediateOutputPath)" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Restore" Properties="RestoreInProgress=true" BuildInParallel="false" />
+  </Target>
+
 </Project>
