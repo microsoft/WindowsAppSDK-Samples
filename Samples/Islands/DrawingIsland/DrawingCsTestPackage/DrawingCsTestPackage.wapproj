@@ -58,7 +58,7 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DrawingCsTestApp\DrawingCsTestApp.csproj" />
@@ -67,5 +67,3 @@
     <WindowsSdkPackageVersion>10.0.22621.55</WindowsSdkPackageVersion>
   </PropertyGroup>
 </Project>
-
-
