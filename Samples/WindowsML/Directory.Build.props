@@ -10,11 +10,5 @@
     <ImplicitUsings Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</ImplicitUsings>
     <AllowUnsafeBlocks Condition="'$(MSBuildProjectExtension)' == '.csproj'">true</AllowUnsafeBlocks>
     <MSBuildWarningsAsMessages>MSB8027</MSBuildWarningsAsMessages>
-    <NoWarn>MSB8027</NoWarn>
   </PropertyGroup>
-  <ItemDefinitionGroup>
-  <ClCompile>
-    <DisableSpecificWarnings>8027</DisableSpecificWarnings>
-  </ClCompile>
-</ItemDefinitionGroup>
 </Project>
