@@ -59,7 +59,18 @@ else {
     Write-Host "Installing Microsoft.WindowsAppSDK $WinAppSDKVersion into $NuGetPackagesFolder (running inside folder)"
     Push-Location $NuGetPackagesFolder
     try {
-        & $nugetExe install Microsoft.WindowsAppSDK -Version $WinAppSDKVersion -OutputDirectory . -Prerelease -DependencyVersion Highest | Write-Host
+        & $nugetExe install Microsoft.WindowsAppSDK `
+            -Version $WinAppSDKVersion `
+            -OutputDirectory . `
+            -Prerelease `
+            -DependencyVersion Highest
+
+        if ($LASTEXITCODE -ne 0) {
+            throw "nuget.exe failed with exit code $LASTEXITCODE"
+        }
+    }
+    catch {
+        Write-Warning $_
     }
     finally {
         Pop-Location
