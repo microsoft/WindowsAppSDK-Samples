@@ -90,6 +90,8 @@ The easiest way to use these samples without Git is to download the ZIP file. Se
 The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes the latest samples, which may also include experimental or preview features. Specific release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
 
 - [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental)
+- [release/1.8](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.8-stable)
+- [release/1.7](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.7-stable)
 - [release/1.6](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.6-stable)
 - [release/1.5](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.5-stable)
 - [release/1.1](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.1)
