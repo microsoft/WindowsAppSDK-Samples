@@ -11,7 +11,7 @@
 
     <!-- Tell NuGet we target Windows (use your existing WindowsTargetPlatformVersion) -->
     <NuGetTargetPlatformIdentifier>Windows</NuGetTargetPlatformIdentifier>
-    <NuGetTargetPlatformVersion>`$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
+    <NuGetTargetPlatformVersion>$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
   </PropertyGroup><!-- Enable self-contained deployment BEFORE any imports -->
   <PropertyGroup>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
@@ -78,3 +78,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="..\..\Resources\SqueezeNetModel.targets" />
 </Project>
+

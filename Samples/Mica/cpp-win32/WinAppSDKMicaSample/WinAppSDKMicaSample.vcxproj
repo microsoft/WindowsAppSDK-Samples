@@ -11,7 +11,7 @@
 
     <!-- Tell NuGet we target Windows (use your existing WindowsTargetPlatformVersion) -->
     <NuGetTargetPlatformIdentifier>Windows</NuGetTargetPlatformIdentifier>
-    <NuGetTargetPlatformVersion>`$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
+    <NuGetTargetPlatformVersion>$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="..\..\..\Build.Common.Cpp.props" Condition="Exists('..\..\..\Build.Common.Cpp.props')"/> 
   <ItemGroup Label="ProjectConfigurations">
@@ -261,3 +261,4 @@
 <!-- Each release of Visual Studio produces larger intermediate files.
        To prevent build agents from running out of disk space, clean as we go. -->
 </Project>
+

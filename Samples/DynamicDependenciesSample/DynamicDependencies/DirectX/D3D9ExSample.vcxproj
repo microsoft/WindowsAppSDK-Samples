@@ -4,7 +4,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <NuGetTargetMoniker>native,Version=v0.0</NuGetTargetMoniker>
     <NuGetTargetPlatformIdentifier>Windows</NuGetTargetPlatformIdentifier>
-    <NuGetTargetPlatformVersion>`$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
+    <NuGetTargetPlatformVersion>$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="..\..\Build.Common.Cpp.props" Condition="Exists('..\..\Build.Common.Cpp.props')" />
   <ItemGroup Label="ProjectConfigurations">
@@ -194,3 +194,4 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
+

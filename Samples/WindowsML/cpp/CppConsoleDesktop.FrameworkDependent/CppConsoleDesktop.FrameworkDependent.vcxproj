@@ -11,7 +11,7 @@
 
     <!-- Tell NuGet we target Windows (use your existing WindowsTargetPlatformVersion) -->
     <NuGetTargetPlatformIdentifier>Windows</NuGetTargetPlatformIdentifier>
-    <NuGetTargetPlatformVersion>`$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
+    <NuGetTargetPlatformVersion>$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
   </PropertyGroup><!-- Framework-dependent deployment requires bootstrap initialization -->
   <PropertyGroup>
     <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
@@ -79,3 +79,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="..\..\Resources\SqueezeNetModel.targets" />
 </Project>
+

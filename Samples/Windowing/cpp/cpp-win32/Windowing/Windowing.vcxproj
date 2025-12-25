@@ -11,7 +11,7 @@
 
     <!-- Tell NuGet we target Windows (use your existing WindowsTargetPlatformVersion) -->
     <NuGetTargetPlatformIdentifier>Windows</NuGetTargetPlatformIdentifier>
-    <NuGetTargetPlatformVersion>`$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
+    <NuGetTargetPlatformVersion>$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="..\..\..\..\Build.Common.Cpp.props" Condition="Exists('..\..\..\..\Build.Common.Cpp.props')" />
   <ItemGroup Label="ProjectConfigurations">
@@ -267,3 +267,4 @@
     <RemoveDir Directories="$(IntDir)" /> 
   </Target> -->
 </Project>
+
