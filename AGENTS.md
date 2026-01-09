@@ -67,7 +67,7 @@ For XAML files:
 
 ## Detailed Documentation
 
-- [Samples Guidelines](docs/samples-guidelines.md) – Complete guidelines and checklist
+- [Samples Guidelines](/docs/samples-guidelines.md) – Complete guidelines and checklist
 - [Contributing](CONTRIBUTING.md) – Contribution requirements
 - [PR Template](docs/pull_request_template.md) – Pull request checklist
 - [Windows App SDK Docs](https://docs.microsoft.com/windows/apps/windows-app-sdk/) – Official documentation
