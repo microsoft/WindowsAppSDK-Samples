@@ -11,7 +11,7 @@ Instructions for creating effective and maintainable custom instruction files th
 
 - Target audience: Developers and GitHub Copilot working with domain-specific code
 - File format: Markdown with YAML frontmatter
-- File naming convention: lowercase with hyphens (e.g., `react-best-practices.instructions.md`)
+- File naming convention: filename stem in lowercase-with-hyphens plus the `.instructions.md` suffix (e.g., stem `react-best-practices` → `react-best-practices.instructions.md`)
 - Location: `.github/instructions/` directory
 - Purpose: Provide context-aware guidance for code generation, review, and documentation
 
