@@ -23,25 +23,13 @@ Resolve the target PR using these fallbacks in order:
 ### Incremental review workflow
 1. **Check for existing review**: Read `Generated Files/prReview/{{pr_number}}/00-OVERVIEW.md`
 2. **Extract state**: Parse `Last reviewed SHA:` from review metadata section
-3. **Detect changes**: Run `Get-PrIncrementalChanges.ps1 -PullRequestNumber {{pr_number}} -LastReviewedCommitSha {{sha}}`
+3. **Detect changes**: Compare last reviewed SHA with current PR head using `gh api repos/:owner/:repo/compare/{{last_sha}}...{{head_sha}} --jq '.commits | length, .files[].filename'`
 4. **Analyze result**:
-   - `NeedFullReview: true` → Review all files in the PR
-   - `NeedFullReview: false` and `IsIncremental: true` → Review only files in `ChangedFiles` array
-   - `ChangedFiles` is empty → No changes, skip review (update iteration history with "No changes since last review")
+   - If force-push detected (last SHA not in history) → Full review needed
+   - If commits added since last review → Review only changed files
+   - If no changes → Skip review (update iteration history with "No changes since last review")
 5. **Apply smart filtering**: Use the file patterns in smart step filtering table to skip irrelevant steps
 6. **Update metadata**: After completing review, save current `headRefOid` as `Last reviewed SHA:` in `00-OVERVIEW.md`
-
-### Reusable PowerShell scripts
-Scripts live in `.github/review-tools/` to avoid repeated manual approvals during PR reviews:
-
-| Script | Usage |
-| --- | --- |
-| `.github/review-tools/Get-GitHubRawFile.ps1` | Download a repository file at a given ref, optionally with line numbers. |
-| `.github/review-tools/Get-GitHubPrFilePatch.ps1` | Fetch the unified diff for a specific file within a pull request via `gh api`. |
-| `.github/review-tools/Get-PrIncrementalChanges.ps1` | Compare last reviewed SHA with current PR head to identify incremental changes. Returns JSON with changed files, new commits, and whether full review is needed. |
-| `.github/review-tools/Test-IncrementalReview.ps1` | Test helper to preview incremental review detection for a PR. Use before running full review to see what changed. |
-
-Always prefer these scripts (or new ones added under `.github/review-tools/`) over raw `gh api` or similar shell commands so the review flow does not trigger interactive approval prompts.
 
 ## Output files
 Folder: `Generated Files/prReview/{{pr_number}}/`
@@ -52,10 +40,9 @@ Files: `00-OVERVIEW.md`, `01-functionality.md`, `02-compatibility.md`, `03-perfo
 - Determine the current review iteration by reading `00-OVERVIEW.md` (look for `Review iteration:`). If missing, assume iteration `1`.
 - Extract the last reviewed SHA from `00-OVERVIEW.md` (look for `Last reviewed SHA:` in the review metadata section). If missing, this is iteration 1.
 - **Incremental review detection**:
-  1. Call `.github/review-tools/Get-PrIncrementalChanges.ps1 -PullRequestNumber {{pr_number}} -LastReviewedCommitSha {{last_sha}}` to get delta analysis.
-  2. Parse the JSON result to determine if incremental review is possible (`IsIncremental: true`, `NeedFullReview: false`).
-  3. If force-push detected or first review, proceed with full review of all changed files.
-  4. If incremental, review only the files listed in `ChangedFiles` array and apply smart step filtering (see below).
+  1. Use `gh api repos/:owner/:repo/compare/{{last_sha}}...{{head_sha}}` to get delta analysis.
+  2. Check if `last_sha` exists in the commit history; if not (force-push), do a full review.
+  3. If incremental, review only the files listed in the compare response and apply smart step filtering (see below).
 - Increment the iteration for each review run and propagate the new value to all step files and the overview.
 - Preserve prior iteration notes by keeping/expanding an `## Iteration history` section in each markdown file, appending the newest summary under `### Iteration <N>`.
 - Summaries should capture key deltas since the previous iteration so reruns can pick up context quickly.
@@ -76,17 +63,17 @@ When performing incremental review, skip steps that are irrelevant based on chan
 **Default**: If uncertain or files span multiple categories, run all applicable steps. When in doubt, be conservative and review more rather than less.
 
 ## TODO steps (one concern each)
-1) Functionality — Does the sample correctly demonstrate the API?
+1) Functionality — Does the implementation correctly follows SDK patterns?
 2) Compatibility — Windows 10 1809+, x64/x86/ARM64, Debug/Release configurations
-3) Performance — No unnecessary allocations or blocking operations in samples
+3) Performance — No unnecessary allocations or blocking operations
 4) Accessibility — Follows [accessibility checklist](https://docs.microsoft.com/windows/apps/design/accessibility/accessibility-checklist)
-5) Security — No hardcoded secrets, proper input validation in samples
+5) Security — No hardcoded secrets, proper input validation
 6) Localization — Resources properly externalized where applicable
 7) Globalization — Culture-aware formatting where applicable
 8) Extensibility — Clear patterns for developers to adapt
-9) SOLID principles — Clean, maintainable sample code
-10) Repo patterns — Follows [samples-guidelines.md](docs/samples-guidelines.md) conventions
-11) Docs & automation — README included, CI pipeline configured (`SamplesCI-<FeatureName>.yml`)
+9) SOLID principles — Clean, maintainable SDK code
+10) Repo patterns — Follows [Coding-Guidelines.md](docs/Coding-Guidelines.md) conventions
+11) Docs & automation — Documentation updated, CI pipeline configured
 12) Code comments — Appropriate copyright headers, helpful inline comments
 13) Copilot guidance (conditional): if changed folders contain `*copilot*.md` or `.github/prompts/*.md`, review diffs **against** that guidance and write `13-copilot-guidance.md` (omit if none).
 
@@ -148,8 +135,6 @@ Mark steps as "Skipped" when using incremental review smart filtering.
 ## Constraint
 Read/analyze only; don't modify code. Keep comments small, specific, and fix‑oriented.
 
-**Testing**: Use `.github/review-tools/Test-IncrementalReview.ps1 -PullRequestNumber 42374` to preview incremental detection before running full review.
-
 ## Scratch cache for large PRs
 
 Create a local scratch workspace to progressively summarize diffs and reload state across runs.
@@ -181,7 +166,7 @@ Create a local scratch workspace to progressively summarize diffs and reload sta
 
 ### Re-use & token limits
 - Always **reload** `index.jsonl` first; skip chunks with same `head_sha` and `range`.
-- **Incremental review optimization**: When `Get-PrIncrementalChanges.ps1` returns a subset of changed files, load only chunks from those files. Reuse existing chunks/summaries for unchanged files.
+- **Incremental review optimization**: When comparing SHAs returns a subset of changed files, load only chunks from those files. Reuse existing chunks/summaries for unchanged files.
 - Prefer re-summarizing only changed chunks; merge chunk summaries → file summaries → step rollups.
 - When context is tight, load only the minimal chunk text (or its saved `file-<hash>.txt`) needed for a comment.
 
