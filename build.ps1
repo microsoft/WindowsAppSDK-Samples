@@ -100,9 +100,34 @@ function Get-Solutions {
   param([string]$SampleFilter)
   $targetRoot = $null; $solutions = @()
   if (-not [string]::IsNullOrWhiteSpace($SampleFilter)) {
-    $targetRoot = Join-Path $samplesRoot $SampleFilter
-    if (-not (Test-Path $targetRoot)) { Write-Error "Sample path not found: $targetRoot"; exit 1 }
-    $solutions = Get-ChildItem -Path $targetRoot -Filter *.sln -Recurse | Sort-Object FullName
+    # Check if input is an existing path
+    if (Test-Path $SampleFilter) {
+      $resolvedPath = (Resolve-Path $SampleFilter).Path
+      $samplesRootResolved = (Resolve-Path $samplesRoot).Path
+      # Reject paths outside samplesRoot
+      if (-not $resolvedPath.StartsWith($samplesRootResolved, [System.StringComparison]::OrdinalIgnoreCase)) {
+        Write-Error "Path must be under Samples root: $samplesRootResolved"; exit 1
+      }
+      $probeDir = if (Test-Path $resolvedPath -PathType Container) { $resolvedPath } else { Split-Path -Parent $resolvedPath }
+      # Walk up to find .sln, stop at samplesRoot
+      while ($probeDir -and $probeDir.StartsWith($samplesRootResolved, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $localSolutions = Get-ChildItem -Path $probeDir -Filter *.sln -File -ErrorAction SilentlyContinue | Sort-Object FullName
+        if ($localSolutions -and $localSolutions.Count -gt 0) {
+          Write-Host "Detected $($localSolutions.Count) solution(s) at: $probeDir" -ForegroundColor Yellow
+          return $localSolutions
+        }
+        $parent = Split-Path -Parent $probeDir
+        if ([string]::IsNullOrWhiteSpace($parent) -or $parent -eq $probeDir) { break }
+        $probeDir = $parent
+      }
+      Write-Warning "No solution found walking up from: $SampleFilter (stopped at Samples root)"
+    }
+    else {
+      # Treat as sample name; join with samplesRoot
+      $targetRoot = Join-Path $samplesRoot $SampleFilter
+      if (-not (Test-Path $targetRoot)) { Write-Error "Sample path not found: $targetRoot"; exit 1 }
+      $solutions = Get-ChildItem -Path $targetRoot -Filter *.sln -Recurse | Sort-Object FullName
+    }
   }
   else {
     $currentDir = Get-Location
