@@ -98,20 +98,32 @@ namespace Notes
                         if (textMatch != null)
                         {
                             string matchingData = await NoteViewModel.LoadTextContentByIdAsync(note.Filename);
-                            string matchingString = matchingData.Substring(textMatch.TextOffset, Math.Min(500, matchingData.Length - textMatch.TextOffset));
-                            var attachmentsFolder = await GetAttachmentsFolderAsync();
-                            var searchResult = new SearchResult
-                            {
-                                Content = matchingString,
-                                ContentType = ContentType.Note,
-                                ContentSubType = ContentSubType.None,
-                                SourceId = note.Id,
-                                Title = note.Title,
-                                MostRelevantSentence = matchingString,
-                                Path = attachmentsFolder.Path + "\\" + note.Filename
-                            };
 
-                            results.Add(searchResult);
+                            int textOffset = Math.Max(0, Math.Min(textMatch.TextOffset, matchingData.Length));
+                            int remainingLength = matchingData.Length - textOffset;
+
+                            if (remainingLength > 0)
+                            {
+                                int substringLength = Math.Min(500, remainingLength);
+                                string matchingString = matchingData.Substring(textOffset, substringLength);
+                                var attachmentsFolder = await GetAttachmentsFolderAsync();
+                                var searchResult = new SearchResult
+                                {
+                                    Content = matchingString,
+                                    ContentType = ContentType.Note,
+                                    ContentSubType = ContentSubType.None,
+                                    SourceId = note.Id,
+                                    Title = note.Title,
+                                    MostRelevantSentence = matchingString,
+                                    Path = attachmentsFolder.Path + "\\" + note.Filename
+                                };
+
+                                results.Add(searchResult);
+                            }
+                            else
+                            {
+                                Debug.WriteLine($"Skipping match with invalid TextOffset: {textMatch.TextOffset} for content length: {matchingData.Length}");
+                            }
                         }
                     }
                 }

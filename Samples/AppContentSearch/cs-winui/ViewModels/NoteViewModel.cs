@@ -109,9 +109,14 @@ namespace Notes.ViewModels
         {
             var folder = await Utils.GetAttachmentsFolderAsync();
             var file = await folder.GetFileAsync(contentId);
-            byte[] imageBytes = System.IO.File.ReadAllBytes(file.Path);
 
-            // FYI, the base64 string representation would be str = Convert.ToBase64String(imageBytes);
+            var buffer = await FileIO.ReadBufferAsync(file);
+            byte[] imageBytes = new byte[buffer.Length];
+            using (var dataReader = Windows.Storage.Streams.DataReader.FromBuffer(buffer))
+            {
+                dataReader.ReadBytes(imageBytes);
+            }
+
             return imageBytes;
         }
 

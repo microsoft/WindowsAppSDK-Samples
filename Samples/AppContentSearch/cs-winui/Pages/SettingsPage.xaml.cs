@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Security.Credentials;
 using Windows.Storage;
 
 namespace Notes.Pages
@@ -17,6 +18,11 @@ namespace Notes.Pages
         private const string ModelSourceKey = "ModelSource"; // "phi" | "azure" | "foundry"
         private const string FoundryModelKey = "FoundryModelName";
         private const string ShowBoundingBoxesKey = "ShowBoundingBoxes"; // bool
+
+        private const string PasswordVaultResourceName = "NotesApp.AzureOpenAI";
+        private const string ApiKeyCredentialKey = "ApiKey";
+        private const string EndpointCredentialKey = "Endpoint";
+        private const string DeploymentCredentialKey = "Deployment";
 
         private FoundryLocalManager? _foundryManager;
         private readonly Task? _foundryInitTask;
@@ -316,10 +322,12 @@ namespace Notes.Pages
 
             localSettings.Values[ModelSourceKey] = GetSelectedModelSource();
 
-            // Azure
-            localSettings.Values["AzureOpenAIApiKey"] = AzureApiKeyPasswordBox.Password;
-            localSettings.Values["AzureOpenAIEndpointUri"] = AzureEndpointUriTextBox.Text;
-            localSettings.Values["AzureOpenAIDeploymentName"] = AzureDeploymentNameTextBox.Text;
+            // Azure - Store secrets in PasswordVault
+            SaveAzureCredentialsSecurely(
+                AzureApiKeyPasswordBox.Password,
+                AzureEndpointUriTextBox.Text,
+                AzureDeploymentNameTextBox.Text
+            );
 
             // Foundry
             localSettings.Values[FoundryModelKey] = GetFoundryModelSelection();
@@ -332,6 +340,85 @@ namespace Notes.Pages
             UpdateSaveButtonState();
         }
 
+        private void SaveAzureCredentialsSecurely(string apiKey, string endpoint, string deployment)
+        {
+            try
+            {
+                var vault = new PasswordVault();
+
+                // Remove existing credentials
+                try
+                {
+                    var existingCreds = vault.FindAllByResource(PasswordVaultResourceName);
+                    foreach (var cred in existingCreds)
+                    {
+                        vault.Remove(cred);
+                    }
+                }
+                catch (Exception)
+                {
+                    // No existing credentials to remove
+                }
+
+                // Store new credentials if not empty
+                if (!string.IsNullOrWhiteSpace(apiKey))
+                {
+                    vault.Add(new PasswordCredential(PasswordVaultResourceName, ApiKeyCredentialKey, apiKey));
+                }
+
+                if (!string.IsNullOrWhiteSpace(endpoint))
+                {
+                    vault.Add(new PasswordCredential(PasswordVaultResourceName, EndpointCredentialKey, endpoint));
+                }
+
+                if (!string.IsNullOrWhiteSpace(deployment))
+                {
+                    vault.Add(new PasswordCredential(PasswordVaultResourceName, DeploymentCredentialKey, deployment));
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error saving credentials to PasswordVault: {ex.Message}");
+            }
+        }
+
+        private (string apiKey, string endpoint, string deployment) LoadAzureCredentialsSecurely()
+        {
+            string apiKey = "";
+            string endpoint = "";
+            string deployment = "";
+
+            try
+            {
+                var vault = new PasswordVault();
+                var credentials = vault.FindAllByResource(PasswordVaultResourceName);
+
+                foreach (var cred in credentials)
+                {
+                    cred.RetrievePassword();
+
+                    if (cred.UserName == ApiKeyCredentialKey)
+                    {
+                        apiKey = cred.Password;
+                    }
+                    else if (cred.UserName == EndpointCredentialKey)
+                    {
+                        endpoint = cred.Password;
+                    }
+                    else if (cred.UserName == DeploymentCredentialKey)
+                    {
+                        deployment = cred.Password;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading credentials from PasswordVault: {ex.Message}");
+            }
+
+            return (apiKey, endpoint, deployment);
+        }
+
         private void LoadSettings()
         {
             var localSettings = ApplicationData.Current.LocalSettings;
@@ -342,9 +429,11 @@ namespace Notes.Pages
             AzureComboBoxItem.IsSelected = modelSource == "azure";
             FoundryComboBoxItem.IsSelected = modelSource == "foundry";
 
-            AzureApiKeyPasswordBox.Password = localSettings.Values["AzureOpenAIApiKey"] as string ?? "";
-            AzureEndpointUriTextBox.Text = localSettings.Values["AzureOpenAIEndpointUri"] as string ?? "";
-            AzureDeploymentNameTextBox.Text = localSettings.Values["AzureOpenAIDeploymentName"] as string ?? "";
+            // Load Azure credentials from PasswordVault
+            var (apiKey, endpoint, deployment) = LoadAzureCredentialsSecurely();
+            AzureApiKeyPasswordBox.Password = apiKey;
+            AzureEndpointUriTextBox.Text = endpoint;
+            AzureDeploymentNameTextBox.Text = deployment;
 
             string? savedFoundryModel = localSettings.Values[FoundryModelKey] as string;
             if (!string.IsNullOrWhiteSpace(savedFoundryModel))

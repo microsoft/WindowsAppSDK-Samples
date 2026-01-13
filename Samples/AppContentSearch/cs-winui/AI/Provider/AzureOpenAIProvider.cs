@@ -12,7 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
+using Windows.Security.Credentials;
 using AppChatRole = Notes.ViewModels.ChatRole;
 using ExtChatRole = Microsoft.Extensions.AI.ChatRole;
 
@@ -28,21 +28,59 @@ public class AzureOpenAIProvider : ILanguageModelProvider
     private const string SystemSecondaryPrompt =
         "This is the end of the document snippets.\r\nPlease answer the following user question:\r\n";
 
+    private const string PasswordVaultResourceName = "NotesApp.AzureOpenAI";
+    private const string ApiKeyCredentialKey = "ApiKey";
+    private const string EndpointCredentialKey = "Endpoint";
+    private const string DeploymentCredentialKey = "Deployment";
+
     public string Name => "Azure OpenAI";
 
     public bool IsAvailable
     {
         get
         {
-            var localSettings = ApplicationData.Current.LocalSettings;
-            string? apiKey = localSettings.Values["AzureOpenAIApiKey"] as string;
-            string? endpoint = localSettings.Values["AzureOpenAIEndpointUri"] as string;
-            string? deployment = localSettings.Values["AzureOpenAIDeploymentName"] as string;
-
+            var (apiKey, endpoint, deployment) = LoadAzureCredentialsSecurely();
             return !string.IsNullOrEmpty(apiKey) &&
                    !string.IsNullOrEmpty(endpoint) &&
                    !string.IsNullOrEmpty(deployment);
         }
+    }
+
+    private static (string apiKey, string endpoint, string deployment) LoadAzureCredentialsSecurely()
+    {
+        string apiKey = "";
+        string endpoint = "";
+        string deployment = "";
+
+        try
+        {
+            var vault = new PasswordVault();
+            var credentials = vault.FindAllByResource(PasswordVaultResourceName);
+
+            foreach (var cred in credentials)
+            {
+                cred.RetrievePassword();
+
+                if (cred.UserName == ApiKeyCredentialKey)
+                {
+                    apiKey = cred.Password;
+                }
+                else if (cred.UserName == EndpointCredentialKey)
+                {
+                    endpoint = cred.Password;
+                }
+                else if (cred.UserName == DeploymentCredentialKey)
+                {
+                    deployment = cred.Password;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error loading credentials from PasswordVault: {ex.Message}");
+        }
+
+        return (apiKey, endpoint, deployment);
     }
 
     public Task<bool> InitializeAsync(CancellationToken cancellationToken = default)
@@ -142,10 +180,7 @@ public class AzureOpenAIProvider : ILanguageModelProvider
 
         try
         {
-            var localSettings = ApplicationData.Current.LocalSettings;
-            string? apiKey = localSettings.Values["AzureOpenAIApiKey"] as string;
-            string? endpoint = localSettings.Values["AzureOpenAIEndpointUri"] as string;
-            string? deployment = localSettings.Values["AzureOpenAIDeploymentName"] as string;
+            var (apiKey, endpoint, deployment) = LoadAzureCredentialsSecurely();
 
             if (string.IsNullOrEmpty(apiKey) ||
                 string.IsNullOrEmpty(endpoint) ||
@@ -155,7 +190,19 @@ public class AzureOpenAIProvider : ILanguageModelProvider
                 return;
             }
 
-            _azureClient ??= new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(apiKey));
+            if (!Uri.TryCreate(endpoint, UriKind.Absolute, out var endpointUri))
+            {
+                Debug.WriteLine($"Azure init - invalid endpoint URI: {endpoint}");
+                return;
+            }
+
+            if (endpointUri.Scheme != Uri.UriSchemeHttps)
+            {
+                Debug.WriteLine($"Azure init - endpoint must use HTTPS, got {endpointUri.Scheme}. Rejecting insecure endpoint.");
+                return;
+            }
+
+            _azureClient ??= new AzureOpenAIClient(endpointUri, new ApiKeyCredential(apiKey));
             _azureChatClient ??= _azureClient.GetChatClient(deployment);
         }
         catch (Exception ex)
