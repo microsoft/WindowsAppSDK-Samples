@@ -7,24 +7,19 @@
     xmlns:local="using:SimpleIslandApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Background="Gray">
     <Grid Padding="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button x:Name="Button" Click="ClickHandler">Click Me</Button>
-            <TextBox Text="Text goes here" Margin="10" />
-        </StackPanel>
-        <FlipView Grid.Row="1">
-            <Image Source="Assets/cliff.jpg" AutomationProperties.Name="Cliff"/>
-            <Image Source="Assets/grapes.jpg" AutomationProperties.Name="Grapes"/>
-            <Image Source="Assets/rainier.jpg" AutomationProperties.Name="Rainier"/>
-            <Image Source="Assets/sunset.jpg" AutomationProperties.Name="Sunset"/>
-            <Image Source="Assets/valley.jpg" AutomationProperties.Name="Valley"/>
-        </FlipView>
-        <Button Grid.Row="2">Last Button</Button>
+        <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+            <AppBarButton Icon="Add" Label="Add"/>
+            <AppBarButton Icon="Edit" Label="Edit"/>
+            <AppBarButton Icon="Share" Label="Share"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Setting" Label="Settings">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="I" />
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
     </Grid>
 </Page>
