@@ -263,7 +263,8 @@ namespace WindowsML.Shared
                 if (!ExecutionProviderManager.ConfigureSelectedExecutionProvider(sessionOptions,
                                                                                  ortEnv,
                                                                                  options.EpName,
-                                                                                 options.DeviceType))
+                                                                                 options.DeviceType,
+                                                                                 options.PerfMode))
                 {
                     throw new Exception("Failed to configure selected execution provider");
                 }
@@ -337,7 +338,8 @@ namespace WindowsML.Shared
                         if (!ExecutionProviderManager.ConfigureSelectedExecutionProvider(tempSessionOptions,
                                                                                           ortEnv,
                                                                                           options.EpName,
-                                                                                          options.DeviceType))
+                                                                                          options.DeviceType,
+                                                                                          options.PerfMode))
                         {
                             throw new Exception("Failed to configure selected execution provider");
                         }

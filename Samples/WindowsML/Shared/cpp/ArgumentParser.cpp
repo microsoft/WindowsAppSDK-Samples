@@ -74,6 +74,32 @@ namespace Shared
                 std::wcout << L"Unknown EP policy: " << policy_str << L", using default (DISABLE)\n";
             }
         }
+        else if (arguments[i] == L"--perf_mode" && i + 1 < arguments.size())
+        {
+            std::wstring perf_mode_token = std::wstring(arguments[++i]);
+            for (auto& ch : perf_mode_token)
+            {
+                ch = static_cast<wchar_t>(towupper(ch));
+            }
+
+            if (perf_mode_token == L"MAX_PERFORMANCE")
+            {
+                options.perf_mode = PerformanceMode::MaxPerformance;
+            }
+            else if (perf_mode_token == L"MAX_EFFICIENCY")
+            {
+                options.perf_mode = PerformanceMode::MaxEfficiency;
+            }
+            else if (perf_mode_token == L"DEFAULT")
+            {
+                options.perf_mode = PerformanceMode::Default;
+            }
+            else
+            {
+                std::wcout << L"Unknown perf_mode: " << perf_mode_token << L", defaulting to DEFAULT\n";
+                options.perf_mode = PerformanceMode::Default;
+            }
+        }
         else if (arguments[i] == L"--ep_name" && i + 1 < arguments.size())
         {
             options.ep_name = arguments[++i];
@@ -164,6 +190,7 @@ namespace Shared
                    << L"  --ep_policy <policy>          Set execution provider selection policy (NPU, CPU, GPU, DEFAULT, DISABLE)\n"
                    << L"  --ep_name <name>              Explicit execution provider name (mutually exclusive with --ep_policy)\n"
                    << L"  --device_type <type>          Device type for OpenVINOExecutionProvider (NPU, GPU, CPU) when multiple present\n"
+                   << L"  --perf_mode <mode>            Set EP performance mode (MAX_PERFORMANCE, MAX_EFFICIENCY, DEFAULT)\n"
                    << L"  --compile                     Compile the model\n"
                    << L"  --download                    Download required packages\n"
                    << L"  --use_model_catalog           Use the model catalog for model selection\n"

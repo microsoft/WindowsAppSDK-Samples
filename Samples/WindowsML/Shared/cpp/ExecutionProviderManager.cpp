@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 #include "ExecutionProviderManager.h"
 #include "ArgumentParser.h"
+#include "PerformanceConfigurator.h"
 #include <iostream>
 #include <iomanip>
 #include <unordered_map>
@@ -53,7 +54,8 @@ namespace Shared
     bool ExecutionProviderManager::ConfigureSelectedExecutionProvider(Ort::SessionOptions& session_options,
                                                                       Ort::Env& env,
                                                                       const std::wstring& ep_name,
-                                                                      const std::optional<std::wstring>& device_type)
+                                                                      const std::optional<std::wstring>& device_type,
+                                                                      PerformanceMode perf_mode)
     {
         // Discover devices
         std::vector<Ort::ConstEpDevice> ep_devices = env.GetEpDevices();
@@ -114,7 +116,7 @@ namespace Shared
         }
 
         // Finally, call append with the selected devices
-        Ort::KeyValuePairs ep_options;
+        Ort::KeyValuePairs ep_options = PerformanceConfigurator::GetEpOptions(ep_name_utf8, perf_mode);
         try
         {
             session_options.AppendExecutionProvider_V2(env, selected_devices, ep_options);

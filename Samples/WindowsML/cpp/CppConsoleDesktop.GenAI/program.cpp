@@ -3,8 +3,11 @@
 
 #include <csignal>
 #include <string>
+#include <algorithm>
+#include <cctype>
 
 #include "timing.h"
+#include "GenAIPerformanceConfigurator.h"
 #include <exception>
 #include <iostream>
 #include <ostream>
@@ -63,10 +66,30 @@ void InitializeProviders(bool allowDownload)
     }
 }
 
-void CXX_API(const char* model_path)
+void CXX_API(const char* model_path, const char* execution_provider = nullptr, PerformanceMode perf_mode = PerformanceMode::Default)
 {
     std::cout << "Creating config..." << std::endl;
     auto config = OgaConfig::Create(model_path);
+
+    // If execution provider is specified, override the default providers
+    if (execution_provider != nullptr && execution_provider[0] != '\0')
+    {
+        std::cout << "Setting execution provider to: " << execution_provider << std::endl;
+        config->ClearProviders();
+        config->AppendProvider(execution_provider);
+
+        // Apply performance options for the specified EP
+        auto ep_options = GenAIPerformanceConfigurator::GetEpOptions(execution_provider, perf_mode);
+        if (!ep_options.empty())
+        {
+            std::cout << "Applying performance options for " << execution_provider << ":" << std::endl;
+            for (const auto& [key, value] : ep_options)
+            {
+                std::cout << "  " << key << " = " << value << std::endl;
+                config->SetProviderOption(execution_provider, key.c_str(), value.c_str());
+            }
+        }
+    }
 
     std::cout << "Creating model..." << std::endl;
     auto model = OgaModel::Create(*config);
@@ -160,14 +183,16 @@ void CXX_API(const char* model_path)
 
 static void print_usage(int /*argc*/, char** argv)
 {
-    std::cerr << "usage: " << argv[0] << " <model_path> <execution_provider>" << std::endl;
+    std::cerr << "usage: " << argv[0] << " <model_path> [execution_provider] [--perf_mode <mode>]" << std::endl;
     std::cerr << "  model_path: [required] Path to the folder containing onnx models, genai_config.json, etc." << std::endl;
     std::cerr << "  execution_provider: [optional] Force use of a particular execution provider (e.g. \"cpu\")" << std::endl;
     std::cerr << "                      If not specified, EP / provider options specified in genai_config.json will be used."
               << std::endl;
+    std::cerr << "  --perf_mode <mode>: [optional] Performance mode for the execution provider." << std::endl;
+    std::cerr << "                      Valid values: default, max_performance, max_efficiency" << std::endl;
 }
 
-bool parse_args(int argc, char** argv, std::string& model_path)
+bool parse_args(int argc, char** argv, std::string& model_path, std::string& execution_provider, PerformanceMode& perf_mode)
 {
     if (argc < 2)
     {
@@ -176,6 +201,53 @@ bool parse_args(int argc, char** argv, std::string& model_path)
     }
 
     model_path = argv[1];
+    perf_mode = PerformanceMode::Default;
+
+    int i = 2;
+    while (i < argc)
+    {
+        std::string arg = argv[i];
+        if (arg == "--perf_mode" && i + 1 < argc)
+        {
+            std::string mode_str = argv[i + 1];
+            // Convert to lowercase for comparison
+            std::transform(mode_str.begin(), mode_str.end(), mode_str.begin(), [](unsigned char ch) {
+                return static_cast<char>(std::tolower(ch));
+            });
+
+            if (mode_str == "max_performance")
+            {
+                perf_mode = PerformanceMode::MaxPerformance;
+            }
+            else if (mode_str == "max_efficiency")
+            {
+                perf_mode = PerformanceMode::MaxEfficiency;
+            }
+            else if (mode_str == "default")
+            {
+                perf_mode = PerformanceMode::Default;
+            }
+            else
+            {
+                std::cerr << "Invalid performance mode: " << argv[i + 1] << std::endl;
+                print_usage(argc, argv);
+                return false;
+            }
+            i += 2;
+        }
+        else if (execution_provider.empty() && arg[0] != '-')
+        {
+            // First non-flag argument after model_path is execution_provider
+            execution_provider = arg;
+            i++;
+        }
+        else
+        {
+            std::cerr << "Unknown argument: " << arg << std::endl;
+            print_usage(argc, argv);
+            return false;
+        }
+    }
 
     return true;
 }
@@ -186,7 +258,9 @@ int main(int argc, char** argv)
     InitializeProviders(allowDownload);
 
     std::string model_path;
-    if (!parse_args(argc, argv, model_path))
+    std::string execution_provider;
+    PerformanceMode perf_mode = PerformanceMode::Default;
+    if (!parse_args(argc, argv, model_path, execution_provider, perf_mode))
     {
         return -1;
     }
@@ -200,7 +274,9 @@ int main(int argc, char** argv)
     {
         // Responsible for cleaning up the library during shutdown
         OgaHandle handle;
-        CXX_API(model_path.c_str());
+        CXX_API(model_path.c_str(), 
+                execution_provider.empty() ? nullptr : execution_provider.c_str(),
+                perf_mode);
     }
     catch (const std::exception& e)
     {

@@ -24,7 +24,12 @@ namespace Shared
         {
             // Use explicit configuration
             std::cout << "Using explicit EP configuration" << std::endl;
-            ExecutionProviderManager::ConfigureSelectedExecutionProvider(sessionOptions, env, options.ep_name, options.device_type);
+            ExecutionProviderManager::ConfigureSelectedExecutionProvider(
+                sessionOptions,
+                env,
+                options.ep_name,
+                options.device_type,
+                options.perf_mode);
         }
 
         return sessionOptions;

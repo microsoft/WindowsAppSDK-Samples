@@ -22,6 +22,16 @@ namespace Shared
     };
 
     /// <summary>
+    /// Execution provider performance mode
+    /// </summary>
+    enum class PerformanceMode
+    {
+        Default,
+        MaxPerformance,
+        MaxEfficiency
+    };
+
+    /// <summary>
     /// Command-line options structure
     /// </summary>
     struct CommandLineOptions
@@ -38,6 +48,7 @@ namespace Shared
         std::wstring model_path;
         std::wstring output_path;
         ModelVariant model_variant = ModelVariant::Default; // Model precision/format selection
+        PerformanceMode perf_mode = PerformanceMode::Default;
     };
 
     /// <summary>

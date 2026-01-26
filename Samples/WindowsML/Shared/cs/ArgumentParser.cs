@@ -17,6 +17,16 @@ namespace WindowsML.Shared
     }
 
     /// <summary>
+    /// PerformanceMode enumeration
+    /// </summary>
+    public enum PerformanceMode
+    {
+        Default,
+        MaxPerformance,
+        MaxEfficiency
+    }
+
+    /// <summary>
     /// Command-line argument parsing for WindowsML samples
     /// </summary>
     public class Options
@@ -31,6 +41,7 @@ namespace WindowsML.Shared
         public string OutputPath { get; set; } = "SqueezeNet_ctx.onnx";
         public string ImagePath { get; set; } = string.Empty;
         public ModelVariant Variant { get; set; } = ModelVariant.Default;
+        public PerformanceMode PerfMode { get; set; } = PerformanceMode.Default;
     }
 
     public static class ArgumentParser
@@ -79,6 +90,30 @@ namespace WindowsML.Shared
                         if (i + 1 < args.Length)
                         {
                             options.EpName = args[++i];
+                        }
+                        break;
+
+                    case "--perf_mode":
+                        if (i + 1 < args.Length)
+                        {
+                            string perfModeToken = args[++i].ToUpperInvariant();
+                            if (perfModeToken == "MAX_PERFORMANCE")
+                            {
+                                options.PerfMode = PerformanceMode.MaxPerformance;
+                            }
+                            else if (perfModeToken == "MAX_EFFICIENCY")
+                            {
+                                options.PerfMode = PerformanceMode.MaxEfficiency;
+                            }
+                            else if (perfModeToken == "DEFAULT")
+                            {
+                                options.PerfMode = PerformanceMode.Default;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Unknown perf_mode: {perfModeToken}, defaulting to DEFAULT");
+                                options.PerfMode = PerformanceMode.Default;
+                            }
                         }
                         break;
 
@@ -182,6 +217,7 @@ namespace WindowsML.Shared
             Console.WriteLine("  --ep_policy <policy>        Set execution provider policy (NPU, CPU, GPU, DEFAULT, DISABLE)");
             Console.WriteLine("  --ep_name <name>            Explicit execution provider name (mutually exclusive with --ep_policy)");
             Console.WriteLine("  --device_type <type>        Optional hardware device type to use when EP supports multiple (e.g. CPU, GPU, NPU)");
+            Console.WriteLine("  --perf_mode <mode>          Set EP performance mode (MAX_PERFORMANCE, MAX_EFFICIENCY, DEFAULT)");
             Console.WriteLine("  --compile                   Compile the model");
             Console.WriteLine("  --download                  Download required packages");
             Console.WriteLine("  --use_model_catalog         Use the model catalog for model discovery");

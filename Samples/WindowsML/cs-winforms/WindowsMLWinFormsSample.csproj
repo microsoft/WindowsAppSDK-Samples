@@ -19,6 +19,17 @@
     <Compile Include="..\Shared\cs\ModelManager.cs" Link="Shared\ModelManager.cs" />
     <Compile Include="..\Shared\cs\InferenceEngine.cs" Link="Shared\InferenceEngine.cs" />
     <Compile Include="..\Shared\cs\ResultProcessor.cs" Link="Shared\ResultProcessor.cs" />
+    <Compile Include="..\Shared\cs\PerformanceConfigurator.cs" Link="Shared\PerformanceConfigurator.cs" />
+  </ItemGroup>
+
+  <!-- Include OpenVINO configuration files -->
+  <ItemGroup>
+    <Content Include="..\Shared\openvino_perf.json" Link="openvino_perf.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Shared\openvino_efficiency.json" Link="openvino_efficiency.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <Import Project="..\Resources\SqueezeNetModel.targets" />
