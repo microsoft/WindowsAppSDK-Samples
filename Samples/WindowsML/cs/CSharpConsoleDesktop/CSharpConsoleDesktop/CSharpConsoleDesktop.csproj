@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSdkMLBootstrapInitialize>true</WindowsAppSdkMLBootstrapInitialize>
   </PropertyGroup>
 
   <ItemGroup>
