@@ -279,6 +279,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                         ::SetFocus(::GetDlgItem(hWnd, 501));
                     }
                 });
+
+            // Auto-start the resize animation for performance testing
+            RECT rect;
+            GetClientRect(hWnd, &rect);
+            windowInfo->ResizeTestCounter = 0;
+            windowInfo->ResizeTestBaseWidth = rect.right - 20;
+            windowInfo->ResizeTestBaseHeight = rect.bottom - 120;
+            SetTimer(hWnd, 1, 50, NULL);
         }
         break;
     case WM_SIZE:
@@ -353,6 +361,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 {
                     KillTimer(hWnd, 1);
                     windowInfo->ResizeTestCounter = 0;
+                    // Animation complete, close the window and exit
+                    DestroyWindow(hWnd);
                 }
             }
         }
