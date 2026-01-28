@@ -59,13 +59,14 @@ namespace Shared
             if (mode == PerformanceMode::MaxPerformance)
             {
                 // Use config file for OpenVINO EP options (preferred approach)
-                // Config file: openvino_perf.json with LATENCY hint
+                // Config file: openvino_perf.json with "PERFORMANCE_HINT": "LATENCY" and "EXECUTION_MODE_HINT": "PERFORMANCE"
+                // "PERFORMANCE_HINT" can have values "LATENCY" or "THROUGHPUT" and both are related to max performance but for different use cases.
                 options.Add("load_config", "openvino_perf.json");
             }
             else if (mode == PerformanceMode::MaxEfficiency)
             {
                 // Use config file for OpenVINO EP options (preferred approach)
-                // Config file: openvino_efficiency.json with THROUGHPUT hint
+                // Config file: openvino_efficiency.json
                 options.Add("load_config", "openvino_efficiency.json");
             }
             return options;
