@@ -39,7 +39,8 @@ namespace Shared
                 return GetTensorRtRtxOptions(mode);
             }
 
-            return Ort::KeyValuePairs(nullptr);
+            Ort::KeyValuePairs options;
+            return options;
         }
 
     private:

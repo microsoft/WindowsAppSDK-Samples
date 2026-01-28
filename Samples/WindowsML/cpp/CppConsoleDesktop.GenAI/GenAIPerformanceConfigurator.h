@@ -94,7 +94,7 @@ private:
         return options;
     }
 
-    static std::unordered_map<std::string, std::string> GetVitisAiOptions(PerformanceMode mode)
+    static std::unordered_map<std::string, std::string> GetVitisAiOptions(PerformanceMode /*mode*/)
     {
         return std::unordered_map<std::string, std::string>();
     }
