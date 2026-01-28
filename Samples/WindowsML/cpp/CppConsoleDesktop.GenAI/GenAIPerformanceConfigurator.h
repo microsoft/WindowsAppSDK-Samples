@@ -43,7 +43,7 @@ public:
         {
             return GetMiGraphXOptions(mode);
         }
-        if (normalized == "TENSORRTEXECUTIONPROVIDER")
+        if (normalized == "TENSORRTRTXEXECUTIONPROVIDER")
         {
             return GetTensorRtRtxOptions(mode);
         }
@@ -66,14 +66,11 @@ private:
         std::unordered_map<std::string, std::string> options;
         if (mode == PerformanceMode::MaxPerformance)
         {
-            options["hint"] = "THROUGHPUT";
-            options["enable_qdq_optimizer"] = "true";
-            options["ep.context_enable"] = "1";
+            options["load_config"] = "openvino_perf.json";
         }
         else if (mode == PerformanceMode::MaxEfficiency)
         {
-            options["hint"] = "LATENCY";
-            options["enable_opencl_throttling"] = "1";
+            options["load_config"] = "openvino_efficiency.json";
         }
         return options;
     }
@@ -87,8 +84,7 @@ private:
         }
         else if (mode == PerformanceMode::MaxEfficiency)
         {
-            options["htp_performance_mode"] = "low_power_saver";
-            options["rpc_control_latency"] = "1000";
+            options["htp_performance_mode"] = "high_power_saver";
         }
         else
         {
@@ -100,17 +96,7 @@ private:
 
     static std::unordered_map<std::string, std::string> GetVitisAiOptions(PerformanceMode mode)
     {
-        std::unordered_map<std::string, std::string> options;
-        if (mode == PerformanceMode::MaxPerformance)
-        {
-            options["config_file"] = "vaip_perf.json";
-        }
-        else if (mode == PerformanceMode::MaxEfficiency)
-        {
-            options["config_file"] = "vaip_efficiency.json";
-        }
-
-        return options;
+        return std::unordered_map<std::string, std::string>();
     }
 
     static std::unordered_map<std::string, std::string> GetMiGraphXOptions(PerformanceMode mode)
@@ -118,11 +104,7 @@ private:
         std::unordered_map<std::string, std::string> options;
         if (mode == PerformanceMode::MaxPerformance)
         {
-            options["exhaustive_tune"] = "1";
-        }
-        else
-        {
-            options["exhaustive_tune"] = "0";
+            options["migraphx_exhaustive_tune"] = "1";
         }
 
         return options;
@@ -131,20 +113,9 @@ private:
     static std::unordered_map<std::string, std::string> GetTensorRtRtxOptions(PerformanceMode mode)
     {
         std::unordered_map<std::string, std::string> options;
-        options["trt_engine_cache_enable"] = "1";
-        options["trt_timing_cache_enable"] = "1";
-
         if (mode == PerformanceMode::MaxPerformance)
         {
-            options["trt_builder_optimization_level"] = "5";
-        }
-        else if (mode == PerformanceMode::MaxEfficiency)
-        {
-            options["trt_builder_optimization_level"] = "2";
-        }
-        else
-        {
-            options["trt_builder_optimization_level"] = "3";
+            options["enable_cuda_graph"] = "1";
         }
 
         return options;
