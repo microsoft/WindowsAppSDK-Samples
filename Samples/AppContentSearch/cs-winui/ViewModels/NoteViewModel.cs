@@ -137,15 +137,17 @@ namespace Notes.ViewModels
                 Note = Note
             };
 
-            if (new string[] { ".png", ".jpg", ".jpeg", ".bmp" }.Contains(file.FileType.ToLower()))
+            var fileType = file.FileType.ToLower();
+
+            if (new string[] { ".png", ".jpg", ".jpeg", ".bmp" }.Contains(fileType))
             {
                 attachment.Type = NoteAttachmentType.Image;
             }
-            else if (new string[] { ".mp3", ".wav", ".m4a", ".opus", ".watt" }.Contains(file.FileType))
+            else if (new string[] { ".mp3", ".wav", ".m4a", ".opus" }.Contains(fileType))
             {
-                throw new NotSupportedException("audio files are not supported");
+                attachment.Type = NoteAttachmentType.Audio;
             }
-            else if (file.FileType == ".mp4")
+            else if (fileType == ".mp4")
             {
                 attachment.Type = NoteAttachmentType.Video;
             }
