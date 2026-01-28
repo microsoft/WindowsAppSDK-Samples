@@ -8,6 +8,7 @@
 
 #include <App.xaml.h>
 #include <MainPage.h>
+#include <MyControl.h>
 #include <Microsoft.UI.Dispatching.Interop.h> // For ContentPreTranslateMessage
 
 namespace winrt
@@ -15,6 +16,7 @@ namespace winrt
     using namespace winrt::Microsoft::UI;
     using namespace winrt::Microsoft::UI::Dispatching;
     using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Xaml::Controls;
     using namespace winrt::Microsoft::UI::Xaml::Hosting;
     using namespace winrt::Microsoft::UI::Xaml::Markup;
 }
@@ -32,6 +34,9 @@ struct WindowInfo
     winrt::DesktopWindowXamlSource DesktopWindowXamlSource{ nullptr };
     winrt::event_token TakeFocusRequestedToken{};
     HWND LastFocusedWindow{ NULL };
+    int ResizeTestCounter{ 0 };
+    int ResizeTestBaseWidth{ 0 };
+    int ResizeTestBaseHeight{ 0 };
 };
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -238,8 +243,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 GWL_STYLE,
                 WS_TABSTOP | WS_CHILD | WS_VISIBLE);
 
-            // Put a new instance of our Xaml "MainPage" into our island.  This is our UI content.
-            windowInfo->DesktopWindowXamlSource.Content(winrt::make<winrt::SimpleIslandApp::implementation::MainPage>());
+            // Create a StackPanel with 10 MyControls
+            winrt::StackPanel stackPanel;
+            stackPanel.HorizontalAlignment(winrt::HorizontalAlignment::Stretch);
+            stackPanel.Background(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush(
+                winrt::Windows::UI::ColorHelper::FromArgb(255, 100, 100, 100)));
+            
+            for (int i = 0; i < 13; i++)
+            {
+                auto myControl = winrt::make<winrt::SimpleIslandApp::implementation::MyControl>();
+                myControl.HorizontalAlignment(winrt::HorizontalAlignment::Stretch);
+                stackPanel.Children().Append(myControl);
+            }
+            
+            windowInfo->DesktopWindowXamlSource.Content(stackPanel);
+
+            // Set initial island size to 500x500
+            windowInfo->DesktopWindowXamlSource.SiteBridge().MoveAndResize({ 10, 60, 500, 500 });
 
             ::CreateWindow(L"BUTTON", L"Win32 Button 2", WS_TABSTOP | WS_VISIBLE | WS_CHILD, 10, 400, 150, 40, hWnd, (HMENU)502, hInst, NULL);
 
@@ -263,16 +283,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_SIZE:
         {
-            const int width = LOWORD(lParam);
+            //const int width = LOWORD(lParam);
             const int height = HIWORD(lParam);
 
             ::SetWindowPos(::GetDlgItem(hWnd, 501), NULL, 10, 10, 150, 40, SWP_NOZORDER);
             ::SetWindowPos(::GetDlgItem(hWnd, 502), NULL, 10, height - 50, 150, 40, SWP_NOZORDER);
-
-            if (windowInfo->DesktopWindowXamlSource)
-            {
-                windowInfo->DesktopWindowXamlSource.SiteBridge().MoveAndResize({ 10, 60, width - 20, height - 120 });
-            }
         }
         break;
     case WM_ACTIVATE:
@@ -304,8 +319,41 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
+            case 501:
+                // Button 1 clicked - start resize test
+                if (windowInfo->DesktopWindowXamlSource)
+                {
+                    RECT rect;
+                    GetClientRect(hWnd, &rect);
+                    windowInfo->ResizeTestCounter = 0;
+                    windowInfo->ResizeTestBaseWidth = rect.right - 20;
+                    windowInfo->ResizeTestBaseHeight = rect.bottom - 120;
+                    SetTimer(hWnd, 1, 50, NULL);
+                }
+                break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
+            }
+        }
+        break;
+    case WM_TIMER:
+        {
+            if (wParam == 1 && windowInfo->DesktopWindowXamlSource)
+            {
+                if (windowInfo->ResizeTestCounter < 100)
+                {
+                    int range = 300;
+                    int step = (windowInfo->ResizeTestCounter * 5) % (range * 2);
+                    if (step > range) step = range * 2 - step;
+                    int newWidth = 500 + step;
+                    windowInfo->DesktopWindowXamlSource.SiteBridge().MoveAndResize({ 10, 60, newWidth, 500 });
+                    windowInfo->ResizeTestCounter++;
+                }
+                else
+                {
+                    KillTimer(hWnd, 1);
+                    windowInfo->ResizeTestCounter = 0;
+                }
             }
         }
         break;

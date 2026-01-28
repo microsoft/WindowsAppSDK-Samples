@@ -1,0 +1,10 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+namespace SimpleIslandApp
+{
+    [default_interface]
+    runtimeclass MyControl : Microsoft.UI.Xaml.Controls.ContentControl
+    {
+        MyControl();
+    }
+}
