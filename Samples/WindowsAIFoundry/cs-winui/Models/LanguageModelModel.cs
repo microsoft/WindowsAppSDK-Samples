@@ -3,7 +3,6 @@
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.ContentSafety;
 using Microsoft.Windows.AI.Text;
-using Microsoft.Windows.AI.Text.Experimental;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +18,6 @@ internal class LanguageModelModel : IModelManager
     private TextSummarizer? _sessionTextSummarize;
     private TextRewriter? _sessionTextRewrite;
     private TextToTableConverter? _sessionTextToTable;
-    private LanguageModelExperimental? _languageModelExperimental;
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress,
                                                             CancellationToken cancellationToken = default)
@@ -43,7 +41,6 @@ internal class LanguageModelModel : IModelManager
         _sessionTextSummarize = new TextSummarizer(_session);
         _sessionTextRewrite = new TextRewriter(_session);
         _sessionTextToTable = new TextToTableConverter(_session);
-        _languageModelExperimental = new LanguageModelExperimental(_session);
 
         progress.Report(1.0); // 100% progress
     }
@@ -52,7 +49,6 @@ internal class LanguageModelModel : IModelManager
     private TextSummarizer SessionTextSummarize => _sessionTextSummarize ?? throw new InvalidOperationException("Text summarizer session was not created yet");
     private TextRewriter SessionTextRewrite => _sessionTextRewrite ?? throw new InvalidOperationException("Text Rewriter session was not created yet");
     private TextToTableConverter SessionTextToTable => _sessionTextToTable ?? throw new InvalidOperationException("TextToTable converter session was not created yet");
-    private LanguageModelExperimental SessionLanguageModelExperimental => _languageModelExperimental ?? throw new InvalidOperationException("Language Model Experimental session was not created yet");
 
     public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
         GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
@@ -169,33 +165,5 @@ internal class LanguageModelModel : IModelManager
         }
 
         return result;
-    }
-
-    public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
-    GenerateResponseWithLoraAdapterAndContextAsync(string contextPrompt, string prompt, string filePath)
-    {
-        IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
-
-        var loraAdapter = SessionLanguageModelExperimental.LoadAdapter(filePath);
-        var options = new LanguageModelOptionsExperimental {
-            LoraAdapter = !string.IsNullOrEmpty(filePath) ? loraAdapter : null
-        };
-
-        if (contextPrompt != null)
-        {
-            var contentFilterOptions = new ContentFilterOptions();
-            var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
-            response = SessionLanguageModelExperimental.GenerateResponseAsync(languageModelContext, prompt, options);
-        }
-        else
-        {
-            response = SessionLanguageModelExperimental.GenerateResponseAsync(prompt, options);
-        }
-
-        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
-            response,
-            result => result /* LanguageModelResponseResult */,
-            progress => progress
-        );
     }
 }
