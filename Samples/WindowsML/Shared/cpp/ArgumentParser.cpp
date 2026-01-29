@@ -77,10 +77,6 @@ namespace Shared
         else if (arguments[i] == L"--perf_mode" && i + 1 < arguments.size())
         {
             std::wstring perf_mode_token = std::wstring(arguments[++i]);
-            for (auto& ch : perf_mode_token)
-            {
-                ch = static_cast<wchar_t>(towupper(ch));
-            }
 
             if (perf_mode_token == L"MAX_PERFORMANCE")
             {

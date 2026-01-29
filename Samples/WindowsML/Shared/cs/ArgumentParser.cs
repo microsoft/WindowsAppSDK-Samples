@@ -97,22 +97,21 @@ namespace WindowsML.Shared
                         if (i + 1 < args.Length)
                         {
                             string perfModeToken = args[++i].ToUpperInvariant();
-                            if (perfModeToken == "MAX_PERFORMANCE")
+                            switch (perfModeToken)
                             {
-                                options.PerfMode = PerformanceMode.MaxPerformance;
-                            }
-                            else if (perfModeToken == "MAX_EFFICIENCY")
-                            {
-                                options.PerfMode = PerformanceMode.MaxEfficiency;
-                            }
-                            else if (perfModeToken == "DEFAULT")
-                            {
-                                options.PerfMode = PerformanceMode.Default;
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Unknown perf_mode: {perfModeToken}, defaulting to DEFAULT");
-                                options.PerfMode = PerformanceMode.Default;
+                                case "MAX_PERFORMANCE":
+                                    options.PerfMode = PerformanceMode.MaxPerformance;
+                                    break;
+                                case "MAX_EFFICIENCY":
+                                    options.PerfMode = PerformanceMode.MaxEfficiency;
+                                    break;
+                                case "DEFAULT":
+                                    options.PerfMode = PerformanceMode.Default;
+                                    break;
+                                default:
+                                    Console.WriteLine($"Unknown perf_mode: {perfModeToken}, defaulting to DEFAULT");
+                                    options.PerfMode = PerformanceMode.Default;
+                                    break;
                             }
                         }
                         break;
