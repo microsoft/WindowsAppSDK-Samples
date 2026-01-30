@@ -69,6 +69,11 @@
   <ItemGroup>
     <ClInclude Include="GenAIPerformanceConfigurator.h" />
   </ItemGroup>
+  <!-- Copy OpenVINO configuration files to output -->
+  <Target Name="CopyOpenVinoConfigFiles" AfterTargets="Build">
+    <Copy SourceFiles="$(ProjectDir)..\..\Shared\openvino_perf.json" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(ProjectDir)..\..\Shared\openvino_efficiency.json" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(NugetPackageDirectory)\Microsoft.Windows.CppWinRT.2.0.240405.15\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('$(NugetPackageDirectory)\Microsoft.Windows.CppWinRT.2.0.240405.15\build\native\Microsoft.Windows.CppWinRT.targets')" />
