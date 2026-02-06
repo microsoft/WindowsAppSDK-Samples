@@ -47,9 +47,6 @@ public sealed partial class MainWindow : Window
                 case "ImageObjectRemover":
                     rootFrame.Navigate(typeof(ImageObjectRemoverPage));
                     break;
-                case "VideoScaler":
-                    rootFrame.Navigate(typeof(VideoScalerPage));
-                    break;
             }
         }
     }
