@@ -56,10 +56,10 @@
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DWriteCoreGallery\DWriteCoreGallery.vcxproj" />
+    <ProjectReference Include="..\DWriteCoreGallery\DWriteCoreGallery.vcxproj" ReferenceOutputAssembly="false"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

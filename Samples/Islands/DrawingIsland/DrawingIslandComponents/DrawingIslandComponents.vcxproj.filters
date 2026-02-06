@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DrawingIslandComponents.def" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

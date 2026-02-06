@@ -5,7 +5,7 @@
     <Platforms>x64;ARM64</Platforms>
     
     <!-- Disable central package management for C++ projects -->
-    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     
     <!-- Namespace output directories to prevent conflicts -->
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\bin\</OutDir>

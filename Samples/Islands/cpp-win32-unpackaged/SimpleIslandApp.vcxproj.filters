@@ -53,9 +53,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
   </ItemGroup>
   <ItemGroup>
