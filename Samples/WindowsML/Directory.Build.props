@@ -9,5 +9,9 @@
     <Nullable Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</Nullable>
     <ImplicitUsings Condition="'$(MSBuildProjectExtension)' == '.csproj'">enable</ImplicitUsings>
     <AllowUnsafeBlocks Condition="'$(MSBuildProjectExtension)' == '.csproj'">true</AllowUnsafeBlocks>
+
+    <!-- Per-project output directories to avoid clobbering between samples -->
+    <OutDir Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">$(MSBuildThisFileDirectory)bin\$(MSBuildProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">$(MSBuildThisFileDirectory)obj\$(MSBuildProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
 </Project>
