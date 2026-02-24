@@ -35,6 +35,9 @@ public sealed partial class MainWindow : Window
                 case "ImageObjectExtractor":
                     rootFrame.Navigate(typeof(ImageObjectExtractorPage));
                     break;
+                case "ImageForegroundExtractor":
+                    rootFrame.Navigate(typeof(ImageForegroundExtractorPage));
+                    break;
                 case "ImageDescription":
                     rootFrame.Navigate(typeof (ImageDescriptionPage));
                     break;
@@ -43,6 +46,9 @@ public sealed partial class MainWindow : Window
                     break;
                 case "ImageObjectRemover":
                     rootFrame.Navigate(typeof(ImageObjectRemoverPage));
+                    break;
+                case "VideoScaler":
+                    rootFrame.Navigate(typeof(VideoScalerPage));
                     break;
             }
         }
