@@ -16,6 +16,7 @@ parameters:
   - 'Input/cs-winui'
   - 'Installer'
   - 'Mica'
+  - 'MultiHeadedPackage'
   - 'Notifications'
   - 'PhotoEditor'
   - 'ResourceManagement'
