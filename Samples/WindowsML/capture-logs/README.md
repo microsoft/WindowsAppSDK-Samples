@@ -10,4 +10,4 @@ This folder contains the scripts and profiles needed to capture Windows ML diagn
 | [WindowsMLProfile.wpaProfile](WindowsMLProfile.wpaProfile) | WPA profile for processing ETL files |
 | [WinML.wprp](WinML.wprp) | WPR profile for capturing Windows ML diagnostic data |
 
-> **Tip:** To download a file, click its link above to open it in GitHub, then click the **⬇ download** button .
+> **Tip:** To download a file, click its link above to open it in GitHub, then click the **⬇ download** button.
