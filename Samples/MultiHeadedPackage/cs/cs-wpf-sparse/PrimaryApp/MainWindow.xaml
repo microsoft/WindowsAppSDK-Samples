@@ -23,7 +23,9 @@
             <Button x:Name="UnregisterButton" Content="Unregister Package"
                     Click="UnregisterButton_Click" Margin="0,0,10,0" Padding="10,5" />
             <Button x:Name="RestartButton" Content="Restart"
-                    Click="RestartButton_Click" Padding="10,5" />
+                    Click="RestartButton_Click" Margin="0,0,10,0" Padding="10,5" />
+            <Button x:Name="LaunchSecondaryButton" Content="Launch Secondary App"
+                    Click="LaunchSecondaryButton_Click" Padding="10,5" />
         </StackPanel>
 
         <TextBlock Text="Output:" FontWeight="Bold" Margin="0,10,0,5" />

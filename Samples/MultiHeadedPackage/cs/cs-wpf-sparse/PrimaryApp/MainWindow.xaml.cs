@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -15,6 +16,8 @@ namespace PrimaryApp
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
+
+        private const string PackageName = "MultiHeadedSparseSample";
 
         public MainWindow()
         {
@@ -57,9 +60,19 @@ namespace PrimaryApp
                     return;
                 }
 
+                var packageManager = new PackageManager();
+
+                // Check if already registered
+                var existing = packageManager.FindPackagesForUser(string.Empty)
+                    .FirstOrDefault(p => p.Id.Name == PackageName);
+                if (existing != null)
+                {
+                    AppendOutput("Package is already registered.");
+                    return;
+                }
+
                 AppendOutput($"Registering sparse package: {msixPath}");
 
-                var packageManager = new PackageManager();
                 var packageUri = new Uri(msixPath);
                 var options = new AddPackageOptions
                 {
@@ -81,23 +94,18 @@ namespace PrimaryApp
         {
             try
             {
-                int length = 0;
-                GetCurrentPackageFullName(ref length, null);
-                var sb = new StringBuilder(length);
-                int result = GetCurrentPackageFullName(ref length, sb);
+                var packageManager = new PackageManager();
+                var package = packageManager.FindPackagesForUser(string.Empty)
+                    .FirstOrDefault(p => p.Id.Name == PackageName);
 
-                if (result == 15700) // APPMODEL_ERROR_NO_PACKAGE
+                if (package == null)
                 {
                     AppendOutput("No package is currently registered.");
                     return;
                 }
 
-                string packageFullName = sb.ToString();
-                AppendOutput($"Unregistering package: {packageFullName}");
-
-                var packageManager = new PackageManager();
-                await packageManager.RemovePackageAsync(packageFullName);
-
+                AppendOutput($"Unregistering package: {package.Id.FullName}");
+                await packageManager.RemovePackageAsync(package.Id.FullName);
                 AppendOutput("Package unregistered successfully!");
                 AppendOutput("Click 'Restart' to relaunch without package identity.");
             }
@@ -109,15 +117,76 @@ namespace PrimaryApp
 
         private void RestartButton_Click(object sender, RoutedEventArgs e)
         {
-            var exePath = Process.GetCurrentProcess().MainModule.FileName;
-            Process.Start(exePath);
+            // Check if the sparse package is registered
+            var packageManager = new PackageManager();
+            var package = packageManager.FindPackagesForUser(string.Empty)
+                .FirstOrDefault(p => p.Id.Name == PackageName);
+
+            if (package != null)
+            {
+                // Launch through the package activation manager so the process gets identity
+                string aumid = $"{package.Id.FamilyName}!App";
+                AppendOutput($"Activating with AUMID: {aumid}");
+                ActivateByAumid(aumid);
+            }
+            else
+            {
+                // No package registered, just relaunch the exe directly
+                var exePath = Process.GetCurrentProcess().MainModule.FileName;
+                Process.Start(exePath);
+            }
+
             Application.Current.Shutdown();
+        }
+
+        private void LaunchSecondaryButton_Click(object sender, RoutedEventArgs e)
+        {
+            var packageManager = new PackageManager();
+            var package = packageManager.FindPackagesForUser(string.Empty)
+                .FirstOrDefault(p => p.Id.Name == PackageName);
+
+            if (package != null)
+            {
+                string aumid = $"{package.Id.FamilyName}!SecondaryApp";
+                AppendOutput($"Launching secondary app with AUMID: {aumid}");
+                ActivateByAumid(aumid);
+            }
+            else
+            {
+                AppendOutput("Package not registered. Register the package first.");
+            }
+        }
+
+        private static void ActivateByAumid(string aumid)
+        {
+            var clsid = new Guid("45ba127d-10a8-46ea-8ab7-56ea9078943c");
+            var iid = new Guid("2e941141-7f97-4756-ba1d-9decde894a3d");
+
+            uint hr = CoCreateInstance(ref clsid, IntPtr.Zero, 0x4 /* CLSCTX_LOCAL_SERVER */, ref iid, out object obj);
+            if (hr != 0)
+                throw new COMException("Failed to create ApplicationActivationManager", (int)hr);
+
+            var aam = (IApplicationActivationManager)obj;
+            aam.ActivateApplication(aumid, string.Empty, 0, out _);
         }
 
         private void AppendOutput(string message)
         {
             OutputTextBox.Text += message + Environment.NewLine;
             OutputTextBox.ScrollToEnd();
+        }
+
+        [DllImport("ole32.dll")]
+        private static extern uint CoCreateInstance(
+            ref Guid rclsid, IntPtr pUnkOuter, uint dwClsContext,
+            ref Guid riid, [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
+
+        [ComImport, Guid("2e941141-7f97-4756-ba1d-9decde894a3d"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        private interface IApplicationActivationManager
+        {
+            IntPtr ActivateApplication([In] string appUserModelId, [In] string arguments, [In] uint options, [Out] out uint processId);
+            IntPtr ActivateForFile([In] string appUserModelId, [In] IntPtr itemArray, [In] string verb, [Out] out uint processId);
+            IntPtr ActivateForProtocol([In] string appUserModelId, [In] IntPtr itemArray, [Out] out uint processId);
         }
     }
 }
