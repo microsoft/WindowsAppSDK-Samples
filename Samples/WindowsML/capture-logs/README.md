@@ -1,3 +1,11 @@
 # Capturing Windows ML Logs
 
-To see instructions about how to use the scripts in this folder to capture Windows ML logs, see https://learn.microsoft.com/windows/ai/new-windows-ml/logs.
+This folder contains the scripts and profiles needed to capture Windows ML diagnostic logs. For full instructions, see the [Capturing Windows ML Logs](https://learn.microsoft.com/windows/ai/new-windows-ml/logs) documentation on Microsoft Learn.
+
+## Files
+
+| File | Description |
+|------|-------------|
+| [Get-WinMLRundown.ps1](Get-WinMLRundown.ps1) | PowerShell script for generating rundown logs |
+| [WindowsMLProfile.wpaProfile](WindowsMLProfile.wpaProfile) | WPA profile for processing ETL files |
+| [WinML.wprp](WinML.wprp) | WPR profile for capturing Windows ML diagnostic data |

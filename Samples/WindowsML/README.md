@@ -78,6 +78,12 @@ Samples use these pre-trained models:
 
 These samples detect and utilize the CPU, GPU, and NPU.
 
+## Diagnostics
+
+| Resource | Description |
+|----------|-------------|
+| [capture-logs](capture-logs/) | Scripts and profiles for capturing Windows ML diagnostic logs ([docs](https://learn.microsoft.com/windows/ai/new-windows-ml/logs)) |
+
 ## Getting Help
 
 - [Windows ML Documentation](https://learn.microsoft.com/en-us/windows/ai/new-windows-ml/overview)
