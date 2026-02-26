@@ -6,6 +6,8 @@
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <WindowsPackageType>Sparse</WindowsPackageType>
     <EnableMsixTooling>true</EnableMsixTooling>
+    <PackageCertificateKeyFile>PrimaryApp_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <DefaultLanguage>en</DefaultLanguage>
   </PropertyGroup>
 
   <ItemGroup>
