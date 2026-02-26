@@ -3,8 +3,9 @@
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+  IgnorableNamespaces="uap uap10 rescap">
 
   <Identity
     Name="MultiHeadedSparseSample"
@@ -26,10 +27,11 @@
   </Resources>
 
   <Applications>
-    <!-- Primary: tokens replaced by build system -->
+    <!-- Primary: executable token replaced by build system -->
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="$targetentrypoint$">
+      uap10:TrustLevel="mediumIL"
+      uap10:RuntimeBehavior="win32App">
       <uap:VisualElements
         DisplayName="Primary Sparse App"
         Description="Primary application in multi-headed sparse package"
@@ -40,10 +42,11 @@
       </uap:VisualElements>
     </Application>
 
-    <!-- Secondary: hardcoded exe name, no tokens -->
+    <!-- Secondary: hardcoded exe name -->
     <Application Id="SecondaryApp"
       Executable="SecondaryApp.exe"
-      EntryPoint="Windows.FullTrustApplication">
+      uap10:TrustLevel="mediumIL"
+      uap10:RuntimeBehavior="win32App">
       <uap:VisualElements
         DisplayName="Secondary Sparse App"
         Description="Secondary application in multi-headed sparse package"
