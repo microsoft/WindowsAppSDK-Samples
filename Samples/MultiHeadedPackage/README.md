@@ -14,7 +14,7 @@ extendedZipContent:
 ---
 # Multi-headed MSIX package sample
 
-These samples demonstrate how to create **multi-headed packages** — MSIX or sparse packages that contain multiple `<Application>` elements in a single `Package.appxmanifest`. Each application entry gets its own Start menu tile and can be launched independently, while sharing the same package identity and installation lifecycle.
+These samples demonstrate how to create **multi-headed packages** — whether MSIX or sparse-packaged — by defining multiple `<Application>` elements in a single `Package.appxmanifest`. Each application entry gets its own Start menu tile and can be launched independently, while sharing the same package identity and installation lifecycle.
 
 ## Samples
 
