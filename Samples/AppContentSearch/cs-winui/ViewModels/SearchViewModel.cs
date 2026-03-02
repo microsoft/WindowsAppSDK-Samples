@@ -1,16 +1,15 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Notes.ViewModels
 {
-    public partial class SearchViewModel : ObservableObject
+    public partial class SearchViewModel : ObservableObject, IDisposable
     {
         [ObservableProperty]
         public bool showResults = false;
@@ -27,7 +26,7 @@ namespace Notes.ViewModels
         public ObservableCollection<SearchResult> ImageResults { get; set; } = new();
 
         private string _searchText = string.Empty;
-        private CancellationTokenSource? _currentSearchCancellation;
+        private CancellationTokenSource? currentSearchCancellation;
 
         public SearchViewModel()
         {
@@ -51,15 +50,15 @@ namespace Notes.ViewModels
         private async Task Search()
         {
             Debug.WriteLine("searching");
-            
+
             // Cancel any existing search
-            _currentSearchCancellation?.Cancel();
-            _currentSearchCancellation?.Dispose();
-            
+            currentSearchCancellation?.Cancel();
+            currentSearchCancellation?.Dispose();
+
             // Create new cancellation token for this search
-            _currentSearchCancellation = new CancellationTokenSource();
-            var cancellationToken = _currentSearchCancellation.Token;
-            
+            currentSearchCancellation = new CancellationTokenSource();
+            var cancellationToken = currentSearchCancellation.Token;
+
             try
             {
                 Reset();
@@ -122,6 +121,13 @@ namespace Notes.ViewModels
                 Debug.WriteLine($"Search failed: {ex.Message}");
                 // Handle other exceptions as needed
             }
+        }
+
+        public void Dispose()
+        {
+            currentSearchCancellation?.Cancel();
+            currentSearchCancellation?.Dispose();
+            currentSearchCancellation = null;
         }
     }
 }

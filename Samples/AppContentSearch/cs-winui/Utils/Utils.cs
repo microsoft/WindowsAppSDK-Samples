@@ -1,12 +1,12 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
-using Notes.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Windows.Search.AppContentIndex;
+using Notes.ViewModels;
 using Windows.Foundation;
 using Windows.Storage;
 
