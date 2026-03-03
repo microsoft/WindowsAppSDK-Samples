@@ -158,7 +158,6 @@ function Check-BuildOutput
     $runtimeDlls = Get-ChildItem -Path $VariantPath -Filter "Microsoft.WindowsAppRuntime*.dll" -Recurse -ErrorAction SilentlyContinue
     if (-not $runtimeDlls)
     {
-        # May be in a dependencies folder or not yet resolved — warn but don't fail
         Write-Host "[$Variant] Note: WindowsAppRuntime DLLs not found in build output (may be framework-dependent)"
     }
     else
@@ -188,7 +187,7 @@ if (Test-Path $csPath)
 }
 else
 {
-    Write-Host "C# variant not found at $csPath — skipping" -ForegroundColor Yellow
+    Write-Host "C# variant not found at $csPath - skipping" -ForegroundColor Yellow
 }
 
 Write-Host ""
@@ -203,7 +202,7 @@ if (Test-Path $cppPath)
 }
 else
 {
-    Write-Host "C++ variant not found at $cppPath — skipping" -ForegroundColor Yellow
+    Write-Host "C++ variant not found at $cppPath - skipping" -ForegroundColor Yellow
 }
 
 # At least one variant must exist and pass
