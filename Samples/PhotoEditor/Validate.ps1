@@ -219,4 +219,8 @@ if ($failed)
 }
 
 Write-Host "`nPhotoEditor validation PASSED" -ForegroundColor Green
+# Clear $Error to prevent PowerShell from overriding exit code 0.
+# Under $ErrorActionPreference='Stop', suppressed errors from Get-ChildItem
+# -ErrorAction SilentlyContinue still accumulate in $Error.
+$global:Error.Clear()
 exit 0
