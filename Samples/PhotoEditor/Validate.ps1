@@ -97,6 +97,21 @@ function Check-BuildOutput
                 $ok = $false
             }
         }
+
+        # Verify PDB exists for the executable
+        if (Get-Command Test-SymbolFiles -ErrorAction SilentlyContinue)
+        {
+            $result = Test-SymbolFiles -BinaryPath $exeFiles[0].FullName
+            if ($result)
+            {
+                Write-Host "[$Variant] PDB symbol file found"
+            }
+            else
+            {
+                Write-Warning "[$Variant] PDB symbol file missing"
+                $ok = $false
+            }
+        }
     }
 
     # Check for resources.pri (compiled resources)
@@ -134,6 +149,20 @@ function Check-BuildOutput
             {
                 Write-Warning "[$Variant] AppxManifest missing WindowsAppRuntime dependency"
                 $ok = $false
+            }
+        }
+
+        # Check for appxsym symbol packages (packaged apps)
+        if (Get-Command Test-AppxSymbols -ErrorAction SilentlyContinue)
+        {
+            $result = Test-AppxSymbols -Path $VariantPath
+            if ($result)
+            {
+                Write-Host "[$Variant] AppxSymbols found"
+            }
+            else
+            {
+                Write-Host "[$Variant] Note: No .appxsym files found (may not be generated in this config)"
             }
         }
     }

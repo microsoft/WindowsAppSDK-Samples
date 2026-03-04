@@ -106,6 +106,21 @@ foreach ($variant in $variants)
                 $ok = $false
             }
         }
+
+        # PDB symbol check
+        if (Get-Command Test-SymbolFiles -ErrorAction SilentlyContinue)
+        {
+            $result = Test-SymbolFiles -BinaryPath $exeFiles[0].FullName
+            if ($result)
+            {
+                Write-Host "[$variantName] PDB symbol file found"
+            }
+            else
+            {
+                Write-Warning "[$variantName] PDB symbol file missing"
+                $ok = $false
+            }
+        }
     }
 
     if ($ok)

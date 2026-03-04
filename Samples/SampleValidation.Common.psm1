@@ -447,11 +447,115 @@ function Write-ValidationResult
     }
 }
 
+function Test-SymbolFiles
+{
+    <#
+    .SYNOPSIS
+        Checks that a matching .pdb file exists for a given binary.
+
+    .PARAMETER BinaryPath
+        Path to the .exe or .dll file.
+
+    .PARAMETER MinSizeBytes
+        Minimum expected PDB size in bytes. Default: 1024 (1KB).
+
+    .OUTPUTS
+        Returns $true if PDB found and valid, $false otherwise.
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string]$BinaryPath,
+
+        [long]$MinSizeBytes = 1024
+    )
+
+    if (-not (Test-Path $BinaryPath))
+    {
+        Write-Warning "Binary not found for symbol check: $BinaryPath"
+        return $false
+    }
+
+    $binaryName = [System.IO.Path]::GetFileNameWithoutExtension($BinaryPath)
+    $binaryDir = [System.IO.Path]::GetDirectoryName($BinaryPath)
+
+    # Look for PDB next to the binary
+    $pdbPath = Join-Path $binaryDir "$binaryName.pdb"
+    if (-not (Test-Path $pdbPath))
+    {
+        # Search recursively from binary directory
+        $pdbFiles = Get-ChildItem -Path $binaryDir -Filter "$binaryName.pdb" -Recurse -ErrorAction SilentlyContinue
+        if ($pdbFiles)
+        {
+            $pdbPath = $pdbFiles[0].FullName
+        }
+        else
+        {
+            Write-Warning "PDB not found for $binaryName (looked in $binaryDir)"
+            return $false
+        }
+    }
+
+    $pdbInfo = Get-Item $pdbPath
+    if ($pdbInfo.Length -lt $MinSizeBytes)
+    {
+        Write-Warning "PDB for $binaryName is suspiciously small: $($pdbInfo.Length) bytes (minimum: $MinSizeBytes)"
+        return $false
+    }
+
+    return $true
+}
+
+function Test-AppxSymbols
+{
+    <#
+    .SYNOPSIS
+        Checks that .appxsym files exist in the build output for packaged apps.
+
+    .PARAMETER Path
+        Path to search for .appxsym files.
+
+    .OUTPUTS
+        Returns $true if appxsym files found, $false otherwise.
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string]$Path
+    )
+
+    if (-not (Test-Path $Path))
+    {
+        Write-Warning "Path not found for appxsym check: $Path"
+        return $false
+    }
+
+    $symFiles = Get-ChildItem -Path $Path -Filter "*.appxsym" -Recurse -ErrorAction SilentlyContinue
+    if (-not $symFiles)
+    {
+        Write-Warning "No .appxsym files found in $Path"
+        return $false
+    }
+
+    foreach ($sym in $symFiles)
+    {
+        if ($sym.Length -lt 1024)
+        {
+            Write-Warning "appxsym file is suspiciously small: $($sym.Name) ($($sym.Length) bytes)"
+            return $false
+        }
+    }
+
+    return $true
+}
+
 Export-ModuleMember -Function @(
     'Test-FilePresence',
     'Test-FileSizeRange',
     'Test-MsixPackage',
     'Test-AppxManifest',
     'Test-BinaryPlatform',
+    'Test-SymbolFiles',
+    'Test-AppxSymbols',
     'Write-ValidationResult'
 )
