@@ -1,0 +1,21 @@
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Window x:Class="SecondaryApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Secondary Sparse App - Multi-Headed Sparse Package" Height="300" Width="500">
+
+    <StackPanel Margin="20" VerticalAlignment="Center">
+        <TextBlock Text="This is the Secondary Sparse App"
+                   FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"
+                   Margin="0,0,0,10" />
+        <TextBlock Text="This app is part of a multi-headed sparse package."
+                   FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,20" />
+
+        <TextBlock Text="Package Identity Status:" FontWeight="Bold" Margin="0,0,0,5" />
+        <TextBlock x:Name="StatusText" Text="Checking..." />
+    </StackPanel>
+</Window>

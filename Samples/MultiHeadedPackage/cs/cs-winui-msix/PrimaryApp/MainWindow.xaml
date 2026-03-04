@@ -1,0 +1,29 @@
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Window
+    x:Class="PrimaryApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Primary App - Multi-Headed MSIX">
+
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Spacing="16">
+            <TextBlock
+                Text="This is the Primary App"
+                FontSize="28"
+                HorizontalAlignment="Center" />
+            <TextBlock
+                Text="This app is part of a multi-headed MSIX package."
+                FontSize="16"
+                HorizontalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            <TextBlock
+                Text="Check your Start menu for both 'Primary App' and 'Secondary App' entries."
+                FontSize="14"
+                HorizontalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                TextWrapping="Wrap"
+                TextAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</Window>
