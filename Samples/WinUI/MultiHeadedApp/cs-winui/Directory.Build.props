@@ -1,0 +1,11 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props, $(MSBuildThisFileDirectory)..\))')"/>
+
+  <!-- Point to local MSIX build tools for testing subfoldering changes -->
+  <PropertyGroup>
+    <MicrosoftBuildMsixLocation>C:\WindowsAppSDKClosed2\src\Microsoft-WinUI-Sdk\Microsoft.Build.Msix\</MicrosoftBuildMsixLocation>
+    <DotNet6WindowsVersion>10.0.17763.0</DotNet6WindowsVersion>
+    <!-- Enable universal subfoldering: all projects place resources in $(TargetName)/ subfolder -->
+    <PrependPriInitialPath>true</PrependPriInitialPath>
+  </PropertyGroup>
+</Project>
