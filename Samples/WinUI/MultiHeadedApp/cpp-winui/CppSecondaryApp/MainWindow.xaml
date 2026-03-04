@@ -1,0 +1,15 @@
+<Window
+    x:Class="CppSecondaryApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CppSecondaryApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="CppSecondaryApp - Multi-Headed MSIX Sample">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+        <TextBlock Text="Hello from CppSecondaryApp!" Style="{StaticResource TitleTextBlockStyle}" />
+        <TextBlock Text="This is the C++ secondary entry point of a multi-headed MSIX package." TextWrapping="Wrap" MaxWidth="400" />
+        <TextBlock Text="Both C++ apps have MainWindow.xaml - subfoldering prevents conflicts." TextWrapping="Wrap" MaxWidth="400" />
+    </StackPanel>
+</Window>
