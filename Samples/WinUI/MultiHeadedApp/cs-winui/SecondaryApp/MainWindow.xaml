@@ -1,0 +1,20 @@
+<Window
+    x:Class="SecondaryApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SecondaryApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="SecondaryApp - Multi-Headed MSIX Sample">
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+        <TextBlock Text="Hello from SecondaryApp!" Style="{StaticResource TitleTextBlockStyle}" />
+        <TextBlock Text="This is the secondary entry point of a multi-headed MSIX package."
+                   TextWrapping="Wrap" MaxWidth="400" />
+        <TextBlock Text="Both HeadApp and SecondaryApp have their own MainWindow.xaml file."
+                   TextWrapping="Wrap" MaxWidth="400" />
+        <TextBlock Text="Per-project subfoldering prevents resource naming conflicts."
+                   TextWrapping="Wrap" MaxWidth="400" Foreground="{ThemeResource SystemAccentColor}" />
+    </StackPanel>
+</Window>
