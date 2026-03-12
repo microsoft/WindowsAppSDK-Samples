@@ -1,11 +1,11 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
-using Notes.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.Windows.Search.AppContentIndex;
+using Notes.Models;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -14,7 +14,7 @@ namespace Notes
 {
     public static class AttachmentProcessor
     {
-        public static EventHandler<AttachmentProcessedEventArgs>? AttachmentProcessed;
+        internal static EventHandler<AttachmentProcessedEventArgs>? AttachmentProcessed;
 
         private readonly static List<Attachment> _toBeProcessed = new();
         private static bool _isProcessing = false;
@@ -46,7 +46,7 @@ namespace Notes
             {
                 await Task.Run(() =>
                 {
-                    MainWindow.AppContentIndexer.Remove(attachment.Id.ToString());
+                    MainWindow.AppContentIndexer.RemoveContentItem(attachment.Id.ToString());
                 });
                 Debug.WriteLine($"Deleted image from index: {attachment.Filename}");
             }
