@@ -22,7 +22,7 @@ It shows how to create, manage, and semantically search
 through the index that includes both text content and images.
 It also shows how to use the search results to enable
 retrieval augmented generation (RAG) scenarios with language
-models.
+models. 
 
 > **Note**: This sample is targeted and tested for
 > **Windows App SDK 2.0 Preview1** and
