@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata minClientVersion="3.3">
+    <id>Microsoft.WindowsAppSDK.Foundation</id>
+    <version>2.0.15-preview</version>
+    <title></title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">license.txt</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <projectUrl>https://aka.ms/windowsappsdk</projectUrl>
+    <description>Windows App SDK</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>Microsoft Resources Native Windows WindowsAppSDK</tags>
+    <dependencies>
+      <dependency id="Microsoft.WindowsAppSDK.Base" version="2.0.2-preview" />
+      <dependency id="Microsoft.WindowsAppSDK.InteractiveExperiences" version="2.0.6-preview" />
+    </dependencies>
+  </metadata>
+</package>

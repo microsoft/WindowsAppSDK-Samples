@@ -1,0 +1,14 @@
+<!--
+  Copyright (c) Microsoft Corporation. Licensed under the MIT License
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--Import after all other props to ensure WindowsAppSDKFrameworkPackageReference is set (required for C++ projects)-->
+  <Import Project="$(MSBuildThisFileDirectory)Microsoft.WindowsAppSDK.AppXReference.props" Condition="'$(WindowsAppSDKFrameworkPackageReference)'!='false'"/>
+  <Import Project="$(MSBuildThisFileDirectory)Microsoft.WindowsAppSDK.ComponentReference.targets" Condition="'$(WindowsAppSDKFrameworkPackageReference)'!='false'"/>
+
+  <ItemGroup>
+    <Compile Condition="'$(WindowsAppSdkIncludeVersionInfo)'=='true'" Include="$(MSBuildThisFileDirectory)..\include\WindowsAppSDK-VersionInfo.cs" />
+  </ItemGroup>
+
+</Project>

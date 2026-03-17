@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Microsoft.Windows.SDK.BuildTools.MSIX.MrtCore.PriExpansion.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+
+  <PropertyGroup>
+    <GetCopyToOutputDirectoryItemsDependsOn>
+      <!-- ResolveProjectReferences has to come before the DependsOn as AssignTargetPath will cause _SplitProjectReferencesByFileExistence to run which will be skipped due
+       to no _ProjectReferenceWithConfiguration then when we try to run it later it will be skipped because it was already 'built successfully' -->
+      ResolveProjectReferences;
+      $(GetCopyToOutputDirectoryItemsDependsOn);
+      _SetPortablePriProperties;
+      AddPriPayloadFilesToCopyToOutputDirectoryItems
+    </GetCopyToOutputDirectoryItemsDependsOn>
+
+    <!--
+      The '_GetSdkToolPaths' target is only defined by the MSIX tooling when MRT Core is enabled, so we check for it.
+      If we always added it to the 'DependsOn' list, it would cause the PRI payload target to possibly not run at all.
+    -->
+    <AddPriPayloadFilesToCopyToOutputDirectoryItemsDependsOn Condition="'$(_GetSdkToolPathsTargetDefined)' == true">_GetSdkToolPaths;$(AllOutputGroupsDependsOn)</AddPriPayloadFilesToCopyToOutputDirectoryItemsDependsOn>
+    <AddPriPayloadFilesToCopyToOutputDirectoryItemsDependsOn Condition="'$(_GetSdkToolPathsTargetDefined)' != true">$(AllOutputGroupsDependsOn)</AddPriPayloadFilesToCopyToOutputDirectoryItemsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_SetPortablePriProperties" Condition="'$(TargetPlatformIdentifierAdjusted)' == 'Portable'" DependsOnTargets="ImplicitlyExpandTargetFramework">
+    <PropertyGroup>
+      <_PortablePriResourcesEnabled Condition="'%(ReferencePath.FileName)' == 'System.Runtime.WindowsRuntime.UI.Xaml'">true</_PortablePriResourcesEnabled>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(_PortablePriResourcesEnabled)' != 'true'">
+      <AppxGeneratePriEnabled>false</AppxGeneratePriEnabled>
+      <AppxGeneratePrisForPortableLibrariesEnabled>false</AppxGeneratePrisForPortableLibrariesEnabled>
+      <AppxGetPackagePropertiesEnabled>false</AppxGetPackagePropertiesEnabled>
+      <IncludeProjectPriFile>false</IncludeProjectPriFile>
+    </PropertyGroup>
+  </Target>
+
+  <!-- .pri files may contain asset files that are not included as part of the project outputs, because of this we need to expand the pri and add the files to the copy local output -->
+  <Target Name="AddPriPayloadFilesToCopyToOutputDirectoryItems" Condition="'$(AppxGeneratePriEnabled)' != 'false'" DependsOnTargets="$(AddPriPayloadFilesToCopyToOutputDirectoryItemsDependsOn)">
+    <ItemGroup>
+      <_PriFilesToExpandFromReference Include="@(_ReferenceRelatedPaths->'%(FullPath)')" Condition="'%(Extension)' == '.pri'"/>
+      <_PriFilesToExpandFromReference Include="@(ReferenceCopyLocalPaths->'%(FullPath)')" Condition="'%(Extension)' == '.pri'" KeepDuplicates="false" />
+    </ItemGroup>
+
+    <WinAppSdkExpandPriContent Condition="'$(MakePriExeFullPath)' != ''"
+                      Inputs="@(_PriFilesToExpandFromReference)"
+                      MakePriExeFullPath="$(MakePriExeFullPath)"
+                      MakePriExtensionPath="$(OutOfProcessMakePriExtensionPath)"
+                      IntermediateDirectory="$(IntermediateOutputPath)"
+                      AdditionalMakepriExeParameters="$(AppxExpandPriContentAdditionalMakepriExeParameters)"
+                      ExcludeXamlFromLibraryLayoutsWhenXbfIsPresent="$(AppxExcludeXamlFromLibraryLayoutsWhenXbfIsPresent)"
+                      VsTelemetrySession="$(VsTelemetrySession)">
+      <Output TaskParameter="Expanded" ItemName="_ExtraPriPayloadFiles" />
+      <Output TaskParameter="IntermediateFileWrites" ItemName="FileWrites" />
+    </WinAppSdkExpandPriContent>
+
+    <ItemGroup>
+      <_AllChildProjectItemsWithTargetPath Include="@(_ExtraPriPayloadFiles)" KeepMetadata="TargetPath">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </_AllChildProjectItemsWithTargetPath>
+    </ItemGroup>
+  </Target>
+</Project>

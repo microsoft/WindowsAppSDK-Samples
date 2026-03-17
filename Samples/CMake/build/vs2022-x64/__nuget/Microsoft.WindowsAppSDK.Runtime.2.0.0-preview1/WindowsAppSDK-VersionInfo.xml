@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WindowsAppSDK>
+    <!-- Release information -->
+    <Release>
+        <Major>2</Major>
+        <Minor>0</Minor>
+        <Patch>211</Patch>
+        <MajorMinor>
+            <UInt32>131072</UInt32>
+            <HexUInt32>0x00020000</HexUInt32>
+        </MajorMinor>
+
+        <Channel>preview</Channel>
+
+        <Tag>preview1</Tag>
+        <ShortTag>p1</ShortTag>
+
+        <Formatted>
+            <Tag>-preview1</Tag>
+            <ShortTag>-p1</ShortTag>
+        </Formatted>
+    </Release>
+
+    <!-- Runtime information -->
+    <Runtime>
+        <Identity>
+            <Publisher>CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US</Publisher>
+            <PublisherId>8wekyb3d8bbwe</PublisherId>
+        </Identity>
+        <Version>
+            <DotQuadNumber>0.772.1552.0</DotQuadNumber>
+            <UInt16>3315816464384</UInt16>
+            <HexUInt16>0x0000030406100000</HexUInt16>
+            <String>0.772.1552.0</String>
+        </Version>
+        <Packages>
+            <Framework>
+                <PackageFamilyName>Microsoft.WindowsAppRuntime.2.0-preview1_8wekyb3d8bbwe</PackageFamilyName>
+            </Framework>
+            <Main>
+                <PackageFamilyName>MicrosoftCorporationII.WinAppRuntime.Main.2.0-p1_8wekyb3d8bbwe</PackageFamilyName>
+            </Main>
+            <Singleton>
+                <PackageFamilyName>MicrosoftCorporationII.WinAppRuntime.Singleton-p1_8wekyb3d8bbwe</PackageFamilyName>
+            </Singleton>
+            <DDLM>
+                <X86>
+                    <PackageFamilyName>Microsoft.WinAppRuntime.DDLM.0.772.1552.0-x8-p1_8wekyb3d8bbwe</PackageFamilyName>
+                </X86>
+                <X64>
+                    <PackageFamilyName>Microsoft.WinAppRuntime.DDLM.0.772.1552.0-x6-p1_8wekyb3d8bbwe</PackageFamilyName>
+                </X64>
+                <Arm64>
+                    <PackageFamilyName>Microsoft.WinAppRuntime.DDLM.0.772.1552.0-a6-p1_8wekyb3d8bbwe</PackageFamilyName>
+                </Arm64>
+            </DDLM>
+        </Packages>
+    </Runtime>
+</WindowsAppSDK>

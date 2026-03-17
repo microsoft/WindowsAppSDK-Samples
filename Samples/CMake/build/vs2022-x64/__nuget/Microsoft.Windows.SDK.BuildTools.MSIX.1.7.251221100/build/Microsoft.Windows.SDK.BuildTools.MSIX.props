@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Microsoft.Windows.SDK.BuildTools.MSIX.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--
+    Setup the custom .targets to run as 'CustomBeforeMicrosoftCommonTargets'. We also make
+    a copy of the original value so that we can manually import it ourselves after ours.
+    This is because we want to be able to read properties that users can set in their
+    project files (eg. 'EnableMsixTooling'), which means we must be evaluated after that.
+    The critical ordering factor that's required by the MSIX tooling is that the .props
+    are imported before 'Microsoft.Common.CurrentVersion.target', so to ensure we respect
+    that we register our .props to be imported before all Microsoft common targets.
+  -->
+  <PropertyGroup>
+    <_OriginalCustomBeforeMicrosoftCommonTargetsFromMsixProps>$(CustomBeforeMicrosoftCommonTargets)</_OriginalCustomBeforeMicrosoftCommonTargetsFromMsixProps>
+    <CustomBeforeMicrosoftCommonTargets>$(MSBuildThisFileDirectory)Microsoft.Windows.SDK.BuildTools.MSIX.BeforeCommon.props</CustomBeforeMicrosoftCommonTargets>
+  </PropertyGroup>
+
+  <!--
+    Add any needed props here, but not they will be executed *before* the .csproj.
+    Avoid adding properties here that are condition upon other properties that
+    users are expected to set in their .csproj or .vcxproj (or .wapproj) files.
+  -->
+</Project>

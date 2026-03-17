@@ -1,0 +1,58 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "Microsoft.WindowsAppSDK.InteractiveExperiences::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "Microsoft.Windows.CppWinRT::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "Microsoft.WindowsAppSDK.Foundation::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "PackagedSelfContained::@d44aac7441c16fbceb90"
+		},
+		{
+			"id" : "UnpackagedFrameworkDependent::@bc84f1ded23283670c7f"
+		},
+		{
+			"id" : "UnpackagedSelfContained::@8c983c62bfafe4570493"
+		},
+		{
+			"id" : "PackagedFrameworkDependent::@e16e5aa97d8efa371929"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "CMakePredefinedTargets"
+	},
+	"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+	"isGeneratorProvided" : true,
+	"name" : "ALL_BUILD",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

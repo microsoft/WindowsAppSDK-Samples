@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright (c) Microsoft Corporation. Licensed under the MIT License
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildThisFileDirectory)..\Microsoft.InteractiveExperiences.Common.targets"/>
+
+  <!-- Native C++ projects -->
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <!-- C++ header files are in "include" -->
+      <AdditionalIncludeDirectories>
+        $(MSBuildThisFileDirectory)..\..\include;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+    
+    <Link>
+      <!-- Static .lib files are in "lib\native" -->
+      <AdditionalDependencies>
+        $(MSBuildThisFileDirectory)..\..\lib\native\$(Ixp-Platform)\Microsoft.UI.Dispatching.lib;
+        %(AdditionalDependencies)
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <!-- C++ uses .winmd files, which point to implementation DLLs -->
+    <Reference Include="$(_IxpMetadataFolder)\Microsoft.Foundation.winmd">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="$(_IxpMetadataFolder)\Microsoft.Graphics.winmd">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="$(_IxpMetadataFolder)\Microsoft.UI.winmd">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

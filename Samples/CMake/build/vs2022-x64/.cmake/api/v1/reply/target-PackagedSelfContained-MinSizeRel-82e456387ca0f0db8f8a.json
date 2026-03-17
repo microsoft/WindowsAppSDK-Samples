@@ -1,0 +1,385 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "PackagedSelfContained/MinSizeRel/PackagedSelfContained.exe"
+		},
+		{
+			"path" : "PackagedSelfContained/MinSizeRel/PackagedSelfContained.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"include",
+			"find_package",
+			"add_cppwinrt_projection"
+		],
+		"files" : 
+		[
+			"PackagedSelfContained/CMakeLists.txt",
+			"D:/UndockedProjects/NugetCMakePackage/overlay/_convention/_convention-config.cmake",
+			"build/vs2022-x64/__convention_configs/microsoft.windowsappsdk.foundation-config.cmake",
+			"CMakeLists.txt",
+			"D:/UndockedProjects/NugetCMakePackage/overlay/microsoft.windows.cppwinrt/microsoft.windows.cppwinrt-config.cmake",
+			"build/vs2022-x64/__convention_configs/microsoft.windowsappsdk.interactiveexperiences-config.cmake",
+			"build/vs2022-x64/__convention_configs/microsoft.windowsappsdk.dwrite-config.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 19,
+				"parent" : 0
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 39,
+				"parent" : 3
+			},
+			{
+				"file" : 2,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 5
+			},
+			{
+				"file" : 1,
+				"parent" : 6
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 310,
+				"parent" : 7
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 225,
+				"parent" : 7
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 167,
+				"parent" : 7
+			},
+			{
+				"command" : 1,
+				"file" : 4,
+				"line" : 166,
+				"parent" : 10
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 94,
+				"parent" : 7
+			},
+			{
+				"file" : 4,
+				"parent" : 12
+			},
+			{
+				"command" : 1,
+				"file" : 4,
+				"line" : 206,
+				"parent" : 13
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 111,
+				"parent" : 7
+			},
+			{
+				"file" : 5,
+				"parent" : 15
+			},
+			{
+				"command" : 2,
+				"file" : 5,
+				"line" : 1,
+				"parent" : 16
+			},
+			{
+				"file" : 1,
+				"parent" : 17
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 310,
+				"parent" : 18
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 40,
+				"parent" : 3
+			},
+			{
+				"file" : 6,
+				"parent" : 20
+			},
+			{
+				"command" : 2,
+				"file" : 6,
+				"line" : 1,
+				"parent" : 21
+			},
+			{
+				"file" : 1,
+				"parent" : 22
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 310,
+				"parent" : 23
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O1 /Ob1 /DNDEBUG -std:c++20 -MT"
+				},
+				{
+					"backtrace" : 1,
+					"fragment" : "/EHsc"
+				},
+				{
+					"backtrace" : 1,
+					"fragment" : "/W3"
+				},
+				{
+					"backtrace" : 1,
+					"fragment" : "/Zc:__cplusplus"
+				},
+				{
+					"backtrace" : 1,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 1,
+					"define" : "NOMINMAX"
+				},
+				{
+					"backtrace" : 1,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 1,
+					"define" : "WIN32_LEAN_AND_MEAN"
+				},
+				{
+					"backtrace" : 1,
+					"define" : "_UNICODE"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__cppwinrt/Microsoft.WindowsAppSDK.Foundation"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__cppwinrt/Microsoft.Windows.CppWinRT"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__cppwinrt/Microsoft.WindowsAppSDK.InteractiveExperiences"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.DWrite.2.0.1-preview/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "Microsoft.WindowsAppSDK.InteractiveExperiences::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Microsoft.Windows.CppWinRT::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Microsoft.WindowsAppSDK.Foundation::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "PackagedSelfContained::@d44aac7441c16fbceb90",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O1 /Ob1 /DNDEBUG -MT",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /INCREMENTAL:NO /subsystem:windows",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "/LTCG",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "/INCREMENTAL:NO",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "/MANIFEST",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\__nuget\\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\\lib\\native\\x64\\MRM.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "..\\__nuget\\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\\lib\\native\\x64\\Microsoft.WindowsAppRuntime.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 11,
+				"fragment" : "RuntimeObject.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 14,
+				"fragment" : "ole32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 14,
+				"fragment" : "oleaut32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 19,
+				"fragment" : "..\\__nuget\\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\\lib\\native\\x64\\Microsoft.UI.Dispatching.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 24,
+				"fragment" : "..\\__nuget\\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\\lib\\native\\x64\\DWriteCore.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "PackagedSelfContained",
+	"nameOnDisk" : "PackagedSelfContained.exe",
+	"paths" : 
+	{
+		"build" : "PackagedSelfContained",
+		"source" : "PackagedSelfContained"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "PackagedSelfContained/main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "build/vs2022-x64/__manifests/Microsoft.WindowsAppSDK.Foundation.manifest",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "build/vs2022-x64/__manifests/Microsoft.WindowsAppSDK.InteractiveExperiences.manifest",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}

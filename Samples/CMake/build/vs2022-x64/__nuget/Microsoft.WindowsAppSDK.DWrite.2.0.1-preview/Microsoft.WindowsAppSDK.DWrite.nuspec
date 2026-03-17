@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.WindowsAppSDK.DWrite</id>
+    <version>2.0.1-preview</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">license.txt</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <projectUrl>https://aka.ms/WindowsAppSDK</projectUrl>
+    <description>DWriteCore is an implementation of the Microsoft Windows DirectWrite API
+        that has been decoupled from the Windows OS. DWriteCore provides services for applications
+        to enumerate fonts and format and render text.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>DWriteCore;native</tags>
+    <dependencies>
+      <dependency id="Microsoft.WindowsAppSDK.Base" version="2.0.2-preview" />
+    </dependencies>
+  </metadata>
+</package>

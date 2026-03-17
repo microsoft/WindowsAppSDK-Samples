@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Fragment xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10">
+  <Extensions xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10">
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>CoreMessagingXP.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Dispatching.DispatcherExitDeferral" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Dispatching.DispatcherQueue" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Dispatching.DispatcherQueueController" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>dcompi.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.AnimationController" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionAnimation" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionApiInformation" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionBrush" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionCapabilities" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionClip" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionDrawingSurface" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionEasingFunction" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionEffectSourceParameter" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionGeometry" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionGradientBrush" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionLight" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionObject" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionPath" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionProjectedShadowCasterCollection" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionShadow" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionShape" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionTransform" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.CompositionVirtualDrawingSurface" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Compositor" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.ContainerVisual" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Core.CompositorController" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Diagnostics.CompositionDebugSettings" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Effects.SceneLightingEffect" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Experimental.ExpCompositionVisualSurface" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.CompositionConditionalValue" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.InteractionTracker" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.InteractionTrackerInertiaModifier" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.InteractionTrackerInertiaMotion" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.InteractionTrackerInertiaNaturalMotion" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.InteractionTrackerInertiaRestingValue" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.InteractionTrackerVector2InertiaModifier" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.InteractionTrackerVector2InertiaNaturalMotion" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Interactions.VisualInteractionSource" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.KeyFrameAnimation" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.NaturalMotionAnimation" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.ScalarNaturalMotionAnimation" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneComponent" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneMaterial" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneMaterialInput" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneMesh" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneMeshRendererComponent" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneMetallicRoughnessMaterial" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneNode" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneObject" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.ScenePbrMaterial" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneRendererComponent" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneSurfaceMaterialInput" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Scenes.SceneVisual" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Vector2NaturalMotionAnimation" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Vector3NaturalMotionAnimation" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.Visual" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Microsoft.Graphics.Display.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.Graphics.Display.DisplayInformation" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Microsoft.UI.Designer.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Designer.DesignerOutputHost" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Microsoft.UI.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Colors" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.ColorHelper" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.System.ThemeSettings" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Microsoft.UI.Input.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ChildSiteLink" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentAppWindowBridge" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentCoordinateConverter" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentExternalBackdropLink" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentExternalOutputLink" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentIsland" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentIslandEnvironment" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentSite" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentSiteEnvironment" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentSiteEnvironmentView" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ContentSiteView" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.CoreWindowSiteBridge" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.DesktopAttachedSiteBridge" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.DesktopChildSiteBridge" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.DesktopPopupSiteBridge" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.DesktopSiteBridge" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.ProcessStarter" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Content.SystemVisualSiteBridge" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.DragDrop.DragDropManager" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.DragDrop.DragOperation" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.FocusNavigationRequest" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.GestureRecognizer" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputActivationListener" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputCursor" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputCustomCursor" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputDesktopResourceCursor" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputDesktopNamedResourceCursor" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputFocusController" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputFocusNavigationHost" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputKeyboardSource" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputLightDismissAction" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputNonClientPointerSource" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputObject" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputPopupController" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputPreTranslateKeyboardSource" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputPointerSource" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputSystemCursor" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.InputUnderlyingWindowController" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.Interop.PenDeviceInterop" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.PointerPoint" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Input.PointerPredictor" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Microsoft.UI.Windowing.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Windowing.AppWindow" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Windowing.AppWindowPlacementDetails" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Windowing.AppWindowPresenter" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Windowing.CompactOverlayPresenter" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Windowing.DisplayArea" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Windowing.FullScreenPresenter" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Windowing.OverlappedPresenter" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Microsoft.UI.Windowing.Core.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Windowing.AppWindowTitleBar" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>wuceffectsi.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.SystemBackdrops.DesktopAcrylicController" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.SystemBackdrops.MicaController" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+  </Extensions>
+</Fragment>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <WindowsSDKBuildToolsArchFolder Condition="'$(PROCESSOR_ARCHITECTURE)' == 'AMD64'">x64</WindowsSDKBuildToolsArchFolder>
+    <WindowsSDKBuildToolsArchFolder Condition="'$(PROCESSOR_ARCHITECTURE)' == 'ARM64'">arm64</WindowsSDKBuildToolsArchFolder>
+    <WindowsSDKBuildToolsArchFolder Condition="'$(WindowsSDKBuildToolsArchFolder)' == ''">x86</WindowsSDKBuildToolsArchFolder>
+    <WindowsSDKBuildToolsVersion>10.0.26100.0</WindowsSDKBuildToolsVersion>
+    <WindowsSDKBuildToolsRootFolder>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))</WindowsSDKBuildToolsRootFolder>
+    <WindowsSDKBuildToolsBinFolder>$(WindowsSDKBuildToolsRootFolder)\bin</WindowsSDKBuildToolsBinFolder>
+    <WindowsSDKBuildToolsBinVersionedFolder>$(WindowsSDKBuildToolsBinFolder)\$(WindowsSDKBuildToolsVersion)</WindowsSDKBuildToolsBinVersionedFolder>
+    <WindowsSDKBuildToolsBinVersionedArchFolder>$(WindowsSDKBuildToolsBinVersionedFolder)\$(WindowsSDKBuildToolsArchFolder)</WindowsSDKBuildToolsBinVersionedArchFolder>
+
+    <WindowsSDKSchemasFolder>$(WindowsSDKBuildToolsRootFolder)\schemas\$(WindowsSDKBuildToolsVersion)</WindowsSDKSchemasFolder>
+    <WindowsSDKWinRTSchemasFolder>$(WindowsSDKSchemasFolder)\winrt</WindowsSDKWinRTSchemasFolder>
+
+    <MakePriExeFullPath>$(WindowsSDKBuildToolsBinVersionedArchFolder)\makepri.exe</MakePriExeFullPath>
+    <MakePriArchitecture>$(WindowsSDKBuildToolsArchFolder)</MakePriArchitecture>
+
+    <MakeAppxExeFullPath>$(WindowsSDKBuildToolsBinVersionedArchFolder)\MakeAppx.exe</MakeAppxExeFullPath>
+    <MakeAppxArchitecture>$(WindowsSDKBuildToolsArchFolder)</MakeAppxArchitecture>
+
+    <SignAppxPackageExeFullPath>$(WindowsSDKBuildToolsBinVersionedArchFolder)\signtool.exe</SignAppxPackageExeFullPath>
+    <SignToolArchitecture>$(WindowsSDKBuildToolsArchFolder)</SignToolArchitecture>
+
+    <AppxPackagingComponentManifestPath>$(WindowsSDKBuildToolsBinVersionedArchFolder)\Microsoft.Windows.Build.Appx.AppxPackaging.dll.manifest</AppxPackagingComponentManifestPath>
+    <AppxPackagingArchitecture>$(WindowsSDKBuildToolsArchFolder)</AppxPackagingArchitecture>
+
+    <MrmSupportLibraryPath>$(WindowsSDKBuildToolsBinVersionedArchFolder)\MrmSupport.dll</MrmSupportLibraryPath>
+    <MrmSupportLibraryArchitecture>$(WindowsSDKBuildToolsArchFolder)</MrmSupportLibraryArchitecture>
+
+    <RcExeFullPath>$(WindowsSDKBuildToolsBinVersionedArchFolder)\rc.exe</RcExeFullPath>
+
+    <WindowsSDK_ExecutablePath_x86>$(WindowsSDKBuildToolsBinVersionedFolder)\x86;</WindowsSDK_ExecutablePath_x86>
+    <WindowsSDK_ExecutablePath_x64>$(WindowsSDKBuildToolsBinVersionedFolder)\x64;</WindowsSDK_ExecutablePath_x64>
+  </PropertyGroup>
+</Project>
+
