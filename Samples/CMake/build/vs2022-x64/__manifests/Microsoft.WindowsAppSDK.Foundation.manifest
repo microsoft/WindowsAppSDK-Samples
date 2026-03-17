@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+    <file name="Microsoft.Windows.ApplicationModel.Resources.dll">
+        <activatableClass name="Microsoft.Windows.ApplicationModel.Resources.KnownResourceQualifierName" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.Resources.ResourceCandidate" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.Resources.ResourceLoader" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.Resources.ResourceManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Globalization.ApplicationLanguages" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+    </file>
+    <file name="Microsoft.WindowsAppRuntime.dll">
+        <activatableClass name="Microsoft.Security.Authentication.OAuth.AuthRequestParams" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Security.Authentication.OAuth.ClientAuthentication" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Security.Authentication.OAuth.OAuth2Manager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Security.Authentication.OAuth.TokenRequestParams" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.Background.BackgroundTaskBuilder" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.DynamicDependency.AddPackageDependencyOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.DynamicDependency.CreatePackageDependencyOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.DynamicDependency.PackageDependency" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.DynamicDependency.PackageDependencyContext" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.DynamicDependency.PackageDependencyRank" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.WindowsAppRuntime.DeploymentManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.WindowsAppRuntime.DeploymentResult" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.WindowsAppRuntime.DeploymentInitializeOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.WindowsAppRuntime.ReleaseInfo" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.WindowsAppRuntime.RuntimeInfo" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppLifecycle.ActivationRegistrationManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppLifecycle.AppInstance" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.AppNotificationManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.AppNotification" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.AppNotificationProgressData" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.AppNotificationActivatedEventArgs" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.AppNotificationConferencingConfig" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.Builder.AppNotificationBuilder" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.Builder.AppNotificationTextProperties" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.Builder.AppNotificationButton" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.Builder.AppNotificationProgressBar" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.AppNotifications.Builder.AppNotificationComboBox" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.AddPackageOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.EnsureReadyOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.PackageDeploymentManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.PackageDeploymentResult" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.PackageRuntimeManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.PackageSet" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.PackageSetItem" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.PackageSetItemRuntimeDisposition" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.PackageSetRuntimeDisposition" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.PackageVolume" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.ProvisionPackageOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.RegisterPackageOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.RemovePackageOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Management.Deployment.StagePackageOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.PushNotifications.PushNotificationChannel" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.PushNotifications.PushNotificationCreateChannelResult" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.PushNotifications.PushNotificationActivationInfo" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.PushNotifications.PushNotificationReceivedEventArgs" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.PushNotifications.PushNotificationRegistrationToken" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.PushNotifications.PushNotificationManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Security.AccessControl.SecurityDescriptorHelpers" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Storage.ApplicationData" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Storage.ApplicationDataContainer" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.System.EnvironmentManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.System.Power.PowerManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Media.Capture.CameraCaptureUI" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.BadgeNotifications.BadgeNotificationManager" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Foundation.DecimalHelper" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Storage.Pickers.FileOpenPicker" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Storage.Pickers.FileSavePicker" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.Storage.Pickers.FolderPicker" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+        <activatableClass name="Microsoft.Windows.ApplicationModel.WindowsAppRuntime.RuntimeCompatibilityOptions" threadingModel="both" xmlns="urn:schemas-microsoft-com:winrt.v1" />
+    </file>
+</assembly>

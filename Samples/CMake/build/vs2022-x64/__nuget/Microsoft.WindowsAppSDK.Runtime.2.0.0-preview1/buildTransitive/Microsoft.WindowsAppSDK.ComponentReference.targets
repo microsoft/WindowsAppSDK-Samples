@@ -1,0 +1,128 @@
+<!--
+  Copyright (c) Microsoft Corporation. Licensed under the MIT License
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="VerifyReferencedWindowsAppSdkComponentVersions">
+
+<!-- 
+    This target verifies that all components referenced (WindowsAppSdkComponentPackages) have versions that match
+    the versions used to generate the Runtime package where this target is.
+    
+    WindowsAppSdkComponentPackages contain paths like:
+    C# projects: C:\path\to\packages\Microsoft.WindowsAppSDK.Foundation\1.8.0\build\..\
+    C++ projects: C:\path\to\packages\Microsoft.WindowsAppSDK.Foundation.1.8.0\build\..\
+    
+    The target extracts the package name and version from these paths and compares against the
+    expected versions defined in the version check logic below.
+-->
+    <Target Name="VerifyReferencedWindowsAppSdkComponentVersions"
+        Condition="'@(WindowsAppSdkComponentPackages)' != ''">
+        <!-- Extract package information from WindowsAppSdkComponentPackages paths -->
+        <ItemGroup>
+            <_PackageInfo Include="@(WindowsAppSdkComponentPackages)">
+                <!-- Extract package name and version from path. Handle both C# and C++ NuGet folder structures:
+                     C#: path\to\packages\Microsoft.WindowsAppSDK.Foundation\1.8.0\build\..\
+                     C++: path\to\packages\Microsoft.WindowsAppSDK.Foundation.1.8.0\build\..\ -->
+                <!-- Resolve the path to handle ".." properly and trim any trailing slash -->
+                <_ResolvedPath>$([System.IO.Path]::GetFullPath('%(Identity)').TrimEnd('\'))</_ResolvedPath>
+                
+                <!-- Extract folder names using the resolved path -->
+                <_FolderName>$([System.IO.Path]::GetFileName('%(_PackageInfo._ResolvedPath)'))</_FolderName>
+                <_ParentFolderName>$([System.IO.Path]::GetFileName('$([System.IO.Path]::GetDirectoryName(`%(_PackageInfo._ResolvedPath)`))'))</_ParentFolderName>
+                
+                <!-- Detect format type: C# projects use directory-separated (PackageName\Version\), C++ projects may use dot-separated (PackageName.Version\)
+                     Check if folder name contains package name pattern to distinguish between:
+                     - C#: Microsoft.WindowsAppSDK.Foundation\1.8.0\ (folder=version, parent=package)
+                     - C++: Microsoft.WindowsAppSDK.Foundation.1.8.0\ (folder=package.version) -->
+                <_IsDotSeparatedVersion>$([System.Text.RegularExpressions.Regex]::IsMatch('%(_PackageInfo._FolderName)', '^[Mm]icrosoft\.[Ww]indows[Aa]pp[Ss][Dd][Kk]\.'))</_IsDotSeparatedVersion>
+                
+                <!-- For dot-separated style: extract from the folder name -->
+                <!-- Regex: ^(.+?)\.(\d+\.\d+.*)$ = capture package name (non-greedy) before final dot + version starting with digit.digit -->
+                <PackageName Condition="'%(_PackageInfo._IsDotSeparatedVersion)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match('%(_PackageInfo._FolderName)', '^(.+?)\.(\d+\.\d+.*)$').Groups[1].Value)</PackageName>
+                <PackageVersion Condition="'%(_PackageInfo._IsDotSeparatedVersion)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match('%(_PackageInfo._FolderName)', '^(.+?)\.(\d+\.\d+.*)$').Groups[2].Value)</PackageVersion>
+                
+                <!-- For directory-separated style: use the parent and current folder names -->
+                <PackageName Condition="'%(_PackageInfo._IsDotSeparatedVersion)' != 'true'">%(_PackageInfo._ParentFolderName)</PackageName>
+                <PackageVersion Condition="'%(_PackageInfo._IsDotSeparatedVersion)' != 'true'">%(_PackageInfo._FolderName)</PackageVersion>
+            </_PackageInfo>
+        </ItemGroup>
+
+        <!-- Check for version mismatches by comparing referenced packages against expected versions.
+             For each Windows App SDK component included in the runtime package, check if it's referenced and if its version matches the expected version.
+             If there's a mismatch, add an entry to _VersionMismatch with the package name as the Identity, expected version, and actual version.
+             
+             Format of _VersionMismatch:
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.Foundation"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.foundation'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.foundation')->Metadata('PackageVersion'))' != '1.8.0'">
+                    <ExpectedVersion>1.8.0</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.foundation')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+              -->
+        <ItemGroup>
+            <!-- This is populated during the generation of the nuget with the above for each component. -->
+            
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.Foundation"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.foundation'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.foundation')->Metadata('PackageVersion'))' != '2.0.15-preview'">
+                    <ExpectedVersion>2.0.15-preview</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.foundation')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.InteractiveExperiences"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.interactiveexperiences'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.interactiveexperiences')->Metadata('PackageVersion'))' != '2.0.6-preview'">
+                    <ExpectedVersion>2.0.6-preview</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.interactiveexperiences')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.WinUI"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.winui'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.winui')->Metadata('PackageVersion'))' != '2.0.7-preview'">
+                    <ExpectedVersion>2.0.7-preview</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.winui')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.DWrite"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.dwrite'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.dwrite')->Metadata('PackageVersion'))' != '2.0.1-preview'">
+                    <ExpectedVersion>2.0.1-preview</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.dwrite')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.Widgets"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.widgets'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.widgets')->Metadata('PackageVersion'))' != '2.0.3-preview'">
+                    <ExpectedVersion>2.0.3-preview</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.widgets')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.AI"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.ai'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.ai')->Metadata('PackageVersion'))' != '2.0.4-preview'">
+                    <ExpectedVersion>2.0.4-preview</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.ai')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.ML"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.ml'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.ml')->Metadata('PackageVersion'))' != '2.0.175-preview'">
+                    <ExpectedVersion>2.0.175-preview</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.ml')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+
+                <_VersionMismatch Include="Microsoft.WindowsAppSDK.Search"
+                    Condition="'@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.search'))' != '' and 
+                                '@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.search')->Metadata('PackageVersion'))' != '2.0.4-preview'">
+                    <ExpectedVersion>2.0.4-preview</ExpectedVersion>
+                    <ActualVersion>@(_PackageInfo->WithMetadataValue('PackageName', 'microsoft.windowsappsdk.search')->Metadata('PackageVersion'))</ActualVersion>
+                </_VersionMismatch>
+
+        </ItemGroup>
+
+        <!-- Report version mismatches without selfcontain property -->
+        <Error Condition="'$(WindowsAppSDKSelfContained)' != 'true' and '@(_VersionMismatch)' != ''"
+               Text="One or more referenced Windows App SDK components are newer than the versions expected by the Microsoft.WindowsAppSDK.Runtime package:
+@(_VersionMismatch->'&#x09;%(Identity): Microsoft.WindowsAppSDK.Runtime expected version %(ExpectedVersion), but version %(ActualVersion) was referenced.','&#xD;&#xA;').
+Please update the component references to match the versions expected by the Microsoft.WindowsAppSDK.Runtime package, or set '&lt;WindowsAppSDKSelfContained&gt;true&lt;/WindowsAppSDKSelfContained&gt;' to make the project self-contained." />
+    </Target>
+</Project>

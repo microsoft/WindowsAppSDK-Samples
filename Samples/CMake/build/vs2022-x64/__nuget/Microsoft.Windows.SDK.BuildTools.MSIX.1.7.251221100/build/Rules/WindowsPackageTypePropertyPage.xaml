@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Rule Name="Application" OverrideMode="Extend" xmlns="http://schemas.microsoft.com/build/2009/properties">
+    <Rule.Categories>
+        <Category Name="Packaging" />
+    </Rule.Categories>
+    <BoolProperty Name="CreateMSIXPackage" DisplayName="MSIX Packaging" Description="Enables MSIX Packaging for this Project" HelpUrl="https://docs.microsoft.com/en-us/windows/apps/package-and-deploy/" Category="Packaging">
+        
+                        
+        <BoolProperty.DataSource>
+            <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+        </BoolProperty.DataSource>
+    </BoolProperty>
+</Rule>

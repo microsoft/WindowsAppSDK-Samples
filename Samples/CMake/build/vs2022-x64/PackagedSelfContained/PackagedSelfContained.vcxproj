@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{53F3AC76-E9E3-3FEF-8816-1D4D2DEE67F7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>PackagedSelfContained</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\PackagedSelfContained\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PackagedSelfContained.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PackagedSelfContained</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\PackagedSelfContained\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PackagedSelfContained.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PackagedSelfContained</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\PackagedSelfContained\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">PackagedSelfContained.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">PackagedSelfContained</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\PackagedSelfContained\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">PackagedSelfContained.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">PackagedSelfContained</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;UNICODE;_UNICODE;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;UNICODE;_UNICODE;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>	</Message>
+      <Command>setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/MRM.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.Windows.ApplicationModel.Resources.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.WindowsAppRuntime.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/PushNotificationsLongRunningTask.ProxyStub.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.WindowsAppRuntime.pri D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/CoreMessagingXP.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/DwmSceneI.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.DirectManipulation.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.Graphics.Display.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.InputStateManager.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.Internal.FrameworkUdk.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Composition.OSSupport.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Designer.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Input.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Windowing.Core.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Windowing.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/dcompi.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/dwmcorei.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/marshal.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/wuceffectsi.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.pri D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.DWrite.2.0.1-preview/runtimes-framework/win-x64/native/DWriteCore.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/AppxManifest.xml D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/Logo.png D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\lib\native\x64\MRM.lib;..\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\lib\native\x64\Microsoft.WindowsAppRuntime.lib;RuntimeObject.lib;ole32.lib;oleaut32.lib;..\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\lib\native\x64\Microsoft.UI.Dispatching.lib;..\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\lib\native\x64\DWriteCore.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/Debug/PackagedSelfContained.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/Debug/PackagedSelfContained.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Manifest>
+      <AdditionalManifestFiles>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__manifests\Microsoft.WindowsAppSDK.Foundation.manifest;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__manifests\Microsoft.WindowsAppSDK.InteractiveExperiences.manifest;</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>	</Message>
+      <Command>setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/MRM.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.Windows.ApplicationModel.Resources.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.WindowsAppRuntime.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/PushNotificationsLongRunningTask.ProxyStub.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.WindowsAppRuntime.pri D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/CoreMessagingXP.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/DwmSceneI.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.DirectManipulation.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.Graphics.Display.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.InputStateManager.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.Internal.FrameworkUdk.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Composition.OSSupport.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Designer.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Input.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Windowing.Core.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Windowing.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/dcompi.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/dwmcorei.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/marshal.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/wuceffectsi.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.pri D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.DWrite.2.0.1-preview/runtimes-framework/win-x64/native/DWriteCore.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/AppxManifest.xml D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/Logo.png D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\lib\native\x64\MRM.lib;..\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\lib\native\x64\Microsoft.WindowsAppRuntime.lib;RuntimeObject.lib;ole32.lib;oleaut32.lib;..\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\lib\native\x64\Microsoft.UI.Dispatching.lib;..\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\lib\native\x64\DWriteCore.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/Release/PackagedSelfContained.lib</ImportLibrary>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <ProgramDataBaseFile>D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/Release/PackagedSelfContained.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Manifest>
+      <AdditionalManifestFiles>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__manifests\Microsoft.WindowsAppSDK.Foundation.manifest;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__manifests\Microsoft.WindowsAppSDK.InteractiveExperiences.manifest;</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>	</Message>
+      <Command>setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/MRM.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.Windows.ApplicationModel.Resources.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.WindowsAppRuntime.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/PushNotificationsLongRunningTask.ProxyStub.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.WindowsAppRuntime.pri D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/CoreMessagingXP.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/DwmSceneI.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.DirectManipulation.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.Graphics.Display.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.InputStateManager.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.Internal.FrameworkUdk.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Composition.OSSupport.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Designer.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Input.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Windowing.Core.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Windowing.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/dcompi.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/dwmcorei.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/marshal.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/wuceffectsi.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.pri D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.DWrite.2.0.1-preview/runtimes-framework/win-x64/native/DWriteCore.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/AppxManifest.xml D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/Logo.png D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\lib\native\x64\MRM.lib;..\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\lib\native\x64\Microsoft.WindowsAppRuntime.lib;RuntimeObject.lib;ole32.lib;oleaut32.lib;..\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\lib\native\x64\Microsoft.UI.Dispatching.lib;..\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\lib\native\x64\DWriteCore.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/MinSizeRel/PackagedSelfContained.lib</ImportLibrary>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <ProgramDataBaseFile>D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/MinSizeRel/PackagedSelfContained.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Manifest>
+      <AdditionalManifestFiles>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__manifests\Microsoft.WindowsAppSDK.Foundation.manifest;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__manifests\Microsoft.WindowsAppSDK.InteractiveExperiences.manifest;</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.Foundation;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.Windows.CppWinRT;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__cppwinrt\Microsoft.WindowsAppSDK.InteractiveExperiences;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\include;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>	</Message>
+      <Command>setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/MRM.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.Windows.ApplicationModel.Resources.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.WindowsAppRuntime.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/PushNotificationsLongRunningTask.ProxyStub.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.Foundation.2.0.15-preview/runtimes-framework/win-x64/native/Microsoft.WindowsAppRuntime.pri D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/CoreMessagingXP.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/DwmSceneI.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.DirectManipulation.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.Graphics.Display.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.InputStateManager.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.Internal.FrameworkUdk.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Composition.OSSupport.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Designer.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Input.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Windowing.Core.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.Windowing.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/dcompi.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/dwmcorei.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/marshal.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/wuceffectsi.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview/runtimes-framework/win-x64/native/Microsoft.UI.pri D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/__nuget/Microsoft.WindowsAppSDK.DWrite.2.0.1-preview/runtimes-framework/win-x64/native/DWriteCore.dll D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/AppxManifest.xml D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/Logo.png D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\lib\native\x64\MRM.lib;..\__nuget\Microsoft.WindowsAppSDK.Foundation.2.0.15-preview\lib\native\x64\Microsoft.WindowsAppRuntime.lib;RuntimeObject.lib;ole32.lib;oleaut32.lib;..\__nuget\Microsoft.WindowsAppSDK.InteractiveExperiences.2.0.6-preview\lib\native\x64\Microsoft.UI.Dispatching.lib;..\__nuget\Microsoft.WindowsAppSDK.DWrite.2.0.1-preview\lib\native\x64\DWriteCore.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/RelWithDebInfo/PackagedSelfContained.lib</ImportLibrary>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <ProgramDataBaseFile>D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/RelWithDebInfo/PackagedSelfContained.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Manifest>
+      <AdditionalManifestFiles>D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__manifests\Microsoft.WindowsAppSDK.Foundation.manifest;D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\__manifests\Microsoft.WindowsAppSDK.InteractiveExperiences.manifest;</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\PackagedSelfContained\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake -BD:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64 --check-stamp-file D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\PackagedSelfContained\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake -BD:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64 --check-stamp-file D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\PackagedSelfContained\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake -BD:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64 --check-stamp-file D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\PackagedSelfContained\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/PackagedSelfContained/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake -BD:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64 --check-stamp-file D:/UndockedProjects/WinAppSDKSamplesRepo/Samples/CMake/build/vs2022-x64/PackagedSelfContained/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\PackagedSelfContained\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\PackagedSelfContained\main.cpp" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\ZERO_CHECK.vcxproj">
+      <Project>{1CB81B28-0A08-316E-AFAB-18C148B3C54B}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\Microsoft.Windows.CppWinRT.vcxproj">
+      <Project>{765669C6-94C7-3282-AA51-8AAF405E7825}</Project>
+      <Name>Microsoft.Windows.CppWinRT</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\Microsoft.WindowsAppSDK.Foundation.vcxproj">
+      <Project>{4D3263CB-83B5-3239-AAB0-6A66284CAF6F}</Project>
+      <Name>Microsoft.WindowsAppSDK.Foundation</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\UndockedProjects\WinAppSDKSamplesRepo\Samples\CMake\build\vs2022-x64\Microsoft.WindowsAppSDK.InteractiveExperiences.vcxproj">
+      <Project>{0BFE868E-B06F-3877-B16C-F5DD81DB7F6A}</Project>
+      <Name>Microsoft.WindowsAppSDK.InteractiveExperiences</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

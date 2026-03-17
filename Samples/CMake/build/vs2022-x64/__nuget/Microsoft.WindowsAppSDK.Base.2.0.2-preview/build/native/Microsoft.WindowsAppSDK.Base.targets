@@ -1,0 +1,28 @@
+<!--
+  Copyright (c) Microsoft Corporation. Licensed under the MIT License
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="WindowsAppSDKNotifySelfContainedMode;WindowsAppSDKFrameworkPackageDependentWithoutPackages">
+    <PropertyGroup Condition="'$(MicrosoftWindowsAppSDKPackageDir)' == '' and '$(WindowsAppSDKSelfContained)' == '' and '$(OutputType)' != 'Library'">
+        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+        <_WindowsAppSDKSelfContainedSetByDefault>true</_WindowsAppSDKSelfContainedSetByDefault>
+    </PropertyGroup>
+
+    <!--Import Arm64EC configuration support -->
+    <Import Project="$(MSBuildThisFileDirectory)..\Microsoft.WindowsAppSDK.Arm64Ec.targets" Condition="'$(Platform)'=='arm64ec'"/>
+
+    <!--Import after all other props to ensure WindowsAppSDKSelfContained is set (required for SelfContained projects)-->
+    <Import Project="$(MSBuildThisFileDirectory)..\Microsoft.WindowsAppSDK.SelfContained.targets" Condition="'$(WindowsAppSDKSelfContained)'=='true'"/>
+    
+    <Target Name="WindowsAppSDKNotifySelfContainedMode" Condition="'$(_WindowsAppSDKSelfContainedSetByDefault)' == 'true'">
+        <Message Text="The Windows App SDK is running by default in self-contained mode." Importance="high" />
+    </Target>
+
+    <Target Name="WindowsAppSDKFrameworkPackageDependentWithoutPackages" Condition="'$(WindowsAppSDKSelfContained)' != 'true' and '$(MicrosoftWindowsAppSDKPackageDir)' == '' and '$(OutputType)' != 'Library'">
+        <Error Text="A framework package dependent Windows App SDK app requires a package reference to Microsoft.WindowsAppSDK.Runtime. Please add a reference to this package or set the &lt;WindowsAppSdkSelfContained&gt; property to true." />
+    </Target>
+
+    <Target Name="WindowsAppSDKSelfContainedAudit" BeforeTargets="Build" Condition="'$(WindowsAppSDKSelfContainedAudit)'!='false' and '$(WindowsAppSDKSelfContained)'=='true' and '$(OutputType)'=='Library'">
+        <Error Text="WindowsAppSDKSelfContained should not be applied to a class library." />
+    </Target>
+
+</Project>

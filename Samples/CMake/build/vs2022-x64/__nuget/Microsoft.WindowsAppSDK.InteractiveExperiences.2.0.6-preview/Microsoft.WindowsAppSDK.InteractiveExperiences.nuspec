@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.WindowsAppSDK.InteractiveExperiences</id>
+    <version>2.0.6-preview</version>
+    <title>Microsoft WindowsAppSDK Interactive Experiences Library</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">license.txt</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <projectUrl>https://aka.ms/windowsappsdk</projectUrl>
+    <description>The Windows App SDK empowers all Windows Desktop apps with modern Windows UI, APIs, and platform features, including back-compat support. This package contains the Microsoft Interactive Experiences features.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>Microsoft,Interactive Experiences,WindowsAppSDK</tags>
+    <dependencies>
+      <dependency id="Microsoft.WindowsAppSDK.Base" version="2.0.2-preview" />
+    </dependencies>
+  </metadata>
+</package>

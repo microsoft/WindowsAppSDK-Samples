@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Microsoft.Windows.SDK.BuildTools.MSIX.BeforeCommon.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- 
+      We define the "Msix" ProjectCapability in the project template in order to allow the
+      Single-project MSIX Packaging Tools extension to be activated for the project even if the
+      WinAppSdk Nuget package has not been restored yet. However, once it has been restored, 
+      it is no longer necessary for the project to handle the definition (as the Nuget package
+      takes care of it) so the below property serves as a killswitch. 
+    -->
+    <DisableMsixProjectCapabilityAddedByProject>true</DisableMsixProjectCapabilityAddedByProject>
+
+    <!-- 
+      We define the "HasPackageAndPublishMenuAddedByProject" property in the project template in 
+      order to allow the Solution Explorer "Package and Publish" context menu entry to be enabled
+      as soon as the project is created, even if the WinAppSdk Nuget package has not been restored
+      yet. However, once it has been restored, it is no longer necessary for the project to handle 
+      the definition (as the Nuget package takes care of it) so the below property serves as a 
+      killswitch. 
+    -->
+    <DisableHasPackageAndPublishMenuAddedByProject>true</DisableHasPackageAndPublishMenuAddedByProject>
+  </PropertyGroup>
+
+  <!-- 
+    The behavior of the standalone single-project MSIX tooling is always opt-in, controlled by the 'EnableMsixTooling' property.
+    We also still allow using 'EnablePreviewMsixTooling', which was introduced in WindowsAppSDK releases older than 1.1, to make
+    it easier to migrate projects to this standalone NuGet package without a change in behavior for the MSIX tooling.
+  -->
+  <PropertyGroup>
+    <EnableMsixTooling Condition="'$(EnablePreviewMsixTooling)' == 'true'">true</EnableMsixTooling>
+    <EnableMsixTooling Condition="'$(EnableMsixTooling)' == ''">false</EnableMsixTooling>
+  </PropertyGroup>
+
+  <!--
+    This .props file is imported after the .csproj/.vcxproj that's consuming the package,
+    so we can safely read properties from there to conditionally enable the MSIX logic.
+   -->
+  <PropertyGroup>
+    <MsixPackageSupport Condition="'$(MsixPackageSupport)'=='' and '$(MSBuildProjectExtension)'=='.wapproj'">false</MsixPackageSupport>
+    <MsixPackageSupport Condition="'$(MsixPackageSupport)'=='' and '$(EnableMsixTooling)'=='true'">true</MsixPackageSupport>
+    <_MicrosoftBuildMsixPropsOverriden Condition="'$(MicrosoftBuildMsixLocation)'!=''">true</_MicrosoftBuildMsixPropsOverriden>
+    <_MicrosoftBuildMsixPropsOverriden Condition="'$(_MicrosoftBuildMsixPropsOverriden)'==''">false</_MicrosoftBuildMsixPropsOverriden>
+  </PropertyGroup>
+  
+  <!-- We use shared .props for all targets, so we can just detect C#/C++ from here -->
+  <PropertyGroup>
+    <_MsixIsNativeProject Condition="'$(_MsixIsNativeProject)' == '' and '$(UsingMicrosoftNETSdk)' == 'true'">false</_MsixIsNativeProject>
+    <_MsixIsNativeProject Condition="'$(_MsixIsNativeProject)' == ''">true</_MsixIsNativeProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(_MicrosoftBuildMsixPropsOverriden)'=='false'">
+    <MsixCommonProps>$(MSBuildThisFileDirectory)Microsoft.Windows.SDK.BuildTools.MSIX.Common.props</MsixCommonProps>
+    <MsixCppProps>$(MSBuildThisFileDirectory)Microsoft.Windows.SDK.BuildTools.MSIX.Cpp.props</MsixCppProps>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(_MicrosoftBuildMsixPropsOverriden)'=='true'">
+    <MsixCommonProps>$(MicrosoftBuildMsixLocation)\Targets\Microsoft.Windows.SDK.BuildTools.MSIX.Common.props</MsixCommonProps>
+    <MsixCppProps>$(MicrosoftBuildMsixLocation)\Targets\Microsoft.Windows.SDK.BuildTools.MSIX.Cpp.props</MsixCppProps>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ShouldImportMsixCommonProps Condition="'$(ShouldImportMsixCommonProps)'==''">$(MsixPackageSupport)</ShouldImportMsixCommonProps>
+    <ShouldImportMsixCppProps Condition="'$(ShouldImportMsixCppTargets)'=='' and '$(_MsixIsNativeProject)'=='true'">$(MsixPackageSupport)</ShouldImportMsixCppProps>
+  </PropertyGroup>
+
+  <Import Condition="Exists('$(MsixCommonProps)') and '$(ShouldImportMsixCommonProps)' == 'true'" Project="$(MsixCommonProps)" />
+  <Import Condition="Exists('$(MsixCppProps)') and '$(ShouldImportMsixCppTargets)' == 'true'" Project="$(MsixCppProps)" />
+
+  <!-- Add a marker value to verify from a later .targets that this .targets has been correctly invoked -->
+  <PropertyGroup>
+    <_IsMsixCustomBeforeMicrosoftCommonTargetsChainValid>true</_IsMsixCustomBeforeMicrosoftCommonTargetsChainValid>
+  </PropertyGroup>
+
+  <!-- Import the original custom .targets, if it exists -->
+  <Import Project="$(_OriginalCustomBeforeMicrosoftCommonTargetsFromMsixProps)" Condition="'$(_OriginalCustomBeforeMicrosoftCommonTargetsFromMsixProps)' != '' and Exists('$(_OriginalCustomBeforeMicrosoftCommonTargetsFromMsixProps)')"/>  
+</Project>
