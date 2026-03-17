@@ -1,0 +1,64 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 31,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "vs2022-x64",
+            "displayName": "Visual Studio 2022 x64",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build/vs2022-x64"
+        },
+        {
+            "name": "vs2022-arm64",
+            "displayName": "Visual Studio 2022 ARM64",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "ARM64",
+            "binaryDir": "${sourceDir}/build/vs2022-arm64"
+        },
+      {
+        "name": "ninja-x64",
+        "displayName": "Ninja Multi-Config x64",
+        "generator": "Ninja Multi-Config",
+        "binaryDir": "D:/b/nx64",
+        "cacheVariables": {
+          "CMAKE_OBJECT_PATH_MAX": "1000"
+        }
+      },
+      {
+        "name": "ninja-arm64",
+        "displayName": "Ninja Multi-Config ARM64",
+        "generator": "Ninja Multi-Config",
+        "binaryDir": "D:/b/na64",
+        "cacheVariables": {
+          "CMAKE_OBJECT_PATH_MAX": "1000"
+        }
+      }
+    ],
+    "buildPresets": [
+        {
+            "name": "vs2022-x64-debug",
+            "configurePreset": "vs2022-x64",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs2022-x64-release",
+            "configurePreset": "vs2022-x64",
+            "configuration": "Release"
+        },
+        {
+            "name": "ninja-x64-debug",
+            "configurePreset": "ninja-x64",
+            "configuration": "Debug"
+        },
+        {
+            "name": "ninja-x64-release",
+            "configurePreset": "ninja-x64",
+            "configuration": "Release"
+        }
+    ]
+}
