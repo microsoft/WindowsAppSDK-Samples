@@ -1,4 +1,6 @@
 <Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+
   <!-- Security settings for Control Flow Guard (CFG) and other mitigations -->
   <ItemDefinitionGroup>
     <ClCompile>

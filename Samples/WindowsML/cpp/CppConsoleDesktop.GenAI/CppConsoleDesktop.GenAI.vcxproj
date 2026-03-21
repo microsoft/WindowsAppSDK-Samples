@@ -8,7 +8,7 @@
   <PropertyGroup>
     <WinMLEnableDefaultOrtHeaderIncludePath>true</WinMLEnableDefaultOrtHeaderIncludePath>
   </PropertyGroup>
-  <Import Project="$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props" Condition="Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props')" />
+  <Import Project="$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props" Condition="Exists('$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props')" />
   <Import Project="$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.8.260101001\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.8.260101001\build\native\Microsoft.WindowsAppSDK.props')" />
   <Import Project="$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.WinUI.1.8.251222000\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.WinUI.1.8.251222000\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
   <Import Project="$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.Widgets.1.8.251231004\build\native\Microsoft.WindowsAppSDK.Widgets.props" Condition="Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.Widgets.1.8.251231004\build\native\Microsoft.WindowsAppSDK.Widgets.props')" />
@@ -91,7 +91,7 @@
     <Import Project="$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.Widgets.1.8.251231004\build\native\Microsoft.WindowsAppSDK.Widgets.targets" Condition="Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.Widgets.1.8.251231004\build\native\Microsoft.WindowsAppSDK.Widgets.targets')" />
     <Import Project="$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.WinUI.1.8.251222000\build\native\Microsoft.WindowsAppSDK.WinUI.targets" Condition="Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.WinUI.1.8.251222000\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" />
     <Import Project="$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.8.260101001\build\native\Microsoft.WindowsAppSDK.targets" Condition="Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.8.260101001\build\native\Microsoft.WindowsAppSDK.targets')" />
-    <Import Project="..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets" Condition="Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets')" />
+    <Import Project="$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets" Condition="Exists('$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -125,7 +125,7 @@
     <Error Condition="!Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.WinUI.1.8.251222000\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.WinUI.1.8.251222000\build\native\Microsoft.WindowsAppSDK.WinUI.targets'))" />
     <Error Condition="!Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.8.260101001\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', '$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.8.260101001\build\native\Microsoft.WindowsAppSDK.props'))" />
     <Error Condition="!Exists('$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.8.260101001\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(NugetPackageDirectory)\Microsoft.WindowsAppSDK.1.8.260101001\build\native\Microsoft.WindowsAppSDK.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets'))" />
+    <Error Condition="!Exists('$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props')" Text="$([System.String]::Format('$(ErrorText)', '$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.props'))" />
+    <Error Condition="!Exists('$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(NugetPackageDirectory)\Microsoft.ML.OnnxRuntimeGenAI.WinML.0.10.0\build\native\Microsoft.ML.OnnxRuntimeGenAI.WinML.targets'))" />
   </Target>
 </Project>
