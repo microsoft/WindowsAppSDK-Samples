@@ -212,11 +212,10 @@ if ($Clean) {
 # Configure
 # ============================================================================
 
-Write-Step "Configuring with CMake preset: $PresetName"
+Write-Step "Configuring with CMake..."
 
 $buildDir = Join-Path $PSScriptRoot "out/build/$PresetName"
 $configureArgs = @(
-    '--preset', $PresetName,
     '-S', $PSScriptRoot,
     '-B', $buildDir
 )
@@ -226,7 +225,8 @@ if ($Clean) {
 }
 
 if ($Generator -eq 'VisualStudio') {
-    $configureArgs += @('-G', 'Visual Studio 17 2022', '-A', $Platform)
+    # Omit -G to let CMake auto-detect the installed Visual Studio version.
+    $configureArgs += @('-A', $Platform)
 }
 else {
     $configureArgs += @('-G', 'Ninja', "-DCMAKE_BUILD_TYPE=$Configuration")
