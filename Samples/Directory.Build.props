@@ -3,6 +3,8 @@
   <PropertyGroup>
     <!-- Suppress CS8305: Feature is for evaluation purposes only and is subject to change or removal in future updates. -->
     <NoWarn>$(NoWarn);8305</NoWarn>
+    <!-- Prevent VS from binplacing telemetry DLLs that fail BinSkim BA2022 (SignSecurely) -->
+    <AppxLogTelemetryFromSideloadingScript>false</AppxLogTelemetryFromSideloadingScript>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
