@@ -20,7 +20,11 @@ namespace ConditionalXamlPredicate
 
     [default_interface]
     [bindable]
+#ifdef WASDK_EXPERIMENTAL
     runtimeclass MyCustomPredicate : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Markup.IXamlPredicate
+#else
+    runtimeclass MyCustomPredicate : Microsoft.UI.Xaml.DependencyObject
+#endif
     {
         MyCustomPredicate();
     }

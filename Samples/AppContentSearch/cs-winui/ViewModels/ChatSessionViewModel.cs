@@ -79,12 +79,18 @@ public class ChatSessionViewModel
 
     public async Task<bool> SendRequest(string message)
     {
+#if WASDK_EXPERIMENTAL
         if (MainWindow.AppContentIndexer == null) return false;
+#endif
 
         _dispatcherQueue?.TryEnqueue(() => SessionEntryViewModels.Add(
             new SessionEntryViewModel(message, ChatRole.User, _backgroundBrush[ChatRole.User], _foregroundBrush[ChatRole.User])));
 
+#if WASDK_EXPERIMENTAL
         var foundSources = await Utils.SearchAsync(MainWindow.AppContentIndexer, message, top: 5);
+#else
+        var foundSources = new List<SearchResult>();
+#endif
         if (foundSources == null) return true;
 
         var chatContext = new ChatContext(foundSources, SessionEntryViewModels);

@@ -1,0 +1,8 @@
+﻿<Project>
+  <PropertyGroup>
+    <!-- CPM is disabled for this C++ project: Microsoft.Windows.SDK.BuildTools injects versioned
+         PackageReference items via its .props files, which triggers NU1008 when CPM is active.
+         Versions are specified directly on PackageReference items in the .vcxproj instead. -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>

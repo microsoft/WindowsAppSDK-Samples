@@ -7,6 +7,7 @@
 
 namespace winrt::ConditionalXamlPredicate::implementation
 {
+#ifdef WASDK_EXPERIMENTAL
     bool MyCustomPredicate::Evaluate(winrt::Windows::Foundation::Collections::IVectorView<hstring> const& arguments)
     {
         auto argsCount = arguments.Size();
@@ -27,4 +28,5 @@ namespace winrt::ConditionalXamlPredicate::implementation
         }
 		throw hresult_not_implemented();
     }
+#endif
 }

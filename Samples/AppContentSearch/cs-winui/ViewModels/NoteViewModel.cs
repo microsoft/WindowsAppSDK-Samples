@@ -3,7 +3,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+#if WASDK_EXPERIMENTAL
 using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
+#endif
 using Notes.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -216,6 +218,7 @@ namespace Notes.ViewModels
 
         public async Task RemoveNoteFromIndexAsync()
         {
+#if WASDK_EXPERIMENTAL
             if (MainWindow.AppContentIndexer != null && Note != null)
             {
                 await Task.Run(() =>
@@ -228,6 +231,7 @@ namespace Notes.ViewModels
             {
                 Debug.Write("AppContentIndexer is null");
             }
+#endif
         }
 
         public async Task ManualSaveAndIndex()
@@ -243,6 +247,7 @@ namespace Notes.ViewModels
 
         public async static Task ManualDeleteIndex()
         {
+#if WASDK_EXPERIMENTAL
             if (MainWindow.AppContentIndexer != null)
             {
                 await Task.Run(() =>
@@ -255,6 +260,7 @@ namespace Notes.ViewModels
             {
                 throw new InvalidOperationException("AppContentIndexer is null");
             }
+#endif
         }
 
         private void SaveTimerTick(object? sender, object e)
@@ -267,6 +273,7 @@ namespace Notes.ViewModels
         {
             await this.LoadContentAsync();
 
+#if WASDK_EXPERIMENTAL
             IndexableAppContent textContent = AppManagedIndexableAppContent.CreateFromString(Note.Id.ToString(), Title + Content);
             Debug.WriteLine($"Indexing note {Note.Title}");
 
@@ -288,6 +295,7 @@ namespace Notes.ViewModels
                 Debug.WriteLine($"ReIndexing attachment {attachment.Attachment.Filename}");
                 await AttachmentProcessor.ReIndexImage(attachment.Attachment);
             }
+#endif
         }
 
         private async Task SaveContentToFileAndReIndex()
@@ -298,6 +306,7 @@ namespace Notes.ViewModels
             Debug.WriteLine("Saving note " + Note.Title + " to filename " + Note.Filename);
             await FileIO.WriteTextAsync(file, Content);
 
+#if WASDK_EXPERIMENTAL
             IndexableAppContent textContent = AppManagedIndexableAppContent.CreateFromString(Note.Id.ToString(), Title + Content);
             Debug.WriteLine($"Indexing note {Note.Title}");
 
@@ -313,10 +322,12 @@ namespace Notes.ViewModels
             {
                 Debug.WriteLine("AppContentIndexer is null");
             }
+#endif
         }
 
         private async Task SaveContentToFileDeleteAndReIndex()
         {
+#if WASDK_EXPERIMENTAL
             if (MainWindow.AppContentIndexer != null)
             {
                 var folder = await Utils.GetLocalFolderAsync();
@@ -350,6 +361,7 @@ namespace Notes.ViewModels
             {
                 Debug.WriteLine("AppContentIndexer is null");
             }
+#endif
         }
 
     }

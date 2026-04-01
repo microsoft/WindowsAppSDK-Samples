@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Chain to root Samples/Directory.Build.props -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  <PropertyGroup>
+    <!-- This sample intentionally uses experimental Windows App SDK APIs:
+         LanguageModelExperimental, VideoScaler, ImageForegroundExtractor.
+         Source is guarded with #if WASDK_EXPERIMENTAL for the stable fallback path. -->
+    <WindowsAppSDKExperimental>true</WindowsAppSDKExperimental>
+    <!-- CS8305 ("for evaluation purposes only") is expected here; suppress the error. -->
+    <NoWarn>$(NoWarn);CS8305</NoWarn>
+  </PropertyGroup>
+</Project>

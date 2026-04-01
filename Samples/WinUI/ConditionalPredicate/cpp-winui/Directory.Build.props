@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Chain to root Samples/Directory.Build.props -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  <PropertyGroup>
+    <!-- This sample intentionally uses the experimental IXamlPredicate interface.
+         C++ source is guarded with #ifdef WASDK_EXPERIMENTAL for the stable fallback path.
+         Note: the XAML conditional namespace syntax also requires experimental WinUI XAML support. -->
+    <WindowsAppSDKExperimental>true</WindowsAppSDKExperimental>
+  </PropertyGroup>
+</Project>

@@ -2,7 +2,9 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+#if WASDK_EXPERIMENTAL
 using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
+#endif
 using Notes.Controls;
 using Notes.Pages;
 using Notes.ViewModels;
@@ -19,12 +21,16 @@ namespace Notes
         private static ChatSessionView? _chatSessionView;
         private static SearchView? _searchView;
         private static MainWindow? _instance;
+#if WASDK_EXPERIMENTAL
         private static AppContentIndexer? _appContentIndexer;
+#endif
 
         public static ChatSessionView? ChatSessionView => _chatSessionView;
         public static SearchView? SearchView => _searchView;
         public static MainWindow? Instance => _instance;
+#if WASDK_EXPERIMENTAL
         public static AppContentIndexer? AppContentIndexer => _appContentIndexer;
+#endif
 
         public ViewModel VM;
 
@@ -47,6 +53,7 @@ namespace Notes
 
             VM.Notes.CollectionChanged += Notes_CollectionChanged;
 
+#if WASDK_EXPERIMENTAL
             _initializeAppContentIndexerTask = InitializeAppContentIndexerAsync();
 
             DispatcherQueue.TryEnqueue(async () =>
@@ -63,6 +70,9 @@ namespace Notes
                     // Inspect ex.HResult, Message, InnerException
                 }
             });
+#else
+            _initializeAppContentIndexerTask = Task.CompletedTask;
+#endif
         }
 
         public async Task SelectNoteById(int id, int? attachmentId = null, string? attachmentText = null, Windows.Foundation.Rect? boundingBox = null)
@@ -93,6 +103,7 @@ namespace Notes
             }
         }
 
+#if WASDK_EXPERIMENTAL
         private async Task InitializeAppContentIndexerAsync()
         {
             GetOrCreateIndexResult? getOrCreateResult = null;
@@ -132,6 +143,7 @@ namespace Notes
                 }
             });
         }
+#endif
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -231,10 +243,12 @@ namespace Notes
             // Results may be partial during the staging phase.
             _searchView?.StartIndexProgressBarStaging();
 
+#if WASDK_EXPERIMENTAL
             if (_appContentIndexer != null)
             {
                 await _appContentIndexer.WaitForIndexingIdleAsync(TimeSpan.MaxValue);
             }
+#endif
 
             // Indexing is fully completed.
             _searchView?.SetSearchBoxIndexingCompleted();
@@ -242,15 +256,19 @@ namespace Notes
 
         private async void IndexButton_Click(object sender, RoutedEventArgs e)
         {
+#if WASDK_EXPERIMENTAL
             if (_appContentIndexer != null)
             {
                 await IndexAllAsync();
             }
+#endif
         }
 
         private async void DeleteIndexButton_Click(object sender, RoutedEventArgs e)
         {
+#if WASDK_EXPERIMENTAL
             await NoteViewModel.ManualDeleteIndex();
+#endif
         }
     }
 

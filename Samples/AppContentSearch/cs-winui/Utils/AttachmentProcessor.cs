@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 
+#if WASDK_EXPERIMENTAL
 using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
+#endif
 using Notes.Models;
 using System;
 using System.Collections.Generic;
@@ -42,6 +44,7 @@ namespace Notes
 
         public async static Task RemoveAttachment(Attachment attachment)
         {
+#if WASDK_EXPERIMENTAL
             if (MainWindow.AppContentIndexer != null)
             {
                 await Task.Run(() =>
@@ -54,6 +57,7 @@ namespace Notes
             {
                 Debug.WriteLine("AppContentIndexer is null");
             }
+#endif
         }
 
         private static async Task Process()
@@ -81,6 +85,7 @@ namespace Notes
 
         public static async Task ReIndexImage(Attachment attachment)
         {
+#if WASDK_EXPERIMENTAL
             // get softwarebitmap from file
             var attachmentsFolder = await Utils.GetAttachmentsFolderAsync();
             var file = await attachmentsFolder.GetFileAsync(attachment.Filename);
@@ -107,10 +112,12 @@ namespace Notes
                     Debug.WriteLine("appContentIndexer is null");
                 }
             }
+#endif
         }
 
         private static async Task ProcessImage(Models.Attachment attachment, EventHandler<float>? progress = null)
         {
+#if WASDK_EXPERIMENTAL
             // get softwarebitmap from file
             var attachmentsFolder = await Utils.GetAttachmentsFolderAsync();
             var file = await attachmentsFolder.GetFileAsync(attachment.Filename);
@@ -143,6 +150,7 @@ namespace Notes
                 context.Update(attachment);
                 await context.SaveChangesAsync();
             }
+#endif
         }
 
         private async static Task<string> SaveTextToFileAsync(string text, string filename)

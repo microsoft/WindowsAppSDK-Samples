@@ -10,7 +10,9 @@ namespace winrt::ConditionalXamlPredicate::implementation
     {
         MyCustomPredicate() = default;
 
+#ifdef WASDK_EXPERIMENTAL
         bool Evaluate(winrt::Windows::Foundation::Collections::IVectorView<hstring> const& arguments);
+#endif
     };
 }
 namespace winrt::ConditionalXamlPredicate::factory_implementation

@@ -749,7 +749,7 @@ void RenderText( IDirect3DDevice9Ex* /* pDev */ )
 {
     // The helper object simply helps keep track of text position, and color
     // and then it calls pFont->DrawText( m_pSprite, strMsg, -1, &rc, DT_NOCLIP, m_clr );
-    // If NULL is passed in as the sprite object, then it will work fine however the 
+    // If NULL is passed in as the sprite object, then it will work fine however the
     // pFont->DrawText() will not be batched together.  Batching calls will improves perf.
     CTextHelper txtHelper( g_pFont, g_pSprite, 15 );
 

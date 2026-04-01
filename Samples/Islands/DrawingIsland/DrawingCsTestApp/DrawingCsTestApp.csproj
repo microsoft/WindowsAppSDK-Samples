@@ -28,12 +28,18 @@
 
   <ItemGroup>
     <Compile Remove="DuckScenario.cs" />
+    <!-- LottieIslandScenario.cs depends on CommunityToolkit.WinAppSDK.LottieWinRT which has been
+         retired and is no longer available on any public feed. The call site in Program.cs is
+         already commented out, so excluding this file has no runtime effect. -->
+    <Compile Remove="LottieIslandScenario.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Added CsWinRT reference to avoid WinMD error as a result of WinMD leaking via project reference. -->
-    <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" />
-    <PackageReference Include="CommunityToolkit.WinUI.Lottie" />
+    <!-- CommunityToolkit.WinAppSDK.LottieWinRT and CommunityToolkit.WinUI.Lottie removed:
+         LottieWinRT package retired; LottieIslandScenario.cs excluded above; no Lottie types used.
+         Microsoft.Graphics.Win2D added directly since it was previously a transitive dep via Lottie. -->
+    <PackageReference Include="Microsoft.Graphics.Win2D" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
 

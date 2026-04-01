@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <!-- Suppress CS8305: Feature is for evaluation purposes only and is subject to change or removal in future updates. -->
-    <NoWarn>$(NoWarn);8305</NoWarn>
+    <!-- CS8305: Feature is for evaluation purposes only — treat as error to surface experimental API usage. -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS8305</WarningsAsErrors>
   </PropertyGroup>
+  <!-- When WindowsAppSDKExperimental=true, define WASDK_EXPERIMENTAL for C# and C++ preprocessors.
+       Per-sample Directory.Build.props files set this to true for samples that intentionally use
+       experimental APIs; CI can override with /p:WindowsAppSDKExperimental=false to validate the
+       stable fallback paths guarded by #if WASDK_EXPERIMENTAL in source. -->
+  <PropertyGroup Condition="'$(WindowsAppSDKExperimental)' == 'true'">
+    <DefineConstants>$(DefineConstants);WASDK_EXPERIMENTAL</DefineConstants>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(WindowsAppSDKExperimental)' == 'true'">
+    <ClCompile>
+      <PreprocessorDefinitions>WASDK_EXPERIMENTAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>%(AdditionalOptions) /Qspectre</AdditionalOptions>

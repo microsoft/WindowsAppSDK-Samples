@@ -2,22 +2,25 @@
 // Licensed under the MIT License.
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.AI;
-using Microsoft.Windows.AI.MachineLearning;
-using Microsoft.Windows.AI.Video;
-using Microsoft.Windows.Management.Deployment;
 using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
-using Windows.Media;
-using Windows.Storage.Streams;
 using WindowsAISample.Models.Contracts;
 using WindowsAISample.Util;
+#if WASDK_EXPERIMENTAL
+using Microsoft.Windows.AI.MachineLearning;
+using Microsoft.Windows.AI.Video;
+using Microsoft.Windows.Management.Deployment;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using Windows.Media;
+using Windows.Storage.Streams;
+#endif
 
 namespace WindowsAISample.Models;
 
+#if WASDK_EXPERIMENTAL
 internal class VideoScalerModel : IModelManager
 {
     private VideoScaler? _session;
@@ -76,3 +79,13 @@ internal class VideoScalerModel : IModelManager
         return outputImageBuffer.ConvertBgr8ImageBufferToBgra8SoftwareBitmap();
     }
 }
+#else
+internal class VideoScalerModel : IModelManager
+{
+    public Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
+        => throw new NotSupportedException("VideoScaler requires the experimental Windows App SDK.");
+
+    public SoftwareBitmap ScaleVideoFrame(SoftwareBitmap inputFrame)
+        => throw new NotSupportedException("VideoScaler requires the experimental Windows App SDK.");
+}
+#endif

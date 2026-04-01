@@ -68,6 +68,7 @@ namespace Notes.ViewModels
                     return;
                 }
 
+#if WASDK_EXPERIMENTAL
                 if (MainWindow.AppContentIndexer == null)
                 {
                     Debug.WriteLine("AppContentIndexer is null");
@@ -75,6 +76,9 @@ namespace Notes.ViewModels
                 }
 
                 var results = await Utils.SearchAsync(MainWindow.AppContentIndexer, _searchText, cancellationToken: cancellationToken);
+#else
+                var results = new System.Collections.Generic.List<SearchResult>();
+#endif
 
                 // Check if we were cancelled before updating UI
                 if (cancellationToken.IsCancellationRequested)

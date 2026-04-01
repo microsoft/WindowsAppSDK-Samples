@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Override root: this sample requires the experimental SDK -->
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental3" />
+    <!-- Override root: this sample uses a slightly newer build tools -->
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
+
+    <!-- Packages specific to this sample (not declared in root Directory.Packages.props) -->
+    <PackageVersion Include="CommunityToolkit.Mvvm"                          Version="8.4.0" />
+    <PackageVersion Include="CommunityToolkit.WinUI.UI"                     Version="7.1.2" />
+    <PackageVersion Include="CommunityToolkit.WinUI.UI.Animations"          Version="7.1.2" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
+    <PackageVersion Include="Microsoft.AI.Foundry.Local"                    Version="0.3.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite"          Version="9.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.AI.Abstractions"          Version="9.3.0-preview.1.25114.11" />
+    <PackageVersion Include="Azure.AI.OpenAI"                               Version="2.1.0" />
+    <PackageVersion Include="OpenAI"                                         Version="2.2.0-beta.2" />
+  </ItemGroup>
+</Project>
