@@ -82,7 +82,8 @@
     <Exec Command="$(_SignMsixCommand)"  Condition="'$(RepoTestCertificatePassword)' != ''"/>
     <Copy SourceFiles="@(BinplaceItem)"
       DestinationFiles="@(BinplaceItem->'$(AppxPackageDir)$(AppxPackageName)_Test\%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true">
+      SkipUnchangedFiles="true"
+      Condition="Exists('$(RepoTestCertificateCer)')">
         <Output TaskParameter="CopiedFiles" ItemName="BinplaceItemCopied" />
     </Copy>
   </Target>

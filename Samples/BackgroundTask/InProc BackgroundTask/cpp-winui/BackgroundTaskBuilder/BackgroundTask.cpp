@@ -30,7 +30,7 @@ namespace winrt::BackgroundTaskBuilder
         m_mainWindow = window.as<winrt::BackgroundTaskBuilder::IMainWindow>();
 
         Windows::Foundation::TimeSpan period{ std::chrono::seconds{2} };
-        m_periodicTimer = Windows::System::Threading::ThreadPoolTimer::CreatePeriodicTimer([this, lifetime = get_strong()](Windows::System::Threading::ThreadPoolTimer timer)
+        m_periodicTimer = Windows::System::Threading::ThreadPoolTimer::CreatePeriodicTimer([this, lifetime = get_strong()](Windows::System::Threading::ThreadPoolTimer /* timer */)
             {
                 if (!m_cancelRequested && m_progress < 100)
                 {
