@@ -1,0 +1,36 @@
+﻿{
+    "GeneratedAt":  "2026-03-25T10:55:10.4157849+08:00",
+    "Mode":  "all",
+    "Platform":  "x64",
+    "Configuration":  "Release",
+    "ExtraProperties":  "",
+    "TotalSolutions":  2,
+    "Passed":  2,
+    "Failed":  0,
+    "TotalWarnings":  2,
+    "ElapsedSeconds":  138.8608049,
+    "Results":  [
+                    {
+                        "Solution":  "AppLifecycle\\Restart\\cpp-console-unpackaged\\cpp-console-unpackaged.sln",
+                        "Category":  "stable",
+                        "Status":  "PASS",
+                        "Stage":  "msbuild",
+                        "ExitCode":  0,
+                        "Warnings":  2,
+                        "Errors":  0,
+                        "Duration":  63.8265154,
+                        "BinLog":  "E:\\githubProject\\WindowsAppSDK-Samples\\Samples\\AppLifecycle\\Restart\\cpp-console-unpackaged\\cpp-console-unpackaged.binlog"
+                    },
+                    {
+                        "Solution":  "AppLifecycle\\Restart\\cs-winui-packaged\\cs-winui-packaged.sln",
+                        "Category":  "stable",
+                        "Status":  "PASS",
+                        "Stage":  "msbuild",
+                        "ExitCode":  0,
+                        "Warnings":  0,
+                        "Errors":  0,
+                        "Duration":  74.9782515,
+                        "BinLog":  "E:\\githubProject\\WindowsAppSDK-Samples\\Samples\\AppLifecycle\\Restart\\cs-winui-packaged\\cs-winui-packaged.binlog"
+                    }
+                ]
+}
