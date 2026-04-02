@@ -2,62 +2,17 @@
 // Licensed under the MIT License.
 
 using Microsoft.ML.OnnxRuntimeGenAI;
-using Microsoft.Windows.AI.MachineLearning;
 
 using System.Text;
 using System.Text.Json;
-
-using WindowsML.Shared;
-
-static async Task InitializeProvidersAsync(bool allowDownload)
-{
-    Console.WriteLine("Getting available providers...");
-    var catalog = ExecutionProviderCatalog.GetDefault();
-    var providers = catalog.FindAllProviders();
-
-    if (providers is null || providers.Length == 0)
-    {
-        Console.WriteLine("No execution providers found in catalog.");
-        return;
-    }
-
-    foreach (var provider in providers)
-    {
-        Console.WriteLine($"Provider: {provider.Name}");
-        try
-        {
-            var readyState = provider.ReadyState;
-            Console.WriteLine($"  Ready state: {readyState}");
-
-            // Only call EnsureReadyAsync if we allow downloads or if the provider is already ready
-            if (allowDownload || readyState != ExecutionProviderReadyState.NotPresent)
-            {
-                Console.WriteLine($"  EnsureReadyAsync: {provider.Name}");
-                await provider.EnsureReadyAsync();
-            }
-
-            var registerResult = provider.TryRegister();
-            Console.WriteLine($"  TryRegister: {registerResult}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"  Failed to initialize provider {provider.Name}: {ex.Message}");
-            // Continue with other providers
-        }
-    }
-}
 
 static void PrintUsage()
 {
     Console.WriteLine("Usage:");
     Console.WriteLine("  -m model_path");
     Console.WriteLine("\t\t\t\tPath to the model");
-    Console.WriteLine("  --ep <execution_provider> (optional)");
-    Console.WriteLine("\t\t\t\tExecution provider name (e.g. QNNExecutionProvider)");
-    Console.WriteLine("  --perf_mode <mode> (optional)");
-    Console.WriteLine("\t\t\t\tPerformance mode: default, max_performance, max_efficiency");
     Console.WriteLine("  --non-interactive (optional)");
-    Console.WriteLine("\t\t\t\tNon-interactive mode");
+    Console.WriteLine("\t\t\t\tInteractive mode");
 }
 
 using OgaHandle ogaHandle = new();
@@ -70,8 +25,6 @@ if (args.Length < 1)
 
 bool interactive = true;
 string modelPath = string.Empty;
-string? executionProvider = null;
-PerformanceMode perfMode = PerformanceMode.Default;
 
 uint i = 0;
 while (i < args.Length)
@@ -86,29 +39,6 @@ while (i < args.Length)
         if (i + 1 < args.Length)
         {
             modelPath = Path.Combine(args[i + 1]);
-            i++;
-        }
-    }
-    else if (arg == "--ep")
-    {
-        if (i + 1 < args.Length)
-        {
-            executionProvider = args[i + 1];
-            i++;
-        }
-    }
-    else if (arg == "--perf_mode")
-    {
-        if (i + 1 < args.Length)
-        {
-            string modeStr = args[i + 1].ToLowerInvariant();
-            perfMode = modeStr switch
-            {
-                "max_performance" or "maxperformance" => PerformanceMode.MaxPerformance,
-                "max_efficiency" or "maxefficiency" => PerformanceMode.MaxEfficiency,
-                _ => PerformanceMode.Default
-            };
-            i++;
         }
     }
     i++;
@@ -125,36 +55,8 @@ Console.WriteLine("-------------");
 
 Console.WriteLine("Model path: " + modelPath);
 Console.WriteLine("Interactive: " + interactive);
-if (!string.IsNullOrEmpty(executionProvider))
-{
-    Console.WriteLine("Execution Provider: " + executionProvider);
-    Console.WriteLine("Performance Mode: " + perfMode);
-}
-
-InitializeProvidersAsync(allowDownload: true).Wait();
 
 using Config config = new(modelPath);
-
-// If execution provider is specified, override the default providers
-if (!string.IsNullOrEmpty(executionProvider))
-{
-    Console.WriteLine($"Setting execution provider to: {executionProvider}");
-    config.ClearProviders();
-    config.AppendProvider(executionProvider);
-
-    // Apply performance options for the specified EP
-    var epOptions = PerformanceConfigurator.GetEpOptions(executionProvider, perfMode);
-    if (epOptions.Count > 0)
-    {
-        Console.WriteLine($"Applying performance options for {executionProvider}:");
-        foreach (var (key, value) in epOptions)
-        {
-            Console.WriteLine($"  {key} = {value}");
-            config.SetProviderOption(executionProvider, key, value);
-        }
-    }
-}
-
 using Model model = new(config);
 using Tokenizer tokenizer = new(model);
 

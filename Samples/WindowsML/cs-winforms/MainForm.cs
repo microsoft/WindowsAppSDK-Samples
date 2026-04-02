@@ -128,8 +128,7 @@ namespace WindowsMLWinFormsSample
             {
                 ModelPath = "SqueezeNet.onnx",
                 EpName = epCombo.SelectedItem!.ToString(),
-                DeviceType = deviceCombo.Enabled ? deviceCombo.SelectedItem?.ToString() : null,
-                PerfMode = GetSelectedPerformanceMode()
+                DeviceType = deviceCombo.Enabled ? deviceCombo.SelectedItem?.ToString() : null
             };
 
             // Validate device selection for any EP
@@ -278,15 +277,6 @@ namespace WindowsMLWinFormsSample
             {
                 resultsTextBox.Text = $"Failed refreshing devices: {ex.Message}";
             }
-        }
-
-        private PerformanceMode GetSelectedPerformanceMode()
-        {
-            if (perfModeMaxPerfRadio.Checked)
-                return PerformanceMode.MaxPerformance;
-            if (perfModeMaxEffRadio.Checked)
-                return PerformanceMode.MaxEfficiency;
-            return PerformanceMode.Default;
         }
 
         private async void ReloadSessionButton_Click(object? sender, EventArgs e)

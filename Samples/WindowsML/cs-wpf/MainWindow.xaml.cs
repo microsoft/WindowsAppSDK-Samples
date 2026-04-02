@@ -133,8 +133,7 @@ namespace WindowsMLSampleForWPF
             {
                 ModelPath = "SqueezeNet.onnx",
                 EpName = EpCombo.SelectedItem?.ToString(),
-                DeviceType = (DeviceCombo.IsEnabled ? DeviceCombo.SelectedItem?.ToString() : null),
-                PerfMode = GetSelectedPerformanceMode()
+                DeviceType = (DeviceCombo.IsEnabled ? DeviceCombo.SelectedItem?.ToString() : null)
             };
 
             if (DeviceCombo.IsEnabled && DeviceCombo.SelectedItem == null)
@@ -280,15 +279,6 @@ namespace WindowsMLSampleForWPF
             {
                 ResultsTextBox.Text = $"Failed refreshing devices: {ex.Message}";
             }
-        }
-
-        private PerformanceMode GetSelectedPerformanceMode()
-        {
-            if (PerfModeMaxPerfRadio.IsChecked == true)
-                return PerformanceMode.MaxPerformance;
-            if (PerfModeMaxEffRadio.IsChecked == true)
-                return PerformanceMode.MaxEfficiency;
-            return PerformanceMode.Default;
         }
 
         private static string FormatResultsForUI(List<(string Label, float Confidence)> predictions)

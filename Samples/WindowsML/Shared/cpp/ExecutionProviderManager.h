@@ -12,8 +12,6 @@ namespace WindowsML
 namespace Shared
 {
 
-    enum class PerformanceMode;
-
     /// <summary>
     /// Execution Provider discovery and configuration functionality
     /// </summary>
@@ -34,8 +32,7 @@ namespace Shared
         static bool ConfigureSelectedExecutionProvider(Ort::SessionOptions& session_options,
                                                        Ort::Env& env,
                                                        const std::wstring& ep_name,
-                                                       const std::optional<std::wstring>& device_type,
-                                                       PerformanceMode perf_mode);
+                                                       const std::optional<std::wstring>& device_type);
 
         /// <summary>
         /// Helper used by ArgumentParser help text: prints a table of currently discoverable EP devices.

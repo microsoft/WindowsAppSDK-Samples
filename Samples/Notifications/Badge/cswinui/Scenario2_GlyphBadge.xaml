@@ -1,0 +1,35 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page
+    x:Class="cswinui.Scenario2_GlyphBadge"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:cswinui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <StackPanel Spacing="10" Margin="10,10,10,10">
+                <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
+                <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
+                    This sample demonstrates how to display a Glyph badge notification for an app.
+                </TextBlock>
+                <Button x:Name="activityBadge" Click="badgeButton_Click" Tag="Activity" Margin="0 0 0 10">Activity</Button>
+                <Button x:Name="alarmBadge" Click="badgeButton_Click" Tag="Alarm" Margin="0 0 0 10">Alarm</Button>
+                <Button x:Name="alertBadge" Click="badgeButton_Click" Tag="Alert" Margin="0 0 0 10">Alert</Button>
+                <Button x:Name="attentionBadge" Click="badgeButton_Click" Tag="Attention" Margin="0 0 0 10">Attention</Button>
+                <Button x:Name="availableBadge" Click="badgeButton_Click" Tag="Available" Margin="0 0 0 10">Available</Button>
+                <Button x:Name="awayBadge" Click="badgeButton_Click" Tag="Away" Margin="0 0 0 10">Away</Button>
+                <Button x:Name="busyBadge" Click="badgeButton_Click" Tag="Busy" Margin="0 0 0 10">Busy</Button>
+                <Button x:Name="errorBadge" Click="badgeButton_Click" Tag="Error" Margin="0 0 0 10">Error</Button>
+                <Button x:Name="newMessageBadge" Click="badgeButton_Click" Tag="NewMessage" Margin="0 0 0 10">New Message</Button>
+                <Button x:Name="pausedBadge" Click="badgeButton_Click" Tag="Paused" Margin="0 0 0 10">Paused</Button>
+                <Button x:Name="playingBadge" Click="badgeButton_Click" Tag="Playing" Margin="0 0 0 10">Playing</Button>
+                <Button x:Name="unavailableBadge" Click="badgeButton_Click" Tag="Unavailable" Margin="0 0 0 10">Unavailable</Button>
+                <Button x:Name="clearBadge" Click="badgeButton_Click" Tag="Clear" Margin="0 0 0 10">Clear badge</Button>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

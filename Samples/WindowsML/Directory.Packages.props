@@ -4,19 +4,13 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- WindowsAppSDK packages -->
-    <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.10.0" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.260101001" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="1.8.44" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="1.8.251216001" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.DWrite" Version="1.8.25122902" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.251220000" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.8.251217001" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="1.8.2119" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.260101001" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Widgets" Version="1.8.251231004" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.251222000" />
+    <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.10.1" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental3" />
     <!-- Other dependencies -->
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
+    <PackageVersion Include="Microsoft.Windows.AbiWinRT" Version="2.0.210330.2" />
+    <PackageVersion Include="Microsoft.Windows.CppWinRT" Version="2.0.240111.5" />
+    <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.240803.1"/>
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
     <PackageVersion Include="CppWinRT" Version="2.0.240405.15" />
     <PackageVersion Include="System.Numerics.Tensors" Version="9.0.0" />

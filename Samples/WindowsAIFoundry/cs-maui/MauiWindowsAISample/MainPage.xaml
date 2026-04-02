@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiWindowsAISample.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Label
+                Text="MAUI using Windows AI APIs"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Sample of .NET Multi-platform App UI using Windows AI APIs"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Sample of dotnet Multi-platform App UI using Windows AI APIs" />
+
+            <Label
+                Text="Sample of image scaling using Windows AI APIs" />
+
+            <HorizontalStackLayout Spacing="10">
+                <Image Source="enhance.png" HeightRequest="200" SemanticProperties.Description="blurry picture about flowers" />
+                <Grid x:Name="imageScalingPanel" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <VerticalStackLayout Spacing="10" Grid.Column="0" VerticalOptions="Center">
+                        <Button Text="Unscaled" Clicked="OnUnscaledClicked" />
+                        <Button Text="Scale 2x" Clicked="OnScale2xClicked" />
+                        <Button Text="Scale 4x" Clicked="OnScale4xClicked" />
+                    </VerticalStackLayout>
+                    <Label Grid.Column="1" Text="Click a button to show the image scaled" VerticalOptions="Center" />
+                    <Image x:Name="scaledImage" Grid.Column="1" HeightRequest="200" SemanticProperties.Description="scaled version of the blurry picture" />
+                </Grid>
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout x:Name="textGenerationPanel" Spacing="25">
+                <Label
+                    Text="Sample of text generation using Windows AI APIs" />
+
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Entry x:Name="entryPrompt" Placeholder="Enter text generation prompt" />
+                    <Button
+                        Grid.Column="1"
+                        Text="Generate" 
+                        SemanticProperties.Hint="Generate text based on entry prompt"
+                        Clicked="OnGenerateClicked" />
+                </Grid>
+
+                <Label x:Name="answer" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

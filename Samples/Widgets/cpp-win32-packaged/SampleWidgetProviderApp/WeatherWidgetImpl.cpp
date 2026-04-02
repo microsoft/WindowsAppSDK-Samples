@@ -7,12 +7,12 @@
 WeatherWidget::WeatherWidget(winrt::hstring const& id, winrt::hstring const& state) : WidgetImplBase(id, state) {}
 
 // This function wil be invoked when the Increment button was clicked by the user.
-void WeatherWidget::OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvokedArgs)
+void WeatherWidget::OnActionInvoked(winrt::WidgetActionInvokedArgs /*actionInvokedArgs*/)
 {
 }
 
 // This function will be invoked when WidgetContext has changed.
-void WeatherWidget::OnWidgetContextChanged(winrt::WidgetContextChangedArgs contextChangedArgs)
+void WeatherWidget::OnWidgetContextChanged(winrt::WidgetContextChangedArgs /*contextChangedArgs*/)
 {
     // This function is raised when
     // (Optional) There a several things that can be done here:

@@ -86,8 +86,7 @@ namespace WindowsML.Shared
         public static bool ConfigureSelectedExecutionProvider(SessionOptions sessionOptions,
                                                               OrtEnv environment,
                                                               string epName,
-                                                              string? deviceType,
-                                                              PerformanceMode perfMode = PerformanceMode.Default)
+                                                              string? deviceType)
         {
             // Discover devices
             IReadOnlyList<OrtEpDevice> epDevices = environment.GetEpDevices();
@@ -145,7 +144,7 @@ namespace WindowsML.Shared
 
             try
             {
-                Dictionary<string, string> epOptions = PerformanceConfigurator.GetEpOptions(epName, perfMode);
+                var epOptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                 sessionOptions.AppendExecutionProvider(environment, selectedDevices, epOptions);
                 Console.WriteLine($"Successfully added {epName} execution provider");
                 return true;

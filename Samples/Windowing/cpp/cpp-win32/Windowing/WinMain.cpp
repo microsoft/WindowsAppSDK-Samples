@@ -8,13 +8,11 @@
 namespace winrt
 {
     using namespace Windows::UI::Composition;
-
-    using namespace Microsoft::UI::Dispatching;
 }
 
-int __stdcall WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ int)
+int __stdcall WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE,  _In_ PSTR, _In_ int)
 {
-    // Initialize WinRT for the thread.
+    // Initialize WinRt Instance
     winrt::init_apartment();
 
     // Enable referencing the WindowsAppSDK from an unpackaged app.
@@ -25,23 +23,26 @@ int __stdcall WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ int)
     // or add the following tags to your .vcx project file, as done in this sample:
     //      <WindowsPackageType>None</WindowsPackageType>
     //      <LogSDKReferenceResolutionErrorsAsWarnings>true< / LogSDKReferenceResolutionErrorsAsWarnings>
+    // 
 
-    // Configure a WinAppSDK DispatcherQueue for the current thread.
-    auto controller = winrt::DispatcherQueueController::CreateOnCurrentThread();
-    auto queue = controller.DispatcherQueue();
+    // Register Window Class before making the window
+    MyAppWindow::RegisterWindowClass();
 
+    // Mica requires a compositor, which also requires a dispatcher queue
+    auto controller = Utilities::CreateDispatcherQueueControllerForCurrentThread();
 
-    // Promote the WinAppSDK DispatcherQueue to also manage a system DispatcherQueue, which is
-    // required by the system Compositor that will be used to configure Mica.
-    queue.EnsureSystemDispatcherQueue();
     auto compositor = winrt::Compositor();
 
-    // Create the app's window.
-    auto window = winrt::make<winrt::MyApp::implementation::MyAppWindow>(
-        queue, compositor, L"Hello, AppWindow");
+    // Here we initialize the main window and set the title
+    auto window = MyAppWindow(compositor, L"Hello, AppWindow");
 
-    // Run the DispatcherQueue's message pump.
-    queue.RunEventLoop();
+    // Message pump.
+    MSG msg;
+    while (GetMessageW(&msg, nullptr, 0, 0))
+    {
+        TranslateMessage(&msg);
+        DispatchMessageW(&msg);
+    }
 
-    return 0;
+    return static_cast<int>(msg.wParam);
 }

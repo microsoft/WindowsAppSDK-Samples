@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <wil/cppwinrt.h>
 #include <WindowsAppRuntimeInsights.h>
 
 class InsightsSample : public wil::TraceLoggingProvider

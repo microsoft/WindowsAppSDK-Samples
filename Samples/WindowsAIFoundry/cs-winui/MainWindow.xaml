@@ -29,12 +29,21 @@
             <NavigationViewItem Content="Image Object Extractor"
                     Tag="ImageObjectExtractor"
                     Icon="Cut"/>
+            <NavigationViewItem Content="Image Foreground Extractor"
+                    Tag="ImageForegroundExtractor"
+                    Icon="ContactInfo"/>
             <NavigationViewItem Content="Image Description"
                     Tag="ImageDescription"
                     Icon="Caption"/>
             <NavigationViewItem Content="Text Recognizer"
                     Tag="TextRecognizer"
                     Icon="Directions"/>
+            <NavigationViewItem Content="Image Object Remover"
+                    Tag="ImageObjectRemover"
+                    Icon="Cut"/>
+            <NavigationViewItem Content="Video Scaler"
+                    Tag="VideoScaler"
+                    Icon="Video"/>
         </NavigationView.MenuItems>
         <Frame Margin="0,0,0,0"
                 x:Name="rootFrame"/>

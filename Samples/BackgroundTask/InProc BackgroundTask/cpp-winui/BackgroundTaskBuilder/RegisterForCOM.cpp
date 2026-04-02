@@ -18,7 +18,6 @@ namespace winrt::BackgroundTaskBuilder
 
     hresult RegisterForCom::RegisterBackgroundTaskFactory()
     {
-        hresult hr;
         try
         {
             com_ptr<IClassFactory> taskFactory = make<BackgroundTaskFactory>();
@@ -30,7 +29,7 @@ namespace winrt::BackgroundTaskBuilder
                 &ComRegistrationToken));
 
             OutputDebugString(L"COM Registration done");
-            hr = S_OK;
+            return S_OK;
         }
         CATCH_RETURN();
     }

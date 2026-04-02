@@ -2,29 +2,24 @@
 // Licensed under the MIT License.
 #pragma once
 
-namespace winrt::MyApp::implementation
+#include "DesktopWindow.h"
+
+#include <winrt/Microsoft.UI.Composition.SystemBackdrops.h>
+
+struct MyAppWindow : DesktopWindow<MyAppWindow>
 {
-    struct MyAppWindow : winrt::implements<MyAppWindow, winrt::Windows::Foundation::IInspectable>
-    {
-        MyAppWindow(
-            const winrt::Microsoft::UI::Dispatching::DispatcherQueue & queue,
-            const winrt::Windows::UI::Composition::Compositor& compositor,
-            const std::wstring& windowTitle);
+    static const std::wstring ClassName;
+    static void RegisterWindowClass();
 
-        winrt::Windows::UI::Composition::Visual Root() { return m_target.Root(); }
-        void Root(const winrt::Windows::UI::Composition::Visual& visual) { m_target.Root(visual); }
+    MyAppWindow(const winrt::Windows::UI::Composition::Compositor& compositor, const std::wstring& windowTitle);
 
-    private:
-        winrt::Microsoft::UI::Dispatching::DispatcherQueue m_queue{ nullptr };
-        winrt::Microsoft::UI::Windowing::AppWindow m_appWindow{ nullptr };
+    LRESULT MessageHandler(const UINT message, const WPARAM wparam, const LPARAM lparam) noexcept;
 
-        winrt::Windows::UI::Composition::CompositionTarget m_target{ nullptr };
-        winrt::Microsoft::UI::Composition::SystemBackdrops::MicaController m_micaController{ nullptr };
-        bool m_isMicaSupported{ false };
+    winrt::Windows::UI::Composition::Visual Root() { return m_target.Root(); }
+    void Root(const winrt::Windows::UI::Composition::Visual& visual) { m_target.Root(visual); }
 
-        void Window_Destroying(
-            const winrt::Microsoft::UI::Windowing::AppWindow& sender,
-            const winrt::Windows::Foundation::IInspectable & args);
-    };
-
-} // namespace winrt::MyApp::implementation
+private:
+    winrt::Windows::UI::Composition::CompositionTarget m_target{ nullptr };
+    winrt::Microsoft::UI::Composition::SystemBackdrops::MicaController m_micaController{ nullptr };
+    bool m_isMicaSupported{ false };
+};
