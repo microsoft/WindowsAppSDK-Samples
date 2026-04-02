@@ -1,0 +1,36 @@
+﻿<Page
+    x:Name="RootPage"
+    x:Class="CompositionSampleGallery.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CompositionSampleGallery"
+    xmlns:common="using:SamplesCommon"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
+    <Page.Resources>
+        <local:IsPaneOpenToVisibilityConverter x:Key="IsPaneOpenConverter" />
+    </Page.Resources>
+    <Grid x:Name="MainPageGrid">
+        <Grid.Transitions>
+            <TransitionCollection>
+                <EntranceThemeTransition x:Name="EntranceTransition" />
+            </TransitionCollection>
+        </Grid.Transitions>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="TitleBarRow" Height="0"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="TitleBarGrid" Grid.Row="0">
+            <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Padding="59,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">Windows Composition Samples</TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" >
+            <local:SampleGalleryNavViewHost
+            Grid.Row="1"
+            x:Name="GalleryUI"
+            SampleCategories="{x:Bind Path=MainNavigation.MainMenuList}"/>
+        </Grid>
+    </Grid>
+</Page>
