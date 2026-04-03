@@ -103,8 +103,8 @@ const UINT32 majorMinorVersion{ 0x00010000 };
 PCWSTR versionTag{ L"" };
 
 int APIENTRY wWinMain( HINSTANCE hInstance,
-                       HINSTANCE /* hPrevInstance */,
-                       LPWSTR    /* lpCmdLine */,
+                       HINSTANCE hPrevInstance,
+                       LPWSTR    lpCmdLine,
                        int       nCmdShow )
 {
     // Use Dynamic Dependencies API to use DirectX framework package
@@ -745,7 +745,7 @@ void Render( IDirect3DDevice9Ex* pDev )
     g_liLastTimerUpdate.QuadPart = liCurrentTime.QuadPart;
 }
 
-void RenderText( IDirect3DDevice9Ex* /* pDev */ )
+void RenderText( IDirect3DDevice9Ex* pDev )
 {
     // The helper object simply helps keep track of text position, and color
     // and then it calls pFont->DrawText( m_pSprite, strMsg, -1, &rc, DT_NOCLIP, m_clr );

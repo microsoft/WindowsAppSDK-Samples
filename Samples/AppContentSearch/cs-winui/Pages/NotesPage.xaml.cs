@@ -15,7 +15,7 @@ using Windows.Storage;
 
 namespace Notes.Pages
 {
-    public partial class RelativePathConverter : IValueConverter
+    public class RelativePathConverter : IValueConverter
     {
         public object? Convert(object value, Type targetType, object parameter, string language)
         {

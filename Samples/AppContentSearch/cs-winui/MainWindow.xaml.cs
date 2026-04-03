@@ -254,7 +254,7 @@ namespace Notes
         }
     }
 
-    internal partial class MenuItemTemplateSelector : DataTemplateSelector
+    internal class MenuItemTemplateSelector : DataTemplateSelector
     {
         public DataTemplate? NoteTemplate { get; set; }
         public DataTemplate? DefaultTemplate { get; set; }
