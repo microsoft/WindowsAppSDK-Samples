@@ -1,6 +1,7 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
+using Microsoft.Extensions.AI;
+using Microsoft.Windows.Search.AppContentIndex;
 using Notes.Models;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Notes
 {
     public static class AttachmentProcessor
     {
-        public static EventHandler<AttachmentProcessedEventArgs>? AttachmentProcessed;
+        internal static EventHandler<AttachmentProcessedEventArgs>? AttachmentProcessed;
 
         private readonly static List<Attachment> _toBeProcessed = new();
         private static bool _isProcessing = false;

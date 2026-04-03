@@ -5,19 +5,17 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  xmlns:systemai="http://schemas.microsoft.com/appx/manifest/systemai/windows10"
-  IgnorableNamespaces="uap rescap systemai">
-
+  IgnorableNamespaces="uap rescap systemai"
+  xmlns:systemai="http://schemas.microsoft.com/appx/manifest/systemai/windows10">
+  
   <Identity
-    Name="8e8c755b-914d-4f6c-89b6-95af1fc4fbaa"
-    Publisher="CN=nikol"
-    Version="1.0.1.0" />
-
-  <mp:PhoneIdentity PhoneProductId="8e8c755b-914d-4f6c-89b6-95af1fc4fbaa" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+    Name="ai-powered-notes-winui3-sample"
+    Publisher="CN=AIFabricTest"
+    Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>Notes</DisplayName>
-    <PublisherDisplayName>nikol</PublisherDisplayName>
+    <PublisherDisplayName>AIFabricTest</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

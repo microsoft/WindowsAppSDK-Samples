@@ -1,10 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.AI.Foundry.Local;
-using Microsoft.Extensions.AI;
-using Notes.ViewModels;
-using OpenAI;
-using OpenAI.Chat;
 using System;
 using System.ClientModel;
 using System.Collections.Generic;
@@ -13,6 +8,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AI.Foundry.Local;
+using Microsoft.Extensions.AI;
+using Notes.ViewModels;
+using OpenAI;
+using OpenAI.Chat;
 using Windows.Storage;
 using AppChatRole = Notes.ViewModels.ChatRole;
 using ExtChatRole = Microsoft.Extensions.AI.ChatRole;
@@ -143,7 +143,8 @@ public class FoundryAIProvider : ILanguageModelProvider
                     break;
                 }
 
-                if (!hasNext) break;
+                if (!hasNext)
+                    break;
 
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -175,7 +176,9 @@ public class FoundryAIProvider : ILanguageModelProvider
     {
         try
         {
+#pragma warning disable CA2000 // Dispose objects before losing scope
             var foundryManager = new FoundryLocalManager();
+#pragma warning restore CA2000 // Dispose objects before losing scope
             var cached = foundryManager.ListCachedModelsAsync().GetAwaiter().GetResult();
             return cached.Count > 0;
         }
@@ -187,7 +190,8 @@ public class FoundryAIProvider : ILanguageModelProvider
 
     private async Task EnsureFoundryClientAsync(CancellationToken ct)
     {
-        if (_foundryClient != null && _foundryChatClient != null) return;
+        if (_foundryClient != null && _foundryChatClient != null)
+            return;
 
         var settings = ApplicationData.Current.LocalSettings;
         string alias = (settings.Values[FoundryModelKey] as string)?.Trim() ?? "";
@@ -195,7 +199,9 @@ public class FoundryAIProvider : ILanguageModelProvider
         {
             try
             {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 var foundryManager = new FoundryLocalManager();
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
                 var cached = await foundryManager.ListCachedModelsAsync();
                 if (cached.Count != 0)
