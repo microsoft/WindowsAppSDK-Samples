@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- This sample requires experimental Windows App SDK for conditional XAML predicate support.
+         All sub-packages must match the experimental meta-package to avoid runtime version mismatches. -->
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental4" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="2.0.11-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="2.0.130-experimental" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="2.0.169-experimental" />
+    <PackageVersion Include="Microsoft.Windows.CppWinRT" Version="2.0.240111.5" />
+  </ItemGroup>
+</Project>
