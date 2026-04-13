@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Dispatching;
+using Microsoft.Windows.Search.AppContentIndex;
 
 namespace Notes.ViewModels
 {
@@ -22,8 +24,13 @@ namespace Notes.ViewModels
 
         [ObservableProperty]
         public bool showTextResults = false;
+
+        [ObservableProperty]
+        public bool showOcrResults = false;
+
         public ObservableCollection<SearchResult> TextResults { get; set; } = new();
         public ObservableCollection<SearchResult> ImageResults { get; set; } = new();
+        public ObservableCollection<SearchResult> OcrResults { get; set; } = new();
 
         private string _searchText = string.Empty;
         private CancellationTokenSource? currentSearchCancellation;
@@ -37,14 +44,29 @@ namespace Notes.ViewModels
             await Search();
         }
 
+        public async void HandleTextChanged(string text)
+        {
+            _searchText = text;
+            await Search();
+        }
+
+        public void InitializeQuerySessions(AppContentIndexer appContentIndexer, DispatcherQueue dispatcherQueue)
+        {
+            // Search-as-you-type currently uses cancellation-based one-shot queries.
+            _ = appContentIndexer;
+            _ = dispatcherQueue;
+        }
+
         public void Reset()
         {
             TextResults.Clear();
             ImageResults.Clear();
+            OcrResults.Clear();
             ShowResults = false;
             ShowNoResults = false;
             ShowImageResults = false;
             ShowTextResults = false;
+            ShowOcrResults = false;
         }
 
         private async Task Search()
@@ -92,6 +114,10 @@ namespace Notes.ViewModels
                     {
                         TextResults.Add(result);
                     }
+                    else if (result.ContentType == ContentType.OcrText)
+                    {
+                        OcrResults.Add(result);
+                    }
                 }
 
                 if (ImageResults.Count > 0)
@@ -104,7 +130,12 @@ namespace Notes.ViewModels
                     ShowTextResults = true;
                 }
 
-                if (!ShowImageResults && !ShowTextResults)
+                if (OcrResults.Count > 0)
+                {
+                    ShowOcrResults = true;
+                }
+
+                if (!ShowImageResults && !ShowTextResults && !ShowOcrResults)
                 {
                     ShowNoResults = true;
                 }

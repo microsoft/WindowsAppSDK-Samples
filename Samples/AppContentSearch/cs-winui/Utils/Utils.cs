@@ -87,81 +87,105 @@ namespace Notes
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    int matchcontentId = int.Parse(match.ContentId);
-                    var note = await context.Notes.FindAsync(matchcontentId);
-
-                    if (note != null && note.Filename != null)
+                    if (match is AppManagedOcrTextQueryMatch ocrMatch)
                     {
+                        if (!int.TryParse(match.ContentId, out int attachmentId))
+                        {
+                            Debug.WriteLine($"Skipping OCR match with non-integer content ID: {match.ContentId}");
+                            continue;
+                        }
+
+                        var attachment = await context.Attachments.FindAsync(attachmentId);
+                        if (attachment == null)
+                        {
+                            Debug.WriteLine($"Skipping OCR match; attachment not found for content ID: {attachmentId}");
+                            continue;
+                        }
+
+                        var note = await context.Notes.FindAsync(attachment.NoteId);
+                        if (note == null)
+                        {
+                            Debug.WriteLine($"Skipping OCR match; note not found for attachment ID: {attachmentId}");
+                            continue;
+                        }
+
+                        // OCR matches come from text extracted from indexed images via OCR.
+                        Debug.WriteLine($"OCR text match: contentId={ocrMatch.ContentId}, fragment='{ocrMatch.Fragment}', Subregion={ocrMatch.Subregion}");
+
+                        var attachmentsFolder = await GetAttachmentsFolderAsync();
+                        var searchResult = new SearchResult
+                        {
+                            Content = ocrMatch.Fragment,
+                            ContentType = ContentType.OcrText,
+                            ContentSubType = ContentSubType.None,
+                            SourceId = note.Id,
+                            Title = note.Title + " (OCR)",
+                            MostRelevantSentence = ocrMatch.Fragment,
+                            Path = attachmentsFolder.Path + "\\" + attachment.RelativePath
+                        };
+
+                        try
+                        {
+                            if (ocrMatch.Subregion != null)
+                            {
+                                searchResult.BoundingBox = ocrMatch.Subregion.Value;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine("Failed to read OCR Subregion: " + ex.Message);
+                        }
+
+                        results.Add(searchResult);
+                        continue;
+                    }
+
+                    if (match is AppManagedTextQueryMatch textMatch)
+                    {
+                        if (!int.TryParse(match.ContentId, out int noteId))
+                        {
+                            Debug.WriteLine($"Skipping text match with non-integer content ID: {match.ContentId}");
+                            continue;
+                        }
+
+                        var note = await context.Notes.FindAsync(noteId);
+                        if (note == null || note.Filename == null)
+                        {
+                            continue;
+                        }
+
                         Debug.WriteLine($"Text match: {note.Filename}");
 
-                        AppManagedTextQueryMatch? textMatch = match as AppManagedTextQueryMatch;
-                        AppManagedOcrTextQueryMatch? ocrMatch = match as AppManagedOcrTextQueryMatch;
+                        string matchingData = await NoteViewModel.LoadTextContentByIdAsync(note.Filename);
 
-                        if (ocrMatch != null)
+                        int textOffset = Math.Max(0, Math.Min(textMatch.TextOffset, matchingData.Length));
+                        int remainingLength = matchingData.Length - textOffset;
+
+                        if (remainingLength <= 0)
                         {
-                            // OCR matches come from text extracted from indexed images via OCR.
-                            Debug.WriteLine($"OCR text match: fragment='{ocrMatch.Fragment}', Subregion={ocrMatch.Subregion}");
-
-                            var attachmentsFolder = await GetAttachmentsFolderAsync();
-
-                            // Find the attachment whose image produced the OCR match
-                            var attachment = context.Attachments.Where(a => a.NoteId == note.Id).FirstOrDefault();
-                            var searchResult = new SearchResult
-                            {
-                                Content = ocrMatch.Fragment,
-                                ContentType = ContentType.OcrText,
-                                ContentSubType = ContentSubType.None,
-                                SourceId = note.Id,
-                                Title = note.Title + " (OCR)",
-                                MostRelevantSentence = ocrMatch.Fragment,
-                                Path = attachmentsFolder.Path + "\\" + (attachment?.RelativePath ?? note.Filename)
-                            };
-
-                            try
-                            {
-                                if (ocrMatch.Subregion != null)
-                                {
-                                    searchResult.BoundingBox = ocrMatch.Subregion.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Debug.WriteLine("Failed to read OCR Subregion: " + ex.Message);
-                            }
-
-                            results.Add(searchResult);
+                            Debug.WriteLine($"Skipping match with invalid TextOffset: {textMatch.TextOffset} for content length: {matchingData.Length}");
+                            continue;
                         }
-                        else if (textMatch != null)
+
+                        int substringLength = Math.Min(500, remainingLength);
+                        string matchingString = matchingData.Substring(textOffset, substringLength);
+                        var notesFolder = await GetLocalFolderAsync();
+                        var textResult = new SearchResult
                         {
-                            string matchingData = await NoteViewModel.LoadTextContentByIdAsync(note.Filename);
+                            Content = matchingString,
+                            ContentType = ContentType.Note,
+                            ContentSubType = ContentSubType.None,
+                            SourceId = note.Id,
+                            Title = note.Title,
+                            MostRelevantSentence = matchingString,
+                            Path = notesFolder.Path + "\\" + note.Filename
+                        };
 
-                            int textOffset = Math.Max(0, Math.Min(textMatch.TextOffset, matchingData.Length));
-                            int remainingLength = matchingData.Length - textOffset;
-
-                            if (remainingLength > 0)
-                            {
-                                int substringLength = Math.Min(500, remainingLength);
-                                string matchingString = matchingData.Substring(textOffset, substringLength);
-                                var attachmentsFolder = await GetAttachmentsFolderAsync();
-                                var searchResult = new SearchResult
-                                {
-                                    Content = matchingString,
-                                    ContentType = ContentType.Note,
-                                    ContentSubType = ContentSubType.None,
-                                    SourceId = note.Id,
-                                    Title = note.Title,
-                                    MostRelevantSentence = matchingString,
-                                    Path = attachmentsFolder.Path + "\\" + note.Filename
-                                };
-
-                                results.Add(searchResult);
-                            }
-                            else
-                            {
-                                Debug.WriteLine($"Skipping match with invalid TextOffset: {textMatch.TextOffset} for content length: {matchingData.Length}");
-                            }
-                        }
+                        results.Add(textResult);
+                        continue;
                     }
+
+                    Debug.WriteLine($"Skipping unsupported text match type: {match.GetType().Name}");
                 }
             }
             else
