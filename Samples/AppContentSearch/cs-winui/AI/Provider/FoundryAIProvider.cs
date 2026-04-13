@@ -176,9 +176,7 @@ public class FoundryAIProvider : ILanguageModelProvider
     {
         try
         {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-            var foundryManager = new FoundryLocalManager();
-#pragma warning restore CA2000 // Dispose objects before losing scope
+            using var foundryManager = new FoundryLocalManager();
             var cached = foundryManager.ListCachedModelsAsync().GetAwaiter().GetResult();
             return cached.Count > 0;
         }
@@ -199,9 +197,7 @@ public class FoundryAIProvider : ILanguageModelProvider
         {
             try
             {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                var foundryManager = new FoundryLocalManager();
-#pragma warning restore CA2000 // Dispose objects before losing scope
+                using var foundryManager = new FoundryLocalManager();
 
                 var cached = await foundryManager.ListCachedModelsAsync();
                 if (cached.Count != 0)
