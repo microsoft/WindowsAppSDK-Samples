@@ -33,7 +33,7 @@ namespace Notes.ViewModels
         public ObservableCollection<SearchResult> OcrResults { get; set; } = new();
 
         private string _searchText = string.Empty;
-        private CancellationTokenSource? currentSearchCancellation;
+        private CancellationTokenSource? _currentSearchCancellation;
 
         public SearchViewModel()
         {
@@ -74,12 +74,12 @@ namespace Notes.ViewModels
             Debug.WriteLine("searching");
 
             // Cancel any existing search
-            currentSearchCancellation?.Cancel();
-            currentSearchCancellation?.Dispose();
+            _currentSearchCancellation?.Cancel();
+            _currentSearchCancellation?.Dispose();
 
             // Create new cancellation token for this search
-            currentSearchCancellation = new CancellationTokenSource();
-            var cancellationToken = currentSearchCancellation.Token;
+            _currentSearchCancellation = new CancellationTokenSource();
+            var cancellationToken = _currentSearchCancellation.Token;
 
             try
             {
@@ -156,9 +156,9 @@ namespace Notes.ViewModels
 
         public void Dispose()
         {
-            currentSearchCancellation?.Cancel();
-            currentSearchCancellation?.Dispose();
-            currentSearchCancellation = null;
+            _currentSearchCancellation?.Cancel();
+            _currentSearchCancellation?.Dispose();
+            _currentSearchCancellation = null;
         }
     }
 }

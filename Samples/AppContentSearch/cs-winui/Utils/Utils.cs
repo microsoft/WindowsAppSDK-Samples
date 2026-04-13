@@ -201,7 +201,12 @@ namespace Notes
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    int matchContentId = int.Parse(match.ContentId);
+                    if (!int.TryParse(match.ContentId, out int matchContentId))
+                    {
+                        Debug.WriteLine($"Skipping image match with non-integer content ID: {match.ContentId}");
+                        continue;
+                    }
+
                     var image = await context.Attachments.FindAsync(matchContentId);
 
                     if (image != null)

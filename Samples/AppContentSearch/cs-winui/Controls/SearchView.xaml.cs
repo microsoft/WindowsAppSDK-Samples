@@ -22,6 +22,7 @@ namespace Notes.Controls
         public SearchView()
         {
             this.InitializeComponent();
+            this.Unloaded += (_, _) => ViewModel.Dispose();
         }
 
         private void HideResultsPanel()

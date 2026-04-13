@@ -50,6 +50,12 @@ namespace Notes
 
             VM.Notes.CollectionChanged += Notes_CollectionChanged;
 
+            this.Closed += (_, _) =>
+            {
+                _appContentIndexer?.Dispose();
+                _appContentIndexer = null;
+            };
+
             _initializeAppContentIndexerTask = InitializeAppContentIndexerAsync();
 
             DispatcherQueue.TryEnqueue(async () =>
