@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Windows.Search.AppContentIndex;
@@ -94,8 +95,43 @@ namespace Notes
                         Debug.WriteLine($"Text match: {note.Filename}");
 
                         AppManagedTextQueryMatch? textMatch = match as AppManagedTextQueryMatch;
+                        AppManagedOcrTextQueryMatch? ocrMatch = match as AppManagedOcrTextQueryMatch;
 
-                        if (textMatch != null)
+                        if (ocrMatch != null)
+                        {
+                            // OCR matches come from text extracted from indexed images via OCR.
+                            Debug.WriteLine($"OCR text match: fragment='{ocrMatch.Fragment}', Subregion={ocrMatch.Subregion}");
+
+                            var attachmentsFolder = await GetAttachmentsFolderAsync();
+
+                            // Find the attachment whose image produced the OCR match
+                            var attachment = context.Attachments.Where(a => a.NoteId == note.Id).FirstOrDefault();
+                            var searchResult = new SearchResult
+                            {
+                                Content = ocrMatch.Fragment,
+                                ContentType = ContentType.OcrText,
+                                ContentSubType = ContentSubType.None,
+                                SourceId = note.Id,
+                                Title = note.Title + " (OCR)",
+                                MostRelevantSentence = ocrMatch.Fragment,
+                                Path = attachmentsFolder.Path + "\\" + (attachment?.RelativePath ?? note.Filename)
+                            };
+
+                            try
+                            {
+                                if (ocrMatch.Subregion != null)
+                                {
+                                    searchResult.BoundingBox = ocrMatch.Subregion.Value;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine("Failed to read OCR Subregion: " + ex.Message);
+                            }
+
+                            results.Add(searchResult);
+                        }
+                        else if (textMatch != null)
                         {
                             string matchingData = await NoteViewModel.LoadTextContentByIdAsync(note.Filename);
 
@@ -231,6 +267,7 @@ namespace Notes
                 ContentType.Audio => "🎙️",
                 ContentType.Video => "🎞️",
                 ContentType.Document => "📄",
+                ContentType.OcrText => "🔍",
                 _ => throw new NotImplementedException()
             };
         }
@@ -256,6 +293,7 @@ namespace Notes
         Video = 2,
         Document = 3,
         Note = 4,
+        OcrText = 5,
     }
 
     public enum ContentSubType

@@ -100,6 +100,20 @@
                             </ItemsView.Layout>
                         </ItemsView>
                     </StackPanel>
+
+                    <!-- OCR Text Results List -->
+                    <StackPanel Visibility="{x:Bind ViewModel.ShowOcrResults, Mode=OneWay}">
+                        <TextBlock x:Name="OcrResultsTextBlock"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}" Margin="4,12">OCR Text Results</TextBlock>
+
+                        <ItemsView x:Name="resultsOcrItemsView"
+                                   ItemsSource="{x:Bind ViewModel.OcrResults}"
+                                   ItemInvoked="ResultsItemsView_ItemInvoked"
+                                   IsItemInvokedEnabled="True"
+                                   SelectionMode="None"
+                                   ItemTemplate="{StaticResource TextSearchResultDataTemplate}">
+                        </ItemsView>
+                    </StackPanel>
                     
 
                     <!-- Text Results List -->
@@ -127,7 +141,8 @@
                     Height="32"
                     Width="400"
                     PlaceholderText="Search for anything..."
-                    QuerySubmitted="SearchBox_QuerySubmitted">
+                    QuerySubmitted="SearchBox_QuerySubmitted"
+                    TextChanged="SearchBox_TextChanged">
                     <AutoSuggestBox.QueryIcon>
                         <FontIcon
                             x:Name="SearchBoxQueryIcon"

@@ -40,6 +40,10 @@ namespace Notes.Controls
                 {
                     await MainWindow.Instance.SelectNoteById(item.SourceId);
                 }
+                else if (item.ContentType == ContentType.OcrText)
+                {
+                    await MainWindow.Instance.SelectNoteById(item.SourceId);
+                }
                 else
                 {
                     var attachment = context.Attachments.Where(a => a.Id == item.SourceId).FirstOrDefault();
@@ -136,6 +140,23 @@ namespace Notes.Controls
         private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             ViewModel.HandleQuerySubmitted(sender.Text);
+        }
+
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only react to user input, not programmatic changes
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                ViewModel.HandleTextChanged(sender.Text);
+            }
+        }
+
+        public void InitializeQuerySessions()
+        {
+            if (MainWindow.AppContentIndexer != null)
+            {
+                ViewModel.InitializeQuerySessions(MainWindow.AppContentIndexer, DispatcherQueue);
+            }
         }
 
         private void ItemContainer_BringIntoViewRequested(UIElement sender, BringIntoViewRequestedEventArgs args)
