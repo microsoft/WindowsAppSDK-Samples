@@ -198,7 +198,7 @@ namespace WindowsMLSampleForWPF
                 var videoFrame = await ImageProcessor.LoadImageFileAsync(_selectedImagePath);
                 var inputTensor = await ImageProcessor.PreprocessImageAsync(videoFrame);
 
-                using var results = InferenceEngine.RunInference(_session, inputTensor);
+                using var results = await Task.Run(() => InferenceEngine.RunInference(_session, inputTensor));
                 var resultTensor = InferenceEngine.ExtractResults(_session, results);
 
                 var topPredictions = ResultProcessor.GetTopPredictions(resultTensor, _labels, 5);
