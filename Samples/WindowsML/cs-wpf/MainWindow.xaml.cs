@@ -26,12 +26,25 @@ namespace WindowsMLSampleForWPF
         private OrtEnv? _ortEnv;
         private List<string> _labels = new();
         private bool _disposed;
+        private bool _isBusy;
+        private bool _deviceComboWasEnabled;
+        private bool _epComboWasEnabled;
 
         public MainWindow()
         {
             InitializeComponent(); // Must match x:Class in XAML
             Loaded += MainWindow_Loaded;
+            Closing += MainWindow_Closing;
             Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_isBusy)
+            {
+                e.Cancel = true;
+                ResultsTextBox.Text = "Please wait for the current operation to complete before closing.";
+            }
         }
 
         private void MainWindow_Closed(object? sender, EventArgs e)
@@ -186,16 +199,30 @@ namespace WindowsMLSampleForWPF
 
         private void SetBusy(bool busy)
         {
+            _isBusy = busy;
             BusyIndicator.Visibility = busy ? Visibility.Visible : Visibility.Collapsed;
             RunInferenceButton.IsEnabled = !busy && _session != null && !string.IsNullOrEmpty(_selectedImagePath);
             ReloadSessionButton.IsEnabled = !busy;
             SelectImageButton.IsEnabled = !busy;
-            EpCombo.IsEnabled = !busy;
-            DeviceCombo.IsEnabled = !busy;
             AllowProviderDownloadCheckBox.IsEnabled = !busy;
             PerfModeDefaultRadio.IsEnabled = !busy;
             PerfModeMaxPerfRadio.IsEnabled = !busy;
             PerfModeMaxEffRadio.IsEnabled = !busy;
+
+            if (busy)
+            {
+                // Save combo states before disabling so we can restore them later
+                _epComboWasEnabled = EpCombo.IsEnabled;
+                _deviceComboWasEnabled = DeviceCombo.IsEnabled;
+                EpCombo.IsEnabled = false;
+                DeviceCombo.IsEnabled = false;
+            }
+            else
+            {
+                // Restore the combo enabled states that PopulateDeviceCombo computed
+                EpCombo.IsEnabled = _epComboWasEnabled;
+                DeviceCombo.IsEnabled = _deviceComboWasEnabled;
+            }
         }
 
         private async void RunInferenceButton_Click(object sender, RoutedEventArgs e)
