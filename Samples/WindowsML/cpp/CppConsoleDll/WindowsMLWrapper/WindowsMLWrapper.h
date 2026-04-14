@@ -13,7 +13,11 @@
 
 extern "C"
 {
-    // Returns the ONNX Runtime version string
-    // Caller is responsible for freeing the returned string using CoTaskMemFree
+    // Initializes an ORT environment to verify the WindowsML runtime is operational.
+    // Caller is responsible for freeing the returned string using CoTaskMemFree.
+    WINDOWSMLWRAPPER_API char* GetTestMessage();
+
+    // Returns the ONNX Runtime version string (ORT C API).
+    // Caller is responsible for freeing the returned string using CoTaskMemFree.
     WINDOWSMLWRAPPER_API char* GetOrtVersionString();
 }
