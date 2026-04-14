@@ -1,0 +1,26 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 31,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "ninja-x64",
+            "displayName": "Ninja Multi-Config x64",
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "D:/b/meta-nx64",
+            "cacheVariables": {
+                "CMAKE_OBJECT_PATH_MAX": "1000"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "ninja-x64-debug",
+            "configurePreset": "ninja-x64",
+            "configuration": "Debug"
+        }
+    ]
+}

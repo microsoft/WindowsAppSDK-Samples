@@ -1,9 +1,5 @@
 #----------------------------------------------------------------------------------------------------------------------
 # PackagedSelfContained - Self-contained deployment with MSIX packaging
-#
-# After building, register the MSIX layout and launch via AUMID:
-#   Add-AppxPackage -Register <build-dir>\PackagedSelfContained\AppxManifest.xml
-#   Start-Process "shell:AppsFolder\<PFN>!App"
 #----------------------------------------------------------------------------------------------------------------------
 project(PackagedSelfContained LANGUAGES CXX)
 
@@ -11,7 +7,6 @@ add_executable(PackagedSelfContained WIN32
     main.cpp
 )
 
-# Self-contained: use static VC runtime (Hybrid CRT)
 set_target_properties(PackagedSelfContained PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
 )
@@ -21,9 +16,14 @@ target_link_libraries(PackagedSelfContained
         Microsoft.WindowsAppSDK.Foundation_SelfContained
         Microsoft.WindowsAppSDK.InteractiveExperiences_SelfContained
         Microsoft.WindowsAppSDK.DWrite_SelfContained
+        Microsoft.WindowsAppSDK.Widgets_SelfContained
+        Microsoft.WindowsAppSDK.AI_SelfContained
+        Microsoft.WindowsAppSDK.ML_SelfContained
+        Microsoft.WindowsAppSDK.WinUI_SelfContained
 )
 
 post_build_runtime_dll_copy(PackagedSelfContained)
+post_build_selfcontained_dll_copy(PackagedSelfContained)
 
 # Copy AppxManifest.xml and Logo to the output directory for MSIX registration
 add_custom_command(TARGET PackagedSelfContained POST_BUILD
