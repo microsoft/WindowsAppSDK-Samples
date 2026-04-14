@@ -5,8 +5,8 @@
 #include <iostream>
 
 // Function pointer types for the DLL exports
-typedef char*(__stdcall* GetOrtVersionStringFunc)();
-typedef char*(__stdcall* GetTestMessageFunc)();
+typedef char*(*GetOrtVersionStringFunc)();
+typedef char*(*GetTestMessageFunc)();
 
 int main()
 {

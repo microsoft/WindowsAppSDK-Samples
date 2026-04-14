@@ -12,13 +12,14 @@
 
 // Initializes an ORT environment to verify the WindowsML runtime is operational.
 // Returns a success message if the runtime loads correctly.
-extern "C" __declspec(dllexport) char* GetTestMessage()
+extern "C" WINDOWSMLWRAPPER_API char* GetTestMessage()
 {
     try
     {
         // Creating an Ort::Env is the canonical ORT initialization step.
         // If this succeeds, the ONNX Runtime and WindowsAppSDK ML components are functional.
         Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "DllTest");
+        static_cast<void>(env); // Construction is the test; suppress C4189
 
         const char* message = "WindowsML DLL is working correctly!";
         size_t len = strlen(message) + 1;
@@ -56,7 +57,7 @@ extern "C" __declspec(dllexport) char* GetTestMessage()
 
 // Demonstrates the ORT C API (OrtGetApiBase) and CoTaskMemAlloc string management.
 // Returns the ONNX Runtime version string.
-extern "C" __declspec(dllexport) char* GetOrtVersionString()
+extern "C" WINDOWSMLWRAPPER_API char* GetOrtVersionString()
 {
     try
     {
@@ -85,7 +86,7 @@ extern "C" __declspec(dllexport) char* GetOrtVersionString()
     }
 }
 
-extern "C" __declspec(dllexport) void FreeString(char* str)
+extern "C" WINDOWSMLWRAPPER_API void FreeString(char* str)
 {
     if (str)
     {
