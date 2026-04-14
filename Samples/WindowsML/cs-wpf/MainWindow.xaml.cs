@@ -146,11 +146,11 @@ namespace WindowsMLSampleForWPF
             {
                 ModelPath = "SqueezeNet.onnx",
                 EpName = EpCombo.SelectedItem?.ToString(),
-                DeviceType = (DeviceCombo.IsEnabled ? DeviceCombo.SelectedItem?.ToString() : null),
+                DeviceType = (DeviceCombo.Items.Count > 1 ? DeviceCombo.SelectedItem?.ToString() : null),
                 PerfMode = GetSelectedPerformanceMode()
             };
 
-            if (DeviceCombo.IsEnabled && DeviceCombo.SelectedItem == null)
+            if (DeviceCombo.Items.Count > 1 && DeviceCombo.SelectedItem == null)
             {
                 ResultsTextBox.Text = "Select a device type for the selected execution provider.";
                 return;
@@ -238,7 +238,7 @@ namespace WindowsMLSampleForWPF
                 SetBusy(true);
                 ResultsTextBox.Text = "Running inference...";
 
-                var videoFrame = await ImageProcessor.LoadImageFileAsync(_selectedImagePath);
+                using var videoFrame = await ImageProcessor.LoadImageFileAsync(_selectedImagePath);
                 var inputTensor = await ImageProcessor.PreprocessImageAsync(videoFrame);
 
                 var session = _session;
