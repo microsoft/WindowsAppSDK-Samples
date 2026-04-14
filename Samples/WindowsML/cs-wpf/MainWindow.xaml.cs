@@ -182,6 +182,14 @@ namespace WindowsMLSampleForWPF
             }
         }
 
+        private void SetBusy(bool busy)
+        {
+            BusyIndicator.Visibility = busy ? Visibility.Visible : Visibility.Collapsed;
+            RunInferenceButton.IsEnabled = !busy && _session != null && !string.IsNullOrEmpty(_selectedImagePath);
+            ReloadSessionButton.IsEnabled = !busy;
+            SelectImageButton.IsEnabled = !busy;
+        }
+
         private async void RunInferenceButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(_selectedImagePath) || _session == null)
@@ -192,8 +200,8 @@ namespace WindowsMLSampleForWPF
 
             try
             {
+                SetBusy(true);
                 ResultsTextBox.Text = "Running inference...";
-                Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.Render);
 
                 var videoFrame = await ImageProcessor.LoadImageFileAsync(_selectedImagePath);
                 var inputTensor = await ImageProcessor.PreprocessImageAsync(videoFrame);
@@ -207,6 +215,10 @@ namespace WindowsMLSampleForWPF
             catch (Exception ex)
             {
                 ResultsTextBox.Text = $"Error during inference: {ex.Message}";
+            }
+            finally
+            {
+                SetBusy(false);
             }
         }
 
@@ -258,11 +270,23 @@ namespace WindowsMLSampleForWPF
 
         private async void ReloadSessionButton_Click(object sender, RoutedEventArgs e)
         {
-            ResultsTextBox.Text = "Loading / reloading model...";
-            await LoadModelAndLabelsAsync();
-            if (_session != null)
+            try
             {
-                ResultsTextBox.Text += "\nModel loaded. Select an image and click 'Run Inference'.";
+                SetBusy(true);
+                ResultsTextBox.Text = "Loading / reloading model...";
+                await LoadModelAndLabelsAsync();
+                if (_session != null)
+                {
+                    ResultsTextBox.Text += "\nModel loaded. Select an image and click 'Run Inference'.";
+                }
+            }
+            catch (Exception ex)
+            {
+                ResultsTextBox.Text = $"Error loading model: {ex.Message}";
+            }
+            finally
+            {
+                SetBusy(false);
             }
         }
 
