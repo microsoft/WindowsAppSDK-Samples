@@ -21,6 +21,11 @@
             "name": "ninja-x64-debug",
             "configurePreset": "ninja-x64",
             "configuration": "Debug"
+        },
+        {
+            "name": "ninja-x64-release",
+            "configurePreset": "ninja-x64",
+            "configuration": "Release"
         }
     ]
 }
