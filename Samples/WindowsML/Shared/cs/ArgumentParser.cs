@@ -52,6 +52,7 @@ namespace WindowsML.Shared
         public static Options ParseOptions(string[] args)
         {
             Options options = new();
+            bool disableEp = false; // tracks --ep_policy DISABLE locally for validation
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -76,12 +77,13 @@ namespace WindowsML.Shared
                                     options.EpPolicy = ExecutionProviderDevicePolicy.DEFAULT;
                                     break;
                                 case "DISABLE":
+                                    disableEp = true;
                                     options.EpPolicy = null;
                                     break;
                                 default:
-                                    Console.WriteLine($"Unknown EP policy: {policyStr}, using default (DISABLE)");
-                                    options.EpPolicy = null;
-                                    break;
+                                    Console.WriteLine($"Unknown EP policy: {policyStr}");
+                                    PrintHelp();
+                                    throw new ArgumentException($"Unknown EP policy: {policyStr}", "--ep_policy");
                             }
                         }
                         break;
@@ -173,11 +175,11 @@ namespace WindowsML.Shared
                 throw new Exception("Mutually exclusive EP options");
             }
 
-            if (!options.EpPolicy.HasValue && string.IsNullOrEmpty(options.EpName))
+            if (!disableEp && !options.EpPolicy.HasValue && string.IsNullOrEmpty(options.EpName))
             {
                 Console.WriteLine("ERROR: You must specify one of --ep_policy or --ep_name.");
                 PrintHelp();
-                throw new Exception("Missing EP selection");
+                throw new ArgumentException("Missing EP selection");
             }
 
             if (!string.IsNullOrEmpty(options.DeviceType))

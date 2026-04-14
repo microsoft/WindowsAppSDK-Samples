@@ -271,7 +271,8 @@ namespace WindowsML.Shared
             }
             else
             {
-                throw new Exception("Could not find an EP selection policy or an explicit execution provider.");
+                // DISABLE: no EP policy or explicit EP — use ONNX Runtime defaults (CPU + DML)
+                Console.WriteLine("EP selection disabled, using ONNX Runtime defaults");
             }
 
             return new InferenceSession(modelPath, sessionOptions);
@@ -344,10 +345,7 @@ namespace WindowsML.Shared
                             throw new Exception("Failed to configure selected execution provider");
                         }
                     }
-                    else
-                    {
-                        throw new Exception("Could not find an EP selection policy or an explicit execution provider.");
-                    }
+                    // else: DISABLE — compile with ONNX Runtime defaults
 
                     CompileModel(tempSessionOptions, modelPath, compiledModelPath);
 

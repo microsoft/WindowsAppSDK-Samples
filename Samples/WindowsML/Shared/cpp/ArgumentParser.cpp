@@ -20,6 +20,8 @@ namespace Shared
             return false;
         }
 
+    bool disable_ep = false; // tracks --ep_policy DISABLE locally for validation
+
     for (size_t i = 1; i < arguments.size(); ++i)
     {
         if (arguments[i] == L"--compile")
@@ -67,11 +69,14 @@ namespace Shared
             }
             else if (policy_str == L"DISABLE")
             {
-                options.ep_policy = std::nullopt;
+                disable_ep = true;
+                options.ep_policy.reset();
             }
             else
             {
-                std::wcout << L"Unknown EP policy: " << policy_str << L", using default (DISABLE)\n";
+                std::wcout << L"Unknown EP policy: " << policy_str << L"\n";
+                PrintUsage();
+                return false;
             }
         }
         else if (arguments[i] == L"--perf_mode" && i + 1 < arguments.size())
@@ -117,8 +122,8 @@ namespace Shared
         return false;
     }
 
-    // Require one selection method
-    if (!options.ep_policy.has_value() && options.ep_name.empty())
+    // Require one selection method (unless disabled)
+    if (!disable_ep && !options.ep_policy.has_value() && options.ep_name.empty())
     {
         std::wcout << L"ERROR: You must specify one of --ep_policy or --ep_name.\n";
         PrintUsage();

@@ -20,9 +20,9 @@ namespace Shared
             std::cout << "Using EP Selection Policy: " << ArgumentParser::ToString(options.ep_policy.value()) << std::endl;
             sessionOptions.SetEpSelectionPolicy(options.ep_policy.value());
         }
-        else
+        else if (!options.ep_name.empty())
         {
-            // Use explicit configuration
+            // Use explicit EP configuration
             std::cout << "Using explicit EP configuration" << std::endl;
             ExecutionProviderManager::ConfigureSelectedExecutionProvider(
                 sessionOptions,
@@ -30,6 +30,11 @@ namespace Shared
                 options.ep_name,
                 options.device_type,
                 options.perf_mode);
+        }
+        else
+        {
+            // DISABLE: no EP policy or explicit EP — use ONNX Runtime defaults (CPU + DML)
+            std::cout << "EP selection disabled, using ONNX Runtime defaults" << std::endl;
         }
 
         return sessionOptions;
