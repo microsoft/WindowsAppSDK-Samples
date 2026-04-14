@@ -172,7 +172,7 @@ namespace WindowsMLSampleForWPF
                     bitmap.EndInit();
                     SelectedImage.Source = bitmap;
 
-                    RunInferenceButton.IsEnabled = true;
+                    RunInferenceButton.IsEnabled = _session != null;
                     ResultsTextBox.Text = "Image selected. Click 'Run Inference' to classify the image.";
                 }
                 catch (Exception ex)
@@ -188,6 +188,9 @@ namespace WindowsMLSampleForWPF
             RunInferenceButton.IsEnabled = !busy && _session != null && !string.IsNullOrEmpty(_selectedImagePath);
             ReloadSessionButton.IsEnabled = !busy;
             SelectImageButton.IsEnabled = !busy;
+            EpCombo.IsEnabled = !busy;
+            DeviceCombo.IsEnabled = !busy;
+            AllowProviderDownloadCheckBox.IsEnabled = !busy;
         }
 
         private async void RunInferenceButton_Click(object sender, RoutedEventArgs e)
@@ -206,7 +209,8 @@ namespace WindowsMLSampleForWPF
                 var videoFrame = await ImageProcessor.LoadImageFileAsync(_selectedImagePath);
                 var inputTensor = await ImageProcessor.PreprocessImageAsync(videoFrame);
 
-                using var results = await Task.Run(() => InferenceEngine.RunInference(_session, inputTensor));
+                var session = _session;
+                using var results = await Task.Run(() => InferenceEngine.RunInference(session, inputTensor));
                 var resultTensor = InferenceEngine.ExtractResults(_session, results);
 
                 var topPredictions = ResultProcessor.GetTopPredictions(resultTensor, _labels, 5);
