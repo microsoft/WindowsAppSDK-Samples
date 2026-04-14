@@ -44,7 +44,7 @@ int WINAPI wWinMain(
 {
     wchar_t tempPath[MAX_PATH]{};
     GetTempPathW(MAX_PATH, tempPath);
-    std::wstring logPath = std::wstring(tempPath) + L"CMake_PackagedFW.log";
+    std::wstring logPath = std::wstring(tempPath) + L"CMake_MetapackageFW.log";
     std::wofstream log(logPath, std::ios::trunc);
 
     try
@@ -52,32 +52,31 @@ int WINAPI wWinMain(
         winrt::init_apartment(winrt::apartment_type::single_threaded);
 
         std::wostringstream message;
-        message << L"Packaged Framework-Dependent App (CMake)\n\n";
+        message << L"Metapackage Framework-Dependent App (CMake)\n\n";
 
-        // Verify MSIX package identity
+        //--------------------------------------------------------------------------------------------------------------
+        // Package Identity
+        //--------------------------------------------------------------------------------------------------------------
         UINT32 nameLen = 0;
         auto rc = GetCurrentPackageFullName(&nameLen, nullptr);
         if (rc == APPMODEL_ERROR_NO_PACKAGE)
         {
-            message << L"Package Identity: NONE\n";
+            message << L"PackageIdentity: NONE\n";
             log << L"PackageIdentity=NONE" << std::endl;
         }
         else
         {
             std::wstring pkgName(nameLen, L'\0');
             GetCurrentPackageFullName(&nameLen, pkgName.data());
-            if (!pkgName.empty() && pkgName.back() == L'\0')
-            {
-                pkgName.pop_back();
-            }
-            message << L"Package Identity: " << pkgName << L"\n";
+            pkgName.resize(nameLen - 1);
+            message << L"PackageIdentity: " << pkgName << L"\n";
             log << L"PackageIdentity=" << pkgName << std::endl;
         }
 
         //--------------------------------------------------------------------------------------------------------------
-        // Foundation 
+        // Foundation
         //--------------------------------------------------------------------------------------------------------------
-        message << L"[Foundation]\n";
+        message << L"\n[Foundation]\n";
 
         if (winrt::Microsoft::Windows::System::EnvironmentManager::IsSupported())
         {
@@ -93,53 +92,8 @@ int WINAPI wWinMain(
             log << L"Foundation=NotSupported" << std::endl;
         }
 
-        namespace Power = winrt::Microsoft::Windows::System::Power;
-
-        auto batteryStatus = Power::PowerManager::BatteryStatus();
-        message << L"  BatteryStatus: ";
-        switch (batteryStatus)
-        {
-        case Power::BatteryStatus::NotPresent:
-            message << L"NotPresent";
-            break;
-        case Power::BatteryStatus::Discharging:
-            message << L"Discharging";
-            break;
-        case Power::BatteryStatus::Idle:
-            message << L"Idle";
-            break;
-        case Power::BatteryStatus::Charging:
-            message << L"Charging";
-            break;
-        default:
-            message << L"Unknown";
-            break;
-        }
-        message << L"\n";
-
-        auto powerSupply = Power::PowerManager::PowerSupplyStatus();
-        message << L"  PowerSupplyStatus: ";
-        switch (powerSupply)
-        {
-        case Power::PowerSupplyStatus::NotPresent:
-            message << L"NotPresent";
-            break;
-        case Power::PowerSupplyStatus::Inadequate:
-            message << L"Inadequate";
-            break;
-        case Power::PowerSupplyStatus::Adequate:
-            message << L"Adequate";
-            break;
-        default:
-            message << L"Unknown";
-            break;
-        }
-        message << L"\n";
-
-        message << L"  RemainingChargePercent: " << Power::PowerManager::RemainingChargePercent() << L"%\n";
-
         //--------------------------------------------------------------------------------------------------------------
-        // DWrite
+        // DWrite (framework-dependent: dynamic loading)
         //--------------------------------------------------------------------------------------------------------------
         message << L"\n[DWrite]\n";
 
@@ -169,12 +123,12 @@ int WINAPI wWinMain(
         }
         else
         {
-            message << L"  DWriteCore: Not available (install WinAppSDK runtime)\n";
+            message << L"  DWriteCore: Not available\n";
             log << L"DWrite=Failed" << std::endl;
         }
 
         //--------------------------------------------------------------------------------------------------------------
-        // IXP (InteractiveExperiences) 
+        // IXP (InteractiveExperiences)
         //--------------------------------------------------------------------------------------------------------------
         message << L"\n[InteractiveExperiences]\n";
 
@@ -186,13 +140,12 @@ int WINAPI wWinMain(
         }
         catch (winrt::hresult_error const& ex)
         {
-            message << L"  AppWindowTitleBar.IsCustomizationSupported: 0x" << std::hex << ex.code() << std::dec << L"\n";
+            message << L"  AppWindowTitleBar: 0x" << std::hex << ex.code() << std::dec << L"\n";
             log << L"IXP=0x" << std::hex << static_cast<int32_t>(ex.code()) << std::dec << std::endl;
         }
 
         //--------------------------------------------------------------------------------------------------------------
-        // Widgets 
-        // NOTE: WidgetManager requires MSIX package identity AND the WinAppSDK Framework package
+        // Widgets
         //--------------------------------------------------------------------------------------------------------------
         message << L"\n[Widgets]\n";
 
@@ -205,8 +158,7 @@ int WINAPI wWinMain(
         }
         catch (winrt::hresult_error const& ex)
         {
-            message << L"  WidgetManager.GetDefault: 0x" << std::hex << ex.code() << std::dec
-                    << L" (requires package identity and framework-dependent deployment)\n";
+            message << L"  WidgetManager: 0x" << std::hex << ex.code() << std::dec << L"\n";
             log << L"Widgets=0x" << std::hex << static_cast<int32_t>(ex.code()) << std::dec << std::endl;
         }
 
@@ -251,8 +203,7 @@ int WINAPI wWinMain(
         }
         catch (winrt::hresult_error const& ex)
         {
-            message << L"  LanguageModel.GetReadyState: 0x" << std::hex << ex.code() << std::dec
-                    << L" (expected on non-AI hardware)\n";
+            message << L"  LanguageModel: 0x" << std::hex << ex.code() << std::dec << L"\n";
             log << L"AI=0x" << std::hex << static_cast<int32_t>(ex.code()) << std::dec << std::endl;
         }
 
@@ -299,7 +250,7 @@ int WINAPI wWinMain(
         MessageBoxW(
             nullptr,
             message.str().c_str(),
-            L"WinAppSDK CMake Test",
+            L"WinAppSDK CMake Metapackage Test",
             MB_OK | MB_ICONINFORMATION
         );
     }
