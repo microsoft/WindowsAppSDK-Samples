@@ -32,7 +32,6 @@ namespace Notes.Controls
 
         private async void ResultsItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs e)
         {
-            var context = await AppDataContext.GetCurrentAsync();
             var item = e.InvokedItem as SearchResult;
 
             if (MainWindow.Instance != null && item != null)
@@ -43,10 +42,22 @@ namespace Notes.Controls
                 }
                 else if (item.ContentType == ContentType.OcrText)
                 {
-                    await MainWindow.Instance.SelectNoteById(item.SourceId);
+                    if (item.AttachmentId is int attachmentId)
+                    {
+                        await MainWindow.Instance.SelectNoteById(
+                            item.SourceId,
+                            attachmentId,
+                            item.MostRelevantSentence,
+                            item.BoundingBox);
+                    }
+                    else
+                    {
+                        await MainWindow.Instance.SelectNoteById(item.SourceId);
+                    }
                 }
                 else
                 {
+                    var context = await AppDataContext.GetCurrentAsync();
                     var attachment = context.Attachments.Where(a => a.Id == item.SourceId).FirstOrDefault();
 
                     if (attachment != null)

@@ -57,19 +57,15 @@ namespace Notes
 
         public static async Task<List<SearchResult>> SearchAsync(AppContentIndexer appContentIndexer, string searchText, int top = 5, CancellationToken cancellationToken = default)
         {
-            var results = new List<SearchResult>();
-
             if (string.IsNullOrWhiteSpace(searchText) || appContentIndexer == null)
             {
-                return results;
+                return new List<SearchResult>();
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var context = await AppDataContext.GetCurrentAsync();
-
-            IEnumerable<AppIndexQueryMatch>? textMatches = null;
-            IEnumerable<AppIndexQueryMatch>? imageMatches = null;
+            IEnumerable<TextQueryMatch>? textMatches = null;
+            IEnumerable<ImageQueryMatch>? imageMatches = null;
             await Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -79,6 +75,14 @@ namespace Notes
                 imageMatches = imageQuery.GetNextMatches(top);
             }, cancellationToken);
 
+            return await SearchMatchesAsync(textMatches, imageMatches, cancellationToken);
+        }
+
+        public static async Task<List<SearchResult>> SearchMatchesAsync(IEnumerable<TextQueryMatch>? textMatches, IEnumerable<ImageQueryMatch>? imageMatches, CancellationToken cancellationToken = default)
+        {
+            var results = new List<SearchResult>();
+            var context = await AppDataContext.GetCurrentAsync();
+
             cancellationToken.ThrowIfCancellationRequested();
 
             if (textMatches != null)
@@ -87,56 +91,10 @@ namespace Notes
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    if (match is AppManagedOcrTextQueryMatch ocrMatch)
+                    SearchResult? ocrResult = await TryCreateOcrSearchResultAsync(match, context, cancellationToken);
+                    if (ocrResult != null)
                     {
-                        if (!int.TryParse(match.ContentId, out int attachmentId))
-                        {
-                            Debug.WriteLine($"Skipping OCR match with non-integer content ID: {match.ContentId}");
-                            continue;
-                        }
-
-                        var attachment = await context.Attachments.FindAsync(attachmentId);
-                        if (attachment == null)
-                        {
-                            Debug.WriteLine($"Skipping OCR match; attachment not found for content ID: {attachmentId}");
-                            continue;
-                        }
-
-                        var note = await context.Notes.FindAsync(attachment.NoteId);
-                        if (note == null)
-                        {
-                            Debug.WriteLine($"Skipping OCR match; note not found for attachment ID: {attachmentId}");
-                            continue;
-                        }
-
-                        // OCR matches come from text extracted from indexed images via OCR.
-                        Debug.WriteLine($"OCR text match: contentId={ocrMatch.ContentId}, fragment='{ocrMatch.Fragment}', Subregion={ocrMatch.Subregion}");
-
-                        var attachmentsFolder = await GetAttachmentsFolderAsync();
-                        var searchResult = new SearchResult
-                        {
-                            Content = ocrMatch.Fragment,
-                            ContentType = ContentType.OcrText,
-                            ContentSubType = ContentSubType.None,
-                            SourceId = note.Id,
-                            Title = note.Title + " (OCR)",
-                            MostRelevantSentence = ocrMatch.Fragment,
-                            Path = attachmentsFolder.Path + "\\" + attachment.RelativePath
-                        };
-
-                        try
-                        {
-                            if (ocrMatch.Subregion != null)
-                            {
-                                searchResult.BoundingBox = ocrMatch.Subregion.Value;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine("Failed to read OCR Subregion: " + ex.Message);
-                        }
-
-                        results.Add(searchResult);
+                        results.Add(ocrResult);
                         continue;
                     }
 
@@ -271,7 +229,70 @@ namespace Notes
             {
                 Debug.WriteLine("ImageMatches is null");
             }
+
             return results;
+        }
+
+        private static async Task<SearchResult?> TryCreateOcrSearchResultAsync(TextQueryMatch match, AppDataContext context, CancellationToken cancellationToken)
+        {
+            if (!string.Equals(match.GetType().Name, "AppManagedOcrTextQueryMatch", StringComparison.Ordinal))
+            {
+                return null;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (!int.TryParse(match.ContentId, out int attachmentId))
+            {
+                Debug.WriteLine($"Skipping OCR match with non-integer content ID: {match.ContentId}");
+                return null;
+            }
+
+            var attachment = await context.Attachments.FindAsync(attachmentId);
+            if (attachment == null)
+            {
+                Debug.WriteLine($"Skipping OCR match; attachment not found for content ID: {attachmentId}");
+                return null;
+            }
+
+            var note = await context.Notes.FindAsync(attachment.NoteId);
+            if (note == null)
+            {
+                Debug.WriteLine($"Skipping OCR match; note not found for attachment ID: {attachmentId}");
+                return null;
+            }
+
+            string fragment = match.GetType().GetProperty("Fragment")?.GetValue(match) as string ?? string.Empty;
+            Rect? subregion = GetMatchSubregion(match);
+            Debug.WriteLine($"OCR text match: contentId={match.ContentId}, fragment='{fragment}', Subregion={subregion}");
+
+            var attachmentsFolder = await GetAttachmentsFolderAsync();
+            return new SearchResult
+            {
+                Content = fragment,
+                ContentType = ContentType.OcrText,
+                ContentSubType = ContentSubType.None,
+                SourceId = note.Id,
+                AttachmentId = attachment.Id,
+                Title = note.Title + " (OCR)",
+                MostRelevantSentence = fragment,
+                Path = attachmentsFolder.Path + "\\" + attachment.RelativePath,
+                BoundingBox = subregion
+            };
+        }
+
+        private static Rect? GetMatchSubregion(TextQueryMatch match)
+        {
+            try
+            {
+                object? subregion = match.GetType().GetProperty("Subregion")?.GetValue(match);
+                return subregion is Rect rect ? rect : null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Failed to read OCR Subregion: " + ex.Message);
+                return null;
+            }
         }
     }
 
@@ -283,6 +304,7 @@ namespace Notes
         public string? MostRelevantSentence { get; set; }
         public string? Path { get; set; }
         public int SourceId { get; set; }
+        public int? AttachmentId { get; set; }
         public ContentType ContentType { get; set; }
         public ContentSubType ContentSubType { get; set; }
         public Rect? BoundingBox { get; set; }
