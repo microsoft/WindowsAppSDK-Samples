@@ -165,6 +165,8 @@ Alternatively, the **MetapackageFrameworkDependent** sample shows that you can l
 
 Each component package provides targets for different deployment modes. Link against the appropriate target in `target_link_libraries()`:
 
+### Component Packages
+
 | Component | Base Target | Self-Contained | Framework |
 |-----------|------------|----------------|-----------|
 | **Foundation** | `Microsoft.WindowsAppSDK.Foundation` | `Microsoft.WindowsAppSDK.Foundation_SelfContained` | `Microsoft.WindowsAppSDK.Foundation_Framework` |
@@ -174,12 +176,16 @@ Each component package provides targets for different deployment modes. Link aga
 | **AI** | `Microsoft.WindowsAppSDK.AI` | `Microsoft.WindowsAppSDK.AI_SelfContained` | `Microsoft.WindowsAppSDK.AI_Framework` |
 | **ML** | `Microsoft.WindowsAppSDK.ML` | `Microsoft.WindowsAppSDK.ML_SelfContained` | `Microsoft.WindowsAppSDK.ML_Framework` |
 | **WinUI** | `Microsoft.WindowsAppSDK.WinUI` | `Microsoft.WindowsAppSDK.WinUI_SelfContained` | `Microsoft.WindowsAppSDK.WinUI_Framework` |
-| **Runtime** | `Microsoft.WindowsAppSDK.Runtime` |
-| **Base** | `Microsoft.WindowsAppSDK.Base` |
+
+### Dependency Packages (not component packages)
+
+| Package | Target | Purpose |
+|---------|--------|---------|
+| **Base** | `Microsoft.WindowsAppSDK.Base` | Shared CMake infrastructure: CppWinRT projection generation, platform detection, SxS manifest transformation. Required by all component configs. |
+| **Runtime** | `Microsoft.WindowsAppSDK.Runtime` | Version info headers (`WindowsAppSDK-VersionInfo.h`). Used by Foundation for bootstrap auto-init and AppxManifest generation. |
 
 **Notes:**
-- **IXP** does not have a `_Framework` target as the base target provides what is needed — use the base target (`Microsoft.WindowsAppSDK.InteractiveExperiences`) for framework-dependent apps.
-- **Base** provides shared CMake infrastructure (CppWinRT projection, manifest generation). **Runtime** provides version info headers. Neither has deployment-mode targets.
+- **IXP** does not have a `_Framework` target — use the base target (`Microsoft.WindowsAppSDK.InteractiveExperiences`) for framework-dependent apps.
 - Self-contained apps should link `_SelfContained` targets; framework-dependent apps should link `_Framework` targets (or base target for IXP).
 
 ### Example: Self-Contained App
