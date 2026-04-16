@@ -37,7 +37,6 @@ add_nuget_packages(
     PACKAGES
         Microsoft.Windows.CppWinRT 2.0.251203.1
         Microsoft.WindowsAppSDK 2.0.0-experimental7
-        Microsoft.WindowsAppSDK.ML 2.0.324-experimental-g822de9bc0a
         Microsoft.Web.WebView2 1.0.3719.77
 )
 

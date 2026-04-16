@@ -41,7 +41,7 @@ add_nuget_packages(
         Microsoft.WindowsAppSDK.Runtime 2.0.0-experimental7
         Microsoft.WindowsAppSDK.Widgets 2.0.4-experimental
         Microsoft.WindowsAppSDK.AI 2.0.179-experimental
-        Microsoft.WindowsAppSDK.ML 2.0.325-experimental-gb234f70bbb
+        Microsoft.WindowsAppSDK.ML 2.0.325-experimental
         Microsoft.Web.WebView2 1.0.3719.77
         Microsoft.WindowsAppSDK.WinUI 2.0.10-experimental
 )

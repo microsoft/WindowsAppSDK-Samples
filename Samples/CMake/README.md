@@ -27,6 +27,12 @@ These samples demonstrate how to consume Windows App SDK NuGet packages from CMa
 
 ---
 
+## NuGet Package Sources
+
+A template `nuget.config` is included and is passed to `add_nuget_packages()` via the `CONFIG_FILE` parameter in `CMakeLists.txt`.
+
+---
+
 ## Building with Ninja
 
 ### Component Package Samples (4 apps)
