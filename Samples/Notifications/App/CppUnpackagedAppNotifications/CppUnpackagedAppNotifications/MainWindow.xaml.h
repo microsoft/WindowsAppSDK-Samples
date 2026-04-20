@@ -5,7 +5,7 @@
 #include "MainWindow.g.h"
 #include "pch.h"
 
-namespace winrt::CppUnpackagedAppNotifications::implementation
+namespace winrt::CppAppNotifications::implementation
 {
     struct MainWindow : MainWindowT<MainWindow>
     {
@@ -21,7 +21,7 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
     };
 }
 
-namespace winrt::CppUnpackagedAppNotifications::factory_implementation
+namespace winrt::CppAppNotifications::factory_implementation
 {
     struct MainWindow : MainWindowT<MainWindow, implementation::MainWindow>
     {

@@ -12,8 +12,8 @@
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
     <ProjectGuid>{ba5623de-515a-4d7e-9110-38d1641f5fe0}</ProjectGuid>
-    <ProjectName>CppUnpackagedAppNotifications</ProjectName>
-    <RootNamespace>CppUnpackagedAppNotifications</RootNamespace>
+    <ProjectName>CppAppNotifications</ProjectName>
+    <RootNamespace>CppAppNotifications</RootNamespace>
     <!--
       $(TargetName) should be same as $(RootNamespace) so that the produced binaries (.exe/.pri/etc.)
       have a name that matches the .winmd
@@ -27,7 +27,7 @@
     <WindowsPackageType>None</WindowsPackageType>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformMinVersion>10.0.22000.0</WindowsTargetPlatformMinVersion>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
