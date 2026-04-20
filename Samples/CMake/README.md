@@ -129,12 +129,13 @@ This script builds, registers, launches, and verifies all 4 deployment matrix ap
 
 ## How It Works
 
-### NuGetCMakePackage Infrastructure
+### CMake Support in Windows App SDK
 
-These samples use [NuGetCMakePackage](https://github.com/mschofie/NuGetCMakePackage), an open-source CMake module fetched via `FetchContent`. It provides:
+These samples use [NuGetCMakePackage](https://github.com/mschofie/NuGetCMakePackage), an open-source CMake module fetched via `FetchContent`. It provides `add_nuget_packages()` which downloads and restores NuGet packages at configure time. Each Windows App SDK NuGet package embeds a cmake config at `build/cmake/<package>-config.cmake` that is automatically probed via `find_package()`.
 
-- **`add_nuget_packages()`** — Downloads and restores NuGet packages at configure time. Each Windows App SDK NuGet package embeds a cmake config at `build/cmake/<package>-config.cmake` that is automatically probed.
-- **`find_package()`** — Standard CMake mechanism to load the package's cmake config, which defines targets for headers, libraries, DLLs, and WinRT projections.
+The following capabilities are provided by the Windows App SDK cmake configs embedded in each NuGet package:
+
+- **Target definitions** — Defines targets for headers, libraries, DLLs, and WinRT projections.
 - **C++/WinRT projection generation** — Runs `cppwinrt.exe` on `.winmd` files to generate C++ projection headers.
 - **SxS manifest generation** — Transforms `package.appxfragment` into activation manifests for self-contained deployment.
 - **AppxManifest generation** — `wasdk_generate_appx_manifest()` generates `AppxManifest.xml` with framework `PackageDependency` for packaged framework-dependent apps.
