@@ -93,7 +93,8 @@ namespace Shared
 
         static Ort::KeyValuePairs GetVitisAiOptions(PerformanceMode /*mode*/)
         {
-            return Ort::KeyValuePairs(nullptr);
+            Ort::KeyValuePairs options;
+            return options;
         }
 
         static Ort::KeyValuePairs GetMiGraphXOptions(PerformanceMode mode)
