@@ -11,4 +11,4 @@ var outputImageBuffer = ImageBuffer.CreateForBuffer(
             height,
             width * 3);
 
-var result = model.ScaleFrame(inputImageBuffer, outputImageBuffer, new VideoScalerOptions());
+var result = model.ScaleImageBuffer(inputImageBuffer, outputImageBuffer, null);
