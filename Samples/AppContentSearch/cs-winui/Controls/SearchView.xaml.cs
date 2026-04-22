@@ -22,6 +22,7 @@ namespace Notes.Controls
         public SearchView()
         {
             this.InitializeComponent();
+            this.Unloaded += (_, _) => ViewModel.Dispose();
         }
 
         private void HideResultsPanel()
@@ -31,7 +32,6 @@ namespace Notes.Controls
 
         private async void ResultsItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs e)
         {
-            var context = await AppDataContext.GetCurrentAsync();
             var item = e.InvokedItem as SearchResult;
 
             if (MainWindow.Instance != null && item != null)
@@ -40,8 +40,24 @@ namespace Notes.Controls
                 {
                     await MainWindow.Instance.SelectNoteById(item.SourceId);
                 }
+                else if (item.ContentType == ContentType.OcrText)
+                {
+                    if (item.AttachmentId is int attachmentId)
+                    {
+                        await MainWindow.Instance.SelectNoteById(
+                            item.SourceId,
+                            attachmentId,
+                            item.MostRelevantSentence,
+                            item.BoundingBox);
+                    }
+                    else
+                    {
+                        await MainWindow.Instance.SelectNoteById(item.SourceId);
+                    }
+                }
                 else
                 {
+                    var context = await AppDataContext.GetCurrentAsync();
                     var attachment = context.Attachments.Where(a => a.Id == item.SourceId).FirstOrDefault();
 
                     if (attachment != null)
@@ -136,6 +152,23 @@ namespace Notes.Controls
         private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             ViewModel.HandleQuerySubmitted(sender.Text);
+        }
+
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only react to user input, not programmatic changes
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                ViewModel.HandleTextChanged(sender.Text);
+            }
+        }
+
+        public void InitializeQuerySessions()
+        {
+            if (MainWindow.AppContentIndexer != null)
+            {
+                ViewModel.InitializeQuerySessions(MainWindow.AppContentIndexer, DispatcherQueue);
+            }
         }
 
         private void ItemContainer_BringIntoViewRequested(UIElement sender, BringIntoViewRequestedEventArgs args)

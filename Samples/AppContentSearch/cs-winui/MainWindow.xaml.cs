@@ -2,7 +2,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
+using Microsoft.Windows.Search.AppContentIndex;
 using Notes.Controls;
 using Notes.Pages;
 using Notes.ViewModels;
@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 
 namespace Notes
 {
@@ -20,11 +21,13 @@ namespace Notes
         private static SearchView? _searchView;
         private static MainWindow? _instance;
         private static AppContentIndexer? _appContentIndexer;
+        private static IndexCapabilitiesOfCurrentSystem? _systemCapabilities;
 
         public static ChatSessionView? ChatSessionView => _chatSessionView;
         public static SearchView? SearchView => _searchView;
         public static MainWindow? Instance => _instance;
         public static AppContentIndexer? AppContentIndexer => _appContentIndexer;
+        public static IndexCapabilitiesOfCurrentSystem? SystemCapabilities => _systemCapabilities;
 
         public ViewModel VM;
 
@@ -46,6 +49,12 @@ namespace Notes
             _chatSessionView = AppChatSessionView;
 
             VM.Notes.CollectionChanged += Notes_CollectionChanged;
+
+            this.Closed += (_, _) =>
+            {
+                _appContentIndexer?.Dispose();
+                _appContentIndexer = null;
+            };
 
             _initializeAppContentIndexerTask = InitializeAppContentIndexerAsync();
 
@@ -93,15 +102,123 @@ namespace Notes
             }
         }
 
+        private static void CheckSystemCapabilities()
+        {
+            _systemCapabilities = AppContentIndexer.GetIndexCapabilitiesOfCurrentSystem();
+
+            var capabilities = new[]
+            {
+                IndexCapability.TextLexical,
+                IndexCapability.TextSemantic,
+                IndexCapability.ImageOcr,
+                IndexCapability.ImageSemantic
+            };
+
+            foreach (var capability in capabilities)
+            {
+                var status = _systemCapabilities.GetIndexCapabilityStatus(capability);
+                Debug.WriteLine($"System capability {capability}: {status}");
+
+                if (status == IndexCapabilityOfCurrentSystemStatus.DisabledByPolicy)
+                {
+                    Debug.WriteLine($"Warning: {capability} is disabled by policy.");
+                }
+                else if (status == IndexCapabilityOfCurrentSystemStatus.NotSupported)
+                {
+                    Debug.WriteLine($"Warning: {capability} is not supported on this system.");
+                }
+            }
+        }
+
+        private void SubscribeToIndexerListener()
+        {
+            if (_appContentIndexer is null)
+            {
+                return;
+            }
+
+            var listener = _appContentIndexer.Listener;
+
+            listener.IndexCapabilitiesChanged += (sender, capabilities) =>
+            {
+                if (capabilities.HasCapabilitiesWithErrors)
+                {
+                    var errors = capabilities.GetCapabilitiesWithErrors();
+                    foreach (var cap in errors)
+                    {
+                        var state = capabilities.GetCapabilityState(cap);
+                        Debug.WriteLine($"Index capability error — {cap}: {state.InitializationStatus}, {state.ErrorMessage}");
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("All index capabilities are healthy.");
+                }
+            };
+
+            listener.IndexStatisticsChanged += (sender, stats) =>
+            {
+                Debug.WriteLine($"Index statistics changed — Items: {stats.ItemCount}, " +
+                    $"Completed: {stats.CompletedCount}, InProgress: {stats.InProgressCount}, " +
+                    $"NotStarted: {stats.NotStartedCount}, Errors: {stats.ErrorsCount}, " +
+                    $"PendingDeletion: {stats.PendingDeletionCount}, " +
+                    $"RequiringReindexing: {stats.RequiringReindexingCount}");
+
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    if (stats.IndexingInProgress)
+                    {
+                        int total = stats.ItemCount;
+                        int completed = stats.CompletedCount;
+                        if (total > 0)
+                        {
+                            double percent = (double)completed / total * 100;
+                            _searchView?.SetIndexProgressBar(percent);
+                        }
+                    }
+                    else
+                    {
+                        _searchView?.SetSearchBoxIndexingCompleted();
+                    }
+                });
+            };
+
+            listener.ContentItemStatusChanged += (sender, statusMap) =>
+            {
+                foreach (var kvp in statusMap)
+                {
+                    Debug.WriteLine($"Content item '{kvp.Key}' status: {kvp.Value.Status}, Error: {kvp.Value.ErrorDetail}");
+                }
+            };
+        }
+
+        private static void LogIndexStatistics()
+        {
+            if (_appContentIndexer is null)
+            {
+                return;
+            }
+
+            var stats = _appContentIndexer.GetIndexStatistics();
+            Debug.WriteLine($"Index statistics — Items: {stats.ItemCount}, " +
+                $"Completed: {stats.CompletedCount}, InProgress: {stats.InProgressCount}, " +
+                $"NotStarted: {stats.NotStartedCount}, Errors: {stats.ErrorsCount}, " +
+                $"PendingDeletion: {stats.PendingDeletionCount}, " +
+                $"RequiringReindexing: {stats.RequiringReindexingCount}");
+        }
+
         private async Task InitializeAppContentIndexerAsync()
         {
             GetOrCreateIndexResult? getOrCreateResult = null;
             await Task.Run(() =>
             {
-                getOrCreateResult = Microsoft.Windows.AI.Search.Experimental.AppContentIndex.AppContentIndexer.GetOrCreateIndex("NotesIndex");
+                // Pre-flight: check system-level ACI capabilities before creating an index.
+                CheckSystemCapabilities();
+
+                getOrCreateResult = AppContentIndexer.GetOrCreateIndex("NotesIndex");
                 if (getOrCreateResult == null)
                 {
-                    throw new Exception("GetOrCreateIndexResult is null");
+                    throw new InvalidOperationException("GetOrCreateIndexResult is null");
                 }
                 if (!getOrCreateResult.Succeeded)
                 {
@@ -109,12 +226,20 @@ namespace Notes
                 }
 
                 _appContentIndexer = getOrCreateResult.Indexer;
+
+                LogIndexStatistics();
             });
+
+            // Subscribe to live status updates from the indexer.
+            SubscribeToIndexerListener();
 
             DispatcherQueue.TryEnqueue(() =>
             {
                 ChatPaneToggleButton.IsEnabled = true;
                 AppSearchView.SetSearchBoxInitializingCompleted();
+
+                // Initialize query sessions for search-as-you-type.
+                AppSearchView.InitializeQuerySessions();
 
                 var status = getOrCreateResult?.Status;
 

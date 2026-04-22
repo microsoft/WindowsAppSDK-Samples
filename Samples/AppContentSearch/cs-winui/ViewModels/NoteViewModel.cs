@@ -1,15 +1,15 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
-using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
-using Notes.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.Search.AppContentIndex;
+using Notes.Models;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 
@@ -220,7 +220,7 @@ namespace Notes.ViewModels
             {
                 await Task.Run(() =>
                 {
-                    MainWindow.AppContentIndexer.Remove(Note.Id.ToString());
+                    MainWindow.AppContentIndexer.RemoveContentItem(Note.Id.ToString());
                 });
                 Debug.WriteLine($"Deleted note from index: {Note.Filename}");
             }
@@ -247,7 +247,7 @@ namespace Notes.ViewModels
             {
                 await Task.Run(() =>
                 {
-                    MainWindow.AppContentIndexer.RemoveAll();
+                    MainWindow.AppContentIndexer.RemoveAllContentItems();
                 });
                 Debug.WriteLine($"Deleted Index");
             }
@@ -327,7 +327,7 @@ namespace Notes.ViewModels
 
                 await Task.Run(() =>
                 {
-                    MainWindow.AppContentIndexer.Remove(Note.Id.ToString());
+                    MainWindow.AppContentIndexer.RemoveContentItem(Note.Id.ToString());
                 });
                 Debug.WriteLine($"Deleted note {Note.Title}");
 

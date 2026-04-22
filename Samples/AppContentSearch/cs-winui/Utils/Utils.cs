@@ -1,12 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
-using Notes.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Windows.Search.AppContentIndex;
+using Notes.ViewModels;
 using Windows.Foundation;
 using Windows.Storage;
 
@@ -56,19 +57,15 @@ namespace Notes
 
         public static async Task<List<SearchResult>> SearchAsync(AppContentIndexer appContentIndexer, string searchText, int top = 5, CancellationToken cancellationToken = default)
         {
-            var results = new List<SearchResult>();
-
             if (string.IsNullOrWhiteSpace(searchText) || appContentIndexer == null)
             {
-                return results;
+                return new List<SearchResult>();
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var context = await AppDataContext.GetCurrentAsync();
-
-            IEnumerable<AppIndexQueryMatch>? textMatches = null;
-            IEnumerable<AppIndexQueryMatch>? imageMatches = null;
+            IEnumerable<TextQueryMatch>? textMatches = null;
+            IEnumerable<ImageQueryMatch>? imageMatches = null;
             await Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -78,6 +75,14 @@ namespace Notes
                 imageMatches = imageQuery.GetNextMatches(top);
             }, cancellationToken);
 
+            return await SearchMatchesAsync(textMatches, imageMatches, cancellationToken);
+        }
+
+        public static async Task<List<SearchResult>> SearchMatchesAsync(IEnumerable<TextQueryMatch>? textMatches, IEnumerable<ImageQueryMatch>? imageMatches, CancellationToken cancellationToken = default)
+        {
+            var results = new List<SearchResult>();
+            var context = await AppDataContext.GetCurrentAsync();
+
             cancellationToken.ThrowIfCancellationRequested();
 
             if (textMatches != null)
@@ -86,46 +91,59 @@ namespace Notes
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    int matchcontentId = int.Parse(match.ContentId);
-                    var note = await context.Notes.FindAsync(matchcontentId);
-
-                    if (note != null && note.Filename != null)
+                    SearchResult? ocrResult = await TryCreateOcrSearchResultAsync(match, context, cancellationToken);
+                    if (ocrResult != null)
                     {
+                        results.Add(ocrResult);
+                        continue;
+                    }
+
+                    if (match is AppManagedTextQueryMatch textMatch)
+                    {
+                        if (!int.TryParse(match.ContentId, out int noteId))
+                        {
+                            Debug.WriteLine($"Skipping text match with non-integer content ID: {match.ContentId}");
+                            continue;
+                        }
+
+                        var note = await context.Notes.FindAsync(noteId);
+                        if (note == null || note.Filename == null)
+                        {
+                            continue;
+                        }
+
                         Debug.WriteLine($"Text match: {note.Filename}");
 
-                        AppManagedTextQueryMatch? textMatch = match as AppManagedTextQueryMatch;
+                        string matchingData = await NoteViewModel.LoadTextContentByIdAsync(note.Filename);
 
-                        if (textMatch != null)
+                        int textOffset = Math.Max(0, Math.Min(textMatch.TextOffset, matchingData.Length));
+                        int remainingLength = matchingData.Length - textOffset;
+
+                        if (remainingLength <= 0)
                         {
-                            string matchingData = await NoteViewModel.LoadTextContentByIdAsync(note.Filename);
-
-                            int textOffset = Math.Max(0, Math.Min(textMatch.TextOffset, matchingData.Length));
-                            int remainingLength = matchingData.Length - textOffset;
-
-                            if (remainingLength > 0)
-                            {
-                                int substringLength = Math.Min(500, remainingLength);
-                                string matchingString = matchingData.Substring(textOffset, substringLength);
-                                var attachmentsFolder = await GetAttachmentsFolderAsync();
-                                var searchResult = new SearchResult
-                                {
-                                    Content = matchingString,
-                                    ContentType = ContentType.Note,
-                                    ContentSubType = ContentSubType.None,
-                                    SourceId = note.Id,
-                                    Title = note.Title,
-                                    MostRelevantSentence = matchingString,
-                                    Path = attachmentsFolder.Path + "\\" + note.Filename
-                                };
-
-                                results.Add(searchResult);
-                            }
-                            else
-                            {
-                                Debug.WriteLine($"Skipping match with invalid TextOffset: {textMatch.TextOffset} for content length: {matchingData.Length}");
-                            }
+                            Debug.WriteLine($"Skipping match with invalid TextOffset: {textMatch.TextOffset} for content length: {matchingData.Length}");
+                            continue;
                         }
+
+                        int substringLength = Math.Min(500, remainingLength);
+                        string matchingString = matchingData.Substring(textOffset, substringLength);
+                        var notesFolder = await GetLocalFolderAsync();
+                        var textResult = new SearchResult
+                        {
+                            Content = matchingString,
+                            ContentType = ContentType.Note,
+                            ContentSubType = ContentSubType.None,
+                            SourceId = note.Id,
+                            Title = note.Title,
+                            MostRelevantSentence = matchingString,
+                            Path = notesFolder.Path + "\\" + note.Filename
+                        };
+
+                        results.Add(textResult);
+                        continue;
                     }
+
+                    Debug.WriteLine($"Skipping unsupported text match type: {match.GetType().Name}");
                 }
             }
             else
@@ -141,7 +159,12 @@ namespace Notes
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    int matchContentId = int.Parse(match.ContentId);
+                    if (!int.TryParse(match.ContentId, out int matchContentId))
+                    {
+                        Debug.WriteLine($"Skipping image match with non-integer content ID: {match.ContentId}");
+                        continue;
+                    }
+
                     var image = await context.Attachments.FindAsync(matchContentId);
 
                     if (image != null)
@@ -149,7 +172,7 @@ namespace Notes
                         AppManagedImageQueryMatch? imageMatch = match as AppManagedImageQueryMatch;
                         if (imageMatch != null)
                         {
-                            Debug.WriteLine($"Image match: {imageMatch.ContentId}, Subregion: {imageMatch.Subregion}");
+                            Debug.WriteLine($"Image match: {imageMatch.ContentId}, Region of interest: {imageMatch.RegionOfInterest}");
                             var searchResult = new SearchResult
                             {
                                 ContentType = ContentType.Image,
@@ -184,18 +207,18 @@ namespace Notes
                             var attachmentsFolder = await GetAttachmentsFolderAsync();
                             searchResult.Path = attachmentsFolder.Path + "\\" + image.RelativePath;
 
-                            // Capture bounding box if present (Subregion is IReference<Rect>)
+                            // Capture bounding box if present (Region of interest is IReference<Rect>)
                             try
                             {
-                                if (imageMatch.Subregion != null)
+                                if (imageMatch.RegionOfInterest != null)
                                 {
-                                    var rect = imageMatch.Subregion.Value;
+                                    var rect = imageMatch.RegionOfInterest.Value;
                                     searchResult.BoundingBox = rect;
                                 }
                             }
                             catch (Exception ex)
                             {
-                                Debug.WriteLine("Failed to read image Subregion: " + ex.Message);
+                                Debug.WriteLine("Failed to read image Region of interest: " + ex.Message);
                             }
                             results.Add(searchResult);
                         }
@@ -206,7 +229,70 @@ namespace Notes
             {
                 Debug.WriteLine("ImageMatches is null");
             }
+
             return results;
+        }
+
+        private static async Task<SearchResult?> TryCreateOcrSearchResultAsync(TextQueryMatch match, AppDataContext context, CancellationToken cancellationToken)
+        {
+            if (!string.Equals(match.GetType().Name, "AppManagedOcrTextQueryMatch", StringComparison.Ordinal))
+            {
+                return null;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (!int.TryParse(match.ContentId, out int attachmentId))
+            {
+                Debug.WriteLine($"Skipping OCR match with non-integer content ID: {match.ContentId}");
+                return null;
+            }
+
+            var attachment = await context.Attachments.FindAsync(attachmentId);
+            if (attachment == null)
+            {
+                Debug.WriteLine($"Skipping OCR match; attachment not found for content ID: {attachmentId}");
+                return null;
+            }
+
+            var note = await context.Notes.FindAsync(attachment.NoteId);
+            if (note == null)
+            {
+                Debug.WriteLine($"Skipping OCR match; note not found for attachment ID: {attachmentId}");
+                return null;
+            }
+
+            string fragment = match.GetType().GetProperty("Fragment")?.GetValue(match) as string ?? string.Empty;
+            Rect? subregion = GetMatchSubregion(match);
+            Debug.WriteLine($"OCR text match: contentId={match.ContentId}, fragment='{fragment}', Subregion={subregion}");
+
+            var attachmentsFolder = await GetAttachmentsFolderAsync();
+            return new SearchResult
+            {
+                Content = fragment,
+                ContentType = ContentType.OcrText,
+                ContentSubType = ContentSubType.None,
+                SourceId = note.Id,
+                AttachmentId = attachment.Id,
+                Title = note.Title + " (OCR)",
+                MostRelevantSentence = fragment,
+                Path = attachmentsFolder.Path + "\\" + attachment.RelativePath,
+                BoundingBox = subregion
+            };
+        }
+
+        private static Rect? GetMatchSubregion(TextQueryMatch match)
+        {
+            try
+            {
+                object? subregion = match.GetType().GetProperty("Subregion")?.GetValue(match);
+                return subregion is Rect rect ? rect : null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Failed to read OCR Subregion: " + ex.Message);
+                return null;
+            }
         }
     }
 
@@ -218,6 +304,7 @@ namespace Notes
         public string? MostRelevantSentence { get; set; }
         public string? Path { get; set; }
         public int SourceId { get; set; }
+        public int? AttachmentId { get; set; }
         public ContentType ContentType { get; set; }
         public ContentSubType ContentSubType { get; set; }
         public Rect? BoundingBox { get; set; }
@@ -231,6 +318,7 @@ namespace Notes
                 ContentType.Audio => "🎙️",
                 ContentType.Video => "🎞️",
                 ContentType.Document => "📄",
+                ContentType.OcrText => "🔍",
                 _ => throw new NotImplementedException()
             };
         }
@@ -256,6 +344,7 @@ namespace Notes
         Video = 2,
         Document = 3,
         Note = 4,
+        OcrText = 5,
     }
 
     public enum ContentSubType
