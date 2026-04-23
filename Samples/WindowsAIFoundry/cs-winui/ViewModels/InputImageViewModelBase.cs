@@ -3,12 +3,12 @@
 
 using WindowsAISample.Models.Contracts;
 using WindowsAISample.Util;
+using Microsoft.Windows.Storage.Pickers;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Graphics.Imaging;
-using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using WinRT.Interop;
 
@@ -48,18 +48,20 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
 
         _pickInputImageCommand = new(async _ =>
         {
-            var picker = new FileOpenPicker();
-            var window = App.Window;
-            var hwnd = WindowNative.GetWindowHandle(window);
-            InitializeWithWindow.Initialize(picker, hwnd);
+            var picker = new FileOpenPicker(App.window.Id)
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter = { ".jpg", ".jpeg", ".png" },
+            };
 
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
+            var result = await picker.PickSingleFileAsync();
+            if (result == null)
+            {
+                return false;
+            }
 
-            var file = await picker.PickSingleFileAsync();
+            var file = await StorageFile.CreateFromPathAsync(result.Path);
             if (file != null)
             {
                 using (IRandomAccessStream readStream = await file.OpenReadAsync())
@@ -79,18 +81,20 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
 
         _pickMaskImageCommand = new(async _ =>
         {
-            var picker = new FileOpenPicker();
-            var window = App.Window;
-            var hwnd = WindowNative.GetWindowHandle(window);
-            InitializeWithWindow.Initialize(picker, hwnd);
+            var picker = new FileOpenPicker(App.Windows.Id)
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter = { ".jpg", ".jpeg", ".png" },
+            };
 
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
+            var result = await picker.PickSingleFileAsync();
+            if (result == null)
+            {
+                return false;
+            }
 
-            var file = await picker.PickSingleFileAsync();
+            var file = await StorageFile.CreateFromPathAsync(result.Path);
             if (file != null)
             {
                 using (IRandomAccessStream readStream = await file.OpenReadAsync())
