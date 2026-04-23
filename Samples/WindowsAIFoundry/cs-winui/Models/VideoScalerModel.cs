@@ -67,8 +67,8 @@ internal class VideoScalerModel : IModelManager
             inputFrame.PixelWidth,
             inputFrame.PixelHeight,
             inputFrame.PixelWidth * 3);
-        var result = Session.ScaleFrame(inputImageBuffer, outputImageBuffer, new VideoScalerOptions());
-        if (result.Status != ScaleFrameStatus.Success)
+        var result = Session.ScaleImageBuffer(inputImageBuffer, outputImageBuffer, null);
+        if (result.Status != VideoScalerStatus.Success)
         {
             throw new Exception($"Failed to scale video frame: {result.Status}");
         }
