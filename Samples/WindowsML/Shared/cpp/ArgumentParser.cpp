@@ -65,13 +65,10 @@ namespace Shared
             {
                 options.ep_policy = OrtExecutionProviderDevicePolicy_DEFAULT;
             }
-            else if (policy_str == L"DISABLE")
-            {
-                options.ep_policy = std::nullopt;
-            }
             else
             {
-                std::wcout << L"Unknown EP policy: " << policy_str << L", using default (DISABLE)\n";
+                std::wcout << L"Unknown EP policy: " << policy_str << L". Valid values are: NPU, CPU, GPU, DEFAULT\n";
+                throw std::invalid_argument("Unknown EP policy value");
             }
         }
         else if (arguments[i] == L"--perf_mode" && i + 1 < arguments.size())
@@ -183,7 +180,7 @@ namespace Shared
     {
         std::wcout << L"Usage: Application.exe [options]\n"
                    << L"Options:\n"
-                   << L"  --ep_policy <policy>          Set execution provider selection policy (NPU, CPU, GPU, DEFAULT, DISABLE)\n"
+                   << L"  --ep_policy <policy>          Set execution provider selection policy (NPU, CPU, GPU, DEFAULT)\n"
                    << L"  --ep_name <name>              Explicit execution provider name (mutually exclusive with --ep_policy)\n"
                    << L"  --device_type <type>          Device type for OpenVINOExecutionProvider (NPU, GPU, CPU) when multiple present\n"
                    << L"  --perf_mode <mode>            Set EP performance mode (MAX_PERFORMANCE, MAX_EFFICIENCY, DEFAULT)\n"

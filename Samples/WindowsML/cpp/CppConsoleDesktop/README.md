@@ -11,7 +11,7 @@ This sample demonstrates how to use ONNX Runtime in a C++ desktop application, f
 ```
 CppConsoleDesktop.exe [options]
 Options:
-  --ep_policy <policy>  Set execution provider policy (NPU, CPU, GPU, DEFAULT, DISABLE). Default: DISABLE
+  --ep_policy <policy>  Set execution provider policy (NPU, CPU, GPU, DEFAULT)
   --compile            Compile the model
   --download           Download required packages
   --model <path>       Path to input ONNX model (default: SqueezeNet.onnx in executable directory)
