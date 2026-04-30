@@ -15,7 +15,7 @@ Options:
   --compile                     Compile the model
   --download                    Download required packages
   --model <path>                Path to input ONNX model (default: SqueezeNet.onnx in executable directory)
-  --compiled_output <path>      Path for compiled output model (default: SqueezeNet_ctx.onnx)
+  --compiled_output <path>      Path for compiled output model (default: auto-generated with device info)
   --image_path <path>           Path to the input image (default: sample kitten image)
 ```
 
@@ -80,7 +80,14 @@ foreach (KeyValuePair<string, List<OrtEpDevice>> epGroup in epDeviceMap)
 
 ### 2. Model Compilation
 
-The sample shows how to compile an ONNX model for optimized execution:
+The sample shows how to compile an ONNX model for optimized execution. Compiled model filenames
+are automatically generated with device-specific identifiers to prevent collisions:
+
+- Policy mode: `SqueezeNet_ctx_PREFER_GPU.onnx`
+- Explicit EP: `SqueezeNet_ctx_DML_GPU.onnx`
+- With perf mode: `SqueezeNet_ctx_PREFER_NPU_MaxPerformance.onnx`
+
+Use `--compiled_output` to override with a custom path.
 
 ```csharp
 // Create compilation options from session options

@@ -110,7 +110,7 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
         std::vector<std::string> labels = ModelManager::LoadLabels(labelsPath);
 
         std::filesystem::path outputPath =
-            options.output_path.empty() ? executableFolder / L"SqueezeNet_ctx.onnx" : std::filesystem::path(options.output_path);
+            ModelManager::GenerateCompiledModelPath(modelPath, executableFolder, options, env);
 
         std::filesystem::path imagePath =
             options.image_path.empty() ? executableFolder / L"image.png" : std::filesystem::path(options.image_path);
