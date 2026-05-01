@@ -115,7 +115,7 @@ namespace WindowsML.Shared
         /// Encodes EP policy/name, device type, and performance mode into the filename
         /// so that compiled models for different device configurations don't collide.
         /// </summary>
-        public static string GenerateCompiledModelPath(string modelPath, string executableFolder, Options options, OrtEnv? ortEnv = null)
+        public static string GenerateCompiledModelPath(string modelPath, string executableFolder, Options options)
         {
             // If user explicitly specified --compiled_output, use it as-is
             if (!string.IsNullOrEmpty(options.OutputPath))
@@ -125,7 +125,7 @@ namespace WindowsML.Shared
             }
 
             string baseName = Path.GetFileNameWithoutExtension(modelPath);
-            string suffix = BuildDeviceSuffix(options, ortEnv);
+            string suffix = BuildDeviceSuffix(options);
 
             string fileName = $"{baseName}_ctx{suffix}.onnx";
             Console.WriteLine($"Compiled model path: {Path.Combine(executableFolder, fileName)}");
@@ -135,7 +135,7 @@ namespace WindowsML.Shared
         /// <summary>
         /// Build a device-identifying suffix for the compiled model filename.
         /// </summary>
-        private static string BuildDeviceSuffix(Options options, OrtEnv? ortEnv)
+        private static string BuildDeviceSuffix(Options options)
         {
             var parts = new List<string>();
 
@@ -246,7 +246,7 @@ namespace WindowsML.Shared
                 modelPath = GetModelVariantPath(executableFolder, variant);
             }
 
-            string compiledModelPath = GenerateCompiledModelPath(modelPath, executableFolder, options, ortEnv);
+            string compiledModelPath = GenerateCompiledModelPath(modelPath, executableFolder, options);
 
             if (!File.Exists(labelsPath))
             {

@@ -110,7 +110,7 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
         std::vector<std::string> labels = ModelManager::LoadLabels(labelsPath);
 
         std::filesystem::path outputPath =
-            ModelManager::GenerateCompiledModelPath(modelPath, executableFolder, options, env);
+            ModelManager::GenerateCompiledModelPath(modelPath, executableFolder, options);
 
         std::filesystem::path imagePath =
             options.image_path.empty() ? executableFolder / L"image.png" : std::filesystem::path(options.image_path);

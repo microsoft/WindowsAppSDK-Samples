@@ -256,8 +256,7 @@ namespace Shared
     std::filesystem::path ModelManager::GenerateCompiledModelPath(
         const std::filesystem::path& modelPath,
         const std::filesystem::path& executableFolder,
-        const CommandLineOptions& options,
-        Ort::Env& env)
+        const CommandLineOptions& options)
     {
         // If user explicitly specified --compiled_output, use it as-is
         if (!options.output_path.empty())

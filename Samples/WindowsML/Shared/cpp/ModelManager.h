@@ -62,8 +62,7 @@ namespace Shared
         static std::filesystem::path GenerateCompiledModelPath(
             const std::filesystem::path& modelPath,
             const std::filesystem::path& executableFolder,
-            const CommandLineOptions& options,
-            Ort::Env& env);
+            const CommandLineOptions& options);
 
         /// <summary>
         /// Get model path for specified variant
