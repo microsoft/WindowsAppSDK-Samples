@@ -111,6 +111,60 @@ namespace WindowsML.Shared
         }
 
         /// <summary>
+        /// Generate a device-specific compiled model path.
+        /// Encodes EP policy/name, device type, and performance mode into the filename
+        /// so that compiled models for different device configurations don't collide.
+        /// </summary>
+        public static string GenerateCompiledModelPath(string modelPath, string executableFolder, Options options)
+        {
+            // If user explicitly specified --compiled_output, use it as-is
+            if (!string.IsNullOrEmpty(options.OutputPath))
+            {
+                return options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
+                    options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
+            }
+
+            string baseName = Path.GetFileNameWithoutExtension(modelPath);
+            string suffix = BuildDeviceSuffix(options);
+
+            string fileName = $"{baseName}_ctx{suffix}.onnx";
+            Console.WriteLine($"Compiled model path: {Path.Combine(executableFolder, fileName)}");
+            return Path.Combine(executableFolder, fileName);
+        }
+
+        /// <summary>
+        /// Build a device-identifying suffix for the compiled model filename.
+        /// </summary>
+        private static string BuildDeviceSuffix(Options options)
+        {
+            var parts = new List<string>();
+
+            if (options.EpPolicy.HasValue)
+            {
+                parts.Add(options.EpPolicy.Value.ToString());
+            }
+            else if (!string.IsNullOrEmpty(options.EpName))
+            {
+                parts.Add(options.EpName);
+
+                // Try to determine device type
+                string? deviceType = options.DeviceType;
+
+                if (!string.IsNullOrEmpty(deviceType))
+                {
+                    parts.Add(deviceType);
+                }
+            }
+
+            if (options.PerfMode != PerformanceMode.Default)
+            {
+                parts.Add(options.PerfMode.ToString());
+            }
+
+            return parts.Count > 0 ? "_" + string.Join("_", parts) : "";
+        }
+
+        /// <summary>
         /// Resolve model paths with intelligent variant selection
         /// </summary>
         public static async Task<(string modelPath, string compiledModelPath, string labelsPath)> ResolvePaths(Options options, OrtEnv ortEnv)
@@ -192,8 +246,7 @@ namespace WindowsML.Shared
                 modelPath = GetModelVariantPath(executableFolder, variant);
             }
 
-            string compiledModelPath = options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
-                options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
+            string compiledModelPath = GenerateCompiledModelPath(modelPath, executableFolder, options);
 
             if (!File.Exists(labelsPath))
             {
@@ -225,8 +278,7 @@ namespace WindowsML.Shared
                 modelPath = GetModelVariantPath(executableFolder, options.Variant);
             }
 
-            string compiledModelPath = options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
-                options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
+            string compiledModelPath = GenerateCompiledModelPath(modelPath, executableFolder, options);
 
             string labelsPath = Path.Combine(executableFolder, "SqueezeNet.Labels.txt");
 

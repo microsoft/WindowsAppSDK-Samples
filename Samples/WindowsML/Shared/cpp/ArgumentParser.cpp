@@ -191,7 +191,7 @@ namespace Shared
                    << L"  --download                    Download required packages\n"
                    << L"  --use_model_catalog           Use the model catalog for model selection\n"
                    << L"  --model <path>                Path to the input ONNX model (default: SqueezeNet.onnx in executable directory)\n"
-                   << L"  --compiled_output <path>      Path for compiled output model (default: SqueezeNet_ctx.onnx)\n"
+                   << L"  --compiled_output <path>      Path for compiled output model (default: auto-generated with device info)\n"
                    << L"  --image_path <path>           Path to the input image (default: sample kitten image)\n"
                    << L"\n"
                    << L"Exactly one of --ep_policy or --ep_name must be specified.\n"

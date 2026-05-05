@@ -42,6 +42,7 @@ namespace WindowsML.Shared
                     if (allowDownload || readyState != ExecutionProviderReadyState.NotPresent)
                     {
                         await provider.EnsureReadyAsync();
+                        Console.WriteLine($"  Updated Ready state: {provider.ReadyState}");
                     }
 
                     provider.TryRegister();

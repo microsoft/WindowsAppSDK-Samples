@@ -38,7 +38,7 @@ namespace WindowsML.Shared
         public bool Download { get; set; } = false;
         public bool UseModelCatalog { get; set; } = false;
         public string ModelPath { get; set; } = string.Empty;
-        public string OutputPath { get; set; } = "SqueezeNet_ctx.onnx";
+        public string OutputPath { get; set; } = string.Empty;
         public string ImagePath { get; set; } = string.Empty;
         public ModelVariant Variant { get; set; } = ModelVariant.Default;
         public PerformanceMode PerfMode { get; set; } = PerformanceMode.Default;
@@ -221,7 +221,7 @@ namespace WindowsML.Shared
             Console.WriteLine("  --download                  Download required packages");
             Console.WriteLine("  --use_model_catalog         Use the model catalog for model discovery");
             Console.WriteLine("  --model <path>              Path to input ONNX model (default: SqueezeNet.onnx)");
-            Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: SqueezeNet_ctx.onnx)");
+            Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: auto-generated with device info)");
             Console.WriteLine("  --image_path <path>         Path to the input image (default: sample kitten image)");
             Console.WriteLine("  --help, -h                  Display this help message");
             Console.WriteLine();
