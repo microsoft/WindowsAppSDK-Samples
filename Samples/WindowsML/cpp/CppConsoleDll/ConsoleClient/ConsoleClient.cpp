@@ -4,9 +4,9 @@
 #include <windows.h>
 #include <iostream>
 
-// Function pointer type for the DLL exports
-typedef char*(__stdcall* GetOrtVersionStringFunc)();
-typedef char*(__stdcall* GetTestMessageFunc)();
+// Function pointer types for the DLL exports
+typedef char*(*GetOrtVersionStringFunc)();
+typedef char*(*GetTestMessageFunc)();
 
 int main()
 {
@@ -18,17 +18,32 @@ int main()
     }
 
     // Get function pointers
+    GetTestMessageFunc getTestMessage = (GetTestMessageFunc)GetProcAddress(hDll, "GetTestMessage");
     GetOrtVersionStringFunc getOrtVersionString = (GetOrtVersionStringFunc)GetProcAddress(hDll, "GetOrtVersionString");
-    if (getOrtVersionString == nullptr)
+
+    if (getTestMessage == nullptr || getOrtVersionString == nullptr)
     {
-        std::wcout << L"Failed to get GetOrtVersionString function from DLL" << std::endl;
+        std::wcout << L"Failed to get function pointers from DLL" << std::endl;
         FreeLibrary(hDll);
         return 1;
     }
 
     try
     {
-        // Call ONNX Runtime version function
+        // Call GetTestMessage - verifies the ORT runtime initializes correctly
+        std::wcout << L"Calling GetTestMessage from DLL..." << std::endl;
+        char* testMsg = getTestMessage();
+        if (testMsg != nullptr)
+        {
+            std::wcout << L"Test message: " << testMsg << std::endl;
+            CoTaskMemFree(testMsg); // Clean up string allocated by DLL
+        }
+        else
+        {
+            std::wcout << L"GetTestMessage returned null" << std::endl;
+        }
+
+        // Call GetOrtVersionString - demonstrates ORT C API via DLL
         std::wcout << L"Calling GetOrtVersionString from DLL..." << std::endl;
         char* versionString = getOrtVersionString();
         if (versionString != nullptr)
@@ -48,6 +63,7 @@ int main()
         return 1;
     }
 
+    std::wcout << L"DLL functions called successfully!" << std::endl;
     FreeLibrary(hDll);
     return 0;
 }
