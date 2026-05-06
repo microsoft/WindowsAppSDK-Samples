@@ -8,16 +8,32 @@ namespace WindowsML.Shared
 {
     public static class PerformanceConfigurator
     {
+        /// <summary>
+        /// Returns EP-specific session options for the given execution provider name.
+        ///
+        /// The string literals below come from two sources that may use different names
+        /// for the same provider:
+        ///   1. ORT runtime — OrtEpDevice.EpName returned by ExecutionProviderCatalog.FindAllProviders()
+        ///   2. Model catalog JSON — the "executionProviders[].name" field in files like
+        ///      Resources/SqueezeNetModelCatalog.json
+        ///
+        /// When a provider appears under different names in these two sources, both forms
+        /// must be listed here so the lookup succeeds regardless of which name is passed in.
+        /// If a new EP is added to the ORT runtime or the catalog introduces an alias,
+        /// a corresponding entry should be added below.
+        /// </summary>
         public static Dictionary<string, string> GetEpOptions(string epName, PerformanceMode mode)
         {
             string normalized = (epName ?? string.Empty).Trim().ToUpperInvariant();
             return normalized switch
             {
-                "OPENVINOEXECUTIONPROVIDER" => GetOpenVinoOptions(mode),
-                "QNNEXECUTIONPROVIDER" => GetQnnOptions(mode),
-                "VITISAIEXECUTIONPROVIDER" => GetVitisAiOptions(mode),
-                "MIGRAPHXEXECUTIONPROVIDER" => GetMiGraphxOptions(mode),
-                "TENSORRTRTXEXECUTIONPROVIDER" => GetTensorRtRtxOptions(mode),
+                "OPENVINOEXECUTIONPROVIDER" => GetOpenVinoOptions(mode),           // ORT runtime name
+                "QNNEXECUTIONPROVIDER" => GetQnnOptions(mode),                     // ORT runtime name
+                "VITISAIEXECUTIONPROVIDER" => GetVitisAiOptions(mode),             // ORT runtime name
+                "MIGRAPHXEXECUTIONPROVIDER" => GetMiGraphxOptions(mode),           // ORT runtime name
+                "TENSORRTRTXEXECUTIONPROVIDER"                                     // ORT runtime name
+                    or "NVTENSORRTRTXEXECUTIONPROVIDER"                            // catalog JSON name (SqueezeNetModelCatalog.json)
+                    => GetTensorRtRtxOptions(mode),
                 _ => new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             };
         }
