@@ -75,12 +75,9 @@ namespace WindowsML.Shared
                                 case "DEFAULT":
                                     options.EpPolicy = ExecutionProviderDevicePolicy.DEFAULT;
                                     break;
-                                case "DISABLE":
-                                    options.EpPolicy = null;
-                                    break;
                                 default:
-                                    Console.WriteLine($"Unknown EP policy: {policyStr}, using default (DISABLE)");
-                                    options.EpPolicy = null;
+                                    Console.WriteLine($"Unknown EP policy: {policyStr}, using default (DEFAULT)");
+                                    options.EpPolicy = ExecutionProviderDevicePolicy.DEFAULT;
                                     break;
                             }
                         }
@@ -213,7 +210,7 @@ namespace WindowsML.Shared
         public static void PrintHelp()
         {
             Console.WriteLine("Options:");
-            Console.WriteLine("  --ep_policy <policy>        Set execution provider policy (NPU, CPU, GPU, DEFAULT, DISABLE)");
+            Console.WriteLine("  --ep_policy <policy>        Set execution provider policy (NPU, CPU, GPU, DEFAULT)");
             Console.WriteLine("  --ep_name <name>            Explicit execution provider name (mutually exclusive with --ep_policy)");
             Console.WriteLine("  --device_type <type>        Optional hardware device type to use when EP supports multiple (e.g. CPU, GPU, NPU)");
             Console.WriteLine("  --perf_mode <mode>          Set EP performance mode (MAX_PERFORMANCE, MAX_EFFICIENCY, DEFAULT)");
