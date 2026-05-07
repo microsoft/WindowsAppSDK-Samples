@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+#if WINAPPSDK_EXPERIMENTAL
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.MachineLearning;
@@ -76,3 +77,4 @@ internal class VideoScalerModel : IModelManager
         return outputImageBuffer.ConvertBgr8ImageBufferToBgra8SoftwareBitmap();
     }
 }
+#endif

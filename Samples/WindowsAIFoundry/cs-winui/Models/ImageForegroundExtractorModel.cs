@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+#if WINAPPSDK_EXPERIMENTAL
 using WindowsAISample.Models.Contracts;
 using System;
 using System.Threading;
@@ -37,3 +38,4 @@ class ImageForegroundExtractorModel : IModelManager
         return extractor.GetMaskFromSoftwareBitmap(inputImage);
     }
 }
+#endif

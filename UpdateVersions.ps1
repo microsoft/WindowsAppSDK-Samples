@@ -104,8 +104,26 @@ Get-ChildItem -Recurse Directory.Packages.props -Path $PSScriptRoot | foreach-ob
         $newVersionString = 'PackageVersion Include="' + $nugetPackageToVersion.Key + '" Version="' + $nugetPackageToVersion.Value + '"'
         $oldVersionString = 'PackageVersion Include="' + $nugetPackageToVersion.Key + '" Version="[-.0-9a-zA-Z]*"'
         $content = $content -replace $oldVersionString, $newVersionString
+
+        # Also handle PackageVersion Update= (used by sub-directory overrides)
+        $newUpdateString = 'PackageVersion Update="' + $nugetPackageToVersion.Key + '" Version="' + $nugetPackageToVersion.Value + '"'
+        $oldUpdateString = 'PackageVersion Update="' + $nugetPackageToVersion.Key + '" Version="[-.0-9a-zA-Z]*"'
+        $content = $content -replace $oldUpdateString, $newUpdateString
     }
 
     Set-Content -Path $_.FullName -Value $content
     Write-Host "Modified " $_.FullName 
+}
+
+# Derive UseExperimentalWinAppSDK switch from the main package version.
+# Match 'experimental' anywhere in the prerelease tag (covers -experimental, -ci.experimental, etc.)
+$isExperimental = $WinAppSDKVersion -match 'experimental'
+$switchValue = if ($isExperimental) { 'true' } else { 'false' }
+
+$directoryBuildPropsPath = Join-Path $PSScriptRoot "Samples\Directory.Build.props"
+if (Test-Path $directoryBuildPropsPath) {
+    $content = Get-Content $directoryBuildPropsPath -Raw
+    $content = $content -replace '(<UseExperimentalWinAppSDK[^>]*>)(true|false)(</UseExperimentalWinAppSDK>)', "`${1}$switchValue`${3}"
+    Set-Content -Path $directoryBuildPropsPath -Value $content
+    Write-Host "Set UseExperimentalWinAppSDK=$switchValue in $directoryBuildPropsPath"
 }

@@ -25,4 +25,17 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Restore" Properties="RestoreInProgress=true" BuildInParallel="false" />
   </Target>
 
+  <!-- Validate that package versions and UseExperimentalWinAppSDK switch are consistent.
+       Catches cases where a user changes the version but forgets to run UpdateVersions.ps1. -->
+  <Target Name="_ValidateExperimentalConsistency" BeforeTargets="BeforeCompile"
+          Condition="'$(ManagePackageVersionsCentrally)' == 'true'">
+    <PropertyGroup>
+      <_WinAppSDKPackageVersion>%(PackageReference.Version)</_WinAppSDKPackageVersion>
+      <_WinAppSDKPackageVersion Condition="'%(PackageReference.Identity)' != 'Microsoft.WindowsAppSDK'"></_WinAppSDKPackageVersion>
+    </PropertyGroup>
+    <Error
+      Condition="'$(_WinAppSDKPackageVersion)' != '' AND $(_WinAppSDKPackageVersion.Contains('-experimental')) AND '$(UseExperimentalWinAppSDK)' != 'true'"
+      Text="WindowsAppSDK package version '$(_WinAppSDKPackageVersion)' is experimental, but UseExperimentalWinAppSDK is not 'true'. Run UpdateVersions.ps1 or set the switch manually." />
+  </Target>
+
 </Project>

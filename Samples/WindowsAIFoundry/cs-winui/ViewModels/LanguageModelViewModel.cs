@@ -22,8 +22,6 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
     private string? _textIntelligencePrompt;
     private string? _embeddingPrompt;
     private string? _context;
-    private string? _adapterFilePath;
-    private string? _loraPrompt;
 
     // LanguageModelOptions
     //private LanguageModelSkill _languageModelOptionsSkill = LanguageModelSkill.General;
@@ -53,15 +51,18 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
     private readonly AsyncCommand<string, LanguageModelEmbeddingVectorResult> _generateEmbeddingVectorCommand;
 
+#if WINAPPSDK_EXPERIMENTAL
+    private string? _adapterFilePath;
+    private string? _loraPrompt;
     private readonly AsyncCommand<object, bool> _pickInputAdapterCommand;
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithLoRACommand;
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithoutLoRACommand;
+    private readonly StringBuilder _responseProgressWithLoRA = new();
+    private readonly StringBuilder _responseProgressWithoutLoRA = new();
+#endif
 
     private readonly StringBuilder _responseProgress = new();
     private readonly StringBuilder _responseProgressTextIntelligence = new();
-
-    private readonly StringBuilder _responseProgressWithLoRA = new();
-    private readonly StringBuilder _responseProgressWithoutLoRA = new();
 
     public ObservableCollection<SeverityLevel> ContentFilterSeverityLevels { get; } = new ObservableCollection<SeverityLevel> {
         SeverityLevel.Minimum,
@@ -180,6 +181,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
             },
             (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
 
+#if WINAPPSDK_EXPERIMENTAL
         // GenerateResponseWithLoRA
         _generateResponseWithLoRACommand = new(
             prompt =>
@@ -240,12 +242,16 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
         },
         _ => true);
+#endif
     }
 
     public string ResponseProgress => _responseProgress.ToString();
     public string ResponseProgressTextIntelligence => _responseProgressTextIntelligence.ToString();
+
+#if WINAPPSDK_EXPERIMENTAL
     public string ResponseProgressWithLoRA => _responseProgressWithLoRA.ToString();
     public string ResponseProgressWithoutLoRA => _responseProgressWithoutLoRA.ToString();
+#endif
 
 
     public string? Prompt
@@ -273,11 +279,13 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         }
     }
 
+#if WINAPPSDK_EXPERIMENTAL
     public string? LoRAPrompt
     {
         get => _loraPrompt;
         set => SetField(ref _loraPrompt, value);
     }
+#endif
 
     public string? Context
     {
@@ -285,11 +293,13 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         set => SetField(ref _context, value);
     }
 
+#if WINAPPSDK_EXPERIMENTAL
     public string? AdapterFilePath
     {
         get => _adapterFilePath;
         set => SetField(ref _adapterFilePath, value);
     }
+#endif
 
     //public LanguageModelSkill LanguageModelOptionsSkill
     //{
@@ -376,10 +386,11 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
     public ICommand GenerateResponseWithContextProgressCommand => _generateResponseWithContextProgressCommand;
 
+#if WINAPPSDK_EXPERIMENTAL
     public ICommand GenerateResponseWithLoRACommand => _generateResponseWithLoRACommand;
     public ICommand GenerateResponseWithoutLoRACommand => _generateResponseWithoutLoRACommand;
-
     public ICommand PickInputAdapterCommand => _pickInputAdapterCommand;
+#endif
 
     /// <summary>
     /// Exercise the GenerateEmbeddingVector method API for a language model session
@@ -408,6 +419,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         DispatchPropertyChanged(nameof(ResponseProgressTextIntelligence));
     }
 
+#if WINAPPSDK_EXPERIMENTAL
     private void OnResultProgressWithLoRA(object? sender, string progress)
     {
         _responseProgressWithLoRA.Append(progress);
@@ -419,6 +431,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         _responseProgressWithoutLoRA.Append(progress);
         DispatchPropertyChanged(nameof(ResponseProgressWithoutLoRA));
     }
+#endif
 
     private void OnResult(object? sender, LanguageModelResponseResult finalLanguageModelResponse)
     {
@@ -444,6 +457,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         DispatchPropertyChanged(nameof(ResponseProgressTextIntelligence));
     }
 
+#if WINAPPSDK_EXPERIMENTAL
     private void OnResultWithLoRA(object? sender, LanguageModelResponseResult finalLanguageModelResponse)
     {
         if ((finalLanguageModelResponse.Status != LanguageModelResponseStatus.Complete)
@@ -467,4 +481,5 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
         DispatchPropertyChanged(nameof(ResponseProgressWithoutLoRA));
     }
+#endif
 }

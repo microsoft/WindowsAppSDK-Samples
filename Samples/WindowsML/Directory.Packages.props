@@ -1,18 +1,11 @@
 <Project>
-  <PropertyGroup>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-  </PropertyGroup>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Packages.props', '$(MSBuildThisFileDirectory)..'))" />
   <ItemGroup>
-    <!-- WindowsAppSDK packages -->
-    <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.10.1" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental3" />
-    <!-- Other dependencies -->
-    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
+    <!-- WindowsML-specific overrides (use Update to override parent versions) -->
+    <PackageVersion Update="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.10.1" />
+    <PackageVersion Update="Microsoft.Windows.CppWinRT" Version="2.0.240111.5" />
+    <!-- WindowsML-only packages -->
     <PackageVersion Include="Microsoft.Windows.AbiWinRT" Version="2.0.210330.2" />
-    <PackageVersion Include="Microsoft.Windows.CppWinRT" Version="2.0.240111.5" />
-    <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.240803.1"/>
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
     <PackageVersion Include="CppWinRT" Version="2.0.240405.15" />
-    <PackageVersion Include="System.Numerics.Tensors" Version="9.0.0" />
   </ItemGroup>
 </Project>

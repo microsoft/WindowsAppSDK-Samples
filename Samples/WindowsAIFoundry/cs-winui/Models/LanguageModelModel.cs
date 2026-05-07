@@ -3,7 +3,9 @@
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.ContentSafety;
 using Microsoft.Windows.AI.Text;
+#if WINAPPSDK_EXPERIMENTAL
 using Microsoft.Windows.AI.Text.Experimental;
+#endif
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +21,9 @@ internal class LanguageModelModel : IModelManager
     private TextSummarizer? _sessionTextSummarize;
     private TextRewriter? _sessionTextRewrite;
     private TextToTableConverter? _sessionTextToTable;
+#if WINAPPSDK_EXPERIMENTAL
     private LanguageModelExperimental? _languageModelExperimental;
+#endif
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress,
                                                             CancellationToken cancellationToken = default)
@@ -43,7 +47,9 @@ internal class LanguageModelModel : IModelManager
         _sessionTextSummarize = new TextSummarizer(_session);
         _sessionTextRewrite = new TextRewriter(_session);
         _sessionTextToTable = new TextToTableConverter(_session);
+#if WINAPPSDK_EXPERIMENTAL
         _languageModelExperimental = new LanguageModelExperimental(_session);
+#endif
 
         progress.Report(1.0); // 100% progress
     }
@@ -52,7 +58,9 @@ internal class LanguageModelModel : IModelManager
     private TextSummarizer SessionTextSummarize => _sessionTextSummarize ?? throw new InvalidOperationException("Text summarizer session was not created yet");
     private TextRewriter SessionTextRewrite => _sessionTextRewrite ?? throw new InvalidOperationException("Text Rewriter session was not created yet");
     private TextToTableConverter SessionTextToTable => _sessionTextToTable ?? throw new InvalidOperationException("TextToTable converter session was not created yet");
+#if WINAPPSDK_EXPERIMENTAL
     private LanguageModelExperimental SessionLanguageModelExperimental => _languageModelExperimental ?? throw new InvalidOperationException("Language Model Experimental session was not created yet");
+#endif
 
     public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
         GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
@@ -171,6 +179,7 @@ internal class LanguageModelModel : IModelManager
         return result;
     }
 
+#if WINAPPSDK_EXPERIMENTAL
     public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
     GenerateResponseWithLoraAdapterAndContextAsync(string contextPrompt, string prompt, string filePath)
     {
@@ -198,4 +207,5 @@ internal class LanguageModelModel : IModelManager
             progress => progress
         );
     }
+#endif
 }

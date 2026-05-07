@@ -3,6 +3,12 @@
   <PropertyGroup>
     <!-- Suppress CS8305: Feature is for evaluation purposes only and is subject to change or removal in future updates. -->
     <NoWarn>$(NoWarn);8305</NoWarn>
+    <UseExperimentalWinAppSDK Condition="'$(UseExperimentalWinAppSDK)'==''">false</UseExperimentalWinAppSDK>
+  </PropertyGroup>
+
+  <!-- C# conditional compilation symbol -->
+  <PropertyGroup Condition="'$(UseExperimentalWinAppSDK)'=='true'">
+    <DefineConstants>$(DefineConstants);WINAPPSDK_EXPERIMENTAL</DefineConstants>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -22,5 +28,12 @@
       <ControlFlowGuard>Guard</ControlFlowGuard>
       <CETCompat Condition="'$(Platform)'!='ARM64'">true</CETCompat>
     </Link>
+  </ItemDefinitionGroup>
+
+  <!-- C++ preprocessor definition for experimental API guards -->
+  <ItemDefinitionGroup Condition="'$(UseExperimentalWinAppSDK)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>WINAPPSDK_EXPERIMENTAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemDefinitionGroup>
 </Project>

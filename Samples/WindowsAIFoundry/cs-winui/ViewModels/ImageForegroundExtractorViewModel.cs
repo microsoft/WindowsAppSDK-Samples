@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+#if WINAPPSDK_EXPERIMENTAL
 using WindowsAISample.Models.Contracts;
 using WindowsAISample.Util;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -43,3 +44,4 @@ internal partial class ImageForegroundExtractorViewModel : InputImageViewModelBa
         _extractForegroundCommand.FireCanExecuteChanged();
     }
 }
+#endif

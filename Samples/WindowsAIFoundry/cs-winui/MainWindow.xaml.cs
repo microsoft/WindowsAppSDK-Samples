@@ -5,6 +5,7 @@ using WindowsAISample.ViewModels;
 using WindowsAISample.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Linq;
 
 namespace WindowsAISample;
 
@@ -17,6 +18,19 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         rootFrame.DataContext = new CopilotRootViewModel();
+        
+#if !WINAPPSDK_EXPERIMENTAL
+        // Remove experimental-only navigation items when not using experimental SDK
+        var itemsToRemove = NavView.MenuItems
+            .OfType<NavigationViewItem>()
+            .Where(item => item.Tag is string tag && (tag == "VideoScaler" || tag == "ImageForegroundExtractor"))
+            .ToList();
+        foreach (var item in itemsToRemove)
+        {
+            NavView.MenuItems.Remove(item);
+        }
+#endif
+        
         rootFrame.Navigate(typeof(LanguageModelPage));
     }
 
@@ -35,9 +49,11 @@ public sealed partial class MainWindow : Window
                 case "ImageObjectExtractor":
                     rootFrame.Navigate(typeof(ImageObjectExtractorPage));
                     break;
+#if WINAPPSDK_EXPERIMENTAL
                 case "ImageForegroundExtractor":
                     rootFrame.Navigate(typeof(ImageForegroundExtractorPage));
                     break;
+#endif
                 case "ImageDescription":
                     rootFrame.Navigate(typeof (ImageDescriptionPage));
                     break;
@@ -47,9 +63,11 @@ public sealed partial class MainWindow : Window
                 case "ImageObjectRemover":
                     rootFrame.Navigate(typeof(ImageObjectRemoverPage));
                     break;
+#if WINAPPSDK_EXPERIMENTAL
                 case "VideoScaler":
                     rootFrame.Navigate(typeof(VideoScalerPage));
                     break;
+#endif
             }
         }
     }

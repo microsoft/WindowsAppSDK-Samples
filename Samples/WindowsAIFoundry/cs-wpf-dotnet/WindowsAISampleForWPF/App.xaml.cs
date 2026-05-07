@@ -14,7 +14,11 @@ public partial class App : Application
 
     public App()
     {
+#if WINAPPSDK_EXPERIMENTAL
         if (!Bootstrap.TryInitialize(0x00010007, "experimental3", out var result))
+#else
+        if (!Bootstrap.TryInitialize(0x00010007, string.Empty, out var result))
+#endif
         {
             if (result == NotSupportedError)
             {

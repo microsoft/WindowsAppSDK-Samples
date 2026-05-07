@@ -104,10 +104,24 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
+  <!-- Experimental-only pages -->
+  <ItemGroup Condition="'$(UseExperimentalWinAppSDK)' == 'true'">
     <Page Update="Pages\VideoScalerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Pages\ImageForegroundExtractorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseExperimentalWinAppSDK)' != 'true'">
+    <Page Remove="Pages\VideoScalerPage.xaml" />
+    <Page Remove="Pages\ImageForegroundExtractorPage.xaml" />
+    <Compile Remove="Pages\VideoScalerPage.xaml.cs" />
+    <Compile Remove="Pages\ImageForegroundExtractorPage.xaml.cs" />
+    <Compile Remove="Models\VideoScalerModel.cs" />
+    <Compile Remove="Models\ImageForegroundExtractorModel.cs" />
+    <Compile Remove="ViewModels\VideoScalerViewModel.cs" />
+    <Compile Remove="ViewModels\ImageForegroundExtractorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\ModelInitializationControl.xaml">
