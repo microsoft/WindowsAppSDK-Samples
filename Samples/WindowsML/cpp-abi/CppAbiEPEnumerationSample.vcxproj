@@ -64,7 +64,7 @@
       <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <!-- CETCompat 只支持 x64，不支持 ARM64 -->
+  <!-- CETCompat is only supported on x64, not ARM64 -->
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
       <CETCompat>true</CETCompat>
