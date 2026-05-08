@@ -4,10 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppApp", "CppApp\CppApp.vcxproj", "{34A4AD19-A703-47F3-B279-E505C6A2A935}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BCC816DC-0F01-4F0F-8506-DF6AFEFAEA92} = {BCC816DC-0F01-4F0F-8506-DF6AFEFAEA92}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsApp", "CsApp\CsApp.csproj", "{4B4FA4E7-D50E-4059-A906-6F78F6DFEBCD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppAppUnpackaged", "CppAppUnpackaged\CppAppUnpackaged.vcxproj", "{B71D15EF-F17B-4E8F-B023-08C4E3B32DAB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BCC816DC-0F01-4F0F-8506-DF6AFEFAEA92} = {BCC816DC-0F01-4F0F-8506-DF6AFEFAEA92}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinUIComponentCs", "WinUIComponentCs\WinUIComponentCs.csproj", "{BCC816DC-0F01-4F0F-8506-DF6AFEFAEA92}"
 EndProject
