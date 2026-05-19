@@ -28,6 +28,13 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(NuGetCMakePackage)
 
+#----------------------------------------------------------------------------------------------------------------------
+# These samples illustrate individual component usage — picking and choosing between the
+# NuGet packages shipped as part of the WindowsAppSDK. If you want the entirety of the
+# WindowsAppSDK pulled in via a single dependency, see the Metapackage sample for a
+# better illustration of that use case.
+#----------------------------------------------------------------------------------------------------------------------
+
 add_nuget_packages(
     CONFIG_FILE ${CMAKE_SOURCE_DIR}/nuget.config
     LOCK_FILE ${CMAKE_SOURCE_DIR}/packages.lock.json
@@ -42,12 +49,13 @@ add_nuget_packages(
         Microsoft.WindowsAppSDK.Widgets 2.0.4-experimental
         Microsoft.WindowsAppSDK.AI 2.0.179-experimental
         Microsoft.WindowsAppSDK.ML 2.0.325-experimental
-        Microsoft.Web.WebView2 1.0.3719.77
         Microsoft.WindowsAppSDK.WinUI 2.0.10-experimental
 )
 
 find_package(Microsoft.WindowsAppSDK.Base CONFIG REQUIRED)
+find_package(Microsoft.WindowsAppSDK.Runtime CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.Foundation CONFIG REQUIRED)
+find_package(Microsoft.WindowsAppSDK.InteractiveExperiences CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.DWrite CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.Widgets CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.AI CONFIG REQUIRED)
@@ -58,38 +66,8 @@ find_package(Microsoft.WindowsAppSDK.WinUI CONFIG REQUIRED)
 include(${CMAKE_SOURCE_DIR}/Configuration.cmake)
 link_libraries(Configuration)
 
-# Macro to copy runtime DLLs to the output directory
-macro(post_build_runtime_dll_copy target_name)
-    if(WIN32)
-        add_custom_command(TARGET ${target_name} POST_BUILD
-            COMMAND "${CMAKE_COMMAND};-E;$<IF:$<BOOL:$<TARGET_RUNTIME_DLLS:${target_name}>>,copy;$<TARGET_RUNTIME_DLLS:${target_name}>;$<TARGET_FILE_DIR:${target_name}>,true>"
-            COMMAND_EXPAND_LISTS
-        )
-    endif()
-endmacro()
-
-# For pure WinRT components (Widgets, AI, WinUI) that have no import libraries (.lib).
-# These components store DLL paths in a custom INTERFACE_SELFCONTAINED_RUNTIME_DLLS property instead. This macro
-# reads that property and copies the DLLs via post-build commands.
-macro(post_build_selfcontained_dll_copy target_name)
-    foreach(_sc_target
-        Microsoft.WindowsAppSDK.Widgets_SelfContained
-        Microsoft.WindowsAppSDK.AI_SelfContained
-        Microsoft.WindowsAppSDK.ML_SelfContained
-        Microsoft.WindowsAppSDK.WinUI_SelfContained
-    )
-        if(TARGET ${_sc_target})
-            get_property(_sc_dlls TARGET ${_sc_target} PROPERTY INTERFACE_SELFCONTAINED_RUNTIME_DLLS)
-            if(_sc_dlls)
-                foreach(_dll IN LISTS _sc_dlls)
-                    add_custom_command(TARGET ${target_name} POST_BUILD
-                        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${_dll}" "$<TARGET_FILE_DIR:${target_name}>"
-                    )
-                endforeach()
-            endif()
-        endif()
-    endforeach()
-endmacro()
+# Post-build helpers are provided by
+# Microsoft.WindowsAppSDK.Base via WindowsAppSDKHelpers.cmake.
 
 # Subdirectories
 add_subdirectory(UnpackagedSelfContained)

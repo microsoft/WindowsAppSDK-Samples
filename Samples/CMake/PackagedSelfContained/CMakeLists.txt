@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------------------------------------------------
-# PackagedSelfContained - Self-contained deployment with MSIX packaging
+# PackagedSelfContained - Self-contained deployment with MSIX packaging (new model)
 #----------------------------------------------------------------------------------------------------------------------
 project(PackagedSelfContained LANGUAGES CXX)
 
@@ -9,21 +9,22 @@ add_executable(PackagedSelfContained WIN32
 
 set_target_properties(PackagedSelfContained PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+    # One property — every bare WindowsAppSDK.<Component> target resolves to its _SelfContained variant.
+    WindowsAppSDKSelfContained TRUE
 )
 
 target_link_libraries(PackagedSelfContained
     PRIVATE
-        Microsoft.WindowsAppSDK.Foundation_SelfContained
-        Microsoft.WindowsAppSDK.InteractiveExperiences_SelfContained
-        Microsoft.WindowsAppSDK.DWrite_SelfContained
-        Microsoft.WindowsAppSDK.Widgets_SelfContained
-        Microsoft.WindowsAppSDK.AI_SelfContained
-        Microsoft.WindowsAppSDK.ML_SelfContained
-        Microsoft.WindowsAppSDK.WinUI_SelfContained
+        Microsoft.WindowsAppSDK.Foundation
+        Microsoft.WindowsAppSDK.InteractiveExperiences
+        Microsoft.WindowsAppSDK.DWrite
+        Microsoft.WindowsAppSDK.Widgets
+        Microsoft.WindowsAppSDK.AI
+        Microsoft.WindowsAppSDK.ML
+        Microsoft.WindowsAppSDK.WinUI
 )
 
-post_build_runtime_dll_copy(PackagedSelfContained)
-post_build_selfcontained_dll_copy(PackagedSelfContained)
+wasdk_post_build_copy(PackagedSelfContained)
 
 # Copy AppxManifest.xml and Logo to the output directory for MSIX registration
 add_custom_command(TARGET PackagedSelfContained POST_BUILD
