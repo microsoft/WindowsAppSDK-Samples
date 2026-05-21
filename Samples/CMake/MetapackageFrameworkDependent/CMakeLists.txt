@@ -35,7 +35,7 @@ add_nuget_packages(
     LOCK_FILE ${CMAKE_SOURCE_DIR}/packages.lock.json
     FRAMEWORK native
     PACKAGES
-        Microsoft.Windows.CppWinRT 2.0.251203.1
+        Microsoft.Windows.CppWinRT 2.0.250303.1
         Microsoft.WindowsAppSDK 2.0.0-experimental7
         Microsoft.Web.WebView2 1.0.3719.77
 )

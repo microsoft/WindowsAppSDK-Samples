@@ -33,8 +33,8 @@ add_nuget_packages(
     LOCK_FILE ${CMAKE_SOURCE_DIR}/packages.lock.json
     FRAMEWORK native
     PACKAGES
-        Microsoft.Windows.CppWinRT 2.0.251203.1
-        Microsoft.WindowsAppSDK.Base 2.0.3-experimental1
+        Microsoft.Windows.CppWinRT 2.0.250303.1
+        Microsoft.WindowsAppSDK.Base 2.0.5-experimental2
         Microsoft.WindowsAppSDK.Foundation 2.0.19-experimental
         Microsoft.WindowsAppSDK.InteractiveExperiences 2.0.11-experimental
         Microsoft.WindowsAppSDK.DWrite 2.0.2-experimental
