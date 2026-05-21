@@ -262,6 +262,13 @@ namespace Notes
                 return null;
             }
 
+            // TODO: Replace these reflection-based accesses with direct property access
+            // (e.g. `(match as AppManagedOcrTextQueryMatch).Fragment`) once the
+            // AppManagedOcrTextQueryMatch type and its Fragment / Subregion properties are
+            // projected by the Microsoft.Windows.Search.AppContentIndex SDK. Reflection is
+            // used here only as a temporary workaround for the current preview SDK and is
+            // NOT a recommended pattern for production code: if the API renames either
+            // property in a future preview this would silently return null/empty.
             string fragment = match.GetType().GetProperty("Fragment")?.GetValue(match) as string ?? string.Empty;
             Rect? subregion = GetMatchSubregion(match);
             Debug.WriteLine($"OCR text match: contentId={match.ContentId}, fragment='{fragment}', Subregion={subregion}");
@@ -285,6 +292,9 @@ namespace Notes
         {
             try
             {
+                // TODO: Same temporary workaround as the `Fragment` access above —
+                // replace with direct property access once `Subregion` is projected
+                // by the SDK.
                 object? subregion = match.GetType().GetProperty("Subregion")?.GetValue(match);
                 return subregion is Rect rect ? rect : null;
             }

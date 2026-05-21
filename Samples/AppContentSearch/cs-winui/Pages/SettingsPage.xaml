@@ -27,10 +27,14 @@
                     <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Settings" Margin="12,0,0,0"/>
 
                     <!-- Language Model Settings Expander -->
-                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Language Models" />
-                    <Expander x:Name="ModelSourceExpander" Header="Model Source">
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                               Text="Language Models"
+                               AutomationProperties.HeadingLevel="Level2" />
+                    <Expander x:Name="ModelSourceExpander" Header="Model Source"
+                              AutomationProperties.Name="Model Source">
                         <StackPanel Padding="12,8,12,12" Spacing="12">
-                            <ComboBox SelectionChanged="ModelSource_SelectionChanged">
+                            <ComboBox SelectionChanged="ModelSource_SelectionChanged"
+                                      AutomationProperties.Name="Model Source">
                                 <ComboBoxItem x:Name="PhiSilicaComboBoxItem" Content="Windows AI APIs LanguageModel (Phi Silica)" IsSelected="True"/>
                                 <ComboBoxItem x:Name="AzureComboBoxItem" Content="Azure OpenAI"/>
                                 <ComboBoxItem x:Name="FoundryComboBoxItem" Content="Foundry Local"/>
@@ -41,9 +45,12 @@
                                     Padding="16"
                                     BorderThickness="1"
                                     CornerRadius="8"
-                                    Visibility="Collapsed">
+                                    Visibility="Collapsed"
+                                    AutomationProperties.Name="Azure Settings">
                                 <StackPanel Spacing="8">
-                                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Azure Settings" />
+                                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                                               Text="Azure Settings"
+                                               AutomationProperties.HeadingLevel="Level3" />
                                     <PasswordBox x:Name="AzureApiKeyPasswordBox" Header="API Key" PlaceholderText="Enter your API key" />
                                     <TextBox x:Name="AzureEndpointUriTextBox" Header="Endpoint URI" PlaceholderText="https://YOUR_RESOURCE_NAME.openai.azure.com/" />
                                     <TextBox x:Name="AzureDeploymentNameTextBox" Header="Model Deployment Name:" PlaceholderText="e.g. gpt-4o" />
@@ -55,15 +62,19 @@
                                     Padding="16"
                                     BorderThickness="1"
                                     CornerRadius="8"
-                                    Visibility="Collapsed">
+                                    Visibility="Collapsed"
+                                    AutomationProperties.Name="Foundry Settings">
                                 <StackPanel Spacing="8">
-                                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Foundry Settings" />
+                                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                                               Text="Foundry Settings"
+                                               AutomationProperties.HeadingLevel="Level3" />
                                     <ComboBox x:Name="FoundryModelComboBox" Header="AI Foundry Model" PlaceholderText="Select a model" Width="260"/>
 
                                     <!-- Model Download Section -->
-                                    <TextBlock Text="Download Models:" Margin="0,16,0,0" />
+                                    <TextBlock Text="Download Models:" Margin="0,16,0,0" AutomationProperties.HeadingLevel="Level4" />
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <ComboBox x:Name="AvailableModelsComboBox" PlaceholderText="Select model to download" Width="260"/>
+                                        <ComboBox x:Name="AvailableModelsComboBox" PlaceholderText="Select model to download" Width="260"
+                                                  AutomationProperties.Name="Model to download" />
                                         <Button x:Name="DownloadModelButton" Content="Download" Click="DownloadModel_Click" IsEnabled="False"/>
                                         <Button x:Name="RefreshModelsButton" Content="Refresh" Click="RefreshModels_Click"/>
                                     </StackPanel>
@@ -75,8 +86,9 @@
                                     </StackPanel>
 
                                     <!-- Downloaded Models List -->
-                                    <TextBlock Text="Downloaded Models" Margin="0,16,0,0" />
-                                    <ListView x:Name="DownloadedModelsListView" MaxHeight="150" SelectionMode="None" HorizontalAlignment="Stretch">
+                                    <TextBlock Text="Downloaded Models" Margin="0,16,0,0" AutomationProperties.HeadingLevel="Level4" />
+                                    <ListView x:Name="DownloadedModelsListView" MaxHeight="150" SelectionMode="None" HorizontalAlignment="Stretch"
+                                              AutomationProperties.Name="Downloaded Models">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
@@ -96,15 +108,21 @@
                     </Expander>
 
                     <!-- Image / Bounding Box Settings Expander -->
-                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Image Overlays" />
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                               Text="Image Overlays"
+                               AutomationProperties.HeadingLevel="Level2" />
                     <Border Padding="16"
                             BorderThickness="1"
-                            CornerRadius="8">
+                            CornerRadius="8"
+                            AutomationProperties.Name="Image Result Overlays">
                         <StackPanel Spacing="12">
-                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Image Result Overlays" />
+                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                       Text="Image Result Overlays"
+                                       AutomationProperties.HeadingLevel="Level3" />
                             <TextBlock Text="Show bounding boxes on image search results" TextWrapping="WrapWholeWords" />
                             <ToggleSwitch
                                  x:Name="ShowBoundingBoxesToggleSwitch"
+                                 AutomationProperties.Name="Show bounding boxes on image search results"
                                  OffContent="Off"
                                   OnContent="On"/>
                         </StackPanel>

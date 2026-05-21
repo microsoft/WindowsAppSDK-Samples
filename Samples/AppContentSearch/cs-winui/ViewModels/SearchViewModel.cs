@@ -190,12 +190,29 @@ namespace Notes.ViewModels
 
         private void TextQuerySession_ResultChanged(AppIndexTextQuerySession sender, object args)
         {
-            _ = RefreshQuerySessionResultsAsync();
+            _ = SafeRefreshQuerySessionResultsAsync();
         }
 
         private void ImageQuerySession_ResultChanged(AppIndexImageQuerySession sender, object args)
         {
-            _ = RefreshQuerySessionResultsAsync();
+            _ = SafeRefreshQuerySessionResultsAsync();
+        }
+
+        // Observes both synchronous and asynchronous failures from
+        // RefreshQuerySessionResultsAsync. The ResultChanged event handlers can't await the
+        // refresh, and a bare `_ = RefreshQuerySessionResultsAsync()` would swallow any
+        // exception thrown by the query session (e.g. after disposal or on an unsupported
+        // system), causing search to silently stop working.
+        private async Task SafeRefreshQuerySessionResultsAsync()
+        {
+            try
+            {
+                await RefreshQuerySessionResultsAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Query session refresh failed: {ex.Message}");
+            }
         }
 
         private async Task RefreshQuerySessionResultsAsync()
