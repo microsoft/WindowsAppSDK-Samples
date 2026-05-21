@@ -324,8 +324,18 @@ namespace Notes
 
         public async void OpenAttachmentView(AttachmentViewModel attachment, string? attachmentText = null, Windows.Foundation.Rect? boundingBox = null)
         {
-            await AttachmentView.UpdateAttachment(attachment, attachmentText, boundingBox);
-            AttachmentView.Show();
+            // OpenAttachmentView is async void: any exception that escapes here is unhandled
+            // and will crash the app (no DispatcherUnhandledException handler is registered).
+            // Guard against missing/stale files or other update failures.
+            try
+            {
+                await AttachmentView.UpdateAttachment(attachment, attachmentText, boundingBox);
+                AttachmentView.Show();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"OpenAttachmentView failed for attachment id={attachment?.Attachment?.Id}: {ex.Message}");
+            }
         }
 
         private async Task IndexAllAsync()

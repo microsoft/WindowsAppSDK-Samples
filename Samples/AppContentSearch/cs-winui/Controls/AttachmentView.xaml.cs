@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Notes.Models;
 using Notes.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -58,8 +59,26 @@ namespace Notes.Controls
             _boundingBox = boundingBox;
 
             AttachmentVM = attachment;
+
+            string? filename = attachment.Attachment.Filename;
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                Debug.WriteLine($"AttachmentView: attachment id={attachment.Attachment.Id} has no filename; skipping.");
+                AttachmentImage.Source = null;
+                return;
+            }
+
             StorageFolder attachmentsFolder = await Utils.GetAttachmentsFolderAsync();
-            StorageFile attachmentFile = await attachmentsFolder.GetFileAsync(attachment.Attachment.Filename);
+
+            // Use TryGetItemAsync so a missing/stale file (e.g. deleted on disk but still in the
+            // search index) does not throw FileNotFoundException and crash the app.
+            StorageFile? attachmentFile = await attachmentsFolder.TryGetItemAsync(filename) as StorageFile;
+            if (attachmentFile == null)
+            {
+                Debug.WriteLine($"AttachmentView: file '{filename}' not found in attachments folder; skipping.");
+                AttachmentImage.Source = null;
+                return;
+            }
 
             switch (AttachmentVM.Attachment.Type)
             {
