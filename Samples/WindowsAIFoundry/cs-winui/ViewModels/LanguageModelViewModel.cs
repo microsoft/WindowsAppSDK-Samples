@@ -291,12 +291,6 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         set => SetField(ref _adapterFilePath, value);
     }
 
-    //public LanguageModelSkill LanguageModelOptionsSkill
-    //{
-    //    get => _languageModelOptionsSkill;
-    //    set => SetField(ref _languageModelOptionsSkill, value);
-    //}
-
     public string? LanguageModelOptionsTemp
     {
         get => _languageModelOptionsTemp;

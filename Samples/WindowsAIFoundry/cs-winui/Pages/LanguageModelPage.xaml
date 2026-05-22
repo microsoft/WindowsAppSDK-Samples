@@ -436,15 +436,15 @@
                 </StackPanel>
             </Border>
 
-            <!--  LoRA Adapters  -->
-            <TextBlock Text="Low Rank Adaptation (LoRA)"
+            <!--  Low Rank Adapters  -->
+            <TextBlock Text="Low Rank Adapter (LoRA)"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 Margin="10"/>
-            <TextBlock Text="LoRA (Low Rank Adaptations) allow developers to customize Phi-Silica in a scalable manner. You can train your own LoRA adapter using the AI Toolkit for Visual Studio Code."
+            <TextBlock Text="LoRAs (Low Rank Adapters) allow developers to customize Phi-Silica in a scalable manner. You can train your own LoRA using the AI Toolkit for Visual Studio Code."
                 Style="{StaticResource BodyTextBlockStyle}"
                 Margin="10"/>
 
-            <TextBlock Text="To compare how a LoRA adapter affects Phi-Silica, first select an adapter file in .safetensors format. Then enter a context and prompt into the input below, and press the Generate button to see the inferencing results with and without the LoRA adapter applied."
+            <TextBlock Text="To compare how LoRA affects Phi-Silica, first select an adapter file in .safetensors format. Then enter a context and prompt into the input below, and press the Generate button to see the inferencing results with and without the LoRA applied."
                 Style="{StaticResource BodyTextBlockStyle}"
                 Margin="10"/>
 
@@ -467,7 +467,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Select LoRA Adapter -->
+                        <!-- Select Adapter -->
                         <TextBlock Text="Adapter" Margin="10" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
                         <TextBox x:Name="AdapterTextBox" Text="{Binding AdapterFilePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Margin="0,10" Grid.Row="0" Grid.Column="1" />
                         <Button Content="Select file" Command="{Binding PickInputAdapterCommand}" Width="100" Margin="10" Grid.Row="0" Grid.Column="2" />
