@@ -166,4 +166,38 @@ internal class LanguageModelModel : IModelManager
 
         return result;
     }
+
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
+    GenerateResponseWithLoraAdapterAndContextAsync(string contextPrompt, string prompt, string filePath)
+    {
+        IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
+
+        var adapterResult = LanguageModelLowRankAdapter.CreateFromPath(filePath);
+        int hr = adapterResult.ExtendedError?.HResult ?? 0;
+        if (hr != 0)
+        {
+            throw new InvalidOperationException($"Could not create LoRA from the provided file path: 0x{hr:X8}");
+        }
+
+        var options = new LanguageModelOptions {
+            LowRankAdapter = !string.IsNullOrEmpty(filePath) ? adapterResult.LowRankAdapter : null
+        };
+
+        if (contextPrompt != null)
+        {
+            var contentFilterOptions = new ContentFilterOptions();
+            var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
+            response = Session.GenerateResponseAsync(languageModelContext, prompt, options);
+        }
+        else
+        {
+            response = Session.GenerateResponseAsync(prompt, options);
+        }
+
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+            response,
+            result => result /* LanguageModelResponseResult */,
+            progress => progress
+        );
+    }
 }
