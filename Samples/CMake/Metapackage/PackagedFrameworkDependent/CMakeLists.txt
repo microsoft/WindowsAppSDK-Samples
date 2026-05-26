@@ -21,10 +21,8 @@ target_link_libraries(Metapackage_PackagedFrameworkDependent
         Microsoft.WindowsAppSDK
 )
 
-wasdk_post_build_copy(Metapackage_PackagedFrameworkDependent)
-
 # Generate AppxManifest.xml with framework PackageDependency auto-injected.
-wasdk_generate_appx_manifest(
+wasdk_prepare_appx_manifest(
     TARGET Metapackage_PackagedFrameworkDependent
     IDENTITY_NAME "CMake-Metapackage-PackagedFrameworkDependent"
     IDENTITY_PUBLISHER "CN=TestPublisher"

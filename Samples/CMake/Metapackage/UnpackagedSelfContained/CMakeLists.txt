@@ -22,6 +22,4 @@ target_link_libraries(Metapackage_UnpackagedSelfContained
         Microsoft.WindowsAppSDK
 )
 
-wasdk_post_build_copy(Metapackage_UnpackagedSelfContained)
-
-# No wasdk_generate_appx_manifest() — this is an unpackaged exe.
+# No wasdk_prepare_appx_manifest() — this is an unpackaged exe.

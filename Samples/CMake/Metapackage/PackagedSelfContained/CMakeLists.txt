@@ -20,11 +20,9 @@ target_link_libraries(Metapackage_PackagedSelfContained
         Microsoft.WindowsAppSDK
 )
 
-wasdk_post_build_copy(Metapackage_PackagedSelfContained)
-
 # Generate AppxManifest.xml. Self-contained apps still benefit from a packaged manifest for MSIX
 # distribution. The helper can be used here as well or you can provide your own manifest if you need to customize it beyond what the helper supports for the package self contained scenario.
-wasdk_generate_appx_manifest(
+wasdk_prepare_appx_manifest(
     TARGET Metapackage_PackagedSelfContained
     IDENTITY_NAME "CMake-Metapackage-PackagedSelfContained"
     IDENTITY_PUBLISHER "CN=TestPublisher"

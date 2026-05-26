@@ -29,4 +29,3 @@ target_link_libraries(UnpackagedFrameworkDependent
         Microsoft.WindowsAppSDK.WinUI
 )
 
-wasdk_post_build_copy(UnpackagedFrameworkDependent)

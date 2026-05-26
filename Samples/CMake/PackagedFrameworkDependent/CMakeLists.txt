@@ -28,10 +28,8 @@ target_link_libraries(PackagedFrameworkDependent
         Microsoft.WindowsAppSDK.WinUI
 )
 
-wasdk_post_build_copy(PackagedFrameworkDependent)
-
 # Generate AppxManifest.xml with framework PackageDependency auto-injected
-wasdk_generate_appx_manifest(
+wasdk_prepare_appx_manifest(
     TARGET PackagedFrameworkDependent
     IDENTITY_NAME "CMake-PackagedFrameworkDependent"
     IDENTITY_PUBLISHER "CN=TestPublisher"

@@ -24,8 +24,6 @@ target_link_libraries(PackagedSelfContained
         Microsoft.WindowsAppSDK.WinUI
 )
 
-wasdk_post_build_copy(PackagedSelfContained)
-
 # Copy AppxManifest.xml and Logo to the output directory for MSIX registration
 add_custom_command(TARGET PackagedSelfContained POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different

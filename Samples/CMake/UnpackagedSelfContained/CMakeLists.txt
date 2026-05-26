@@ -27,4 +27,3 @@ target_link_libraries(UnpackagedSelfContained
         Microsoft.WindowsAppSDK.WinUI
 )
 
-wasdk_post_build_copy(UnpackagedSelfContained)
