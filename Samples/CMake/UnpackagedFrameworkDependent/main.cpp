@@ -278,7 +278,7 @@ int WINAPI wWinMain(
         MessageBoxW(
             nullptr,
             message.str().c_str(),
-            L"WinAppSDK CMake Test",
+            L"WinAppSDK CMake Smoke Test",
             MB_OK | MB_ICONINFORMATION
         );
     }
