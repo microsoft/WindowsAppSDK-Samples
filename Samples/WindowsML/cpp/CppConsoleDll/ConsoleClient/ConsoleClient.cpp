@@ -6,7 +6,6 @@
 
 // Function pointer type for the DLL exports
 typedef char*(__stdcall* GetOrtVersionStringFunc)();
-typedef char*(__stdcall* GetTestMessageFunc)();
 
 int main()
 {
