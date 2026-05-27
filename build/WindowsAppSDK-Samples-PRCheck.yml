@@ -1,0 +1,221 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+# ============================================================
+# WindowsAppSDK-Samples PR Check Pipeline
+# ============================================================
+# This pipeline validates PR changes by building affected samples
+# on x64 + ARM64 platforms with both stable and experimental packages.
+
+trigger: none
+
+pr:
+  branches:
+    include:
+      - main
+      - release/*
+  paths:
+    include:
+      - Samples/**
+      - build/**
+
+parameters:
+  - name: forceFullBuild
+    displayName: "Force full build (all samples)"
+    type: boolean
+    default: false
+  
+  - name: skipStable
+    displayName: "Skip stable package builds"
+    type: boolean
+    default: false
+  
+  - name: skipExperimental
+    displayName: "Skip experimental package builds"
+    type: boolean
+    default: false
+
+variables:
+  - name: SamplesRepoName
+    value: 'WindowsAppSDK-Samples'
+  - name: StablePackageVersion
+    value: '2.0.1'
+  - name: ExperimentalPackageVersion
+    value: '2.0.0-experimental3'
+
+resources:
+  repositories:
+    - repository: self
+      type: github
+      endpoint: 'GitHub-ServiceConnection'  # TODO: Update with actual service connection name
+      name: microsoft/WindowsAppSDK-Samples
+
+stages:
+  # ============================================================
+  # Stage 1: Analyze Changes
+  # ============================================================
+  - stage: Analyze
+    displayName: 'Analyze PR Changes'
+    jobs:
+      - job: DetectChanges
+        displayName: 'Detect Affected Samples'
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          - checkout: self
+            fetchDepth: 0  # Full history for git diff
+          
+          - task: PowerShell@2
+            name: detect
+            displayName: 'Detect affected samples'
+            inputs:
+              targetType: filePath
+              filePath: '$(Build.SourcesDirectory)/build/Detect-AffectedSamples.ps1'
+              arguments: >
+                -TargetBranch "$(System.PullRequest.TargetBranch)"
+                ${{ if eq(parameters.forceFullBuild, true) }}:
+                  -ForceFullBuild
+          
+          - task: PowerShell@2
+            name: detectStable
+            displayName: 'Detect samples for stable build'
+            inputs:
+              targetType: filePath
+              filePath: '$(Build.SourcesDirectory)/build/Detect-AffectedSamples.ps1'
+              arguments: >
+                -TargetBranch "$(System.PullRequest.TargetBranch)"
+                -IsStableBuild
+                ${{ if eq(parameters.forceFullBuild, true) }}:
+                  -ForceFullBuild
+
+  # ============================================================
+  # Stage 2: Build x64 Stable
+  # ============================================================
+  - stage: Build_x64_Stable
+    displayName: 'Build x64 Stable'
+    dependsOn: Analyze
+    condition: |
+      and(
+        succeeded(),
+        ne(variables['skipStable'], 'true'),
+        gt(dependencies.Analyze.outputs['DetectChanges.detectStable.SampleCount'], 0)
+      )
+    variables:
+      AffectedSamples: $[ stageDependencies.Analyze.DetectChanges.outputs['detectStable.AffectedSamples'] ]
+    jobs:
+      - job: Build
+        displayName: 'Build Samples'
+        pool:
+          vmImage: 'windows-latest'
+        strategy:
+          matrix:
+            ${{ each sample in variables.AffectedSamples }}:
+              ${{ sample }}:
+                SampleName: ${{ sample }}
+        steps:
+          - template: templates/build-sample-steps.yml
+            parameters:
+              sampleName: $(SampleName)
+              platform: x64
+              configuration: Release
+              packageVersion: $(StablePackageVersion)
+              useExperimental: false
+
+  # ============================================================
+  # Stage 3: Build x64 Experimental
+  # ============================================================
+  - stage: Build_x64_Exp
+    displayName: 'Build x64 Experimental'
+    dependsOn: Analyze
+    condition: |
+      and(
+        succeeded(),
+        ne(variables['skipExperimental'], 'true'),
+        gt(dependencies.Analyze.outputs['DetectChanges.detect.SampleCount'], 0)
+      )
+    variables:
+      AffectedSamples: $[ stageDependencies.Analyze.DetectChanges.outputs['detect.AffectedSamples'] ]
+    jobs:
+      - job: Build
+        displayName: 'Build Samples'
+        pool:
+          vmImage: 'windows-latest'
+        strategy:
+          matrix:
+            ${{ each sample in variables.AffectedSamples }}:
+              ${{ sample }}:
+                SampleName: ${{ sample }}
+        steps:
+          - template: templates/build-sample-steps.yml
+            parameters:
+              sampleName: $(SampleName)
+              platform: x64
+              configuration: Release
+              packageVersion: $(ExperimentalPackageVersion)
+              useExperimental: true
+
+  # ============================================================
+  # Stage 4: Build ARM64 Stable
+  # ============================================================
+  - stage: Build_ARM64_Stable
+    displayName: 'Build ARM64 Stable'
+    dependsOn: Analyze
+    condition: |
+      and(
+        succeeded(),
+        ne(variables['skipStable'], 'true'),
+        gt(dependencies.Analyze.outputs['DetectChanges.detectStable.SampleCount'], 0)
+      )
+    variables:
+      AffectedSamples: $[ stageDependencies.Analyze.DetectChanges.outputs['detectStable.AffectedSamples'] ]
+    jobs:
+      - job: Build
+        displayName: 'Build Samples'
+        pool:
+          vmImage: 'windows-latest'
+        strategy:
+          matrix:
+            ${{ each sample in variables.AffectedSamples }}:
+              ${{ sample }}:
+                SampleName: ${{ sample }}
+        steps:
+          - template: templates/build-sample-steps.yml
+            parameters:
+              sampleName: $(SampleName)
+              platform: ARM64
+              configuration: Release
+              packageVersion: $(StablePackageVersion)
+              useExperimental: false
+
+  # ============================================================
+  # Stage 5: Build ARM64 Experimental
+  # ============================================================
+  - stage: Build_ARM64_Exp
+    displayName: 'Build ARM64 Experimental'
+    dependsOn: Analyze
+    condition: |
+      and(
+        succeeded(),
+        ne(variables['skipExperimental'], 'true'),
+        gt(dependencies.Analyze.outputs['DetectChanges.detect.SampleCount'], 0)
+      )
+    variables:
+      AffectedSamples: $[ stageDependencies.Analyze.DetectChanges.outputs['detect.AffectedSamples'] ]
+    jobs:
+      - job: Build
+        displayName: 'Build Samples'
+        pool:
+          vmImage: 'windows-latest'
+        strategy:
+          matrix:
+            ${{ each sample in variables.AffectedSamples }}:
+              ${{ sample }}:
+                SampleName: ${{ sample }}
+        steps:
+          - template: templates/build-sample-steps.yml
+            parameters:
+              sampleName: $(SampleName)
+              platform: ARM64
+              configuration: Release
+              packageVersion: $(ExperimentalPackageVersion)
+              useExperimental: true

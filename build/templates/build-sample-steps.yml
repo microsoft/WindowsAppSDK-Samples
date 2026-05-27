@@ -1,0 +1,132 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+# ============================================================
+# Build Sample Steps Template
+# ============================================================
+# Reusable steps for building a single sample with specific configuration.
+
+parameters:
+  - name: sampleName
+    type: string
+  - name: platform
+    type: string
+    values:
+      - x64
+      - x86
+      - ARM64
+  - name: configuration
+    type: string
+    default: Release
+    values:
+      - Debug
+      - Release
+  - name: packageVersion
+    type: string
+  - name: useExperimental
+    type: boolean
+    default: false
+
+steps:
+  - checkout: self
+  
+  - task: UseDotNet@2
+    displayName: 'Use .NET 8 SDK'
+    inputs:
+      packageType: sdk
+      version: '8.x'
+  
+  # Update package versions
+  - task: PowerShell@2
+    displayName: 'Update WinAppSDK version'
+    inputs:
+      targetType: inline
+      script: |
+        $propsFile = "$(Build.SourcesDirectory)/Samples/Directory.Packages.props"
+        $content = Get-Content $propsFile -Raw
+        
+        # Update WinAppSDK version
+        $content = $content -replace 'Include="Microsoft.WindowsAppSDK" Version="[^"]*"', 'Include="Microsoft.WindowsAppSDK" Version="${{ parameters.packageVersion }}"'
+        
+        Set-Content $propsFile $content
+        Write-Host "Updated WinAppSDK version to ${{ parameters.packageVersion }}"
+  
+  # Update UseExperimentalWinAppSDK flag
+  - task: PowerShell@2
+    displayName: 'Set experimental flag'
+    inputs:
+      targetType: inline
+      script: |
+        $propsFile = "$(Build.SourcesDirectory)/Samples/Directory.Build.props"
+        $content = Get-Content $propsFile -Raw
+        
+        $useExp = "${{ parameters.useExperimental }}".ToLower()
+        $content = $content -replace '<UseExperimentalWinAppSDK>[^<]*</UseExperimentalWinAppSDK>', "<UseExperimentalWinAppSDK>$useExp</UseExperimentalWinAppSDK>"
+        
+        Set-Content $propsFile $content
+        Write-Host "Set UseExperimentalWinAppSDK to $useExp"
+  
+  # Find solutions in the sample directory
+  - task: PowerShell@2
+    name: findSolutions
+    displayName: 'Find solutions for ${{ parameters.sampleName }}'
+    inputs:
+      targetType: inline
+      script: |
+        $samplePath = "$(Build.SourcesDirectory)/Samples/${{ parameters.sampleName }}"
+        $solutions = Get-ChildItem -Path $samplePath -Recurse -Filter "*.sln" | Select-Object -ExpandProperty FullName
+        
+        if ($solutions.Count -eq 0) {
+          Write-Host "##vso[task.logissue type=warning]No solutions found in $samplePath"
+          Write-Host "##vso[task.setvariable variable=HasSolutions;isOutput=true]false"
+        }
+        else {
+          Write-Host "Found $($solutions.Count) solution(s):"
+          $solutions | ForEach-Object { Write-Host "  - $_" }
+          Write-Host "##vso[task.setvariable variable=HasSolutions;isOutput=true]true"
+          Write-Host "##vso[task.setvariable variable=Solutions;isOutput=true]$($solutions -join ';')"
+        }
+  
+  # Restore NuGet packages
+  - task: NuGetCommand@2
+    displayName: 'Restore NuGet packages'
+    condition: eq(variables['findSolutions.HasSolutions'], 'true')
+    inputs:
+      command: restore
+      restoreSolution: '$(Build.SourcesDirectory)/Samples/${{ parameters.sampleName }}/**/*.sln'
+      feedsToUse: config
+      nugetConfigPath: '$(Build.SourcesDirectory)/Samples/nuget.config'
+  
+  # Build with MSBuild (supports both .NET and C++ projects)
+  - task: VSBuild@1
+    displayName: 'Build ${{ parameters.sampleName }} (${{ parameters.platform }} ${{ parameters.configuration }})'
+    condition: eq(variables['findSolutions.HasSolutions'], 'true')
+    inputs:
+      solution: '$(Build.SourcesDirectory)/Samples/${{ parameters.sampleName }}/**/*.sln'
+      platform: '${{ parameters.platform }}'
+      configuration: '${{ parameters.configuration }}'
+      msbuildArgs: '/p:RestorePackages=false /warnaserror'
+    continueOnError: false
+  
+  # Report build result
+  - task: PowerShell@2
+    displayName: 'Report build result'
+    condition: always()
+    inputs:
+      targetType: inline
+      script: |
+        $sample = "${{ parameters.sampleName }}"
+        $platform = "${{ parameters.platform }}"
+        $config = "${{ parameters.configuration }}"
+        $package = "${{ parameters.packageVersion }}"
+        $isExp = "${{ parameters.useExperimental }}"
+        
+        Write-Host "=============================================="
+        Write-Host "Build Summary"
+        Write-Host "=============================================="
+        Write-Host "Sample:        $sample"
+        Write-Host "Platform:      $platform"
+        Write-Host "Configuration: $config"
+        Write-Host "Package:       $package"
+        Write-Host "Experimental:  $isExp"
+        Write-Host "Result:        $(if ('$(Agent.JobStatus)' -eq 'Succeeded') { 'SUCCESS' } else { 'FAILED' })"

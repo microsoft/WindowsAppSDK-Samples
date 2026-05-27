@@ -1,0 +1,6 @@
+# Generated package downloads and parsed WinMD files
+output/temp/
+
+# .NET build outputs
+api-comparer/bin/
+api-comparer/obj/
