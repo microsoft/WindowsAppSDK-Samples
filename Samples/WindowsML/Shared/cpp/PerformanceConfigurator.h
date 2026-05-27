@@ -34,7 +34,7 @@ namespace Shared
             {
                 return GetMiGraphXOptions(mode);
             }
-            if (normalized == "TENSORRTRTXEXECUTIONPROVIDER")
+            if (normalized == "NVTENSORRTRTXEXECUTIONPROVIDER")
             {
                 return GetTensorRtRtxOptions(mode);
             }

@@ -43,7 +43,7 @@ public:
         {
             return GetMiGraphXOptions(mode);
         }
-        if (normalized == "TENSORRTRTXEXECUTIONPROVIDER")
+        if (normalized == "NVTENSORRTRTX")
         {
             return GetTensorRtRtxOptions(mode);
         }

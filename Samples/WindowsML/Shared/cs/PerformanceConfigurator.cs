@@ -17,7 +17,7 @@ namespace WindowsML.Shared
                 "QNNEXECUTIONPROVIDER" => GetQnnOptions(mode),
                 "VITISAIEXECUTIONPROVIDER" => GetVitisAiOptions(mode),
                 "MIGRAPHXEXECUTIONPROVIDER" => GetMiGraphxOptions(mode),
-                "TENSORRTRTXEXECUTIONPROVIDER" => GetTensorRtRtxOptions(mode),
+                "NVTENSORRTRTXEXECUTIONPROVIDER" or "NVTENSORRTRTX" => GetTensorRtRtxOptions(mode),
                 _ => new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             };
         }
