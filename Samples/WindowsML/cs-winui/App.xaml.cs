@@ -11,6 +11,11 @@ namespace WindowsMLSample
 {
     public partial class App : Application
     {
+        public App()
+        {
+            this.InitializeComponent();
+        }
+
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             Window = new MainWindow();
