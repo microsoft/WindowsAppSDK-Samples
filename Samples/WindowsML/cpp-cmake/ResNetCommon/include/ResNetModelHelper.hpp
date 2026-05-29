@@ -5,13 +5,15 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Graphics.Imaging.h>
-#include <WinMLEpCatalog.h>
+#include <winrt/Microsoft.Windows.AI.MachineLearning.h>
 #include <string>
 #include <vector>
 
 namespace ResNetModelHelper
 {
-std::ostream& operator<<(std::ostream& outputStream, WinMLEpReadyState readyState);
+std::wostream& operator<<(std::wostream& outputStream, const winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyResultState& readyResultState);
+
+std::wostream& operator<<(std::wostream& outputStream, const winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyState& readyState);
 
 std::filesystem::path GetExecutablePath();
 

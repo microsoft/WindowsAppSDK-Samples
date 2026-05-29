@@ -29,19 +29,44 @@ using winrt::Windows::Foundation::IMemoryBufferReference;
 
 namespace ResNetModelHelper
 {
-std::ostream& operator<<(std::ostream& outputStream, WinMLEpReadyState readyState)
+std::wostream& operator<<(std::wostream& outputStream, const winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyResultState& readyResultState)
 {
-    switch (readyState)
+    if (readyResultState == winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyResultState::InProgress)
     {
-    case WinMLEpReadyState_Ready:
-        return outputStream << "Ready";
-    case WinMLEpReadyState_NotReady:
-        return outputStream << "NotReady";
-    case WinMLEpReadyState_NotPresent:
-        return outputStream << "NotPresent";
-    default:
-        return outputStream << "<<Unknown>>";
+        return outputStream << L"InProgress";
     }
+
+    if (readyResultState == winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyResultState::Success)
+    {
+        return outputStream << L"Success";
+    }
+
+    if (readyResultState == winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyResultState::Failure)
+    {
+        return outputStream << L"Failure";
+    }
+
+    return outputStream << L"<<Unknown>>";
+}
+
+std::wostream& operator<<(std::wostream& outputStream, const winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyState& readyState)
+{
+    if (readyState == winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyState::Ready)
+    {
+        return outputStream << L"Ready";
+    }
+
+    if (readyState == winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyState::NotReady)
+    {
+        return outputStream << L"NotReady";
+    }
+
+    if (readyState == winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyState::NotPresent)
+    {
+        return outputStream << L"NotPresent";
+    }
+
+    return outputStream << L"<<Unknown>>";
 }
 
 std::filesystem::path GetExecutablePath()
