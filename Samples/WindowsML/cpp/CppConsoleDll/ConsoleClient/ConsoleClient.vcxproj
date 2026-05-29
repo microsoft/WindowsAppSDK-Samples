@@ -44,4 +44,11 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <!-- Copy WindowsMLWrapper DLL and its dependencies to ConsoleClient output directory -->
+  <Target Name="CopyWrapperDll" AfterTargets="Build">
+    <ItemGroup>
+      <WrapperDlls Include="$(MSBuildThisFileDirectory)..\..\..\bin\WindowsMLWrapper\$(Platform)\$(Configuration)\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(WrapperDlls)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>
