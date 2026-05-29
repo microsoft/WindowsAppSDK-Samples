@@ -14,7 +14,7 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 
 - **Windows 11 PC** running version 24H2 (build 26100) or greater
 - **Visual Studio 2022** with C++ and .NET workloads
-- **Windows App SDK 1.8.1** or later
+- **Windows App SDK 2.1.3** or later
 - **Python 3.10-3.13** for Python samples on x64 and ARM64 devices
 
 ## Sample Categories

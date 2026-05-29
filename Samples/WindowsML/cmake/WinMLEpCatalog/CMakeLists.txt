@@ -99,6 +99,8 @@ add_custom_command(TARGET WinMLEpCatalogSample POST_BUILD
 
 # DirectML.dll has no import library, so it is not included in TARGET_RUNTIME_DLLS.
 # Copy it explicitly so execution provider registration works when the sample runs in-place.
+# Note: onnxruntime_providers_shared.dll was removed — it is no longer part of the
+# Microsoft.Windows.AI.MachineLearning 2.x package.
 add_custom_command(TARGET WinMLEpCatalogSample POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${WINML_DIRECTML_DLL}" $<TARGET_FILE_DIR:WinMLEpCatalogSample>

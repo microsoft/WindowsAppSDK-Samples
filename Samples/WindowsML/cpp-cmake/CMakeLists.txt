@@ -42,14 +42,19 @@ add_nuget_packages(
 )
 
 find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)
-set(CPPWINRT_VERSION "2.0.240405.15" CACHE STRING "C++/WinRT version for projection generation")
 
 # Workaround: The ML cmake overlay expects the WinMD at Microsoft.WindowsAppSDK.ML/metadata/ but in 2.1.1+
-# the WinMD lives in the separate Microsoft.Windows.AI.MachineLearning package. Create a symlink so the
-# overlay can find it. Also create the runtimes dir with onnxruntime.lib for the SelfContained target.
+# the WinMD lives in the separate Microsoft.Windows.AI.MachineLearning package. Copy the required files so
+# the overlay can find them. Also copy the runtimes dir with onnxruntime.lib for the SelfContained target.
 get_property(_ML_PKG_LOC GLOBAL PROPERTY NUGET_LOCATION-MICROSOFT_WINDOWSAPPSDK_ML)
 get_property(_AIML_PKG_LOC GLOBAL PROPERTY NUGET_LOCATION-MICROSOFT_WINDOWS_AI_MACHINELEARNING)
-if(_ML_PKG_LOC AND _AIML_PKG_LOC AND NOT EXISTS "${_ML_PKG_LOC}/metadata")
+if(NOT _ML_PKG_LOC)
+    message(FATAL_ERROR "Microsoft.WindowsAppSDK.ML package location not found. Ensure the package is listed in add_nuget_packages().")
+endif()
+if(NOT _AIML_PKG_LOC)
+    message(FATAL_ERROR "Microsoft.Windows.AI.MachineLearning package location not found. Ensure the package is listed in add_nuget_packages().")
+endif()
+if(NOT EXISTS "${_ML_PKG_LOC}/metadata")
     file(MAKE_DIRECTORY "${_ML_PKG_LOC}/metadata")
     file(COPY_FILE
         "${_AIML_PKG_LOC}/metadata/Microsoft.Windows.AI.MachineLearning.winmd"
