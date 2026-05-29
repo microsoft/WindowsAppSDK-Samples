@@ -32,16 +32,59 @@ FetchContent_MakeAvailable(NuGetCMakePackage)
 
 add_nuget_packages(
     PACKAGES
+        Microsoft.Windows.AI.MachineLearning 2.1.1
         Microsoft.Windows.CppWinRT 2.0.240405.15
         Microsoft.Windows.ImplementationLibrary 1.0.240803.1
-        Microsoft.WindowsAppSDK.Foundation 1.8.251104000
-        Microsoft.WindowsAppSDK.InteractiveExperiences 1.8.251104001
-        Microsoft.WindowsAppSDK.ML 1.8.2109
-        Microsoft.WindowsAppSDK.Runtime 1.8.251106002
+        Microsoft.WindowsAppSDK.Foundation 2.0.21
+        Microsoft.WindowsAppSDK.InteractiveExperiences 2.0.13
+        Microsoft.WindowsAppSDK.ML 2.1.1
+        Microsoft.WindowsAppSDK.Runtime 2.1.3
 )
 
 find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)
+set(CPPWINRT_VERSION "2.0.240405.15" CACHE STRING "C++/WinRT version for projection generation")
+
+# Workaround: The ML cmake overlay expects the WinMD at Microsoft.WindowsAppSDK.ML/metadata/ but in 2.1.1+
+# the WinMD lives in the separate Microsoft.Windows.AI.MachineLearning package. Create a symlink so the
+# overlay can find it. Also create the runtimes dir with onnxruntime.lib for the SelfContained target.
+get_property(_ML_PKG_LOC GLOBAL PROPERTY NUGET_LOCATION-MICROSOFT_WINDOWSAPPSDK_ML)
+get_property(_AIML_PKG_LOC GLOBAL PROPERTY NUGET_LOCATION-MICROSOFT_WINDOWS_AI_MACHINELEARNING)
+if(_ML_PKG_LOC AND _AIML_PKG_LOC AND NOT EXISTS "${_ML_PKG_LOC}/metadata")
+    file(MAKE_DIRECTORY "${_ML_PKG_LOC}/metadata")
+    file(COPY_FILE
+        "${_AIML_PKG_LOC}/metadata/Microsoft.Windows.AI.MachineLearning.winmd"
+        "${_ML_PKG_LOC}/metadata/Microsoft.Windows.AI.MachineLearning.winmd"
+    )
+    # Copy runtimes and lib for SelfContained target
+    file(MAKE_DIRECTORY "${_ML_PKG_LOC}/runtimes/win-x64/native")
+    file(MAKE_DIRECTORY "${_ML_PKG_LOC}/runtimes/win-arm64/native")
+    file(COPY "${_AIML_PKG_LOC}/runtimes/win-x64/native/" DESTINATION "${_ML_PKG_LOC}/runtimes/win-x64/native/")
+    file(COPY "${_AIML_PKG_LOC}/runtimes/win-arm64/native/" DESTINATION "${_ML_PKG_LOC}/runtimes/win-arm64/native/")
+    file(COPY "${_AIML_PKG_LOC}/lib/native/x64/onnxruntime.lib" DESTINATION "${_ML_PKG_LOC}/runtimes/win-x64/native/")
+    file(COPY "${_AIML_PKG_LOC}/lib/native/arm64/onnxruntime.lib" DESTINATION "${_ML_PKG_LOC}/runtimes/win-arm64/native/")
+    # Also copy runtimes-framework dir
+    file(MAKE_DIRECTORY "${_ML_PKG_LOC}/runtimes-framework/win-x64/native")
+    file(MAKE_DIRECTORY "${_ML_PKG_LOC}/runtimes-framework/win-arm64/native")
+    file(COPY "${_AIML_PKG_LOC}/runtimes/win-x64/native/" DESTINATION "${_ML_PKG_LOC}/runtimes-framework/win-x64/native/")
+    file(COPY "${_AIML_PKG_LOC}/runtimes/win-arm64/native/" DESTINATION "${_ML_PKG_LOC}/runtimes-framework/win-arm64/native/")
+endif()
+
+# Workaround: InteractiveExperiences overlay expects lib at lib/native/win10-x64/ but package has lib/native/x64/
+get_property(_IE_PKG_LOC GLOBAL PROPERTY NUGET_LOCATION-MICROSOFT_WINDOWSAPPSDK_INTERACTIVEEXPERIENCES)
+if(_IE_PKG_LOC AND NOT EXISTS "${_IE_PKG_LOC}/lib/native/win10-x64")
+    file(MAKE_DIRECTORY "${_IE_PKG_LOC}/lib/native/win10-x64")
+    file(MAKE_DIRECTORY "${_IE_PKG_LOC}/lib/native/win10-arm64")
+    file(COPY "${_IE_PKG_LOC}/lib/native/x64/" DESTINATION "${_IE_PKG_LOC}/lib/native/win10-x64/")
+    file(COPY "${_IE_PKG_LOC}/lib/native/arm64/" DESTINATION "${_IE_PKG_LOC}/lib/native/win10-arm64/")
+endif()
+
 find_package(Microsoft.WindowsAppSDK.ML CONFIG REQUIRED)
+
+# The ORT/WinML headers live in the Microsoft.Windows.AI.MachineLearning package
+target_include_directories(Microsoft.WindowsAppSDK.ML
+    INTERFACE
+        "${_AIML_PKG_LOC}/include"
+)
 
 set(RESNET_MODEL_FILES
     ${CMAKE_SOURCE_DIR}/../Resources/ResNet50/model.Labels.txt

@@ -8,14 +8,14 @@ project(WinMLEpCatalogSample
 )
 
 # NuGet package version
-set(WINML_NUGET_ID      "Microsoft.WindowsAppSDK.ML" CACHE STRING "NuGet package ID")
-set(WINML_NUGET_VERSION "1.8.2141"                   CACHE STRING "NuGet package version")
+set(WINML_NUGET_ID      "Microsoft.Windows.AI.MachineLearning" CACHE STRING "NuGet package ID")
+set(WINML_NUGET_VERSION "2.1.1"                      CACHE STRING "NuGet package version")
 
 # Packages are restored / extracted under the build directory.
 cmake_path(APPEND CMAKE_CURRENT_BINARY_DIR "packages" OUTPUT_VARIABLE WINML_PACKAGES_DIR)
 
 # Repo-level NuGet config (contains the WinAppSDK-SampleDeps feed and localpackages).
-cmake_path(APPEND CMAKE_CURRENT_SOURCE_DIR "../../../../Samples/nuget.config"
+cmake_path(APPEND CMAKE_CURRENT_SOURCE_DIR "../../nuget.config"
     OUTPUT_VARIABLE _winml_nuget_cfg_default)
 cmake_path(NORMAL_PATH _winml_nuget_cfg_default)
 set(WINML_NUGET_CONFIG "${_winml_nuget_cfg_default}"
@@ -97,15 +97,11 @@ add_custom_command(TARGET WinMLEpCatalogSample POST_BUILD
     VERBATIM
 )
 
-# DirectML.dll and onnxruntime_providers_shared.dll have no import libraries,
-# so they are not included in TARGET_RUNTIME_DLLS. Copy them explicitly so
-# execution provider registration works when the sample runs in-place.
+# DirectML.dll has no import library, so it is not included in TARGET_RUNTIME_DLLS.
+# Copy it explicitly so execution provider registration works when the sample runs in-place.
 add_custom_command(TARGET WinMLEpCatalogSample POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${WINML_DIRECTML_DLL}" $<TARGET_FILE_DIR:WinMLEpCatalogSample>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${WINML_ONNXRUNTIME_PROVIDERS_SHARED_DLL}" $<TARGET_FILE_DIR:WinMLEpCatalogSample>
-    COMMAND_EXPAND_LISTS
     VERBATIM
 )
 
