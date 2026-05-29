@@ -15,7 +15,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <winrt/Microsoft.Windows.AI.MachineLearning.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Graphics.Imaging.h>

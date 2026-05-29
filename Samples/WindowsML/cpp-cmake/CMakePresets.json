@@ -13,8 +13,7 @@
       "cacheVariables": {
         "CMAKE_MSVC_DEBUG_INFORMATION_FORMAT": "Embedded",
         "CMAKE_SYSTEM_VERSION": "10.0.26100.0",
-        "CPPWINRT_PROJECTION_ROOT_PATH": "${sourceDir}/__cppwinrt",
-        "CPPWINRT_VERSION": "2.0.250303.1",
+        "CPPWINRT_VERSION": "2.0.240405.15",
         "NUGET_PACKAGE_ROOT_PATH": "${sourceDir}/__packages"
       }
     },

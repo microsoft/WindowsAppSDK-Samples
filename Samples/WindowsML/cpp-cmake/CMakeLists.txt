@@ -35,14 +35,11 @@ add_nuget_packages(
         Microsoft.Windows.AI.MachineLearning 2.1.1
         Microsoft.Windows.CppWinRT 2.0.240405.15
         Microsoft.Windows.ImplementationLibrary 1.0.240803.1
-        Microsoft.WindowsAppSDK.Foundation 2.0.21
-        Microsoft.WindowsAppSDK.InteractiveExperiences 2.0.13
-        Microsoft.WindowsAppSDK.ML 2.1.1
-        Microsoft.WindowsAppSDK.Runtime 2.1.3
 )
 
 find_package(Microsoft.Windows.ImplementationLibrary CONFIG REQUIRED)
 find_package(Microsoft.Windows.AI.MachineLearning CONFIG REQUIRED)
+find_package(Microsoft.Windows.CppWinRT CONFIG REQUIRED)
 
 set(RESNET_MODEL_FILES
     ${CMAKE_SOURCE_DIR}/../Resources/ResNet50/model.Labels.txt

@@ -7,11 +7,22 @@
 #include <utility>
 #include <vector>
 #include <winrt/base.h>
-#include <winrt/Microsoft.Windows.AI.MachineLearning.h>
+#include <WinMLEpCatalog.h>
 
 #include <winml/onnxruntime_cxx_api.h>
 
 using namespace ResNetModelHelper;
+
+static BOOL CALLBACK EnumProviderCallback(WinMLEpHandle ep, const WinMLEpInfo* info, void* /*context*/)
+{
+    std::cout << "Provider            : " << info->name << '\n';
+    std::cout << " ReadyState         : " << info->readyState << '\n';
+
+    HRESULT hr = WinMLEpEnsureReady(ep);
+    std::cout << " EnsureReady        : 0x" << std::hex << hr << std::dec << '\n';
+
+    return TRUE;
+}
 
 int wmain(int argc, wchar_t* argv[]) noexcept
 {
@@ -23,30 +34,17 @@ int wmain(int argc, wchar_t* argv[]) noexcept
         winrt::init_apartment();
         Ort::Env env(ORT_LOGGING_LEVEL_ERROR, "CppConsoleDesktop");
 
-        // Use WinML to download and register Execution Providers
-        winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderCatalog catalog =
-            winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderCatalog::GetDefault();
-        auto providers = catalog.FindAllProviders();
-        for (const auto& provider : providers)
+        // Use WinML to discover and ensure Execution Providers are ready
+        WinMLEpCatalogHandle catalog = nullptr;
+        HRESULT hr = WinMLEpCatalogCreate(&catalog);
+        if (SUCCEEDED(hr))
         {
-            std::wcout << L"Provider    : " << std::wstring_view{provider.Name()} << L'\n';
-            std::wcout << L" ReadyState : " << provider.ReadyState() << L'\n';
-            winrt::Windows::Foundation::IAsyncOperationWithProgress action = provider.EnsureReadyAsync();
-
-            action.Progress([](const auto& sender, double progress) {
-                std::wcout << L"  Progress  : " << progress << L"%\n";
-            });
-
-            winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyResult result = action.get();
-            std::wcout << L" ReadyResultState   : " << result.Status() << L'\n';
-            std::wcout << L" ExtendedError      : 0x" << std::hex << result.ExtendedError() << L'\n';
-            std::wcout << L" DiagnosticText     : " << result.DiagnosticText() << L'\n';
-
-            winrt::hresult errorCode = action.ErrorCode();
-            std::wcout << L" ErrorCode          : " << errorCode << L'\n';
-
-            const bool registerResult = provider.TryRegister();
-            std::wcout << L" registerResult     : " << registerResult << L'\n';
+            WinMLEpCatalogEnumProviders(catalog, EnumProviderCallback, nullptr);
+            WinMLEpCatalogRelease(catalog);
+        }
+        else
+        {
+            std::cerr << "Failed to create EP catalog: 0x" << std::hex << hr << std::dec << std::endl;
         }
 
         std::vector<Ort::ConstEpDevice> devices = env.GetEpDevices();

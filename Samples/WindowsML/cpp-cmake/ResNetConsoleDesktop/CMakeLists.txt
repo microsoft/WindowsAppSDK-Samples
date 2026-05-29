@@ -16,7 +16,8 @@ target_precompile_headers(ResNetConsoleDesktop
 target_link_libraries(ResNetConsoleDesktop
     PRIVATE
         ResNetCommon
-        Microsoft.WindowsAppSDK.ML_Framework # Use 'framework' mode.
+        WindowsML::WindowsML
+        Microsoft.Windows.CppWinRT
         Microsoft.Windows.ImplementationLibrary
 )
 

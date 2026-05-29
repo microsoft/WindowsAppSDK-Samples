@@ -16,7 +16,8 @@ target_precompile_headers(ResNetConsoleDesktop.SelfContained
 target_link_libraries(ResNetConsoleDesktop.SelfContained
     PRIVATE
         ResNetCommon
-        Microsoft.WindowsAppSDK.ML_SelfContained # Use 'self-contained' mode.
+        WindowsML::WindowsML
+        Microsoft.Windows.CppWinRT
         Microsoft.Windows.ImplementationLibrary
 )
 
