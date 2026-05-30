@@ -104,6 +104,7 @@ add_custom_command(TARGET WinMLEpCatalogSample POST_BUILD
 add_custom_command(TARGET WinMLEpCatalogSample POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${WINML_DIRECTML_DLL}" $<TARGET_FILE_DIR:WinMLEpCatalogSample>
+    COMMAND_EXPAND_LISTS
     VERBATIM
 )
 
