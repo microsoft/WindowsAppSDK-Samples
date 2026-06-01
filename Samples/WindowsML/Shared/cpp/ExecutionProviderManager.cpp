@@ -40,6 +40,9 @@ namespace Shared
                 if (allowDownload || readyState != winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyState::NotPresent)
                 {
                     provider.EnsureReadyAsync().get();
+                    readyState = provider.ReadyState();
+                    std::wcout << L"  Updated Ready state: " << static_cast<int>(readyState) << std::endl;
+
                 }
 
                 provider.TryRegister();
