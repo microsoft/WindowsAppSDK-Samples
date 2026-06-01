@@ -15,7 +15,7 @@ set(WINML_NUGET_VERSION "2.1.1"                      CACHE STRING "NuGet package
 cmake_path(APPEND CMAKE_CURRENT_BINARY_DIR "packages" OUTPUT_VARIABLE WINML_PACKAGES_DIR)
 
 # Repo-level NuGet config (contains the WinAppSDK-SampleDeps feed and localpackages).
-cmake_path(APPEND CMAKE_CURRENT_SOURCE_DIR "../../nuget.config"
+cmake_path(APPEND CMAKE_CURRENT_SOURCE_DIR "../../../../Samples/nuget.config"
     OUTPUT_VARIABLE _winml_nuget_cfg_default)
 cmake_path(NORMAL_PATH _winml_nuget_cfg_default)
 set(WINML_NUGET_CONFIG "${_winml_nuget_cfg_default}"
