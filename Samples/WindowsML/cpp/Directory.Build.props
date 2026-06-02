@@ -22,16 +22,17 @@
 
   <PropertyGroup>
     <!-- Central NuGet package versions for C++ WindowsML samples -->
-    <WindowsAppSDKVersion>1.8.251106002</WindowsAppSDKVersion>
-    <WindowsAppSDKWinUIVersion>1.8.251105000</WindowsAppSDKWinUIVersion>
-    <WindowsAppSDKBaseVersion>1.8.250831001</WindowsAppSDKBaseVersion>
-    <WindowsAppSDKFoundationVersion>1.8.251104000</WindowsAppSDKFoundationVersion>
-    <WindowsAppSDKInteractiveExperiencesVersion>1.8.251104001</WindowsAppSDKInteractiveExperiencesVersion>
-    <WindowsAppSDKDWriteVersion>1.8.25090401</WindowsAppSDKDWriteVersion>
-    <WindowsAppSDKWidgetsVersion>1.8.250904007</WindowsAppSDKWidgetsVersion>
-    <WindowsAppSDKAIVersion>1.8.39</WindowsAppSDKAIVersion>
-    <WindowsAppSDKMLVersion>1.8.2109</WindowsAppSDKMLVersion>
-    <WindowsAppSDKRuntimeVersion>1.8.251106002</WindowsAppSDKRuntimeVersion>
+    <WindowsAppSDKVersion>2.1.3</WindowsAppSDKVersion>
+    <WindowsAppSDKWinUIVersion>2.1.0</WindowsAppSDKWinUIVersion>
+    <WindowsAppSDKBaseVersion>2.0.4</WindowsAppSDKBaseVersion>
+    <WindowsAppSDKFoundationVersion>2.0.21</WindowsAppSDKFoundationVersion>
+    <WindowsAppSDKInteractiveExperiencesVersion>2.0.13</WindowsAppSDKInteractiveExperiencesVersion>
+    <WindowsAppSDKDWriteVersion>2.1.0</WindowsAppSDKDWriteVersion>
+    <WindowsAppSDKWidgetsVersion>2.0.5</WindowsAppSDKWidgetsVersion>
+    <WindowsAppSDKAIVersion>2.1.10</WindowsAppSDKAIVersion>
+    <WindowsAppSDKMLVersion>2.1.1</WindowsAppSDKMLVersion>
+    <WindowsAppSDKRuntimeVersion>2.1.3</WindowsAppSDKRuntimeVersion>
+    <WindowsAIMachineLearningVersion>2.1.1</WindowsAIMachineLearningVersion>
     <CppWinRTVersion>2.0.240405.15</CppWinRTVersion>
     <WindowsSDKBuildToolsVersion>10.0.26100.4654</WindowsSDKBuildToolsVersion>
     <WebView2Version>1.0.3179.45</WebView2Version>

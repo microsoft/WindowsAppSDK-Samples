@@ -71,7 +71,7 @@ cmake --build out/build/nuget --config RelWithDebInfo
 To use a different version:
 
 ```powershell
-cmake --preset nuget -DWINML_NUGET_VERSION=1.8.2124
+cmake --preset nuget -DWINML_NUGET_VERSION=2.1.1
 ```
 
 To use a local `.nupkg` instead of NuGet restore, place it in this directory
