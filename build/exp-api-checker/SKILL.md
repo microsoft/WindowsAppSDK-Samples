@@ -1,4 +1,9 @@
-# Exp API Checker
+---
+name: exp-api-checker
+description: Detect experimental Windows App SDK API usage in sample code and generate LLM-ready fix suggestions.
+---
+
+# Experimental API Checker
 
 Detect experimental API usage in Windows App SDK sample code and generate fix suggestions.
 
