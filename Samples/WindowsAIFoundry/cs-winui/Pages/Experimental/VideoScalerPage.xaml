@@ -29,7 +29,7 @@
                     Style="{StaticResource BodyTextBlockStyle}"
                     Margin="10"/>
 
-            <controls:ModelInitializationControl SourceFile="Examples/Experimental/VideoScalerInit.md"/>
+            <controls:ModelInitializationControl SourceFile="Examples/VideoScalerInit.md"/>
 
             <TextBlock Text="Scale Video Frame"
                     Style="{StaticResource SubtitleTextBlockStyle}"
@@ -75,7 +75,7 @@
                                 Command="{Binding ScaleCommand}">Scale Image</Button>
                         <ProgressRing Visibility="{Binding ScaleCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </StackPanel>
-                    <controls:CodeBlockControl SourceFile="Examples/Experimental/VideoScaler.md"
+                    <controls:CodeBlockControl SourceFile="Examples/VideoScaler.md"
                             Margin="10"/>
                 </StackPanel>
             </Border>

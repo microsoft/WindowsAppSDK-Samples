@@ -48,7 +48,8 @@ See [additional instructions](./cpp-console-unpackaged/README.md) for using [the
 The sample is built against the experimental Windows App SDK by default so that every navigation
 entry has a working backing API. Two of the entries — **Image Foreground Extractor** and
 **Video Scaler** — depend on APIs that only ship in the experimental flavor and live under
-`Models/Experimental`, `ViewModels/Experimental`, `Pages/Experimental`, and `Examples/Experimental`.
+`Models/Experimental/`, `ViewModels/Experimental/`, and `Pages/Experimental/`. Their sample-code
+snippets live flat in `Examples/` alongside the rest.
 
 To build the same sample against the latest stable Windows App SDK, pass
 `IncludeExperimentalApis=false`:
@@ -61,12 +62,33 @@ In that mode:
 
 - `Directory.Packages.props` resolves `Microsoft.WindowsAppSDK` to the latest stable version
   instead of the `-experimental` one.
-- The four `**/Experimental/*` folders are excluded from compile / XAML / content items.
-- `MainWindow` removes the two experimental `NavigationViewItem`s at startup, so the navigation
-  pane only shows the six features that actually have backing APIs in stable.
+- Every file under `**/Experimental/` is excluded from compile / XAML items.
+- `MainWindow` removes any `NavigationViewItem` whose `Tag` begins with `Experimental:`, so the
+  navigation pane only shows the six features that actually have backing APIs in stable.
 
 Switching back to the default (experimental) build does not require any other change — simply omit
 the property or pass `-p:IncludeExperimentalApis=true`.
+
+#### Layout for experimental contributors
+
+The split is structured so that no shared file (csproj, `MainWindow.xaml.cs`, root view-model)
+contains any `#if` guards. The convention is:
+
+| Location | Purpose |
+| --- | --- |
+| `Models/Experimental/<Feature>Model.cs` | Direct calls to experimental APIs |
+| `ViewModels/Experimental/<Feature>ViewModel.cs` | View-model wrapper |
+| `Pages/Experimental/<Feature>Page.xaml[.cs]` | UI for the feature |
+| `ViewModels/Experimental/CopilotRootViewModel.Experimental.cs` | Adds the feature's property to the root view-model via `partial class` + field initializer |
+| `Pages/Experimental/MainWindow.Experimental.cs` | Implements `partial void` hooks to keep the `Experimental:`-tagged nav items and to route their navigation |
+| `MainWindow.xaml` | Declares the nav item with `Tag="Experimental:<TagName>"` |
+
+To add a new experimental feature, drop the first three files in their `Experimental/` folders, add
+a property to `CopilotRootViewModel.Experimental.cs`, add a `<NavigationViewItem
+Tag="Experimental:..." ...>` entry to `MainWindow.xaml`, and add a `case` to
+`MainWindow.Experimental.cs`. To promote a feature to stable, `git mv` those files out of the
+`Experimental/` subfolders, drop the `Experimental:` prefix from its nav item tag, move the property
+and case into the corresponding stable files, and you're done.
 
 ## Special Considerations for Unpackaged and Self-Contained modes with Windows AI APIs
 

@@ -24,13 +24,17 @@
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
 
     <!--
-      IncludeExperimentalApis is also declared in Directory.Packages.props so that the package
-      version is swapped at restore time. Re-declare it here so the value is also visible during
-      compilation, define the WINAPPSDK_EXPERIMENTAL constant for #if guards, and drive the
-      conditional <Compile>/<Page>/<Content> removes below.
+      The IncludeExperimentalApis property toggles the build flavor:
+        true  (default): use the experimental Microsoft.WindowsAppSDK package
+                         and include every file under **/Experimental/.
+        false:           use the stable Microsoft.WindowsAppSDK package and
+                         exclude every file under **/Experimental/.
+      The matching package version swap happens in Directory.Packages.props
+      at restore time. The Compile/Page/None removes below drive what's
+      compiled. No #if guards are needed in shared files — experimental
+      surface area is kept entirely under **/Experimental/** subfolders.
     -->
     <IncludeExperimentalApis Condition="'$(IncludeExperimentalApis)'==''">true</IncludeExperimentalApis>
-    <DefineConstants Condition="'$(IncludeExperimentalApis)'=='true'">$(DefineConstants);WINAPPSDK_EXPERIMENTAL</DefineConstants>
   </PropertyGroup>
 
   <!-- When building against stable Windows App SDK, exclude the experimental-only code paths. -->
@@ -40,7 +44,6 @@
     <Compile Remove="Pages\Experimental\**\*.cs" />
     <Page Remove="Pages\Experimental\**\*.xaml" />
     <None Remove="Pages\Experimental\**\*.xaml" />
-    <None Remove="Examples\Experimental\**\*.md" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,7 +56,6 @@
     <None Remove="Examples\LanguageModelWithProgress.md" />
     <None Remove="Examples\TextRecognizer.md" />
     <None Remove="Examples\TextRecognizerInit.md" />
-    <None Remove="Examples\Experimental\VideoScalerInit.md" />
     <None Remove="Pages\ExampleCode.xaml" />
     <None Remove="Pages\ImageDescriptionPage.xaml" />
     <None Remove="Pages\ImageObjectExtractorPage.xaml" />
@@ -68,11 +70,13 @@
     <Content Include="Assets\*.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <!--
+      All example markdown lives flat under Examples/. The 4 experimental snippets
+      ship even in the stable build (a few KB of unused data), so the XAML
+      SourceFile reference never has to change when a feature is promoted from
+      experimental to stable.
+    -->
     <Content Include="Examples\*.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <!-- Experimental example snippets - only included when building the experimental flavor. -->
-    <Content Include="Examples\Experimental\*.md" Condition="'$(IncludeExperimentalApis)'=='true'">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

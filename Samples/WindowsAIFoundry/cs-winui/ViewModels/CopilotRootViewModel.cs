@@ -5,39 +5,31 @@ using WindowsAISample.Models.Contracts;
 namespace WindowsAISample.ViewModels;
 
 /// <summary>
-/// Our root model to expose all the AI Fabric API's
+/// Our root model to expose all the AI Fabric API's.
+///
+/// This class is intentionally <c>partial</c>: feature properties that depend
+/// on the experimental Windows App SDK live in a sibling file under
+/// <c>ViewModels/Experimental/</c>, which the project excludes from the build
+/// when <c>IncludeExperimentalApis=false</c>. Each property uses a field
+/// initializer, so adding or promoting a feature never touches this file.
 /// </summary>
-internal class CopilotRootViewModel
+internal partial class CopilotRootViewModel
 {
-    internal CopilotRootViewModel()
-    {
-        LanguageModel = new(new Models.LanguageModelModel());
-        TextRecognizer = new(new Models.TextRecognizerModel());
-        ImageScaler = new(new Models.ImageScalerModel());
-        ImageObjectExtractor = new(new Models.ImageObjectExtractorModel());
-        ImageDescriptionGenerator = new(new Models.ImageDescriptionModel());
-        ImageObjectRemover = new(new Models.ImageObjectRemoverModel());
-#if WINAPPSDK_EXPERIMENTAL
-        ImageForegroundExtractor = new(new Models.ImageForegroundExtractorModel());
-        VideoScaler = new(new Models.VideoScalerModel());
-#endif
-    }
-
     public LanguageModelViewModel LanguageModel { get; }
+        = new(new Models.LanguageModelModel());
 
     public TextRecognizerViewModel TextRecognizer { get; }
+        = new(new Models.TextRecognizerModel());
 
     public ImageScalerViewModel ImageScaler { get; }
+        = new(new Models.ImageScalerModel());
 
     public ImageDescriptionViewModel ImageDescriptionGenerator { get; }
+        = new(new Models.ImageDescriptionModel());
 
     public ImageObjectExtractorViewModel ImageObjectExtractor { get; }
+        = new(new Models.ImageObjectExtractorModel());
 
     public ImageObjectRemoverViewModel ImageObjectRemover { get; }
-
-#if WINAPPSDK_EXPERIMENTAL
-    public ImageForegroundExtractorViewModel ImageForegroundExtractor { get; }
-
-    public VideoScalerViewModel VideoScaler { get; }
-#endif
+        = new(new Models.ImageObjectRemoverModel());
 }
