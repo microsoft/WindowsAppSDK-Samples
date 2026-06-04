@@ -16,6 +16,14 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+#if !WINAPPSDK_EXPERIMENTAL
+        // Experimental-only features are excluded from the stable build; hide their entries
+        // so the navigation pane only shows what this build actually supports.
+        NavView.MenuItems.Remove(ForegroundExtractorNavItem);
+        NavView.MenuItems.Remove(VideoScalerNavItem);
+#endif
+
         rootFrame.DataContext = new CopilotRootViewModel();
         rootFrame.Navigate(typeof(LanguageModelPage));
     }
@@ -35,9 +43,11 @@ public sealed partial class MainWindow : Window
                 case "ImageObjectExtractor":
                     rootFrame.Navigate(typeof(ImageObjectExtractorPage));
                     break;
+#if WINAPPSDK_EXPERIMENTAL
                 case "ImageForegroundExtractor":
                     rootFrame.Navigate(typeof(ImageForegroundExtractorPage));
                     break;
+#endif
                 case "ImageDescription":
                     rootFrame.Navigate(typeof (ImageDescriptionPage));
                     break;
@@ -47,9 +57,11 @@ public sealed partial class MainWindow : Window
                 case "ImageObjectRemover":
                     rootFrame.Navigate(typeof(ImageObjectRemoverPage));
                     break;
+#if WINAPPSDK_EXPERIMENTAL
                 case "VideoScaler":
                     rootFrame.Navigate(typeof(VideoScalerPage));
                     break;
+#endif
             }
         }
     }

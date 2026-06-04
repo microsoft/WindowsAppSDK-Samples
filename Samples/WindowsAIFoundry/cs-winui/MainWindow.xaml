@@ -29,7 +29,8 @@
             <NavigationViewItem Content="Image Object Extractor"
                     Tag="ImageObjectExtractor"
                     Icon="Cut"/>
-            <NavigationViewItem Content="Image Foreground Extractor"
+            <NavigationViewItem x:Name="ForegroundExtractorNavItem"
+                    Content="Image Foreground Extractor"
                     Tag="ImageForegroundExtractor"
                     Icon="ContactInfo"/>
             <NavigationViewItem Content="Image Description"
@@ -41,7 +42,8 @@
             <NavigationViewItem Content="Image Object Remover"
                     Tag="ImageObjectRemover"
                     Icon="Cut"/>
-            <NavigationViewItem Content="Video Scaler"
+            <NavigationViewItem x:Name="VideoScalerNavItem"
+                    Content="Video Scaler"
                     Tag="VideoScaler"
                     Icon="Video"/>
         </NavigationView.MenuItems>

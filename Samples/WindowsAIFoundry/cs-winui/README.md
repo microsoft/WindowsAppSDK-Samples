@@ -43,6 +43,31 @@ join the [Windows Insider Program](https://insider.windows.com).
 
 See [additional instructions](./cpp-console-unpackaged/README.md) for using [the C++ & CMake sample](./cpp-console-unpackaged/CMakeLists.txt).
 
+### Building against the stable Windows App SDK
+
+The sample is built against the experimental Windows App SDK by default so that every navigation
+entry has a working backing API. Two of the entries — **Image Foreground Extractor** and
+**Video Scaler** — depend on APIs that only ship in the experimental flavor and live under
+`Models/Experimental`, `ViewModels/Experimental`, `Pages/Experimental`, and `Examples/Experimental`.
+
+To build the same sample against the latest stable Windows App SDK, pass
+`IncludeExperimentalApis=false`:
+
+```powershell
+dotnet build WindowsAISample.csproj -p:Platform=x64 -p:IncludeExperimentalApis=false
+```
+
+In that mode:
+
+- `Directory.Packages.props` resolves `Microsoft.WindowsAppSDK` to the latest stable version
+  instead of the `-experimental` one.
+- The four `**/Experimental/*` folders are excluded from compile / XAML / content items.
+- `MainWindow` removes the two experimental `NavigationViewItem`s at startup, so the navigation
+  pane only shows the six features that actually have backing APIs in stable.
+
+Switching back to the default (experimental) build does not require any other change — simply omit
+the property or pass `-p:IncludeExperimentalApis=true`.
+
 ## Special Considerations for Unpackaged and Self-Contained modes with Windows AI APIs
 
 - Unpackaged app configuration is no longer supported. Every app using Windows AI APIs must have a package identity which can be granted to [apps with an external location](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps) to achieve that with unpackaged binaries.

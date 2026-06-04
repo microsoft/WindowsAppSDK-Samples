@@ -27,7 +27,7 @@
                     Style="{StaticResource BodyTextBlockStyle}"
                     Margin="10"/>
 
-            <controls:ModelInitializationControl SourceFile="Examples/ImageForegroundExtractorInit.md"/>
+            <controls:ModelInitializationControl SourceFile="Examples/Experimental/ImageForegroundExtractorInit.md"/>
 
             <TextBlock Text="Extract Foreground"
                     Style="{StaticResource SubtitleTextBlockStyle}"
@@ -77,7 +77,7 @@
                         <ProgressRing Visibility="{Binding ExtractForegroundCommand.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </StackPanel>
 
-                    <controls:CodeBlockControl SourceFile="Examples/ImageForegroundExtractor.md"
+                    <controls:CodeBlockControl SourceFile="Examples/Experimental/ImageForegroundExtractor.md"
                             Margin="10"/>
                 </StackPanel>
             </Border>

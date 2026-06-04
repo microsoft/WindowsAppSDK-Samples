@@ -22,7 +22,27 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
+
+    <!--
+      IncludeExperimentalApis is also declared in Directory.Packages.props so that the package
+      version is swapped at restore time. Re-declare it here so the value is also visible during
+      compilation, define the WINAPPSDK_EXPERIMENTAL constant for #if guards, and drive the
+      conditional <Compile>/<Page>/<Content> removes below.
+    -->
+    <IncludeExperimentalApis Condition="'$(IncludeExperimentalApis)'==''">true</IncludeExperimentalApis>
+    <DefineConstants Condition="'$(IncludeExperimentalApis)'=='true'">$(DefineConstants);WINAPPSDK_EXPERIMENTAL</DefineConstants>
   </PropertyGroup>
+
+  <!-- When building against stable Windows App SDK, exclude the experimental-only code paths. -->
+  <ItemGroup Condition="'$(IncludeExperimentalApis)'!='true'">
+    <Compile Remove="Models\Experimental\**\*.cs" />
+    <Compile Remove="ViewModels\Experimental\**\*.cs" />
+    <Compile Remove="Pages\Experimental\**\*.cs" />
+    <Page Remove="Pages\Experimental\**\*.xaml" />
+    <None Remove="Pages\Experimental\**\*.xaml" />
+    <None Remove="Examples\Experimental\**\*.md" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="Controls\ModelInitializationControl.xaml" />
     <None Remove="Examples\ImageObjectExtractor.md" />
@@ -33,12 +53,12 @@
     <None Remove="Examples\LanguageModelWithProgress.md" />
     <None Remove="Examples\TextRecognizer.md" />
     <None Remove="Examples\TextRecognizerInit.md" />
-    <None Remove="Examples\VideoScalerInit.md" />
+    <None Remove="Examples\Experimental\VideoScalerInit.md" />
     <None Remove="Pages\ExampleCode.xaml" />
     <None Remove="Pages\ImageDescriptionPage.xaml" />
     <None Remove="Pages\ImageObjectExtractorPage.xaml" />
     <None Remove="Pages\ImageScalerPage.xaml" />
-    <None Remove="Pages\VideoScalerPage.xaml" />
+    <None Remove="Pages\Experimental\VideoScalerPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +69,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Examples\*.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <!-- Experimental example snippets - only included when building the experimental flavor. -->
+    <Content Include="Examples\Experimental\*.md" Condition="'$(IncludeExperimentalApis)'=='true'">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -104,8 +128,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\VideoScalerPage.xaml">
+  <ItemGroup Condition="'$(IncludeExperimentalApis)'=='true'">
+    <Page Update="Pages\Experimental\VideoScalerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
