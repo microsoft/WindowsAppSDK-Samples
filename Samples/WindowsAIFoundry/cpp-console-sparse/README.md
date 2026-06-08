@@ -176,3 +176,32 @@ Change the parameters used in code and recompile if you'd like to see other resu
 
 The sample combines a system prompt ("You are a clever storyteller...") with a user-provided prompt
 on the commandline that is the kind of story to tell about what a dragon might say.
+
+### Using the Image Scaler (super-resolution)
+
+In addition to the storyteller (`LanguageModel`) flow above, the sample can also call the
+`Microsoft.Windows.AI.Imaging.ImageScaler` API to upscale an image. Pass `--image` (with an
+optional `--scale` factor) instead of a prompt:
+
+```
+cmake-ai-generator --image "C:\path\to\photo.jpg"
+cmake-ai-generator --image "C:\path\to\photo.png" --scale 2
+```
+
+The upscaled image is written next to the input as `<name>_x<factor><ext>` (e.g. `photo_x4.jpg`).
+`--scale` defaults to `4` and must not exceed `ImageScaler::MaxSupportedScaleFactor` (currently 4
+on shipping models).
+
+To help diagnose the failure modes most apps hit first, each phase prints a `[Step N/6]` header
+so you can see exactly where a failure happens. The most common HRESULTs are mapped to actionable
+hints:
+
+| HRESULT | What it usually means |
+| --- | --- |
+| `0x80040154` (`REGDB_E_CLASSNOTREG`) | The WinAppSDK framework package is not in this process's package graph. The sparse package must declare the matching `Microsoft.WindowsAppRuntime.*` `<PackageDependency>` and the runtime must be installed. |
+| `0x80070005` (`E_ACCESSDENIED`) | The app has no package identity (sparse package not registered) or the `systemAIModels` capability is missing from the manifest. |
+| `0x80073D06` | Package not registered. Run `Add-AppxPackage -ExternalLocation` against the build directory. |
+| `0x80004005` (`E_FAIL`) | Often "Not declared by app" — verify `MaxVersionTested >= 10.0.26226.0` and that the `systemai` capability namespace is present. |
+| `EnsureReadyAsync` returns non-success | The ImageScaler model is not yet installed. Check **Settings > System > AI Components** and **Settings > Windows Update**. |
+
+The ImageScaler model only ships on Copilot+ PCs.
