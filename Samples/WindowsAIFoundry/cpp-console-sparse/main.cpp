@@ -11,6 +11,8 @@
 #include <span>
 #include <string>
 #include <string_view>
+#include <algorithm>
+#include <cwctype>
 #include <iostream>
 #include <format>
 #include <print>
@@ -26,7 +28,7 @@
 #include <winrt/Microsoft.Windows.Workloads.h>
 #include "formatters.h"
 
-void ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& useProgress,
+bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& useProgress,
                  std::wstring& imagePath, uint32_t& imageScale);
 int RunImageScaler(std::wstring const& imagePath, uint32_t scale);
 
@@ -41,7 +43,10 @@ try
     std::wstring imagePath;
     uint32_t imageScale = 4;
     bool useProgress = false;
-    ProcessArgs({argv + 1, argv + argc}, prompt, useProgress, imagePath, imageScale);
+    if (!ProcessArgs({argv + 1, argv + argc}, prompt, useProgress, imagePath, imageScale))
+    {
+        return 0;
+    }
 
     // If the user passed --image, run the ImageScaler super-resolution flow and exit.
     // Otherwise, fall through to the original LanguageModel storyteller demo.
@@ -119,13 +124,7 @@ catch (...)
     return ex;
 }
 
-#if defined(_M_ARM64)
-const auto g_packageArchitecture = PackageDependencyProcessorArchitectures_Arm64;
-#elif defined(_M_X64)
-const auto g_packageArchitecture = PackageDependencyProcessorArchitectures_X64;
-#endif
-
-void ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& useProgress,
+bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& useProgress,
                  std::wstring& imagePath, uint32_t& imageScale)
 {
     for (size_t i = 0; i < args.size(); ++i)
@@ -165,13 +164,15 @@ void ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& promp
             std::println(std::cout, "                           Output is written as <name>_x<factor><ext>.");
             std::println(std::cout, "");
             std::println(std::cout, "  --help, -h              Show this help message.");
-            exit(0);
+            return false;
         }
         else
         {
             prompt.append(L" ").append(arg);
         }
     }
+
+    return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -204,29 +205,50 @@ namespace ImageScalerMode
         std::cout.flush();
     }
 
+    GUID EncoderIdForPath(std::wstring const& path)
+    {
+        auto const dot = path.find_last_of(L'.');
+        if (dot == std::wstring::npos)
+        {
+            return BitmapEncoder::PngEncoderId();
+        }
+
+        auto extension = path.substr(dot);
+        std::transform(extension.begin(), extension.end(), extension.begin(),
+                       [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+
+        if ((extension == L".jpg") || (extension == L".jpeg"))
+        {
+            return BitmapEncoder::JpegEncoderId();
+        }
+        if (extension == L".bmp")
+        {
+            return BitmapEncoder::BmpEncoderId();
+        }
+        if ((extension == L".tif") || (extension == L".tiff"))
+        {
+            return BitmapEncoder::TiffEncoderId();
+        }
+        return BitmapEncoder::PngEncoderId();
+    }
+
     std::string_view HintFor(uint32_t hr)
     {
         switch (hr)
         {
         case 0x80040154: // REGDB_E_CLASSNOTREG
-            return "REGDB_E_CLASSNOTREG: the WinAppSDK framework package is not in this "
-                   "process's package graph. Verify the sparse package's <PackageDependency> "
-                   "references the correct Microsoft.WindowsAppRuntime.* package, and that it "
-                   "is installed on the machine.";
+            return "REGDB_E_CLASSNOTREG: missing WinAppSDK framework package. Check the sparse "
+                   "PackageDependency and installed Windows App Runtime.";
         case 0x80070005: // E_ACCESSDENIED
-            return "E_ACCESSDENIED: the app has no package identity, or the systemAIModels "
-                   "capability is missing. Register the sparse package before launching the exe.";
+            return "E_ACCESSDENIED: missing package identity or systemAIModels capability.";
         case 0x80073D06: // ERROR_INSTALL_PACKAGE_NOT_REGISTERED
-            return "Package not registered. Run Add-AppxPackage with -ExternalLocation pointing "
-                   "at the exe's directory.";
+            return "Package not registered. Re-run Add-AppxPackage -ExternalLocation.";
         case 0x80004005: // E_FAIL
-            return "E_FAIL: often \"Not declared by app\". Check MaxVersionTested >= "
-                   "10.0.26226.0 and that the systemAIModels capability is declared.";
+            return "E_FAIL: likely manifest issue. Check MaxVersionTested and systemAIModels.";
         case 0x80070002: // ERROR_FILE_NOT_FOUND
             return "File not found. Verify the input image path exists and is readable.";
         case 0x80070057: // E_INVALIDARG
-            return "E_INVALIDARG: a parameter is invalid; check the image pixel format and the "
-                   "scale factor relative to ImageScaler::MaxSupportedScaleFactor.";
+            return "E_INVALIDARG: check the image format and requested scale factor.";
         default:
             return {};
         }
@@ -359,7 +381,7 @@ namespace ImageScalerMode
             hstring(outName),
             winrt::Windows::Storage::CreationCollisionOption::ReplaceExisting);
         auto outStream = co_await outFile.OpenAsync(FileAccessMode::ReadWrite);
-        auto encoder = co_await BitmapEncoder::CreateAsync(BitmapEncoder::JpegEncoderId(), outStream);
+        auto encoder = co_await BitmapEncoder::CreateAsync(EncoderIdForPath(outputPath), outStream);
         encoder.SetSoftwareBitmap(scaled);
         co_await encoder.FlushAsync();
         std::println(std::cout, "  Saved: {}", winrt::to_string(outFile.Path()));

@@ -12,10 +12,12 @@ Topics and concepts in this example include:
 -   Referencing the Windows App SDK and C++/WinRT vcpkgs in CMake
 -   Accessing the Windows App SDK implementation from an unpackaged native (C++) app
 -   Calling the Microsoft.Windows.AI.Text.LanguageModel API to generate some text
+-   Calling the Microsoft.Windows.AI.Imaging.ImageScaler API to upscale an image
 
 > [!NOTE]
-> The vcpkg defined for the Windows App SDK is under development as of 28th
-> May 2025. We're working on making them "offcial."
+> The sample uses a local vcpkg overlay port for Windows App SDK packages.
+> For general vcpkg guidance, see the
+> [vcpkg getting started guide](https://learn.microsoft.com/vcpkg/get_started/get-started).
 
 > [!NOTE]
 > This sample is pinned to the current **stable 2.x** Windows App SDK line:
@@ -23,7 +25,7 @@ Topics and concepts in this example include:
 > **Windows App Runtime 2** framework package (`Microsoft.WindowsAppRuntime.2`, minimum
 > version `2.1.3.0`).
 
-## Building
+## Prerequisites
 
 You can build this project and change it to see examples of using the Windows AI Foundry
 features of Windows App SDK and Copilot+ PCs.
@@ -51,7 +53,7 @@ features of Windows App SDK and Copilot+ PCs.
    If the command prints no rows, install the stable Windows App Runtime 2 package before
    continuing.
 
-### Using in your Own App
+## Using in your Own App
 
 Copy the content of `vcpkg_ports` into your build tree for windowsappsdk.
 
@@ -117,7 +119,7 @@ Add the reference to the Windows App Runtime 2 framework package:
 Be sure to update the `Name` and `MinVersion` if you retarget the sample to a different
 Windows App Runtime line.
 
-### Building
+## Build
 
 > **Note:** The rest of these instructions assume you're using Visual Studio 2022. Your build tools'
 > instructions may be different.
@@ -140,7 +142,7 @@ cmake --build out/build/arm64-debug   # or out/build/x64-debug
 ```
 
 
-### Registering the sparse package (dev loop)
+## Register the sparse package
 
 Windows AI APIs require package identity. This sample gets package identity by registering
 `AppxManifest.xml` as a **sparse package** whose external location is the build output folder.
@@ -149,7 +151,7 @@ The sample's `CMakeLists.txt` already performs this registration automatically a
 **post-build step**. If registration succeeds, you're ready to run immediately from the
 output directory.
 
-If you want to re-register manually (recommended for an external customer's dev loop), run:
+For a normal dev loop, re-register manually after rebuilding:
 
 ```powershell
 Add-AppxPackage `
@@ -174,7 +176,7 @@ When done with the sample, remove the registration with:
 Get-AppxPackage *WindowsAISampleForCppCMakeSparse* | Remove-AppxPackage
 ```
 
-### Running
+## Run
 
 To debug the registered sparse package in Visual Studio, select
 **Debug > Other Debug Targets > Debug Installed App Package...**, browse to the
@@ -208,29 +210,18 @@ is registered but the required framework package is not in the package graph. Re
 3. You are running the exe from the same build output directory you registered as
    `-ExternalLocation`.
 
-## Structure
+## Console modes
 
-### Configuration
+### Storyteller mode
 
-On entry, the `--progress` argument enables incremental output while content is being
-generated. Any other parameters are treated as part of the story prompt.
+Use the original LanguageModel flow:
 
-### Using the Language Model
+```powershell
+cmake-ai-generator.exe "tell me a dragon story"
+cmake-ai-generator.exe --progress "tell me a dragon story"
+```
 
-To use Windows AI Foundry Generative AI features, your app must ensure the model is available,
-then create an instance of the model to use. Your customers' systems may not have the models yet,
-and the `EnsureReadyAsync` method will acquire and install them for your app to use.
-
-Calling `LanguageModel::CreateAsync` loads the model and returns an instance of the model ready to
-generate output. When ready, use `LanguageModel::GenerateResponseAsync` with a prompt, options, and
-content moderation settings.
-
-Change the parameters used in code and recompile if you'd like to see other results.
-
-The sample combines a system prompt ("You are a clever storyteller...") with a user-provided prompt
-on the commandline that is the kind of story to tell about what a dragon might say.
-
-### Using the Image Scaler (super-resolution)
+### Image Scaler mode
 
 In addition to the storyteller (`LanguageModel`) flow above, the sample can also call the
 `Microsoft.Windows.AI.Imaging.ImageScaler` API to upscale an image. Pass `--image` (with an
@@ -241,13 +232,10 @@ cmake-ai-generator --image "C:\path\to\photo.jpg"
 cmake-ai-generator --image "C:\path\to\photo.png" --scale 2
 ```
 
-The upscaled image is written next to the input as `<name>_x<factor><ext>` (e.g. `photo_x4.jpg`).
-`--scale` defaults to `4` and must not exceed `ImageScaler::MaxSupportedScaleFactor` (currently 4
-on shipping models).
+The upscaled image is written next to the input as `<name>_x<factor><ext>`.
+`--scale` defaults to `4` and must not exceed `ImageScaler::MaxSupportedScaleFactor`.
 
-To help diagnose the failure modes most apps hit first, each phase prints a `[Step N/6]` header
-so you can see exactly where a failure happens. The most common HRESULTs are mapped to actionable
-hints:
+Image mode prints a `[Step N/6]` header so failures are easy to localize. Common HRESULTs:
 
 | HRESULT | What it usually means |
 | --- | --- |
@@ -257,4 +245,5 @@ hints:
 | `0x80004005` (`E_FAIL`) | Often "Not declared by app" — verify `MaxVersionTested >= 10.0.26226.0` and that the `systemai` capability namespace is present. |
 | `EnsureReadyAsync` returns non-success | The ImageScaler model is not yet installed. Check **Settings > System > AI Components** and **Settings > Windows Update**. |
 
-The ImageScaler model only ships on Copilot+ PCs.
+The ImageScaler model only ships on Copilot+ PCs. For Windows AI platform details, see
+[Windows AI Foundry](https://developer.microsoft.com/windows/ai/).
