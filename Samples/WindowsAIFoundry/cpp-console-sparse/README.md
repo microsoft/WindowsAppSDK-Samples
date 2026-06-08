@@ -18,10 +18,10 @@ Topics and concepts in this example include:
 > May 2025. We're working on making them "offcial."
 
 > [!NOTE]
-> Windows AI Foundry is currently an Experimental feature. Consult its license agreement to
-> see how you can use it. The APIs are subject to change. Your customers will not have the
-> [Windows App SDK 1.8-experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/experimental-channel#version-18-experimental-180-experimental2)
-> framework package for production use.
+> This sample is pinned to the current **stable 2.x** Windows App SDK line:
+> `Microsoft.WindowsAppSDK` **2.1.3**. The sparse package depends on the matching
+> **Windows App Runtime 2** framework package (`Microsoft.WindowsAppRuntime.2`, minimum
+> version `2.1.3.0`).
 
 ## Building
 
@@ -39,10 +39,17 @@ features of Windows App SDK and Copilot+ PCs.
    You can install the community edition with
    `winget install Microsoft.VisualStudio.2022.Community`.
 5. A [Windows Copilot+ PC](https://learn.microsoft.com/windows/ai/npu-devices/) to run this sample
-6. Install the
-   [Windows App SDK 1.8-experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/experimental-channel#version-18-experimental-180-experimental2)
-   framework package on your Copilot+ PC (Note: installing the Experimental package will not impact
-   your production apps).
+6. Install **Windows App Runtime 2** on the test machine. This sample is verified against
+   `Microsoft.WindowsAppRuntime.2` version `2.1.3.0`.
+7. Verify the runtime is present before building/running:
+
+   ```powershell
+   Get-AppxPackage Microsoft.WindowsAppRuntime.2 |
+     Select-Object Name, Version, Architecture, PackageFullName
+   ```
+
+   If the command prints no rows, install the stable Windows App Runtime 2 package before
+   continuing.
 
 ### Using in your Own App
 
@@ -96,18 +103,19 @@ Windows App SDK:
     Version="1.0.0.0" />
 ```
 
-Add the reference to the Windows App SDK framework package:
+Add the reference to the Windows App Runtime 2 framework package:
 
 ```xml
 <Package>
   <Dependencies>
     <PackageDependency
-        Name="Microsoft.WindowsAppRuntime.1.8-experimental2"
+        Name="Microsoft.WindowsAppRuntime.2"
         Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-        MinVersion="8000.500.1427.0" />
+        MinVersion="2.1.3.0" />
 ```
 
-Be sure to update the `Name` and `MinVersion` for your target Windows App SDK version.
+Be sure to update the `Name` and `MinVersion` if you retarget the sample to a different
+Windows App Runtime line.
 
 ### Building
 
@@ -116,25 +124,51 @@ Be sure to update the `Name` and `MinVersion` for your target Windows App SDK ve
 
 Open this sample directory in Visual Studio 2022 with _File > Open > Folder_.
 
-Change the target build type to match your Copilot+ PC's architecture, like `arm64-debug`.
+Change the target build type to match your test machine's architecture:
 
-Use _Build > Build all_ - this pulls down the Windows App SDK and its dependencies.
+- `arm64-debug` for Snapdragon / ARM64 Copilot+ PCs
+- `x64-debug` for x64 machines
 
-### Deploying
+Use _Build > Build all_ - this pulls down Windows App SDK `2.1.3` and its transitive
+dependencies through the local `vcpkg_ports/windowsappsdk` overlay.
 
-With Windows App SDK 1.8 Experimental 2, the Windows AI APIs now require package identity.
-Unpackaged configurations are no longer supported, whether self-contained or loading the
-Windows App Runtime via the bootstrapper.  This sample provides package identity via 
-"sparse packaging" the app from an external location.
+You can also build from a Developer PowerShell:
 
-To loose deploy (directly from an AppxManifest.xml) a sparse package for the sample,
-run the **install.ps1** script after a successful build.
+```powershell
+cmake --preset arm64-debug   # or x64-debug
+cmake --build out/build/arm64-debug   # or out/build/x64-debug
+```
 
-The AppxManifest.xml contains a PackageReference to the Windows App Runtime, 
-which Windows will automatically reference and initialize for the app.
 
-Once complete, the output is registered as a package with external location (a "sparse package.")
-When done with the sample, remove this package by running this in PowerShell:
+### Registering the sparse package (dev loop)
+
+Windows AI APIs require package identity. This sample gets package identity by registering
+`AppxManifest.xml` as a **sparse package** whose external location is the build output folder.
+
+The sample's `CMakeLists.txt` already performs this registration automatically as a
+**post-build step**. If registration succeeds, you're ready to run immediately from the
+output directory.
+
+If you want to re-register manually (recommended for an external customer's dev loop), run:
+
+```powershell
+Add-AppxPackage `
+  -Path .\out\build\arm64-debug\AppxManifest.xml `
+  -ExternalLocation .\out\build\arm64-debug `
+  -Register `
+  -ForceUpdateFromAnyVersion
+```
+
+Replace `arm64-debug` with `x64-debug` if you built the x64 preset.
+
+To confirm the sparse package is registered:
+
+```powershell
+Get-AppxPackage *WindowsAISampleForCppCMakeSparse* |
+  Select-Object Name, Version, PackageFullName
+```
+
+When done with the sample, remove the registration with:
 
 ```powershell
 Get-AppxPackage *WindowsAISampleForCppCMakeSparse* | Remove-AppxPackage
@@ -142,10 +176,21 @@ Get-AppxPackage *WindowsAISampleForCppCMakeSparse* | Remove-AppxPackage
 
 ### Running
 
-To debug the deployed sparse package for the sample (see above) in Visual Studio,
-select **Debug|Other Debug Targets|Debug Installed App Package...**, browse to the
-app named **WindowsAISampleForCppCMakeSparse**, and click start.  Any previously set
-breakpoints should be enabled and hit, when appropriate.
+To debug the registered sparse package in Visual Studio, select
+**Debug > Other Debug Targets > Debug Installed App Package...**, browse to the
+app named **WindowsAISampleForCppCMakeSparse**, and click Start.
+
+To run from PowerShell or Command Prompt, invoke the built exe directly from the output
+directory after registration:
+
+```powershell
+.\out\build\arm64-debug\cmake-ai-generator.exe "tell me a dragon story"
+.\out\build\arm64-debug\cmake-ai-generator.exe --progress "tell me a dragon story"
+.\out\build\arm64-debug\cmake-ai-generator.exe --image "C:\path\to\photo.jpg"
+.\out\build\arm64-debug\cmake-ai-generator.exe --image "C:\path\to\photo.jpg" --scale 2
+```
+
+Replace `arm64-debug` with `x64-debug` if you built the x64 preset.
 
 The app should produce the following console output:
 ```
@@ -154,6 +199,14 @@ Response: In the emerald valleys of Valoria, there dwelled a benevolent dragon n
 ```
 
 (Note that the output generated on your system may be different.)
+
+If `--image` fails immediately with `0x80040154` (`REGDB_E_CLASSNOTREG`), the sparse package
+is registered but the required framework package is not in the package graph. Re-check that:
+
+1. `Get-AppxPackage Microsoft.WindowsAppRuntime.2` shows version `2.1.3.0` or later.
+2. `Get-AppxPackage *WindowsAISampleForCppCMakeSparse*` shows the sparse package registration.
+3. You are running the exe from the same build output directory you registered as
+   `-ExternalLocation`.
 
 ## Structure
 
