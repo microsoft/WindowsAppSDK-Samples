@@ -37,14 +37,9 @@ var drawing = new DrawingIsland(compositor);
 siteBridge.Connect(drawing.Island);
 
 #region ...
-//var lottie = LottieIslandScenario.CreateLottieIsland(compositor);
-//siteBridge.Connect(lottie.Island);
-
-#region ...
 //var island = HelmetScenario.CreateIsland(compositor);
 //siteBridge.Connect(island);
 
-#endregion
 #endregion
 
 // Move initial focus to the ContentIsland.
