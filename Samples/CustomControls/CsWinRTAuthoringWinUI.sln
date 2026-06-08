@@ -88,6 +88,11 @@ Global
 		{B71D15EF-F17B-4E8F-B023-08C4E3B32DAB}.Release|x86.Build.0 = Release|Win32
 		{B71D15EF-F17B-4E8F-B023-08C4E3B32DAB}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+		{34A4AD19-A703-47F3-B279-E505C6A2A935}.0 = {BCC816DC-0F01-4F0F-8506-DF6AFEFAEA92}
+		{B71D15EF-F17B-4E8F-B023-08C4E3B32DAB}.0 = {BCC816DC-0F01-4F0F-8506-DF6AFEFAEA92}
+		{4B4FA4E7-D50E-4059-A906-6F78F6DFEBCD}.0 = {BCC816DC-0F01-4F0F-8506-DF6AFEFAEA92}
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
