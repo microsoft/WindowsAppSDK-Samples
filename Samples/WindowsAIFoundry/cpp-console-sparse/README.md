@@ -231,6 +231,26 @@ storyteller mode fails with `0x80070005` (`E_ACCESSDENIED`), verify:
 3. **AI Dev Gallery > AI APIs > Phi Silica > Text Generation** works on the same machine.
 4. The current Phi Silica / troubleshooting docs for any LAF requirements on your target setup.
 
+> [!IMPORTANT]
+> This sample already declares `systemAIModels` and gets package identity through the sparse
+> package, but it does **not** include a customer-specific **LAF unlock token** for Phi Silica.
+> For a real customer app on the stable channel, that token is the customer's responsibility.
+> A public sample should not ship a private token.
+
+If your real sparse app needs the storyteller (`LanguageModel`) path to work on the stable channel,
+use this checklist:
+
+1. Request a Phi Silica LAF token from Microsoft via the
+   [LAF Access Token Request Form](https://go.microsoft.com/fwlink/?linkid=2271232&c1cid=04x409).
+2. Apply that token to **your own packaged app** by following the Microsoft Phi Silica guidance
+   and any instructions that arrive with the approval.
+3. Keep the app packaged / sparse-packaged with `systemAIModels` and the correct Windows App
+   Runtime dependency.
+4. Re-register the sparse package, then verify **AI Dev Gallery > AI APIs > Phi Silica > Text
+   Generation** works on the same machine.
+5. If you only need evaluation / prototyping, note that current troubleshooting guidance says the
+   **experimental** Windows App SDK channel does not require a LAF token.
+
 For more detail, see:
 
 - [Get started with Phi Silica in the Windows App SDK](https://learn.microsoft.com/en-us/windows/ai/apis/phi-silica)
