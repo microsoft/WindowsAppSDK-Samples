@@ -245,5 +245,12 @@ Image mode prints a `[Step N/6]` header so failures are easy to localize. Common
 | `0x80004005` (`E_FAIL`) | Often "Not declared by app" — verify `MaxVersionTested >= 10.0.26226.0` and that the `systemai` capability namespace is present. |
 | `EnsureReadyAsync` returns non-success | The ImageScaler model is not yet installed. Check **Settings > System > AI Components** and **Settings > Windows Update**. |
 
+For more detail behind those checks, see:
+
+- [Image Super Resolution with Windows AI APIs](https://learn.microsoft.com/en-us/windows/ai/apis/image-super-resolution) for `systemAIModels`, `MaxVersionTested`, readiness, and the end-to-end ImageScaler flow.
+- [Grant package identity by packaging with external location manually](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps) for sparse package / external-location registration.
+- [Add-AppxPackage](https://learn.microsoft.com/en-us/powershell/module/appx/add-appxpackage?view=windowsserver2025-ps) for the `-Register` and `-ExternalLocation` options used in the dev loop.
+- [ImageScaler.MaxSupportedScaleFactor](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.windows.ai.imaging.imagescaler.maxsupportedscalefactor?view=windows-app-sdk-2.0) for the supported scale-factor limit.
+
 The ImageScaler model only ships on Copilot+ PCs. For Windows AI platform details, see
 [Windows AI Foundry](https://developer.microsoft.com/windows/ai/).
