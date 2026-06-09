@@ -186,10 +186,10 @@ To run from PowerShell or Command Prompt, invoke the built exe directly from the
 directory after registration:
 
 ```powershell
-.\out\build\arm64-debug\cmake-ai-generator.exe "tell me a dragon story"
-.\out\build\arm64-debug\cmake-ai-generator.exe --progress "tell me a dragon story"
 .\out\build\arm64-debug\cmake-ai-generator.exe --image "C:\path\to\photo.jpg"
 .\out\build\arm64-debug\cmake-ai-generator.exe --image "C:\path\to\photo.jpg" --scale 2
+.\out\build\arm64-debug\cmake-ai-generator.exe "tell me a dragon story"
+.\out\build\arm64-debug\cmake-ai-generator.exe --progress "tell me a dragon story"
 ```
 
 Replace `arm64-debug` with `x64-debug` if you built the x64 preset.
