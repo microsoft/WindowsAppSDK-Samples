@@ -221,6 +221,22 @@ cmake-ai-generator.exe "tell me a dragon story"
 cmake-ai-generator.exe --progress "tell me a dragon story"
 ```
 
+`LanguageModel.EnsureReadyAsync()` downloads and installs required language-model components when
+needed. However, on current public Learn docs the `Microsoft.Windows.AI.Text.LanguageModel`
+(`Phi Silica`) flow is documented as a **Limited Access Feature** on stable releases. If
+storyteller mode fails with `0x80070005` (`E_ACCESSDENIED`), verify:
+
+1. The sparse package is registered and the manifest still declares `systemAIModels`.
+2. **Settings > System > AI Components** shows the required text model installed.
+3. **AI Dev Gallery > AI APIs > Phi Silica > Text Generation** works on the same machine.
+4. The current Phi Silica / troubleshooting docs for any LAF requirements on your target setup.
+
+For more detail, see:
+
+- [Get started with Phi Silica in the Windows App SDK](https://learn.microsoft.com/en-us/windows/ai/apis/phi-silica)
+- [Windows API troubleshooting](https://learn.microsoft.com/en-us/windows/ai/apis/troubleshooting)
+- [LanguageModel.EnsureReadyAsync](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.windows.ai.text.languagemodel.ensurereadyasync?view=windows-app-sdk-2.0)
+
 ### Image Scaler mode
 
 In addition to the storyteller (`LanguageModel`) flow above, the sample can also call the

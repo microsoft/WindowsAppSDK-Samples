@@ -31,6 +31,7 @@
 bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& useProgress,
                  std::wstring& imagePath, uint32_t& imageScale);
 int RunImageScaler(std::wstring const& imagePath, uint32_t scale);
+std::string_view LanguageModelHintFor(uint32_t hr);
 
 int wmain(int argc, wchar_t* argv[])
 try
@@ -60,54 +61,67 @@ try
         prompt = L"Where did my treasures go?";
     }
 
-    // Get the language model ready for use. This may involve downloading the model and supporting
-    // components. You might want to show the user a progress indicator while that's happening.
-    //
-    // This sample intentionally blocks until the model is available.
-    auto readyState = winrt::Microsoft::Windows::AI::Text::LanguageModel::EnsureReadyAsync().get();
-    if (readyState.Status() != winrt::Microsoft::Windows::AI::AIFeatureReadyResultState::Success)
+    try
     {
-        std::println("Language model not available yet, status: {:x}", static_cast<int>(readyState.Status()));
-        throw std::runtime_error(std::format(
-            "Language model cannot be made available, status {} error {} (ext error {:x}) - {}\n",
-            static_cast<int>(readyState.Status()),
-            static_cast<int>(readyState.Error()),
-            readyState.ExtendedError().value,
-            winrt::to_string(readyState.ErrorDisplayText())));
+        // Get the language model ready for use. This may involve downloading the model and supporting
+        // components. You might want to show the user a progress indicator while that's happening.
+        //
+        // This sample intentionally blocks until the model is available.
+        auto readyState = winrt::Microsoft::Windows::AI::Text::LanguageModel::EnsureReadyAsync().get();
+        if (readyState.Status() != winrt::Microsoft::Windows::AI::AIFeatureReadyResultState::Success)
+        {
+            std::println("Language model not available yet, status: {:x}", static_cast<int>(readyState.Status()));
+            throw std::runtime_error(std::format(
+                "Language model cannot be made available, status {} error {} (ext error {:x}) - {}\n",
+                static_cast<int>(readyState.Status()),
+                static_cast<int>(readyState.Error()),
+                readyState.ExtendedError().value,
+                winrt::to_string(readyState.ErrorDisplayText())));
+        }
+        std::println("Language model is available.");
+
+        // Create an instance of the language model to use in this app.  Creating can also take time as
+        // the model is loaded into the system. Consider showing a progress indicator while CreateAsync
+        // is running. This sample intentionally blocks until the model is created.
+        //
+        // Your app can reuse instances of the LanguageModel once created.
+        auto languageModel = winrt::Microsoft::Windows::AI::Text::LanguageModel::CreateAsync().get();
+        auto options = winrt::Microsoft::Windows::AI::Text::LanguageModelOptions();
+        options.TopK(15);
+        options.Temperature(0.9f);
+
+        // Request a response from the language model. The model will generate a response based on the
+        // story prompt above.
+        std::println("Generating response...");
+        if (useProgress)
+        {
+            // Your app can show incremental progress updates as the model is generating a response. As
+            // with other generative language models, intermediate outputs may be changed or discarded
+            // while the model is running. Your app should use the final Response string in its work,
+            // but showing incremental progress is a great way to show the user something on the way.
+            auto responseWait = languageModel.GenerateResponseAsync(instructions + prompt, options);
+            responseWait.Progress([](auto const& sender, auto const& progress) {
+                std::print(std::cout, "{}", progress);
+            });
+
+            auto response = responseWait.get();
+            std::println(std::cout, "Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()));
+        }
+        else
+        {
+            auto response = languageModel.GenerateResponseAsync(instructions + prompt, options).get();
+            std::println(std::cout, "Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()));
+        }
     }
-    std::println("Language model is available.");
-
-    // Create an instance of the language model to use in this app.  Creating can also take time as
-    // the model is loaded into the system. Consider showing a progress indicator while CreateAsync
-    // is running. This sample intentionally blocks until the model is created.
-    //
-    // Your app can reuse instances of the LanguageModel once created.
-    auto languageModel = winrt::Microsoft::Windows::AI::Text::LanguageModel::CreateAsync().get();
-    auto options = winrt::Microsoft::Windows::AI::Text::LanguageModelOptions();
-    options.TopK(15);
-    options.Temperature(0.9f);
-
-    // Request a response from the language model. The model will generate a response based on the
-    // story prompt above.
-    std::println("Generating response...");
-    if (useProgress)
+    catch (winrt::hresult_error const& ex)
     {
-        // Your app can show incremental progress updates as the model is generating a response. As
-        // with other generative language models, intermediate outputs may be changed or discarded
-        // while the model is running. Your app should use the final Response string in its work,
-        // but showing incremental progress is a great way to show the user something on the way.
-        auto responseWait = languageModel.GenerateResponseAsync(instructions + prompt, options);
-        responseWait.Progress([](auto const& sender, auto const& progress) {
-            std::print(std::cout, "{}", progress);
-        });
-
-        auto response = responseWait.get();
-        std::println(std::cout, "Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()));
-    }
-    else
-    {
-        auto response = languageModel.GenerateResponseAsync(instructions + prompt, options).get();
-        std::println(std::cout, "Response: {}\n(status {})", response.Text(), static_cast<unsigned int>(response.Status()));
+        auto const hr = static_cast<uint32_t>(ex.code());
+        std::println(std::cerr, "LanguageModel failed: 0x{:08x}", hr);
+        if (auto hint = LanguageModelHintFor(hr); !hint.empty())
+        {
+            std::println(std::cerr, "Hint: {}", hint);
+        }
+        throw;
     }
 
     return 0;
@@ -122,6 +136,22 @@ catch (...)
     auto ex = wil::ResultFromCaughtException();
     std::println(std::cerr, "Exception: 0x{:08x}", static_cast<uint32_t>(ex));
     return ex;
+}
+
+std::string_view LanguageModelHintFor(uint32_t hr)
+{
+    switch (hr)
+    {
+    case 0x80070005: // E_ACCESSDENIED
+        return "E_ACCESSDENIED: on current Learn docs, Phi Silica LanguageModel on stable releases "
+               "may require LAF access. Verify package identity, systemAIModels, and Phi Silica "
+               "in AI Dev Gallery.";
+    case 0x80040154: // REGDB_E_CLASSNOTREG
+        return "REGDB_E_CLASSNOTREG: missing WinAppSDK framework package. Check the sparse "
+               "PackageDependency and installed Windows App Runtime.";
+    default:
+        return {};
+    }
 }
 
 bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& useProgress,
