@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(cmake-ai-generator
     main.cpp
+    video_file_pipeline.cpp
     app.manifest
     formatters.h)
 
@@ -20,6 +21,13 @@ target_link_libraries(cmake-ai-generator
     PRIVATE
         Microsoft::WindowsAppSdk
         OneCoreUAP
+        mfplat
+        mfreadwrite
+        mfuuid
+        mf
+        d3d11
+        dxgi
+        windowsapp
 )
 
 function(install_target_runtime_dlls)

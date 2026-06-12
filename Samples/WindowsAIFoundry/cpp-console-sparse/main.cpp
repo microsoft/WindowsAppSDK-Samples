@@ -24,14 +24,19 @@
 #include <winrt/Microsoft.Windows.AI.h>
 #include <winrt/Microsoft.Windows.AI.Imaging.h>
 #include <winrt/Microsoft.Windows.AI.Text.h>
+#include <winrt/Microsoft.Windows.AI.Video.h>
+#include <winrt/Microsoft.Windows.AI.MachineLearning.h>
+#include <winrt/Microsoft.Graphics.Imaging.h>
 #include <winrt/Microsoft.Windows.Management.Deployment.h>
 #include <winrt/Microsoft.Windows.Workloads.h>
 #include "formatters.h"
 
 bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& useProgress,
-                 std::wstring& imagePath, uint32_t& imageScale);
+                 std::wstring& imagePath, uint32_t& imageScale, std::wstring& videoFilePath);
 int RunImageScaler(std::wstring const& imagePath, uint32_t scale);
+int RunVideoFile(std::wstring const& inPath, std::wstring const& outPath, uint32_t scale);
 std::string_view LanguageModelHintFor(uint32_t hr);
+void UnlockLanguageModelFeature();
 
 int wmain(int argc, wchar_t* argv[])
 try
@@ -42,24 +47,40 @@ try
 
     std::wstring prompt;
     std::wstring imagePath;
+    std::wstring videoFilePath;
     uint32_t imageScale = 4;
     bool useProgress = false;
-    if (!ProcessArgs({argv + 1, argv + argc}, prompt, useProgress, imagePath, imageScale))
+    if (!ProcessArgs({argv + 1, argv + argc}, prompt, useProgress, imagePath, imageScale, videoFilePath))
     {
         return 0;
     }
 
-    // If the user passed --image, run the ImageScaler super-resolution flow and exit.
+    // If the user passed --image or --video, run the corresponding imaging flow and exit.
     // Otherwise, fall through to the original LanguageModel storyteller demo.
     if (!imagePath.empty())
     {
         return RunImageScaler(imagePath, imageScale);
+    }
+    if (!videoFilePath.empty())
+    {
+        auto const dot = videoFilePath.find_last_of(L'.');
+        std::wstring outPath = (dot == std::wstring::npos)
+            ? videoFilePath + L"_vsr.mp4"
+            : videoFilePath.substr(0, dot) + L"_vsr.mp4";
+        return RunVideoFile(videoFilePath, outPath, imageScale);
     }
 
     if (prompt.empty())
     {
         prompt = L"Where did my treasures go?";
     }
+
+    // On the stable Windows App SDK channel, the LanguageModel (Phi Silica) APIs are a
+    // Limited Access Feature (LAF). Unlock it with the token Microsoft issued for this app
+    // identity before using the model. The token is read from the LAF_LANGUAGEMODEL_TOKEN
+    // environment variable so it is never committed to source. Request a token for your own
+    // app at https://aka.ms/laffeatures. (Experimental releases do not require a LAF token.)
+    UnlockLanguageModelFeature();
 
     try
     {
@@ -154,8 +175,45 @@ std::string_view LanguageModelHintFor(uint32_t hr)
     }
 }
 
+// Unlocks the LanguageModel (Phi Silica) Limited Access Feature on the stable channel.
+// The token and publisher id are read from environment variables so no secret is committed
+// to source. If LAF_LANGUAGEMODEL_TOKEN is not set, this is a no-op and the model call will
+// surface its own access error (the most common case on the experimental channel, where no
+// LAF token is required). Request a token for your app at https://aka.ms/laffeatures.
+void UnlockLanguageModelFeature()
+{
+    wchar_t token[256]{};
+    if (GetEnvironmentVariableW(L"LAF_LANGUAGEMODEL_TOKEN", token, ARRAYSIZE(token)) == 0)
+    {
+        return; // No token configured; nothing to unlock here.
+    }
+
+    wchar_t publisherId[128]{};
+    if (GetEnvironmentVariableW(L"LAF_LANGUAGEMODEL_PUBLISHER_ID", publisherId, ARRAYSIZE(publisherId)) == 0)
+    {
+        wcscpy_s(publisherId, L"the app publisher");
+    }
+
+    constexpr wchar_t featureId[] = L"com.microsoft.windows.ai.languagemodel";
+    auto usage = std::format(
+        L"{} has registered their use of {} with Microsoft and agrees to the terms of use.",
+        publisherId, featureId);
+
+    auto access = winrt::Windows::ApplicationModel::LimitedAccessFeatures::TryUnlockFeature(
+        featureId, token, usage);
+
+    using winrt::Windows::ApplicationModel::LimitedAccessFeatureStatus;
+    if ((access.Status() != LimitedAccessFeatureStatus::Available) &&
+        (access.Status() != LimitedAccessFeatureStatus::AvailableWithoutToken))
+    {
+        std::println(std::cerr, "LAF unlock for LanguageModel returned status: {}",
+                     static_cast<int>(access.Status()));
+    }
+}
+
+
 bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& prompt, bool& useProgress,
-                 std::wstring& imagePath, uint32_t& imageScale)
+                 std::wstring& imagePath, uint32_t& imageScale, std::wstring& videoFilePath)
 {
     for (size_t i = 0; i < args.size(); ++i)
     {
@@ -171,6 +229,13 @@ bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& promp
                 imagePath.assign(args[++i]);
             }
         }
+        else if (arg == L"--video")
+        {
+            if (i + 1 < args.size())
+            {
+                videoFilePath.assign(args[++i]);
+            }
+        }
         else if (arg == L"--scale")
         {
             if (i + 1 < args.size())
@@ -183,6 +248,7 @@ bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& promp
         {
             std::println(std::cout, "Usage: cmake-ai-generator [--progress] <prompt text>");
             std::println(std::cout, "       cmake-ai-generator --image <path> [--scale <factor>]");
+            std::println(std::cout, "       cmake-ai-generator --video <path> [--scale <factor>]");
             std::println(std::cout, "");
             std::println(std::cout, "  Storyteller mode (default):");
             std::println(std::cout, "    --progress             Show incremental progress updates.");
@@ -192,6 +258,10 @@ bool ProcessArgs(std::vector<std::wstring_view> const& args, std::wstring& promp
             std::println(std::cout, "    --image <path>         Upscale the given JPG/PNG/BMP via ImageScaler.");
             std::println(std::cout, "    --scale <factor>       Integer scale factor (default: 4).");
             std::println(std::cout, "                           Output is written as <name>_x<factor><ext>.");
+            std::println(std::cout, "");
+            std::println(std::cout, "  Video super-resolution mode:");
+            std::println(std::cout, "    --video <path>         Upscale a whole video file via VideoScaler (writes <name>_vsr.mp4).");
+            std::println(std::cout, "    --scale <factor>       Integer scale factor (default: 4).");
             std::println(std::cout, "");
             std::println(std::cout, "  --help, -h              Show this help message.");
             return false;

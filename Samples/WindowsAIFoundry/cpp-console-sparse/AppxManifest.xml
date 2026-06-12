@@ -30,7 +30,7 @@
       <PackageDependency
           Name="Microsoft.WindowsAppRuntime.2"
           Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-          MinVersion="2.1.3.0" />
+          MinVersion="2.2.0.0" />
   </Dependencies>
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
