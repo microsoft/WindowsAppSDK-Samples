@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 
-using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
+using Microsoft.Windows.Search.AppContentIndex;
 using Notes.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -149,7 +149,7 @@ namespace Notes
                         AppManagedImageQueryMatch? imageMatch = match as AppManagedImageQueryMatch;
                         if (imageMatch != null)
                         {
-                            Debug.WriteLine($"Image match: {imageMatch.ContentId}, Subregion: {imageMatch.Subregion}");
+                            Debug.WriteLine($"Image match: {imageMatch.ContentId}, Subregion: {imageMatch.RegionOfInterest}");
                             var searchResult = new SearchResult
                             {
                                 ContentType = ContentType.Image,
@@ -187,9 +187,9 @@ namespace Notes
                             // Capture bounding box if present (Subregion is IReference<Rect>)
                             try
                             {
-                                if (imageMatch.Subregion != null)
+                                if (imageMatch.RegionOfInterest != null)
                                 {
-                                    var rect = imageMatch.Subregion.Value;
+                                    var rect = imageMatch.RegionOfInterest.Value;
                                     searchResult.BoundingBox = rect;
                                 }
                             }
