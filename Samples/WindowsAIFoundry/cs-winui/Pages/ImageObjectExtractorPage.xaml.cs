@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using WindowsAISample.ViewModels;
+using WindowsAISample.Shared;
 using Microsoft.Graphics.Imaging;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -15,6 +16,7 @@ namespace WindowsAISample.Pages;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
+[NavPage("Image Object Extractor", Icon = Symbol.Cut, Order = 30)]
 public sealed partial class ImageObjectExtractorPage : Page
 {
     public ImageObjectExtractorPage()

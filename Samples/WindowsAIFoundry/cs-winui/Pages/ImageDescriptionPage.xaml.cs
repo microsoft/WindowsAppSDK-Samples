@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using WindowsAISample.Shared;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -21,6 +22,7 @@ namespace WindowsAISample.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    [NavPage("Image Description", Icon = Symbol.Caption, Order = 50)]
     public sealed partial class ImageDescriptionPage : Page
     {
         public ImageDescriptionPage()

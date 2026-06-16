@@ -1,4 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Per-feature extensibility model:
+      Stable + experimental features live as independent class libraries under
+      Extensions/<FeatureName>/. The list (and per-feature maturity) is
+      declared in Extensions.props. The main exe ProjectReferences Shared and
+      whichever extensions match the current build flavor, then discovers
+      [NavPage]-decorated Page types at startup via reflection.
+
+      See Extensions.props for how to add or promote a feature.
+  -->
+  <Import Project="Extensions.props" />
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
@@ -22,9 +35,102 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
+
+    <IncludeExperimentalApis Condition="'$(IncludeExperimentalApis)'==''">true</IncludeExperimentalApis>
   </PropertyGroup>
+
+  <!--
+    Exclude Shared/ and Extensions/ subtrees from the main project's implicit
+    Compile/Page globs: those folders belong to sibling class library projects
+    referenced via ProjectReference. Without these removes the main exe would
+    double-compile their source and trigger CS0436 type-conflict warnings.
+  -->
   <ItemGroup>
-    <None Remove="Controls\ModelInitializationControl.xaml" />
+    <Compile Remove="Shared\**\*.cs" />
+    <Page Remove="Shared\**\*.xaml" />
+    <None Remove="Shared\**" />
+    <Compile Remove="Extensions\**\*.cs" />
+    <Page Remove="Extensions\**\*.xaml" />
+    <None Remove="Extensions\**" />
+  </ItemGroup>
+
+  <!-- Shared infrastructure consumed by both main and extensions. -->
+  <ItemGroup>
+    <ProjectReference Include="Shared\WindowsAISample.Shared.csproj" />
+  </ItemGroup>
+
+  <!-- Stable extensions: always referenced. -->
+  <ItemGroup>
+    <ProjectReference Include="@(StableExtension -> 'Extensions\%(Identity)\WindowsAISample.Ext.%(Identity).csproj')" />
+  </ItemGroup>
+
+  <!-- Experimental extensions: referenced only when IncludeExperimentalApis=true. -->
+  <ItemGroup Condition="'$(IncludeExperimentalApis)'=='true'">
+    <ProjectReference Include="@(ExperimentalExtension -> 'Extensions\%(Identity)\WindowsAISample.Ext.%(Identity).csproj')" />
+  </ItemGroup>
+
+  <!--
+    Emit a tiny generated source file listing exactly which extension assemblies this build expects to find at
+    runtime. The MainWindow uses this list to filter the Assembly.LoadFrom wildcard, so a stale Ext.dll left in
+    bin/ from a previous experimental build will NOT be loaded by a subsequent stable build.
+  -->
+  <Target Name="GenerateExtensionsManifest"
+          BeforeTargets="BeforeCompile;CoreCompile;MarkupCompilePass1;MarkupCompilePass2">
+    <ItemGroup>
+      <_ExpectedExtension Include="@(StableExtension)" />
+      <_ExpectedExtension Include="@(ExperimentalExtension)" Condition="'$(IncludeExperimentalApis)'=='true'" />
+    </ItemGroup>
+    <PropertyGroup>
+      <_ExtensionAssemblyNamesCsv>@(_ExpectedExtension -> '&quot;WindowsAISample.Ext.%(Identity)&quot;', ', ')</_ExtensionAssemblyNamesCsv>
+      <_GeneratedManifestPath>$(IntermediateOutputPath)GeneratedExtensionsManifest.cs</_GeneratedManifestPath>
+    </PropertyGroup>
+    <MakeDir Directories="$(IntermediateOutputPath)" />
+    <ItemGroup>
+      <_ManifestLines Include="// &lt;auto-generated /&gt;" />
+      <_ManifestLines Include="namespace WindowsAISample%3B" />
+      <_ManifestLines Include="internal static class GeneratedExtensionsManifest" />
+      <_ManifestLines Include="{" />
+      <_ManifestLines Include="    public static readonly string[] ExpectedAssemblyNames = new string[] { $(_ExtensionAssemblyNamesCsv) }%3B" />
+      <_ManifestLines Include="}" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(_GeneratedManifestPath)"
+                      Lines="@(_ManifestLines)"
+                      Overwrite="true"
+                      WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <Compile Include="$(_GeneratedManifestPath)" Visible="false" />
+      <FileWrites Include="$(_GeneratedManifestPath)" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+    Detects a flavor switch (experimental <-> stable) and wipes IntermediateOutputPath so cached XAML metadata
+    (XamlTypeInfo.g.cs, *.g.cs, *.g.i.cs) regenerates. Without this, references to experimental-only Page types
+    leak from a prior experimental obj/ into the next stable build as CS1061/CS0234. project.assets.json lives in
+    BaseIntermediateOutputPath (obj/), not IntermediateOutputPath (obj/<TFM>/<RID>/), so NuGet restore is preserved.
+  -->
+  <Target Name="InvalidateXamlOnFlavorChange"
+          BeforeTargets="GenerateExtensionsManifest;MarkupCompilePass1;PrepareForBuild">
+    <PropertyGroup>
+      <_FlavorMarker>$(IntermediateOutputPath)flavor.marker</_FlavorMarker>
+      <_CurrentFlavor Condition="'$(IncludeExperimentalApis)'=='true'">experimental</_CurrentFlavor>
+      <_CurrentFlavor Condition="'$(IncludeExperimentalApis)'!='true'">stable</_CurrentFlavor>
+      <_LastFlavor>none</_LastFlavor>
+      <_LastFlavor Condition="Exists('$(_FlavorMarker)')">$([System.IO.File]::ReadAllText('$(_FlavorMarker)').Trim())</_LastFlavor>
+    </PropertyGroup>
+    <Message Importance="high"
+             Text="Flavor switch detected ($(_LastFlavor) -&gt; $(_CurrentFlavor)); wiping $(IntermediateOutputPath) so XAML metadata regenerates."
+             Condition="'$(_LastFlavor)' != 'none' and '$(_LastFlavor)' != '$(_CurrentFlavor)'" />
+    <RemoveDir Directories="$(IntermediateOutputPath)"
+               Condition="'$(_LastFlavor)' != 'none' and '$(_LastFlavor)' != '$(_CurrentFlavor)'" />
+    <MakeDir Directories="$(IntermediateOutputPath)" />
+    <WriteLinesToFile File="$(_FlavorMarker)"
+                      Lines="$(_CurrentFlavor)"
+                      Overwrite="true"
+                      WriteOnlyWhenDifferent="true" />
+  </Target>
+
+  <ItemGroup>
     <None Remove="Examples\ImageObjectExtractor.md" />
     <None Remove="Examples\ImageObjectExtractorInit.md" />
     <None Remove="Examples\ImageScaler.md" />
@@ -33,12 +139,9 @@
     <None Remove="Examples\LanguageModelWithProgress.md" />
     <None Remove="Examples\TextRecognizer.md" />
     <None Remove="Examples\TextRecognizerInit.md" />
-    <None Remove="Examples\VideoScalerInit.md" />
-    <None Remove="Pages\ExampleCode.xaml" />
     <None Remove="Pages\ImageDescriptionPage.xaml" />
     <None Remove="Pages\ImageObjectExtractorPage.xaml" />
     <None Remove="Pages\ImageScalerPage.xaml" />
-    <None Remove="Pages\VideoScalerPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,9 +161,6 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
-  <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-      Tools extension to be activated for this project even if the Windows App SDK Nuget
-      package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
@@ -85,32 +185,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\ExampleCode.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="MagicEraserPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Pages\LanguageModelPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\TextRecognizerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\VideoScalerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\ModelInitializationControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
