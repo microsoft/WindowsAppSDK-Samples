@@ -4,6 +4,9 @@
     <!-- Suppress CS8305: Feature is for evaluation purposes only and is subject to change or removal in future updates. -->
     <NoWarn>$(NoWarn);8305</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <AppxLogTelemetryFromSideloadingScript>false</AppxLogTelemetryFromSideloadingScript>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>%(AdditionalOptions) /Qspectre</AdditionalOptions>
