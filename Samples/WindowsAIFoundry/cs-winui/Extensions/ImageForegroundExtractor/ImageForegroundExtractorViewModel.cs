@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+using WindowsAISample.Ext.ImageForegroundExtractor.Models;
 using WindowsAISample.Util;
+using WindowsAISample.ViewModels;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Windows.Input;
 using Windows.Graphics.Imaging;
-using WindowsAISample.Models;
 
-namespace WindowsAISample.ViewModels;
+namespace WindowsAISample.Ext.ImageForegroundExtractor.ViewModels;
 
 internal partial class ImageForegroundExtractorViewModel : InputImageViewModelBase<ImageForegroundExtractorModel>
 {

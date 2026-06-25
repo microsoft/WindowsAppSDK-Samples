@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 using Microsoft.UI.Xaml.Controls;
 using WindowsAISample;
-using WindowsAISample.Models;
-using WindowsAISample.ViewModels;
+using WindowsAISample.Ext.ImageForegroundExtractor.Models;
+using WindowsAISample.Ext.ImageForegroundExtractor.ViewModels;
 
-namespace WindowsAISample.Pages;
+namespace WindowsAISample.Ext.ImageForegroundExtractor.Pages;
 
 [NavPage("Image Foreground Extractor", Icon = Symbol.Filter, Order = 70)]
 public sealed partial class ImageForegroundExtractorPage : Page

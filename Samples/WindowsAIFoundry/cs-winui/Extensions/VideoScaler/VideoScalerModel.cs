@@ -15,7 +15,7 @@ using Windows.Media;
 using Windows.Storage.Streams;
 using WindowsAISample.Util;
 
-namespace WindowsAISample.Models;
+namespace WindowsAISample.Ext.VideoScaler.Models;
 
 public class VideoScalerModel : IModelManager
 {

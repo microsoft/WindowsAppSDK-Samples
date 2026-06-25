@@ -3,10 +3,10 @@
 
 using Microsoft.UI.Xaml.Controls;
 using WindowsAISample;
-using WindowsAISample.Models;
-using WindowsAISample.ViewModels;
+using WindowsAISample.Ext.VideoScaler.Models;
+using WindowsAISample.Ext.VideoScaler.ViewModels;
 
-namespace WindowsAISample.Pages;
+namespace WindowsAISample.Ext.VideoScaler.Pages;
 
 [NavPage("Video Scaler", Icon = Symbol.Video, Order = 80)]
 public sealed partial class VideoScalerPage : Page

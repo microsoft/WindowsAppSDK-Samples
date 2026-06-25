@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
+    <RootNamespace>WindowsAISample.Ext.ImageForegroundExtractor</RootNamespace>
+    <AssemblyName>WindowsAISample.Ext.ImageForegroundExtractor</AssemblyName>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <NoWarn>$(NoWarn);CS8305</NoWarn>
+    <!-- When this extension graduates to stable: remove these two lines, set UseWinUI unconditionally to true,
+         and move it from ExperimentalExtension to StableExtension in Extensions.props. -->
+    <EnableDefaultItems Condition="'$(IncludeExperimentalApis)' != 'true'">false</EnableDefaultItems>
+    <UseWinUI Condition="'$(IncludeExperimentalApis)' == 'true'">true</UseWinUI>
+  </PropertyGroup>
+
+  <!-- When this extension graduates to stable: remove the Condition below. -->
+  <ItemGroup Condition="'$(IncludeExperimentalApis)' == 'true'">
+    <ProjectReference Include="..\..\Contracts\WindowsAISample.Contracts.csproj" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <Content Include="Examples\*.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

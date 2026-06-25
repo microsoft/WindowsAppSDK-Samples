@@ -1,14 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+using WindowsAISample.Ext.VideoScaler.Models;
 using WindowsAISample.Util;
+using WindowsAISample.ViewModels;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;
 using Windows.Media;
-using WindowsAISample.Models;
 using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 
-namespace WindowsAISample.ViewModels;
+namespace WindowsAISample.Ext.VideoScaler.ViewModels;
 
 internal partial class VideoScalerViewModel : InputImageViewModelBase<VideoScalerModel>
 {

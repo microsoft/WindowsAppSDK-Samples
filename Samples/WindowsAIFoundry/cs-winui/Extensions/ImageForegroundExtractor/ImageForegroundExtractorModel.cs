@@ -7,7 +7,7 @@ using Windows.Graphics.Imaging;
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.Imaging;
 
-namespace WindowsAISample.Models;
+namespace WindowsAISample.Ext.ImageForegroundExtractor.Models;
 
 public class ImageForegroundExtractorModel : IModelManager
 {
