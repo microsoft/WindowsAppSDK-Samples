@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
+using WindowsAISample;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

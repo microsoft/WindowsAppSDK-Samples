@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
+using WindowsAISample;
 using WindowsAISample.Util;
 using Microsoft.Windows.Management.Deployment;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace WindowsAISample.ViewModels;
 
-internal abstract class CopilotViewModelBase : ModelBase
+public abstract class CopilotViewModelBase : ModelBase
 {
     public abstract ICommand CreateSession { get; }
 
@@ -19,7 +19,7 @@ internal abstract class CopilotViewModelBase : ModelBase
     public abstract bool IsError { get; }
 }
 
-internal abstract class CopilotModelBase<T> : CopilotViewModelBase
+public abstract class CopilotModelBase<T> : CopilotViewModelBase
     where T : IModelManager
 {
     private bool _isAvailable;

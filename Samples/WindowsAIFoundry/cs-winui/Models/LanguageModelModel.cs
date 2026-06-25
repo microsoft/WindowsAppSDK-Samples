@@ -7,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using WindowsAISample.Models.Contracts;
+using WindowsAISample;
 using WindowsAISample.Util;
 
 namespace WindowsAISample.Models;

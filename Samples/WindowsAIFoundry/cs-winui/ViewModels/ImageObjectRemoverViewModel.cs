@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
+using WindowsAISample;
 using WindowsAISample.Util;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;

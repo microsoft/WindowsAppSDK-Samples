@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
+using WindowsAISample;
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.Management.Deployment;
 using System;

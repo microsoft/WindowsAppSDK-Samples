@@ -218,7 +218,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
         _pickInputAdapterCommand = new(async _ =>
         {
             var picker = new FileOpenPicker();
-            var window = App.Window;
+            var window = App.MainWindow ?? throw new InvalidOperationException("MainWindow is not initialized.");
             var hwnd = WindowNative.GetWindowHandle(window);
             InitializeWithWindow.Initialize(picker, hwnd);
 
