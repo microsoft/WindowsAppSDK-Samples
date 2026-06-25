@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ using Microsoft.Windows.AI.Imaging;
 
 namespace WindowsAISample.Models;
 
-class ImageForegroundExtractorModel : IModelManager
+public class ImageForegroundExtractorModel : IModelManager
 {
     public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {

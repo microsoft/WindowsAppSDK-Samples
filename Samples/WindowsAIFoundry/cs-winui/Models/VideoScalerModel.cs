@@ -13,12 +13,11 @@ using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Storage.Streams;
-using WindowsAISample.Models.Contracts;
 using WindowsAISample.Util;
 
 namespace WindowsAISample.Models;
 
-internal class VideoScalerModel : IModelManager
+public class VideoScalerModel : IModelManager
 {
     private VideoScaler? _session;
 
