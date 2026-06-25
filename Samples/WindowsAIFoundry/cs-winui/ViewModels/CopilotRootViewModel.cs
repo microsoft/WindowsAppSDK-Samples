@@ -1,39 +1,34 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
+using WindowsAISample;
 
 namespace WindowsAISample.ViewModels;
 
 /// <summary>
-/// Our root model to expose all the AI Fabric API's
+/// Root view model exposing each stable feature's ViewModel as a property,
+/// so XAML in the stable Pages can bind through the inherited <see cref="rootFrame"/>
+/// DataContext (e.g. <c>DataContext="{Binding LanguageModel}"</c>).
+///
+/// Extension pages (under <c>Extensions/</c>) set their own DataContext in
+/// code-behind and do not appear here.
 /// </summary>
 internal class CopilotRootViewModel
 {
-    internal CopilotRootViewModel()
-    {
-        LanguageModel = new(new Models.LanguageModelModel());
-        TextRecognizer = new(new Models.TextRecognizerModel());
-        ImageScaler = new(new Models.ImageScalerModel());
-        ImageObjectExtractor = new(new Models.ImageObjectExtractorModel());
-        ImageDescriptionGenerator = new(new Models.ImageDescriptionModel());
-        ImageObjectRemover = new(new Models.ImageObjectRemoverModel());
-        ImageForegroundExtractor = new(new Models.ImageForegroundExtractorModel());
-        VideoScaler = new(new Models.VideoScalerModel());
-    }
-
     public LanguageModelViewModel LanguageModel { get; }
+        = new(new Models.LanguageModelModel());
 
     public TextRecognizerViewModel TextRecognizer { get; }
+        = new(new Models.TextRecognizerModel());
 
     public ImageScalerViewModel ImageScaler { get; }
+        = new(new Models.ImageScalerModel());
 
     public ImageDescriptionViewModel ImageDescriptionGenerator { get; }
+        = new(new Models.ImageDescriptionModel());
 
     public ImageObjectExtractorViewModel ImageObjectExtractor { get; }
+        = new(new Models.ImageObjectExtractorModel());
 
     public ImageObjectRemoverViewModel ImageObjectRemover { get; }
-
-    public ImageForegroundExtractorViewModel ImageForegroundExtractor { get; }
-
-    public VideoScalerViewModel VideoScaler { get; }
+        = new(new Models.ImageObjectRemoverModel());
 }

@@ -1,0 +1,15 @@
+<Project>
+  <!--
+    Single source of truth for which extension assemblies the host should reference and runtime-discover.
+    Promote a feature by moving its entry from <ExperimentalExtension> to <StableExtension>: no file moves,
+    no code changes beyond bumping the Microsoft.WindowsAppSDK version when the API set lands in stable.
+
+    Each Identity must match the folder name under Extensions/ and the suffix on the ext csproj name
+    (WindowsAISample.Ext.<Identity>.csproj).
+  -->
+  <ItemGroup>
+    <!-- Stable extensions: built and loaded in both build flavors. -->
+
+    <!-- Experimental extensions: built and loaded only when IncludeExperimentalApis=true. -->
+  </ItemGroup>
+</Project>

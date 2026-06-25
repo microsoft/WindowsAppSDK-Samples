@@ -1,4 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Per-feature extensibility model:
+      Stable + experimental features live as independent class libraries under
+      Extensions/<FeatureName>/. The list (and per-feature maturity) is
+      declared in Extensions.props. The main exe ProjectReferences Contracts and
+      whichever extensions match the current build flavor, then discovers
+      [NavPage]-decorated Page types at startup via reflection.
+
+      See Extensions.props for how to add or promote a feature.
+  -->
+  <Import Project="Extensions.props" />
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
@@ -22,9 +35,43 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
+
+    <IncludeExperimentalApis Condition="'$(IncludeExperimentalApis)'==''">true</IncludeExperimentalApis>
   </PropertyGroup>
+
+  <!--
+    Exclude Contracts/ and Extensions/ subtrees from the main project's
+    implicit Compile/Page globs: those folders belong to sibling class library
+    projects referenced via ProjectReference. Without these removes the main
+    exe would double-compile their source and trigger CS0436 type-conflict
+    warnings.
+  -->
   <ItemGroup>
-    <None Remove="Controls\ModelInitializationControl.xaml" />
+    <Compile Remove="Contracts\**\*.cs" />
+    <Page Remove="Contracts\**\*.xaml" />
+    <None Remove="Contracts\**" />
+    <Compile Remove="Extensions\**\*.cs" />
+    <Page Remove="Extensions\**\*.xaml" />
+    <None Remove="Extensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Contracts\WindowsAISample.Contracts.csproj" />
+  </ItemGroup>
+
+  <!-- Stable extensions: always referenced. -->
+  <ItemGroup>
+    <ProjectReference Include="@(StableExtension -> 'Extensions\%(Identity)\WindowsAISample.Ext.%(Identity).csproj')" />
+  </ItemGroup>
+
+  <!-- Experimental extensions: referenced only when IncludeExperimentalApis=true. -->
+  <ItemGroup Condition="'$(IncludeExperimentalApis)'=='true'">
+    <ProjectReference Include="@(ExperimentalExtension -> 'Extensions\%(Identity)\WindowsAISample.Ext.%(Identity).csproj')" />
+  </ItemGroup>
+
+  <!-- NOTE: switching between stable/experimental requires 'dotnet clean' first. -->
+
+  <ItemGroup>
     <None Remove="Examples\ImageObjectExtractor.md" />
     <None Remove="Examples\ImageObjectExtractorInit.md" />
     <None Remove="Examples\ImageScaler.md" />
@@ -33,12 +80,9 @@
     <None Remove="Examples\LanguageModelWithProgress.md" />
     <None Remove="Examples\TextRecognizer.md" />
     <None Remove="Examples\TextRecognizerInit.md" />
-    <None Remove="Examples\VideoScalerInit.md" />
-    <None Remove="Pages\ExampleCode.xaml" />
     <None Remove="Pages\ImageDescriptionPage.xaml" />
     <None Remove="Pages\ImageObjectExtractorPage.xaml" />
     <None Remove="Pages\ImageScalerPage.xaml" />
-    <None Remove="Pages\VideoScalerPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,9 +102,6 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
-  <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-      Tools extension to be activated for this project even if the Windows App SDK Nuget
-      package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
@@ -85,32 +126,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\ExampleCode.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="MagicEraserPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Pages\LanguageModelPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\TextRecognizerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\VideoScalerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\ModelInitializationControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
