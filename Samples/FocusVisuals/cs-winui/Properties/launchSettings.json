@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FocusVisualsSample (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FocusVisualsSample (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
