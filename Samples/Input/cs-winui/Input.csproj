@@ -15,6 +15,8 @@
     <None Remove="GestureRecognizer.xaml" />
     <None Remove="GestureRecognizerManipulation.xaml" />
     <None Remove="InputCursor.xaml" />
+    <None Remove="PointerEllipse.xaml" />
+    <None Remove="PointerTracking.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +55,16 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="GestureRecognizer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PointerTracking.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PointerEllipse.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
