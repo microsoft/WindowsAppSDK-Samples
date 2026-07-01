@@ -1,10 +1,10 @@
-﻿{
+{
     "profiles": {
-        "Input (Package)": {
-            "commandName": "MsixPackage"
-        },
         "Input (Unpackaged)": {
             "commandName": "Project"
+        },
+        "Input (Package)": {
+            "commandName": "MsixPackage"
         }
     }
 }
