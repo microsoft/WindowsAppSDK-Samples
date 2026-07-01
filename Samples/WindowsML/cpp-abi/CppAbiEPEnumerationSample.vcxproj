@@ -52,6 +52,8 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <WarningLevel>Level4</WarningLevel>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\Shared\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <!-- Enable Control Flow Guard (compiler /guard:cf, linker /GUARD:CF) to satisfy SDL/BinSkim BA2008 -->
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
