@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using Microsoft.UI;
@@ -105,7 +105,14 @@ namespace Input
         {
             if (manipulateMe != null)
             {
-                manipulateMe.ManipulationMode ^= ManipulationModes.TranslateInertia | ManipulationModes.RotateInertia;
+                if (inertiaSwitch.IsOn)
+                {
+                    manipulateMe.ManipulationMode |= ManipulationModes.TranslateInertia | ManipulationModes.RotateInertia;
+                }
+                else
+                {
+                    manipulateMe.ManipulationMode &= ~(ManipulationModes.TranslateInertia | ManipulationModes.RotateInertia);
+                }
             }
         }
 
