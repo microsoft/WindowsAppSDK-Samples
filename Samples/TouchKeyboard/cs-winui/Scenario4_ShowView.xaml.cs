@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using System;
 using System.Runtime.InteropServices;
 using Microsoft.UI.Xaml;
@@ -30,7 +33,8 @@ public sealed partial class Scenario4_ShowView : Page
             var coreInputViewIid = typeof(CoreInputView).GUID;
 
             // Create HString manually
-            int hr = WindowsCreateString("Windows.UI.ViewManagement.Core.CoreInputView", 51, out var hstring);
+            const string runtimeClass = "Windows.UI.ViewManagement.Core.CoreInputView";
+            int hr = WindowsCreateString(runtimeClass, runtimeClass.Length, out var hstring);
             if (hr != 0)
             {
                 MainWindow.Current?.NotifyUser("Failed to create activation string.", InfoBarSeverity.Warning);

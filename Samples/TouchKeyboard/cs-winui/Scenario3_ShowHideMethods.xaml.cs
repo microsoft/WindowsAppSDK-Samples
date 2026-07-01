@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
@@ -19,6 +22,8 @@ public sealed partial class Scenario3_ShowHideMethods : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        base.OnNavigatedTo(e);
+
         var window = MainWindow.Current;
         if (window is null)
         {
@@ -33,6 +38,7 @@ public sealed partial class Scenario3_ShowHideMethods : Page
     {
         FadeOutResults.Stop();
         _inputPane = null;
+        base.OnNavigatedFrom(e);
     }
 
     private void WordListBox_OnKeyUp(object sender, KeyRoutedEventArgs e)

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
 <Page
     x:Class="TouchKeyboard.Scenario3_ShowHideMethods"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -39,7 +41,7 @@
                 x:Name="WordListBox"
                 AutomationProperties.AutomationId="WordListBox"
                 Text="Type a few words and hit Enter."
-                KeyDown="WordListBox_OnKeyUp"
+                KeyUp="WordListBox_OnKeyUp"
                 Margin="0,12,0,0" />
 
             <TextBlock

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
 <Page
     x:Class="TouchKeyboard.Scenario2_ShowHideEvents"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -28,7 +30,7 @@
                 Margin="0,12,0,0" />
             <Button
                 AutomationProperties.AutomationId="EventDismissButton"
-                Content="Button"
+                Content="Dismiss keyboard"
                 Margin="0,12,0,0" />
 
             <TextBlock TextWrapping="Wrap" Margin="0,12,0,0">

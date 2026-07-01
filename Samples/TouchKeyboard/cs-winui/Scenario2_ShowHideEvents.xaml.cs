@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.UI.ViewManagement;
@@ -18,6 +21,8 @@ public sealed partial class Scenario2_ShowHideEvents : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        base.OnNavigatedTo(e);
+
         var window = MainWindow.Current;
         if (window is null)
         {
@@ -39,6 +44,8 @@ public sealed partial class Scenario2_ShowHideEvents : Page
             _inputPane.Hiding -= OnHiding;
             _inputPane = null;
         }
+
+        base.OnNavigatedFrom(e);
     }
 
     private void OnShowing(InputPane sender, InputPaneVisibilityEventArgs e)

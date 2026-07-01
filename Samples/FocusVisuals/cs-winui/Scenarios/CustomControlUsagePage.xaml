@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
 <Page
     x:Class="FocusVisualsSample.Scenarios.CustomControlUsagePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -17,7 +19,7 @@
                 <Paragraph>If you need to specify a specific template part to be the bounds of the focus visual, use the attached property Control.IsTemplateFocusTarget and set it to true.</Paragraph>
             </RichTextBlock>
 
-            <local:SocialMediaCounter ShareImage="ms-appx:///Assets/yammer_share.png" NavigateUri="https://www.yammer.com/" NumOfShares="12" VerticalAlignment="Top" AutomationProperties.AutomationId="SocialMediaCounterControl" />
+            <local:SocialMediaCounter ShareImage="ms-appx:///Assets/yammer_share.png" NavigateUri="https://www.yammer.com/" NumOfShares="12" VerticalAlignment="Top" AutomationProperties.AutomationId="SocialMediaCounterControl" AutomationProperties.Name="Share on Yammer" />
         </StackPanel>
     </ScrollViewer>
 </Page>
