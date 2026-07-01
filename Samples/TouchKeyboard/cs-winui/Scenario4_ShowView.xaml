@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="TouchKeyboard.Scenario4_ShowView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer Padding="16,24,16,16">
+        <StackPanel Spacing="8">
+            <TextBlock Text="Description:" Style="{StaticResource SubtitleTextBlockStyle}" />
+            <TextBlock TextWrapping="Wrap">
+                Showing a specific view.
+            </TextBlock>
+            <TextBlock Margin="0,12,0,0">
+                This scenario shows the Emoji keyboard when the text box receives focus.
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,12,0,0">
+                <TextBox
+                    AutomationProperties.AutomationId="EmojiTextBox"
+                    PlaceholderText="What is your reaction?"
+                    GotFocus="TextBox_GotFocus" />
+                <Button
+                    AutomationProperties.AutomationId="EmojiDismissButton"
+                    Content="Button" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
