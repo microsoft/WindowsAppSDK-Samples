@@ -32,8 +32,11 @@
 
   <ItemGroup>
     <!-- Added CsWinRT reference to avoid WinMD error as a result of WinMD leaking via project reference. -->
-    <PackageReference Include="CommunityToolkit.WinAppSDK.LottieWinRT" />
-    <PackageReference Include="CommunityToolkit.WinUI.Lottie" />
+    <!-- Microsoft.Graphics.Win2D is required by HelmetScenario.cs and SceneNodeCommon.cs.
+         It used to come in transitively via the CommunityToolkit.WinAppSDK.LottieWinRT
+         package, but that package has been retired from nuget.org so the dependency
+         must now be declared directly. -->
+    <PackageReference Include="Microsoft.Graphics.Win2D" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
 
@@ -46,12 +49,6 @@
 
   <ItemGroup>
     <Folder Include="Assets\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Assets\LottieLogo1.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
