@@ -10,6 +10,7 @@
     <Page Include="Scenario1_ToastWithAvatar.xaml" />
     <Page Include="Scenario2_ToastWithTextBox.xaml" />
     <Page Include="Styles.xaml" />
+    <Page Include="Scenario3_PushToastWithAvatar.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Project.idl" />
@@ -28,6 +29,9 @@
     <ClCompile Include="Notifications\ToastWithTextBox.cpp">
       <Filter>Notifications</Filter>
     </ClCompile>
+    <ClCompile Include="Notifications\PushToastWithAvatar.cpp">
+      <Filter>Notifications</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -43,6 +47,9 @@
       <Filter>Notifications</Filter>
     </ClInclude>
     <ClInclude Include="Notifications\ToastWithTextBox.h">
+      <Filter>Notifications</Filter>
+    </ClInclude>
+    <ClInclude Include="Notifications\PushToastWithAvatar.h">
       <Filter>Notifications</Filter>
     </ClInclude>
   </ItemGroup>
@@ -79,5 +86,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
 </Project>
