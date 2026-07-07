@@ -1,6 +1,6 @@
-# Using Windows AI Foundry in C++ with CMake
+# Using Microsoft Foundry on Windows in C++ with CMake
 
-This sample shows how to use Windows App SDK and the [Windows AI Foundry](https://developer.microsoft.com/windows/ai/) 
+This sample shows how to use Windows App SDK and the [Microsoft Foundry on Windows](https://developer.microsoft.com/windows/ai/) 
 APIs from a C++ app built using CMake. You can use the CMakeLists and vcpkg ports
 it contains to build your own apps.
 
@@ -18,14 +18,14 @@ Topics and concepts in this example include:
 > May 2025. We're working on making them "offcial."
 
 > [!NOTE]
-> Windows AI Foundry is currently an Experimental feature. Consult its license agreement to
+> Microsoft Foundry on Windows is currently an Experimental feature. Consult its license agreement to
 > see how you can use it. The APIs are subject to change. Your customers will not have the
 > [Windows App SDK 1.8-experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/experimental-channel#version-18-experimental-180-experimental2)
 > framework package for production use.
 
 ## Building
 
-You can build this project and change it to see examples of using the Windows AI Foundry
+You can build this project and change it to see examples of using the Microsoft Foundry on Windows
 features of Windows App SDK and Copilot+ PCs.
 
 ### Prerequisites
@@ -82,7 +82,7 @@ target_link_libraries(
 
 ### Packaging
 
-Using Windows AI Foundry generative-AI APIs requires an app have package identity. The sample
+Using Microsoft Foundry on Windows generative-AI APIs requires an app have package identity. The sample
 has a simple [AppxManifest.xml](./AppxManifest.xml) providing identity and a reference to the
 Windows App SDK:
 
@@ -164,7 +164,7 @@ generated. Any other parameters are treated as part of the story prompt.
 
 ### Using the Language Model
 
-To use Windows AI Foundry Generative AI features, your app must ensure the model is available,
+To use Microsoft Foundry on Windows Generative AI features, your app must ensure the model is available,
 then create an instance of the model to use. Your customers' systems may not have the models yet,
 and the `EnsureReadyAsync` method will acquire and install them for your app to use.
 
