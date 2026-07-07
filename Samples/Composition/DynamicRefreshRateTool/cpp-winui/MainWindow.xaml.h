@@ -39,7 +39,7 @@ namespace winrt::DynamicRefreshRateTool::implementation
 		bool IsLogging();
 
 		std::optional<RefreshRateLogger> m_logger;
-		winrt::Windows::Storage::StorageFolder m_loggingFolder = nullptr;
+		std::wstring m_loggingFolderPath;
 
 		std::future<void> m_updateFuture;
 		bool running = true;
