@@ -1,0 +1,49 @@
+<!--
+//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+-->
+
+<Page
+    x:Class="SDKTemplate.OrientationSensorCalibrationBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+  <Popup x:Name="CalibrationPopup">
+    <Border BorderBrush="{ThemeResource TextFillColorPrimaryBrush}" BorderThickness="0,0,0,2">
+      <Grid x:Name="CalibrationGrid">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="CalibrationGridTop" Grid.Row="0" Height="Auto">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <StackPanel x:Name="GuidanceButton" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+            <Button x:Name="ShowGuidanceButton" Content="&#xE015;" Visibility="Visible" Click="ShowGuidanceButton_Click"/>
+            <Button x:Name="HideGuidanceButton" Content="&#xE014;" Visibility="Collapsed" Click="HideGuidanceButton_Click"/>
+          </StackPanel>
+          <TextBlock Text="In order to improve the accuracy of the information displayed, we need your help to calibrate your device. Expand to see how." x:Name="CalibrationText" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
+          <Button x:Name="DismissPopup" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Content="Do not show again" Click="DismissPopup_Click"/>
+        </Grid>
+        <Image x:Name="Guidance" Stretch="Uniform" Source="ms-appx:///Scenarios/OrientationSensor/Assets/mobius.png" Grid.Row="1" HorizontalAlignment="Center" Margin="20,20,20,20" Width="400"/>
+      </Grid>
+    </Border>
+  </Popup>
+</Page>

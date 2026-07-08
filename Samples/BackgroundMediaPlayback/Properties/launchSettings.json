@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BackgroundMediaPlayback (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "BackgroundMediaPlayback (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
