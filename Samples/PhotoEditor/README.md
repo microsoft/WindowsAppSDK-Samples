@@ -32,6 +32,8 @@ A mini-app for viewing and editing image files, demonstrating XAML layout, data 
 ### PhotoEditor C# Sample Application
 ![Photo Editor csharp sample showing the image collection page, and editing controls](images/CS_Picture1.png)
 
+> **Note**. The C# (`cs-winui`) sample has been refreshed to modern Windows App SDK conventions: it targets Windows App SDK 1.8, uses a Mica backdrop with a `TitleBar`, the `App.MainWindow`/`DispatcherQueue` window lifecycle, and nullable reference types, with the legacy UWP `ApiInformation`/`ConnectedAnimationService.GetForCurrentView` and contract-based conditional XAML removed. It loads its bundled sample photos from the app's install location (`Assets\Samples`).
+
 ## Features
 
 Photo Editor demonstrates:
@@ -41,8 +43,7 @@ Photo Editor demonstrates:
 * XAML styling and UI customization, including [connected animations](https://docs.microsoft.com/windows/uwp/design/motion/connected-animation).
 * Image effects from [**Windows.UI.Composition**](https://docs.microsoft.com/uwp/api/windows.ui.composition).
 * Loading images from the **Pictures** library using data virtualization to increase performance when there are numerous files.
-* The [**Microsoft.Graphics.Win2D**](https://microsoft.github.io/Win2D/WinUI3/html/Introduction.htm) NuGet package (an easy-to-use Windows Runtime API for immediate-mode 2D graphics rendering).
-For WinUI).
+* The [**Microsoft.Graphics.Win2D**](https://microsoft.github.io/Win2D/WinUI3/html/Introduction.htm) NuGet package (an easy-to-use Windows Runtime API for immediate-mode 2D graphics rendering for WinUI).
 
 ### C++/WinRT-specific features
 
