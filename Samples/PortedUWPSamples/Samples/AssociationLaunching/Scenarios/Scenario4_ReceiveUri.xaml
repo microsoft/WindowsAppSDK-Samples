@@ -1,0 +1,35 @@
+<!--
+//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+-->
+<Page
+    x:Class="SDKTemplate.Scenario4_ReceiveUri"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ScrollViewer Padding="12,10,12,12">
+        <StackPanel>
+            <TextBlock Text="Description:" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap">
+                Receiving a URI.
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap" Margin="0,10,0,0">
+                Use the "Launching a URI" scenario of this sample or another language version of this
+                sample. To test the custom scheme, enter <Run Text="{x:Bind Protocol}"/>://hello as the
+                URI, then click the "Launch default handler" button. That link will launch this sample
+                app into this page.
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,82 @@
+<!--
+//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+-->
+<Page
+    x:Class="SDKTemplate.Scenario1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SDKTemplate"
+    xmlns:user="using:SDKTemplate.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer Padding="12,10,12,12" VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16" MaxWidth="720" HorizontalAlignment="Left">
+
+            <StackPanel Spacing="4">
+                <TextBlock Text="Audio categories" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap">
+                    Tagging a stream with an audio category tells the system mixer how it should interact with
+                    audio from other apps (ducking, muting, and routing). Pick a category, choose an audio file,
+                    then press Play.
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Spacing="8">
+                <TextBlock Text="Category" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                <ComboBox x:Name="CategoryComboBox"
+                          MinWidth="240"
+                          DisplayMemberPath="Name"
+                          SelectionChanged="CategoryComboBox_SelectionChanged"/>
+                <TextBlock x:Name="CategoryDescription"
+                           Style="{StaticResource BodyTextBlockStyle}"
+                           TextWrapping="Wrap"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Content="Select audio file" Click="SelectFile_Click"/>
+            </StackPanel>
+
+            <user:PlaybackControl x:Name="Playback"/>
+
+            <InfoBar x:Name="InteractionInfo"
+                     IsOpen="True"
+                     IsClosable="False"
+                     Severity="Informational"
+                     Title="Compare two categories side by side">
+                <InfoBar.Content>
+                    <StackPanel Spacing="12" Margin="0,8,0,12">
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap">
+                            Audio categories mostly matter when two apps play at once. Launch a second copy of this
+                            sample and play a different category in each window to hear how they mix.
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap">
+                            1. Click "Launch another instance" below.<LineBreak/>
+                            2. In this window, select <Run Text="Media" FontWeight="SemiBold"/> (or Movie), choose a song, and press Play.<LineBreak/>
+                            3. In the other window, select <Run Text="Communications" FontWeight="SemiBold"/> or <Run Text="Alerts" FontWeight="SemiBold"/> and press Play.
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap">
+                            Expected result: while the Communications or Alerts stream plays, the Media/Movie stream
+                            in this window is attenuated (its volume drops), then returns to full volume when the
+                            other stream stops. Game Chat behaves like Communications but does not attenuate the
+                            other stream.
+                        </TextBlock>
+                        <Button Content="Launch another instance" Click="LaunchAnotherInstance_Click"/>
+                    </StackPanel>
+                </InfoBar.Content>
+            </InfoBar>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

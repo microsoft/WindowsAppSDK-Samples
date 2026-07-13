@@ -1,0 +1,49 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Build artifacts / packages
+*.dll
+*.exe
+*.pdb
+*.cache
+*.msix
+*.appx
+*.appxbundle
+*.msixbundle
+AppPackages/
+BundleArtifacts/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+# Generated files
+Generated Files/
+*.g.cs
+*.g.i.cs
+
+# OS files
+.DS_Store
+Thumbs.db
