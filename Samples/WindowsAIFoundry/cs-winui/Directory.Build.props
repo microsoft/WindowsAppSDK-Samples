@@ -1,0 +1,24 @@
+﻿<Project>
+
+  <!-- Chain to the repo-level Directory.Build.props so shared settings are preserved. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <!--
+      Isolate build artifacts per flavor so switching between stable and experimental does not
+      require a manual 'dotnet clean'. Stale XAML-generated files from the inactive flavor would
+      otherwise collide with the active build. These must be set before Microsoft.Common.props is
+      imported, which is why they live in Directory.Build.props instead of the .csproj files.
+    -->
+    <IncludeExperimentalApis Condition="'$(IncludeExperimentalApis)' == ''">true</IncludeExperimentalApis>
+    <BuildFlavor Condition="'$(IncludeExperimentalApis)' == 'true'">experimental</BuildFlavor>
+    <BuildFlavor Condition="'$(IncludeExperimentalApis)' != 'true'">stable</BuildFlavor>
+
+    <BaseIntermediateOutputPath>obj\$(BuildFlavor)\</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin\$(BuildFlavor)\</BaseOutputPath>
+
+    <!-- Keep the inactive flavor's generated files out of the active build's default item globs. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj\stable\**;obj\experimental\**;bin\stable\**;bin\experimental\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+</Project>

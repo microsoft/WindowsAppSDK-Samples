@@ -69,7 +69,8 @@
     <ProjectReference Include="@(ExperimentalExtension -> 'Extensions\%(Identity)\WindowsAISample.Ext.%(Identity).csproj')" />
   </ItemGroup>
 
-  <!-- NOTE: switching between stable/experimental requires 'dotnet clean' first. -->
+  <!-- Stable and experimental build artifacts are isolated per flavor in Directory.Build.props,
+       so switching IncludeExperimentalApis does not require a 'dotnet clean' in between. -->
 
   <ItemGroup>
     <None Remove="Examples\ImageObjectExtractor.md" />
