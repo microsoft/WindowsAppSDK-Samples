@@ -61,6 +61,7 @@
                     </StackPanel>
                 </Border>
                 <controls:CodeBlockControl SourceFile="{Binding SourceFile, ElementName=RootControl}"
+                        AssetAssemblyName="{Binding AssetAssemblyName, ElementName=RootControl}"
                         Margin="10"/>
             </StackPanel>
         </Border>

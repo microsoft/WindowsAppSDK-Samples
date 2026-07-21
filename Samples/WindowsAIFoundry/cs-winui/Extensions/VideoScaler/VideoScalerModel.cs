@@ -3,7 +3,7 @@
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.MachineLearning;
-using Microsoft.Windows.AI.Video;
+using AIVideo = Microsoft.Windows.AI.Video;
 using Microsoft.Windows.Management.Deployment;
 using System;
 using System.Reflection;
@@ -19,9 +19,9 @@ namespace WindowsAISample.Ext.VideoScaler.Models;
 
 public class VideoScalerModel : IModelManager
 {
-    private VideoScaler? _session;
+    private AIVideo.VideoScaler? _session;
 
-    private VideoScaler Session => _session ?? throw new InvalidOperationException("Video Scaler session was not created yet");
+    private AIVideo.VideoScaler Session => _session ?? throw new InvalidOperationException("Video Scaler session was not created yet");
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
@@ -30,7 +30,7 @@ public class VideoScalerModel : IModelManager
 
         progress.Report(0.5);
 
-        var readyState = VideoScaler.GetReadyState();
+        var readyState = AIVideo.VideoScaler.GetReadyState();
         if (readyState == AIFeatureReadyState.NotSupportedOnCurrentSystem)
         {
             throw new InvalidOperationException("VideoScaler not supported on current system (hardware requirements not met)");
@@ -38,7 +38,7 @@ public class VideoScalerModel : IModelManager
 
         if (readyState == AIFeatureReadyState.NotReady)
         {
-            var videoScalerDeploymentOperation = VideoScaler.EnsureReadyAsync();
+            var videoScalerDeploymentOperation = AIVideo.VideoScaler.EnsureReadyAsync();
             videoScalerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
                 progress.Report(0.5 + (modelDeploymentProgress * 0.25) % 0.25);  // all progress is within 50% and 75%
@@ -50,7 +50,7 @@ public class VideoScalerModel : IModelManager
         {
             progress.Report(0.75);
         }
-        _session = await VideoScaler.CreateAsync();
+        _session = await AIVideo.VideoScaler.CreateAsync();
         progress.Report(1.0); // 100% progress
     }
 
@@ -67,7 +67,7 @@ public class VideoScalerModel : IModelManager
             inputFrame.PixelHeight,
             inputFrame.PixelWidth * 3);
         var result = Session.ScaleImageBuffer(inputImageBuffer, outputImageBuffer, null);
-        if (result.Status != VideoScalerStatus.Success)
+        if (result.Status != AIVideo.VideoScalerStatus.Success)
         {
             throw new Exception($"Failed to scale video frame: {result.Status}");
         }

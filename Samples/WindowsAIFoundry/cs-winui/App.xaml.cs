@@ -16,6 +16,8 @@ namespace WindowsAISample
             Window = new MainWindow();
             Window.Activate();
             WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(Window);
+            AppHost.Window = Window;
+            AppHost.WindowHandle = WindowHandle;
         }
         public static MainWindow? Window { get; private set; }
         public static IntPtr WindowHandle { get; private set; }

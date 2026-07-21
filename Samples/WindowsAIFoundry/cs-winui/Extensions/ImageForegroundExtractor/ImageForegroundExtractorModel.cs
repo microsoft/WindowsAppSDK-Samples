@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Microsoft.Windows.AI;
-using Microsoft.Windows.AI.Imaging;
+using AIImaging = Microsoft.Windows.AI.Imaging;
 
 namespace WindowsAISample.Ext.ImageForegroundExtractor.Models;
 
@@ -13,9 +13,9 @@ public class ImageForegroundExtractorModel : IModelManager
 {
     public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
-        if (ImageForegroundExtractor.GetReadyState() == AIFeatureReadyState.NotReady)
+        if (AIImaging.ImageForegroundExtractor.GetReadyState() == AIFeatureReadyState.NotReady)
         {
-            var foregroundExtractorDeploymentOperation = ImageForegroundExtractor.EnsureReadyAsync();
+            var foregroundExtractorDeploymentOperation = AIImaging.ImageForegroundExtractor.EnsureReadyAsync();
             foregroundExtractorDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
                 progress.Report(modelDeploymentProgress % 0.75);  // all progress is within 75%
@@ -32,7 +32,7 @@ public class ImageForegroundExtractorModel : IModelManager
 
     public async Task<SoftwareBitmap> ExtractForegroundMaskAsync(SoftwareBitmap inputImage, CancellationToken cancellationToken = default)
     {
-        using var extractor = await ImageForegroundExtractor.CreateAsync();
+        using var extractor = await AIImaging.ImageForegroundExtractor.CreateAsync();
         return extractor.GetMaskFromSoftwareBitmap(inputImage);
     }
 }

@@ -15,12 +15,27 @@ public sealed partial class CodeBlockControl : UserControl
 {
     public static readonly DependencyProperty SourceFileProperty =
         DependencyProperty.Register("SourceFile", typeof(string), typeof(CodeBlockControl), new PropertyMetadata(default(string), OnSourceFileChanged));
+
+    public static readonly DependencyProperty AssetAssemblyNameProperty =
+        DependencyProperty.Register(nameof(AssetAssemblyName), typeof(string), typeof(CodeBlockControl), new PropertyMetadata(default(string), OnSourceFileChanged));
+
     private string _content = string.Empty;
 
     public string SourceFile
     {
         get { return (string)GetValue(SourceFileProperty); }
         set { SetValue(SourceFileProperty, value); }
+    }
+
+    /// <summary>
+    /// Assembly name to resolve <see cref="SourceFile"/> against when the
+    /// asset is packaged inside an extension class library. Leave unset for
+    /// assets shipped at the main app package root.
+    /// </summary>
+    public string AssetAssemblyName
+    {
+        get { return (string)GetValue(AssetAssemblyNameProperty); }
+        set { SetValue(AssetAssemblyNameProperty, value); }
     }
 
     public CodeBlockControl()
@@ -38,7 +53,7 @@ public sealed partial class CodeBlockControl : UserControl
     {
         if (SourceFile != null)
         {
-            _content = await SourceFile.ReadTextAsync();
+            _content = await SourceFile.ReadTextAsync(AssetAssemblyName);
             codeBlock.Blocks.Clear();
             codeBlock.Blocks.Add(HighlightSyntax(_content));
         }

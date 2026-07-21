@@ -11,5 +11,7 @@
     <!-- Stable extensions: built and loaded in both build flavors. -->
 
     <!-- Experimental extensions: built and loaded only when IncludeExperimentalApis=true. -->
+    <ExperimentalExtension Include="ImageForegroundExtractor" />
+    <ExperimentalExtension Include="VideoScaler" />
   </ItemGroup>
 </Project>

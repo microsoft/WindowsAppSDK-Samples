@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-using WindowsAISample.Models.Contracts;
+using WindowsAISample;
 using WindowsAISample.Util;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -14,7 +13,7 @@ using WinRT.Interop;
 
 namespace WindowsAISample.ViewModels;
 
-internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
+public abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
     where T : IModelManager
 {
     private const string DefaultFactoryImageFilePath = "Assets/horses.jpg";
@@ -49,8 +48,7 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
         _pickInputImageCommand = new(async _ =>
         {
             var picker = new FileOpenPicker();
-            var window = App.Window;
-            var hwnd = WindowNative.GetWindowHandle(window);
+            var hwnd = AppHost.WindowHandle;
             InitializeWithWindow.Initialize(picker, hwnd);
 
             picker.ViewMode = PickerViewMode.Thumbnail;
@@ -80,8 +78,7 @@ internal abstract class InputImageViewModelBase<T> : CopilotModelBase<T>
         _pickMaskImageCommand = new(async _ =>
         {
             var picker = new FileOpenPicker();
-            var window = App.Window;
-            var hwnd = WindowNative.GetWindowHandle(window);
+            var hwnd = AppHost.WindowHandle;
             InitializeWithWindow.Initialize(picker, hwnd);
 
             picker.ViewMode = PickerViewMode.Thumbnail;
