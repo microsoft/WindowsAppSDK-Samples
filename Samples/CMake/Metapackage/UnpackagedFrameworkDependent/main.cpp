@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #include <windows.h>
-#include <appmodel.h>
 #include <sstream>
 #include <string>
 #include <fstream>
@@ -44,7 +43,7 @@ int WINAPI wWinMain(
 {
     wchar_t tempPath[MAX_PATH]{};
     GetTempPathW(MAX_PATH, tempPath);
-    std::wstring logPath = std::wstring(tempPath) + L"CMake_PackagedSC.log";
+    std::wstring logPath = std::wstring(tempPath) + L"CMake_UnpackagedFW.log";
     std::wofstream log(logPath, std::ios::trunc);
 
     try
@@ -52,27 +51,7 @@ int WINAPI wWinMain(
         winrt::init_apartment(winrt::apartment_type::single_threaded);
 
         std::wostringstream message;
-        message << L"Packaged Self-Contained App (CMake)\n\n";
-
-        // Verify MSIX package identity
-        UINT32 nameLen = 0;
-        auto rc = GetCurrentPackageFullName(&nameLen, nullptr);
-        if (rc == APPMODEL_ERROR_NO_PACKAGE)
-        {
-            message << L"Package Identity: NONE\n";
-            log << L"PackageIdentity=NONE" << std::endl;
-        }
-        else
-        {
-            std::wstring pkgName(nameLen, L'\0');
-            GetCurrentPackageFullName(&nameLen, pkgName.data());
-            if (!pkgName.empty() && pkgName.back() == L'\0')
-            {
-                pkgName.pop_back();
-            }
-            message << L"Package Identity: " << pkgName << L"\n";
-            log << L"PackageIdentity=" << pkgName << std::endl;
-        }
+        message << L"Metapackage Sample: Unpackaged Framework Dependent App (CMake)\n\n";
 
         //--------------------------------------------------------------------------------------------------------------
         // Foundation
@@ -84,7 +63,7 @@ int WINAPI wWinMain(
             auto envManager = winrt::Microsoft::Windows::System::EnvironmentManager::GetForProcess();
             auto value = envManager.GetEnvironmentVariable(L"PROCESSOR_ARCHITECTURE");
             message << L"  EnvironmentManager: Supported\n"
-                    << L"  PROCESSOR_ARCHITECTURE: " << std::wstring(value) << L"\n";
+                << L"  PROCESSOR_ARCHITECTURE: " << std::wstring(value) << L"\n";
             log << L"Foundation=Supported" << std::endl;
         }
         else
@@ -143,14 +122,35 @@ int WINAPI wWinMain(
         //--------------------------------------------------------------------------------------------------------------
         message << L"\n[DWrite]\n";
 
-        winrt::com_ptr<IDWriteFactory> dwriteFactory;
-        HRESULT hr = DWriteCoreCreateFactory(
-            DWRITE_FACTORY_TYPE_SHARED,
-            __uuidof(IDWriteFactory),
-            reinterpret_cast<IUnknown**>(dwriteFactory.put())
-        );
-        message << L"  DWriteCoreCreateFactory: " << (SUCCEEDED(hr) ? L"Loaded" : L"Failed") << L"\n";
-        log << (SUCCEEDED(hr) ? L"DWrite=Loaded" : L"DWrite=Failed") << std::endl;
+        auto dwriteModule = LoadLibraryW(L"DWriteCore.dll");
+        if (dwriteModule)
+        {
+            using DWriteCoreCreateFactoryFn = HRESULT(WINAPI*)(DWRITE_FACTORY_TYPE, REFIID, IUnknown**);
+            auto createFactory = reinterpret_cast<DWriteCoreCreateFactoryFn>(
+                GetProcAddress(dwriteModule, "DWriteCoreCreateFactory")
+                );
+            if (createFactory)
+            {
+                winrt::com_ptr<IDWriteFactory> dwriteFactory;
+                HRESULT hr = createFactory(
+                    DWRITE_FACTORY_TYPE_SHARED,
+                    __uuidof(IDWriteFactory),
+                    reinterpret_cast<IUnknown**>(dwriteFactory.put())
+                );
+                message << L"  DWriteCoreCreateFactory: " << (SUCCEEDED(hr) ? L"Loaded" : L"Failed") << L"\n";
+                log << (SUCCEEDED(hr) ? L"DWrite=Loaded" : L"DWrite=Failed") << std::endl;
+            }
+            else
+            {
+                message << L"  DWriteCore: DLL loaded but export not found\n";
+                log << L"DWrite=Failed" << std::endl;
+            }
+        }
+        else
+        {
+            message << L"  DWriteCore: Not available (install WinAppSDK runtime)\n";
+            log << L"DWrite=Failed" << std::endl;
+        }
 
         //--------------------------------------------------------------------------------------------------------------
         // IXP (InteractiveExperiences)
@@ -171,7 +171,7 @@ int WINAPI wWinMain(
 
         //--------------------------------------------------------------------------------------------------------------
         // Widgets
-        // NOTE: WidgetManager requires MSIX package identity AND the WinAppSDK Framework package
+        // NOTE: WidgetManager requires MSIX package identity AND the WinAppSDK Framework package.
         //--------------------------------------------------------------------------------------------------------------
         message << L"\n[Widgets]\n";
 
@@ -185,7 +185,7 @@ int WINAPI wWinMain(
         catch (winrt::hresult_error const& ex)
         {
             message << L"  WidgetManager.GetDefault: 0x" << std::hex << ex.code() << std::dec
-                    << L" (requires package identity and framework-dependent deployment)\n";
+                << L" (requires package identity and framework-dependent deployment)\n";
             log << L"Widgets=0x" << std::hex << static_cast<int32_t>(ex.code()) << std::dec << std::endl;
         }
 
@@ -231,7 +231,7 @@ int WINAPI wWinMain(
         catch (winrt::hresult_error const& ex)
         {
             message << L"  LanguageModel.GetReadyState: 0x" << std::hex << ex.code() << std::dec
-                    << L" (expected on non-AI hardware)\n";
+                << L" (expected on non-AI hardware)\n";
             log << L"AI=0x" << std::hex << static_cast<int32_t>(ex.code()) << std::dec << std::endl;
         }
 
@@ -262,7 +262,7 @@ int WINAPI wWinMain(
         {
             auto cornerRadius = winrt::Microsoft::UI::Xaml::CornerRadiusHelper::FromUniformRadius(4.0);
             message << L"  CornerRadiusHelper.FromUniformRadius(4.0): TopLeft="
-                    << cornerRadius.TopLeft << L" BottomRight=" << cornerRadius.BottomRight << L"\n";
+                << cornerRadius.TopLeft << L" BottomRight=" << cornerRadius.BottomRight << L"\n";
             log << L"WinUI=TopLeft_" << cornerRadius.TopLeft
                 << L"_BottomRight_" << cornerRadius.BottomRight << std::endl;
         }

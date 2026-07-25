@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------------------------------------------------
-# UnpackagedSelfContained - Self-contained deployment, no MSIX packaging
+# UnpackagedSelfContained - Self-contained deployment, no MSIX packaging (new model)
 #----------------------------------------------------------------------------------------------------------------------
 project(UnpackagedSelfContained LANGUAGES CXX)
 
@@ -9,18 +9,21 @@ add_executable(UnpackagedSelfContained WIN32
 
 set_target_properties(UnpackagedSelfContained PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+    # Unpackaged: no MSIX. Disables MSIX-only auto-inits and skips the
+    # AppxManifest validation in wasdk_post_build_copy().
+    WindowsPackageType "None"
+    # One property — every bare WindowsAppSDK.<Component> target resolves to its _SelfContained variant.
+    WindowsAppSDKSelfContained TRUE
 )
 
 target_link_libraries(UnpackagedSelfContained
     PRIVATE
-        Microsoft.WindowsAppSDK.Foundation_SelfContained
-        Microsoft.WindowsAppSDK.InteractiveExperiences_SelfContained
-        Microsoft.WindowsAppSDK.DWrite_SelfContained
-        Microsoft.WindowsAppSDK.Widgets_SelfContained
-        Microsoft.WindowsAppSDK.AI_SelfContained
-        Microsoft.WindowsAppSDK.ML_SelfContained
-        Microsoft.WindowsAppSDK.WinUI_SelfContained
+        Microsoft.WindowsAppSDK.Foundation
+        Microsoft.WindowsAppSDK.InteractiveExperiences
+        Microsoft.WindowsAppSDK.DWrite
+        Microsoft.WindowsAppSDK.Widgets
+        Microsoft.WindowsAppSDK.AI
+        Microsoft.WindowsAppSDK.ML
+        Microsoft.WindowsAppSDK.WinUI
 )
 
-post_build_runtime_dll_copy(UnpackagedSelfContained)
-post_build_selfcontained_dll_copy(UnpackagedSelfContained)
