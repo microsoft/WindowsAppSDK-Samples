@@ -74,7 +74,7 @@ void AutomationFragment::RemoveChild(
         m_children.begin(), m_children.end(), [&child](auto const& childEntry)
     {
         // See if we find a matching child entry in our children.
-        return (childEntry.as<::IUnknown>().get() == child.as<::IUnknown>().get());
+        return (childEntry.template as<::IUnknown>().get() == child.as<::IUnknown>().get());
     });
 
     // We cannot remove a child that isn't ours.

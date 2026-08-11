@@ -13,11 +13,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       v142 is the Visual Studio 2017 toolset. (15.0)
       v142 is the Visual Studio 2019 toolset. (16.0)
       v143 is the Visual Studio 2022 toolset. (17.0)
+      v145 is the Visual Studio 2026 toolset. (18.0)
     -->
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='14'">v140</AutoDetectedPlatformToolset>
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='15'">v141</AutoDetectedPlatformToolset>
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='16'">v142</AutoDetectedPlatformToolset>
     <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='17'">v143</AutoDetectedPlatformToolset>
+    <AutoDetectedPlatformToolset Condition="'$(BuildToolVersion)'=='18'">v145</AutoDetectedPlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="EmptyDefaultPlatformToolset">
     <DefaultPlatformToolset Condition=" '$(DefaultPlatformToolset)' == '' ">$(AutoDetectedPlatformToolset)</DefaultPlatformToolset>
