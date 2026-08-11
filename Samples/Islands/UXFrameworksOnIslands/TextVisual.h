@@ -13,6 +13,13 @@ template<class T>
 class TextVisual final : public D2DSprite<T>
 {
 public:
+    // D2DSprite<T> is a dependent base, so its members are not found by unqualified
+    // lookup and have to be introduced explicitly.
+    using typename D2DSprite<T>::ContainerVisual;
+    using D2DSprite<T>::GetBackgroundColor;
+    using D2DSprite<T>::GetVisual;
+    using D2DSprite<T>::InvalidateContent;
+
     TextVisual(Output<T> const& output, std::wstring&& text);
 
     TextVisual(
