@@ -1,17 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
+
 using WindowsAISample.Util;
+using WindowsAISample.ViewModels;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;
 using Windows.Media;
-using WindowsAISample.Models;
-using System.Threading.Tasks;
-using Microsoft.UI.Dispatching;
 
-namespace WindowsAISample.ViewModels;
+namespace WindowsAISample.Ext.VideoScaler;
 
-internal partial class VideoScalerViewModel : InputImageViewModelBase<VideoScalerModel>
+internal class VideoScalerViewModel : InputImageViewModelBase<VideoScalerModel>
 {
     private readonly AsyncCommand<(VideoFrame, int, int), SoftwareBitmapSource> _scaleVideoFrameCommand;
 
@@ -20,7 +18,7 @@ internal partial class VideoScalerViewModel : InputImageViewModelBase<VideoScale
     {
         _scaleVideoFrameCommand = new(
             async _ =>
-            { 
+            {
                 var softwareBitmap = Session.ScaleVideoFrame(Input!);
                 return await DispatcherQueue.EnqueueAsync(async () =>
                 {

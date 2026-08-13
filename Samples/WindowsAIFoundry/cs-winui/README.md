@@ -18,10 +18,14 @@ extendedZipContent:
 
 An app that demonstrates how to use the Windows AI APIs with WinUI.
 
-## Releases
-Stable features can be found in the [main](https://github.com/microsoft/WindowsAppSDK-Samples/tree/main/Samples/WindowsAIFoundry/cs-winui) branch. 
+## Windows App SDK versions
 
-Experimental features can be found in the [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsAIFoundry/cs-winui) branch
+The same solution supports both stable and experimental Windows App SDK packages:
+
+- Stable `2.1.3` builds the six stable scenarios.
+- Experimental `2.1.4-experimental8` also builds the Image Foreground Extractor and Video Scaler extensions.
+
+Experimental scenarios are separate projects under `Extensions`. Stable builds do not reference or build those projects. The Shell conditionally links each extension's `ShellExtension.cs` file, so navigation is composed at compile time without runtime discovery.
 
 ## Prerequisites
 
@@ -40,6 +44,18 @@ join the [Windows Insider Program](https://insider.windows.com).
 
 -   Open the solution file (`.sln`) in Visual Studio.
 -   From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
+
+The experimental package is the default for this branch. To build against the latest stable package, set `WindowsAppSDKVersion`:
+
+```powershell
+dotnet build WindowsAISample.sln -p:Platform=x64 -p:WindowsAppSDKVersion=2.1.3
+```
+
+To build the experimental extensions:
+
+```powershell
+dotnet build WindowsAISample.sln -p:Platform=x64 -p:WindowsAppSDKVersion=2.1.4-experimental8
+```
 
 See [additional instructions](./cpp-console-unpackaged/README.md) for using [the C++ & CMake sample](./cpp-console-unpackaged/CMakeLists.txt).
 

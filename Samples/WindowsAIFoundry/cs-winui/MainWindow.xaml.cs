@@ -3,6 +3,7 @@
 
 using WindowsAISample.ViewModels;
 using WindowsAISample.Pages;
+using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -17,7 +18,33 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         rootFrame.DataContext = new CopilotRootViewModel();
+        AddImageForegroundExtractor();
+        AddVideoScaler();
         rootFrame.Navigate(typeof(LanguageModelPage));
+    }
+
+    partial void AddImageForegroundExtractor();
+
+    partial void AddVideoScaler();
+
+    private void AddFeature(string title, Symbol icon, Type pageType)
+    {
+        NavView.MenuItems.Add(CreateFeature(title, icon, pageType));
+    }
+
+    private void InsertFeature(int index, string title, Symbol icon, Type pageType)
+    {
+        NavView.MenuItems.Insert(index, CreateFeature(title, icon, pageType));
+    }
+
+    private static NavigationViewItem CreateFeature(string title, Symbol icon, Type pageType)
+    {
+        return new NavigationViewItem
+        {
+            Content = title,
+            Icon = new SymbolIcon(icon),
+            Tag = pageType,
+        };
     }
 
     private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -26,6 +53,9 @@ public sealed partial class MainWindow : Window
         {
             switch (args.SelectedItemContainer.Tag)
             {
+                case Type pageType:
+                    rootFrame.Navigate(pageType);
+                    break;
                 case "LanguageModel":
                     rootFrame.Navigate(typeof(LanguageModelPage));
                     break;
@@ -35,20 +65,14 @@ public sealed partial class MainWindow : Window
                 case "ImageObjectExtractor":
                     rootFrame.Navigate(typeof(ImageObjectExtractorPage));
                     break;
-                case "ImageForegroundExtractor":
-                    rootFrame.Navigate(typeof(ImageForegroundExtractorPage));
-                    break;
                 case "ImageDescription":
-                    rootFrame.Navigate(typeof (ImageDescriptionPage));
+                    rootFrame.Navigate(typeof(ImageDescriptionPage));
                     break;
                 case "TextRecognizer":
                     rootFrame.Navigate(typeof(TextRecognizerPage));
                     break;
                 case "ImageObjectRemover":
                     rootFrame.Navigate(typeof(ImageObjectRemoverPage));
-                    break;
-                case "VideoScaler":
-                    rootFrame.Navigate(typeof(VideoScalerPage));
                     break;
             }
         }

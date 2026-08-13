@@ -1,17 +1,17 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using System;
 using System.Threading.Tasks;
 
 namespace WindowsAISample.Util;
 
-internal sealed class DefaultAsyncCommandDelegate<TParameter, TResult> : IAsyncCommandDelegate<TParameter, TResult>
+public sealed class DefaultAsyncCommandDelegate<TParameter, TResult> : IAsyncCommandDelegate<TParameter, TResult>
 {
-    internal DefaultAsyncCommandDelegate()
+    public DefaultAsyncCommandDelegate()
     {
     }
 
-    internal DefaultAsyncCommandDelegate(
+    public DefaultAsyncCommandDelegate(
         Func<TParameter?, Task<TResult>> executeCallback,
         Func<TParameter?, bool> canExecuteCallback)
     {

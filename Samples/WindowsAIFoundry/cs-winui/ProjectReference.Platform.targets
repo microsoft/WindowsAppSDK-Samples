@@ -1,0 +1,12 @@
+<Project>
+  <!-- Referenced WinUI class libraries are architecture-neutral. Keep their build and PRI paths
+       aligned when the Shell-only solution is built for x86, x64, or ARM64. -->
+  <Target Name="UseAnyCpuForProjectReferences" AfterTargets="AssignProjectConfiguration">
+    <ItemGroup>
+      <ProjectReference Update="@(ProjectReference)">
+        <SetPlatform>Platform=AnyCPU</SetPlatform>
+        <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
+      </ProjectReference>
+    </ItemGroup>
+  </Target>
+</Project>

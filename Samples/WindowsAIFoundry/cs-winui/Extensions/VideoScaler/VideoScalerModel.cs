@@ -1,28 +1,29 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Graphics.Imaging;
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.MachineLearning;
-using Microsoft.Windows.AI.Video;
 using Microsoft.Windows.Management.Deployment;
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
-using Windows.Media;
 using Windows.Storage.Streams;
 using WindowsAISample.Models.Contracts;
 using WindowsAISample.Util;
 
-namespace WindowsAISample.Models;
+// The enclosing namespace 'VideoScaler' would shadow the SDK type; alias it to keep call sites readable.
+using VideoScalerApi = Microsoft.Windows.AI.Video.VideoScaler;
+using VideoScalerStatusApi = Microsoft.Windows.AI.Video.VideoScalerStatus;
+
+namespace WindowsAISample.Ext.VideoScaler;
 
 internal class VideoScalerModel : IModelManager
 {
-    private VideoScaler? _session;
+    private VideoScalerApi? _session;
 
-    private VideoScaler Session => _session ?? throw new InvalidOperationException("Video Scaler session was not created yet");
+    private VideoScalerApi Session => _session ?? throw new InvalidOperationException("Video Scaler session was not created yet");
 
     public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
     {
@@ -31,7 +32,7 @@ internal class VideoScalerModel : IModelManager
 
         progress.Report(0.5);
 
-        var readyState = VideoScaler.GetReadyState();
+        var readyState = VideoScalerApi.GetReadyState();
         if (readyState == AIFeatureReadyState.NotSupportedOnCurrentSystem)
         {
             throw new InvalidOperationException("VideoScaler not supported on current system (hardware requirements not met)");
@@ -39,10 +40,10 @@ internal class VideoScalerModel : IModelManager
 
         if (readyState == AIFeatureReadyState.NotReady)
         {
-            var videoScalerDeploymentOperation = VideoScaler.EnsureReadyAsync();
+            var videoScalerDeploymentOperation = VideoScalerApi.EnsureReadyAsync();
             videoScalerDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
             {
-                progress.Report(0.5 + (modelDeploymentProgress * 0.25) % 0.25);  // all progress is within 50% and 75%
+                progress.Report(0.5 + (modelDeploymentProgress * 0.25) % 0.25);
             };
             using var _ = cancellationToken.Register(() => videoScalerDeploymentOperation.Cancel());
             await videoScalerDeploymentOperation;
@@ -51,7 +52,8 @@ internal class VideoScalerModel : IModelManager
         {
             progress.Report(0.75);
         }
-        _session = await VideoScaler.CreateAsync();
+
+        _session = await VideoScalerApi.CreateAsync();
         progress.Report(1.0); // 100% progress
     }
 
@@ -68,7 +70,7 @@ internal class VideoScalerModel : IModelManager
             inputFrame.PixelHeight,
             inputFrame.PixelWidth * 3);
         var result = Session.ScaleImageBuffer(inputImageBuffer, outputImageBuffer, null);
-        if (result.Status != VideoScalerStatus.Success)
+        if (result.Status != VideoScalerStatusApi.Success)
         {
             throw new Exception($"Failed to scale video frame: {result.Status}");
         }

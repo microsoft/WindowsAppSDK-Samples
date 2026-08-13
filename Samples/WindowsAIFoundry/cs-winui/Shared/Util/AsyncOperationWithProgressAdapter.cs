@@ -1,11 +1,11 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using System;
 using Windows.Foundation;
 
 namespace WindowsAISample.Util;
 
-internal class AsyncOperationWithProgressAdapter<TResult, TProgress, TResultAdapter, TProgressAdapter> : IAsyncOperationWithProgress<TResultAdapter, TProgressAdapter>
+public class AsyncOperationWithProgressAdapter<TResult, TProgress, TResultAdapter, TProgressAdapter> : IAsyncOperationWithProgress<TResultAdapter, TProgressAdapter>
 {
     private readonly IAsyncOperationWithProgress<TResult, TProgress> _source;
     private AsyncOperationProgressHandler<TResultAdapter, TProgressAdapter>? _progress;
@@ -13,7 +13,7 @@ internal class AsyncOperationWithProgressAdapter<TResult, TProgress, TResultAdap
     private readonly Func<TResult, TResultAdapter> _resultConverterCallback;
     private readonly Func<TProgress, TProgressAdapter> _progressConverterCallback;
 
-    internal AsyncOperationWithProgressAdapter(
+    public AsyncOperationWithProgressAdapter(
         IAsyncOperationWithProgress<TResult, TProgress> source,
         Func<TResult, TResultAdapter> resultConverterCallback,
         Func<TProgress, TProgressAdapter> progressConverterCallback)

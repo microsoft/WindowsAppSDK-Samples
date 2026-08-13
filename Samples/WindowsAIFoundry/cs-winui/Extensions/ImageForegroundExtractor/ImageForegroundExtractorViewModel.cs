@@ -1,16 +1,16 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
+
 using WindowsAISample.Util;
+using WindowsAISample.ViewModels;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Windows.Input;
 using Windows.Graphics.Imaging;
-using WindowsAISample.Models;
 
-namespace WindowsAISample.ViewModels;
+namespace WindowsAISample.Ext.ImageForegroundExtractor;
 
-internal partial class ImageForegroundExtractorViewModel : InputImageViewModelBase<ImageForegroundExtractorModel>
+internal class ImageForegroundExtractorViewModel : InputImageViewModelBase<ImageForegroundExtractorModel>
 {
     private readonly AsyncCommand<SoftwareBitmap, SoftwareBitmapSource> _extractForegroundCommand;
 
@@ -33,7 +33,7 @@ internal partial class ImageForegroundExtractorViewModel : InputImageViewModelBa
                     return await outputBitmap.ToSourceAsync();
                 });
             },
-            (_) => IsAvailable && Input is not null);
+            _ => IsAvailable && Input is not null);
     }
 
     public ICommand ExtractForegroundCommand => _extractForegroundCommand;
