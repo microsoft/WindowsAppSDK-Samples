@@ -3,10 +3,12 @@
        aligned when the Shell-only solution is built for x86, x64, or ARM64. -->
   <Target Name="UseAnyCpuForProjectReferences" AfterTargets="AssignProjectConfiguration">
     <ItemGroup>
-      <ProjectReference Update="@(ProjectReference)">
+      <ProjectReferenceWithConfiguration Update="@(ProjectReferenceWithConfiguration)">
+        <GlobalPropertiesToRemove>Platform</GlobalPropertiesToRemove>
+        <SetConfiguration>Configuration=$(Configuration)</SetConfiguration>
         <SetPlatform>Platform=AnyCPU</SetPlatform>
-        <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
-      </ProjectReference>
+        <AdditionalProperties>Configuration=$(Configuration);Platform=AnyCPU</AdditionalProperties>
+      </ProjectReferenceWithConfiguration>
     </ItemGroup>
   </Target>
 </Project>
