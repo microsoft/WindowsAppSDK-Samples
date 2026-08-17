@@ -48,13 +48,13 @@ join the [Windows Insider Program](https://insider.windows.com).
 The experimental package is the default for this branch. To build against the latest stable package, set `WindowsAppSDKVersion`:
 
 ```powershell
-dotnet build WindowsAISample.sln -p:Platform=x64 -p:WindowsAppSDKVersion=2.1.3
+dotnet build WindowsAISample.sln -p:Platform=x64 -p:WindowsAppSDKVersion=2.1.3 -p:UseExperimentalWinAppSDK=false
 ```
 
 To build the experimental extensions:
 
 ```powershell
-dotnet build WindowsAISample.sln -p:Platform=x64 -p:WindowsAppSDKVersion=2.1.4-experimental8
+dotnet build WindowsAISample.sln -p:Platform=x64 -p:WindowsAppSDKVersion=2.1.4-experimental8 -p:UseExperimentalWinAppSDK=true
 ```
 
 See [additional instructions](./cpp-console-unpackaged/README.md) for using [the C++ & CMake sample](./cpp-console-unpackaged/CMakeLists.txt).

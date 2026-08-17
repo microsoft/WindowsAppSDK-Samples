@@ -23,7 +23,7 @@
     <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
     <ExperimentalApisAvailable>false</ExperimentalApisAvailable>
-    <ExperimentalApisAvailable Condition="$([System.String]::Copy('$(WindowsAppSDKVersion)').Contains('-experimental'))">true</ExperimentalApisAvailable>
+    <ExperimentalApisAvailable Condition="'$(UseExperimentalWinAppSDK)' == 'true'">true</ExperimentalApisAvailable>
   </PropertyGroup>
 
   <ItemGroup>
