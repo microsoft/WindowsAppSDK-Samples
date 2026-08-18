@@ -133,6 +133,37 @@
                                 Margin="10"/>
                             </StackPanel>
                         </TabViewItem>
+                        <!-- Describe Your Change Section -->
+                        <TabViewItem Header="Describe Your Change"
+                         IsClosable="False">
+                            <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            Margin="20">
+                                <TextBox Margin="10"
+                             Header="Prompt:"
+                             PlaceholderText="Enter your prompt here"
+                             Text="{Binding TextIntelligencePrompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsAvailable}"
+                             AutomationProperties.Name="multi-line TextBox"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"/>
+                                <TextBox Margin="10"
+                             Header="Language Model Result:"
+                             Text="{Binding ResponseProgressTextIntelligence}"
+                             IsReadOnly="True"
+                             IsEnabled="{Binding IsAvailable}"
+                             TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal"
+                                Margin="10">
+                                    <Button Command="{Binding GenerateResponseWithTextIntelligenceDescribeSkills}"
+                                CommandParameter="{Binding TextIntelligencePrompt}"
+                                Margin="0,0,10,0">Generate Describe Your Change Response</Button>
+                                    <ProgressRing Visibility="{Binding GenerateResponseWithTextIntelligenceDescribeSkills.IsExecuting, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </StackPanel>
+                                <controls:CodeBlockControl SourceFile="Examples/TextIntelligenceDescribe.md"
+                                Margin="10"/>
+                            </StackPanel>
+                        </TabViewItem>
                         <!-- TextToTable Section -->
                         
                         <TabViewItem Header="Text To Table"

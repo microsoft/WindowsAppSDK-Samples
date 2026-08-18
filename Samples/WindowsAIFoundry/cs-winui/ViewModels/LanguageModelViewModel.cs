@@ -47,6 +47,7 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceSummarizeSkills;
     private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceRewriteSkills;
+    private readonly AsyncCommandWithProgress<string, LanguageModelResponseResult, string> _generateResponseWithTextIntelligenceDescribeSkills;
     private readonly AsyncCommand<string, string> _generateResponseWithTextIntelligenceTextToTableSkills;
 
     private readonly StringBuilder _responseProgress = new();
@@ -89,6 +90,20 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
         _generateResponseWithTextIntelligenceRewriteSkills.ResultProgressHandler += OnResultProgressTextIntelligence;
         _generateResponseWithTextIntelligenceRewriteSkills.ResultHandler += OnResultTextIntelligence;
+
+        // GenerateResponseWithTextIntelligenceDescribeSkills
+        _generateResponseWithTextIntelligenceDescribeSkills = new(
+            prompt =>
+            {
+                _responseProgressTextIntelligence.Clear();
+                DispatchPropertyChanged(nameof(ResponseProgressTextIntelligence));
+
+                return Session.GenerateResponseTextIntelligenceDescribeWithProgressAsync(prompt!);
+            },
+            (prompt) => IsAvailable && !string.IsNullOrEmpty(TextIntelligencePrompt));
+
+        _generateResponseWithTextIntelligenceDescribeSkills.ResultProgressHandler += OnResultProgressTextIntelligence;
+        _generateResponseWithTextIntelligenceDescribeSkills.ResultHandler += OnResultTextIntelligence;
 
         // GenerateResponseWithTextIntelligenceTextToTableSkills
         _generateResponseWithTextIntelligenceTextToTableSkills = new(
@@ -206,12 +221,14 @@ internal partial class LanguageModelViewModel : CopilotModelBase<LanguageModelMo
 
     public ICommand GenerateResponseWithTextIntelligenceSummarizeSkills => _generateResponseWithTextIntelligenceSummarizeSkills;
     public ICommand GenerateResponseWithTextIntelligenceRewriteSkills => _generateResponseWithTextIntelligenceRewriteSkills;
+    public ICommand GenerateResponseWithTextIntelligenceDescribeSkills => _generateResponseWithTextIntelligenceDescribeSkills;
     public ICommand GenerateResponseWithTextIntelligenceTextToTableSkills => _generateResponseWithTextIntelligenceTextToTableSkills;
 
     protected override void OnIsAvailableChanged()
     {
         _generateResponseWithTextIntelligenceSummarizeSkills.FireCanExecuteChanged();
         _generateResponseWithTextIntelligenceRewriteSkills.FireCanExecuteChanged();
+        _generateResponseWithTextIntelligenceDescribeSkills.FireCanExecuteChanged();
         _generateResponseWithTextIntelligenceTextToTableSkills.FireCanExecuteChanged();
     }
 
