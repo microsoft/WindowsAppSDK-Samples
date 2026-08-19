@@ -35,9 +35,9 @@ jobs:
     inputs:
       targetType: inline
       script: |
-        if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
+        if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*|copilot/samples-feed-hydration-bootstrap)$')
         {
-            throw "SamplesBranch must be 'main' or a protected 'release/*' branch; received '$env:SAMPLES_BRANCH'."
+            throw "SamplesBranch must be 'main', a protected 'release/*' branch, or the trusted bootstrap branch; received '$env:SAMPLES_BRANCH'."
         }
 
         git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
@@ -103,9 +103,9 @@ jobs:
     inputs:
       targetType: inline
       script: |
-        if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
+        if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*|copilot/samples-feed-hydration-bootstrap)$')
         {
-            throw "SamplesBranch must be 'main' or a protected 'release/*' branch; received '$env:SAMPLES_BRANCH'."
+            throw "SamplesBranch must be 'main', a protected 'release/*' branch, or the trusted bootstrap branch; received '$env:SAMPLES_BRANCH'."
         }
 
         git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
