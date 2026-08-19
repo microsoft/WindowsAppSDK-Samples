@@ -51,7 +51,11 @@ Invoke-RestMethod `
     -Body $body | Out-Null
 
 $feed = Invoke-RestMethod -Method Get -Uri $feedUri -Headers $headers
-$activeUpstreams = @($feed.upstreamSources | Where-Object { !$_.deletedDate })
+$activeUpstreams = @(
+    $feed.upstreamSources | Where-Object {
+        !$_.PSObject.Properties["deletedDate"] -or !$_.deletedDate
+    }
+)
 
 if ($Action -eq "Enable" -and $activeUpstreams.Count -ne 1)
 {
