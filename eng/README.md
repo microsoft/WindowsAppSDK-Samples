@@ -27,8 +27,9 @@ Restrict permission to queue the pipeline and override `SamplesBranch` to truste
 
 ## Initial rollout
 
-1. Merge the automation files and create the pipeline without changing the branch's existing `Samples/nuget.config`.
-2. Queue the pipeline with `SamplesBranch` set to the branch being migrated and require both hydration and anonymous validation to pass.
-3. Only then merge the change that removes nuget.org/package source mapping and makes `WinAppSDK-SampleDeps` the branch's single checked-in source.
+1. Push an automation-only trusted topic branch containing this YAML, the `eng` scripts, and the hydration config. Do not change the branch's existing `Samples/nuget.config` yet.
+2. Create the pipeline from `SamplesFeed-Hydration.yml` on that topic branch, then queue it with the YAML branch set to the trusted topic branch and `SamplesBranch` set to the branch being migrated.
+3. Require both hydration and anonymous validation to pass, merge the automation PR, and retarget the pipeline's default YAML branch to `main`.
+4. Only then merge the separate change that removes nuget.org/package source mapping and makes `WinAppSDK-SampleDeps` the branch's single checked-in source.
 
 If hydration fails, first confirm that the cleanup step removed the upstream before retrying.
