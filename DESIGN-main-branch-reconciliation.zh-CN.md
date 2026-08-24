@@ -211,6 +211,15 @@ Widgets x64 Release 构建通过，没有 warning。AppLifecycle 和 Islands
   整合，不能添加第二份副本。
 - WinML EP Catalog 留到专门的 WindowsML 审查阶段。
 
+#### 当前导入状态
+
+- Islands WinForms sample 和 WinUI class library 已经导入。
+  x64 Release 构建通过，没有 warning。
+- SecureUI 仍是已获批候选。它需要使用 Visual Studio 2022 `v143`
+  toolset 构建通过后再提交。
+
+在 SecureUI 完成验证并提交前，低风险 sample 导入步骤保持未完成。
+
 ### 4. Stable 化 WindowsAIFoundry
 
 使用 `release/2.0-stable` 作为该 sample 的 Stable API 参考：

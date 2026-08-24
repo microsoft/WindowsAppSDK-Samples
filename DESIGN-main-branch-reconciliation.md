@@ -216,6 +216,16 @@ The other `main`-only directories are not independent samples:
 
 This review did not import any sample code.
 
+#### Import Status
+
+- The Islands WinForms sample and its WinUI class library have been imported.
+  Their x64 Release build passed with no warnings.
+- SecureUI remains an approved candidate. Its commit is deferred until it can
+  be built with the required Visual Studio 2022 `v143` toolset.
+
+The low-risk sample import step remains incomplete until SecureUI is validated
+and committed.
+
 ### 4. Stabilize WindowsAIFoundry
 
 Use `release/2.0-stable` as the stable API reference for this sample:
