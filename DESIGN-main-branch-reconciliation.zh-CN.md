@@ -264,8 +264,12 @@ ResourceManagement C++ WinUI WAP 项目具有相同历史，也由同一个 PR
 package 管理。C# WinUI 和 WPF WAP 项目在两个分支中都存在，不属于
 此次差异。
 
-这两项 packaging split 都不需要迁移。Windowing packaging split
-仍待审查。
+Windowing C++ WinUI WAP 项目同样存在于共同祖先中，并由 PR #579
+替换。它的业务源码完全相同，7 张图片逐字节相同，manifest 仅有对应的
+资源路径差异。保留基线 single-project MSIX，省略旧 WAP 目录。
+
+AppLifecycle、ResourceManagement 和 Windowing 的全部 packaging split
+均不需要迁移。
 
 ### 4. Stable 化 WindowsAIFoundry
 
@@ -275,6 +279,26 @@ package 管理。C# WinUI 和 WPF WAP 项目在两个分支中都存在，不属
 - 保留 `release/experimental` 中适用的后续修复。
 - 统一为获批的 stable package 版本。
 - 不用较旧 release 设置覆盖无关的公共配置。
+
+#### C# WinUI Stable API 结果
+
+C# WinUI gallery 已与 `release/2.0-stable@5327f5c4` 对齐：
+
+- 删除 PR #592 中的 experimental VideoScaler 场景。
+- 删除 PR #594 中的 experimental ImageForegroundExtractor 场景和
+  `TextRecognizerOptions` 示例。
+- 使用 PR #638 选择的 stable Windows App SDK 2.1.3 package。
+- 保留 6 个 stable 场景，包括 stable LoRA/adapter sample。
+- 保留基线编码和无关的后续修复，不覆盖整个 WindowsAIFoundry 文件树。
+
+定向 x64 Release 构建在 restore 阶段被阻塞，因为配置的 feed 不包含
+`Microsoft.NETCore.App.Crossgen2.win-x64` 8.0.30。未修改的已提交基线
+复现了相同的 `NU1102`，因此这是既有 restore 环境问题，不是 stable API
+迁移回归。
+
+其余 WindowsAIFoundry 项目仍有 experimental runtime、bootstrap 和
+README 引用，而且固定的 stable 分支也保留了这些内容。需要在确认并
+验证获批的 stable runtime identity 和版本后，单独统一这些跨项目引用。
 
 ### 5. 整合 WindowsML
 
@@ -471,7 +495,8 @@ pwsh -File build.ps1 -Sample <SampleName>
 - [x] 审查 AppLifecycle 和 ResourceManagement packaging split。
 - [x] 决定 SecureUI 处置。
 - [x] 审查并移植 Windowing PR #415 重构。
-- [ ] Stable 化 WindowsAIFoundry。
+- [x] Stable 化 WindowsAIFoundry C# WinUI API surface。
+- [ ] 统一其余 WindowsAIFoundry runtime 和文档引用。
 - [ ] 整合 WindowsML。
 - [ ] 决定 experimental 候选。
 - [ ] 统一 C++ toolset 选择。

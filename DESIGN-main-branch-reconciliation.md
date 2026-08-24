@@ -271,8 +271,14 @@ are byte-identical, and its manifest differs only in the corresponding
 package management. The C# WinUI and WPF WAP projects exist on both branches
 and are not part of this difference.
 
-No migration is required for either reviewed packaging split. The Windowing
-packaging split remains pending review.
+The Windowing C++ WinUI WAP project also existed at the common ancestor and
+was replaced by PR #579. Its business source is identical, all seven image
+assets are byte-identical, and its manifest differs only in the corresponding
+resource paths. Retain the baseline single-project MSIX and omit the old WAP
+directory.
+
+No migration is required for any of the reviewed AppLifecycle,
+ResourceManagement, or Windowing packaging splits.
 
 ### 4. Stabilize WindowsAIFoundry
 
@@ -282,6 +288,29 @@ Use `release/2.0-stable` as the stable API reference for this sample:
 - Preserve applicable later fixes from `release/experimental`.
 - Normalize to approved stable package versions.
 - Avoid replacing unrelated shared configuration with older release settings.
+
+#### C# WinUI Stable API Result
+
+The C# WinUI gallery was aligned with
+`release/2.0-stable@5327f5c4`:
+
+- Remove the experimental VideoScaler scenario from PR #592.
+- Remove the experimental ImageForegroundExtractor scenario and
+  `TextRecognizerOptions` example from PR #594.
+- Use the stable Windows App SDK 2.1.3 package selected by PR #638.
+- Retain the six stable scenarios, including the stable LoRA/adapter sample.
+- Preserve baseline encoding and unrelated later fixes instead of replacing
+  the full WindowsAIFoundry tree.
+
+The targeted x64 Release build is blocked during restore because the configured
+feeds do not contain `Microsoft.NETCore.App.Crossgen2.win-x64` 8.0.30. The
+unchanged committed baseline reproduces the same `NU1102`, so this is an
+existing restore-environment issue rather than a stable API regression.
+
+The remaining WindowsAIFoundry projects retain stale experimental runtime,
+bootstrap, and README references that also exist in the pinned stable branch.
+Normalize those cross-project references separately after selecting and
+verifying the approved stable runtime identity and version.
 
 ### 5. Reconcile WindowsML
 
@@ -486,7 +515,8 @@ to the log are not listed as milestones.
 - [x] Review AppLifecycle and ResourceManagement packaging splits.
 - [x] Decide the SecureUI disposition.
 - [x] Review and port the Windowing PR #415 refactoring.
-- [ ] Stabilize WindowsAIFoundry.
+- [x] Stabilize the WindowsAIFoundry C# WinUI API surface.
+- [ ] Normalize remaining WindowsAIFoundry runtime and documentation references.
 - [ ] Reconcile WindowsML.
 - [ ] Decide experimental candidates.
 - [ ] Normalize C++ toolset selection.
