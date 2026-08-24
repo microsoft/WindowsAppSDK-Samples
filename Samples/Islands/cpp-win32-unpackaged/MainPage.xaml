@@ -18,7 +18,13 @@
             <Button x:Name="Button" Click="ClickHandler">Click Me</Button>
             <TextBox Text="Text goes here" Margin="10" />
         </StackPanel>
-        <WebView2 Grid.Row="1" Source="http://bing.com" />
+        <FlipView Grid.Row="1">
+            <Image Source="Assets/cliff.jpg" AutomationProperties.Name="Cliff"/>
+            <Image Source="Assets/grapes.jpg" AutomationProperties.Name="Grapes"/>
+            <Image Source="Assets/rainier.jpg" AutomationProperties.Name="Rainier"/>
+            <Image Source="Assets/sunset.jpg" AutomationProperties.Name="Sunset"/>
+            <Image Source="Assets/valley.jpg" AutomationProperties.Name="Valley"/>
+        </FlipView>
         <Button Grid.Row="2">Last Button</Button>
     </Grid>
 </Page>

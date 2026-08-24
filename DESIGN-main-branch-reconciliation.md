@@ -144,6 +144,20 @@ The generated inventory is stored in
 tree relationships only. The `Disposition` and `Validation` columns remain
 pending until the corresponding review and build steps are approved.
 
+#### Change Provenance
+
+Every imported or ported change must record:
+
+- Source branch
+- Source commit
+- Source pull request
+- Original source path
+
+The project matrix stores these values in `SourceBranch`, `SourceCommit`,
+`SourcePR`, and `SourcePath`. Unknown provenance remains blank until verified.
+Future commit messages must also include the verified source mapping when the
+change was imported by path instead of cherry-picked.
+
 ### 2. Reconcile Shared Infrastructure
 
 Handle shared files before migrating individual samples:
@@ -195,14 +209,11 @@ pull request against the integration branch.
 
 #### Candidate Review Result
 
-The project-level review found two import candidates:
+The project-level review found one low-risk import candidate:
 
 - Import `Islands/cs-winforms-unpackaged` together with
   `Islands/SampleWinUIClassLibrary`. They form one sample through a project
   reference and use the stable Windows App SDK 1.8 package.
-- Import the complete `SecureUI` solution as one sample. It uses the stable
-  Windows App SDK 1.6 package, but its legacy package restore and ARM64 project
-  mappings require review during migration.
 
 The other `main`-only directories are not independent samples:
 
@@ -213,6 +224,8 @@ The other `main`-only directories are not independent samples:
   extension of the baseline `Islands/cpp-win32-unpackaged` sample. Reconcile it
   with the existing path instead of adding a second copy.
 - The WinML EP Catalog remains in the dedicated WindowsML review.
+- SecureUI remains in a separate review because it is an isolated-desktop test
+  derived from the Windowing sample, not a low-risk standalone import.
 
 This review did not import any sample code.
 
@@ -220,11 +233,26 @@ This review did not import any sample code.
 
 - The Islands WinForms sample and its WinUI class library have been imported.
   Their x64 Release build passed with no warnings.
-- SecureUI remains an approved candidate. Its commit is deferred until it can
-  be built with the required Visual Studio 2022 `v143` toolset.
 
-The low-risk sample import step remains incomplete until SecureUI is validated
-and committed.
+The approved low-risk sample import is complete.
+
+#### SimpleIslandApp Reconciliation Result
+
+The existing `Islands/cpp-win32-unpackaged` path was retained. The functional
+change from `main@72b7d1b9`, PR #432, was ported:
+
+- Replace the network-dependent WebView2 content with an offline FlipView.
+- Add the five image assets used by the FlipView.
+- Register the assets in the existing project and filter files.
+
+The directory move from `main@562c3091`, PR #439, was intentionally omitted.
+The baseline central package management and newer project configuration were
+retained; `main`'s older `packages.config` and package imports were not copied.
+
+The targeted x64 Release build is blocked by duplicate
+`WindowsAppRuntimeAutoInitializer.cpp` items. The same error was reproduced
+with the committed baseline before applying the FlipView change, so it is
+recorded as a pre-existing build issue rather than a migration regression.
 
 ### 4. Stabilize WindowsAIFoundry
 
@@ -245,7 +273,29 @@ Treat WindowsML as a manual three-way reconciliation:
 - Evaluate the WinML EP Catalog project for stable API eligibility.
 - Verify initialization, CFG, provider matching, logging, and EP fixes.
 
-### 6. Decide Experimental Candidates
+### 6. Review SecureUI
+
+SecureUI exists only in `main` and was added by the same change that refactored
+the native Windowing AppWindow sample. It reuses AppWindow, DispatcherQueue,
+Composition, and Mica concepts, but creates UI on an isolated desktop by using
+`OpenDesktopW` and `SetThreadDesktop`.
+
+Its source is `main` commit `d3922307`, PR #415.
+
+Treat SecureUI as a separate decision because:
+
+- Its commit describes it as a test project.
+- Its manifest uses test metadata and a contributor-specific publisher.
+- It has no README.
+- It substantially overlaps the existing Windowing sample.
+- Updating it from its original Windows App SDK 1.6 package model exposed
+  additional integration work.
+
+Decide whether to make it a documented standalone sample, fold its isolated
+desktop scenario into Windowing, or exclude it. No SecureUI source is currently
+included in the integration branch.
+
+### 7. Decide Experimental Candidates
 
 Keep these out of the stable integration until their APIs are confirmed stable:
 
@@ -255,7 +305,7 @@ Keep these out of the stable integration until their APIs are confirmed stable:
 
 If retained, they must be clearly isolated and documented as experimental.
 
-### 7. Normalize C++ Toolset Selection
+### 8. Normalize C++ Toolset Selection
 
 Perform repository-wide toolset normalization only after the final sample set
 is present, and before final validation:
@@ -273,7 +323,7 @@ selection. Installing `v143` alongside Visual Studio 2026 may be used to unblock
 intermediate validation, but it does not replace validation with Visual Studio
 2022.
 
-### 8. Update Documentation and CI
+### 9. Update Documentation and CI
 
 After the sample set is approved:
 
@@ -283,7 +333,7 @@ After the sample set is approved:
 - Update CI sample lists.
 - Remove obsolete descriptions of branch roles.
 
-### 9. Cut Over to Main
+### 10. Cut Over to Main
 
 All implementation pull requests target the integration branch. The final pull
 request targets `main` and contains the approved integration result.
@@ -299,9 +349,11 @@ new `main` has completed final validation.
 3. Low-risk stable samples from `main`
 4. Stable `WindowsAIFoundry`
 5. Reconciled `WindowsML`
-6. C++ toolset normalization
-7. Documentation and CI
-8. Final integration-to-`main` cutover
+6. SecureUI disposition
+7. Experimental candidate decisions
+8. C++ toolset normalization
+9. Documentation and CI
+10. Final integration-to-`main` cutover
 
 Each pull request must have one intent and describe what changed, why it
 changed, and how it was validated.
@@ -350,6 +402,34 @@ Validation also includes:
 - Documentation and CI reflect the final sample set.
 - Future contributions are directed to `main`.
 
+## Commit Log
+
+This log records reconciliation milestone commits. Documentation-only updates
+to the log are not listed as milestones.
+
+### `a6655bbe` - Design and Project Matrix
+
+- Scope: Add the English and Chinese design documents and the project matrix.
+- Validation: Markdown formatting and matrix integrity checks passed.
+- Phase: Design and inventory.
+
+### `e24ee5eb` - Shared C++ Build Compatibility
+
+- Scope: Port applicable C++20, compiler-conformance, and shared toolset fixes
+  from `main` PR #657.
+- Source: `main@18431c6d`, PR #657.
+- Validation: Widgets x64 Release passed with no warnings. AppLifecycle and
+  Islands were blocked before compilation because `v143` is not installed.
+- Phase: Shared infrastructure.
+
+### `e7794ab0` - WinForms XAML Islands Sample
+
+- Scope: Import the WinForms XAML Islands sample and its WinUI class library,
+  using central package management.
+- Source: `main@4d1f233a`, PR #386, and `main@aaff62fc`, PR #518.
+- Validation: Islands x64 Release passed with no warnings.
+- Phase: Low-risk stable samples.
+
 ## Execution Status
 
 - [x] Pin the initial four branch tips.
@@ -358,9 +438,10 @@ Validation also includes:
 - [x] Generate and review the project-level matrix.
 - [x] Reconcile shared infrastructure.
 - [x] Review low-risk stable sample candidates.
-- [ ] Import low-risk stable samples.
+- [x] Import low-risk stable samples.
 - [ ] Stabilize WindowsAIFoundry.
 - [ ] Reconcile WindowsML.
+- [ ] Decide the SecureUI disposition.
 - [ ] Decide experimental candidates.
 - [ ] Normalize C++ toolset selection.
 - [ ] Update documentation and CI.

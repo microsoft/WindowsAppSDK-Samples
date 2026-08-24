@@ -144,6 +144,20 @@ MAIN-BRANCH-RECONCILIATION-PROJECT-MATRIX.csv
 初始分类只描述文件树关系。`Disposition` 和 `Validation` 列会在对应的
 审查和构建步骤获批后更新。
 
+#### 变更来源
+
+每项导入或移植的变更都必须记录：
+
+- 来源分支
+- 来源 commit
+- 来源 PR
+- 原始来源路径
+
+项目矩阵使用 `SourceBranch`、`SourceCommit`、`SourcePR` 和
+`SourcePath` 保存这些值。来源尚未确认时保持空白，确认后再填写。
+如果变更是按路径导入而不是 cherry-pick，后续 commit message 也必须
+包含已确认的来源映射。
+
 ### 2. 整合公共基础设施
 
 迁移单个 sample 前，先处理：
@@ -193,13 +207,11 @@ Widgets x64 Release 构建通过，没有 warning。AppLifecycle 和 Islands
 
 #### 候选审查结果
 
-项目级审查确认了两组导入候选：
+项目级审查确认了一组低风险导入候选：
 
 - `Islands/cs-winforms-unpackaged` 必须和
   `Islands/SampleWinUIClassLibrary` 一起导入。两者通过 project
   reference 组成同一个 sample，并使用 stable Windows App SDK 1.8。
-- 完整导入 `SecureUI` solution。它使用 stable Windows App SDK 1.6，
-  但迁移时需要处理旧 package restore 和 ARM64 项目映射。
 
 其他 `main`-only 目录不是独立 sample：
 
@@ -210,15 +222,32 @@ Widgets x64 Release 构建通过，没有 warning。AppLifecycle 和 Islands
   `Islands/cpp-win32-unpackaged` 的目录迁移和扩展。应与现有路径
   整合，不能添加第二份副本。
 - WinML EP Catalog 留到专门的 WindowsML 审查阶段。
+- SecureUI 是从 Windowing sample 派生的 isolated-desktop 测试项目，
+  需要单独审查，不能作为低风险独立 sample 直接导入。
 
 #### 当前导入状态
 
 - Islands WinForms sample 和 WinUI class library 已经导入。
   x64 Release 构建通过，没有 warning。
-- SecureUI 仍是已获批候选。它需要使用 Visual Studio 2022 `v143`
-  toolset 构建通过后再提交。
 
-在 SecureUI 完成验证并提交前，低风险 sample 导入步骤保持未完成。
+已获批的低风险 sample 导入已经完成。
+
+#### SimpleIslandApp 整合结果
+
+保留现有 `Islands/cpp-win32-unpackaged` 路径。已经移植
+`main@72b7d1b9`、PR #432 的功能变化：
+
+- 用离线 FlipView 替换依赖网络的 WebView2 内容。
+- 添加 FlipView 使用的 5 张图片。
+- 在现有项目文件和 filter 文件中注册图片资源。
+
+有意不采用 `main@562c3091`、PR #439 的目录移动。保留基线中央
+package 管理和更新的项目配置，没有复制 `main` 中较旧的
+`packages.config` 和 package import。
+
+定向 x64 Release 构建被重复的 `WindowsAppRuntimeAutoInitializer.cpp`
+项目阻塞。在应用 FlipView 变化前，已提交基线可以复现同一错误，
+因此将它记录为既有构建问题，而不是迁移引入的回归。
 
 ### 4. Stable 化 WindowsAIFoundry
 
@@ -239,7 +268,27 @@ Widgets x64 Release 构建通过，没有 warning。AppLifecycle 和 Islands
 - 判断 WinML EP Catalog 是否可以使用 stable API。
 - 验证初始化、CFG、provider matching、日志和 EP 修复。
 
-### 6. 决定 experimental 候选
+### 6. 审查 SecureUI
+
+SecureUI 只存在于 `main`，它与 native Windowing AppWindow sample
+重构在同一个变更中加入。它复用了 AppWindow、DispatcherQueue、
+Composition 和 Mica，但通过 `OpenDesktopW` 和 `SetThreadDesktop`
+在隔离 desktop 中创建 UI。
+
+它的来源是 `main` commit `d3922307`，PR #415。
+
+SecureUI 需要单独决定，因为：
+
+- Commit 把它描述为 test project。
+- Manifest 使用测试元数据和贡献者个人 Publisher。
+- 项目没有 README。
+- 它与现有 Windowing sample 大量重叠。
+- 从原始 Windows App SDK 1.6 package 模式升级时暴露了额外集成工作。
+
+需要决定把它完善为独立公开 sample、把 isolated desktop 场景并入
+Windowing，或者排除它。目前 integration branch 不包含 SecureUI 源码。
+
+### 7. 决定 experimental 候选
 
 在 API 确认 stable 之前，不把以下内容加入 stable integration：
 
@@ -249,7 +298,7 @@ Widgets x64 Release 构建通过，没有 warning。AppLifecycle 和 Islands
 
 如果保留，必须明确隔离并标记为 experimental。
 
-### 7. 统一 C++ toolset 选择
+### 8. 统一 C++ toolset 选择
 
 只有在最终 sample 集合确定后、最终验证前，才进行全仓库 toolset
 统一：
@@ -266,7 +315,7 @@ Widgets x64 Release 构建通过，没有 warning。AppLifecycle 和 Islands
 2026 中并行安装 `v143`，以解除中间验证阻塞，但这不能替代使用
 Visual Studio 2022 的真实验证。
 
-### 8. 更新文档和 CI
+### 9. 更新文档和 CI
 
 Sample 集合获批后：
 
@@ -276,7 +325,7 @@ Sample 集合获批后：
 - 更新 CI sample 列表。
 - 删除过时的分支角色描述。
 
-### 9. 切换到 main
+### 10. 切换到 main
 
 所有实现 PR 都以 integration branch 为目标。最终 PR 以 `main`
 为目标，并包含获批的整合结果。
@@ -291,9 +340,11 @@ Sample 集合获批后：
 3. 来自 `main` 的低风险 stable sample
 4. Stable `WindowsAIFoundry`
 5. 整合后的 `WindowsML`
-6. C++ toolset 统一
-7. 文档和 CI
-8. Integration 到 `main` 的最终切换
+6. SecureUI 处置
+7. Experimental 候选决策
+8. C++ toolset 统一
+9. 文档和 CI
+10. Integration 到 `main` 的最终切换
 
 每个 PR 只能包含一个意图，并说明改了什么、为什么修改，以及如何验证。
 
@@ -340,6 +391,33 @@ pwsh -File build.ps1 -Sample <SampleName>
 - 文档和 CI 反映最终 sample 集合。
 - 后续贡献统一提交到 `main`。
 
+## 提交记录
+
+该日志记录整合里程碑 commit。只维护日志的文档 commit 不作为里程碑列出。
+
+### `a6655bbe` - 设计和项目矩阵
+
+- 范围：添加中英文设计文档和项目矩阵。
+- 验证：Markdown 格式和矩阵完整性检查通过。
+- 阶段：设计和清单。
+
+### `e24ee5eb` - 公共 C++ 构建兼容
+
+- 范围：从 `main` PR #657 移植适用的 C++20、编译器兼容和公共
+  toolset 修复。
+- 来源：`main@18431c6d`，PR #657。
+- 验证：Widgets x64 Release 构建通过，没有 warning。AppLifecycle
+  和 Islands 在编译前被本机缺少 `v143` 阻塞。
+- 阶段：公共基础设施。
+
+### `e7794ab0` - WinForms XAML Islands Sample
+
+- 范围：导入 WinForms XAML Islands sample 及其 WinUI class library，
+  并使用中央 package 管理。
+- 来源：`main@4d1f233a`、PR #386，以及 `main@aaff62fc`、PR #518。
+- 验证：Islands x64 Release 构建通过，没有 warning。
+- 阶段：低风险 stable sample。
+
 ## 执行状态
 
 - [x] 固定四个来源分支的初始 commit。
@@ -348,9 +426,10 @@ pwsh -File build.ps1 -Sample <SampleName>
 - [x] 生成并审查项目级矩阵。
 - [x] 整合公共基础设施。
 - [x] 审查低风险 stable sample 候选。
-- [ ] 导入低风险 stable sample。
+- [x] 导入低风险 stable sample。
 - [ ] Stable 化 WindowsAIFoundry。
 - [ ] 整合 WindowsML。
+- [ ] 决定 SecureUI 处置。
 - [ ] 决定 experimental 候选。
 - [ ] 统一 C++ toolset 选择。
 - [ ] 更新文档和 CI。
