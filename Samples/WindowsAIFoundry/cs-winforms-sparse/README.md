@@ -17,7 +17,8 @@ extendedZipContent:
 - For system requirements, see [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
 - To ensure your development environment is set up correctly, see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 - Running this sample does require a [Windows Copilot+ PC](https://learn.microsoft.com/windows/ai/npu-devices/)
-- Running this sample also requires that the [Windows App SDK 1.8 Experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-18-experimental) framework package is installed on your Copilot+ PC.
+- Running this sample also requires the Windows App Runtime 1.8 stable
+  framework package on your Copilot+ PC.
 
 ### Suggested Environment
 
@@ -48,8 +49,9 @@ BuildSparsePackage.ps1 does the following:
 
 3) Run SignTool to sign the MSIX
 
-Please have the WindowsAppSDK runtime installed using the installer for 1.7.250127003-experimental3
-at https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads
+Install Windows App Runtime 1.8 for the repository's Windows App SDK
+`1.8.250916003` package from the
+[stable downloads](https://aka.ms/windowsappsdk/downloads).
 
 Please install the cert in the .user folder to LocalMachine TrustedPeople root. You can either
 launch from the start menu after installing the MSIX in the bin directory or you can directly run
@@ -78,5 +80,4 @@ The `MainForm` class in `MainForm.cs` is the main user interface for the Windows
 
 ## Related Links
 - [Windows AI APIs Overview](https://learn.microsoft.com/windows/ai/apis/)
-- [WPF Sparse Package Sample (with Windows AI APIs)](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsAIFoundry/cs-wpf-sparse)
-
+- [WPF Sparse Package Sample (with Windows AI APIs)](../cs-wpf-sparse)

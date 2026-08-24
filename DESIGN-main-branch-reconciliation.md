@@ -307,10 +307,31 @@ feeds do not contain `Microsoft.NETCore.App.Crossgen2.win-x64` 8.0.30. The
 unchanged committed baseline reproduces the same `NU1102`, so this is an
 existing restore-environment issue rather than a stable API regression.
 
-The remaining WindowsAIFoundry projects retain stale experimental runtime,
-bootstrap, and README references that also exist in the pinned stable branch.
-Normalize those cross-project references separately after selecting and
-verifying the approved stable runtime identity and version.
+#### C#, MAUI, and WPF Runtime Normalization Result
+
+The non-CMake projects remain on the repository's approved Windows App SDK
+`1.8.250916003` package. Its restored `Microsoft.WindowsAppSDK.Runtime`
+metadata defines the framework identity as `Microsoft.WindowsAppRuntime.1.8`
+with dot-quad version `8000.625.330.0`.
+
+The following stale experimental references were normalized:
+
+- Update the WinForms and WPF sparse manifests to that stable framework
+  identity and minimum version.
+- Update the MAUI, WinForms, and WPF prerequisites to describe the stable 1.8
+  runtime and package.
+- Preserve the MAUI readiness fallback while making its comment independent of
+  an obsolete experimental release.
+- Port `user/qiutongshen/changeExp@acbc15e2` to remove the unnecessary
+  experimental Bootstrap call from the fully MSIX-packaged WPF sample.
+
+The packaged WPF, sparse WPF, and sparse WinForms x64 Release builds passed
+with no warnings.
+
+The CMake sparse console remains separate. It still targets 1.8
+experimental2, and stable package layouts require changes to its custom vcpkg
+overlay. The candidate work exists only on an unmerged feature branch and
+cannot be validated through `build.ps1`, so it requires an explicit decision.
 
 ### 5. Reconcile WindowsML
 
@@ -516,7 +537,8 @@ to the log are not listed as milestones.
 - [x] Decide the SecureUI disposition.
 - [x] Review and port the Windowing PR #415 refactoring.
 - [x] Stabilize the WindowsAIFoundry C# WinUI API surface.
-- [ ] Normalize remaining WindowsAIFoundry runtime and documentation references.
+- [x] Normalize WindowsAIFoundry C#, MAUI, and WPF runtime references.
+- [ ] Decide the WindowsAIFoundry CMake stable retarget.
 - [ ] Reconcile WindowsML.
 - [ ] Decide experimental candidates.
 - [ ] Normalize C++ toolset selection.

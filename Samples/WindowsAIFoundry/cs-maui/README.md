@@ -17,7 +17,8 @@ extendedZipContent:
 - For system requirements, see [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
 - To ensure your development environment is set up correctly, see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
 - Running this sample does require a [Windows Copilot+ PC](https://learn.microsoft.com/windows/ai/npu-devices/)
-- This sample requires [Windows App SDK 1.8 Experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#windows-app-sdk-18-experimental), which should be installed by Visual Studio when deploying or launching the app.
+- This sample uses Windows App SDK 1.8 stable, which Visual Studio installs
+  when deploying or launching the app.
 
 ## Build and Run the sample
 1. Clone the repository onto your Copilot+ PC.
@@ -50,7 +51,7 @@ The changes from the ".NET MAUI App" template are split across four files:
   `ItemGroup` with the right Condition, like this:
 ```xml
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250515001-experimental2" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
 	</ItemGroup>
 ```
 - To access the Windows AI APIs, the project currently must set the TargetFramework for

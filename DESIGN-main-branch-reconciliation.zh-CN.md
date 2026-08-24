@@ -296,9 +296,31 @@ C# WinUI gallery 已与 `release/2.0-stable@5327f5c4` 对齐：
 复现了相同的 `NU1102`，因此这是既有 restore 环境问题，不是 stable API
 迁移回归。
 
-其余 WindowsAIFoundry 项目仍有 experimental runtime、bootstrap 和
-README 引用，而且固定的 stable 分支也保留了这些内容。需要在确认并
-验证获批的 stable runtime identity 和版本后，单独统一这些跨项目引用。
+#### C#、MAUI 和 WPF Runtime 统一结果
+
+非 CMake 项目继续使用仓库获批的 Windows App SDK `1.8.250916003`
+package。其已恢复的 `Microsoft.WindowsAppSDK.Runtime` metadata 将
+framework identity 定义为 `Microsoft.WindowsAppRuntime.1.8`，dot-quad
+版本为 `8000.625.330.0`。
+
+已经统一以下过时的 experimental 引用：
+
+- 将 WinForms 和 WPF sparse manifest 更新到该 stable framework
+  identity 和最低版本。
+- 将 MAUI、WinForms 和 WPF prerequisite 更新为 stable 1.8 runtime
+  和 package。
+- 保留 MAUI readiness fallback，但让注释不再绑定过时 experimental
+  release。
+- 从 `user/qiutongshen/changeExp@acbc15e2` 移植 fully MSIX-packaged
+  WPF sample 的修改，删除不必要的 experimental Bootstrap 调用。
+
+packaged WPF、sparse WPF 和 sparse WinForms 的 x64 Release 构建通过，
+没有 warning。
+
+CMake sparse console 仍单独处理。它继续依赖 1.8 experimental2，stable
+package layout 还要求修改其自定义 vcpkg overlay。候选修复只存在于未
+合入的 feature branch，而且无法通过 `build.ps1` 验证，因此需要单独
+决策。
 
 ### 5. 整合 WindowsML
 
@@ -496,7 +518,8 @@ pwsh -File build.ps1 -Sample <SampleName>
 - [x] 决定 SecureUI 处置。
 - [x] 审查并移植 Windowing PR #415 重构。
 - [x] Stable 化 WindowsAIFoundry C# WinUI API surface。
-- [ ] 统一其余 WindowsAIFoundry runtime 和文档引用。
+- [x] 统一 WindowsAIFoundry C#、MAUI 和 WPF runtime 引用。
+- [ ] 决定 WindowsAIFoundry CMake stable retarget。
 - [ ] 整合 WindowsML。
 - [ ] 决定 experimental 候选。
 - [ ] 统一 C++ toolset 选择。
