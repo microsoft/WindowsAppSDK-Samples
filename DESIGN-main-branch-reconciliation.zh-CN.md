@@ -160,6 +160,24 @@ MAIN-BRANCH-RECONCILIATION-PROJECT-MATRIX.csv
 bootstrap 设置。除非 sample 明确需要，不复制 `release/2.0-stable`
 中的 package 降级。
 
+#### 整合结果
+
+公共基础设施审查保留了基线的构建脚本、中央 package 管理、
+telemetry suppression 和 CI 配置。`main` 中 Visual Studio 2026
+到 `v145` 的映射已经等价存在于基线中。
+
+已经移植 `main` PR #657 中其余适用变更：
+
+- C++ 项目默认使用 C++20。
+- 更新 7 个显式选择 C++17 的 AppLifecycle 项目。
+- 修复 UXFrameworksOnIslands 的 dependent base 和 member template
+  查找问题。
+- 让 SampleWidgetProviderApp 导入公共 C++ toolset 配置。
+
+Widgets x64 Release 构建通过，没有 warning。AppLifecycle 和 Islands
+在进入编译前被本机缺少 Visual Studio 2022 `v143` toolset 阻塞。
+该环境阻塞已经记录在项目矩阵中，最终验证前必须解决。
+
 ### 3. 导入低风险 stable sample
 
 审查 `main` 独有的 stable 项目，包括：
@@ -319,7 +337,7 @@ pwsh -File build.ps1 -Sample <SampleName>
 - [x] 创建本地 integration branch。
 - [x] 建立初始分支和顶层 sample 对比。
 - [x] 生成并审查项目级矩阵。
-- [ ] 整合公共基础设施。
+- [x] 整合公共基础设施。
 - [x] 审查低风险 stable sample 候选。
 - [ ] 导入低风险 stable sample。
 - [ ] Stable 化 WindowsAIFoundry。

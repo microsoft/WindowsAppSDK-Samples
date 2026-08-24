@@ -32,6 +32,7 @@
     <PackageReference Include="Microsoft.Windows.CppWinRT" />
     <PackageReference Include="Microsoft.Windows.ImplementationLibrary" />
   </ItemGroup>
+  <Import Project="..\..\..\Build.Common.Cpp.props" Condition="Exists('..\..\..\Build.Common.Cpp.props')" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -148,4 +149,3 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-

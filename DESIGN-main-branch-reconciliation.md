@@ -160,6 +160,25 @@ from `main`. Retain the telemetry suppression and applicable bootstrap settings
 from `release/experimental`. Do not copy package downgrades from
 `release/2.0-stable` unless a sample requires and documents them.
 
+#### Reconciliation Result
+
+The shared infrastructure review retained the baseline build scripts, central
+package management, telemetry suppression, and CI configuration. The Visual
+Studio 2026 to `v145` mapping from `main` was already present in the baseline.
+
+The remaining applicable changes from `main` PR #657 were ported:
+
+- Use C++20 by default for C++ projects.
+- Update the seven AppLifecycle projects that explicitly selected C++17.
+- Fix dependent-base and member-template lookup in UXFrameworksOnIslands.
+- Import the shared C++ toolset selection in SampleWidgetProviderApp.
+
+The Widgets x64 Release build passed with no warnings. AppLifecycle and Islands
+validation stopped before compilation because this machine does not have the
+projects' explicitly selected Visual Studio 2022 `v143` toolset. This
+environmental block is recorded in the project matrix and must be resolved
+before final validation.
+
 ### 3. Import Low-Risk Stable Samples
 
 Evaluate and import the stable projects that are present only in `main`,
@@ -327,7 +346,7 @@ Validation also includes:
 - [x] Create the local integration branch.
 - [x] Establish the initial branch and top-level sample comparison.
 - [x] Generate and review the project-level matrix.
-- [ ] Reconcile shared infrastructure.
+- [x] Reconcile shared infrastructure.
 - [x] Review low-risk stable sample candidates.
 - [ ] Import low-risk stable samples.
 - [ ] Stabilize WindowsAIFoundry.
