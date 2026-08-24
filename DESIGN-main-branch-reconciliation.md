@@ -254,6 +254,26 @@ The targeted x64 Release build is blocked by duplicate
 with the committed baseline before applying the FlipView change, so it is
 recorded as a pre-existing build issue rather than a migration regression.
 
+#### Packaging Project Review Results
+
+The separate WAP projects in `main` for the AppLifecycle Activation,
+Instancing, and StateNotifications C++ WinUI samples existed at the common
+ancestor. They were intentionally replaced by single-project MSIX in
+`release/experimental@0d035e00`, PR #579. The application behavior and
+manifest semantics are unchanged; the baseline also contains the later PR
+#513 unused-parameter warning fix. Retain the baseline projects and omit the
+superseded WAP directories.
+
+The ResourceManagement C++ WinUI WAP project has the same history and was
+replaced by the same PR. Its business source is identical, its image assets
+are byte-identical, and its manifest differs only in the corresponding
+`Images` to `Assets` paths. Retain the baseline single-project MSIX and central
+package management. The C# WinUI and WPF WAP projects exist on both branches
+and are not part of this difference.
+
+No migration is required for either reviewed packaging split. The Windowing
+packaging split remains pending review.
+
 ### 4. Stabilize WindowsAIFoundry
 
 Use `release/2.0-stable` as the stable API reference for this sample:
@@ -273,7 +293,7 @@ Treat WindowsML as a manual three-way reconciliation:
 - Evaluate the WinML EP Catalog project for stable API eligibility.
 - Verify initialization, CFG, provider matching, logging, and EP fixes.
 
-### 6. Review SecureUI
+### 6. SecureUI Disposition
 
 SecureUI exists only in `main` and was added by the same change that refactored
 the native Windowing AppWindow sample. It reuses AppWindow, DispatcherQueue,
@@ -291,9 +311,33 @@ Treat SecureUI as a separate decision because:
 - Updating it from its original Windows App SDK 1.6 package model exposed
   additional integration work.
 
-Decide whether to make it a documented standalone sample, fold its isolated
-desktop scenario into Windowing, or exclude it. No SecureUI source is currently
-included in the integration branch.
+SecureUI is excluded from the integration. Its only behavior beyond the
+refactored native Windowing sample is opening a pre-existing
+`IsolatedTestDesktop`; the repository does not create that desktop, failures
+are silent, and the project lacks the documentation and metadata required for
+a runnable public sample.
+
+The general DispatcherQueue and AppWindow refactoring from
+`main@d3922307`, PR #415, was ported separately to the existing native
+Windowing sample:
+
+- Use the Windows App SDK DispatcherQueue as the application message loop.
+- Create the AppWindow directly and associate its lifetime with that queue.
+- Exit the event loop from the AppWindow destroying event.
+- Use the normal `Overlapped` presenter selected by the source change.
+- Remove the custom Win32 window class, WNDPROC, and system DispatcherQueue
+  helper.
+
+The baseline central package management and Windows App SDK 1.8 configuration
+were retained. The obsolete `packages.config`, explicit 1.6 package imports,
+solution-version metadata, and SecureUI-only WIL dependency were not copied.
+No SecureUI source is included in the integration branch.
+
+The targeted x64 Release build reached compilation without a new source error,
+but failed because Windows App SDK Foundation 1.8 injected
+`WindowsAppRuntimeAutoInitializer.cpp` twice. The unchanged committed baseline
+reproduced the same `MSB8027` and `LNK4042` errors, so this is recorded as a
+pre-existing package integration issue rather than a PR #415 regression.
 
 ### 7. Decide Experimental Candidates
 
@@ -439,9 +483,11 @@ to the log are not listed as milestones.
 - [x] Reconcile shared infrastructure.
 - [x] Review low-risk stable sample candidates.
 - [x] Import low-risk stable samples.
+- [x] Review AppLifecycle and ResourceManagement packaging splits.
+- [x] Decide the SecureUI disposition.
+- [x] Review and port the Windowing PR #415 refactoring.
 - [ ] Stabilize WindowsAIFoundry.
 - [ ] Reconcile WindowsML.
-- [ ] Decide the SecureUI disposition.
 - [ ] Decide experimental candidates.
 - [ ] Normalize C++ toolset selection.
 - [ ] Update documentation and CI.

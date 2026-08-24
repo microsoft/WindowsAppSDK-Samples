@@ -249,6 +249,24 @@ package 管理和更新的项目配置，没有复制 `main` 中较旧的
 项目阻塞。在应用 FlipView 变化前，已提交基线可以复现同一错误，
 因此将它记录为既有构建问题，而不是迁移引入的回归。
 
+#### Packaging 项目审查结果
+
+`main` 中 AppLifecycle Activation、Instancing 和 StateNotifications
+C++ WinUI sample 的独立 WAP 项目在共同祖先中已经存在。
+`release/experimental@0d035e00`、PR #579 主动用 single-project MSIX
+替代了它们。应用行为和 manifest 语义没有变化；基线还包含后续 PR
+#513 的未使用参数 warning 修复。因此保留基线项目，省略已被取代的
+WAP 目录。
+
+ResourceManagement C++ WinUI WAP 项目具有相同历史，也由同一个 PR
+替换。它的业务源码完全相同，图片资源逐字节相同，manifest 仅有对应的
+`Images` 到 `Assets` 路径变化。保留基线 single-project MSIX 和中央
+package 管理。C# WinUI 和 WPF WAP 项目在两个分支中都存在，不属于
+此次差异。
+
+这两项 packaging split 都不需要迁移。Windowing packaging split
+仍待审查。
+
 ### 4. Stable 化 WindowsAIFoundry
 
 使用 `release/2.0-stable` 作为该 sample 的 Stable API 参考：
@@ -268,7 +286,7 @@ package 管理和更新的项目配置，没有复制 `main` 中较旧的
 - 判断 WinML EP Catalog 是否可以使用 stable API。
 - 验证初始化、CFG、provider matching、日志和 EP 修复。
 
-### 6. 审查 SecureUI
+### 6. SecureUI 处置结果
 
 SecureUI 只存在于 `main`，它与 native Windowing AppWindow sample
 重构在同一个变更中加入。它复用了 AppWindow、DispatcherQueue、
@@ -285,8 +303,31 @@ SecureUI 需要单独决定，因为：
 - 它与现有 Windowing sample 大量重叠。
 - 从原始 Windows App SDK 1.6 package 模式升级时暴露了额外集成工作。
 
-需要决定把它完善为独立公开 sample、把 isolated desktop 场景并入
-Windowing，或者排除它。目前 integration branch 不包含 SecureUI 源码。
+从 integration 中排除 SecureUI。相比重构后的 native Windowing
+sample，它唯一额外的行为是打开预先存在的 `IsolatedTestDesktop`；
+仓库没有创建该 desktop，失败时没有错误输出，项目也缺少成为可运行公开
+sample 所需的文档和元数据。
+
+已经把 `main@d3922307`、PR #415 的通用 DispatcherQueue 和 AppWindow
+重构单独移植到现有 native Windowing sample：
+
+- 使用 Windows App SDK DispatcherQueue 作为应用消息循环。
+- 直接创建 AppWindow，并把其生命周期关联到该 queue。
+- 在 AppWindow destroying event 中退出消息循环。
+- 采用来源变更选择的普通 `Overlapped` presenter。
+- 删除自定义 Win32 window class、WNDPROC 和 system DispatcherQueue
+  helper。
+
+保留基线中央 package 管理和 Windows App SDK 1.8 配置，没有复制过时的
+`packages.config`、显式 1.6 package imports、solution 版本元数据以及
+仅 SecureUI 需要的 WIL 依赖。目前 integration branch 不包含 SecureUI
+源码。
+
+定向 x64 Release 构建进入编译，并且没有新的源码错误，但 Windows App
+SDK Foundation 1.8 重复注入了
+`WindowsAppRuntimeAutoInitializer.cpp`。未修改的已提交基线复现了相同
+的 `MSB8027` 和 `LNK4042`，因此将其记录为既有 package 集成问题，而
+不是 PR #415 引入的回归。
 
 ### 7. 决定 experimental 候选
 
@@ -427,9 +468,11 @@ pwsh -File build.ps1 -Sample <SampleName>
 - [x] 整合公共基础设施。
 - [x] 审查低风险 stable sample 候选。
 - [x] 导入低风险 stable sample。
+- [x] 审查 AppLifecycle 和 ResourceManagement packaging split。
+- [x] 决定 SecureUI 处置。
+- [x] 审查并移植 Windowing PR #415 重构。
 - [ ] Stable 化 WindowsAIFoundry。
 - [ ] 整合 WindowsML。
-- [ ] 决定 SecureUI 处置。
 - [ ] 决定 experimental 候选。
 - [ ] 统一 C++ toolset 选择。
 - [ ] 更新文档和 CI。
