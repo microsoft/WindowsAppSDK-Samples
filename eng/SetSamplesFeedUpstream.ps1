@@ -43,28 +43,38 @@ $body = @{
     upstreamSources = $upstreamSources
 } | ConvertTo-Json -Depth 4
 
-Invoke-RestMethod `
-    -Method Patch `
-    -Uri $feedUri `
-    -Headers $headers `
-    -ContentType "application/json" `
-    -Body $body | Out-Null
-
-$feed = Invoke-RestMethod -Method Get -Uri $feedUri -Headers $headers
-$activeUpstreams = @(
-    $feed.upstreamSources | Where-Object {
-        !$_.PSObject.Properties["deletedDate"] -or !$_.deletedDate
-    }
-)
-
-if ($Action -eq "Enable" -and $activeUpstreams.Count -ne 1)
+for ($attempt = 1; $attempt -le 5; $attempt++)
 {
-    throw "Expected one active upstream after enabling NuGet Gallery, but found $($activeUpstreams.Count)."
+    Invoke-RestMethod `
+        -Method Patch `
+        -Uri $feedUri `
+        -Headers $headers `
+        -ContentType "application/json" `
+        -Body $body | Out-Null
+
+    $feed = Invoke-RestMethod -Method Get -Uri $feedUri -Headers $headers
+    $activeUpstreams = @(
+        $feed.upstreamSources | Where-Object {
+            !$_.PSObject.Properties["deletedDate"] -or !$_.deletedDate
+        }
+    )
+
+    $expectedCount = if ($Action -eq "Enable") { 1 } else { 0 }
+    if ($activeUpstreams.Count -eq $expectedCount)
+    {
+        break
+    }
+
+    if ($attempt -lt 5)
+    {
+        Write-Warning "$Action attempt $attempt left $($activeUpstreams.Count) active upstreams; retrying."
+        Start-Sleep -Seconds 5
+    }
 }
 
-if ($Action -eq "Disable" -and $activeUpstreams.Count -ne 0)
+if ($activeUpstreams.Count -ne $expectedCount)
 {
-    throw "Expected no active upstreams after disabling NuGet Gallery, but found $($activeUpstreams.Count)."
+    throw "Expected $expectedCount active upstreams after $Action, but found $($activeUpstreams.Count)."
 }
 
 Write-Host "$Action completed for feed '$($feed.name)'. Active upstream count: $($activeUpstreams.Count)."
