@@ -484,6 +484,22 @@ shared SqueezeNet cache, while subsequent builds pass after the assets exist.
 Record this as a known pre-existing issue and address per-project download
 isolation in a separate focused PR with clean-cache parallel-build coverage.
 
+#### C++ ABI Security Configuration Result
+
+The `cpp-abi` source and README are identical between the pinned main and
+release baselines. Retain the release Central Package Management project
+configuration and exclude PR #643's `packages.config`, generated package
+imports, and hard-coded package paths.
+
+Port only `main@f5ec17bf`, PR #655. Its local `Directory.Build.props` imports
+the WindowsML parent settings and adds the complete CFG/SDL configuration used
+by the other native WindowsML samples: compiler and linker Control Flow Guard,
+`/dynamicbase`, `/Qspectre`, SDL checks, and CET compatibility on non-ARM64
+builds. This follows PR #648's project-level CFG setting and fixes the
+remaining BinSkim BA2008 configuration gap without changing sample behavior.
+The complete WindowsML x64 Release build passed with no warnings or errors
+after the local props file was added.
+
 ### 6. SecureUI Disposition
 
 SecureUI exists only in `main` and was added by the same change that refactored

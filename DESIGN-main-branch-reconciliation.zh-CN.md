@@ -452,6 +452,21 @@ item 注册，但仍允许多个项目同时下载到相同共享文件。
 可以通过。将它记录为已知既有问题，并通过独立、单一目的的 PR 实现 per-project
 download isolation，同时覆盖 clean-cache parallel-build 验证。
 
+#### C++ ABI 安全配置结果
+
+固定 main 和 release 基线中的 `cpp-abi` 源码及 README 完全相同。保留
+release 的 Central Package Management 项目配置，并排除 PR #643 的
+`packages.config`、生成的 package import 和硬编码 package 路径。
+
+只移植 `main@f5ec17bf`、PR #655。它的 local `Directory.Build.props`
+导入 WindowsML parent 设置，并增加其他 native WindowsML sample 使用的
+完整 CFG/SDL 配置：compiler 和 linker Control Flow Guard、`/dynamicbase`、
+`/Qspectre`、SDL check，以及非 ARM64 build 的 CET compatibility。该修复
+接续 PR #648 的 project-level CFG 设置，补齐剩余 BinSkim BA2008 配置缺口，
+不改变 sample 行为。
+增加 local props 文件后，完整 WindowsML x64 Release 构建通过，没有 warning
+或 error。
+
 ### 6. SecureUI 处置结果
 
 SecureUI 只存在于 `main`，它与 native Windowing AppWindow sample
