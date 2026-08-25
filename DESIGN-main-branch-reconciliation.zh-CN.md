@@ -348,7 +348,7 @@ language model 返回 `0x80070490`。因此 runtime 场景验证是环境阻塞�
 - 保留 `release/experimental` 目录结构作为起点。
 - 按最终行为审查 `main` 的每项独有修复。
 - 对路径已经变化的修复进行手工移植，不能盲目 cherry-pick。
-- 判断 WinML EP Catalog 是否可以使用 stable API。
+- 确认 WinML EP Catalog 可以使用 stable API 后将其导入。
 - 验证初始化、CFG、provider matching、日志和 EP 修复。
 
 #### Stable Package 基础和延后决定的 Legacy Sample
@@ -398,6 +398,28 @@ integration PR 审查阶段，再根据完整的最终 sample 集合决定。
 移植 `main@b86248e9`、PR #625，在启动 main window 前调用
 `App.InitializeComponent()`。固定的 release 分支都没有该修复。缺少调用
 不会阻止构建，但 App-level XAML resource 可能无法在运行时加载。
+
+#### WinML EP Catalog 导入决定
+
+从 `main` 导入 `Samples/WindowsML/cpp-cmake/WinMLEpCatalog`。PR #593、
+commit `64eee709` 最初在
+`Samples/WindowsML/cmake/WinMLEpCatalog` 中新增该 sample；PR #643、
+commit `f37e15e9` 将其移动到 `cpp-cmake`，并更新为 stable
+`Microsoft.Windows.AI.MachineLearning` 2.1.1 package。
+
+该 sample 与现有 `cpp-abi` 和 inference sample 具有不同的教学价值。
+它演示最小 native CMake 应用如何通过 WinML C API 发现和准备 certified
+execution provider，再将其 library 动态注册到 ONNX Runtime。它不加载
+模型，也不执行 inference。
+
+该 sample 继续作为独立 CMake 项目，不加入 `WindowsML-Samples.sln`。
+在仓库根构建脚本明确支持发现 CMake sample 之前，使用其文档中的
+`build.ps1` 验证。导入时还修正 README 中的 package 名称，并删除已经过时的
+`onnxruntime_providers_shared.dll` troubleshooting 说明。
+
+该 sample 自带的构建脚本已通过 x64 Release CMake configure、restore、
+compile 和 link。Smoke test 成功退出，并报告内置 CPU 和 DirectML device；
+本机没有可额外注册的 certified provider。
 
 ### 6. SecureUI 处置结果
 

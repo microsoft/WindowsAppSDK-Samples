@@ -362,7 +362,7 @@ Treat WindowsML as a manual three-way reconciliation:
 - Keep the `release/experimental` directory structure as the starting point.
 - Review each unique fix from `main` by behavior.
 - Port fixes whose paths changed instead of cherry-picking blindly.
-- Evaluate the WinML EP Catalog project for stable API eligibility.
+- Import the WinML EP Catalog project after confirming stable API eligibility.
 - Verify initialization, CFG, provider matching, logging, and EP fixes.
 
 #### Stable Package Foundation and Deferred Legacy Samples
@@ -419,6 +419,31 @@ Port `main@b86248e9`, PR #625, to call `App.InitializeComponent()` before
 launching the main window. None of the pinned release branches contain this
 fix. Builds can succeed without it, but App-level XAML resources may not load
 at runtime.
+
+#### WinML EP Catalog Import Decision
+
+Import `Samples/WindowsML/cpp-cmake/WinMLEpCatalog` from `main`. PR #593,
+commit `64eee709`, introduced the sample at
+`Samples/WindowsML/cmake/WinMLEpCatalog`; PR #643, commit `f37e15e9`, moved it
+to `cpp-cmake` and updated it to the stable
+`Microsoft.Windows.AI.MachineLearning` 2.1.1 package.
+
+This sample has distinct teaching value from the existing `cpp-abi` and
+inference samples. It demonstrates a minimal native CMake application that
+uses the WinML C API to discover and prepare certified execution providers,
+then dynamically registers their libraries with ONNX Runtime. It does not
+load a model or run inference.
+
+The sample remains an independent CMake project and is not included in
+`WindowsML-Samples.sln`. Use its documented `build.ps1` for validation until
+the repository root build script gains explicit CMake sample discovery. The
+import also corrects the README package name and removes its obsolete
+`onnxruntime_providers_shared.dll` troubleshooting reference.
+
+The sample's own build script passed an x64 Release CMake configure, restore,
+compile, and link. Its smoke test exited successfully and reported the built-in
+CPU and DirectML devices; this machine had no additional certified provider to
+register.
 
 ### 6. SecureUI Disposition
 
