@@ -413,6 +413,13 @@ the release branch's Central Package Management structure. The obsolete
 The complete WindowsML solution passed an x64 Release build with no warnings
 or errors.
 
+#### WinUI Application Initialization Result
+
+Port `main@b86248e9`, PR #625, to call `App.InitializeComponent()` before
+launching the main window. None of the pinned release branches contain this
+fix. Builds can succeed without it, but App-level XAML resources may not load
+at runtime.
+
 ### 6. SecureUI Disposition
 
 SecureUI exists only in `main` and was added by the same change that refactored

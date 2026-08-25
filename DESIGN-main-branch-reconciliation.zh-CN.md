@@ -393,6 +393,12 @@ integration PR 审查阶段，再根据完整的最终 sample 集合决定。
 
 完整 WindowsML solution 的 x64 Release 构建通过，没有 warning 或 error。
 
+#### WinUI Application Initialization 结果
+
+移植 `main@b86248e9`、PR #625，在启动 main window 前调用
+`App.InitializeComponent()`。固定的 release 分支都没有该修复。缺少调用
+不会阻止构建，但 App-level XAML resource 可能无法在运行时加载。
+
 ### 6. SecureUI 处置结果
 
 SecureUI 只存在于 `main`，它与 native Windowing AppWindow sample
