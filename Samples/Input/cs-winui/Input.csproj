@@ -15,6 +15,7 @@
     <None Remove="GestureRecognizer.xaml" />
     <None Remove="GestureRecognizerManipulation.xaml" />
     <None Remove="InputCursor.xaml" />
+    <None Remove="KeyboardShortcutManager.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +41,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="KeyboardShortcutManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="InputCursor.xaml">
