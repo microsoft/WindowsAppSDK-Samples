@@ -440,6 +440,18 @@ CSV、清理临时目录，并传播非零 exporter 失败。WPR 可以识别导
 但当前 shell 没有管理员权限，真实 trace 捕获被 WPR `0x80070005` 阻塞。
 最终整合前需要从管理员 shell 重做 capture-and-convert smoke test。
 
+#### SqueezeNet 下载竞争处置
+
+保留 release 分支来自 PR #556 的 `SqueezeNetModel.targets` 实现。`main`
+版本没有修复已经复现的跨项目下载竞争；它删除 command-line build hook，
+并改变 output copy 语义。未合入的 copy-fix 分支调整了 build 和 publish
+item 注册，但仍允许多个项目同时下载到相同共享文件。
+
+不在 main 分支重建 PR 中加入新的可靠性修复。首次 clean parallel build
+可能因多个项目同时填充共享 SqueezeNet cache 而失败；资源存在后，后续构建
+可以通过。将它记录为已知既有问题，并通过独立、单一目的的 PR 实现 per-project
+download isolation，同时覆盖 clean-cache parallel-build 验证。
+
 ### 6. SecureUI 处置结果
 
 SecureUI 只存在于 `main`，它与 native Windowing AppWindow sample

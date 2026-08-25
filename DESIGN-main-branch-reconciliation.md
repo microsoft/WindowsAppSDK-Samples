@@ -470,6 +470,20 @@ the current shell is not elevated; WPR returned `0x80070005`. Repeat the
 capture-and-convert smoke test from an administrator shell before final
 integration.
 
+#### SqueezeNet Download Race Disposition
+
+Retain the release branch's `SqueezeNetModel.targets` implementation from PR
+#556. The `main` version does not fix the reproduced cross-project download
+race; it removes the command-line build hook and changes output-copy semantics.
+An unmerged copy-fix branch adjusts build and publish item registration but
+still allows multiple projects to download to the same shared files.
+
+Do not add a new reliability fix to the main-branch reconciliation PR. The
+first clean parallel build can fail when projects concurrently populate the
+shared SqueezeNet cache, while subsequent builds pass after the assets exist.
+Record this as a known pre-existing issue and address per-project download
+isolation in a separate focused PR with clean-cache parallel-build coverage.
+
 ### 6. SecureUI Disposition
 
 SecureUI exists only in `main` and was added by the same change that refactored
