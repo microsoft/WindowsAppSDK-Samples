@@ -15,8 +15,8 @@ trigger:
 pr: none
 
 variables:
-  # Define SamplesBranch as a queue-time variable to override this main fallback.
-  EffectiveSamplesBranch: $[coalesce(variables.SamplesBranch, 'main')]
+  # Hydrate the same protected branch whose update triggered this run.
+  EffectiveSamplesBranch: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
   SamplesCheckoutDirectory: '$(Pipeline.Workspace)\samples-to-hydrate'
   SamplesFeedConfig: '$(Build.SourcesDirectory)\eng\SamplesFeed.nuget.config'
 
@@ -35,9 +35,9 @@ jobs:
     inputs:
       targetType: inline
       script: |
-        if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*|copilot/samples-feed-hydration-bootstrap)$')
+        if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
         {
-            throw "SamplesBranch must be 'main', a protected 'release/*' branch, or the trusted bootstrap branch; received '$env:SAMPLES_BRANCH'."
+            throw "The triggering branch must be 'main' or a protected 'release/*' branch; received '$env:SAMPLES_BRANCH'."
         }
 
         git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
@@ -103,9 +103,9 @@ jobs:
     inputs:
       targetType: inline
       script: |
-        if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*|copilot/samples-feed-hydration-bootstrap)$')
+        if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
         {
-            throw "SamplesBranch must be 'main', a protected 'release/*' branch, or the trusted bootstrap branch; received '$env:SAMPLES_BRANCH'."
+            throw "The triggering branch must be 'main' or a protected 'release/*' branch; received '$env:SAMPLES_BRANCH'."
         }
 
         git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `

@@ -6,7 +6,7 @@
 
 Create the pipeline in the public `shine-oss/WinAppSDK-Samples` Azure DevOps project and point it at this repository and YAML file. Configure the pipeline with a maximum of one concurrent run because the feed upstream setting is shared state.
 
-Create a pipeline variable named `SamplesBranch`, allow users to override it at queue time, and give it a default value of `main`. It selects the branch whose complete dependency closure is hydrated; set it to the matching `release/x.0-stable` or `release/x.0-experimental` branch when hydrating a release branch. The YAML also falls back to `main` when the variable is absent and rejects branches outside protected `main` and `release/*`. The pipeline clones that branch separately and uses `eng/SamplesFeed.nuget.config`, so it can populate the feed before the selected branch switches its checked-in `Samples/nuget.config` to the single-source configuration.
+The pipeline derives the branch to hydrate from `Build.SourceBranch`. Updates to `main` hydrate `main`, while updates to a matching `release/*` branch hydrate that release branch. Branches outside protected `main` and `release/*` are rejected. The pipeline clones the triggering branch separately and uses `eng/SamplesFeed.nuget.config`.
 
 The `WinAppSDK-Samples Build Service (shine-oss)` identity needs:
 
@@ -15,11 +15,11 @@ The `WinAppSDK-Samples Build Service (shine-oss)` identity needs:
 - the feed `Collaborator` capability to save packages from the upstream.
 
 Do not enable pull-request triggers for the hydration job. It receives `System.AccessToken`, so it must only execute scripts from protected branches. Pull requests continue to use the existing sample build pipelines; package-version changes become anonymously available after the protected-branch hydration run completes.
-Restrict permission to queue the pipeline and override `SamplesBranch` to trusted maintainers.
+Restrict permission to queue the pipeline to trusted maintainers.
 
 ## Flow
 
-1. Clone the branch selected by `SamplesBranch`.
+1. Clone the protected branch whose update triggered the pipeline.
 2. Enable NuGet Gallery as the feed upstream.
 3. Restore all sample solutions and explicit CMake NuGet dependencies through the single-source hydration config with the authenticated build identity.
 4. Disable the upstream in an `always()` cleanup step.
