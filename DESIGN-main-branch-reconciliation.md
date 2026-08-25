@@ -445,6 +445,31 @@ compile, and link. Its smoke test exited successfully and reported the built-in
 CPU and DirectML devices; this machine had no additional certified provider to
 register.
 
+#### Windows ML Diagnostics Import Decision
+
+Import the `capture-logs` diagnostics resources from `main@177b65dc`, PR #602.
+The WPR and WPA profiles capture and format stable Windows ML, ONNX Runtime,
+and execution-provider ETW events. Microsoft Learn publishes the corresponding
+workflow and links directly to these repository files. None of the pinned
+release branches contain them.
+
+Do not import `Get-WinMLRundown.ps1` unchanged. The original script silently
+installed a fixed Windows ADK version, did not check the WPA Exporter exit
+code, and deleted every CSV file already present in the caller's output
+folder. The reconciled script instead requires Windows Performance Toolkit to
+be installed, validates its inputs and exporter result, isolates intermediate
+CSV files in a unique temporary folder, and deletes only that folder. It also
+includes the repository-required PowerShell help header.
+
+Links were added from the repository and WindowsML READMEs. The PowerShell
+syntax and both XML profiles passed validation. Targeted script tests confirmed
+successful rundown generation, preservation of an existing caller-owned CSV,
+temporary-folder cleanup, and nonzero exporter failure propagation. WPR
+recognized the imported profile, but real trace capture remains blocked because
+the current shell is not elevated; WPR returned `0x80070005`. Repeat the
+capture-and-convert smoke test from an administrator shell before final
+integration.
+
 ### 6. SecureUI Disposition
 
 SecureUI exists only in `main` and was added by the same change that refactored

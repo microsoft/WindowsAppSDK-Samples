@@ -421,6 +421,25 @@ execution provider，再将其 library 动态注册到 ONNX Runtime。它不加�
 compile 和 link。Smoke test 成功退出，并报告内置 CPU 和 DirectML device；
 本机没有可额外注册的 certified provider。
 
+#### Windows ML Diagnostics 导入决定
+
+从 `main@177b65dc`、PR #602 导入 `capture-logs` diagnostics 资源。WPR 和
+WPA profile 捕获并整理 stable Windows ML、ONNX Runtime 和 execution
+provider ETW event。Microsoft Learn 已发布对应操作流程，并直接链接这些
+仓库文件。固定的 release 分支均不包含这些资源。
+
+不原样导入 `Get-WinMLRundown.ps1`。原脚本会静默安装固定版本 Windows
+ADK、不检查 WPA Exporter 退出码，并删除调用方输出目录中已经存在的全部
+CSV 文件。整合后的脚本改为要求预先安装 Windows Performance Toolkit，
+验证输入和 exporter 结果，将中间 CSV 隔离到唯一临时目录，并且只删除该
+目录。同时补充仓库要求的 PowerShell help header。
+
+已经在仓库和 WindowsML README 中增加入口。PowerShell 语法和两个 XML
+profile 验证通过。定向脚本测试确认可以成功生成 rundown、保留调用方已有的
+CSV、清理临时目录，并传播非零 exporter 失败。WPR 可以识别导入的 profile，
+但当前 shell 没有管理员权限，真实 trace 捕获被 WPR `0x80070005` 阻塞。
+最终整合前需要从管理员 shell 重做 capture-and-convert smoke test。
+
 ### 6. SecureUI 处置结果
 
 SecureUI 只存在于 `main`，它与 native Windowing AppWindow sample
