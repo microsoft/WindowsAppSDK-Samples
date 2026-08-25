@@ -467,6 +467,32 @@ release 的 Central Package Management 项目配置，并排除 PR #643 的
 增加 local props 文件后，完整 WindowsML x64 Release 构建通过，没有 warning
 或 error。
 
+#### WindowsML 最终差异审计
+
+最终 commit 和文件级审计发现三项尚未进入整合 tree 的适用变更：
+
+- 移植 `main@b82ddd7f`、PR #641，删除 `CppConsoleDll` 中未使用的 function
+  pointer typedef，并让预期输出与实际调用的函数一致。Sample 本身仍等待最终
+  integration PR 的删除决定。
+- 补齐 `main@f37e15e9`、PR #643 的 Python 部分：将两个 Windows App SDK
+  Python package 固定到 stable 2.1.3，并删除对 ORT nightly feed 的直接依赖。
+  `main` 删除了 SqueezeNet BSD license，但下载脚本仍获取该模型，因此保留
+  license。
+- 补齐 PR #643 的 C# Model Catalog fallback。Catalog JSON 缺失时改用
+  executable-folder model，而不是构造无效 URI。
+
+Release 分支已经通过等价 cherry-pick 包含 PR #577 的 native compiler/linker
+switch、PR #578 的 Python environment 重构；其 shared build 配置也等价覆盖
+PR #597 的相关 output partitioning。其余源码差异属于 encoding、空白、
+generated designer 格式，或有意保留的 release API lifetime 行为。`main`
+额外保留的 `Resources/ResNet50` 文件没有任何引用，因此不导入。
+
+Stable Python 2.1.3 dependency graph 在不使用 ORT nightly feed 的情况下解析
+成功。完整 WindowsML x64 Release 构建通过，没有 warning 或 error。
+WindowsML 整合完成；只保留已经记录的三项后续：最终 integration PR 决定三个
+legacy sample、独立 SqueezeNet 可靠性 PR，以及需要管理员权限的 diagnostics
+smoke test。
+
 ### 6. SecureUI 处置结果
 
 SecureUI 只存在于 `main`，它与 native Windowing AppWindow sample
@@ -655,7 +681,7 @@ pwsh -File build.ps1 -Sample <SampleName>
 - [x] Stable 化 WindowsAIFoundry C# WinUI API surface。
 - [x] 统一 WindowsAIFoundry C#、MAUI 和 WPF runtime 引用。
 - [x] 将 WindowsAIFoundry CMake sample 迁移到 stable dependency。
-- [ ] 整合 WindowsML。
+- [x] 整合 WindowsML。
 - [ ] 决定 experimental 候选。
 - [ ] 统一 C++ toolset 选择。
 - [ ] 更新文档和 CI。

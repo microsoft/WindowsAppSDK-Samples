@@ -500,6 +500,37 @@ remaining BinSkim BA2008 configuration gap without changing sample behavior.
 The complete WindowsML x64 Release build passed with no warnings or errors
 after the local props file was added.
 
+#### Final WindowsML Difference Audit
+
+The final commit- and file-level audit found three applicable changes that were
+not yet represented in the reconciled tree:
+
+- Port `main@b82ddd7f`, PR #641, to remove an unused `CppConsoleDll` function
+  pointer typedef and align its expected output with the function actually
+  called. Keep the sample itself pending the final integration PR deletion
+  decision.
+- Complete the Python portion of `main@f37e15e9`, PR #643, by pinning both
+  Windows App SDK Python packages to stable 2.1.3 and removing the direct ORT
+  nightly-feed dependency. Retain the SqueezeNet BSD license that `main`
+  deleted because the download script still retrieves that model.
+- Complete PR #643's C# Model Catalog fallback so a missing catalog JSON uses
+  the executable-folder model instead of constructing an invalid URI.
+
+The release branch already contains equivalent cherry-picks for PR #577's
+native compiler/linker switches, PR #578's Python environment restructuring,
+and the relevant PR #597 output partitioning through its shared build
+configuration. The remaining source differences are encoding, whitespace,
+generated designer formatting, or intentionally preserved release API
+lifetime behavior. The extra `Resources/ResNet50` files in `main` have no
+references and were not imported.
+
+The stable Python 2.1.3 dependency graph resolved successfully without the ORT
+nightly feed. The complete WindowsML x64 Release build passed with no warnings
+or errors. WindowsML reconciliation is complete, subject only to the already
+recorded final integration PR decision for the three legacy samples, the
+separate SqueezeNet reliability PR, and the administrator-only diagnostics
+smoke test.
+
 ### 6. SecureUI Disposition
 
 SecureUI exists only in `main` and was added by the same change that refactored
@@ -696,7 +727,7 @@ to the log are not listed as milestones.
 - [x] Stabilize the WindowsAIFoundry C# WinUI API surface.
 - [x] Normalize WindowsAIFoundry C#, MAUI, and WPF runtime references.
 - [x] Retarget the WindowsAIFoundry CMake sample to stable dependencies.
-- [ ] Reconcile WindowsML.
+- [x] Reconcile WindowsML.
 - [ ] Decide experimental candidates.
 - [ ] Normalize C++ toolset selection.
 - [ ] Update documentation and CI.
