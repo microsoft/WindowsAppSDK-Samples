@@ -287,7 +287,8 @@ C# WinUI gallery 已与 `release/2.0-stable@5327f5c4` 对齐：
 - 删除 PR #592 中的 experimental VideoScaler 场景。
 - 删除 PR #594 中的 experimental ImageForegroundExtractor 场景和
   `TextRecognizerOptions` 示例。
-- 使用 PR #638 选择的 stable Windows App SDK 2.1.3 package。
+- 删除重复的 local central package 文件后，继承仓库的 stable Windows
+  App SDK 2.4.0 package。
 - 保留 6 个 stable 场景，包括 stable LoRA/adapter sample。
 - 保留基线编码和无关的后续修复，不覆盖整个 WindowsAIFoundry 文件树。
 
@@ -298,14 +299,14 @@ C# WinUI gallery 已与 `release/2.0-stable@5327f5c4` 对齐：
 
 #### C#、MAUI 和 WPF Runtime 统一结果
 
-非 CMake 项目继续使用仓库获批的 Windows App SDK `1.8.250916003`
-package。其已恢复的 `Microsoft.WindowsAppSDK.Runtime` metadata 将
-framework identity 定义为 `Microsoft.WindowsAppRuntime.1.8`，dot-quad
-版本为 `8000.625.330.0`。
+非 CMake 项目现在继承仓库获批的 Windows App SDK `2.4.0` package。
+其已恢复的 `Microsoft.WindowsAppSDK.Runtime` metadata 将 framework
+identity 定义为 `Microsoft.WindowsAppRuntime.2`，dot-quad 版本为
+`2.4.0.0`。
 
 已经统一以下过时的 experimental 引用：
 
-- 将 WinForms 和 WPF sparse manifest 更新到该 stable framework
+- 将 WinForms 和 WPF sparse manifest 更新到 2.4 stable framework
   identity 和最低版本。
 - 将 MAUI、WinForms 和 WPF prerequisite 更新为 stable 1.8 runtime
   和 package。
@@ -316,6 +317,10 @@ framework identity 定义为 `Microsoft.WindowsAppRuntime.1.8`，dot-quad
 
 packaged WPF、sparse WPF 和 sparse WinForms 的 x64 Release 构建通过，
 没有 warning。
+
+root 升级到 Windows App SDK 2.4.0 后，sparse WPF 和 WinForms 再次构建
+通过。WinForms 构建还需要将 `SplashScreen.scale-200 (1).png` 重命名为
+合法的 PRI qualifier 文件名。
 
 #### CMake Sparse Console Stable Retarget 结果
 
@@ -353,9 +358,12 @@ language model 返回 `0x80070490`。因此 runtime 场景验证是环境阻塞�
 
 #### Stable Package 基础和延后决定的 Legacy Sample
 
-采用 `main@f37e15e9`、PR #643 的 stable dependency 集合，同时保留 release
-分支的 Central Package Management 结构。WindowsML local package 文件仍有
-必要，因为它管理仓库根 package 文件未提供的 WindowsML 和 ONNX 版本。
+采用 `main@f37e15e9`、PR #643 的 stable dependency 集合。WindowsML
+central package 文件导入仓库 root，只在本地保留 GenAI WinML 和
+AbiWinRT 版本；全部共享 package 版本来自 root。
+
+root graph 升级到 Windows App SDK 2.4.0 后，完整 WindowsML x64 Release
+构建通过，没有 warning 或 error。
 
 该 stable package 集合可以用 x64 Release 构建现有 release sample 集合，
 没有 warning 或 error。首次构建暴露了既有的并行 SqueezeNet 下载竞争；

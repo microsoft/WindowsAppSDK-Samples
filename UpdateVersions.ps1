@@ -71,7 +71,7 @@ else {
             -Version $WinAppSDKVersion `
             -OutputDirectory . `
             -Prerelease `
-            -DependencyVersion Highest
+            -DependencyVersion Lowest
 
         if ($LASTEXITCODE -ne 0) {
             throw "nuget.exe failed with exit code $LASTEXITCODE"

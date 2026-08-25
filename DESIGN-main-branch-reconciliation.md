@@ -297,7 +297,8 @@ The C# WinUI gallery was aligned with
 - Remove the experimental VideoScaler scenario from PR #592.
 - Remove the experimental ImageForegroundExtractor scenario and
   `TextRecognizerOptions` example from PR #594.
-- Use the stable Windows App SDK 2.1.3 package selected by PR #638.
+- Inherit the repository's stable Windows App SDK 2.4.0 package after removing
+  the redundant local central package file.
 - Retain the six stable scenarios, including the stable LoRA/adapter sample.
 - Preserve baseline encoding and unrelated later fixes instead of replacing
   the full WindowsAIFoundry tree.
@@ -309,14 +310,14 @@ existing restore-environment issue rather than a stable API regression.
 
 #### C#, MAUI, and WPF Runtime Normalization Result
 
-The non-CMake projects remain on the repository's approved Windows App SDK
-`1.8.250916003` package. Its restored `Microsoft.WindowsAppSDK.Runtime`
-metadata defines the framework identity as `Microsoft.WindowsAppRuntime.1.8`
-with dot-quad version `8000.625.330.0`.
+The non-CMake projects now inherit the repository's approved Windows App SDK
+`2.4.0` package. Its restored `Microsoft.WindowsAppSDK.Runtime` metadata
+defines the framework identity as `Microsoft.WindowsAppRuntime.2` with
+dot-quad version `2.4.0.0`.
 
 The following stale experimental references were normalized:
 
-- Update the WinForms and WPF sparse manifests to that stable framework
+- Update the WinForms and WPF sparse manifests to the 2.4 stable framework
   identity and minimum version.
 - Update the MAUI, WinForms, and WPF prerequisites to describe the stable 1.8
   runtime and package.
@@ -327,6 +328,10 @@ The following stale experimental references were normalized:
 
 The packaged WPF, sparse WPF, and sparse WinForms x64 Release builds passed
 with no warnings.
+
+After the root moved to Windows App SDK 2.4.0, the sparse WPF and WinForms
+builds passed again. The WinForms build also required renaming
+`SplashScreen.scale-200 (1).png` to a valid PRI qualifier filename.
 
 #### CMake Sparse Console Stable Retarget Result
 
@@ -367,10 +372,12 @@ Treat WindowsML as a manual three-way reconciliation:
 
 #### Stable Package Foundation and Deferred Legacy Samples
 
-Use the stable dependency set from `main@f37e15e9`, PR #643, while retaining
-the release branch's Central Package Management structure. The WindowsML-local
-package file remains necessary because it owns WindowsML and ONNX versions that
-are not supplied by the repository-level package file.
+Use the stable dependency set from `main@f37e15e9`, PR #643. The WindowsML
+central package file imports the repository root and retains only its GenAI
+WinML and AbiWinRT versions; all shared package versions come from root.
+
+After the root graph moved to Windows App SDK 2.4.0, the complete WindowsML
+x64 Release build passed with no warnings or errors.
 
 The stable package set builds the existing release sample collection in x64
 Release with no warnings or errors. The first build exposed a pre-existing

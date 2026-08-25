@@ -83,7 +83,8 @@ With the dependency *.appx files correctly installed, the project should be debu
 ## 🚀 Run
 
 1. Open `cpp-sample/FilePickersAppSinglePackaged.sln` or `cs-sample/FilePickersAppSinglePackaged.sln` in Visual Studio.
-1. Restore NuGet packages and ensure the Windows App SDK 1.8 runtime is installed locally.
+1. Restore NuGet packages and ensure the Windows App SDK 2.4 runtime is
+   installed locally.
 1. Build and run.
 
 

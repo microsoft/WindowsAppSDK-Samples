@@ -23,8 +23,9 @@ resolve these required packages:
 - `Microsoft.WindowsAppSDK.Search` 2.4.4
 - `Microsoft.WindowsAppSDK.Runtime` 2.4.0
 
-The root version update is therefore blocked until the feed contains the
-complete stable dependency graph.
+The source migration uses the official NuGet 2.4 closure through the
+repository's `localpackages` validation path. Anonymous restore using only the
+public sample feed remains a final CI gate.
 
 ## Goals
 
@@ -36,7 +37,7 @@ complete stable dependency graph.
   experimental Windows App SDK APIs.
 - Make `UpdateVersions.ps1` update the root package file by default and require
   explicit paths for any additional central package files.
-- Validate retained sample families against an uncached dependency restore.
+- Validate retained sample families against the official 2.4 package closure.
 
 ## Non-Goals
 
@@ -61,8 +62,8 @@ complete stable dependency graph.
 1. Exclude `AppContentSearch` and `WinUI/ConditionalPredicate`. Neither sample
    exists in `release/2.0-stable`, and both local package files explicitly
    require experimental Windows App SDK packages.
-2. Hydrate the public sample feed with the complete Windows App SDK 2.4.0
-   dependency graph and prove it with an uncached restore.
+2. Resolve the official Windows App SDK 2.4.0 dependency closure into an
+   isolated local package source.
 3. Update the root package file to Windows App SDK 2.4.0 and its matching split
    package versions.
 4. Delete the WindowsAIFoundry C# WinUI package file so the project inherits
@@ -75,6 +76,8 @@ complete stable dependency graph.
 7. Update `UpdateVersions.ps1` so its default scope is only the root package
    file. Additional package files require explicit caller-provided paths.
 8. Build each affected retained sample family, then run the repository build.
+9. Hydrate the public sample feed and prove anonymous restore before the final
+   CI and `main` cutover.
 
 ## Risks
 
@@ -90,8 +93,8 @@ complete stable dependency graph.
 
 ## Validation Plan
 
-- Restore Windows App SDK 2.4.0 from an empty package cache using only
-  `Samples/nuget.config`.
+- Restore Windows App SDK 2.4.0 from the official package closure through
+  `Samples/localpackages`.
 - Confirm every retained project resolves `Microsoft.WindowsAppSDK` 2.4.0 and
   has no experimental Windows App SDK package.
 - Confirm no deleted experimental project remains in solutions, documentation,
@@ -100,3 +103,21 @@ complete stable dependency graph.
 - Run `build.ps1` for the complete retained sample set.
 - Inspect representative generated assets files to confirm root inheritance
   and WindowsML-local package ownership.
+- Restore from an empty package cache using only `Samples/nuget.config` after
+  feed hydration.
+
+## Status
+
+- Root central package management uses Windows App SDK 2.4.0 and the exact
+  split versions resolved from the stable metapackage.
+- WindowsAIFoundry C# WinUI inherits root central package management.
+- WindowsML imports root and keeps only GenAI WinML and AbiWinRT versions
+  locally.
+- WindowsML and Widgets pass x64 Release builds.
+- WindowsAIFoundry sparse WinForms and WPF pass x64 Release builds. The
+  WinForms build required correcting an invalid
+  `SplashScreen.scale-200 (1).png` PRI qualifier filename.
+- WindowsAIFoundry C# WinUI and Windowing C# WinUI resolve the 2.4 package
+  closure, then encounter the previously recorded missing
+  `Microsoft.NETCore.App.Crossgen2.win-x64` 8.0.30 package.
+- Public sample feed hydration and full retained-sample validation remain.

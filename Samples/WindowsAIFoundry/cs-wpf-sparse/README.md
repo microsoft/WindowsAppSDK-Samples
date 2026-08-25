@@ -47,8 +47,8 @@ BuildSparsePackage.ps1 does the following:
 
 3) Run SignTool to sign the MSIX
 
-Install Windows App Runtime 1.8 for the repository's Windows App SDK
-`1.8.250916003` package from the
+Install Windows App Runtime 2.4 for the repository's Windows App SDK `2.4.0`
+package from the
 [stable downloads](https://aka.ms/windowsappsdk/downloads).
 
 Please install the cert in the .user folder to LocalMachine TrustedPeople root. You can either
