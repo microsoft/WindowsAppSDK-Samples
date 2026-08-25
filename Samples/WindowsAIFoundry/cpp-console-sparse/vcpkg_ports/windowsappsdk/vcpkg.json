@@ -1,6 +1,6 @@
 {
   "name": "windowsappsdk",
-  "version": "1.8.250515001-experimental2",
+  "version": "2.1.3",
   "description": "The Windows App SDK empowers all Windows Desktop apps with modern Windows UI, APIs, and platform features, including back-compat support.",
   "homepage": "https://github.com/microsoft/windowsappsdk",
   "documentation": "https://docs.microsoft.com/windows/apps/windows-app-sdk/",

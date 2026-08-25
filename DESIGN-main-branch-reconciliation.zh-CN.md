@@ -317,10 +317,29 @@ framework identity 定义为 `Microsoft.WindowsAppRuntime.1.8`，dot-quad
 packaged WPF、sparse WPF 和 sparse WinForms 的 x64 Release 构建通过，
 没有 warning。
 
-CMake sparse console 仍单独处理。它继续依赖 1.8 experimental2，stable
-package layout 还要求修改其自定义 vcpkg overlay。候选修复只存在于未
-合入的 feature branch，而且无法通过 `build.ps1` 验证，因此需要单独
-决策。
+#### CMake Sparse Console Stable Retarget 结果
+
+CMake sparse console 已使用
+`user/yeelam/cpp-console-sparse-add-imagescaler@f75df95c` 中的基础设施
+部分迁移到 stable `Microsoft.WindowsAppSDK` 2.1.3。没有导入该 feature
+branch 的 ImageScaler 场景；sample 仍只关注 `LanguageModel`。
+
+迁移将 sparse dependency 更新为 `Microsoft.WindowsAppRuntime.2`
+2.1.3.0，支持 stable NuGet 的 library 和 runtime layout，并修正 README
+中对不存在的 `install.ps1` 的过时引用。验证还发现 preset 没有设置
+`VCPKG_TARGET_TRIPLET`，因此每个 preset 现在会显式选择对应的 x64 或
+ARM64 triplet。
+
+x64 Debug configure、restore、compile、link 和 post-build sparse 注册
+通过。本机无法与 nuget.org v3 建立 TLS，因此构建时临时使用仓库公开的
+sample dependency feed 获取相同的 2.1.3 package；提交版本继续为外部
+使用者保留 nuget.org。`build.ps1` 只在本次验证期间临时适配，之后已完整
+恢复，不包含提交修改。
+
+可执行文件成功进入 `LanguageModel::EnsureReadyAsync`，证明 stable
+runtime activation 和 package identity 有效，但本机因为没有可用的
+language model 返回 `0x80070490`。因此 runtime 场景验证是环境阻塞，
+而不是代码阻塞。
 
 ### 5. 整合 WindowsML
 
@@ -519,7 +538,7 @@ pwsh -File build.ps1 -Sample <SampleName>
 - [x] 审查并移植 Windowing PR #415 重构。
 - [x] Stable 化 WindowsAIFoundry C# WinUI API surface。
 - [x] 统一 WindowsAIFoundry C#、MAUI 和 WPF runtime 引用。
-- [ ] 决定 WindowsAIFoundry CMake stable retarget。
+- [x] 将 WindowsAIFoundry CMake sample 迁移到 stable dependency。
 - [ ] 整合 WindowsML。
 - [ ] 决定 experimental 候选。
 - [ ] 统一 C++ toolset 选择。

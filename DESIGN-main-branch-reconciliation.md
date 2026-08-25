@@ -328,10 +328,32 @@ The following stale experimental references were normalized:
 The packaged WPF, sparse WPF, and sparse WinForms x64 Release builds passed
 with no warnings.
 
-The CMake sparse console remains separate. It still targets 1.8
-experimental2, and stable package layouts require changes to its custom vcpkg
-overlay. The candidate work exists only on an unmerged feature branch and
-cannot be validated through `build.ps1`, so it requires an explicit decision.
+#### CMake Sparse Console Stable Retarget Result
+
+The CMake sparse console was retargeted to the stable
+`Microsoft.WindowsAppSDK` 2.1.3 package using the infrastructure portion of
+`user/yeelam/cpp-console-sparse-add-imagescaler@f75df95c`. The ImageScaler
+scenario from that feature branch was not imported; the sample remains focused
+on `LanguageModel`.
+
+The retarget updates the sparse dependency to
+`Microsoft.WindowsAppRuntime.2` version 2.1.3.0, supports the stable NuGet
+library and runtime layouts, and corrects the README's obsolete reference to a
+nonexistent `install.ps1`. Validation also found that the presets did not set
+`VCPKG_TARGET_TRIPLET`, so each preset now explicitly selects its matching x64
+or ARM64 triplet.
+
+An x64 Debug configure, restore, compile, link, and post-build sparse
+registration passed. The local environment could not establish TLS with
+nuget.org v3, so the build used the repository's public sample dependency feed
+as a temporary source for the same 2.1.3 package; the committed sample retains
+nuget.org for external consumers. `build.ps1` was temporarily adapted only for
+this validation and restored without a committed change.
+
+The executable reached `LanguageModel::EnsureReadyAsync`, confirming stable
+runtime activation and package identity, but the machine returned
+`0x80070490` because no suitable language model was available. Runtime scenario
+validation therefore remains environment-blocked rather than code-blocked.
 
 ### 5. Reconcile WindowsML
 
@@ -538,7 +560,7 @@ to the log are not listed as milestones.
 - [x] Review and port the Windowing PR #415 refactoring.
 - [x] Stabilize the WindowsAIFoundry C# WinUI API surface.
 - [x] Normalize WindowsAIFoundry C#, MAUI, and WPF runtime references.
-- [ ] Decide the WindowsAIFoundry CMake stable retarget.
+- [x] Retarget the WindowsAIFoundry CMake sample to stable dependencies.
 - [ ] Reconcile WindowsML.
 - [ ] Decide experimental candidates.
 - [ ] Normalize C++ toolset selection.
