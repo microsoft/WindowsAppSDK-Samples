@@ -2,23 +2,31 @@
 .SYNOPSIS
     Updates WinAppSDK-related package references across the samples to a specified version.
 .DESCRIPTION
-    Ensures the requested Microsoft.WindowsAppSDK NuGet package (and key dependencies) is available locally,
-    then rewrites packages.config, project files, and Directory.Packages.props entries so they all target the
-    provided version. This script is intended to be the single place to bump WinAppSDK versions in the repo.
+    Ensures the requested Microsoft.WindowsAppSDK NuGet package and key dependencies are available locally,
+    then updates selected Directory.Packages.props entries. The root Samples/Directory.Packages.props file is
+    the default and additional central package files must be selected explicitly.
 .PARAMETER WinAppSDKVersion
     Version of Microsoft.WindowsAppSDK to apply (for example, 1.8.251106002). You can discover the latest
     stable, servicing, or preview versions at https://www.nuget.org/packages/Microsoft.WindowsAppSDK/.
 .PARAMETER NuGetPackagesFolder
     Optional path to a NuGet packages directory that already contains the desired packages. When omitted the
     script restores the packages into the local ./packages folder.
+.PARAMETER DirectoryPackagesPropsPath
+    Repository-relative or absolute paths to central package files to update. Defaults to the root
+    Samples/Directory.Packages.props file. Child package files are never discovered or modified implicitly.
 .EXAMPLE
     .\UpdateVersions.ps1 -WinAppSDKVersion 1.8.251106002
-    Updates all projects to reference Microsoft.WindowsAppSDK version 1.8.251106002, restoring packages into
-    the default ./packages directory when needed.
+    Updates the root central package file, restoring packages into the default ./packages directory when
+    needed.
+.EXAMPLE
+    .\UpdateVersions.ps1 -WinAppSDKVersion 2.4.0 `
+        -DirectoryPackagesPropsPath 'Samples\Directory.Packages.props', 'Samples\WindowsML\Directory.Packages.props'
+    Explicitly updates both the root and WindowsML central package files.
 #>
 Param(
     [string]$WinAppSDKVersion = "",
-    [string]$NuGetPackagesFolder = ""
+    [string]$NuGetPackagesFolder = "",
+    [string[]]$DirectoryPackagesPropsPath = @('Samples\Directory.Packages.props')
 )
 
 # Ensure a local packages cache exists when the caller does not provide one.
@@ -43,7 +51,7 @@ if (!(Test-Path $nugetExe)) {
             -ErrorAction Stop
     }
     catch {
-        Write-Warning "Failed to download nuget.exe: $($_.Exception.Message)"
+        throw "Failed to download nuget.exe: $($_.Exception.Message)"
     }
 }
 
@@ -70,7 +78,7 @@ else {
         }
     }
     catch {
-        Write-Warning $_
+        throw
     }
     finally {
         Pop-Location
@@ -97,7 +105,37 @@ ForEach-Object {
     } 
 }
 
-Get-ChildItem -Recurse Directory.Packages.props -Path $PSScriptRoot | foreach-object {
+$repositoryRoot = [System.IO.Path]::GetFullPath($PSScriptRoot).TrimEnd('\') + '\'
+if ($DirectoryPackagesPropsPath.Count -eq 0) {
+    throw 'At least one Directory.Packages.props path is required.'
+}
+
+$directoryPackagesPropsFiles = foreach ($path in $DirectoryPackagesPropsPath) {
+    $candidate = if ([System.IO.Path]::IsPathRooted($path)) {
+        $path
+    }
+    else {
+        Join-Path $PSScriptRoot $path
+    }
+
+    $resolved = Resolve-Path -LiteralPath $candidate -ErrorAction Stop
+    $fullPath = [System.IO.Path]::GetFullPath($resolved.Path)
+    if (!$fullPath.StartsWith($repositoryRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Package file must be inside the repository: $path"
+    }
+    if ([System.IO.Path]::GetFileName($fullPath) -ne 'Directory.Packages.props') {
+        throw "Expected a Directory.Packages.props file: $path"
+    }
+
+    $item = Get-Item -LiteralPath $fullPath
+    if ($item.PSIsContainer) {
+        throw "Expected a file but found a directory: $path"
+    }
+
+    $item
+}
+
+$directoryPackagesPropsFiles | Sort-Object FullName -Unique | ForEach-Object {
     $content = Get-Content $_.FullName -Raw
 
     foreach ($nugetPackageToVersion in $nugetPackageToVersionTable.GetEnumerator()) {

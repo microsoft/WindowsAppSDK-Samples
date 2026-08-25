@@ -538,10 +538,18 @@ SDK Foundation 1.8 重复注入了
 
 ### 7. 决定 experimental 候选
 
-在 API 确认 stable 之前，不把以下内容加入 stable integration：
+从 stable integration 中排除以下 experimental-only sample：
 
 - `AppContentSearch`
 - `WinUI/ConditionalPredicate`
+
+这两个 sample 都不存在于 `release/2.0-stable`，并且都明确依赖 Windows
+App SDK 2.0 experimental package。排除决定属于
+`DESIGN-stable-2.4-dependency-unification.md` 记录的 stable 2.4
+dependency 统一工作。
+
+在 API 确认 stable 之前，不把以下内容加入 stable integration：
+
 - `release/2.0-experimental` 独有的 CMake sample
 
 如果保留，必须明确隔离并标记为 experimental。
@@ -682,7 +690,9 @@ pwsh -File build.ps1 -Sample <SampleName>
 - [x] 统一 WindowsAIFoundry C#、MAUI 和 WPF runtime 引用。
 - [x] 将 WindowsAIFoundry CMake sample 迁移到 stable dependency。
 - [x] 整合 WindowsML。
-- [ ] 决定 experimental 候选。
+- [x] 排除 AppContentSearch 和 ConditionalPredicate。
+- [ ] 决定剩余 experimental CMake 候选。
+- [ ] 将保留的 sample 统一到 stable Windows App SDK 2.4 graph。
 - [ ] 统一 C++ toolset 选择。
 - [ ] 更新文档和 CI。
 - [ ] 完成最终验证并切换到 `main`。

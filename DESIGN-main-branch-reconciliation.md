@@ -579,10 +579,18 @@ pre-existing package integration issue rather than a PR #415 regression.
 
 ### 7. Decide Experimental Candidates
 
-Keep these out of the stable integration until their APIs are confirmed stable:
+Exclude these experimental-only samples from the stable integration:
 
 - `AppContentSearch`
 - `WinUI/ConditionalPredicate`
+
+Neither sample exists in `release/2.0-stable`, and both explicitly require
+Windows App SDK 2.0 experimental packages. Their exclusion is part of the
+stable 2.4 dependency unification documented in
+`DESIGN-stable-2.4-dependency-unification.md`.
+
+Keep these out of the stable integration until their APIs are confirmed stable:
+
 - The CMake samples unique to `release/2.0-experimental`
 
 If retained, they must be clearly isolated and documented as experimental.
@@ -728,7 +736,9 @@ to the log are not listed as milestones.
 - [x] Normalize WindowsAIFoundry C#, MAUI, and WPF runtime references.
 - [x] Retarget the WindowsAIFoundry CMake sample to stable dependencies.
 - [x] Reconcile WindowsML.
-- [ ] Decide experimental candidates.
+- [x] Exclude AppContentSearch and ConditionalPredicate.
+- [ ] Decide the remaining experimental CMake candidates.
+- [ ] Unify retained samples on the stable Windows App SDK 2.4 graph.
 - [ ] Normalize C++ toolset selection.
 - [ ] Update documentation and CI.
 - [ ] Complete final validation and cut over to `main`.
