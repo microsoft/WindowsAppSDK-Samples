@@ -351,6 +351,48 @@ language model 返回 `0x80070490`。因此 runtime 场景验证是环境阻塞�
 - 判断 WinML EP Catalog 是否可以使用 stable API。
 - 验证初始化、CFG、provider matching、日志和 EP 修复。
 
+#### Stable Package 基础和延后决定的 Legacy Sample
+
+采用 `main@f37e15e9`、PR #643 的 stable dependency 集合，同时保留 release
+分支的 Central Package Management 结构。WindowsML local package 文件仍有
+必要，因为它管理仓库根 package 文件未提供的 WindowsML 和 ONNX 版本。
+
+该 stable package 集合可以用 x64 Release 构建现有 release sample 集合，
+没有 warning 或 error。首次构建暴露了既有的并行 SqueezeNet 下载竞争；
+共享资源落盘后，后续完整构建通过。
+
+PR #643 还删除了 `CppConsoleDll`、`CppResnetBuildDemo` 和
+`ResnetBuildDemoCS`。该删除只存在于 `main`；固定的
+`release/experimental`、`release/2.0-experimental` 和
+`release/2.0-stable` 都保留了这三个 sample。因为它们可以使用 stable
+dependency 集合构建，所以删除不是 stable 迁移的必要条件。
+
+WindowsML 整合期间保留全部三个 legacy sample。将它们的最终处置延后到
+integration PR 审查阶段，再根据完整的最终 sample 集合决定。
+
+#### Shared EP 和 Performance Configuration 结果
+
+移植仅存在于 main 的 PR #588、#634、#635、#629、#642 和 #643 行为链。
+固定的 experimental 和 stable release 分支都没有对应 cherry-pick。
+
+整合后的行为：
+
+- 为 OpenVINO、QNN、Vitis AI、MIGraphX 和 TensorRT RTX 增加
+  `--perf_mode` 支持。
+- 生成包含 device 和 performance 信息的 compiled model 路径，避免复用
+  不兼容的已编译模型。
+- 删除误导性的 `DISABLE` EP policy，并让未知 policy 回退到 `DEFAULT`。
+- 避免会导致 access violation 的 Vitis AI option，并使用正确的 TensorRT
+  RTX provider 名称。
+- Model Catalog JSON 缺失时安全回退，并在 `EnsureReadyAsync` 后报告更新的
+  provider state。
+
+已经移植 C++、C#、GenAI、WinForms、WinUI 和 WPF wiring，同时保留 release
+分支的 Central Package Management 结构。没有导入 main commit 中过时的
+`packages.config` 修改。
+
+完整 WindowsML solution 的 x64 Release 构建通过，没有 warning 或 error。
+
 ### 6. SecureUI 处置结果
 
 SecureUI 只存在于 `main`，它与 native Windowing AppWindow sample

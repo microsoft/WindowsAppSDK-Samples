@@ -365,6 +365,54 @@ Treat WindowsML as a manual three-way reconciliation:
 - Evaluate the WinML EP Catalog project for stable API eligibility.
 - Verify initialization, CFG, provider matching, logging, and EP fixes.
 
+#### Stable Package Foundation and Deferred Legacy Samples
+
+Use the stable dependency set from `main@f37e15e9`, PR #643, while retaining
+the release branch's Central Package Management structure. The WindowsML-local
+package file remains necessary because it owns WindowsML and ONNX versions that
+are not supplied by the repository-level package file.
+
+The stable package set builds the existing release sample collection in x64
+Release with no warnings or errors. The first build exposed a pre-existing
+parallel SqueezeNet download race; a subsequent complete build passed after
+the shared resources were present.
+
+PR #643 also removed `CppConsoleDll`, `CppResnetBuildDemo`, and
+`ResnetBuildDemoCS`. That removal exists only on `main`; the pinned
+`release/experimental`, `release/2.0-experimental`, and `release/2.0-stable`
+branches retain all three. Because they build against the stable dependency
+set, their removal is not required for stable migration.
+
+Retain all three legacy samples during WindowsML reconciliation. Defer their
+final disposition until the integration PR review, where they can be evaluated
+against the complete final sample set.
+
+#### Shared EP and Performance Configuration Result
+
+Port the main-only behavior chain from PRs #588, #634, #635, #629, #642, and
+#643. No equivalent cherry-picks exist in the pinned experimental or stable
+release branches.
+
+The integrated behavior:
+
+- Adds `--perf_mode` support for OpenVINO, QNN, Vitis AI, MIGraphX, and
+  TensorRT RTX.
+- Generates device- and performance-specific compiled model paths to prevent
+  incompatible compiled model reuse.
+- Removes the misleading `DISABLE` EP policy and defaults unknown policies to
+  `DEFAULT`.
+- Avoids Vitis AI options that caused an access violation and uses the correct
+  TensorRT RTX provider name.
+- Falls back safely when the model catalog JSON is absent and reports the
+  provider state after `EnsureReadyAsync`.
+
+The C++, C#, GenAI, WinForms, WinUI, and WPF wiring was ported while retaining
+the release branch's Central Package Management structure. The obsolete
+`packages.config` changes from the main commits were not imported.
+
+The complete WindowsML solution passed an x64 Release build with no warnings
+or errors.
+
 ### 6. SecureUI Disposition
 
 SecureUI exists only in `main` and was added by the same change that refactored

@@ -42,6 +42,7 @@ namespace WindowsML.Shared
                     if (allowDownload || readyState != ExecutionProviderReadyState.NotPresent)
                     {
                         await provider.EnsureReadyAsync();
+                        Console.WriteLine($"  Updated Ready state: {provider.ReadyState}");
                     }
 
                     provider.TryRegister();
@@ -86,7 +87,8 @@ namespace WindowsML.Shared
         public static bool ConfigureSelectedExecutionProvider(SessionOptions sessionOptions,
                                                               OrtEnv environment,
                                                               string epName,
-                                                              string? deviceType)
+                                                              string? deviceType,
+                                                              PerformanceMode perfMode = PerformanceMode.Default)
         {
             // Discover devices
             IReadOnlyList<OrtEpDevice> epDevices = environment.GetEpDevices();
@@ -144,7 +146,7 @@ namespace WindowsML.Shared
 
             try
             {
-                var epOptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                Dictionary<string, string> epOptions = PerformanceConfigurator.GetEpOptions(epName, perfMode);
                 sessionOptions.AppendExecutionProvider(environment, selectedDevices, epOptions);
                 Console.WriteLine($"Successfully added {epName} execution provider");
                 return true;

@@ -66,6 +66,12 @@
     <ClCompile Include="timing.cpp" />
     <ClCompile Include="program.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GenAIPerformanceConfigurator.h" />
+  </ItemGroup>
+  <Target Name="CopyOpenVinoConfigFiles" AfterTargets="Build">
+    <Copy SourceFiles="$(ProjectDir)..\..\Shared\openvino_perf.json" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(ProjectDir)..\..\Shared\openvino_efficiency.json" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-
