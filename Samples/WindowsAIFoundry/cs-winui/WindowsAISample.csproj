@@ -23,8 +23,11 @@
     <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
   </PropertyGroup>
+
   <ItemGroup>
-    <None Remove="Controls\ModelInitializationControl.xaml" />
+    <Compile Remove="Shared\**\*.cs" />
+    <Page Remove="Shared\**\*.xaml" />
+    <None Remove="Shared\**" />
     <None Remove="Examples\ImageObjectExtractor.md" />
     <None Remove="Examples\ImageObjectExtractorInit.md" />
     <None Remove="Examples\ImageScaler.md" />
@@ -53,6 +56,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <ProjectReference Include="Shared\WindowsAISample.Shared.csproj">
+      <SetPlatform>Platform=AnyCPU</SetPlatform>
+      <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
+    </ProjectReference>
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -99,11 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\TextRecognizerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\ModelInitializationControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
