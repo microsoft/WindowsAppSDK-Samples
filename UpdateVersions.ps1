@@ -137,6 +137,9 @@ $directoryPackagesPropsFiles = foreach ($path in $DirectoryPackagesPropsPath) {
 
 $directoryPackagesPropsFiles | Sort-Object FullName -Unique | ForEach-Object {
     $content = Get-Content $_.FullName -Raw
+    $content = $content -replace
+        '<WindowsAppSDKVersion>.*</WindowsAppSDKVersion>',
+        "<WindowsAppSDKVersion>$WinAppSDKVersion</WindowsAppSDKVersion>"
 
     foreach ($nugetPackageToVersion in $nugetPackageToVersionTable.GetEnumerator()) {
         $newVersionString = 'PackageVersion Include="' + $nugetPackageToVersion.Key + '" Version="' + $nugetPackageToVersion.Value + '"'
