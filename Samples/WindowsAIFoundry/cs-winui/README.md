@@ -18,10 +18,19 @@ extendedZipContent:
 
 An app that demonstrates how to use the Windows AI APIs with WinUI.
 
-## Releases
-Stable features can be found in the [main](https://github.com/microsoft/WindowsAppSDK-Samples/tree/main/Samples/WindowsAIFoundry/cs-winui) branch. 
+## Windows App SDK versions
 
-Experimental features can be found in the [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsAIFoundry/cs-winui) branch
+The same solution supports both stable and experimental Windows App SDK
+packages:
+
+- Stable packages build the stable scenarios.
+- Experimental packages also build the Image Foreground Extractor and Video
+  Scaler extensions.
+
+Experimental scenarios are separate projects under `Extensions`. Stable builds
+do not reference or build those projects. The Shell conditionally links each
+extension's `ShellExtension.cs` file, so navigation is composed at compile time
+without runtime discovery.
 
 ## Prerequisites
 
@@ -41,7 +50,24 @@ join the [Windows Insider Program](https://insider.windows.com).
 -   Open the solution file (`.sln`) in Visual Studio.
 -   From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
-See [additional instructions](./cpp-console-unpackaged/README.md) for using [the C++ & CMake sample](./cpp-console-unpackaged/CMakeLists.txt).
+The root `Samples/Directory.Packages.props` file selects the Windows App SDK
+version and derives the channel automatically. From the repository root, select
+a stable package and build this sample with:
+
+```powershell
+.\UpdateVersions.ps1 -WinAppSDKVersion 2.4.0
+.\build.ps1 -Sample Samples\WindowsAIFoundry\cs-winui -Platform x64
+```
+
+Select an experimental package to include the extensions:
+
+```powershell
+.\UpdateVersions.ps1 -WinAppSDKVersion 2.4.1-experimental
+.\build.ps1 -Sample Samples\WindowsAIFoundry\cs-winui -Platform x64
+```
+
+See [additional instructions](./cpp-console-unpackaged/README.md) for using the
+[C++ and CMake sample](./cpp-console-unpackaged/CMakeLists.txt).
 
 ## Special Considerations for Unpackaged and Self-Contained modes with Windows AI APIs
 
