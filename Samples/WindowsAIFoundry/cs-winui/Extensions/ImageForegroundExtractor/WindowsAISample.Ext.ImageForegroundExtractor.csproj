@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
+    <RootNamespace>WindowsAISample.Ext.ImageForegroundExtractor</RootNamespace>
+    <AssemblyName>WindowsAISample.Ext.ImageForegroundExtractor</AssemblyName>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <UseWinUI>true</UseWinUI>
+    <NoWarn>$(NoWarn);CS8305</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ShellExtension.cs" />
+    <ProjectReference Include="..\..\Shared\WindowsAISample.Shared.csproj">
+      <SetPlatform>Platform=AnyCPU</SetPlatform>
+      <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
+    </ProjectReference>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+  </ItemGroup>
+
+  <Import Project="..\..\ProjectReference.Platform.targets" />
+</Project>

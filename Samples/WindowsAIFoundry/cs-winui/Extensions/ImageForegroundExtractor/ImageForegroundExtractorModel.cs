@@ -1,0 +1,42 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Windows.AI;
+using Windows.Graphics.Imaging;
+using WindowsAISample.Models.Contracts;
+
+// The enclosing namespace 'ImageForegroundExtractor' would shadow the SDK type; alias it to keep call sites readable.
+using ImageForegroundExtractorApi = Microsoft.Windows.AI.Imaging.ImageForegroundExtractor;
+
+namespace WindowsAISample.Ext.ImageForegroundExtractor;
+
+internal class ImageForegroundExtractorModel : IModelManager
+{
+    public async Task CreateModelSessionWithProgress(IProgress<double> progress, CancellationToken cancellationToken = default)
+    {
+        if (ImageForegroundExtractorApi.GetReadyState() == AIFeatureReadyState.NotReady)
+        {
+            var foregroundExtractorDeploymentOperation = ImageForegroundExtractorApi.EnsureReadyAsync();
+            foregroundExtractorDeploymentOperation.Progress = (_, modelDeploymentProgress) =>
+            {
+                progress.Report(modelDeploymentProgress % 0.75);  // all progress is within 75%
+            };
+            using var _ = cancellationToken.Register(() => foregroundExtractorDeploymentOperation.Cancel());
+            await foregroundExtractorDeploymentOperation;
+        }
+        else
+        {
+            progress.Report(0.75);
+        }
+        progress.Report(1.0); // 100% progress
+    }
+
+    public async Task<SoftwareBitmap> ExtractForegroundMaskAsync(SoftwareBitmap inputImage, CancellationToken cancellationToken = default)
+    {
+        using var extractor = await ImageForegroundExtractorApi.CreateAsync();
+        return extractor.GetMaskFromSoftwareBitmap(inputImage);
+    }
+}
