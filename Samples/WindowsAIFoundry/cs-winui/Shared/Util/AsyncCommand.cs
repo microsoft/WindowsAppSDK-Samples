@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using System;
 using System.Threading.Tasks;
@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace WindowsAISample.Util;
 
-internal interface IAsyncCommandDelegate<TParameter, TResult>
+public interface IAsyncCommandDelegate<TParameter, TResult>
 {
     Task<TResult> Execute(TParameter? parameter);
     bool CanExecute(TParameter? parameter);
@@ -17,7 +17,7 @@ internal interface IAsyncCommandDelegate<TParameter, TResult>
 /// </summary>
 /// <typeparam name="TParameter">Command parameter type</typeparam>
 /// <typeparam name="TResult">Result parameter type</typeparam>
-internal partial class AsyncCommand<TParameter, TResult> : ModelBase, ICommand
+public partial class AsyncCommand<TParameter, TResult> : ModelBase, ICommand
 {
     private Task? _executeTask;
     private TResult? _result;
@@ -26,19 +26,19 @@ internal partial class AsyncCommand<TParameter, TResult> : ModelBase, ICommand
 
     protected IAsyncCommandDelegate<TParameter, TResult> AsyncCommandDelegate { get; }
 
-    internal AsyncCommand(IAsyncCommandDelegate<TParameter, TResult> asyncCommandDelegate)
+    public AsyncCommand(IAsyncCommandDelegate<TParameter, TResult> asyncCommandDelegate)
     {
         AsyncCommandDelegate = asyncCommandDelegate;
     }
 
-    internal AsyncCommand(
+    public AsyncCommand(
         Func<TParameter?, Task<TResult>> executeCallback,
         Func<TParameter?, bool> canExecuteCallback)
         : this(new DefaultAsyncCommandDelegate<TParameter, TResult>(executeCallback, canExecuteCallback))
     {
     }
 
-    internal AsyncCommand(
+    public AsyncCommand(
         Func<TParameter?, TResult> executeCallback,
         Func<TParameter?, bool> canExecuteCallback)
         : this(ToCallbackAsync(executeCallback), canExecuteCallback)

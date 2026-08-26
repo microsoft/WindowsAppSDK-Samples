@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using System;
 using System.Threading;
@@ -7,7 +7,7 @@ using Windows.Foundation;
 
 namespace WindowsAISample.Util;
 
-internal class AsyncOperationWithProgress<TResult, TProgress> : IAsyncOperationWithProgress<TResult, TProgress>
+public class AsyncOperationWithProgress<TResult, TProgress> : IAsyncOperationWithProgress<TResult, TProgress>
 {
     private static uint nextId;
 
@@ -17,7 +17,7 @@ internal class AsyncOperationWithProgress<TResult, TProgress> : IAsyncOperationW
     private readonly TaskCompletionSource<TResult> _completionSource = new();
     private readonly CancellationTokenSource _cts = new();
 
-    internal AsyncOperationWithProgress(Func<IProgress<TProgress>, CancellationToken, Task<TResult>> taskFactory)
+    public AsyncOperationWithProgress(Func<IProgress<TProgress>, CancellationToken, Task<TResult>> taskFactory)
     {
         Id = nextId++;
         var progressAdapter = new ProgressAdapter(progress =>
@@ -139,7 +139,7 @@ internal class AsyncOperationWithProgress<TResult, TProgress> : IAsyncOperationW
     {
         private readonly Action<TProgress> _reportCallback;
 
-        internal ProgressAdapter(Action<TProgress> reportCallback)
+        public ProgressAdapter(Action<TProgress> reportCallback)
         {
             _reportCallback = reportCallback;
         }

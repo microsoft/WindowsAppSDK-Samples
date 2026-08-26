@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -10,7 +10,7 @@ using Windows.Storage.Streams;
 
 namespace WindowsAISample.Util;
 
-internal static class SoftwareBitmapExtensions
+public static class SoftwareBitmapExtensions
 {
     public static async Task<SoftwareBitmapSource> ToSourceAsync(this SoftwareBitmap softwareBitmap)
     {
