@@ -70,7 +70,7 @@
     </Reference>
   </ItemGroup>
   <PropertyGroup>
-    <AbiWinRTSDKReferences>$(WindowsSdkDir)UnionMetadata\$(WindowsTargetPlatformVersion)\Windows.winmd</AbiWinRTSDKReferences>
+    <AbiWinRTSDKReferences>$(WindowsSdkDir)UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</AbiWinRTSDKReferences>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
