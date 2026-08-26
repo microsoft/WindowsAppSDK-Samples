@@ -18,8 +18,8 @@ Topics and concepts in this example include:
 > May 2025. We're working on making them "offcial."
 
 > [!NOTE]
-> This sample uses the stable `Microsoft.WindowsAppSDK` 2.1.3 package. Its
-> sparse package depends on `Microsoft.WindowsAppRuntime.2` version 2.1.3.0 or
+> This sample uses the stable `Microsoft.WindowsAppSDK` 2.4.0 package. Its
+> sparse package depends on `Microsoft.WindowsAppRuntime.2` version 2.4.0.0 or
 > later.
 
 ## Building
@@ -39,7 +39,7 @@ features of Windows App SDK and Copilot+ PCs.
    `winget install Microsoft.VisualStudio.2022.Community`.
 5. A [Windows Copilot+ PC](https://learn.microsoft.com/windows/ai/npu-devices/) to run this sample
 6. Install Windows App Runtime 2 on your Copilot+ PC. This sample requires
-   `Microsoft.WindowsAppRuntime.2` version 2.1.3.0 or later.
+   `Microsoft.WindowsAppRuntime.2` version 2.4.0.0 or later.
 
 ### Using in your Own App
 
@@ -101,7 +101,7 @@ Add the reference to the Windows App Runtime framework package:
     <PackageDependency
         Name="Microsoft.WindowsAppRuntime.2"
         Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-        MinVersion="2.1.3.0" />
+        MinVersion="2.4.0.0" />
 ```
 
 Be sure to update the `Name` and `MinVersion` for your target Windows App SDK version.
@@ -115,7 +115,7 @@ Open this sample directory in Visual Studio 2022 with _File > Open > Folder_.
 
 Change the target build type to match your Copilot+ PC's architecture, like `arm64-debug`.
 
-Use _Build > Build All_. This pulls down Windows App SDK 2.1.3 and its
+Use _Build > Build All_. This pulls down Windows App SDK 2.4.0 and its
 dependencies through the sample's vcpkg overlay. The post-build step registers
 the sparse package for in-place launch and debugging.
 

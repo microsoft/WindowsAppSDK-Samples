@@ -9,7 +9,7 @@ project(WinMLEpCatalogSample
 
 # NuGet package version
 set(WINML_NUGET_ID      "Microsoft.Windows.AI.MachineLearning" CACHE STRING "NuGet package ID")
-set(WINML_NUGET_VERSION "2.1.1"                      CACHE STRING "NuGet package version")
+set(WINML_NUGET_VERSION "2.1.74"                     CACHE STRING "NuGet package version")
 
 # Packages are restored / extracted under the build directory.
 cmake_path(APPEND CMAKE_CURRENT_BINARY_DIR "packages" OUTPUT_VARIABLE WINML_PACKAGES_DIR)
