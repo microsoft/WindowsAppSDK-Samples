@@ -7,24 +7,25 @@
 
 namespace winrt::ConditionalXamlPredicate::implementation
 {
-    bool MyCustomPredicate::Evaluate(winrt::Windows::Foundation::Collections::IVectorView<hstring> const& arguments)
+    bool MyCustomPredicate::Evaluate(hstring const& argument)
     {
-        auto argsCount = arguments.Size();
-        if (argsCount >= 2)
+        if (argument == L"FeatureABCEnabled")
         {
-            hstring firstArg = arguments.GetAt(0);
-			hstring secondArg = arguments.GetAt(1);
-            if (firstArg == L"FeatureABC")
-            {
-				// For demo purpose, return true if second argument is "true", false otherwise
-                return secondArg == L"true";
-            }
-            else if (firstArg == L"FeatureXYZ")
-            {
-				// Marking FeatureXYZ as disabled
-                return secondArg == L"false";
-			}
+            return true;
         }
-		throw hresult_not_implemented();
+        else if (argument == L"FeatureABCDisabled")
+        {
+            return false;
+        }
+        else if (argument == L"FeatureXYZEnabled")
+        {
+            return false;
+        }
+        else if (argument == L"FeatureXYZDisabled")
+        {
+            return true;
+        }
+
+        throw hresult_invalid_argument();
     }
 }

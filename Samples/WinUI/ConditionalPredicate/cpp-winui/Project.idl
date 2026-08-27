@@ -20,7 +20,7 @@ namespace ConditionalXamlPredicate
 
     [default_interface]
     [bindable]
-    runtimeclass MyCustomPredicate : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Markup.IXamlPredicate
+    runtimeclass MyCustomPredicate : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Markup.IXamlCondition
     {
         MyCustomPredicate();
     }

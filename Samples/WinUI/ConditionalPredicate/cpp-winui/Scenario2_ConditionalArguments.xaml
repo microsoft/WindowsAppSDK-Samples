@@ -7,10 +7,10 @@
     xmlns:local="using:ConditionalXamlPredicate"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:featureABCEnabled="http://schemas.microsoft.com/winfx/2006/xaml/presentation?local:MyCustomPredicate(FeatureABC,true)"
-    xmlns:featureABCDisabled="http://schemas.microsoft.com/winfx/2006/xaml/presentation?local:MyCustomPredicate(FeatureABC,false)"
-    xmlns:featureXYZEnabled="http://schemas.microsoft.com/winfx/2006/xaml/presentation?local:MyCustomPredicate(FeatureXYZ,true)"
-    xmlns:featureXYZDisabled="http://schemas.microsoft.com/winfx/2006/xaml/presentation?local:MyCustomPredicate(FeatureXYZ,false)"
+    xmlns:featureABCEnabled="http://schemas.microsoft.com/winfx/2006/xaml/presentation?local:MyCustomPredicate(FeatureABCEnabled)"
+    xmlns:featureABCDisabled="http://schemas.microsoft.com/winfx/2006/xaml/presentation?local:MyCustomPredicate(FeatureABCDisabled)"
+    xmlns:featureXYZEnabled="http://schemas.microsoft.com/winfx/2006/xaml/presentation?local:MyCustomPredicate(FeatureXYZEnabled)"
+    xmlns:featureXYZDisabled="http://schemas.microsoft.com/winfx/2006/xaml/presentation?local:MyCustomPredicate(FeatureXYZDisabled)"
     mc:Ignorable="d">
 
     <Grid>
