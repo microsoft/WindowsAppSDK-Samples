@@ -18,7 +18,7 @@ extendedZipContent:
 
 This sample demonstrates how to use App Content Search's **AppContentIndex APIs** in a **WinUI3** notes application. It shows how to create, manage, and semantically search through the index that includes both text content and images. It also shows how to use use the search results to enable retrieval augmented genaration (RAG) scenarios with language models.
 
-> **Note**: This sample is targeted and tested for **Windows App SDK 2.0 Experimental2** and **Visual Studio 2022**. The AppContentSearch APIs are experimental and available in Windows App SDK 2.0 experimental2.
+> **Note**: This sample is targeted and tested for **Windows App SDK 2.4 Experimental**. The App Content Search APIs are experimental and may change in future releases.
 
 
 ## Features
@@ -37,12 +37,12 @@ This sample demonstrates:
 
 * See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
 * Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
-* This sample requires Visual Studio 2022 and .NET 9.
+* This sample requires Visual Studio with the .NET 8 SDK and Windows 11 SDK version 26100.
 
 
 ## Building and Running the Sample
 
-* Open the solution file (`AppContentSearch.sln`) in Visual Studio.
+* Open the solution file (`NotesApp.sln`) in Visual Studio.
 * Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 * Run the application to see the Notes app with integrated search functionality.
 

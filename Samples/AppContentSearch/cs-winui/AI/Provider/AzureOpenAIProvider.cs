@@ -214,7 +214,7 @@ public class AzureOpenAIProvider : ILanguageModelProvider
     private ChatResponseUpdate Append(SessionEntryViewModel entry, string text, ChatResponseUpdate? original = null)
     {
         ChatSessionViewModel._dispatcherQueue?.TryEnqueue(() => entry.Message += text);
-        return original ?? new ChatResponseUpdate { Role = ExtChatRole.Assistant, Text = text };
+        return original ?? new ChatResponseUpdate(ExtChatRole.Assistant, text);
     }
 
     private List<OpenAI.Chat.ChatMessage> BuildAzureChatMessages(ChatContext context)

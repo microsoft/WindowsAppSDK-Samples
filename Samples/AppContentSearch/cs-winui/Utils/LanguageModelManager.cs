@@ -120,7 +120,7 @@ public class LanguageModelManager
     private async IAsyncEnumerable<ChatResponseUpdate> SingleUpdateStream(string text, SessionEntryViewModel entry)
     {
         ChatSessionViewModel._dispatcherQueue?.TryEnqueue(() => entry.Message += text);
-        yield return new ChatResponseUpdate { Role = Microsoft.Extensions.AI.ChatRole.Assistant, Text = text };
+        yield return new ChatResponseUpdate(Microsoft.Extensions.AI.ChatRole.Assistant, text);
         await Task.CompletedTask;
     }
 }

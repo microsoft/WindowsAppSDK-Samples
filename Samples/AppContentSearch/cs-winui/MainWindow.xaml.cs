@@ -2,7 +2,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Windows.AI.Search.Experimental.AppContentIndex;
+using Microsoft.Windows.Search.AppContentIndex;
 using Notes.Controls;
 using Notes.Pages;
 using Notes.ViewModels;
@@ -96,9 +96,9 @@ namespace Notes
         private async Task InitializeAppContentIndexerAsync()
         {
             GetOrCreateIndexResult? getOrCreateResult = null;
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                getOrCreateResult = Microsoft.Windows.AI.Search.Experimental.AppContentIndex.AppContentIndexer.GetOrCreateIndex("NotesIndex");
+                getOrCreateResult = AppContentIndexer.GetOrCreateIndex("NotesIndex");
                 if (getOrCreateResult == null)
                 {
                     throw new Exception("GetOrCreateIndexResult is null");
@@ -109,6 +109,7 @@ namespace Notes
                 }
 
                 _appContentIndexer = getOrCreateResult.Indexer;
+                await _appContentIndexer.WaitForIndexCapabilitiesAsync();
             });
 
             DispatcherQueue.TryEnqueue(() =>
