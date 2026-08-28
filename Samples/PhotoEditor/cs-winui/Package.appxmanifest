@@ -2,24 +2,28 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+  xmlns:systemai="http://schemas.microsoft.com/appx/manifest/systemai/windows10"
+  IgnorableNamespaces="uap rescap systemai">
 
   <Identity
-    Name="8d1fcdb6-2142-4f1d-8a99-cf03513c7298"
-    Publisher="CN=Microsoft Corporation"
+    Name="2633426B-3999-463D-AFBC-D44EEDC262C6"
+    Publisher="CN=AppPublisher"
     Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="2633426B-3999-463D-AFBC-D44EEDC262C6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>PhotoEditor</DisplayName>
-    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <PublisherDisplayName>AppPublisher</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26226.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26226.0" />
   </Dependencies>
 
   <Resources>
@@ -44,5 +48,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <systemai:Capability Name="systemAIModels"/>
   </Capabilities>
 </Package>

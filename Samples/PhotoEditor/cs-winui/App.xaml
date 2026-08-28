@@ -1,4 +1,4 @@
-﻿<!-- Copyright (c) Microsoft Corporation.
+<!-- Copyright (c) Microsoft Corporation.
  Licensed under the MIT License. -->
 
 <Application
@@ -10,12 +10,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
-            <SolidColorBrush x:Key="RatingControlSelectedForeground" Color="White"/>
 
-            <!--  Window width adaptive breakpoints.  -->
+            <SolidColorBrush x:Key="RatingControlSelectedForeground" Color="White" />
+
+            <!-- Window width adaptive breakpoints. -->
             <x:Double x:Key="MinWindowBreakpoint">0</x:Double>
             <x:Double x:Key="MediumWindowBreakpoint">641</x:Double>
             <x:Double x:Key="LargeWindowBreakpoint">1008</x:Double>

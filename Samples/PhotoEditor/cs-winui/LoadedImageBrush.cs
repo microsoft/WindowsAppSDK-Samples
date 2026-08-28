@@ -1,233 +1,238 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
-using System;
 using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Windows.Storage.Streams;
-using Microsoft.UI.Xaml;
 
-namespace PhotoEditor
+namespace PhotoEditor;
+
+internal class LoadedImageBrush : XamlCompositionBrushBase
 {
-    class LoadedImageBrush : XamlCompositionBrushBase
+    private bool _isImageLoading;
+    private LoadedImageSurface? _surface;
+    private CompositionEffectBrush? _combinedBrush;
+    private ContrastEffect? _contrastEffect;
+    private ExposureEffect? _exposureEffect;
+    private TemperatureAndTintEffect? _temperatureAndTintEffect;
+    private GaussianBlurEffect? _blurEffect;
+    private SaturationEffect? _saturationEffect;
+
+    public ICanvasImage? Image
     {
-        private bool IsImageLoading = false;
-        private LoadedImageSurface _surface;
-        CompositionEffectBrush combinedBrush;
-        ContrastEffect contrastEffect;
-        ExposureEffect exposureEffect;
-        TemperatureAndTintEffect temperatureAndTintEffect;
-        GaussianBlurEffect graphicsEffect;
-        SaturationEffect saturationEffect;
-
-        public ICanvasImage Image
+        get
         {
-            get
+            if (_blurEffect == null)
             {
-                contrastEffect.Contrast = (float)ContrastAmount;
-                exposureEffect.Exposure = (float)ExposureAmount;
-                temperatureAndTintEffect.Tint = (float)TintAmount;
-                temperatureAndTintEffect.Temperature = (float)TemperatureAmount;
-                saturationEffect.Saturation = (float)SaturationAmount;
-                graphicsEffect.BlurAmount = (float)BlurAmount;
-                return graphicsEffect;
+                return null;
             }
+
+            _contrastEffect!.Contrast = (float)ContrastAmount;
+            _exposureEffect!.Exposure = (float)ExposureAmount;
+            _temperatureAndTintEffect!.Tint = (float)TintAmount;
+            _temperatureAndTintEffect.Temperature = (float)TemperatureAmount;
+            _saturationEffect!.Saturation = (float)SaturationAmount;
+            _blurEffect.BlurAmount = (float)BlurAmount;
+            return _blurEffect;
         }
+    }
 
-        public void SetSource(ICanvasImage source)
+    public void SetSource(ICanvasImage source)
+    {
+        _saturationEffect!.Source = source;
+    }
+
+    public static readonly DependencyProperty BlurAmountProperty = DependencyProperty.Register(
+        nameof(BlurAmount), typeof(double), typeof(LoadedImageBrush),
+        new PropertyMetadata(0.0, OnBlurAmountChanged));
+
+    public double BlurAmount
+    {
+        get => (double)GetValue(BlurAmountProperty);
+        set => SetValue(BlurAmountProperty, value);
+    }
+
+    private static void OnBlurAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var brush = (LoadedImageBrush)d;
+        brush.CompositionBrush?.Properties.InsertScalar("Blur.BlurAmount", (float)(double)e.NewValue);
+    }
+
+    public static readonly DependencyProperty ContrastAmountProperty = DependencyProperty.Register(
+        nameof(ContrastAmount), typeof(double), typeof(LoadedImageBrush),
+        new PropertyMetadata(0.0, OnContrastAmountChanged));
+
+    public double ContrastAmount
+    {
+        get => (double)GetValue(ContrastAmountProperty);
+        set => SetValue(ContrastAmountProperty, value);
+    }
+
+    private static void OnContrastAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var brush = (LoadedImageBrush)d;
+        brush.CompositionBrush?.Properties.InsertScalar("ContrastEffect.Contrast", (float)(double)e.NewValue);
+    }
+
+    public static readonly DependencyProperty SaturationAmountProperty = DependencyProperty.Register(
+        nameof(SaturationAmount), typeof(double), typeof(LoadedImageBrush),
+        new PropertyMetadata(1.0, OnSaturationAmountChanged));
+
+    public double SaturationAmount
+    {
+        get => (double)GetValue(SaturationAmountProperty);
+        set => SetValue(SaturationAmountProperty, value);
+    }
+
+    private static void OnSaturationAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var brush = (LoadedImageBrush)d;
+        brush.CompositionBrush?.Properties.InsertScalar("SaturationEffect.Saturation", (float)(double)e.NewValue);
+    }
+
+    public static readonly DependencyProperty ExposureAmountProperty = DependencyProperty.Register(
+        nameof(ExposureAmount), typeof(double), typeof(LoadedImageBrush),
+        new PropertyMetadata(0.0, OnExposureAmountChanged));
+
+    public double ExposureAmount
+    {
+        get => (double)GetValue(ExposureAmountProperty);
+        set => SetValue(ExposureAmountProperty, value);
+    }
+
+    private static void OnExposureAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var brush = (LoadedImageBrush)d;
+        brush.CompositionBrush?.Properties.InsertScalar("ExposureEffect.Exposure", (float)(double)e.NewValue);
+    }
+
+    public static readonly DependencyProperty TintAmountProperty = DependencyProperty.Register(
+        nameof(TintAmount), typeof(double), typeof(LoadedImageBrush),
+        new PropertyMetadata(0.0, OnTintAmountChanged));
+
+    public double TintAmount
+    {
+        get => (double)GetValue(TintAmountProperty);
+        set => SetValue(TintAmountProperty, value);
+    }
+
+    private static void OnTintAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var brush = (LoadedImageBrush)d;
+        brush.CompositionBrush?.Properties.InsertScalar("TemperatureAndTintEffect.Tint", (float)(double)e.NewValue);
+    }
+
+    public static readonly DependencyProperty TemperatureAmountProperty = DependencyProperty.Register(
+        nameof(TemperatureAmount), typeof(double), typeof(LoadedImageBrush),
+        new PropertyMetadata(0.0, OnTemperatureAmountChanged));
+
+    public double TemperatureAmount
+    {
+        get => (double)GetValue(TemperatureAmountProperty);
+        set => SetValue(TemperatureAmountProperty, value);
+    }
+
+    private static void OnTemperatureAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var brush = (LoadedImageBrush)d;
+        brush.CompositionBrush?.Properties.InsertScalar("TemperatureAndTintEffect.Temperature", (float)(double)e.NewValue);
+    }
+
+    public void LoadImageFromPath(string path)
+    {
+        // Load the image from a URI (used as a fallback if the stream load fails).
+        _surface = LoadedImageSurface.StartLoadFromUri(new Uri(path));
+        _surface.LoadCompleted += Load_Completed;
+    }
+
+    public void LoadImageFromStream(IRandomAccessStream stream)
+    {
+        if (stream != null && !_isImageLoading)
         {
-            saturationEffect.Source = source;
-        }
-
-        public static readonly DependencyProperty BlurAmountProperty = DependencyProperty.Register("BlurAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnBlurAmountChanged)));
-
-        public double BlurAmount
-        {
-            get { return (double)GetValue(BlurAmountProperty); }
-            set { SetValue(BlurAmountProperty, value); }
-        }
-
-        private static void OnBlurAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var brush = (LoadedImageBrush)d;
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("Blur.BlurAmount", (float)(double)e.NewValue);
-        }
-
-        public static readonly DependencyProperty ContrastAmountProperty = DependencyProperty.Register("ContrastAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnContrastAmountChanged)));
-
-        public double ContrastAmount
-        {
-            get { return (double)GetValue(ContrastAmountProperty); }
-            set { SetValue(ContrastAmountProperty, value); }
-        }
-
-        private static void OnContrastAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var brush = (LoadedImageBrush)d;
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("ContrastEffect.Contrast", (float)(double)e.NewValue);
-        }
-
-        public static readonly DependencyProperty SaturationAmountProperty = DependencyProperty.Register("SaturationAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(1.0, new PropertyChangedCallback(OnSaturationAmountChanged)));
-
-        public double SaturationAmount
-        {
-            get { return (double)GetValue(SaturationAmountProperty); }
-            set { SetValue(SaturationAmountProperty, value); }
-        }
-
-        private static void OnSaturationAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var brush = (LoadedImageBrush)d;
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("SaturationEffect.Saturation", (float)(double)e.NewValue);
-        }
-
-        public static readonly DependencyProperty ExposureAmountProperty = DependencyProperty.Register("ExposureAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnExposureAmountChanged)));
-
-        public double ExposureAmount
-        {
-            get { return (double)GetValue(ExposureAmountProperty); }
-            set { SetValue(ExposureAmountProperty, value); }
-        }
-
-        private static void OnExposureAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var brush = (LoadedImageBrush)d;
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("ExposureEffect.Exposure", (float)(double)e.NewValue);
-        }
-
-        public static readonly DependencyProperty TintAmountProperty = DependencyProperty.Register("TintAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnTintAmountChanged)));
-
-        public double TintAmount
-        {
-            get { return (double)GetValue(TintAmountProperty); }
-            set { SetValue(TintAmountProperty, value); }
-        }
-
-        private static void OnTintAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var brush = (LoadedImageBrush)d;
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("TemperatureAndTintEffect.Tint", (float)(double)e.NewValue);
-        }
-
-        public static readonly DependencyProperty TemperatureAmountProperty = DependencyProperty.Register("TemperatureAmount",typeof(double),typeof(LoadedImageBrush),new PropertyMetadata(0.0, new PropertyChangedCallback(OnTemperatureAmountChanged)));
-
-        public double TemperatureAmount
-        {
-            get { return (double)GetValue(TemperatureAmountProperty); }
-            set { SetValue(TemperatureAmountProperty, value); }
-        }
-
-        private static void OnTemperatureAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var brush = (LoadedImageBrush)d;
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("TemperatureAndTintEffect.Temperature", (float)(double)e.NewValue);
-        }
-
-        public LoadedImageBrush()
-        {
-        }
-
-        public void LoadImageFromPath(string path)
-        {
-            var compositor = App.Window.Compositor;
-            // Load image
-            _surface = LoadedImageSurface.StartLoadFromUri(new Uri(path));
+            _isImageLoading = true;
+            _surface = LoadedImageSurface.StartLoadFromStream(stream);
             _surface.LoadCompleted += Load_Completed;
         }
+    }
 
-        public void LoadImageFromStream(IRandomAccessStream stream)
+    private void Load_Completed(LoadedImageSurface sender, LoadedImageSourceLoadCompletedEventArgs e)
+    {
+        _isImageLoading = false;
+
+        if (e.Status == LoadedImageSourceLoadStatus.Success)
         {
-            if (stream != null && IsImageLoading == false)
+            var compositor = App.MainWindow.Compositor;
+            var brush = compositor.CreateSurfaceBrush(_surface);
+            brush.Stretch = CompositionStretch.UniformToFill;
+
+            // Create effects chain.
+            _saturationEffect = new SaturationEffect
             {
-                var compositor = App.Window.Compositor;
-                // Load image
-                IsImageLoading = true;
-                _surface = LoadedImageSurface.StartLoadFromStream(stream);
-                _surface.LoadCompleted += Load_Completed;
-            }
-        }
-
-        private void Load_Completed(LoadedImageSurface sender, LoadedImageSourceLoadCompletedEventArgs e)
-        {
-            IsImageLoading = false;
-
-            if (e.Status == LoadedImageSourceLoadStatus.Success)
+                Name = "SaturationEffect",
+                Saturation = (float)SaturationAmount,
+                Source = new CompositionEffectSourceParameter("image"),
+            };
+            _contrastEffect = new ContrastEffect
             {
-                var compositor = App.Window.Compositor;
-                var brush = compositor.CreateSurfaceBrush(_surface);
-                brush.Stretch = (Microsoft.UI.Composition.CompositionStretch)CompositionStretch.UniformToFill;
+                Name = "ContrastEffect",
+                Contrast = (float)ContrastAmount,
+                Source = _saturationEffect,
+            };
+            _exposureEffect = new ExposureEffect
+            {
+                Name = "ExposureEffect",
+                Source = _contrastEffect,
+                Exposure = (float)ExposureAmount,
+            };
+            _temperatureAndTintEffect = new TemperatureAndTintEffect
+            {
+                Name = "TemperatureAndTintEffect",
+                Source = _exposureEffect,
+                Temperature = (float)TemperatureAmount,
+                Tint = (float)TintAmount,
+            };
+            _blurEffect = new GaussianBlurEffect
+            {
+                Name = "Blur",
+                Source = _temperatureAndTintEffect,
+                BlurAmount = (float)BlurAmount,
+                BorderMode = EffectBorderMode.Hard,
+            };
 
-                // Create effects chain.
-                saturationEffect = new SaturationEffect()
-                {
-                    Name = "SaturationEffect",
-                    Saturation = (float)SaturationAmount,
-                    Source = new CompositionEffectSourceParameter("image")
-                };
-                contrastEffect = new ContrastEffect()
-                {
-                    Name = "ContrastEffect",
-                    Contrast = (float)ContrastAmount,
-                    Source = saturationEffect
-                };
-                exposureEffect = new ExposureEffect()
-                {
-                    Name = "ExposureEffect",
-                    Source = contrastEffect,
-                    Exposure = (float)ExposureAmount,
-                };
-                temperatureAndTintEffect = new TemperatureAndTintEffect()
-                {
-                    Name = "TemperatureAndTintEffect",
-                    Source = exposureEffect,
-                    Temperature = (float)TemperatureAmount,
-                    Tint = (float)TintAmount
-                };
-                graphicsEffect = new GaussianBlurEffect()
-                {
-                    Name = "Blur",
-                    Source = temperatureAndTintEffect,
-                    BlurAmount = (float)BlurAmount,
-                    BorderMode = EffectBorderMode.Hard,
-                };
-
-                Microsoft.UI.Composition.CompositionEffectFactory graphicsEffectFactory = compositor.CreateEffectFactory(graphicsEffect, new[] {
+            CompositionEffectFactory effectFactory = compositor.CreateEffectFactory(_blurEffect, new[]
+            {
                 "SaturationEffect.Saturation", "ExposureEffect.Exposure", "Blur.BlurAmount",
                 "TemperatureAndTintEffect.Temperature", "TemperatureAndTintEffect.Tint",
-                "ContrastEffect.Contrast" });
-                combinedBrush = graphicsEffectFactory.CreateBrush();
-                combinedBrush.SetSourceParameter("image", brush);
+                "ContrastEffect.Contrast",
+            });
+            _combinedBrush = effectFactory.CreateBrush();
+            _combinedBrush.SetSourceParameter("image", brush);
 
-                // Composition Brush is what is being applied to the UI Element.
-                CompositionBrush = combinedBrush;
-            }
-            else
-            {
-                LoadImageFromPath("ms-appx:///Assets/StoreLogo.png");
-            }
+            // The composition brush is what is applied to the UI element.
+            CompositionBrush = _combinedBrush;
+        }
+        else
+        {
+            LoadImageFromPath("ms-appx:///Assets/StoreLogo.png");
+        }
+    }
+
+    protected override void OnDisconnected()
+    {
+        if (_surface != null)
+        {
+            _surface.Dispose();
+            _surface = null;
         }
 
-        protected override void OnDisconnected()
+        if (CompositionBrush != null)
         {
-            if (_surface != null)
-            {
-                _surface.Dispose();
-                _surface = null;
-            }
-
-            if (CompositionBrush != null)
-            {
-                CompositionBrush.Dispose();
-                CompositionBrush = null;
-            }
+            CompositionBrush.Dispose();
+            CompositionBrush = null;
         }
     }
 }
