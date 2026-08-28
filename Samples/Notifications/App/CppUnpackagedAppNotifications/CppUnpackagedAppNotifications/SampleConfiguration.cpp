@@ -7,6 +7,7 @@
 #include "MainPage.xaml.h"
 #include "Notifications\ToastWithAvatar.h"
 #include "Notifications\ToastWithTextBox.h"
+#include "Notifications\PushToastWithAvatar.h"
 
 namespace winrt
 {
@@ -19,7 +20,8 @@ namespace winrt::CppUnpackagedAppNotifications
     IVector<Scenario> implementation::MainPage::scenariosInner = single_threaded_observable_vector<Scenario>(
         {
             Scenario{ ToastWithAvatar::ScenarioName, hstring(name_of<CppUnpackagedAppNotifications::Scenario1_ToastWithAvatar>())},
-            Scenario{ ToastWithTextBox::ScenarioName, hstring(name_of<CppUnpackagedAppNotifications::Scenario2_ToastWithTextBox>())}
+            Scenario{ ToastWithTextBox::ScenarioName, hstring(name_of<CppUnpackagedAppNotifications::Scenario2_ToastWithTextBox>())},
+            Scenario{ PushToastWithAvatar::ScenarioName, hstring(name_of<CppUnpackagedAppNotifications::Scenario3_PushToastWithAvatar>())}
         });
 
     hstring SampleConfig::FeatureName{ L"CppUnpackagedAppNotifications" };
