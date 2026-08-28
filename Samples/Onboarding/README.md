@@ -1,0 +1,1 @@
+This folder contains beginner-oriented samples that support the scenarios documented within the How-Tos node of the Windows App SDK conceptual corpus.
