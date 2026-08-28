@@ -5,7 +5,7 @@
 #include "App.xaml.g.h"
 #include "pch.h"
 
-namespace winrt::CppUnpackagedAppNotifications::implementation
+namespace winrt::CppAppNotifications::implementation
 {
     struct App : AppT<App>
     {

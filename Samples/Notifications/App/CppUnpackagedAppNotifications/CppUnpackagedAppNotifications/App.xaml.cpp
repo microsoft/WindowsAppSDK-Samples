@@ -24,7 +24,7 @@ namespace winrt
 // instance variable goes out of scope, i.e.: when the App is terminated.
 static NotificationManager g_notificationManager;
 
-namespace winrt::CppUnpackagedAppNotifications::implementation
+namespace winrt::CppAppNotifications::implementation
 {
     static App* app{ nullptr };
 

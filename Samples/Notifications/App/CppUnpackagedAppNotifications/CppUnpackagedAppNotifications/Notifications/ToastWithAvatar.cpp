@@ -14,7 +14,7 @@ namespace winrt
 {
     using namespace Microsoft::Windows::AppNotifications;
     using namespace Microsoft::Windows::AppNotifications::Builder;
-    using namespace CppUnpackagedAppNotifications::implementation;
+    using namespace CppAppNotifications::implementation;
 }
 
 const wchar_t* ToastWithAvatar::ScenarioName{ L"Local Toast with Avatar Image" };
@@ -39,7 +39,7 @@ bool ToastWithAvatar::SendToast()
 
 void ToastWithAvatar::NotificationReceived(winrt::Microsoft::Windows::AppNotifications::AppNotificationActivatedEventArgs const& notificationActivatedEventArgs)
 {
-    winrt::CppUnpackagedAppNotifications::Notification notification{};
+    winrt::CppAppNotifications::Notification notification{};
     notification.Originator = ScenarioName;
     notification.Action = notificationActivatedEventArgs.Arguments().Lookup(L"action");
     winrt::MainPage::Current().NotificationReceived(notification);

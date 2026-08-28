@@ -16,7 +16,7 @@ namespace winrt
     using namespace Microsoft::Windows::AppNotifications;
 }
 
-namespace winrt::CppUnpackagedAppNotifications::implementation
+namespace winrt::CppAppNotifications::implementation
 {
     MainPage Scenario1_ToastWithAvatar::rootPage{ nullptr };
 

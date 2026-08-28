@@ -14,14 +14,14 @@ namespace winrt
     using namespace Windows::Foundation::Collections;
 }
 
-namespace winrt::CppUnpackagedAppNotifications
+namespace winrt::CppAppNotifications
 {
     IVector<Scenario> implementation::MainPage::scenariosInner = single_threaded_observable_vector<Scenario>(
         {
-            Scenario{ ToastWithAvatar::ScenarioName, hstring(name_of<CppUnpackagedAppNotifications::Scenario1_ToastWithAvatar>())},
-            Scenario{ ToastWithTextBox::ScenarioName, hstring(name_of<CppUnpackagedAppNotifications::Scenario2_ToastWithTextBox>())}
+            Scenario{ ToastWithAvatar::ScenarioName, hstring(name_of<CppAppNotifications::Scenario1_ToastWithAvatar>())},
+            Scenario{ ToastWithTextBox::ScenarioName, hstring(name_of<CppAppNotifications::Scenario2_ToastWithTextBox>())}
         });
 
-    hstring SampleConfig::FeatureName{ L"CppUnpackagedAppNotifications" };
+    hstring SampleConfig::FeatureName{ L"CppAppNotifications" };
     ElementTheme SampleConfig::CurrentTheme{ ElementTheme::Default };
 }
