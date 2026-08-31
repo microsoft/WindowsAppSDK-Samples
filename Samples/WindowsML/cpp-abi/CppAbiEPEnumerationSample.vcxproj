@@ -41,7 +41,8 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '17.0'">v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -61,12 +62,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <!-- Add Windows SDK metadata as reference for type resolution -->
-    <Reference Include="Windows">
-      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0\Windows.winmd</HintPath>
-      <IsSystemReference>true</IsSystemReference>
-      <WinMDFile>true</WinMDFile>
-    </Reference>
     <!-- Add ML WinMD for AbiWinRT header generation -->
     <Reference Include="Microsoft.Windows.AI.MachineLearning">
       <HintPath>$(NugetPackageDirectory)\Microsoft.Windows.AI.MachineLearning.2.1.1\metadata\Microsoft.Windows.AI.MachineLearning.winmd</HintPath>
@@ -75,8 +70,7 @@
     </Reference>
   </ItemGroup>
   <PropertyGroup>
-    <!-- Custom AbiWinRT arguments -->
-    <AbiWinRTArgs>-reference "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0\Windows.winmd"</AbiWinRTArgs>
+    <AbiWinRTSDKReferences>$(WindowsSdkDir)UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</AbiWinRTSDKReferences>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

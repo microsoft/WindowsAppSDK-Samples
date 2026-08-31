@@ -28,9 +28,6 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
     - [Restart](Samples/AppLifecycle/Restart): These samples demonstrate synchronously restarting an app with command-line restart arguments.
     - [Share Target](Samples\AppLifecycle\ShareTarget\WinUI-CS-ShareTargetSampleApp): This sample demonstrates an app that can be activated as a share target.
 
-#### Background Task
-- [Background Task](Samples/BackgroundTask): These samples demonstrates usage of Background Task feature in WinAppSDK apps leveraging the WinAppSDK Background Task API.
-
 #### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
 
@@ -88,7 +85,7 @@ The easiest way to use these samples without Git is to download the ZIP file. Se
 
 ## 📄 Samples versioning
 
-The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes the latest samples, which may also include experimental or preview features. Specific release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
+The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes samples for stable Windows App SDK features only. Experimental and preview samples belong in the `release/experimental` branch. Specific stable release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
 
 - [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental)
 - [release/1.6](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.6-stable)
