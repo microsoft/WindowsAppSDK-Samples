@@ -138,6 +138,35 @@ function Get-Solutions {
   return $solutions
 }
 
+# Test-SolutionSupportsConfiguration: Check whether a solution defines the requested configuration and platform.
+function Test-SolutionSupportsConfiguration {
+  param(
+    [string]$SolutionPath,
+    [string]$Platform,
+    [string]$Configuration
+  )
+
+  $configurationPattern = '^\s*{0}\|{1}\s*=' -f [regex]::Escape($Configuration), [regex]::Escape($Platform)
+  $inConfigurationSection = $false
+
+  foreach ($line in Get-Content -LiteralPath $SolutionPath) {
+    if ($line -match '^\s*GlobalSection\(SolutionConfigurationPlatforms\)') {
+      $inConfigurationSection = $true
+      continue
+    }
+
+    if ($inConfigurationSection -and $line -match '^\s*EndGlobalSection') {
+      return $false
+    }
+
+    if ($inConfigurationSection -and $line -match $configurationPattern) {
+      return $true
+    }
+  }
+
+  return $false
+}
+
 # Test-HasPackagesConfig: Check if a solution directory contains any packages.config files.
 function Test-HasPackagesConfig {
   param([string]$SolutionPath)
@@ -188,12 +217,23 @@ $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 $startTime = Get-Date
 
 Write-Host "Building $($solutions.Count) solution(s) for Platform=$Platform Configuration=$Configuration" -ForegroundColor Green
+$builtSolutionCount = 0
 foreach ($sln in $solutions) {
   Write-Host '---' -ForegroundColor Cyan
+  if (-not (Test-SolutionSupportsConfiguration -SolutionPath $sln.FullName -Platform $Platform -Configuration $Configuration)) {
+    Write-Warning "Skipping unsupported solution configuration $Configuration|$Platform`: $($sln.FullName)"
+    continue
+  }
   if (Test-HasPackagesConfig -SolutionPath $sln.FullName) {
     Restore-Solution -SolutionPath $sln.FullName
   }
   Build-Solution -SolutionPath $sln.FullName -Platform $Platform -Configuration $Configuration
+  $builtSolutionCount++
+}
+
+if ($builtSolutionCount -eq 0) {
+  Write-Error "None of the selected solutions support $Configuration|$Platform."
+  exit 1
 }
 
 $stopwatch.Stop()
