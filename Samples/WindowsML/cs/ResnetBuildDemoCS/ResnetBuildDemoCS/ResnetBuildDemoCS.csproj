@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <WindowsPackageType>None</WindowsPackageType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="ResNet50Labels.txt" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Image source : https://brandcentral.microsoft.com/asset-detail.html?id=L2NvbnRlbnQvZGFtL3NvdXJjZS9taWNyb3NvZnQtcHJvZHVjdHMtc2VydmljZXMvYXp1cmUvcGhvdG9ncmFwaHkvMjAxNy9DTE8xN19henVyZV8wMTY%3D&searchType=simple&fuzzyTerm= -->
+    <Content Include="dog.jpg" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="System.Numerics.Tensors" />
+  </ItemGroup>
+
+</Project>

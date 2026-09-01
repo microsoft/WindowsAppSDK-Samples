@@ -182,37 +182,33 @@ namespace WindowsML.Shared
 
                 // Use intelligent model variant selection based on execution provider and device capabilities
                 ModelVariant actualVariant = DetermineModelVariant(options, ortEnv);
+
                 if (File.Exists(sampleCatalogJsonPath))
                 {
                     var uri = new System.Uri(sampleCatalogJsonPath);
                     var sampleCatalogSource = await ModelCatalogSource.CreateFromUriAsync(uri);
                     ModelCatalog modelCatalog = new ModelCatalog(new[] { sampleCatalogSource });
-                    CatalogModelInfo modelFromCatalog;
                     string modelVariantName = (actualVariant == ModelVariant.FP32) ? "squeezenet-fp32" : "squeezenet";
-                    modelFromCatalog = await modelCatalog.FindModelAsync(modelVariantName);
+                    CatalogModelInfo modelFromCatalog = await modelCatalog.FindModelAsync(modelVariantName);
+
                     if (modelFromCatalog != null)
                     {
                         var additionalHeaders = new Dictionary<string, string>();
                         var catalogModelInstanceOp = modelFromCatalog.GetInstanceAsync(additionalHeaders);
-
                         catalogModelInstanceOp.Progress += (operation, progress) =>
                         {
                             Console.Write($"Model download progress: {progress}%\r");
                         };
 
                         var catalogModelInstanceResult = await catalogModelInstanceOp;
-
                         if (catalogModelInstanceResult.Status == CatalogModelInstanceStatus.Available)
                         {
                             using var catalogModelInstance = catalogModelInstanceResult.GetInstance();
                             var modelPaths = catalogModelInstance.ModelPaths;
-
                             string modelFolderPath = modelPaths[0];
                             string modelName = $"{modelVariantName}.onnx";
                             modelPath = Path.Combine(modelFolderPath, modelName);
                             Console.WriteLine($"Using model from catalog at: {modelPath}");
-
-                            // Get labels
                             labelsPath = Path.Combine(modelFolderPath, "SqueezeNet.Labels.txt");
                         }
                         else

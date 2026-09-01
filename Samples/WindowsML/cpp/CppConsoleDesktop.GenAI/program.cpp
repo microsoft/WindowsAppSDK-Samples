@@ -13,9 +13,7 @@
 #include <ostream>
 
 #include <winrt/Windows.Foundation.h>
-#include <algorithm>
 #include <winrt/base.h>
-
 #include <winrt/Microsoft.Windows.AI.MachineLearning.h>
 
 #include "ort_genai.h"
@@ -254,8 +252,7 @@ bool parse_args(int argc, char** argv, std::string& model_path, std::string& exe
 
 int main(int argc, char** argv)
 {
-    bool allowDownload = true;
-    InitializeProviders(allowDownload);
+    InitializeProviders(true);
 
     std::string model_path;
     std::string execution_provider;
@@ -265,6 +262,9 @@ int main(int argc, char** argv)
         return -1;
     }
 
+    // Responsible for cleaning up the library during shutdown
+    OgaHandle handle;
+
     std::cout << "-------------------------" << std::endl;
     std::cout << "Hello, ORT GenAI Model-QA!" << std::endl;
     std::cout << "-------------------------" << std::endl;
@@ -272,9 +272,7 @@ int main(int argc, char** argv)
     std::cout << "C++ API" << std::endl;
     try
     {
-        // Responsible for cleaning up the library during shutdown
-        OgaHandle handle;
-        CXX_API(model_path.c_str(), 
+        CXX_API(model_path.c_str(),
                 execution_provider.empty() ? nullptr : execution_provider.c_str(),
                 perf_mode);
     }

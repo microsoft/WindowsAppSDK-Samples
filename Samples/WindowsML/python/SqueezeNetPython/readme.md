@@ -6,28 +6,42 @@ products:
 - windows-app-sdk
 name: "WindowsML python"
 urlFragment: WindowsMLPython
-description: "Shows how to use WindowsML and ONNX Runtime to write python machine learning projects that runs across Windows AI hardware."
+description: >-
+  Shows how to use Windows ML and ONNX Runtime to write Python machine learning
+  applications that run across Windows AI hardware.
 extendedZipContent:
 - path: LICENSE
   target: LICENSE
 ---
 
 ## Steps
-### Download test model
-```PowerShell
+
+### Download the test model
+
+```powershell
 ..\Download-Model.ps1
 ```
-### Prepare the python environment
-* Create a python environment with Python 3.10 - 3.13
-* Ensure that your Python installation is not from the Microsoft Store (you can install an unpackaged version from python.org or via winget). The sample depends on using the Windows App SDK dynamic dependency API, which is only valid for unpackaged apps.
-* Install the latest WinML python packages
-```PowerShell
+
+### Prepare the Python environment
+
+- Create a Python environment with Python 3.10 through 3.13.
+- Ensure that Python is not installed from the Microsoft Store. Install an
+  unpackaged version from [python.org](https://www.python.org/) or with
+  `winget`. The Windows App SDK dynamic dependency API used by this sample is
+  only valid for unpackaged apps.
+- Install the stable Windows ML 2.1.3 Python packages:
+
+```powershell
 .\Install-Requirements.ps1
 ```
-### Install WindowsAppRuntime
-Please install the WindowsAppRuntime that matches the version of the python package `wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap`
-> For experimental or preview WASDK. The version tags `-xxxN` are changed to `.devN` to fit Python's version requirements.
+
+### Install Windows App Runtime
+
+Install Windows App Runtime 2.1.3 to match
+`wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap`.
+
 ### Run the example
-```PowerShell
+
+```powershell
 python main.py
 ```

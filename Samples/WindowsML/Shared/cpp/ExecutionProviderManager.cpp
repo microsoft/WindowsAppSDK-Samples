@@ -42,7 +42,6 @@ namespace Shared
                     provider.EnsureReadyAsync().get();
                     readyState = provider.ReadyState();
                     std::wcout << L"  Updated Ready state: " << static_cast<int>(readyState) << std::endl;
-
                 }
 
                 provider.TryRegister();

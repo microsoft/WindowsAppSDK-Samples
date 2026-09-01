@@ -1,8 +1,12 @@
 # Windows ML EP Catalog Sample (CMake/WinML C API)
 
-This sample demonstrates the **WinMLEpCatalog WinML C API** for discovering and managing hardware-accelerated execution providers (EPs) for machine learning inference on Windows.
+This sample demonstrates the **WinMLEpCatalog WinML C API** for discovering
+and managing hardware-accelerated execution providers (EPs) for machine
+learning inference on Windows.
 
-The CMake project automatically restores the `Microsoft.WindowsAppSDK.ML` NuGet package during configure (via `nuget install`) and extracts its CMake config for consumption.
+The CMake project automatically restores the
+`Microsoft.Windows.AI.MachineLearning` NuGet package during configure (via
+`nuget install`) and extracts its CMake config for consumption.
 
 ## Overview
 
@@ -50,8 +54,10 @@ Use the helper script:
 During configure, CMake automatically:
 
 1. Looks for a local `.nupkg` in this directory (useful for pre-release testing)
-2. If not found, runs `nuget install` to download the package from the repo's NuGet feed
-3. Extracts to `out/build/<preset>/packages/` and sets `microsoft.windows.ai.machinelearning_DIR`
+2. If not found, runs `nuget install` to download the package from the repo's
+   NuGet feed
+3. Extracts to `out/build/<preset>/packages/` and sets
+   `microsoft.windows.ai.machinelearning_DIR`
 
 ## Manual Build
 
@@ -71,11 +77,11 @@ cmake --build out/build/nuget --config RelWithDebInfo
 To use a different version:
 
 ```powershell
-cmake --preset nuget -DWINML_NUGET_VERSION=2.1.1
+cmake --preset nuget -DWINML_NUGET_VERSION=2.1.74
 ```
 
 To use a local `.nupkg` instead of NuGet restore, place it in this directory
-named `Microsoft.WindowsAppSDK.ML.<version>.nupkg`.
+named `Microsoft.Windows.AI.MachineLearning.<version>.nupkg`.
 
 For a full refresh, delete `out/` and configure again.
 
@@ -87,7 +93,8 @@ Ensure `nuget.exe` is on your PATH and that the package version is published.
 
 ### "Execution provider registration failed"
 
-Check that `onnxruntime_providers_shared.dll` and `DirectML.dll` were copied to the executable output directory and the target OS is supported.
+Check that the package runtime DLLs and `DirectML.dll` were copied to the
+executable output directory and the target OS is supported.
 
 ## License
 

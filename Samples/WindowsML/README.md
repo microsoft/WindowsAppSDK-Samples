@@ -13,12 +13,8 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 ## Prerequisites
 
 - **Windows 11 PC** running version 24H2 (build 26100) or greater
-- **Visual Studio 2022** with the following workloads:
-  - **Desktop development with C++** (required for C++ samples)
-  - **.NET desktop development** (required for C# samples)
-- **Windows App SDK 2.1.3** or later
-- **CMake** 3.21 or later (required for CMake samples)
-- **NuGet** CLI (`nuget.exe` on PATH, required for CMake samples)
+- **Visual Studio 2022** with C++ and .NET workloads
+- **Windows App SDK 2.4** or later
 - **Python 3.10-3.13** for Python samples on x64 and ARM64 devices
 
 ## Sample Categories
@@ -30,12 +26,8 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 | [CppConsoleDesktop](cpp/CppConsoleDesktop/) | Basic C++ console application | EP discovery, command-line options, model compilation |
 | [CppConsoleDesktop.FrameworkDependent](cpp/CppConsoleDesktop.FrameworkDependent/) | Framework-dependent deployment variant | Shared runtime, smaller deployment footprint |
 | [CppConsoleDesktop.SelfContained](cpp/CppConsoleDesktop.SelfContained/) | Self-contained deployment variant | Standalone deployment, no runtime dependencies |
-
-### C++ CMake Samples
-
-| Sample | Description | Key Features |
-|--------|-------------|--------------|
-| [WinMLEpCatalog](cpp-cmake/WinMLEpCatalog/) | CMake-based EP catalog sample using the WinML C API | CMake build system, automatic NuGet restore, EP discovery and registration |
+| [CppConsoleDll](cpp/CppConsoleDll/) | DLL usage pattern | WindowsML in shared library, memory management |
+| [CppResnetBuildDemo](cpp/CppResnetBuildDemo/) | ResNet model demo from the [Windows ML session](https://www.youtube.com/watch?v=AQjOq8qSsbE) at Build 2025 | Model conversion, EP compilation, detailed tutorial |
 
 ### C++ ABI Samples
 
@@ -49,6 +41,7 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 | Sample | Description | Key Features |
 |--------|-------------|--------------|
 | [CSharpConsoleDesktop](cs/CSharpConsoleDesktop/) | Basic C# console application | Shared helper usage, command-line interface |
+| [ResnetBuildDemoCS](cs/ResnetBuildDemoCS/) | ResNet model demo from the [Windows ML session](https://www.youtube.com/watch?v=AQjOq8qSsbE) at Build 2025 | Model conversion, EP compilation, detailed tutorial |
 
 #### GUI Applications
 | Sample | UI Framework | Description |
@@ -87,9 +80,11 @@ These samples detect and utilize the CPU, GPU, and NPU.
 
 ## Diagnostics
 
-| Resource | Description |
-|----------|-------------|
-| [capture-logs](capture-logs/) | Scripts and profiles for capturing Windows ML diagnostic logs ([docs](https://learn.microsoft.com/windows/ai/new-windows-ml/logs)) |
+The [capture-logs](capture-logs/) folder provides scripts and profiles for
+capturing Windows ML diagnostic logs. See
+[Capture Windows ML logs][logs] for complete instructions.
+
+[logs]: https://learn.microsoft.com/windows/ai/new-windows-ml/logs
 
 ## Getting Help
 

@@ -84,7 +84,8 @@ The build process automatically generates these headers:
 - **Windows 11** version 24H2 (build 26100) or later
 - **Visual Studio 2022** with C++ development workload
 - **Windows 11 SDK** version 10.0.26100.0 or later
-- **Windows App SDK 1.8** or later runtime (automatically deployed in self-contained mode)
+- **Windows App SDK 2.4** or later runtime (automatically deployed in
+  self-contained mode)
 
 ## Building and Running
 

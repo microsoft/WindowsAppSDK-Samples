@@ -40,13 +40,13 @@
 param(
     [ValidateSet('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel')]
     [string]$Configuration = 'RelWithDebInfo',
-    
+
     [ValidateSet('x64', 'arm64')]
     [string]$Platform,
 
     [ValidateSet('Ninja', 'VisualStudio')]
     [string]$Generator = 'Ninja',
-    
+
     [switch]$Clean
 )
 
@@ -97,36 +97,36 @@ function Write-ErrorMessage {
 
 function Enter-VsDevEnvironment {
     param([string]$Arch)
-    
+
     # Find Visual Studio installation
     $vswherePath = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
     if (-not (Test-Path $vswherePath)) {
         $vswherePath = "${env:ProgramFiles}\Microsoft Visual Studio\Installer\vswhere.exe"
     }
-    
+
     if (-not (Test-Path $vswherePath)) {
         Write-ErrorMessage "vswhere not found. Please install Visual Studio 2022 or later."
         return $false
     }
-    
+
     $vsPath = & $vswherePath -latest -property installationPath
     if (-not $vsPath) {
         Write-ErrorMessage "Visual Studio installation not found."
         return $false
     }
-    
+
     $devShellModule = Join-Path $vsPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
     if (-not (Test-Path $devShellModule)) {
         Write-ErrorMessage "VS DevShell module not found at: $devShellModule"
         return $false
     }
-    
+
     Write-Host "  Visual Studio: $vsPath"
-    
+
     # Import the DevShell module and enter the environment
     Import-Module $devShellModule
     Enter-VsDevShell -VsInstallPath $vsPath -DevCmdArguments "-arch=$Arch" -SkipAutomaticLocation
-    
+
     return $true
 }
 

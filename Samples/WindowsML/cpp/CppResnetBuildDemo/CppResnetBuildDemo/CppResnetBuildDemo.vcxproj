@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="NuGet">
+    <!-- When building centrally, this will define a single nuget package location for all samples -->
+    <NugetPackageDirectory Condition="'$(NugetPackageDirectory)'==''">..\..\..\packages</NugetPackageDirectory>
+    <!-- Tell NuGet this is PackageReference style -->
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+
+    <!-- Tell NuGet we're a native project -->
+    <NuGetTargetMoniker>native,Version=v0.0</NuGetTargetMoniker>
+
+    <!-- Tell NuGet we target Windows (use your existing WindowsTargetPlatformVersion) -->
+    <NuGetTargetPlatformIdentifier>Windows</NuGetTargetPlatformIdentifier>
+    <NuGetTargetPlatformVersion>$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64" Configuration="Debug" Platform="x64" />
+    <ProjectConfiguration Include="Release|x64" Configuration="Release" Platform="x64" />
+    <ProjectConfiguration Include="Debug|ARM64" Configuration="Debug" Platform="ARM64" />
+    <ProjectConfiguration Include="Release|ARM64" Configuration="Release" Platform="ARM64" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{70987125-e3f7-43c0-8385-4a090ef9ef54}</ProjectGuid>
+    <RootNamespace>CppResnetBuildDemo</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsPackageType>None</WindowsPackageType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="Microsoft.Windows.CppWinRT" />
+    <PackageReference Include="Microsoft.Windows.ImplementationLibrary" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PreprocessorDefinitions>_CONSOLE%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CppResnetBuildDemo.cpp" />
+    <ClCompile Include="ResnetModelHelper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+<Content Include="dog.jpg" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="ResNet50Labels.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

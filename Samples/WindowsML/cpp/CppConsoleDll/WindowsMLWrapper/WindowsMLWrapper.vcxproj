@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="NuGet">
+    <NugetPackageDirectory Condition="'$(NugetPackageDirectory)'==''">..\..\..\packages</NugetPackageDirectory>
+    <!-- Tell NuGet this is PackageReference style -->
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+
+    <!-- Tell NuGet we're a native project -->
+    <NuGetTargetMoniker>native,Version=v0.0</NuGetTargetMoniker>
+
+    <!-- Tell NuGet we target Windows (use your existing WindowsTargetPlatformVersion) -->
+    <NuGetTargetPlatformIdentifier>Windows</NuGetTargetPlatformIdentifier>
+    <NuGetTargetPlatformVersion>$(WindowsTargetPlatformVersion)</NuGetTargetPlatformVersion>
+  </PropertyGroup>
+  <!-- Framework-dependent deployment requires bootstrap initialization -->
+  <PropertyGroup>
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+    <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64" Configuration="Debug" Platform="x64" />
+    <ProjectConfiguration Include="Release|x64" Configuration="Release" Platform="x64" />
+    <ProjectConfiguration Include="Debug|ARM64" Configuration="Debug" Platform="ARM64" />
+    <ProjectConfiguration Include="Release|ARM64" Configuration="Release" Platform="ARM64" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{B8F65F4C-1234-4567-8901-123456789ABC}</ProjectGuid>
+    <RootNamespace>WindowsMLWrapper</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WinMLEnableDefaultOrtHeaderIncludePath>true</WinMLEnableDefaultOrtHeaderIncludePath>
+    <DefaultLanguage>en-US</DefaultLanguage>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="Microsoft.Windows.CppWinRT" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;WINDOWSMLWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="WindowsMLWrapper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WindowsMLWrapper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+</ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

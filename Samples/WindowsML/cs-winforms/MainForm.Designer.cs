@@ -90,9 +90,9 @@ namespace WindowsMLWinFormsSample
             this.deviceCombo.Name = "deviceCombo";
             this.deviceCombo.Size = new Size(180, 23);
             this.deviceCombo.TabIndex = 103;
-            // 
+            //
             // reloadSessionButton
-            // 
+            //
             this.reloadSessionButton.Location = new Point(340, 37);
             this.reloadSessionButton.Name = "reloadSessionButton";
             this.reloadSessionButton.Size = new Size(140, 30);
@@ -100,18 +100,18 @@ namespace WindowsMLWinFormsSample
             this.reloadSessionButton.Text = "Load / Reload Model";
             this.reloadSessionButton.UseVisualStyleBackColor = true;
             this.reloadSessionButton.Click += new EventHandler(this.ReloadSessionButton_Click);
-            // 
+            //
             // perfModeLabel
-            // 
+            //
             this.perfModeLabel.AutoSize = true;
             this.perfModeLabel.Location = new Point(500, 12);
             this.perfModeLabel.Name = "perfModeLabel";
             this.perfModeLabel.Size = new Size(108, 15);
             this.perfModeLabel.TabIndex = 105;
             this.perfModeLabel.Text = "Performance Mode:";
-            // 
+            //
             // perfModePanel
-            // 
+            //
             this.perfModePanel.Location = new Point(500, 30);
             this.perfModePanel.Name = "perfModePanel";
             this.perfModePanel.Size = new Size(300, 25);
@@ -119,9 +119,9 @@ namespace WindowsMLWinFormsSample
             this.perfModePanel.Controls.Add(this.perfModeDefaultRadio);
             this.perfModePanel.Controls.Add(this.perfModeMaxPerfRadio);
             this.perfModePanel.Controls.Add(this.perfModeMaxEffRadio);
-            // 
+            //
             // perfModeDefaultRadio
-            // 
+            //
             this.perfModeDefaultRadio.AutoSize = true;
             this.perfModeDefaultRadio.Location = new Point(0, 3);
             this.perfModeDefaultRadio.Name = "perfModeDefaultRadio";
@@ -131,9 +131,9 @@ namespace WindowsMLWinFormsSample
             this.perfModeDefaultRadio.Text = "Default";
             this.perfModeDefaultRadio.Checked = true;
             this.perfModeDefaultRadio.UseVisualStyleBackColor = true;
-            // 
+            //
             // perfModeMaxPerfRadio
-            // 
+            //
             this.perfModeMaxPerfRadio.AutoSize = true;
             this.perfModeMaxPerfRadio.Location = new Point(75, 3);
             this.perfModeMaxPerfRadio.Name = "perfModeMaxPerfRadio";
@@ -141,9 +141,9 @@ namespace WindowsMLWinFormsSample
             this.perfModeMaxPerfRadio.TabIndex = 1;
             this.perfModeMaxPerfRadio.Text = "Max Perf";
             this.perfModeMaxPerfRadio.UseVisualStyleBackColor = true;
-            // 
+            //
             // perfModeMaxEffRadio
-            // 
+            //
             this.perfModeMaxEffRadio.AutoSize = true;
             this.perfModeMaxEffRadio.Location = new Point(155, 3);
             this.perfModeMaxEffRadio.Name = "perfModeMaxEffRadio";
@@ -151,7 +151,7 @@ namespace WindowsMLWinFormsSample
             this.perfModeMaxEffRadio.TabIndex = 2;
             this.perfModeMaxEffRadio.Text = "Max Eff";
             this.perfModeMaxEffRadio.UseVisualStyleBackColor = true;
-            // 
+            //
             // selectImageButton
             // 
             this.selectImageButton.Location = new Point(12, 78);
