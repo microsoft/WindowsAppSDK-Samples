@@ -7,8 +7,8 @@
     <Page Include="MainWindow.xaml" />
     <Page Include="MainPage.xaml" />
     <Page Include="SettingsPage.xaml" />
-    <Page Include="Scenario1_ToastWithAvatar.xaml" />
-    <Page Include="Scenario2_ToastWithTextBox.xaml" />
+    <Page Include="Scenario1_NumericBadge.xaml" />
+    <Page Include="Scenario2_GlyphBadge.xaml" />
     <Page Include="Styles.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -18,33 +18,10 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
-    <ClCompile Include="NotifyUser.cpp" />
-    <ClCompile Include="Notifications\NotificationManager.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
-    <ClCompile Include="Notifications\ToastWithAvatar.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
-    <ClCompile Include="Notifications\ToastWithTextBox.cpp">
-      <Filter>Notifications</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="SampleConfiguration.h" />
-    <ClInclude Include="NotifyUser.h" />
-    <ClInclude Include="Notifications\Common.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
-    <ClInclude Include="Notifications\NotificationManager.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
-    <ClInclude Include="Notifications\ToastWithAvatar.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
-    <ClInclude Include="Notifications\ToastWithTextBox.h">
-      <Filter>Notifications</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.png">
@@ -69,9 +46,6 @@
   <ItemGroup>
     <Filter Include="Assets">
       <UniqueIdentifier>{$guid1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Notifications">
-      <UniqueIdentifier>{61c8c50e-14b1-4504-b7ad-935b944692e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

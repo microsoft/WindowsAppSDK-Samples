@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="NuGet">
     <!-- When building centrally, this will define a single nuget package location for all samples -->
-    <NugetPackageDirectory Condition="'$(NugetPackageDirectory)'==''">..\packages</NugetPackageDirectory>
+    <NugetPackageDirectory Condition="'`$(NugetPackageDirectory)'==''">packages</NugetPackageDirectory>
     <!-- Tell NuGet this is PackageReference style -->
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
 
@@ -17,9 +17,9 @@
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
-    <ProjectGuid>{ba5623de-515a-4d7e-9110-38d1641f5fe0}</ProjectGuid>
-    <ProjectName>CppUnpackagedAppNotifications</ProjectName>
-    <RootNamespace>CppUnpackagedAppNotifications</RootNamespace>
+    <ProjectGuid>{15529a71-abba-4ad5-a188-490050bc5db2}</ProjectGuid>
+    <ProjectName>cpp-winui</ProjectName>
+    <RootNamespace>cpp_winui</RootNamespace>
     <!--
       $(TargetName) should be same as $(RootNamespace) so that the produced binaries (.exe/.pri/etc.)
       have a name that matches the .winmd
@@ -28,20 +28,18 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
     <AppContainerApplication>false</AppContainerApplication>
-    <AppxPackage>false</AppxPackage>
+    <AppxPackage>true</AppxPackage>
     <ApplicationType>Windows Store</ApplicationType>
-    <WindowsPackageType>None</WindowsPackageType>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
     <UseWinUI>true</UseWinUI>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-    <EnableMsixTooling>true</EnableMsixTooling>
+    <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="Microsoft.Windows.CppWinRT" />
-    <PackageReference Include="Microsoft.Windows.ImplementationLibrary" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
@@ -53,9 +51,9 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|ARM64">
+    <ProjectConfiguration Include="Debug|arm64">
       <Configuration>Debug</Configuration>
-      <Platform>ARM64</Platform>
+      <Platform>arm64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -65,15 +63,14 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM64">
+    <ProjectConfiguration Include="Release|arm64">
       <Configuration>Release</Configuration>
-      <Platform>ARM64</Platform>
+      <Platform>arm64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v145</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)' == '17.0'">v143</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <DesktopCompatible>true</DesktopCompatible>
   </PropertyGroup>
@@ -105,15 +102,6 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">onecore.lib;onecoreuap.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">onecore.lib;onecoreuap.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">onecore.lib;onecoreuap.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -122,9 +110,6 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">onecore.lib;onecoreuap.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">onecore.lib;onecoreuap.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">onecore.lib;onecoreuap.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -135,11 +120,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Notifications\Common.h" />
-    <ClInclude Include="Notifications\NotificationManager.h" />
-    <ClInclude Include="Notifications\ToastWithAvatar.h" />
-    <ClInclude Include="Notifications\ToastWithTextBox.h" />
-    <ClInclude Include="NotifyUser.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -148,12 +128,12 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="SampleConfiguration.h" />
-    <ClInclude Include="Scenario1_ToastWithAvatar.xaml.h">
-      <DependentUpon>Scenario1_ToastWithAvatar.xaml</DependentUpon>
+    <ClInclude Include="Scenario1_NumericBadge.xaml.h">
+      <DependentUpon>Scenario1_NumericBadge.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Scenario2_ToastWithTextBox.xaml.h">
-      <DependentUpon>Scenario2_ToastWithTextBox.xaml</DependentUpon>
+    <ClInclude Include="Scenario2_GlyphBadge.xaml.h">
+      <DependentUpon>Scenario2_GlyphBadge.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="SettingsPage.xaml.h">
@@ -167,10 +147,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml" />
-    <Page Include="Scenario1_ToastWithAvatar.xaml">
+    <Page Include="Scenario1_NumericBadge.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Scenario2_ToastWithTextBox.xaml">
+    <Page Include="Scenario2_GlyphBadge.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsPage.xaml">
@@ -185,10 +165,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Notifications\NotificationManager.cpp" />
-    <ClCompile Include="Notifications\ToastWithAvatar.cpp" />
-    <ClCompile Include="Notifications\ToastWithTextBox.cpp" />
-    <ClCompile Include="NotifyUser.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -200,12 +176,12 @@
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SampleConfiguration.cpp" />
-    <ClCompile Include="Scenario1_ToastWithAvatar.xaml.cpp">
-      <DependentUpon>Scenario1_ToastWithAvatar.xaml</DependentUpon>
+    <ClCompile Include="Scenario1_NumericBadge.xaml.cpp">
+      <DependentUpon>Scenario1_NumericBadge.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Scenario2_ToastWithTextBox.xaml.cpp">
-      <DependentUpon>Scenario2_ToastWithTextBox.xaml</DependentUpon>
+    <ClCompile Include="Scenario2_GlyphBadge.xaml.cpp">
+      <DependentUpon>Scenario2_GlyphBadge.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="SettingsPage.xaml.cpp">

@@ -25,7 +25,7 @@ winrt::Windows::Foundation::IAsyncOperation<PushNotificationChannel> RequestChan
 
     // Setup the in-progress event handler
     channelOperation.Progress(
-        [](auto&& sender, auto&& args)
+        [](auto&& /*sender*/, auto&& args)
         {
             if (args.status == PushNotificationChannelStatus::InProgress)
             {
