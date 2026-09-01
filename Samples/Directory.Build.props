@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <!-- Prevent VS from binplacing telemetry DLLs that fail BinSkim BA2022 (SignSecurely) -->
+  <PropertyGroup>
+    <!-- Suppress CS8305: Feature is for evaluation purposes only and is subject to change or removal in future updates. -->
+    <NoWarn>$(NoWarn);8305</NoWarn>
+  </PropertyGroup>
   <PropertyGroup>
     <AppxLogTelemetryFromSideloadingScript>false</AppxLogTelemetryFromSideloadingScript>
   </PropertyGroup>
-
   <ItemDefinitionGroup>
     <ClCompile>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -14,6 +16,8 @@
       <!-- Setting this to be compatible with CFG -->
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <SDLCheck>true</SDLCheck>
+      <!-- Treat C4100 (unreferenced parameter) as error -->
+      <TreatSpecificWarningsAsErrors>4100;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
     </ClCompile>
     <Link>
       <!-- dynamicbase is required for enabling CFG -->

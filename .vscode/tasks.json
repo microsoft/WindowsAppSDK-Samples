@@ -1,0 +1,70 @@
+{
+  "version": "2.0.0",
+
+  "inputs": [
+    {
+      "id": "config",
+      "type": "pickString",
+      "description": "Configuration",
+      "options": ["Debug", "Release"],
+      "default": "Release"
+    },
+    {
+      "id": "platform",
+      "type": "pickString",
+      "description": "Platform (auto = detect host)",
+      "options": ["auto", "x64", "x86", "arm64"],
+      "default": "auto"
+    }
+  ],
+
+  "tasks": [
+    {
+      "label": "Build: Current file's sample (default)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\build.ps1",
+        "-Platform",
+        "${input:platform}",
+        "-Configuration",
+        "${input:config}",
+        "-Sample",
+        "${fileDirname}"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Build: All samples",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\build.ps1",
+        "-Platform",
+        "${input:platform}",
+        "-Configuration",
+        "${input:config}"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

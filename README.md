@@ -6,7 +6,6 @@
 
 <h1 align="center">Windows App SDK samples</h1>
 
-
 This repository hosts samples for the [Windows App SDK](https://github.com/microsoft/WindowsAppSDK). Samples for various features shipping in the Windows App SDK will be added to this repository. For more information about the Windows App SDK, visit the [Windows App SDK documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/). To learn more about the Windows App SDK design or to contribute to the project, make feature proposals, or start discussions, visit the [Windows App SDK GitHub page](https://github.com/microsoft/WindowsAppSDK).
 
 ## 💻 List of samples
@@ -16,9 +15,12 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Windows AI sample](Samples/WindowsAIFoundry/cs-winui/):  These samples demonstrate how to use the [Windows AI APIs](https://learn.microsoft.com/windows/ai/apis/), like Phi Silica, Text Extraction (OCR) and Imaging APIs.
 
 - [Windows ML](Samples/WindowsML): These samples demonstrate running hardware-accelerated ONNX models (CPU, GPU, or NPU when available) on Windows using C++, C#, and Python. See the [Windows ML overview](https://learn.microsoft.com/windows/ai/new-windows-ml/overview).
-    - [Capture Logs](Samples/WindowsML/capture-logs/): Scripts and profiles for capturing Windows ML diagnostic logs ([docs](https://learn.microsoft.com/windows/ai/new-windows-ml/logs)).
+    - [Capture Logs](Samples/WindowsML/capture-logs/): Scripts and profiles
+      for capturing Windows ML diagnostic logs. See the [documentation][logs].
 
 - [AI Dev Gallery](https://github.com/microsoft/ai-dev-gallery): The AI Dev Gallery is a collection of open-source samples showcasing how to integrate on-device AI capabilities into Windows apps using Windows Copilot Runtime and open-source models using ONNX.
+
+[logs]: https://learn.microsoft.com/windows/ai/new-windows-ml/logs
 
 ### App Lifecycle and System Services
 - [App Lifecycle](Samples/AppLifecycle): These samples demonstrate app instancing using the AppLifecycle APIs. They include the following features:
@@ -88,6 +90,8 @@ The easiest way to use these samples without Git is to download the ZIP file. Se
 The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes samples for stable Windows App SDK features only. Experimental and preview samples belong in the `release/experimental` branch. Specific stable release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
 
 - [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental)
+- [release/1.8](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.8-stable)
+- [release/1.7](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.7-stable)
 - [release/1.6](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.6-stable)
 - [release/1.5](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.5-stable)
 - [release/1.1](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.1)
