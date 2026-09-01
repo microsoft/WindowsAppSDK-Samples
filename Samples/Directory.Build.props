@@ -9,6 +9,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>%(AdditionalOptions) /Qspectre</AdditionalOptions>
       <!-- /GS Enable Control Flow Guard -->
       <ControlFlowGuard>Guard</ControlFlowGuard>

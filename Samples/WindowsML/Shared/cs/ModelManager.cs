@@ -111,6 +111,60 @@ namespace WindowsML.Shared
         }
 
         /// <summary>
+        /// Generate a device-specific compiled model path.
+        /// Encodes EP policy/name, device type, and performance mode into the filename
+        /// so that compiled models for different device configurations don't collide.
+        /// </summary>
+        public static string GenerateCompiledModelPath(string modelPath, string executableFolder, Options options)
+        {
+            // If user explicitly specified --compiled_output, use it as-is
+            if (!string.IsNullOrEmpty(options.OutputPath))
+            {
+                return options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
+                    options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
+            }
+
+            string baseName = Path.GetFileNameWithoutExtension(modelPath);
+            string suffix = BuildDeviceSuffix(options);
+
+            string fileName = $"{baseName}_ctx{suffix}.onnx";
+            Console.WriteLine($"Compiled model path: {Path.Combine(executableFolder, fileName)}");
+            return Path.Combine(executableFolder, fileName);
+        }
+
+        /// <summary>
+        /// Build a device-identifying suffix for the compiled model filename.
+        /// </summary>
+        private static string BuildDeviceSuffix(Options options)
+        {
+            var parts = new List<string>();
+
+            if (options.EpPolicy.HasValue)
+            {
+                parts.Add(options.EpPolicy.Value.ToString());
+            }
+            else if (!string.IsNullOrEmpty(options.EpName))
+            {
+                parts.Add(options.EpName);
+
+                // Try to determine device type
+                string? deviceType = options.DeviceType;
+
+                if (!string.IsNullOrEmpty(deviceType))
+                {
+                    parts.Add(deviceType);
+                }
+            }
+
+            if (options.PerfMode != PerformanceMode.Default)
+            {
+                parts.Add(options.PerfMode.ToString());
+            }
+
+            return parts.Count > 0 ? "_" + string.Join("_", parts) : "";
+        }
+
+        /// <summary>
         /// Resolve model paths with intelligent variant selection
         /// </summary>
         public static async Task<(string modelPath, string compiledModelPath, string labelsPath)> ResolvePaths(Options options, OrtEnv ortEnv)
@@ -125,53 +179,53 @@ namespace WindowsML.Shared
                 
                 // Build source
                 string sampleCatalogJsonPath = Path.Combine(executableFolder, "SqueezeNetModelCatalog.json");
-                var uri = new System.Uri(sampleCatalogJsonPath);
-                var sampleCatalogSource = await ModelCatalogSource.CreateFromUriAsync(uri);
-
-                ModelCatalog modelCatalog = new ModelCatalog(new[] { sampleCatalogSource });
 
                 // Use intelligent model variant selection based on execution provider and device capabilities
                 ModelVariant actualVariant = DetermineModelVariant(options, ortEnv);
-                
-                CatalogModelInfo modelFromCatalog;
-                
-                string modelVariantName = (actualVariant == ModelVariant.FP32) ? "squeezenet-fp32" : "squeezenet";
-                
-                modelFromCatalog = await modelCatalog.FindModelAsync(modelVariantName);
-                
-                if (modelFromCatalog != null)
+
+                if (File.Exists(sampleCatalogJsonPath))
                 {
-                    var additionalHeaders = new Dictionary<string, string>();
-                    var catalogModelInstanceOp = modelFromCatalog.GetInstanceAsync(additionalHeaders);
-                    
-                    catalogModelInstanceOp.Progress += (operation, progress) => {
-                        Console.Write($"Model download progress: {progress}%\r");
-                    };
-                    
-                    var catalogModelInstanceResult = await catalogModelInstanceOp;
-                    
-                    if (catalogModelInstanceResult.Status == CatalogModelInstanceStatus.Available)
+                    var uri = new System.Uri(sampleCatalogJsonPath);
+                    var sampleCatalogSource = await ModelCatalogSource.CreateFromUriAsync(uri);
+                    ModelCatalog modelCatalog = new ModelCatalog(new[] { sampleCatalogSource });
+                    string modelVariantName = (actualVariant == ModelVariant.FP32) ? "squeezenet-fp32" : "squeezenet";
+                    CatalogModelInfo modelFromCatalog = await modelCatalog.FindModelAsync(modelVariantName);
+
+                    if (modelFromCatalog != null)
                     {
-                        using var catalogModelInstance = catalogModelInstanceResult.GetInstance();
-                        var modelPaths = catalogModelInstance.ModelPaths;
-                        
-                        string modelFolderPath = modelPaths[0];
-                        string modelName = $"{modelVariantName}.onnx";
-                        modelPath = Path.Combine(modelFolderPath, modelName);
-                        Console.WriteLine($"Using model from catalog at: {modelPath}");
-                        
-                        // Get labels
-                        labelsPath = Path.Combine(modelFolderPath, "SqueezeNet.Labels.txt");
+                        var additionalHeaders = new Dictionary<string, string>();
+                        var catalogModelInstanceOp = modelFromCatalog.GetInstanceAsync(additionalHeaders);
+                        catalogModelInstanceOp.Progress += (operation, progress) =>
+                        {
+                            Console.Write($"Model download progress: {progress}%\r");
+                        };
+
+                        var catalogModelInstanceResult = await catalogModelInstanceOp;
+                        if (catalogModelInstanceResult.Status == CatalogModelInstanceStatus.Available)
+                        {
+                            using var catalogModelInstance = catalogModelInstanceResult.GetInstance();
+                            var modelPaths = catalogModelInstance.ModelPaths;
+                            string modelFolderPath = modelPaths[0];
+                            string modelName = $"{modelVariantName}.onnx";
+                            modelPath = Path.Combine(modelFolderPath, modelName);
+                            Console.WriteLine($"Using model from catalog at: {modelPath}");
+                            labelsPath = Path.Combine(modelFolderPath, "SqueezeNet.Labels.txt");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Model download failed. Falling back to executableFolder");
+                            modelPath = GetModelVariantPath(executableFolder, actualVariant);
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Model download failed. Falling back to executableFolder");
+                        Console.WriteLine($"Model with alias or ID '{modelVariantName}' not found in catalog. Falling back to executableFolder");
                         modelPath = GetModelVariantPath(executableFolder, actualVariant);
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"Model with alias or ID '{modelVariantName}' not found in catalog. Falling back to executableFolder");
+                    Console.WriteLine("Model catalog JSON file not found. Falling back to executableFolder");
                     modelPath = GetModelVariantPath(executableFolder, actualVariant);
                 }
             }
@@ -188,8 +242,7 @@ namespace WindowsML.Shared
                 modelPath = GetModelVariantPath(executableFolder, variant);
             }
 
-            string compiledModelPath = options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
-                options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
+            string compiledModelPath = GenerateCompiledModelPath(modelPath, executableFolder, options);
 
             if (!File.Exists(labelsPath))
             {
@@ -221,8 +274,7 @@ namespace WindowsML.Shared
                 modelPath = GetModelVariantPath(executableFolder, options.Variant);
             }
 
-            string compiledModelPath = options.OutputPath.Contains(Path.DirectorySeparatorChar) ?
-                options.OutputPath : Path.Combine(executableFolder, options.OutputPath);
+            string compiledModelPath = GenerateCompiledModelPath(modelPath, executableFolder, options);
 
             string labelsPath = Path.Combine(executableFolder, "SqueezeNet.Labels.txt");
 
@@ -259,7 +311,8 @@ namespace WindowsML.Shared
                 if (!ExecutionProviderManager.ConfigureSelectedExecutionProvider(sessionOptions,
                                                                                  ortEnv,
                                                                                  options.EpName,
-                                                                                 options.DeviceType))
+                                                                                 options.DeviceType,
+                                                                                 options.PerfMode))
                 {
                     throw new Exception("Failed to configure selected execution provider");
                 }
@@ -333,7 +386,8 @@ namespace WindowsML.Shared
                         if (!ExecutionProviderManager.ConfigureSelectedExecutionProvider(tempSessionOptions,
                                                                                           ortEnv,
                                                                                           options.EpName,
-                                                                                          options.DeviceType))
+                                                                                          options.DeviceType,
+                                                                                          options.PerfMode))
                         {
                             throw new Exception("Failed to configure selected execution provider");
                         }

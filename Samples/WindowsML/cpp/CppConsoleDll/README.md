@@ -44,11 +44,8 @@ After building, you can run ConsoleClient.exe directly. It will:
 
 Expected output:
 ```
-Calling GetTestMessage from DLL...
-Test message: WindowsML DLL is working correctly!
 Calling GetOrtVersionString from DLL...
 ONNX Runtime version: [ONNX Runtime version string]
-DLL functions called successfully!
 ```
 
 ## Architecture Notes

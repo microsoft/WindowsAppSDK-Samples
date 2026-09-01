@@ -41,7 +41,7 @@ join the [Windows Insider Program](https://insider.windows.com).
 -   Open the solution file (`.sln`) in Visual Studio.
 -   From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
-See [additional instructions](./cpp-console-unpackaged/README.md) for using [the C++ & CMake sample](./cpp-console-unpackaged/CMakeLists.txt).
+See [additional instructions](../cpp-console-sparse/README.md) for using [the C++ & CMake sample](../cpp-console-sparse/CMakeLists.txt).
 
 ## Special Considerations for Unpackaged and Self-Contained modes with Windows AI APIs
 

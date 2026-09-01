@@ -1,10 +1,13 @@
 vcpkg_find_acquire_program(NUGET)
 
 set(ENV{NUGET_PACKAGES} "${BUILDTREES_DIR}/nuget")
+cmake_path(SET WINDOWSAPPSDK_NUGET_CONFIG NORMALIZE
+    "${CMAKE_CURRENT_LIST_DIR}/../../NuGet.Config")
 
 vcpkg_execute_required_process(
     ALLOW_IN_DOWNLOAD_MODE
     COMMAND ${NUGET} install "Microsoft.WindowsAppSDK" -version ${VERSION} -NonInteractive
+        -ConfigFile "${WINDOWSAPPSDK_NUGET_CONFIG}"
         -OutputDirectory "${CURRENT_BUILDTREES_DIR}"
     WORKING_DIRECTORY "${CURRENT_BUILDTREES_DIR}"
     LOGNAME nuget-${TARGET_TRIPLET})
@@ -31,7 +34,8 @@ file(GLOB
     LIST_DIRECTORIES false
     "${CURRENT_BUILDTREES_DIR}/**/lib/win-${VCPKG_TARGET_ARCHITECTURE}/*.lib"
     "${CURRENT_BUILDTREES_DIR}/**/lib/win10-${VCPKG_TARGET_ARCHITECTURE}/*.lib"             # include non-standard paths
-    "${CURRENT_BUILDTREES_DIR}/**/lib/native/win10-${VCPKG_TARGET_ARCHITECTURE}/*.lib")     # include non-standard paths
+    "${CURRENT_BUILDTREES_DIR}/**/lib/native/win10-${VCPKG_TARGET_ARCHITECTURE}/*.lib"      # include non-standard paths
+    "${CURRENT_BUILDTREES_DIR}/**/lib/native/${VCPKG_TARGET_ARCHITECTURE}/*.lib")           # stable package layout
 file(INSTALL ${winappsdk_import_libs}
     DESTINATION "${CURRENT_PACKAGES_DIR}/lib")
 
@@ -39,7 +43,8 @@ file(INSTALL ${winappsdk_import_libs}
 file(GLOB
     winappsdk_runtime_files
     LIST_DIRECTORIES false 
-    "${CURRENT_BUILDTREES_DIR}/**/runtimes/win-${VCPKG_TARGET_ARCHITECTURE}/native/*.*")
+    "${CURRENT_BUILDTREES_DIR}/**/runtimes/win-${VCPKG_TARGET_ARCHITECTURE}/native/*.*"
+    "${CURRENT_BUILDTREES_DIR}/**/runtimes-framework/win-${VCPKG_TARGET_ARCHITECTURE}/native/*.*")
 file(INSTALL ${winappsdk_runtime_files}
     DESTINATION "${CURRENT_PACKAGES_DIR}/bin")
 
@@ -70,6 +75,7 @@ file(WRITE "${cppwinrt_rsp}" "${cppwinrt_args}")
 vcpkg_execute_required_process(
     ALLOW_IN_DOWNLOAD_MODE
     COMMAND ${NUGET} install "Microsoft.Windows.CppWinRT" -NonInteractive
+        -ConfigFile "${WINDOWSAPPSDK_NUGET_CONFIG}"
         -OutputDirectory "${CURRENT_BUILDTREES_DIR}"
     WORKING_DIRECTORY "${CURRENT_BUILDTREES_DIR}"
     LOGNAME nuget-${TARGET_TRIPLET})

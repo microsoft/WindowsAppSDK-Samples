@@ -5,6 +5,7 @@
 // WindowsML C++ Shared Helpers
 
 #include "ArgumentParser.h"
+#include "PerformanceConfigurator.h"
 #include "ExecutionProviderManager.h"
 #include "ImageProcessor.h"
 #include "ModelManager.h"

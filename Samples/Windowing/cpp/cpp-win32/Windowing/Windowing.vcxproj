@@ -53,7 +53,6 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DesktopWindow.h" />
     <ClInclude Include="MyAppWindow.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Utilities.h" />
@@ -267,4 +266,3 @@
     <RemoveDir Directories="$(IntDir)" /> 
   </Target> -->
 </Project>
-

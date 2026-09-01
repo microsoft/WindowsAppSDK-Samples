@@ -18,10 +18,9 @@ Topics and concepts in this example include:
 > May 2025. We're working on making them "offcial."
 
 > [!NOTE]
-> Windows AI Foundry is currently an Experimental feature. Consult its license agreement to
-> see how you can use it. The APIs are subject to change. Your customers will not have the
-> [Windows App SDK 1.8-experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/experimental-channel#version-18-experimental-180-experimental2)
-> framework package for production use.
+> This sample uses the stable `Microsoft.WindowsAppSDK` 2.4.0 package. Its
+> sparse package depends on `Microsoft.WindowsAppRuntime.2` version 2.4.0.0 or
+> later.
 
 ## Building
 
@@ -39,10 +38,8 @@ features of Windows App SDK and Copilot+ PCs.
    You can install the community edition with
    `winget install Microsoft.VisualStudio.2022.Community`.
 5. A [Windows Copilot+ PC](https://learn.microsoft.com/windows/ai/npu-devices/) to run this sample
-6. Install the
-   [Windows App SDK 1.8-experimental2](https://learn.microsoft.com/windows/apps/windows-app-sdk/experimental-channel#version-18-experimental-180-experimental2)
-   framework package on your Copilot+ PC (Note: installing the Experimental package will not impact
-   your production apps).
+6. Install Windows App Runtime 2 on your Copilot+ PC. This sample requires
+   `Microsoft.WindowsAppRuntime.2` version 2.4.0.0 or later.
 
 ### Using in your Own App
 
@@ -96,15 +93,15 @@ Windows App SDK:
     Version="1.0.0.0" />
 ```
 
-Add the reference to the Windows App SDK framework package:
+Add the reference to the Windows App Runtime framework package:
 
 ```xml
 <Package>
   <Dependencies>
     <PackageDependency
-        Name="Microsoft.WindowsAppRuntime.1.8-experimental2"
+        Name="Microsoft.WindowsAppRuntime.2"
         Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-        MinVersion="8000.500.1427.0" />
+        MinVersion="2.4.0.0" />
 ```
 
 Be sure to update the `Name` and `MinVersion` for your target Windows App SDK version.
@@ -118,23 +115,30 @@ Open this sample directory in Visual Studio 2022 with _File > Open > Folder_.
 
 Change the target build type to match your Copilot+ PC's architecture, like `arm64-debug`.
 
-Use _Build > Build all_ - this pulls down the Windows App SDK and its dependencies.
+Use _Build > Build All_. This pulls down Windows App SDK 2.4.0 and its
+dependencies through the sample's vcpkg overlay. The post-build step registers
+the sparse package for in-place launch and debugging.
 
 ### Deploying
 
-With Windows App SDK 1.8 Experimental 2, the Windows AI APIs now require package identity.
-Unpackaged configurations are no longer supported, whether self-contained or loading the
-Windows App Runtime via the bootstrapper.  This sample provides package identity via 
-"sparse packaging" the app from an external location.
+Windows AI APIs require package identity. This sample provides identity by
+registering `AppxManifest.xml` as a sparse package whose external location is
+the CMake build output directory.
 
-To loose deploy (directly from an AppxManifest.xml) a sparse package for the sample,
-run the **install.ps1** script after a successful build.
+`CMakeLists.txt` performs this registration automatically after a successful
+build. To register it manually, run the following command from the sample
+directory, replacing `x64-debug` with the preset you built:
 
-The AppxManifest.xml contains a PackageReference to the Windows App Runtime, 
-which Windows will automatically reference and initialize for the app.
+```powershell
+Add-AppxPackage `
+  -Path .\out\build\x64-debug\AppxManifest.xml `
+  -ExternalLocation .\out\build\x64-debug `
+  -Register `
+  -ForceUpdateFromAnyVersion
+```
 
-Once complete, the output is registered as a package with external location (a "sparse package.")
-When done with the sample, remove this package by running this in PowerShell:
+The manifest references Windows App Runtime 2, which Windows adds to the
+package graph when launching the registered app. To remove the sparse package:
 
 ```powershell
 Get-AppxPackage *WindowsAISampleForCppCMakeSparse* | Remove-AppxPackage

@@ -34,8 +34,7 @@ namespace MauiWindowsAISample // extending the partial class MainPage with the p
 
                         if (op.Status == Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                         {
-                            // A bug in 1.8-experimental1 may make GetReadyState() below return the wrong value,
-                            // so for now, directly show the imageScalingPanel here:
+                            // Show the panel immediately if readiness propagation is delayed.
                             imageScalingPanel.IsVisible = true;
                         }
                         break;
@@ -165,8 +164,7 @@ namespace MauiWindowsAISample // extending the partial class MainPage with the p
 
                         if (op.Status == Microsoft.Windows.AI.AIFeatureReadyResultState.Success)
                         {
-                            // A bug in 1.8-experimental1 may make GetReadyState() below return the wrong value,
-                            // so for now, directly show the textGenerationPanel here:
+                            // Show the panel immediately if readiness propagation is delayed.
                             textGenerationPanel.IsVisible = true;
                             entryPrompt.Text = "Introduce yourself in detail.";
                         }
