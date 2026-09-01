@@ -1,0 +1,205 @@
+parameters:
+- name: HydrationMode
+  displayName: Hydration mode
+  type: string
+  default: Branch
+  values:
+  - Branch
+  - ValidateOnly
+  - WindowsAppSDKVersion
+- name: SamplesBranch
+  displayName: Samples branch (manual Branch or ValidateOnly mode; blank uses the triggering branch)
+  type: string
+  default: ''
+- name: WindowsAppSDKVersion
+  displayName: Microsoft.WindowsAppSDK version (WindowsAppSDKVersion mode only)
+  type: string
+  default: ''
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - main
+    - release/*
+  paths:
+    include:
+    - Samples/**
+    - SamplesFeed-Hydration.yml
+    - eng/RestorePublicSamplesPackages.ps1
+    - eng/RestoreWindowsAppSDKPackage.ps1
+    - eng/SamplesFeed.nuget.config
+    - eng/SetSamplesFeedUpstream.ps1
+
+pr: none
+
+variables:
+  ${{ if ne(parameters.SamplesBranch, '') }}:
+    EffectiveSamplesBranch: ${{ parameters.SamplesBranch }}
+  ${{ else }}:
+    EffectiveSamplesBranch: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  SamplesCheckoutDirectory: '$(Pipeline.Workspace)\samples-to-hydrate'
+  SamplesFeedConfig: '$(Build.SourcesDirectory)\eng\SamplesFeed.nuget.config'
+
+pool:
+  vmImage: windows-2022
+
+jobs:
+- ${{ if ne(parameters.HydrationMode, 'ValidateOnly') }}:
+  - job: Hydrate
+    displayName: Hydrate WinAppSDK-SampleDeps
+    timeoutInMinutes: 120
+    steps:
+    - checkout: self
+
+    - ${{ if eq(parameters.HydrationMode, 'Branch') }}:
+      - task: PowerShell@2
+        displayName: Checkout selected Samples branch
+        inputs:
+          targetType: inline
+          script: |
+            if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
+            {
+                throw "The selected branch must be 'main' or a protected 'release/*' branch; received '$env:SAMPLES_BRANCH'."
+            }
+
+            git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
+              https://github.com/microsoft/WindowsAppSDK-Samples.git `
+              $env:SAMPLES_CHECKOUT_DIRECTORY
+
+            if ($LASTEXITCODE -ne 0)
+            {
+                throw "Failed to check out Samples branch '$env:SAMPLES_BRANCH'."
+            }
+        env:
+          SAMPLES_BRANCH: $(EffectiveSamplesBranch)
+          SAMPLES_CHECKOUT_DIRECTORY: $(SamplesCheckoutDirectory)
+
+    - task: NuGetToolInstaller@1
+      displayName: Use NuGet
+
+    - ${{ if eq(parameters.HydrationMode, 'Branch') }}:
+      - task: UseDotNet@2
+        displayName: Install sample .NET SDKs
+        inputs:
+          packageType: sdk
+          useGlobalJson: true
+          workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
+
+    - task: NuGetAuthenticate@1
+      displayName: Authenticate to WinAppSDK-SampleDeps
+
+    - ${{ if eq(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
+      - task: PowerShell@2
+        displayName: Validate Microsoft.WindowsAppSDK version
+        inputs:
+          targetType: inline
+          script: |
+            if ([string]::IsNullOrWhiteSpace($env:WINDOWS_APP_SDK_VERSION) -or
+                $env:WINDOWS_APP_SDK_VERSION -notmatch '^[0-9A-Za-z][0-9A-Za-z.+-]*$')
+            {
+                throw "WindowsAppSDKVersion must be a valid non-empty NuGet version."
+            }
+        env:
+          WINDOWS_APP_SDK_VERSION: ${{ parameters.WindowsAppSDKVersion }}
+
+    - task: PowerShell@2
+      displayName: Enable NuGet Gallery upstream
+      inputs:
+        filePath: '$(Build.SourcesDirectory)\eng\SetSamplesFeedUpstream.ps1'
+        arguments: -Action Enable
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+    - ${{ if eq(parameters.HydrationMode, 'Branch') }}:
+      - task: PowerShell@2
+        displayName: Hydrate branch package closure
+        inputs:
+          filePath: '$(Build.SourcesDirectory)\eng\RestorePublicSamplesPackages.ps1'
+          arguments: >
+            -SamplesRoot "$(SamplesCheckoutDirectory)\Samples"
+            -NuGetConfigPath "$(SamplesFeedConfig)"
+            -PackagesDirectory "$(Pipeline.Workspace)\hydration-packages"
+
+    - ${{ if eq(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
+      - task: PowerShell@2
+        displayName: Hydrate Microsoft.WindowsAppSDK package closure
+        inputs:
+          filePath: '$(Build.SourcesDirectory)\eng\RestoreWindowsAppSDKPackage.ps1'
+          arguments: >
+            -NuGetConfigPath "$(SamplesFeedConfig)"
+            -PackagesDirectory "$(Pipeline.Workspace)\hydration-packages"
+        env:
+          WINDOWS_APP_SDK_VERSION: ${{ parameters.WindowsAppSDKVersion }}
+
+    - task: PowerShell@2
+      displayName: Disable NuGet Gallery upstream
+      condition: always()
+      inputs:
+        filePath: '$(Build.SourcesDirectory)\eng\SetSamplesFeedUpstream.ps1'
+        arguments: -Action Disable
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+- job: ValidateAnonymousRestore
+  displayName: Validate anonymous public restore
+  ${{ if ne(parameters.HydrationMode, 'ValidateOnly') }}:
+    dependsOn: Hydrate
+  timeoutInMinutes: 120
+  steps:
+  - checkout: self
+
+  - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
+    - task: PowerShell@2
+      displayName: Checkout selected Samples branch
+      inputs:
+        targetType: inline
+        script: |
+          if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
+          {
+              throw "The selected branch must be 'main' or a protected 'release/*' branch; received '$env:SAMPLES_BRANCH'."
+          }
+
+          git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
+            https://github.com/microsoft/WindowsAppSDK-Samples.git `
+            $env:SAMPLES_CHECKOUT_DIRECTORY
+
+          if ($LASTEXITCODE -ne 0)
+          {
+              throw "Failed to check out Samples branch '$env:SAMPLES_BRANCH'."
+          }
+      env:
+        SAMPLES_BRANCH: $(EffectiveSamplesBranch)
+        SAMPLES_CHECKOUT_DIRECTORY: $(SamplesCheckoutDirectory)
+
+  - task: NuGetToolInstaller@1
+    displayName: Use NuGet
+
+  - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
+    - task: UseDotNet@2
+      displayName: Install sample .NET SDKs
+      inputs:
+        packageType: sdk
+        useGlobalJson: true
+        workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
+
+  - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
+    - task: PowerShell@2
+      displayName: Restore branch without credentials
+      inputs:
+        filePath: '$(Build.SourcesDirectory)\eng\RestorePublicSamplesPackages.ps1'
+        arguments: >
+          -SamplesRoot "$(SamplesCheckoutDirectory)\Samples"
+          -NuGetConfigPath "$(SamplesFeedConfig)"
+          -PackagesDirectory "$(Pipeline.Workspace)\anonymous-packages"
+
+  - ${{ if eq(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
+    - task: PowerShell@2
+      displayName: Restore Microsoft.WindowsAppSDK without credentials
+      inputs:
+        filePath: '$(Build.SourcesDirectory)\eng\RestoreWindowsAppSDKPackage.ps1'
+        arguments: >
+          -NuGetConfigPath "$(SamplesFeedConfig)"
+          -PackagesDirectory "$(Pipeline.Workspace)\anonymous-packages"
+      env:
+        WINDOWS_APP_SDK_VERSION: ${{ parameters.WindowsAppSDKVersion }}
