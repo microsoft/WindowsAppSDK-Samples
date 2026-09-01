@@ -1,25 +1,37 @@
-﻿<!-- Copyright (c) Microsoft Corporation.
- Licensed under the MIT License. -->
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
 <Page
     x:Class="Input.KeyboardShortcutManager"
-    x:Name="KeyBoardShortcutsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Input"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <StackPanel x:Name="LayoutRoot" IsTabStop="True" AllowFocusOnInteraction="True" Padding="20">
-        <TextBlock x:Name="Description" Text="Press keys to understand the working of the below keyboard events" Margin="0,0,0,20" />
-        <TextBlock x:Name="KeyDownText" Text="KeyDown: None" Margin="0,10,0,0"/>
-        <TextBlock x:Name="KeyUpText" Text="KeyUp: None" Margin="0,10,0,0"/>
-        <TextBlock x:Name="CharacterReceivedText" Text="Character Received: None" Margin="0,10,0,0"/>
-        <TextBlock x:Name="AcceleratorInvokedText" Text="Accelerator Invoked: None" Margin="0,10,0,0"/>
+
+    <StackPanel
+        x:Name="LayoutRoot"
+        Padding="20"
+        AllowFocusOnInteraction="True"
+        IsTabStop="True">
+        <TextBlock
+            Margin="0,0,0,20"
+            Text="Press keys to observe the keyboard events below." />
+        <TextBlock x:Name="KeyDownText" Margin="0,10,0,0" Text="KeyDown: None" />
+        <TextBlock x:Name="KeyUpText" Margin="0,10,0,0" Text="KeyUp: None" />
+        <TextBlock
+            x:Name="CharacterReceivedText"
+            Margin="0,10,0,0"
+            Text="Character Received: None" />
+        <TextBlock
+            x:Name="AcceleratorInvokedText"
+            Margin="0,10,0,0"
+            Text="Accelerator Invoked: None" />
     </StackPanel>
 
-    <!-- Keyboard Accelerator for Ctrl+R -->
     <Page.KeyboardAccelerators>
-        <KeyboardAccelerator Key="R" Modifiers="Control" Invoked="OnCtrlRInvoked"/>
+        <KeyboardAccelerator
+            Key="R"
+            Modifiers="Control"
+            Invoked="OnCtrlRInvoked" />
     </Page.KeyboardAccelerators>
-
 </Page>

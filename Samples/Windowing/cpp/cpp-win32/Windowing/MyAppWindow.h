@@ -7,7 +7,7 @@ namespace winrt::MyApp::implementation
     struct MyAppWindow : winrt::implements<MyAppWindow, winrt::Windows::Foundation::IInspectable>
     {
         MyAppWindow(
-            const winrt::Microsoft::UI::Dispatching::DispatcherQueue & queue,
+            const winrt::Microsoft::UI::Dispatching::DispatcherQueue& queue,
             const winrt::Windows::UI::Composition::Compositor& compositor,
             const std::wstring& windowTitle);
 
@@ -24,7 +24,6 @@ namespace winrt::MyApp::implementation
 
         void Window_Destroying(
             const winrt::Microsoft::UI::Windowing::AppWindow& sender,
-            const winrt::Windows::Foundation::IInspectable & args);
+            const winrt::Windows::Foundation::IInspectable& args);
     };
-
-} // namespace winrt::MyApp::implementation
+}

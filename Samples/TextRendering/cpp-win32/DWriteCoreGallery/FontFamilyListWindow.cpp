@@ -85,7 +85,7 @@ FontFamilyListWindow::FontFamilyListWindow(
     SetItemCount(familyCount);
 }
 
-void FontFamilyListWindow::DrawItem(TextRenderer* textRenderer, int itemIndex, bool isSelected)
+void FontFamilyListWindow::DrawItem(TextRenderer* textRenderer, int itemIndex, bool /*isSelected*/)
 {
     // Create the text layout object.
     auto textLayout = CreateTextLayout(m_textFormat.get(), m_familyNames[itemIndex]);
@@ -98,7 +98,7 @@ void FontFamilyListWindow::DrawItem(TextRenderer* textRenderer, int itemIndex, b
     THROW_IF_FAILED(textLayout->Draw(nullptr, textRenderer, g_leftMargin, g_topMargin));
 }
 
-int FontFamilyListWindow::GetItemPixelHeight(float dpiScale, int itemIndex)
+int FontFamilyListWindow::GetItemPixelHeight(float dpiScale, int /*itemIndex*/)
 {
     return static_cast<int>(ceilf(m_itemHeight * dpiScale));
 }

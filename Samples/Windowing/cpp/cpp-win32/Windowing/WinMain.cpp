@@ -30,9 +30,8 @@ int __stdcall WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ int)
     auto controller = winrt::DispatcherQueueController::CreateOnCurrentThread();
     auto queue = controller.DispatcherQueue();
 
-
-    // Promote the WinAppSDK DispatcherQueue to also manage a system DispatcherQueue, which is
-    // required by the system Compositor that will be used to configure Mica.
+    // Promote the WinAppSDK DispatcherQueue to also manage a system
+    // DispatcherQueue, which is required by the system Compositor used for Mica.
     queue.EnsureSystemDispatcherQueue();
     auto compositor = winrt::Compositor();
 

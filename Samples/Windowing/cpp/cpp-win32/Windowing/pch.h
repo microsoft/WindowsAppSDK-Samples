@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include <functional>
-
 #include <unknwn.h>
 
 #include <winrt/base.h>
@@ -17,6 +15,3 @@
 #include <winrt/Microsoft.UI.Windowing.h>
 
 #include <Windows.UI.Composition.Interop.h>
-
-#include <wil/resource.h>
-#include <wil/result.h>

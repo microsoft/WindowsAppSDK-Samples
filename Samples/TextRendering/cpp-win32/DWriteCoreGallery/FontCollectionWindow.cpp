@@ -30,7 +30,7 @@ FontFaceListWindow& FontCollectionWindow::GetFaceList()
     return static_cast<FontFaceListWindow&>(*GetRightPane());
 }
 
-LRESULT FontCollectionWindow::OnControlCommand(HWND controlWindow, uint32_t controlId, uint32_t notificationCode)
+LRESULT FontCollectionWindow::OnControlCommand(HWND /*controlWindow*/, uint32_t /*controlId*/, uint32_t notificationCode)
 {
     switch (notificationCode)
     {
