@@ -28,7 +28,7 @@ This is a framework-dependent variant of the WindowsML C++ console desktop sampl
 - Microsoft.Windows.SDK.BuildTools
 - Microsoft.Windows.SDK.BuildTools.MSIX
 
-See `packages.config` for current package versions.
+Package versions are managed in `Samples/Directory.Packages.props` and `Samples/WindowsML/Directory.Packages.props`.
 
 ## Windows App SDK Bootstrap Configuration
 
@@ -55,36 +55,29 @@ Framework-dependent applications require bootstrap initialization to properly di
 
 If setting up a new framework-dependent project:
 
-1. Add the required packages to `packages.config`:
+1. Add direct package references to the native project:
    ```xml
-   <package id="Microsoft.WindowsAppSDK.Foundation" version="[version]" targetFramework="native" />
-   <package id="Microsoft.WindowsAppSDK.InteractiveExperiences" version="[version]" targetFramework="native" />
-   <package id="Microsoft.WindowsAppSDK.Runtime" version="[version]" targetFramework="native" />
-   <package id="Microsoft.WindowsAppSDK.Base" version="[version]" targetFramework="native" />
+   <ItemGroup>
+     <PackageReference Include="Microsoft.WindowsAppSDK" />
+     <PackageReference Include="Microsoft.Windows.CppWinRT" />
+   </ItemGroup>
    ```
 
-2. Set the bootstrap property at the top of your `.vcxproj` file (before any imports):
+2. Declare their versions in the applicable `Directory.Packages.props`.
+
+3. Set the bootstrap property at the top of your `.vcxproj` file (before any imports):
    ```xml
    <PropertyGroup>
      <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
    </PropertyGroup>
    ```
 
-3. Import Foundation and InteractiveExperiences package build files:
-   ```xml
-   <!-- In props section -->
-   <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.[version]\build\native\Microsoft.WindowsAppSDK.Foundation.props" />
-   <Import Project="packages\Microsoft.WindowsAppSDK.InteractiveExperiences.[version]\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props" />
-   
-   <!-- In targets section -->
-   <Import Project="packages\Microsoft.WindowsAppSDK.Foundation.[version]\build\native\Microsoft.WindowsAppSDK.Foundation.targets" />
-   <Import Project="packages\Microsoft.WindowsAppSDK.InteractiveExperiences.[version]\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets" />
-   ```
+NuGet automatically imports the build files from the restored package graph.
 
 ### Common Issues and Solutions
 
 - **CppWinRT Error: "Microsoft.UI.WindowId could not be found"**
-  - **Solution**: Ensure the InteractiveExperiences package is included. Foundation depends on UI metadata provided by this package.
+  - **Solution**: Restore the complete `Microsoft.WindowsAppSDK` metapackage dependency graph before building.
   
 - **Bootstrap initialization not working**
   - **Solution**: Verify the `WindowsAppSdkBootstrapInitialize` property is set to `true` **before** any package imports in the vcxproj file.

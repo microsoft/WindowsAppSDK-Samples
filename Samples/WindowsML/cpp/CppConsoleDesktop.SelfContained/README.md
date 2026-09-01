@@ -20,4 +20,4 @@ This is a self-contained variant of the WindowsML C++ console desktop sample.
 - Microsoft.Windows.SDK.BuildTools
 - Microsoft.Windows.SDK.BuildTools.MSIX
 
-See `packages.config` for current package versions.
+Package versions are managed in `Samples/Directory.Packages.props` and `Samples/WindowsML/Directory.Packages.props`.
