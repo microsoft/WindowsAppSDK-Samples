@@ -5,8 +5,6 @@
 </p>
 
 <h1 align="center">Windows App SDK samples</h1>
-<h1>This Release/Experimental branch that you are looking at is transitioning into retirement in the WinAppSDK 2.0 time frame. To experience experimental APIs, please refer to the Release/x.y-experimental branches. This Release/Experimental branch will no longer be actively maintained, in favor of the per-release experimental branches. </h1>
-<h1>BACKGROUND: Before WinAppSDK adopts SemVer in 2.0, 1.x versions of WinAppSDK maintained a high degree of backwards compatibility; therefore, sample apps generally do not need to be strongly versioned against a particular WinAppSDK version. That practice is no longer applicable for 2.0+, which does not guarantee backward compatibility with 1.x versions. Therefore, this no-clear-version-targetting branch Release/Experimental is no longer suitable for housing new WinAppSDK 2.0+ sample apps that contain experimental APIs.</h1>
 
 This repository hosts samples for the [Windows App SDK](https://github.com/microsoft/WindowsAppSDK). Samples for various features shipping in the Windows App SDK will be added to this repository. For more information about the Windows App SDK, visit the [Windows App SDK documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/). To learn more about the Windows App SDK design or to contribute to the project, make feature proposals, or start discussions, visit the [Windows App SDK GitHub page](https://github.com/microsoft/WindowsAppSDK).
 
@@ -31,9 +29,6 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
     - [Power Notifications](Samples/AppLifecycle/StateNotifications): These samples demonstrate the power/system state notifications for managing app workload.
     - [Restart](Samples/AppLifecycle/Restart): These samples demonstrate synchronously restarting an app with command-line restart arguments.
     - [Share Target](Samples\AppLifecycle\ShareTarget\WinUI-CS-ShareTargetSampleApp): This sample demonstrates an app that can be activated as a share target.
-
-#### Background Task
-- [Background Task](Samples/BackgroundTask): These samples demonstrates usage of Background Task feature in WinAppSDK apps leveraging the WinAppSDK Background Task API.
 
 #### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
@@ -92,7 +87,7 @@ The easiest way to use these samples without Git is to download the ZIP file. Se
 
 ## 📄 Samples versioning
 
-The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes the latest samples, which may also include experimental or preview features. Specific release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
+The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes samples for stable Windows App SDK features only. Experimental and preview samples belong in the `release/experimental` branch. Specific stable release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
 
 - [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental)
 - [release/1.8](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.8-stable)
