@@ -6,8 +6,8 @@ languages:
 products:
 - windows
 - windows-app-sdk
-name: Islands samples 
-urlFragment: Islands 
+name: Islands samples
+urlFragment: Islands
 description: Demonstrates how to use the WinAppSDK ContentIsland APIs.
 extendedZipContent:
 - path: LICENSE
@@ -16,7 +16,7 @@ extendedZipContent:
 
 # WinForms Island App (cs-winforms-unpackaged)
 
-The cs-winforms-unpackaged directory has a sample shows how to add a WinAppSDK island with Xaml content to a WinForms app. 
+The cs-winforms-unpackaged directory has a sample shows how to add a WinAppSDK island with Xaml content to a WinForms app.
 It was first created with the C# "Windows Forms App" template in Visual Studio, which yields a boilerplate WinForms app.
 
 This sample is an "unpackaged" app, so it will run like a WinForms/Win32 app does when built from the default templates.
@@ -50,4 +50,3 @@ In Visual Studio, you should also be able to see the DesktopWindowXamlSourceCont
 When you launch the app, it should look like this:
 
 ![alt text](img/screenshot.png)
-

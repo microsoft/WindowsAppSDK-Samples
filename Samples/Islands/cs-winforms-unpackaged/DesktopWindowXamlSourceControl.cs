@@ -66,7 +66,7 @@ namespace WinFormsWithIsland
 
             _desktopWindowXamlSource.Initialize(new WindowId((ulong)this.Handle));
 
-            _desktopWindowXamlSource.TakeFocusRequested += 
+            _desktopWindowXamlSource.TakeFocusRequested +=
                 new TypedEventHandler<DesktopWindowXamlSource, DesktopWindowXamlSourceTakeFocusRequestedEventArgs>(
                     OnDesktopWindowXamlSourceTakeFocusRequested);
 
