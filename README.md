@@ -83,17 +83,9 @@ To use the samples with Git, clone the WindowsAppSDK-Samples repository by runni
 
 The easiest way to use these samples without Git is to download the ZIP file. Select *Download ZIP* from the download dropdown, unzip the entire archive and open the samples in Visual Studio.
 
-## 📄 Samples versioning
+## 📄 Samples Branches
 
-The samples will be updated with GA releases of the Windows App SDK. The `main` branch includes samples for stable Windows App SDK features only. Experimental and preview samples belong in the `release/experimental` branch. Specific stable release branches are named `release/x.y` and contain samples that reference the corresponding GA version of the Windows App SDK. This repository currently includes the following release branches:
-
-- [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental)
-- [release/1.6](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.6-stable)
-- [release/1.5](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.5-stable)
-- [release/1.1](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.1)
-- [release/1.0](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/1.0)
-- [release/0.8](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/0.8)
-- [release/0.5](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/0.5)
+The `main` branch includes samples that are compatible with the latest stable Windows App SDK release.  Samples demonstrating Experimental APIs can be found in version-specific experimental branches, such as [release/2.0-experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/2.0-experimental).  With each major release of Windows App SDK, the main branch is forked to a version-specific stable branch such as [release/2.0-stable](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/2.0-stable), to support Windows App SDK servicing.  
 
 ## 🏆 Contributing
 
