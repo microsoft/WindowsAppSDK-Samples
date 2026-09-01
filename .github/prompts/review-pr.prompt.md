@@ -72,7 +72,7 @@ When performing incremental review, skip steps that are irrelevant based on chan
 7) Globalization — Culture-aware formatting where applicable
 8) Extensibility — Clear patterns for developers to adapt
 9) SOLID principles — Clean, maintainable SDK code
-10) Repo patterns — Follows [Coding-Guidelines.md](docs/Coding-Guidelines.md) conventions
+10) Repo patterns — Follows [AGENTS.md](../../AGENTS.md) conventions
 11) Docs & automation — Documentation updated, CI pipeline configured
 12) Code comments — Appropriate copyright headers, helpful inline comments
 13) Copilot guidance (conditional): if changed folders contain `*copilot*.md` or `.github/prompts/*.md`, review diffs **against** that guidance and write `13-copilot-guidance.md` (omit if none).
