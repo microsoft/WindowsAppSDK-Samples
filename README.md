@@ -39,7 +39,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Unpackaged](Samples/Unpackaged): These samples demonstrate auto-initialization with the Windows App SDK package from non-MSIX (unpackaged) application.
 
 ### Dynamic Dependencies
-- [DirectX](DynamicDependenciesSample/DynamicDependencies): This sample demonstrates how to use the Dynamic Dependencies API to dynamically load the DirectX Runtime MSIX framework package.
+- [DirectX](Samples/DynamicDependenciesSample/DynamicDependencies): This sample demonstrates how to use the Dynamic Dependencies API to dynamically load the DirectX Runtime MSIX framework package.
 
 ### Graphics
 - [Mica](Samples/Mica): These samples demonstrate how to use the Mica material in different apps and frameworks.
