@@ -21,6 +21,7 @@ These samples demonstrate how simple it is to use the Windows App SDK from a non
 
 - [Basic - C++](cpp-console-unpackaged) - Console app sample showing how to set a project property that initializes access to the Windows App SDK and call a simple API.
 - [Basic - C#](cs-console-unpackaged) - Console app sample showing how to set a project property that initializes access the Windows App SDK and call a simple API.
+- [Explicit initialization - C# WinForms](cs-winforms-unpackaged) - WinForms app sample showing how to initialize the Windows App SDK runtime explicitly with the Bootstrapper APIs.
 
 ## Scenarios covered in these samples
 

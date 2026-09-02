@@ -51,7 +51,6 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="HybridCRT.props" />
     <None Include="Directory.Build.props" />
   </ItemGroup>
