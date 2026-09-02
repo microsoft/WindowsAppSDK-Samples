@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+    <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.220914.1" />
+    <PackageVersion Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,25 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Core -->
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="2.3.9" />
+    <PackageVersion Include="Microsoft.Windows.CppWinRT" Version="2.0.221104.6" />
+    <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.0.0" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.2.164-beta" />
+
+    <!-- Build tooling -->
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
+    <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.220914.1" />
+
+    <!-- Controls -->
+    <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
+
+    <!-- Other libraries -->
+    <PackageVersion Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" />
+    <PackageVersion Include="Microsoft.VCRTForwarders.140" Version="1.0.7" />
+  </ItemGroup>
+</Project>
