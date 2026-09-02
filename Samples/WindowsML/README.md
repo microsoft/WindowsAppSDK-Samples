@@ -30,6 +30,8 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 | [CppConsoleDesktop](cpp/CppConsoleDesktop/) | Basic C++ console application | EP discovery, command-line options, model compilation |
 | [CppConsoleDesktop.FrameworkDependent](cpp/CppConsoleDesktop.FrameworkDependent/) | Framework-dependent deployment variant | Shared runtime, smaller deployment footprint |
 | [CppConsoleDesktop.SelfContained](cpp/CppConsoleDesktop.SelfContained/) | Self-contained deployment variant | Standalone deployment, no runtime dependencies |
+| [CppConsoleDll](cpp/CppConsoleDll/) | DLL usage pattern | Windows ML in a shared library, memory management |
+| [CppResnetBuildDemo](cpp/CppResnetBuildDemo/) | ResNet model demo from the [Windows ML session](https://www.youtube.com/watch?v=AQjOq8qSsbE) at Build 2025 | Model conversion, EP compilation, detailed tutorial |
 
 ### C++ CMake Samples
 
@@ -49,6 +51,7 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 | Sample | Description | Key Features |
 |--------|-------------|--------------|
 | [CSharpConsoleDesktop](cs/CSharpConsoleDesktop/) | Basic C# console application | Shared helper usage, command-line interface |
+| [ResnetBuildDemoCS](cs/ResnetBuildDemoCS/) | ResNet model demo from the [Windows ML session](https://www.youtube.com/watch?v=AQjOq8qSsbE) at Build 2025 | Model conversion, EP compilation, detailed tutorial |
 
 #### GUI Applications
 | Sample | UI Framework | Description |
