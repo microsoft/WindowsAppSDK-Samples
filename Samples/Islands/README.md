@@ -27,6 +27,11 @@ It also shows how to use a UserControl named "SampleUserControl" that's defined 
 "SampleWinUIClassLibrary".  To make this work, the XamlApp type knows how to route Xaml metadata requests to the SampleWinUIClassLibrary's
 XamlMetadataProvider object.
 
+## Additional Islands samples
+
+- [DrawingIsland](DrawingIsland) demonstrates custom drawing content hosted through ContentIsland APIs from C++ and C# applications.
+- [UXFrameworksOnIslands](UXFrameworksOnIslands) demonstrates hosting multiple UI frameworks and accessibility trees through islands.
+
 ## Prerequisites
 
 * See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
@@ -50,4 +55,3 @@ In Visual Studio, you should also be able to see the DesktopWindowXamlSourceCont
 When you launch the app, it should look like this:
 
 ![alt text](img/screenshot.png)
-

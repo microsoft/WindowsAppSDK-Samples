@@ -17,6 +17,8 @@
 
     <!-- Controls -->
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
+    <PackageVersion Include="CommunityToolkit.WinAppSDK.LottieWinRT" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
 
     <!-- Other libraries -->
     <PackageVersion Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" />

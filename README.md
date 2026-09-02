@@ -27,9 +27,12 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
     - [Power Notifications](Samples/AppLifecycle/StateNotifications): These samples demonstrate the power/system state notifications for managing app workload.
     - [Restart](Samples/AppLifecycle/Restart): These samples demonstrate synchronously restarting an app with command-line restart arguments.
     - [Share Target](Samples\AppLifecycle\ShareTarget\WinUI-CS-ShareTargetSampleApp): This sample demonstrates an app that can be activated as a share target.
+- [Background Task](Samples/BackgroundTask): These samples demonstrate in-process and out-of-process background tasks in Windows App SDK apps.
+- [OAuth2 Manager](Samples/OAuth2Manager): These samples demonstrate OAuth authentication using the Windows App SDK OAuth APIs.
 
 #### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
+- [Storage Pickers](Samples/StoragePickers): These samples demonstrate opening and saving files with the Windows App SDK picker APIs.
 
 ### Deployment
 - [Deployment Manager](Samples/DeploymentManager): This sample demonstrates how to initialize and access deployment information for the Windows App SDK runtime.
@@ -49,12 +52,14 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 ### Notifications
 - [Push Notifications](Samples/Notifications/Push): This is a sample app that showcases Push Notifications.
 - [App Notifications](Samples/Notifications/App): This is a sample app that showcases App Notifications.
+- [Badge Notifications](Samples/Notifications/Badge): These samples demonstrate numeric and glyph badge notifications.
 
 ### Runtime Components
 - [Custom Controls](Samples/CustomControls): This sample shows how to author a Windows Runtime Component in C# with custom WinUI controls.
 
 ### User Interface and Input
 
+- [Camera Capture UI](Samples/CameraCaptureUI): These samples demonstrate capturing photos and videos with the CameraCaptureUI API.
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
 - [Windows Composition, Input and SceneGraph](Samples/SceneGraph): This collection of samples showcases Microsoft.UI.Composition, Microsoft.UI.Input and SceneGraph APIs.
 - [WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery): This is a sample app that showcases all of the WinUI 3 controls in action.

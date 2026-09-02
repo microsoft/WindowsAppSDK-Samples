@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "BackgroundTaskBuilder (Package)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
+    },
+    "BackgroundTaskBuilder (Unpackaged)": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
