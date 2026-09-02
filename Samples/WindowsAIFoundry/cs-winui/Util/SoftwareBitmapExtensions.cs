@@ -95,4 +95,5 @@ internal static class SoftwareBitmapExtensions
         segmentedBitmap.CopyFromBuffer(inputBuffer.AsBuffer());
         return segmentedBitmap;
     }
+
 }

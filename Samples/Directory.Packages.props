@@ -21,6 +21,9 @@
     <PackageVersion Include="CommunityToolkit.WinUI.Lottie" Version="8.0.230819-rc-LottieIsland.7.g92a87e1883" />
 
     <!-- Other libraries -->
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.100" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
     <PackageVersion Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" />
     <PackageVersion Include="Microsoft.VCRTForwarders.140" Version="1.0.7" />
   </ItemGroup>
