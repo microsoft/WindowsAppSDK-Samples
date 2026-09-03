@@ -60,3 +60,5 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
+
+
