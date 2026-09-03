@@ -39,6 +39,7 @@
     <PackageReference Include="Microsoft.Windows.ImplementationLibrary" />
   </ItemGroup>
 
+  <Import Project="..\..\..\Build.Common.Cpp.props" Condition="Exists('..\..\..\Build.Common.Cpp.props')" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -67,4 +68,3 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-
