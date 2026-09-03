@@ -158,7 +158,7 @@ void ListWindow::OnPaint(HDC hdc, RECT invalidRect)
     }
 }
 
-bool ListWindow::OnLeftButtonDown(int x, int y)
+bool ListWindow::OnLeftButtonDown(int /*x*/, int y)
 {
     RECT itemRect;
     int itemIndex = ItemIndexFromY(y, &itemRect);

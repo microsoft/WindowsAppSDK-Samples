@@ -1,18 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using WindowsAISample.Models.Contracts;
-using WindowsAISample.Util;
+using Microsoft.Windows.AI;
+using Microsoft.Windows.AI.ContentSafety;
 using Microsoft.Windows.AI.Text;
-using Microsoft.Windows.Management.Deployment;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Microsoft.Windows.AI.ContentSafety;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.Windows.AI;
-using System.Diagnostics;
+using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 
 namespace WindowsAISample.Models;
 
@@ -45,7 +41,7 @@ internal class LanguageModelModel : IModelManager
         _sessionTextSummarize = new TextSummarizer(_session);
         _sessionTextRewrite = new TextRewriter(_session);
         _sessionTextToTable = new TextToTableConverter(_session);
-        
+
         progress.Report(1.0); // 100% progress
     }
 
@@ -53,6 +49,71 @@ internal class LanguageModelModel : IModelManager
     private TextSummarizer SessionTextSummarize => _sessionTextSummarize ?? throw new InvalidOperationException("Text summarizer session was not created yet");
     private TextRewriter SessionTextRewrite => _sessionTextRewrite ?? throw new InvalidOperationException("Text Rewriter session was not created yet");
     private TextToTableConverter SessionTextToTable => _sessionTextToTable ?? throw new InvalidOperationException("TextToTable converter session was not created yet");
+
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
+        GenerateResponseWithProgressAsync(string prompt, CancellationToken cancellationToken = default)
+    {
+
+        var response = Session.GenerateResponseAsync(prompt);
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+            response,
+            result => result /* LanguageModelResponse */,
+            progress => progress
+        );
+    }
+
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
+        GenerateResponseWithOptionsAndProgressAsync(string prompt, CancellationToken cancellationToken = default)
+    {
+        var response = Session.GenerateResponseAsync(prompt);
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+            response,
+            result => result /* LanguageModelResponse */,
+            progress => progress
+        );
+    }
+
+    public LanguageModelEmbeddingVectorResult GenerateEmbeddingVectors(string prompt, CancellationToken cancellationToken = default)
+    {
+        var contentFilterOptions = new ContentFilterOptions();
+        var response = Session.GenerateEmbeddingVectors(prompt, contentFilterOptions);
+        return response;
+    }
+
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
+        GenerateResponseWithOptionsAndProgressAsync(string prompt, LanguageModelOptions languageModelOptions,
+        ContentFilterOptions? contentFilterOptions, CancellationToken cancellationToken = default)
+    {
+        IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
+        if (contentFilterOptions != null)
+        {
+            languageModelOptions.ContentFilterOptions = contentFilterOptions;
+        }
+        
+        response = Session.GenerateResponseAsync(prompt, languageModelOptions);
+        
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+            response,
+            result => result /* LanguageModelResponseResult */,
+            progress => progress
+        );
+    }
+
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string> 
+        GenerateResponseWithContextAsync(string prompt, string contextPrompt, CancellationToken cancellationToken = default)
+    {
+        var languageModelOptions = new LanguageModelOptions();
+        var contentFilterOptions = new ContentFilterOptions();
+        var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
+
+        var response = Session.GenerateResponseAsync(languageModelContext, prompt, languageModelOptions);
+
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+            response,
+            result => result /* LanguageModelResponseResult */,
+            progress => progress
+        );
+    }
 
     public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
     GenerateResponseTextIntelligenceSummarizeWithProgressAsync(string prompt)
@@ -104,5 +165,39 @@ internal class LanguageModelModel : IModelManager
         }
 
         return result;
+    }
+
+    public IAsyncOperationWithProgress<LanguageModelResponseResult, string>
+    GenerateResponseWithLoraAdapterAndContextAsync(string contextPrompt, string prompt, string filePath)
+    {
+        IAsyncOperationWithProgress<LanguageModelResponseResult, string> response;
+
+        var adapterResult = LanguageModelLowRankAdapter.CreateFromPath(filePath);
+        int hr = adapterResult.ExtendedError?.HResult ?? 0;
+        if (hr != 0)
+        {
+            throw new InvalidOperationException($"Could not create LoRA from the provided file path: 0x{hr:X8}");
+        }
+
+        var options = new LanguageModelOptions {
+            LowRankAdapter = !string.IsNullOrEmpty(filePath) ? adapterResult.LowRankAdapter : null
+        };
+
+        if (contextPrompt != null)
+        {
+            var contentFilterOptions = new ContentFilterOptions();
+            var languageModelContext = Session.CreateContext(contextPrompt, contentFilterOptions);
+            response = Session.GenerateResponseAsync(languageModelContext, prompt, options);
+        }
+        else
+        {
+            response = Session.GenerateResponseAsync(prompt, options);
+        }
+
+        return new AsyncOperationWithProgressAdapter<LanguageModelResponseResult, string, LanguageModelResponseResult, string>(
+            response,
+            result => result /* LanguageModelResponseResult */,
+            progress => progress
+        );
     }
 }

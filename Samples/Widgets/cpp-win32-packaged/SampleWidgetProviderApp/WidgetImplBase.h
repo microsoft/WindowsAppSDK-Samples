@@ -15,10 +15,10 @@ public:
 
     void State(winrt::hstring const& state) { m_state = state; };
 
-    virtual void Activate(winrt::Microsoft::Windows::Widgets::Providers::WidgetContext widgetContext) {};
+    virtual void Activate(winrt::Microsoft::Windows::Widgets::Providers::WidgetContext /*widgetContext*/) {};
     virtual void Deactivate(winrt::hstring) {};
-    virtual void OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvokedArgs) {};
-    virtual void OnWidgetContextChanged(winrt::WidgetContextChangedArgs contextChangedArgs) {};
+    virtual void OnActionInvoked(winrt::WidgetActionInvokedArgs /*actionInvokedArgs*/) {};
+    virtual void OnWidgetContextChanged(winrt::WidgetContextChangedArgs /*contextChangedArgs*/) {};
     virtual winrt::hstring GetTemplateForWidget() = 0;
     virtual winrt::hstring GetDataForWidget() = 0;
 
