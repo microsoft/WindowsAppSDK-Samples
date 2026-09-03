@@ -20,6 +20,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <PRIResource Include="Resources.lang-en-us.resw" />
     <PRIResource Include="Resources.lang-de-de.resw" />
   </ItemGroup>

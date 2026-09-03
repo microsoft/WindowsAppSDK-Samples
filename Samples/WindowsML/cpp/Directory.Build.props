@@ -1,4 +1,6 @@
 <Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+
   <!-- Security settings for Control Flow Guard (CFG) and other mitigations -->
   <ItemDefinitionGroup>
     <ClCompile>
@@ -19,52 +21,29 @@
   </ItemDefinitionGroup>
 
   <PropertyGroup>
+    <!-- Central NuGet package versions for C++ WindowsML samples -->
+    <WindowsAppSDKVersion>2.1.3</WindowsAppSDKVersion>
+    <WindowsAppSDKWinUIVersion>2.1.0</WindowsAppSDKWinUIVersion>
+    <WindowsAppSDKBaseVersion>2.0.4</WindowsAppSDKBaseVersion>
+    <WindowsAppSDKFoundationVersion>2.0.21</WindowsAppSDKFoundationVersion>
+    <WindowsAppSDKInteractiveExperiencesVersion>2.0.13</WindowsAppSDKInteractiveExperiencesVersion>
+    <WindowsAppSDKDWriteVersion>2.1.0</WindowsAppSDKDWriteVersion>
+    <WindowsAppSDKWidgetsVersion>2.0.5</WindowsAppSDKWidgetsVersion>
+    <WindowsAppSDKAIVersion>2.1.10</WindowsAppSDKAIVersion>
+    <WindowsAppSDKMLVersion>2.1.1</WindowsAppSDKMLVersion>
+    <WindowsAppSDKRuntimeVersion>2.1.3</WindowsAppSDKRuntimeVersion>
+    <WindowsAIMachineLearningVersion>2.1.1</WindowsAIMachineLearningVersion>
+    <CppWinRTVersion>2.0.240405.15</CppWinRTVersion>
+    <WindowsSDKBuildToolsVersion>10.0.26100.4654</WindowsSDKBuildToolsVersion>
+    <WebView2Version>1.0.3179.45</WebView2Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <!-- C++ specific settings only -->
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platforms>x64;ARM64</Platforms>
     
     <!-- Disable central package management for C++ projects -->
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    
-    <!-- Namespace output directories to prevent conflicts -->
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\bin\</OutDir>
-    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\obj\</IntDir>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
-
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
-    <ClCompile>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <Optimization>Disabled</Optimization>
-    </ClCompile>
-  </ItemDefinitionGroup>
-
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
-    <ClCompile>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-
-  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-  </ItemDefinitionGroup>
 </Project>

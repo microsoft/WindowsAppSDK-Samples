@@ -1,4 +1,0 @@
-windowsappsdk provides CMake targets:
-
-    find_package(windowsappsdk CONFIG REQUIRED)
-    target_link_libraries(main PRIVATE Microsoft::WindowsAppSdk)

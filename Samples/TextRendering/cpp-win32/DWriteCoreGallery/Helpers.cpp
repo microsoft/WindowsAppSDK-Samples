@@ -124,16 +124,14 @@ std::wstring GetInformationalString(IDWriteFontFace6* fontFace, DWRITE_INFORMATI
 std::wstring GetFamilyName(IDWriteFontFace6* fontFace, DWRITE_FONT_FAMILY_MODEL fontFamilyModel)
 {
     wil::com_ptr<IDWriteLocalizedStrings> localizedStrings;
-    // Use the requested family model instead of hardcoding TYPOGRAPHIC so callers can request WSS names.
-    THROW_IF_FAILED(fontFace->GetFamilyNames(fontFamilyModel, &localizedStrings));
+    THROW_IF_FAILED(fontFace->GetFamilyNames(DWRITE_FONT_FAMILY_MODEL_TYPOGRAPHIC, &localizedStrings));
     return GetLocalString(localizedStrings.get());
 }
 
 std::wstring GetFaceName(IDWriteFontFace6* fontFace, DWRITE_FONT_FAMILY_MODEL fontFamilyModel)
 {
     wil::com_ptr<IDWriteLocalizedStrings> localizedStrings;
-    // Use the requested family model when querying face names.
-    THROW_IF_FAILED(fontFace->GetFaceNames(fontFamilyModel, &localizedStrings));
+    THROW_IF_FAILED(fontFace->GetFaceNames(DWRITE_FONT_FAMILY_MODEL_TYPOGRAPHIC, &localizedStrings));
     return GetLocalString(localizedStrings.get());
 }
 

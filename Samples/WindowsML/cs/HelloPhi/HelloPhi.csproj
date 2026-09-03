@@ -10,4 +10,20 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\Shared\cs\ArgumentParser.cs" Link="Shared\ArgumentParser.cs" />
+    <Compile Include="..\..\Shared\cs\ExecutionProviderManager.cs" Link="Shared\ExecutionProviderManager.cs" />
+    <Compile Include="..\..\Shared\cs\PerformanceConfigurator.cs" Link="Shared\PerformanceConfigurator.cs" />
+  </ItemGroup>
+
+  <!-- Include OpenVINO configuration files -->
+  <ItemGroup>
+    <Content Include="..\..\Shared\openvino_perf.json" Link="openvino_perf.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Shared\openvino_efficiency.json" Link="openvino_efficiency.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

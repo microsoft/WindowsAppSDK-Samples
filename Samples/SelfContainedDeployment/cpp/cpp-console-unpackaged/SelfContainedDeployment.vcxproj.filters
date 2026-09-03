@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
+    <None Include="packages.config" />
     <None Include="Directory.Build.props" />
     <None Include="HybridCRT.props" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -19,6 +19,17 @@
     <Compile Include="..\Shared\cs\ModelManager.cs" />
     <Compile Include="..\Shared\cs\InferenceEngine.cs" />
     <Compile Include="..\Shared\cs\ResultProcessor.cs" />
+    <Compile Include="..\Shared\cs\PerformanceConfigurator.cs" />
+  </ItemGroup>
+
+  <!-- Include OpenVINO configuration files -->
+  <ItemGroup>
+    <Content Include="..\Shared\openvino_perf.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Shared\openvino_efficiency.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <Import Project="..\Resources\SqueezeNetModel.targets" />
