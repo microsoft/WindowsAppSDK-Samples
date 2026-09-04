@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="60706fc7-b419-4ce6-9a8a-4f99a62fd020"
+    Publisher="CN=Microsoft Corporation"
+    Version="1.0.0.0" />
+
+  <Properties>
+    <DisplayName>CppWinUiDesktopActivation</DisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.19041.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="CppWinUiDesktopActivation"
+        Description="CppWinUiDesktopActivation"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
+      </uap:VisualElements>
+
+      <Extensions>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="foo">
+            <uap:Logo>Images\StoreLogo.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.foo</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="foo">
+            <uap:Logo>Images\StoreLogo.png</uap:Logo>
+            <uap:DisplayName>foo protocol</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+
+        <uap5:Extension
+            Category="windows.startupTask"
+            Executable="CppWinUiDesktopActivation.exe"
+            EntryPoint="Windows.FullTrustApplication">
+          <uap5:StartupTask
+            TaskId="FooStartupId"
+            Enabled="false"
+            DisplayName="Foo Startup" />
+        </uap5:Extension>
+      </Extensions>
+
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

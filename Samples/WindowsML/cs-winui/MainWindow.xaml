@@ -1,4 +1,4 @@
-<!-- Copyright (c) Microsoft Corporation.
+﻿<!-- Copyright (c) Microsoft Corporation.
  Licensed under the MIT License. -->
 
 <Window
@@ -39,6 +39,10 @@
                 <ComboBox x:Name="EpCombo" Width="220" VerticalAlignment="Center"/>
                 <TextBlock Text="Device:" VerticalAlignment="Center" Margin="16,0,0,0"/>
                 <ComboBox x:Name="DeviceCombo" Width="140" VerticalAlignment="Center" IsEnabled="False"/>
+                <TextBlock Text="Perf Mode:" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                <RadioButton x:Name="PerfModeDefaultRadio" Content="Default" GroupName="PerfMode" IsChecked="True" VerticalAlignment="Center"/>
+                <RadioButton x:Name="PerfModeMaxPerfRadio" Content="Max Perf" GroupName="PerfMode" VerticalAlignment="Center"/>
+                <RadioButton x:Name="PerfModeMaxEffRadio" Content="Max Eff" GroupName="PerfMode" VerticalAlignment="Center"/>
                 <Button x:Name="ReloadModelButton"
                         Content="Load / Reload Model"
                         Click="ReloadModelButton_Click"/>

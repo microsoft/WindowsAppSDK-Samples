@@ -55,6 +55,16 @@ namespace Shared
             std::wstring& outputImagePath);
 
         /// <summary>
+        /// Generate a device-specific compiled model path.
+        /// Encodes EP policy/name, device type, and performance mode so compiled models
+        /// for different device configurations don't collide.
+        /// </summary>
+        static std::filesystem::path GenerateCompiledModelPath(
+            const std::filesystem::path& modelPath,
+            const std::filesystem::path& executableFolder,
+            const CommandLineOptions& options);
+
+        /// <summary>
         /// Get model path for specified variant
         /// </summary>
         static std::wstring GetModelVariantPath(

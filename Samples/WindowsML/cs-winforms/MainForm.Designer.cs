@@ -46,6 +46,12 @@ namespace WindowsMLWinFormsSample
             this.deviceLabel = new Label();
             this.deviceCombo = new ComboBox();
             this.reloadSessionButton = new Button();
+            // Performance mode controls
+            this.perfModeLabel = new Label();
+            this.perfModeDefaultRadio = new RadioButton();
+            this.perfModeMaxPerfRadio = new RadioButton();
+            this.perfModeMaxEffRadio = new RadioButton();
+            this.perfModePanel = new Panel();
             ((System.ComponentModel.ISupportInitialize)(this.selectedImagePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,6 +100,57 @@ namespace WindowsMLWinFormsSample
             this.reloadSessionButton.Text = "Load / Reload Model";
             this.reloadSessionButton.UseVisualStyleBackColor = true;
             this.reloadSessionButton.Click += new EventHandler(this.ReloadSessionButton_Click);
+            // 
+            // perfModeLabel
+            // 
+            this.perfModeLabel.AutoSize = true;
+            this.perfModeLabel.Location = new Point(500, 12);
+            this.perfModeLabel.Name = "perfModeLabel";
+            this.perfModeLabel.Size = new Size(108, 15);
+            this.perfModeLabel.TabIndex = 105;
+            this.perfModeLabel.Text = "Performance Mode:";
+            // 
+            // perfModePanel
+            // 
+            this.perfModePanel.Location = new Point(500, 30);
+            this.perfModePanel.Name = "perfModePanel";
+            this.perfModePanel.Size = new Size(300, 25);
+            this.perfModePanel.TabIndex = 106;
+            this.perfModePanel.Controls.Add(this.perfModeDefaultRadio);
+            this.perfModePanel.Controls.Add(this.perfModeMaxPerfRadio);
+            this.perfModePanel.Controls.Add(this.perfModeMaxEffRadio);
+            // 
+            // perfModeDefaultRadio
+            // 
+            this.perfModeDefaultRadio.AutoSize = true;
+            this.perfModeDefaultRadio.Location = new Point(0, 3);
+            this.perfModeDefaultRadio.Name = "perfModeDefaultRadio";
+            this.perfModeDefaultRadio.Size = new Size(63, 19);
+            this.perfModeDefaultRadio.TabIndex = 0;
+            this.perfModeDefaultRadio.TabStop = true;
+            this.perfModeDefaultRadio.Text = "Default";
+            this.perfModeDefaultRadio.Checked = true;
+            this.perfModeDefaultRadio.UseVisualStyleBackColor = true;
+            // 
+            // perfModeMaxPerfRadio
+            // 
+            this.perfModeMaxPerfRadio.AutoSize = true;
+            this.perfModeMaxPerfRadio.Location = new Point(75, 3);
+            this.perfModeMaxPerfRadio.Name = "perfModeMaxPerfRadio";
+            this.perfModeMaxPerfRadio.Size = new Size(72, 19);
+            this.perfModeMaxPerfRadio.TabIndex = 1;
+            this.perfModeMaxPerfRadio.Text = "Max Perf";
+            this.perfModeMaxPerfRadio.UseVisualStyleBackColor = true;
+            // 
+            // perfModeMaxEffRadio
+            // 
+            this.perfModeMaxEffRadio.AutoSize = true;
+            this.perfModeMaxEffRadio.Location = new Point(155, 3);
+            this.perfModeMaxEffRadio.Name = "perfModeMaxEffRadio";
+            this.perfModeMaxEffRadio.Size = new Size(65, 19);
+            this.perfModeMaxEffRadio.TabIndex = 2;
+            this.perfModeMaxEffRadio.Text = "Max Eff";
+            this.perfModeMaxEffRadio.UseVisualStyleBackColor = true;
             // 
             // selectImageButton
             // 
@@ -182,6 +239,8 @@ namespace WindowsMLWinFormsSample
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(970, 488);
+            this.Controls.Add(this.perfModePanel);
+            this.Controls.Add(this.perfModeLabel);
             this.Controls.Add(this.reloadSessionButton);
             this.Controls.Add(this.deviceCombo);
             this.Controls.Add(this.deviceLabel);
@@ -220,5 +279,11 @@ namespace WindowsMLWinFormsSample
         private Label deviceLabel;
         private ComboBox deviceCombo;
         private Button reloadSessionButton;
+        // Performance mode designer fields
+        private Label perfModeLabel;
+        private Panel perfModePanel;
+        private RadioButton perfModeDefaultRadio;
+        private RadioButton perfModeMaxPerfRadio;
+        private RadioButton perfModeMaxEffRadio;
     }
 }

@@ -1,0 +1,2635 @@
+onnx.quantize0.1.0:Ÿ›	
+¿
+classifier.1.bias_quantized
+!classifier.1.bias_quantized_scale
+&classifier.1.bias_quantized_zero_pointclassifier.1.bias"classifier.1.bias_DequantizeLinear"DequantizeLinear:com.microsoft
+Œ
+classifier.1.weight_quantized
+classifier.1.weight_scale
+classifier.1.weight_zero_point+classifier.1.weight_DequantizeLinear_Output$classifier.1.weight_DequantizeLinear"DequantizeLinear:com.microsoft
+x
+input
+input_scale
+input_zero_pointinput_QuantizeLinear_Outputinput_QuantizeLinear"QuantizeLinear:com.microsoft
+µ
+onnx::Conv_497_quantized
+onnx::Conv_497_scale
+onnx::Conv_497_zero_point&onnx::Conv_497_DequantizeLinear_Outputonnx::Conv_497_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_498_quantized
+onnx::Conv_498_quantized_scale
+#onnx::Conv_498_quantized_zero_pointonnx::Conv_498onnx::Conv_498_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_500_quantized
+onnx::Conv_500_scale
+onnx::Conv_500_zero_point&onnx::Conv_500_DequantizeLinear_Outputonnx::Conv_500_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_501_quantized
+onnx::Conv_501_quantized_scale
+#onnx::Conv_501_quantized_zero_pointonnx::Conv_501onnx::Conv_501_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_503_quantized
+onnx::Conv_503_scale
+onnx::Conv_503_zero_point&onnx::Conv_503_DequantizeLinear_Outputonnx::Conv_503_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_504_quantized
+onnx::Conv_504_quantized_scale
+#onnx::Conv_504_quantized_zero_pointonnx::Conv_504onnx::Conv_504_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_506_quantized
+onnx::Conv_506_scale
+onnx::Conv_506_zero_point&onnx::Conv_506_DequantizeLinear_Outputonnx::Conv_506_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_507_quantized
+onnx::Conv_507_quantized_scale
+#onnx::Conv_507_quantized_zero_pointonnx::Conv_507onnx::Conv_507_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_509_quantized
+onnx::Conv_509_scale
+onnx::Conv_509_zero_point&onnx::Conv_509_DequantizeLinear_Outputonnx::Conv_509_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_510_quantized
+onnx::Conv_510_quantized_scale
+#onnx::Conv_510_quantized_zero_pointonnx::Conv_510onnx::Conv_510_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_512_quantized
+onnx::Conv_512_scale
+onnx::Conv_512_zero_point&onnx::Conv_512_DequantizeLinear_Outputonnx::Conv_512_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_513_quantized
+onnx::Conv_513_quantized_scale
+#onnx::Conv_513_quantized_zero_pointonnx::Conv_513onnx::Conv_513_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_515_quantized
+onnx::Conv_515_scale
+onnx::Conv_515_zero_point&onnx::Conv_515_DequantizeLinear_Outputonnx::Conv_515_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_516_quantized
+onnx::Conv_516_quantized_scale
+#onnx::Conv_516_quantized_zero_pointonnx::Conv_516onnx::Conv_516_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_518_quantized
+onnx::Conv_518_scale
+onnx::Conv_518_zero_point&onnx::Conv_518_DequantizeLinear_Outputonnx::Conv_518_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_519_quantized
+onnx::Conv_519_quantized_scale
+#onnx::Conv_519_quantized_zero_pointonnx::Conv_519onnx::Conv_519_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_521_quantized
+onnx::Conv_521_scale
+onnx::Conv_521_zero_point&onnx::Conv_521_DequantizeLinear_Outputonnx::Conv_521_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_522_quantized
+onnx::Conv_522_quantized_scale
+#onnx::Conv_522_quantized_zero_pointonnx::Conv_522onnx::Conv_522_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_524_quantized
+onnx::Conv_524_scale
+onnx::Conv_524_zero_point&onnx::Conv_524_DequantizeLinear_Outputonnx::Conv_524_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_525_quantized
+onnx::Conv_525_quantized_scale
+#onnx::Conv_525_quantized_zero_pointonnx::Conv_525onnx::Conv_525_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_527_quantized
+onnx::Conv_527_scale
+onnx::Conv_527_zero_point&onnx::Conv_527_DequantizeLinear_Outputonnx::Conv_527_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_528_quantized
+onnx::Conv_528_quantized_scale
+#onnx::Conv_528_quantized_zero_pointonnx::Conv_528onnx::Conv_528_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_530_quantized
+onnx::Conv_530_scale
+onnx::Conv_530_zero_point&onnx::Conv_530_DequantizeLinear_Outputonnx::Conv_530_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_531_quantized
+onnx::Conv_531_quantized_scale
+#onnx::Conv_531_quantized_zero_pointonnx::Conv_531onnx::Conv_531_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_533_quantized
+onnx::Conv_533_scale
+onnx::Conv_533_zero_point&onnx::Conv_533_DequantizeLinear_Outputonnx::Conv_533_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_534_quantized
+onnx::Conv_534_quantized_scale
+#onnx::Conv_534_quantized_zero_pointonnx::Conv_534onnx::Conv_534_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_536_quantized
+onnx::Conv_536_scale
+onnx::Conv_536_zero_point&onnx::Conv_536_DequantizeLinear_Outputonnx::Conv_536_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_537_quantized
+onnx::Conv_537_quantized_scale
+#onnx::Conv_537_quantized_zero_pointonnx::Conv_537onnx::Conv_537_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_539_quantized
+onnx::Conv_539_scale
+onnx::Conv_539_zero_point&onnx::Conv_539_DequantizeLinear_Outputonnx::Conv_539_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_540_quantized
+onnx::Conv_540_quantized_scale
+#onnx::Conv_540_quantized_zero_pointonnx::Conv_540onnx::Conv_540_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_542_quantized
+onnx::Conv_542_scale
+onnx::Conv_542_zero_point&onnx::Conv_542_DequantizeLinear_Outputonnx::Conv_542_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_543_quantized
+onnx::Conv_543_quantized_scale
+#onnx::Conv_543_quantized_zero_pointonnx::Conv_543onnx::Conv_543_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_545_quantized
+onnx::Conv_545_scale
+onnx::Conv_545_zero_point&onnx::Conv_545_DequantizeLinear_Outputonnx::Conv_545_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_546_quantized
+onnx::Conv_546_quantized_scale
+#onnx::Conv_546_quantized_zero_pointonnx::Conv_546onnx::Conv_546_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_548_quantized
+onnx::Conv_548_scale
+onnx::Conv_548_zero_point&onnx::Conv_548_DequantizeLinear_Outputonnx::Conv_548_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_549_quantized
+onnx::Conv_549_quantized_scale
+#onnx::Conv_549_quantized_zero_pointonnx::Conv_549onnx::Conv_549_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_551_quantized
+onnx::Conv_551_scale
+onnx::Conv_551_zero_point&onnx::Conv_551_DequantizeLinear_Outputonnx::Conv_551_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_552_quantized
+onnx::Conv_552_quantized_scale
+#onnx::Conv_552_quantized_zero_pointonnx::Conv_552onnx::Conv_552_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_554_quantized
+onnx::Conv_554_scale
+onnx::Conv_554_zero_point&onnx::Conv_554_DequantizeLinear_Outputonnx::Conv_554_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_555_quantized
+onnx::Conv_555_quantized_scale
+#onnx::Conv_555_quantized_zero_pointonnx::Conv_555onnx::Conv_555_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_557_quantized
+onnx::Conv_557_scale
+onnx::Conv_557_zero_point&onnx::Conv_557_DequantizeLinear_Outputonnx::Conv_557_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_558_quantized
+onnx::Conv_558_quantized_scale
+#onnx::Conv_558_quantized_zero_pointonnx::Conv_558onnx::Conv_558_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_560_quantized
+onnx::Conv_560_scale
+onnx::Conv_560_zero_point&onnx::Conv_560_DequantizeLinear_Outputonnx::Conv_560_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_561_quantized
+onnx::Conv_561_quantized_scale
+#onnx::Conv_561_quantized_zero_pointonnx::Conv_561onnx::Conv_561_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_563_quantized
+onnx::Conv_563_scale
+onnx::Conv_563_zero_point&onnx::Conv_563_DequantizeLinear_Outputonnx::Conv_563_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_564_quantized
+onnx::Conv_564_quantized_scale
+#onnx::Conv_564_quantized_zero_pointonnx::Conv_564onnx::Conv_564_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_566_quantized
+onnx::Conv_566_scale
+onnx::Conv_566_zero_point&onnx::Conv_566_DequantizeLinear_Outputonnx::Conv_566_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_567_quantized
+onnx::Conv_567_quantized_scale
+#onnx::Conv_567_quantized_zero_pointonnx::Conv_567onnx::Conv_567_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_569_quantized
+onnx::Conv_569_scale
+onnx::Conv_569_zero_point&onnx::Conv_569_DequantizeLinear_Outputonnx::Conv_569_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_570_quantized
+onnx::Conv_570_quantized_scale
+#onnx::Conv_570_quantized_zero_pointonnx::Conv_570onnx::Conv_570_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_572_quantized
+onnx::Conv_572_scale
+onnx::Conv_572_zero_point&onnx::Conv_572_DequantizeLinear_Outputonnx::Conv_572_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_573_quantized
+onnx::Conv_573_quantized_scale
+#onnx::Conv_573_quantized_zero_pointonnx::Conv_573onnx::Conv_573_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_575_quantized
+onnx::Conv_575_scale
+onnx::Conv_575_zero_point&onnx::Conv_575_DequantizeLinear_Outputonnx::Conv_575_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_576_quantized
+onnx::Conv_576_quantized_scale
+#onnx::Conv_576_quantized_zero_pointonnx::Conv_576onnx::Conv_576_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_578_quantized
+onnx::Conv_578_scale
+onnx::Conv_578_zero_point&onnx::Conv_578_DequantizeLinear_Outputonnx::Conv_578_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_579_quantized
+onnx::Conv_579_quantized_scale
+#onnx::Conv_579_quantized_zero_pointonnx::Conv_579onnx::Conv_579_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_581_quantized
+onnx::Conv_581_scale
+onnx::Conv_581_zero_point&onnx::Conv_581_DequantizeLinear_Outputonnx::Conv_581_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_582_quantized
+onnx::Conv_582_quantized_scale
+#onnx::Conv_582_quantized_zero_pointonnx::Conv_582onnx::Conv_582_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_584_quantized
+onnx::Conv_584_scale
+onnx::Conv_584_zero_point&onnx::Conv_584_DequantizeLinear_Outputonnx::Conv_584_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_585_quantized
+onnx::Conv_585_quantized_scale
+#onnx::Conv_585_quantized_zero_pointonnx::Conv_585onnx::Conv_585_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_587_quantized
+onnx::Conv_587_scale
+onnx::Conv_587_zero_point&onnx::Conv_587_DequantizeLinear_Outputonnx::Conv_587_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_588_quantized
+onnx::Conv_588_quantized_scale
+#onnx::Conv_588_quantized_zero_pointonnx::Conv_588onnx::Conv_588_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_590_quantized
+onnx::Conv_590_scale
+onnx::Conv_590_zero_point&onnx::Conv_590_DequantizeLinear_Outputonnx::Conv_590_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_591_quantized
+onnx::Conv_591_quantized_scale
+#onnx::Conv_591_quantized_zero_pointonnx::Conv_591onnx::Conv_591_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_593_quantized
+onnx::Conv_593_scale
+onnx::Conv_593_zero_point&onnx::Conv_593_DequantizeLinear_Outputonnx::Conv_593_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_594_quantized
+onnx::Conv_594_quantized_scale
+#onnx::Conv_594_quantized_zero_pointonnx::Conv_594onnx::Conv_594_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_596_quantized
+onnx::Conv_596_scale
+onnx::Conv_596_zero_point&onnx::Conv_596_DequantizeLinear_Outputonnx::Conv_596_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_597_quantized
+onnx::Conv_597_quantized_scale
+#onnx::Conv_597_quantized_zero_pointonnx::Conv_597onnx::Conv_597_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_599_quantized
+onnx::Conv_599_scale
+onnx::Conv_599_zero_point&onnx::Conv_599_DequantizeLinear_Outputonnx::Conv_599_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_600_quantized
+onnx::Conv_600_quantized_scale
+#onnx::Conv_600_quantized_zero_pointonnx::Conv_600onnx::Conv_600_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_602_quantized
+onnx::Conv_602_scale
+onnx::Conv_602_zero_point&onnx::Conv_602_DequantizeLinear_Outputonnx::Conv_602_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_603_quantized
+onnx::Conv_603_quantized_scale
+#onnx::Conv_603_quantized_zero_pointonnx::Conv_603onnx::Conv_603_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_605_quantized
+onnx::Conv_605_scale
+onnx::Conv_605_zero_point&onnx::Conv_605_DequantizeLinear_Outputonnx::Conv_605_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_606_quantized
+onnx::Conv_606_quantized_scale
+#onnx::Conv_606_quantized_zero_pointonnx::Conv_606onnx::Conv_606_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_608_quantized
+onnx::Conv_608_scale
+onnx::Conv_608_zero_point&onnx::Conv_608_DequantizeLinear_Outputonnx::Conv_608_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_609_quantized
+onnx::Conv_609_quantized_scale
+#onnx::Conv_609_quantized_zero_pointonnx::Conv_609onnx::Conv_609_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_611_quantized
+onnx::Conv_611_scale
+onnx::Conv_611_zero_point&onnx::Conv_611_DequantizeLinear_Outputonnx::Conv_611_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_612_quantized
+onnx::Conv_612_quantized_scale
+#onnx::Conv_612_quantized_zero_pointonnx::Conv_612onnx::Conv_612_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_614_quantized
+onnx::Conv_614_scale
+onnx::Conv_614_zero_point&onnx::Conv_614_DequantizeLinear_Outputonnx::Conv_614_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_615_quantized
+onnx::Conv_615_quantized_scale
+#onnx::Conv_615_quantized_zero_pointonnx::Conv_615onnx::Conv_615_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_617_quantized
+onnx::Conv_617_scale
+onnx::Conv_617_zero_point&onnx::Conv_617_DequantizeLinear_Outputonnx::Conv_617_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_618_quantized
+onnx::Conv_618_quantized_scale
+#onnx::Conv_618_quantized_zero_pointonnx::Conv_618onnx::Conv_618_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_620_quantized
+onnx::Conv_620_scale
+onnx::Conv_620_zero_point&onnx::Conv_620_DequantizeLinear_Outputonnx::Conv_620_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_621_quantized
+onnx::Conv_621_quantized_scale
+#onnx::Conv_621_quantized_zero_pointonnx::Conv_621onnx::Conv_621_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_623_quantized
+onnx::Conv_623_scale
+onnx::Conv_623_zero_point&onnx::Conv_623_DequantizeLinear_Outputonnx::Conv_623_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_624_quantized
+onnx::Conv_624_quantized_scale
+#onnx::Conv_624_quantized_zero_pointonnx::Conv_624onnx::Conv_624_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_626_quantized
+onnx::Conv_626_scale
+onnx::Conv_626_zero_point&onnx::Conv_626_DequantizeLinear_Outputonnx::Conv_626_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_627_quantized
+onnx::Conv_627_quantized_scale
+#onnx::Conv_627_quantized_zero_pointonnx::Conv_627onnx::Conv_627_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_629_quantized
+onnx::Conv_629_scale
+onnx::Conv_629_zero_point&onnx::Conv_629_DequantizeLinear_Outputonnx::Conv_629_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_630_quantized
+onnx::Conv_630_quantized_scale
+#onnx::Conv_630_quantized_zero_pointonnx::Conv_630onnx::Conv_630_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_632_quantized
+onnx::Conv_632_scale
+onnx::Conv_632_zero_point&onnx::Conv_632_DequantizeLinear_Outputonnx::Conv_632_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_633_quantized
+onnx::Conv_633_quantized_scale
+#onnx::Conv_633_quantized_zero_pointonnx::Conv_633onnx::Conv_633_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_635_quantized
+onnx::Conv_635_scale
+onnx::Conv_635_zero_point&onnx::Conv_635_DequantizeLinear_Outputonnx::Conv_635_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_636_quantized
+onnx::Conv_636_quantized_scale
+#onnx::Conv_636_quantized_zero_pointonnx::Conv_636onnx::Conv_636_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_638_quantized
+onnx::Conv_638_scale
+onnx::Conv_638_zero_point&onnx::Conv_638_DequantizeLinear_Outputonnx::Conv_638_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_639_quantized
+onnx::Conv_639_quantized_scale
+#onnx::Conv_639_quantized_zero_pointonnx::Conv_639onnx::Conv_639_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_641_quantized
+onnx::Conv_641_scale
+onnx::Conv_641_zero_point&onnx::Conv_641_DequantizeLinear_Outputonnx::Conv_641_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_642_quantized
+onnx::Conv_642_quantized_scale
+#onnx::Conv_642_quantized_zero_pointonnx::Conv_642onnx::Conv_642_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_644_quantized
+onnx::Conv_644_scale
+onnx::Conv_644_zero_point&onnx::Conv_644_DequantizeLinear_Outputonnx::Conv_644_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_645_quantized
+onnx::Conv_645_quantized_scale
+#onnx::Conv_645_quantized_zero_pointonnx::Conv_645onnx::Conv_645_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_647_quantized
+onnx::Conv_647_scale
+onnx::Conv_647_zero_point&onnx::Conv_647_DequantizeLinear_Outputonnx::Conv_647_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_648_quantized
+onnx::Conv_648_quantized_scale
+#onnx::Conv_648_quantized_zero_pointonnx::Conv_648onnx::Conv_648_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_650_quantized
+onnx::Conv_650_scale
+onnx::Conv_650_zero_point&onnx::Conv_650_DequantizeLinear_Outputonnx::Conv_650_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_651_quantized
+onnx::Conv_651_quantized_scale
+#onnx::Conv_651_quantized_zero_pointonnx::Conv_651onnx::Conv_651_DequantizeLinear"DequantizeLinear:com.microsoft
+µ
+onnx::Conv_653_quantized
+onnx::Conv_653_scale
+onnx::Conv_653_zero_point&onnx::Conv_653_DequantizeLinear_Outputonnx::Conv_653_DequantizeLinear"DequantizeLinear:com.microsoft
+±
+onnx::Conv_654_quantized
+onnx::Conv_654_quantized_scale
+#onnx::Conv_654_quantized_zero_pointonnx::Conv_654onnx::Conv_654_DequantizeLinear"DequantizeLinear:com.microsoft
+î
+input_QuantizeLinear_Output
+input_scale
+input_zero_pointinput_DequantizeLinear_Outputinput_DequantizeLinear"DequantizeLinear:com.microsoft
+õ
+input_DequantizeLinear_Output
+&onnx::Conv_497_DequantizeLinear_Output
+onnx::Conv_4982/resnet/embedder/embedder/activation/Relu_output_0*/resnet/embedder/embedder/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+Ÿ
+2/resnet/embedder/embedder/activation/Relu_output_0
+8/resnet/embedder/embedder/activation/Relu_output_0_scale
+=/resnet/embedder/embedder/activation/Relu_output_0_zero_pointH/resnet/embedder/embedder/activation/Relu_output_0_QuantizeLinear_OutputA/resnet/embedder/embedder/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ı
+H/resnet/embedder/embedder/activation/Relu_output_0_QuantizeLinear_Output
+8/resnet/embedder/embedder/activation/Relu_output_0_scale
+=/resnet/embedder/embedder/activation/Relu_output_0_zero_pointJ/resnet/embedder/embedder/activation/Relu_output_0_DequantizeLinear_OutputC/resnet/embedder/embedder/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+Ç
+J/resnet/embedder/embedder/activation/Relu_output_0_DequantizeLinear_Output(/resnet/embedder/pooler/MaxPool_output_0/resnet/embedder/pooler/MaxPool"MaxPool*
+	ceil_mode †*
+	dilations@@†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+ª
+(/resnet/embedder/pooler/MaxPool_output_0
+8/resnet/embedder/embedder/activation/Relu_output_0_scale
+=/resnet/embedder/embedder/activation/Relu_output_0_zero_point>/resnet/embedder/pooler/MaxPool_output_0_QuantizeLinear_Output7/resnet/embedder/pooler/MaxPool_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+◊
+>/resnet/embedder/pooler/MaxPool_output_0_QuantizeLinear_Output
+8/resnet/embedder/embedder/activation/Relu_output_0_scale
+=/resnet/embedder/embedder/activation/Relu_output_0_zero_point@/resnet/embedder/pooler/MaxPool_output_0_DequantizeLinear_Output9/resnet/embedder/pooler/MaxPool_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+Í
+@/resnet/embedder/pooler/MaxPool_output_0_DequantizeLinear_Output
+&onnx::Conv_500_DequantizeLinear_Output
+onnx::Conv_501H/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.0/layers.0/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+·
+@/resnet/embedder/pooler/MaxPool_output_0_DequantizeLinear_Output
+&onnx::Conv_509_DequantizeLinear_Output
+onnx::Conv_510D/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0;/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+≥
+D/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0
+J/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_scale
+O/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_zero_pointZ/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear_OutputS/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+œ
+Z/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear_Output
+J/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_scale
+O/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_zero_point\/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear_OutputU/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_503_DequantizeLinear_Output
+onnx::Conv_504H/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.0/layers.0/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_506_DequantizeLinear_Output
+onnx::Conv_507I/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+©
+a/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+\/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear_Output:/resnet/encoder/stages.0/layers.0/activation/Relu_output_0%/resnet/encoder/stages.0/layers.0/Add"Add
+Å
+:/resnet/encoder/stages.0/layers.0/activation/Relu_output_0
+@/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_scale
+E/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_scale
+E/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_512_DequantizeLinear_Output
+onnx::Conv_513H/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.0/layers.1/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_515_DequantizeLinear_Output
+onnx::Conv_516H/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.0/layers.1/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_518_DequantizeLinear_Output
+onnx::Conv_519I/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.0/layers.1/activation/Relu_output_0%/resnet/encoder/stages.0/layers.1/Add"Add
+Å
+:/resnet/encoder/stages.0/layers.1/activation/Relu_output_0
+@/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_scale
+E/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_scale
+E/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_521_DequantizeLinear_Output
+onnx::Conv_522H/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.0/layers.2/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_524_DequantizeLinear_Output
+onnx::Conv_525H/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.0/layers.2/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_527_DequantizeLinear_Output
+onnx::Conv_528I/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.0/layers.2/activation/Relu_output_0%/resnet/encoder/stages.0/layers.2/Add"Add
+Å
+:/resnet/encoder/stages.0/layers.2/activation/Relu_output_0
+@/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_scale
+E/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_scale
+E/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_530_DequantizeLinear_Output
+onnx::Conv_531H/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.1/layers.0/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Û
+R/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_539_DequantizeLinear_Output
+onnx::Conv_540D/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0;/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+≥
+D/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0
+J/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_scale
+O/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_zero_pointZ/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear_OutputS/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+œ
+Z/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear_Output
+J/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_scale
+O/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_zero_point\/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear_OutputU/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_533_DequantizeLinear_Output
+onnx::Conv_534H/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.1/layers.0/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_536_DequantizeLinear_Output
+onnx::Conv_537I/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+©
+a/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+\/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear_Output:/resnet/encoder/stages.1/layers.0/activation/Relu_output_0%/resnet/encoder/stages.1/layers.0/Add"Add
+Å
+:/resnet/encoder/stages.1/layers.0/activation/Relu_output_0
+@/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_scale
+E/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_scale
+E/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_542_DequantizeLinear_Output
+onnx::Conv_543H/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.1/layers.1/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_545_DequantizeLinear_Output
+onnx::Conv_546H/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.1/layers.1/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_548_DequantizeLinear_Output
+onnx::Conv_549I/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.1/layers.1/activation/Relu_output_0%/resnet/encoder/stages.1/layers.1/Add"Add
+Å
+:/resnet/encoder/stages.1/layers.1/activation/Relu_output_0
+@/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_scale
+E/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_scale
+E/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_551_DequantizeLinear_Output
+onnx::Conv_552H/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.1/layers.2/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_554_DequantizeLinear_Output
+onnx::Conv_555H/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.1/layers.2/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_557_DequantizeLinear_Output
+onnx::Conv_558I/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.1/layers.2/activation/Relu_output_0%/resnet/encoder/stages.1/layers.2/Add"Add
+Å
+:/resnet/encoder/stages.1/layers.2/activation/Relu_output_0
+@/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_scale
+E/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_scale
+E/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_560_DequantizeLinear_Output
+onnx::Conv_561H/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.1/layers.3/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_563_DequantizeLinear_Output
+onnx::Conv_564H/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.1/layers.3/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_566_DequantizeLinear_Output
+onnx::Conv_567I/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.1/layers.3/activation/Relu_output_0%/resnet/encoder/stages.1/layers.3/Add"Add
+Å
+:/resnet/encoder/stages.1/layers.3/activation/Relu_output_0
+@/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_scale
+E/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_scale
+E/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_569_DequantizeLinear_Output
+onnx::Conv_570H/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.2/layers.0/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Û
+R/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_578_DequantizeLinear_Output
+onnx::Conv_579D/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0;/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+≥
+D/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0
+J/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_scale
+O/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_zero_pointZ/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear_OutputS/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+œ
+Z/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear_Output
+J/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_scale
+O/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_zero_point\/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear_OutputU/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_572_DequantizeLinear_Output
+onnx::Conv_573H/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.2/layers.0/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_575_DequantizeLinear_Output
+onnx::Conv_576I/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+©
+a/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+\/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear_Output:/resnet/encoder/stages.2/layers.0/activation/Relu_output_0%/resnet/encoder/stages.2/layers.0/Add"Add
+Å
+:/resnet/encoder/stages.2/layers.0/activation/Relu_output_0
+@/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_581_DequantizeLinear_Output
+onnx::Conv_582H/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.2/layers.1/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_584_DequantizeLinear_Output
+onnx::Conv_585H/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.2/layers.1/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_587_DequantizeLinear_Output
+onnx::Conv_588I/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.2/layers.1/activation/Relu_output_0%/resnet/encoder/stages.2/layers.1/Add"Add
+Å
+:/resnet/encoder/stages.2/layers.1/activation/Relu_output_0
+@/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_590_DequantizeLinear_Output
+onnx::Conv_591H/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.2/layers.2/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_593_DequantizeLinear_Output
+onnx::Conv_594H/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.2/layers.2/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_596_DequantizeLinear_Output
+onnx::Conv_597I/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.2/layers.2/activation/Relu_output_0%/resnet/encoder/stages.2/layers.2/Add"Add
+Å
+:/resnet/encoder/stages.2/layers.2/activation/Relu_output_0
+@/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_599_DequantizeLinear_Output
+onnx::Conv_600H/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.2/layers.3/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_602_DequantizeLinear_Output
+onnx::Conv_603H/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.2/layers.3/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_605_DequantizeLinear_Output
+onnx::Conv_606I/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.2/layers.3/activation/Relu_output_0%/resnet/encoder/stages.2/layers.3/Add"Add
+Å
+:/resnet/encoder/stages.2/layers.3/activation/Relu_output_0
+@/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_608_DequantizeLinear_Output
+onnx::Conv_609H/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.2/layers.4/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_611_DequantizeLinear_Output
+onnx::Conv_612H/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.2/layers.4/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_614_DequantizeLinear_Output
+onnx::Conv_615I/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.2/layers.4/activation/Relu_output_0%/resnet/encoder/stages.2/layers.4/Add"Add
+Å
+:/resnet/encoder/stages.2/layers.4/activation/Relu_output_0
+@/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_617_DequantizeLinear_Output
+onnx::Conv_618H/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.2/layers.5/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_620_DequantizeLinear_Output
+onnx::Conv_621H/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.2/layers.5/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_623_DequantizeLinear_Output
+onnx::Conv_624I/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.2/layers.5/activation/Relu_output_0%/resnet/encoder/stages.2/layers.5/Add"Add
+Å
+:/resnet/encoder/stages.2/layers.5/activation/Relu_output_0
+@/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_scale
+E/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_626_DequantizeLinear_Output
+onnx::Conv_627H/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.3/layers.0/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Û
+R/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_635_DequantizeLinear_Output
+onnx::Conv_636D/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0;/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+≥
+D/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0
+J/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_scale
+O/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_zero_pointZ/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear_OutputS/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+œ
+Z/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_QuantizeLinear_Output
+J/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_scale
+O/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_zero_point\/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear_OutputU/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_629_DequantizeLinear_Output
+onnx::Conv_630H/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.3/layers.0/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_632_DequantizeLinear_Output
+onnx::Conv_633I/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+©
+a/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+\/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_DequantizeLinear_Output:/resnet/encoder/stages.3/layers.0/activation/Relu_output_0%/resnet/encoder/stages.3/layers.0/Add"Add
+Å
+:/resnet/encoder/stages.3/layers.0/activation/Relu_output_0
+@/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_scale
+E/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_scale
+E/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_638_DequantizeLinear_Output
+onnx::Conv_639H/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.3/layers.1/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_641_DequantizeLinear_Output
+onnx::Conv_642H/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.3/layers.1/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_644_DequantizeLinear_Output
+onnx::Conv_645I/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.3/layers.1/activation/Relu_output_0%/resnet/encoder/stages.3/layers.1/Add"Add
+Å
+:/resnet/encoder/stages.3/layers.1/activation/Relu_output_0
+@/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_scale
+E/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_scale
+E/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¸
+R/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_647_DequantizeLinear_Output
+onnx::Conv_648H/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0@/resnet/encoder/stages.3/layers.2/layer/layer.0/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+«
+H/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0
+N/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_zero_point^/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_zero_point`/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ä
+`/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_650_DequantizeLinear_Output
+onnx::Conv_651H/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0@/resnet/encoder/stages.3/layers.2/layer/layer.1/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@@@@†*
+strides@@†
+«
+H/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0
+N/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_zero_point^/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear_OutputW/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+„
+^/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_QuantizeLinear_Output
+N/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_scale
+S/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_zero_point`/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear_OutputY/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ã
+`/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_DequantizeLinear_Output
+&onnx::Conv_653_DequantizeLinear_Output
+onnx::Conv_654I/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0@/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv"Conv*
+	dilations@@†*
+group†*
+kernel_shape@@†*
+pads@ @ @ @ †*
+strides@@†
+Ã
+I/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0
+O/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_zero_point_/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_OutputX/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+Ë
+_/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_QuantizeLinear_Output
+O/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_scale
+T/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_zero_pointa/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_OutputZ/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ü
+a/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_DequantizeLinear_Output
+R/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_DequantizeLinear_Output:/resnet/encoder/stages.3/layers.2/activation/Relu_output_0%/resnet/encoder/stages.3/layers.2/Add"Add
+Å
+:/resnet/encoder/stages.3/layers.2/activation/Relu_output_0
+@/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_scale
+E/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_zero_pointP/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_QuantizeLinear_OutputI/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+ù
+P/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_QuantizeLinear_Output
+@/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_scale
+E/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_zero_pointR/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_DequantizeLinear_OutputK/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¥
+R/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_DequantizeLinear_Output)/resnet/pooler/GlobalAveragePool_output_0 /resnet/pooler/GlobalAveragePool"GlobalAveragePool
+¨
+)/resnet/pooler/GlobalAveragePool_output_0
+//resnet/pooler/GlobalAveragePool_output_0_scale
+4/resnet/pooler/GlobalAveragePool_output_0_zero_point?/resnet/pooler/GlobalAveragePool_output_0_QuantizeLinear_Output8/resnet/pooler/GlobalAveragePool_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+»
+?/resnet/pooler/GlobalAveragePool_output_0_QuantizeLinear_Output
+//resnet/pooler/GlobalAveragePool_output_0_scale
+4/resnet/pooler/GlobalAveragePool_output_0_zero_pointA/resnet/pooler/GlobalAveragePool_output_0_DequantizeLinear_Output:/resnet/pooler/GlobalAveragePool_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+¶
+A/resnet/pooler/GlobalAveragePool_output_0_DequantizeLinear_Output)/classifier/classifier.0/Flatten_output_0 /classifier/classifier.0/Flatten"Flatten*
+axis†
+¨
+)/classifier/classifier.0/Flatten_output_0
+//classifier/classifier.0/Flatten_output_0_scale
+4/classifier/classifier.0/Flatten_output_0_zero_point?/classifier/classifier.0/Flatten_output_0_QuantizeLinear_Output8/classifier/classifier.0/Flatten_output_0_QuantizeLinear"QuantizeLinear:com.microsoft
+»
+?/classifier/classifier.0/Flatten_output_0_QuantizeLinear_Output
+//classifier/classifier.0/Flatten_output_0_scale
+4/classifier/classifier.0/Flatten_output_0_zero_pointA/classifier/classifier.0/Flatten_output_0_DequantizeLinear_Output:/classifier/classifier.0/Flatten_output_0_DequantizeLinear"DequantizeLinear:com.microsoft
+ı
+A/classifier/classifier.0/Flatten_output_0_DequantizeLinear_Output
++classifier.1.weight_DequantizeLinear_Output
+classifier.1.biasoutput_QuantizeLinear_Input/classifier/classifier.1/Gemm"Gemm*
+alpha  Ä?†*
+beta  Ä?†*
+transB†
+í
+output_QuantizeLinear_Input
+output_scale
+output_zero_pointoutput_QuantizeLinear_Outputoutput_QuantizeLinear"QuantizeLinear:com.microsoft
+Å
+output_QuantizeLinear_Output
+output_scale
+output_zero_pointoutputoutput_DequantizeLinear"DequantizeLinear:com.microsoft
+main_graph**Ù„Binput_zero_point*"XAò8Binput_scale* *Bonnx::Conv_497_zero_point*"ô4´<Bonnx::Conv_497_scale*`@Bonnx::Conv_497_quantizedj
+locationmodel.onnx.dataj
+offset0j
+length9408p*D* B=/resnet/embedder/embedder/activation/Relu_output_0_zero_point*B"ˇeU:B8/resnet/embedder/embedder/activation/Relu_output_0_scale* *Bonnx::Conv_500_zero_point*"a+<Bonnx::Conv_500_scale*c@@Bonnx::Conv_500_quantizedj
+locationmodel.onnx.dataj
+offset9408j
+length4096p*Z* BS/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_zero_point*X"˚“Ó9BN/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_503_zero_point*"¸Å-<Bonnx::Conv_503_scale*e@@Bonnx::Conv_503_quantizedj
+locationmodel.onnx.dataj
+offset13504j
+length36864p*Z* BS/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_zero_point*X"QÇg:BN/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0_scale*]*ÖÉBT/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_zero_point*Y"F3∂9BO/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_506_zero_point*"®æ8<Bonnx::Conv_506_scale*fÄ@Bonnx::Conv_506_quantizedj
+locationmodel.onnx.dataj
+offset50368j
+length16384p*X*÷ŸBO/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_zero_point*T"Z*?:BJ/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0_scale* *Bonnx::Conv_509_zero_point*"˙¡ü<Bonnx::Conv_509_scale*fÄ@Bonnx::Conv_509_quantizedj
+locationmodel.onnx.dataj
+offset66752j
+length16384p*L* BE/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_zero_point*J"˘ªM9B@/resnet/encoder/stages.0/layers.0/activation/Relu_output_0_scale* *Bonnx::Conv_512_zero_point*"ô+<Bonnx::Conv_512_scale*f@ÄBonnx::Conv_512_quantizedj
+locationmodel.onnx.dataj
+offset83136j
+length16384p*Z* BS/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_zero_point*X"¿®9BN/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_515_zero_point*"‚SÅ<Bonnx::Conv_515_scale*e@@Bonnx::Conv_515_quantizedj
+locationmodel.onnx.dataj
+offset99520j
+length36864p*Z* BS/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_zero_point*X"M'Ç9BN/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0_scale*]*√ßBT/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_zero_point*Y" -:BO/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_518_zero_point*")æ<Bonnx::Conv_518_scale*gÄ@Bonnx::Conv_518_quantizedj
+locationmodel.onnx.dataj
+offset136384j
+length16384p*L* BE/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_zero_point*J"„ì9B@/resnet/encoder/stages.0/layers.1/activation/Relu_output_0_scale* *Bonnx::Conv_521_zero_point*"<2ç<Bonnx::Conv_521_scale*g@ÄBonnx::Conv_521_quantizedj
+locationmodel.onnx.dataj
+offset152768j
+length16384p*Z* BS/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_zero_point*X"Äúï9BN/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_524_zero_point*"7º<Bonnx::Conv_524_scale*f@@Bonnx::Conv_524_quantizedj
+locationmodel.onnx.dataj
+offset169152j
+length36864p*Z* BS/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_zero_point*X"	Æ:BN/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0_scale*]*˛éBT/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_zero_point*Y"Úˇ¡:BO/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_527_zero_point*"–*˘;Bonnx::Conv_527_scale*gÄ@Bonnx::Conv_527_quantizedj
+locationmodel.onnx.dataj
+offset206016j
+length16384p*L* BE/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_zero_point*J"ÅF´9B@/resnet/encoder/stages.0/layers.2/activation/Relu_output_0_scale* *Bonnx::Conv_530_zero_point*"E”ê<Bonnx::Conv_530_scale*hÄÄBonnx::Conv_530_quantizedj
+locationmodel.onnx.dataj
+offset222400j
+length32768p*Z* BS/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_zero_point*X"$Ñª9BN/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_533_zero_point*"ﬂÍâ;Bonnx::Conv_533_scale*iÄÄBonnx::Conv_533_quantizedj
+locationmodel.onnx.dataj
+offset255168j
+length147456p*Z* BS/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_zero_point*X"·›“9BN/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0_scale*]*πˇBT/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_zero_point*Y"9]Ø:BO/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_536_zero_point*"H$W<Bonnx::Conv_536_scale*hÄÄBonnx::Conv_536_quantizedj
+locationmodel.onnx.dataj
+offset402624j
+length65536p*X*Ò¢BO/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_zero_point*T"¸±Ω:BJ/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0_scale* *Bonnx::Conv_539_zero_point*"Póê=Bonnx::Conv_539_scale*iÄÄBonnx::Conv_539_quantizedj
+locationmodel.onnx.dataj
+offset468160j
+length131072p*L* BE/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_zero_point*J"Kú&:B@/resnet/encoder/stages.1/layers.0/activation/Relu_output_0_scale* *Bonnx::Conv_542_zero_point*" ©¥;Bonnx::Conv_542_scale*hÄÄBonnx::Conv_542_quantizedj
+locationmodel.onnx.dataj
+offset599232j
+length65536p*Z* BS/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_zero_point*X"ê˛9BN/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_545_zero_point*"6u<Bonnx::Conv_545_scale*iÄÄBonnx::Conv_545_quantizedj
+locationmodel.onnx.dataj
+offset664768j
+length147456p*Z* BS/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_zero_point*X"ê4a9BN/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0_scale*]*É·BT/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_zero_point*Y"X≤ó:BO/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_548_zero_point*"πr=Bonnx::Conv_548_scale*hÄÄBonnx::Conv_548_quantizedj
+locationmodel.onnx.dataj
+offset812224j
+length65536p*L* BE/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_zero_point*J",Ë:B@/resnet/encoder/stages.1/layers.1/activation/Relu_output_0_scale* *Bonnx::Conv_551_zero_point*"«DG;Bonnx::Conv_551_scale*hÄÄBonnx::Conv_551_quantizedj
+locationmodel.onnx.dataj
+offset877760j
+length65536p*Z* BS/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_zero_point*X"ÿc69BN/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_554_zero_point*"π∂Ø;Bonnx::Conv_554_scale*iÄÄBonnx::Conv_554_quantizedj
+locationmodel.onnx.dataj
+offset943296j
+length147456p*Z* BS/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_zero_point*X"í“î9BN/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0_scale*]*¶ªBT/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_zero_point*Y">êô:BO/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_557_zero_point*"¢áÃ<Bonnx::Conv_557_scale*iÄÄBonnx::Conv_557_quantizedj
+locationmodel.onnx.dataj
+offset1090752j
+length65536p*L* BE/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_zero_point*J"AF.:B@/resnet/encoder/stages.1/layers.2/activation/Relu_output_0_scale* *Bonnx::Conv_560_zero_point*"j˛•;Bonnx::Conv_560_scale*iÄÄBonnx::Conv_560_quantizedj
+locationmodel.onnx.dataj
+offset1156288j
+length65536p*Z* BS/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_zero_point*X"ç¬µ9BN/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_563_zero_point*" 0˛;Bonnx::Conv_563_scale*jÄÄBonnx::Conv_563_quantizedj
+locationmodel.onnx.dataj
+offset1221824j
+length147456p*Z* BS/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_zero_point*X"Ääà9BN/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0_scale*]*°‹BT/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_zero_point*Y"¢∆ò:BO/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_566_zero_point*"ÄƒQ=Bonnx::Conv_566_scale*iÄÄBonnx::Conv_566_quantizedj
+locationmodel.onnx.dataj
+offset1369280j
+length65536p*L* BE/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_zero_point*J"Õ’:B@/resnet/encoder/stages.1/layers.3/activation/Relu_output_0_scale* *Bonnx::Conv_569_zero_point*":í;Bonnx::Conv_569_scale*jÄÄBonnx::Conv_569_quantizedj
+locationmodel.onnx.dataj
+offset1434816j
+length131072p*Z* BS/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_zero_point*X"ˆM‹9BN/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_572_zero_point*"∑!z;Bonnx::Conv_572_scale*jÄÄBonnx::Conv_572_quantizedj
+locationmodel.onnx.dataj
+offset1565888j
+length589824p*Z* BS/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_zero_point*X"Àíò9BN/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0_scale*]*Ö¸BT/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_zero_point*Y"(	é:BO/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_575_zero_point*"N<Bonnx::Conv_575_scale*jÄÄBonnx::Conv_575_quantizedj
+locationmodel.onnx.dataj
+offset2155712j
+length262144p*X*È BO/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_zero_point*T"3˛`:BJ/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0_scale* *Bonnx::Conv_578_zero_point*"›†ï<Bonnx::Conv_578_scale*jÄÄBonnx::Conv_578_quantizedj
+locationmodel.onnx.dataj
+offset2417856j
+length524288p*L* BE/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_zero_point*J"÷ÖE:B@/resnet/encoder/stages.2/layers.0/activation/Relu_output_0_scale* *Bonnx::Conv_581_zero_point*"Ñ5©;Bonnx::Conv_581_scale*jÄÄBonnx::Conv_581_quantizedj
+locationmodel.onnx.dataj
+offset2942144j
+length262144p*Z* BS/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_zero_point*X"Õ©9BN/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_584_zero_point*"Sı<Bonnx::Conv_584_scale*jÄÄBonnx::Conv_584_quantizedj
+locationmodel.onnx.dataj
+offset3204288j
+length589824p*Z* BS/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_zero_point*X"^sì9BN/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0_scale*]*™’BT/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_zero_point*Y"q*õ:BO/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_587_zero_point*"±<Bonnx::Conv_587_scale*jÄÄBonnx::Conv_587_quantizedj
+locationmodel.onnx.dataj
+offset3794112j
+length262144p*L* BE/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_zero_point*J"∞):B@/resnet/encoder/stages.2/layers.1/activation/Relu_output_0_scale* *Bonnx::Conv_590_zero_point*" k¶;Bonnx::Conv_590_scale*jÄÄBonnx::Conv_590_quantizedj
+locationmodel.onnx.dataj
+offset4056256j
+length262144p*Z* BS/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_zero_point*X"P»¶9BN/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_593_zero_point*" õ;Bonnx::Conv_593_scale*jÄÄBonnx::Conv_593_quantizedj
+locationmodel.onnx.dataj
+offset4318400j
+length589824p*Z* BS/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_zero_point*X"Mê9BN/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0_scale*]*‘éBT/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_zero_point*Y"ÍÛã:BO/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_596_zero_point*"í˜=Bonnx::Conv_596_scale*jÄÄBonnx::Conv_596_quantizedj
+locationmodel.onnx.dataj
+offset4908224j
+length262144p*L* BE/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_zero_point*J"t}#:B@/resnet/encoder/stages.2/layers.2/activation/Relu_output_0_scale* *Bonnx::Conv_599_zero_point*"8Á¢;Bonnx::Conv_599_scale*jÄÄBonnx::Conv_599_quantizedj
+locationmodel.onnx.dataj
+offset5170368j
+length262144p*Z* BS/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_zero_point*X"`O–9BN/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_602_zero_point*"0Ç;Bonnx::Conv_602_scale*jÄÄBonnx::Conv_602_quantizedj
+locationmodel.onnx.dataj
+offset5432512j
+length589824p*Z* BS/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_zero_point*X"˝øß9BN/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0_scale*]*ÿˇBT/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_zero_point*Y"ƒz∞:BO/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_605_zero_point*""â#=Bonnx::Conv_605_scale*jÄÄBonnx::Conv_605_quantizedj
+locationmodel.onnx.dataj
+offset6022336j
+length262144p*L* BE/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_zero_point*J"^	K:B@/resnet/encoder/stages.2/layers.3/activation/Relu_output_0_scale* *Bonnx::Conv_608_zero_point*"–q;Bonnx::Conv_608_scale*jÄÄBonnx::Conv_608_quantizedj
+locationmodel.onnx.dataj
+offset6284480j
+length262144p*Z* BS/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_zero_point*X"ÕøÏ9BN/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_611_zero_point*"É†ò;Bonnx::Conv_611_scale*jÄÄBonnx::Conv_611_quantizedj
+locationmodel.onnx.dataj
+offset6546624j
+length589824p*Z* BS/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_zero_point*X"Z&¿9BN/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0_scale*]*Ö˛BT/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_zero_point*Y"€È~:BO/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_614_zero_point*">âê<Bonnx::Conv_614_scale*jÄÄBonnx::Conv_614_quantizedj
+locationmodel.onnx.dataj
+offset7136448j
+length262144p*L* BE/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_zero_point*J"√ıÅ:B@/resnet/encoder/stages.2/layers.4/activation/Relu_output_0_scale* *Bonnx::Conv_617_zero_point*"Å#';Bonnx::Conv_617_scale*jÄÄBonnx::Conv_617_quantizedj
+locationmodel.onnx.dataj
+offset7398592j
+length262144p*Z* BS/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_zero_point*X"$¯¢9BN/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_620_zero_point*"sW¡;Bonnx::Conv_620_scale*jÄÄBonnx::Conv_620_quantizedj
+locationmodel.onnx.dataj
+offset7660736j
+length589824p*Z* BS/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_zero_point*X"¶çØ9BN/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0_scale*]*≤ºBT/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_zero_point*Y"~.î:BO/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_623_zero_point*"ΩÑU=Bonnx::Conv_623_scale*jÄÄBonnx::Conv_623_quantizedj
+locationmodel.onnx.dataj
+offset8250560j
+length262144p*L* BE/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_zero_point*J"Î‰Ñ:B@/resnet/encoder/stages.2/layers.5/activation/Relu_output_0_scale* *Bonnx::Conv_626_zero_point*"≈Ã[;Bonnx::Conv_626_scale*jÄÄBonnx::Conv_626_quantizedj
+locationmodel.onnx.dataj
+offset8512704j
+length524288p*Z* BS/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_zero_point*X"‡\≤9BN/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_629_zero_point*"1¥\<Bonnx::Conv_629_scale*kÄÄBonnx::Conv_629_quantizedj
+locationmodel.onnx.dataj
+offset9036992j
+length2359296p*Z* BS/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_zero_point*X"T-¶9BN/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0_scale*]*ß±BT/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_zero_point*Y"A5:BO/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_632_zero_point*"€ƒ—;Bonnx::Conv_632_scale*lÄÄBonnx::Conv_632_quantizedj
+locationmodel.onnx.dataj
+offset11396288j
+length1048576p*X*üÚBO/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_zero_point*T"Âo?:BJ/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0_scale* *Bonnx::Conv_635_zero_point*"∆‚P;Bonnx::Conv_635_scale*lÄÄBonnx::Conv_635_quantizedj
+locationmodel.onnx.dataj
+offset12444864j
+length2097152p*L* BE/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_zero_point*J"zæˇ9B@/resnet/encoder/stages.3/layers.0/activation/Relu_output_0_scale* *Bonnx::Conv_638_zero_point*"öÇP<Bonnx::Conv_638_scale*lÄÄBonnx::Conv_638_quantizedj
+locationmodel.onnx.dataj
+offset14542016j
+length1048576p*Z* BS/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_zero_point*X"ﬁ:BN/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_641_zero_point*"m{;Bonnx::Conv_641_scale*lÄÄBonnx::Conv_641_quantizedj
+locationmodel.onnx.dataj
+offset15590592j
+length2359296p*Z* BS/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_zero_point*X"Å∑Ñ9BN/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0_scale*]*·†BT/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_zero_point*Y"È9BO/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_644_zero_point*"Í∂∫<Bonnx::Conv_644_scale*lÄÄBonnx::Conv_644_quantizedj
+locationmodel.onnx.dataj
+offset17949888j
+length1048576p*L* BE/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_zero_point*J"ú¬œ9B@/resnet/encoder/stages.3/layers.1/activation/Relu_output_0_scale* *Bonnx::Conv_647_zero_point*"/(b<Bonnx::Conv_647_scale*lÄÄBonnx::Conv_647_quantizedj
+locationmodel.onnx.dataj
+offset18998464j
+length1048576p*Z* BS/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_zero_point*X"mtå9BN/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0_scale* *Bonnx::Conv_650_zero_point*"m*<Bonnx::Conv_650_scale*lÄÄBonnx::Conv_650_quantizedj
+locationmodel.onnx.dataj
+offset20047040j
+length2359296p*Z* BS/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_zero_point*X"›ˇù9BN/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0_scale*]*π≥BT/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_zero_point*Y"«ëm:BO/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0_scale* *Bonnx::Conv_653_zero_point*"±<Bonnx::Conv_653_scale*lÄÄBonnx::Conv_653_quantizedj
+locationmodel.onnx.dataj
+offset22406336j
+length1048576p*L* BE/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_zero_point*J"Rk›9B@/resnet/encoder/stages.3/layers.2/activation/Relu_output_0_scale*;* B4/resnet/pooler/GlobalAveragePool_output_0_zero_point*9"¨˛ 8B//resnet/pooler/GlobalAveragePool_output_0_scale*;* B4/classifier/classifier.0/Flatten_output_0_zero_point*9"¨˛ 8B//classifier/classifier.0/Flatten_output_0_scale**åéBoutput_zero_point*"’N/:Boutput_scale*%*Bclassifier.1.weight_zero_point*#"(`=Bclassifier.1.weight_scale*mËÄBclassifier.1.weight_quantizedj
+locationmodel.onnx.dataj
+offset23454912j
+length2048000p*°@Bonnx::Conv_498_quantizedJÄRÀ Âï B\ nV ®Ñ* ô”:ªö ® /ø l$ˇˇœ0 í¸$ Ê*# 3w }ô ˆô t_ " (ﬂ °°x 	 Ê’∞ ÉV £1/ ¶o E@ a  =3 F- …¿ ‡ O£ ÌU ]¸ T '_ w8 ›Q iÈ& ‚¥  e >˘ Ø  yö$ ÌÒ ´Ñ ≠ó „õ  {Ô% {M. è˙Ü "3% ÖØ T  º…/ æA Dî ˆê, óº  ‚ˇñ- `”, √’# ¡Ñ **Bonnx::Conv_498_quantized_scaleJ‹•À5*** B#onnx::Conv_498_quantized_zero_point*°@Bonnx::Conv_501_quantizedJÄ~£ˇˇØ◊¯ˇC†˙ˇ˝G o˝ˇ…D D&˛ˇñŸ˛ˇÕ«ˇˇ(õ˛ˇÃÎ8 ÃÇ* ∏˜˛ˇ:® Z”˝ˇ$ê O·˛ˇG+¸ˇ:’ SÇ §∫ˇˇˇû &Â  µ≤  ï ûo i˛ˇÔ˝ˇ®≤˛ˇ ˛ˇ#á ”uˇˇi  ;îˇˇì^˛ˇ®m  úÑ˝ˇrb˛ˇ8qˇˇXÁˇˇéÃˇˇu‘˛ˇÎ3˚ˇª¡ˆˇ» ⁄N¯ˇV“  Ü   ´,˛ˇî§˜ˇ˝^Ûˇ1˚ˇkC  ®_ˇˇôˇˇ,Å  ÷gÒˇgp N`˝ˇ[8  Û¯ˇøz¯ˇ**Bonnx::Conv_501_quantized_scaleJ‹7*** B#onnx::Conv_501_quantized_zero_point*°@Bonnx::Conv_504_quantizedJÄ[ˇˇ
+Â˛ˇ‚F	 Íå n µ¸ˇΩ+ˇˇ!ƒ˝ˇô˛ˇ€; ˘ı r  ∏± P¸  Té ·ÍÓˇ “M [-˛ˇ}˝ˇ*˛ˇ%úV ÿN¸ˇüT˚ˇãQıˇA∆ •¶¯ˇKŸ˚ˇœ[ rB¸ˇÃ˝ˇi˙ˇ1¥ a™ –ä  
+~ „äˇˇ+≤˛ˇ<~ ‰¬ ﬁb¸ˇNé˛ˇ$T˝ˇÿP˛ˇê ˚œ¸ˇ$≈ W˛ˇ˝»˛ˇÔü¸ˇg§˚ˇ:V˛ˇK å  2] `ç 8˛ˇu˙˝ˇp˚ˇ˚ˇ/i j%¸ˇy-˝ˇÁU **Bonnx::Conv_504_quantized_scaleJ◊›°6*** B#onnx::Conv_504_quantized_zero_point*bÄBonnx::Conv_507_quantizedj
+locationmodel.onnx.dataj
+offset25502912j
+length1024p**Bonnx::Conv_507_quantized_scaleJ'7*** B#onnx::Conv_507_quantized_zero_point*bÄBonnx::Conv_510_quantizedj
+locationmodel.onnx.dataj
+offset25503936j
+length1024p**Bonnx::Conv_510_quantized_scaleJ,Ö7*** B#onnx::Conv_510_quantized_zero_point*°@Bonnx::Conv_513_quantizedJÄ}Îˇ¥ÌÙˇãˇˇÉø Ω ÏØ  yºˇˇé$ ;Í˝ˇCÍıˇ”Ø˙ˇÈ¸ıˇ§  ∆Y˝ˇi¢˚ˇ•¨˛ˇ§˜ ÑÔˇßQ ı¸ˇö> ´˛ˇÎN˛ˇ‘˙ˇâ‹
+ -â  ìå˛ˇçã‚ˇÿ Yg˝ˇ	Z˛ˇ¯c ¨Ö  ´q  ü öÏˇˇõr Ü‡ ·jO æá  â˛ˇb⁄˚ˇ#Ñ¯ˇ{6˜ˇ† Û·ˇmä˚ˇ¡¶˙ˇ˛ Z	˚ˇca¸ˇ◊ˇˇÓÃ˛ˇÀˇ2ò  • W≤˛ˇûœ˚ˇÿd z' ÍŸ HÓ˛ˇ¯4	 ©¶	 **Bonnx::Conv_513_quantized_scaleJ;Ã˜5*** B#onnx::Conv_513_quantized_zero_point*°@Bonnx::Conv_516_quantizedJÄıù/  ’˘ˇ÷! ™˜˙ˇÇ_˛ˇ   µ  ËÁˇÔ@ ˚à 8ì ƒr ] ¸B N-# Ï
+ Ÿˇ¸ˇƒÄˇˇ0« #Ã ∑ﬂ ≥M {™ Å` &L KbÓˇ ≠ mÉ  ¶h	 z ⁄‡ˇˇ™Î Õá¯ˇ–·ˇˇp¡˝ˇ©è0 x  ßO ˝ë ﬂù—ˇR,ˇˇ}§ ∞« ña˝ˇ≈ú ô˚
+ ÈÒ˝ˇIh& l[4 î˚ TY q: ;J ç §; ¸_˘ˇõâ ∏Î ∂n5 ¨+ Öÿ g) 9 î0 **Bonnx::Conv_516_quantized_scaleJò6*** B#onnx::Conv_516_quantized_zero_point*bÄBonnx::Conv_519_quantizedj
+locationmodel.onnx.dataj
+offset25504960j
+length1024p**Bonnx::Conv_519_quantized_scaleJL¡6*** B#onnx::Conv_519_quantized_zero_point*°@Bonnx::Conv_522_quantizedJÄ∫Z %¿	 P? ‚[ 
+C x- ][  j5 i  ™ñ ‡! \¯¸ˇ@ ‡ª ˙Ü	 l¶ ¸}	 ı˚ˇsˇˇíB õˇ Ã ®N	 ¿Ò p˘ˇ4I ‘∑ Ô7 ﬂ; ß ã* MY 2ÒˇëÔ Dñ Sÿ ±ÏÏˇö’ ˜ i∆ [ˇˇ˚àÚˇ60 πL¸ˇà; : ˛ë Œ) ˇlÿˇ	v íT 'ıˇœŸ 
+. ∂@	 ˆ  ÆˇˇØô ` ﬂÈÛˇ;
+ 8A j' **Bonnx::Conv_522_quantized_scaleJª>¢6*** B#onnx::Conv_522_quantized_zero_point*°@Bonnx::Conv_525_quantizedJÄù˛ˇûÖ  #`  ™a˝ˇhV 0ﬂ˝ˇ”Ÿ˝ˇM tÚ ¬% ∂Ø ‡
+  u˚ˇŸ7ˇˇ® 
+˘ˇ˙· n" ◊w 9  D DÒ B¯ˇ⁄g ∫û3 gu˛ˇèßˇˇ˚,9 ≤ì E÷˛ˇ‹ ˇˇ…F œM  öUH A∏ »' ñ ) Æ¸ˇˇ¸Ç ‰¯ˇˇò˛ ( g∑ÚˇÏ˛ˇÒM õı è Pó˝ˇ”˜ b  Tô 9¸˚ˇtŒˇˇµÙ › # Ç+˝ˇ§Ó §”ˇˇS≥	 )P °!˝ˇ∏|˘ˇ**Bonnx::Conv_525_quantized_scaleJπ≠,6*** B#onnx::Conv_525_quantized_zero_point*bÄBonnx::Conv_528_quantizedj
+locationmodel.onnx.dataj
+offset25505984j
+length1024p**Bonnx::Conv_528_quantized_scaleJ∫D*7*** B#onnx::Conv_528_quantized_zero_point*¢ÄBonnx::Conv_531_quantizedJÄÙÿ	 Ø ‘ © Øk 2œ Y“ Èç m1 ∏ Øy √P ‡ "Í öŒ  í’ øl /°˛ˇ_p 'Ç˛ˇ/ó ?Ô˘ˇ5ÿ Pí ú ÿw˛ˇî‹ ’À   ÔˇˇSŒ x‚ Œc ﬁ €Y  Y d" ¡öˇˇ˛√  [M ’˙ˇô πZ
+ EP Õv M %Q˙ˇùA §È éé o= ‘qÍˇ≤L¸ˇ»‚ Ö÷ —Y ò} ËŒ˛ˇyÙ πÿ bvˇˇ‰ˇˇ*u )ù íÜ fÒ  5õ Âª .} Hº	 ÊH	 à pÂ ≥ ˝K úˆ Ç9 e˚ˇ°‹ «2˝ˇ'ß @9 oÙ ‹Ï˝ˇM— ljÛˇ(∑ ’	 œË a{ Ø5 éç ÛD ê∏ ?  ÔÔ qª Eé ˜Õ †±˛ˇ„ ái ;≈ ﬂ,¸ˇaç •  wÄ Í \{ˇˇÒÊ (t Xr˚ˇ˘≥˚ˇZ s§ æ  {™  _ƒ ß„ m, Õ´ `Ö˝ˇ&b¯ˇµ ™§  ∆°˝ˇ“;  **Bonnx::Conv_531_quantized_scaleJ ¡6*** B#onnx::Conv_531_quantized_zero_point*¢ÄBonnx::Conv_534_quantizedJÄ'ı >§
+ ê_ O‹A HÕ˛ˇ-À >∂ mW §ˇˇ<ˇˇØx  Y B LˇˇÙ$˛ˇ±#2 ¸”˛ˇÌ' ‹Én Ï_  jø ´ "W˝ˇ+ îB  –y B …€  °) ‹˚ Y3¸ˇ@: Ò <c ©‰˛ˇ…Ÿ˝ˇ∑ã( ≠; ^ïQ K@ 2<	 ¿˝ˇH :Â ¡‰ ≈c5 âµW  4∆ √È «P˙ˇ'F˛ˇC±	 ÿ˜3 €´ | π)˛ˇ´X  ˘ õ1˛ˇ3˝ˇÈ- ‚&˝ˇ·7 kü ÎÕ, ıC Ke dı © ÿ 1"# fˆ6 _4 ØÉ# ªl ›} ﬁ® ”f •Ã ]À #d2 'â˛ˇÛ6 ï˝ˇÖ:¯ˇÃb¯ˇÉu "2 9 π  }dg l• ãﬁ írV Ø v- ò3] (öˇˇÑb˜ˇµÿ7 Ø CB B	
+ lû˛ˇÎ[ “É á  ˝ˇ¢Y Hb õÎˇˇ”v
+ G Ç√˝ˇB ƒ¥ µ" ùì g≤? π≈ ê( 2ˇˇ˛Í å¶  /Ô˝ˇSó ä   ÿw **Bonnx::Conv_534_quantized_scaleJÉ 5*** B#onnx::Conv_534_quantized_zero_point*bÄBonnx::Conv_537_quantizedj
+locationmodel.onnx.dataj
+offset25507008j
+length2048p**Bonnx::Conv_537_quantized_scaleJ:6±6*** B#onnx::Conv_537_quantized_zero_point*bÄBonnx::Conv_540_quantizedj
+locationmodel.onnx.dataj
+offset25509056j
+length2048p**Bonnx::Conv_540_quantized_scaleJ…y¡7*** B#onnx::Conv_540_quantized_zero_point*¢ÄBonnx::Conv_543_quantizedJÄ,µ |	 Iˇˇ‹¡ / ⁄» ¥^ *µÛˇƒ!  fÚ ¨è Ÿt Ä?˛ˇË˝ˇ˚~
+ K"
+ ã _ `D cı˙ˇ'J  y»  $r œe 4G ¢∫˝ˇ6K 
+ ©Lˇˇ≈AÒˇ¸ ˘Õ˛ˇ•Òˇˇs^˚ˇ∑TˇˇÇÍ˚ˇ1E ˛Â "ÓˇˇñÅ Z= ﬂZ  Ω¯ íU /¿ˇˇ?ˇˇm≠ zh ¥* k
+   !? ¶ˇˇ~ï ◊ ‰®˛ˇ5˘ˇ‘7¸ˇ…  F £˛ˇBì ∑| /œ äÔ˛ˇ¯” J$˝ˇÔ˛Ûˇ´„ˇˇ PÚ Óá   áå wZ =2 ú7 ±@  ô xß¸ˇj∂ˆˇπH ∞h ad ‡ˇˇR+ÚˇÛ≤ ®Õ ËÒ k !ò 7¨ Q(ˆˇ--ˆˇ`v J¨ †e˝ˇÈ 8 Á¥ õr ¢‚	 H« ∑+ |t  |¬Ìˇ˛ı ∂~ JÍ¸ˇ5ƒ˘ˇâü˙ˇi–˛ˇj√¸ˇN ˝«¯ˇ£ZÒˇqD V˘  "í ÒìÙˇú AL  ±  Ï∂¸ˇf	ˇˇª/ˇˇ$À √´ **Bonnx::Conv_543_quantized_scaleJƒ'k6*** B#onnx::Conv_543_quantized_zero_point*¢ÄBonnx::Conv_546_quantizedJÄ_Ã `∞ èÓ †  W˛ˇŸ xs ≤,˛ˇÎ_ˇˇ@:ˇˇˇ/   ef˘ˇú7  ·P¸ˇÚMÂˇ6"˙ˇFû˝ˇÑ9 M  p≥ ƒ[
+ ∑Æ &}ˆˇÉƒ .˛ˇM˝ˇE¢ '- ·C ∆ ˘ˇMˇˇlÉˇˇdP bP a®ˇˇ≠ ö§¸ˇ˝ê˛ˇøEˇˇ”
+	 ‘»  ◊ƒ˛ˇs˙ˇraˇˇaC π  ë`˛ˇ⁄˛¯ˇI'ˇˇ˚B i*˛ˇ∏g ∏Ó˛ˇµ¸ˇî]  (5˝ˇéÌˇ# R4˛ˇq©ˇˇU˚  £<ˆˇ 4€¯ˇ9àˇˇÅÇ	 Œ{ Õm¸ˇàÄ˘ˇò 9t˚ˇL¸ˇ:àˇˇùwˆˇzó y‹˝ˇõy &Ü˝ˇ+˚˜ˇ<¨¸ˇj  ëb¯ˇ◊	 ◊ õì  "`¸ˇRîˇˇ™˘ˇ∏Û˛ˇì¡ˇˇ–ÃËˇÈˇˇ}ì
+ 0e  Ò åêˇˇe‹ O f¸ˇ G˛ˇ…˚ˇo¢  Îy¯ˇqQ  !5˘ˇãŸˇˇ≤˚¯ˇ™>˝ˇQ„ £˛ˇjˇˇø¸ˇ ø ∫}˛ˇa- ∞≠ˇˇê'˛ˇ#è˙ˇd&˚ˇÌ˛ˇ?é  m˛˚ˇ“Q C7˛ˇÑ¯ˇ≥b ;ıˇ**Bonnx::Conv_546_quantized_scaleJåTî6*** B#onnx::Conv_546_quantized_zero_point*bÄBonnx::Conv_549_quantizedj
+locationmodel.onnx.dataj
+offset25511104j
+length2048p**Bonnx::Conv_549_quantized_scaleJ∂7*** B#onnx::Conv_549_quantized_zero_point*¢ÄBonnx::Conv_552_quantizedJÄ⁄≠¯ˇeÄ÷ˇ	 u0 +7 œs ≠◊ ˆˇa< ◊ù ·¥ °M ¨9 kü û	ˇˇi–˚ˇﬂ˚ˇM gÉ	 3ü „M ô1ˇˇh∫ Z  ¶ !	 A· ≈t ‘Ù	 ¸{ AÓ	 |†˛ˇ ˇ Å5 ÃŒ 0ˇˇÔJ˝ˇ>J E®˘ˇe Pµ˝ˇ≤g ˘0 MÇ Ïz /¥ ˘[ ¯y †≥ »y˛ˇùf vS˛ˇ∞¯Úˇ<› AÉ Ÿ AT˛ˇZ— ∑g ßÏ _V ˇá √¿ ∫H
+ é‹ |t	 rH Ï¯˘ˇ‚‘˛ˇ_| â’ ù» ›≠ `F ªÔ '∞ èó¯ˇç ): nv¸ˇp  éÿ g« wT¯ˇT ß%ˇˇ2¸ˇk  é¯ˇùj )` °ø  ∂í èí ˝H	 T ¶£ ≠ 9M † ÓÁ B  v ™ b∂ ƒ ö: »¢ S©˛ˇ—” Hˆˇ8‡ éS	 Ôˇ¿Œ  ú∞ ™ü ¿æ	 Mƒ˚ˇ¬ ö8 M˚ Ÿ s` ¨âÙˇO˜ N ku **Bonnx::Conv_552_quantized_scaleJ∫∂Ú5*** B#onnx::Conv_552_quantized_zero_point*¢ÄBonnx::Conv_555_quantizedJÄ?Ã  ﬁZ˚ˇÃ§ˆˇœ]ıˇZ[ mmˆˇa¸ˇ˝ûˇ’\ä ßw qˇTòÁˇıô „r¸ˇÎÒˆˇÿ{ E[ˇ–ÛˇKM ˙¸ˇß∆J Ø è' –ø ÒéÍˇ´¶¯ˇ– obˇˇ¸®ÍˇJ˝ˇá B≥  ë˜\ *˝ˇîH" Ë. üÇ' à9 rj˙ˇ°n rÙˇˇÉÎˇHJ ZèÚˇ~„Ûˇ>4 > â ˆ=Óˇ•˘ˇâÍ> ÷É ä7¯ˇ˘π¸ˇïÅÙˇYıˇ¡u Oø˝ˇ Ûç˚ˇ ˜ˇuR˙ˇ˝ı  ë±˘ˇ6SÔˇZ| ≠5ÍˇAÆıˇœ ∂[ 7ÑÒˇ§ ∂pZ rV  Û
+ +s¯ˇì;ˆˇ8P„ˇutÌˇ<˛ˇïy¯ˇ‹ïˆˇM∑  #gıˇ˝i˘ˇáy¯ˇªâ ÎÍ
+ àäm }∞ ÿ‘ıˇTÁ¯ˇ{Ω 3Vıˇo·ÛˇmãÛˇ„! 8˚ˇl{ Æ,ÒˇoÈˇ`Ó ä Â…ˆˇœ∂ÔˇµÖ v… 7å˝ˇ◊òˇÓ£Ôˇöq
+ 0èÒˇÓîÔˇ…PÛˇÌ¸ ÂÙ X¸ˇá± wÄo „†ªˇU◊. ë@ÁˇÖãˇˇ˘yÙˇ|ê Øq˜ˇú  Éòıˇ**Bonnx::Conv_555_quantized_scaleJﬂ`z5*** B#onnx::Conv_555_quantized_zero_point*bÄBonnx::Conv_558_quantizedj
+locationmodel.onnx.dataj
+offset25513152j
+length2048p**Bonnx::Conv_558_quantized_scaleJKÕÌ6*** B#onnx::Conv_558_quantized_zero_point*¢ÄBonnx::Conv_561_quantizedJÄ!ï —|˝ˇ € é√¯ˇ
+ WZ -K ≠ù
+ ñˆˇ Ù%ˇˇ™ '
+ z>Òˇ! Â 8ˇˇÏè „π˙ˇ÷¯ °˝ˇ[u ¨ï ‹¢ ?î¸ˇôÈ˛ˇ∂‹¯ˇ¥‡¸ˇq7 Î¥ıˇ2¥ „Y ‘dˇˇ`æ  t≤ ®B ®t˛ˇ%j¯ˇ4} %U P≤˜ˇ€ Í˛ˇéıˇ? p 2ü òˇˇÎ· «V˙ˇj>ˇˇK˝ˇ5˘ˇwŒ˝ˇ∞ äˇ —ÙˇÒ¸ˇ¬N˚ˇ?◊ ï^ #k ù ¿ˇˇı≤	 ã ıˇå( k¬ ]π˙ˇX’ y5˝ˇî ág ÆQ 9-˝ˇPˇˇZ• ‹8˚ˇ›ﬁ
+ È:¸ˇÍB ±Ò˜ˇu˚ Ó∂  ¸	 Ê ∏˝ˇ!| ≠  ~≥Òˇ<' aˇˇ6˙ º +C	 Æx  ïv Ãa Hê V\ kÌ˛ˇ@W µq˜ˇsí ≤ £? @vÒˇ) Î€ tÏ  ¥Z 
+ﬂ ≥4 JO˘ˇ÷ÿ
+ x AÖ˚ˇûÂ › ≈Ç ß‹  ç	 ê˝ˇ◊¯ˇNF˜ˇDØˇˇπ˚ˇ**Bonnx::Conv_561_quantized_scaleJÙ b6*** B#onnx::Conv_561_quantized_zero_point*¢ÄBonnx::Conv_564_quantizedJÄ¢Y Ìs )L ˚ 6• ﬂ† †é˜ˇîû˙ˇ\˜ˇ ·ıˇZ© ëe˚ˇ≤Z¸ˇÉf  t Ê_˝ˇ€–¸ˇ°Z ±\ ∂ ‡ˇˇ4Ñ˘ˇÕã˚ˇ!4ˆˇIQıˇP ØÔ ¿ıˇˆs˚ˇÖ˛ ⁄è˝ˇûs˝ˇ$˛ˇ˛ X± ¯, Ê® ˆ
+ :Z ¶h º	 Ú —m ˆÆ˝ˇî¯ eÚÌˇ*p ı∑ Xk¯ˇ∑{˛ˇÂ  æ Iã¸ˇiÓ SÂÊˇB%‰ˇ'M˙ˇ"Ç ŒË˘ˇ^x˝ˇﬂ! Îñ »S û ?Õ HÜ¸ˇS3¯ˇÕ¸ˇ!≤ ™¡ \° ]˙ˇ∂‡. ˘ﬁ˘ˇÈ‚˝ˇ}eÔˇ£‹˛ˇ˜  Å≥˙ˇge Y[Ÿˇ	˙ Ï ¢æ˚ˇıÃ  pØ l9  A}  o⁄ ¡® :b Â≈
+ Ä[  ˘2
+ 
+Ã Sh  -ñ î Q£˛ˇ—i˛ˇ´ˆ # ”ó {t˛ˇÍO 7	 _˝˜ˇ‘®ˇˇ:= | $Ò  ñ¸ˇı≤¸ˇM} 4ù l †ˇ ¶z
+ l.  Ö& fπ à,	 ;$ ˜ ]Áˇ}À
+ °C ≤ó **Bonnx::Conv_564_quantized_scaleJ3y46*** B#onnx::Conv_564_quantized_zero_point*bÄBonnx::Conv_567_quantizedj
+locationmodel.onnx.dataj
+offset25515200j
+length2048p**Bonnx::Conv_567_quantized_scaleJ¬√_7*** B#onnx::Conv_567_quantized_zero_point*bÄBonnx::Conv_570_quantizedj
+locationmodel.onnx.dataj
+offset25517248j
+length1024p**Bonnx::Conv_570_quantized_scaleJ R6*** B#onnx::Conv_570_quantized_zero_point*bÄBonnx::Conv_573_quantizedj
+locationmodel.onnx.dataj
+offset25518272j
+length1024p**Bonnx::Conv_573_quantized_scaleJ&A◊5*** B#onnx::Conv_573_quantized_zero_point*bÄBonnx::Conv_576_quantizedj
+locationmodel.onnx.dataj
+offset25519296j
+length4096p**Bonnx::Conv_576_quantized_scaleJ‹èu6*** B#onnx::Conv_576_quantized_zero_point*bÄBonnx::Conv_579_quantizedj
+locationmodel.onnx.dataj
+offset25523392j
+length4096p**Bonnx::Conv_579_quantized_scaleJÿÙ7*** B#onnx::Conv_579_quantized_zero_point*bÄBonnx::Conv_582_quantizedj
+locationmodel.onnx.dataj
+offset25527488j
+length1024p**Bonnx::Conv_582_quantized_scaleJ•éÇ6*** B#onnx::Conv_582_quantized_zero_point*bÄBonnx::Conv_585_quantizedj
+locationmodel.onnx.dataj
+offset25528512j
+length1024p**Bonnx::Conv_585_quantized_scaleJ|Ã@6*** B#onnx::Conv_585_quantized_zero_point*bÄBonnx::Conv_588_quantizedj
+locationmodel.onnx.dataj
+offset25529536j
+length4096p**Bonnx::Conv_588_quantized_scaleJRÚÀ6*** B#onnx::Conv_588_quantized_zero_point*bÄBonnx::Conv_591_quantizedj
+locationmodel.onnx.dataj
+offset25533632j
+length1024p**Bonnx::Conv_591_quantized_scaleJû\6*** B#onnx::Conv_591_quantized_zero_point*bÄBonnx::Conv_594_quantizedj
+locationmodel.onnx.dataj
+offset25534656j
+length1024p**Bonnx::Conv_594_quantized_scaleJ’˝ 5*** B#onnx::Conv_594_quantized_zero_point*bÄBonnx::Conv_597_quantizedj
+locationmodel.onnx.dataj
+offset25535680j
+length4096p**Bonnx::Conv_597_quantized_scaleJ ˆ 7*** B#onnx::Conv_597_quantized_zero_point*bÄBonnx::Conv_600_quantizedj
+locationmodel.onnx.dataj
+offset25539776j
+length1024p**Bonnx::Conv_600_quantized_scaleJP6*** B#onnx::Conv_600_quantized_zero_point*bÄBonnx::Conv_603_quantizedj
+locationmodel.onnx.dataj
+offset25540800j
+length1024p**Bonnx::Conv_603_quantized_scaleJ’ﬁ”5*** B#onnx::Conv_603_quantized_zero_point*bÄBonnx::Conv_606_quantizedj
+locationmodel.onnx.dataj
+offset25541824j
+length4096p**Bonnx::Conv_606_quantized_scaleJ4RV7*** B#onnx::Conv_606_quantized_zero_point*bÄBonnx::Conv_609_quantizedj
+locationmodel.onnx.dataj
+offset25545920j
+length1024p**Bonnx::Conv_609_quantized_scaleJ◊»?6*** B#onnx::Conv_609_quantized_zero_point*bÄBonnx::Conv_612_quantizedj
+locationmodel.onnx.dataj
+offset25546944j
+length1024p**Bonnx::Conv_612_quantized_scaleJS&6*** B#onnx::Conv_612_quantized_zero_point*bÄBonnx::Conv_615_quantizedj
+locationmodel.onnx.dataj
+offset25547968j
+length4096p**Bonnx::Conv_615_quantized_scaleJ+˘ÿ6*** B#onnx::Conv_615_quantized_zero_point*bÄBonnx::Conv_618_quantizedj
+locationmodel.onnx.dataj
+offset25552064j
+length1024p**Bonnx::Conv_618_quantized_scaleJ±≤)6*** B#onnx::Conv_618_quantized_zero_point*bÄBonnx::Conv_621_quantizedj
+locationmodel.onnx.dataj
+offset25553088j
+length1024p**Bonnx::Conv_621_quantized_scaleJ})ˆ5*** B#onnx::Conv_621_quantized_zero_point*bÄBonnx::Conv_624_quantizedj
+locationmodel.onnx.dataj
+offset25554112j
+length4096p**Bonnx::Conv_624_quantized_scaleJ‚kí7*** B#onnx::Conv_624_quantized_zero_point*bÄBonnx::Conv_627_quantizedj
+locationmodel.onnx.dataj
+offset25558208j
+length2048p**Bonnx::Conv_627_quantized_scaleJC4d6*** B#onnx::Conv_627_quantized_zero_point*bÄBonnx::Conv_630_quantizedj
+locationmodel.onnx.dataj
+offset25560256j
+length2048p**Bonnx::Conv_630_quantized_scaleJ\≈ô6*** B#onnx::Conv_630_quantized_zero_point*bÄBonnx::Conv_633_quantizedj
+locationmodel.onnx.dataj
+offset25562304j
+length8192p**Bonnx::Conv_633_quantized_scaleJ *6*** B#onnx::Conv_633_quantized_zero_point*bÄBonnx::Conv_636_quantizedj
+locationmodel.onnx.dataj
+offset25570496j
+length8192p**Bonnx::Conv_636_quantized_scaleJpﬂX6*** B#onnx::Conv_636_quantized_zero_point*bÄBonnx::Conv_639_quantizedj
+locationmodel.onnx.dataj
+offset25578688j
+length2048p**Bonnx::Conv_639_quantized_scaleJ<M–6*** B#onnx::Conv_639_quantized_zero_point*bÄBonnx::Conv_642_quantizedj
+locationmodel.onnx.dataj
+offset25580736j
+length2048p**Bonnx::Conv_642_quantized_scaleJúü5*** B#onnx::Conv_642_quantized_zero_point*bÄBonnx::Conv_645_quantizedj
+locationmodel.onnx.dataj
+offset25582784j
+length8192p**Bonnx::Conv_645_quantized_scaleJOò¡6*** B#onnx::Conv_645_quantized_zero_point*bÄBonnx::Conv_648_quantizedj
+locationmodel.onnx.dataj
+offset25590976j
+length2048p**Bonnx::Conv_648_quantized_scaleJjä∑6*** B#onnx::Conv_648_quantized_zero_point*bÄBonnx::Conv_651_quantizedj
+locationmodel.onnx.dataj
+offset25593024j
+length2048p**Bonnx::Conv_651_quantized_scaleJJ;6*** B#onnx::Conv_651_quantized_zero_point*bÄBonnx::Conv_654_quantizedj
+locationmodel.onnx.dataj
+offset25595072j
+length8192p**Bonnx::Conv_654_quantized_scaleJó⁄6*** B#onnx::Conv_654_quantized_zero_point*eËBclassifier.1.bias_quantizedj
+locationmodel.onnx.dataj
+offset25603264j
+length4000p*-B!classifier.1.bias_quantized_scaleJÎ¶q6*-* B&classifier.1.bias_quantized_zero_pointZ!
+input
+
+
+
+‡
+‡b
+output
+	
+
+ËjM
+3/resnet/embedder/embedder/convolution/Conv_output_0
+
+
+@
+p
+pjL
+2/resnet/embedder/embedder/activation/Relu_output_0
+
+
+@
+p
+pjB
+(/resnet/embedder/pooler/MaxPool_output_0
+
+
+@
+8
+8jc
+I/resnet/encoder/stages.0/layers.0/layer/layer.0/convolution/Conv_output_0
+
+
+@
+8
+8jb
+H/resnet/encoder/stages.0/layers.0/layer/layer.0/activation/Relu_output_0
+
+
+@
+8
+8jc
+I/resnet/encoder/stages.0/layers.0/layer/layer.1/convolution/Conv_output_0
+
+
+@
+8
+8jb
+H/resnet/encoder/stages.0/layers.0/layer/layer.1/activation/Relu_output_0
+
+
+@
+8
+8jd
+I/resnet/encoder/stages.0/layers.0/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+8
+8j_
+D/resnet/encoder/stages.0/layers.0/shortcut/convolution/Conv_output_0
+
+
+Ä
+8
+8jI
+./resnet/encoder/stages.0/layers.0/Add_output_0
+
+
+Ä
+8
+8jU
+:/resnet/encoder/stages.0/layers.0/activation/Relu_output_0
+
+
+Ä
+8
+8jc
+I/resnet/encoder/stages.0/layers.1/layer/layer.0/convolution/Conv_output_0
+
+
+@
+8
+8jb
+H/resnet/encoder/stages.0/layers.1/layer/layer.0/activation/Relu_output_0
+
+
+@
+8
+8jc
+I/resnet/encoder/stages.0/layers.1/layer/layer.1/convolution/Conv_output_0
+
+
+@
+8
+8jb
+H/resnet/encoder/stages.0/layers.1/layer/layer.1/activation/Relu_output_0
+
+
+@
+8
+8jd
+I/resnet/encoder/stages.0/layers.1/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+8
+8jI
+./resnet/encoder/stages.0/layers.1/Add_output_0
+
+
+Ä
+8
+8jU
+:/resnet/encoder/stages.0/layers.1/activation/Relu_output_0
+
+
+Ä
+8
+8jc
+I/resnet/encoder/stages.0/layers.2/layer/layer.0/convolution/Conv_output_0
+
+
+@
+8
+8jb
+H/resnet/encoder/stages.0/layers.2/layer/layer.0/activation/Relu_output_0
+
+
+@
+8
+8jc
+I/resnet/encoder/stages.0/layers.2/layer/layer.1/convolution/Conv_output_0
+
+
+@
+8
+8jb
+H/resnet/encoder/stages.0/layers.2/layer/layer.1/activation/Relu_output_0
+
+
+@
+8
+8jd
+I/resnet/encoder/stages.0/layers.2/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+8
+8jI
+./resnet/encoder/stages.0/layers.2/Add_output_0
+
+
+Ä
+8
+8jU
+:/resnet/encoder/stages.0/layers.2/activation/Relu_output_0
+
+
+Ä
+8
+8jd
+I/resnet/encoder/stages.1/layers.0/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+8
+8jc
+H/resnet/encoder/stages.1/layers.0/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+8
+8jd
+I/resnet/encoder/stages.1/layers.0/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.1/layers.0/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.0/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+j_
+D/resnet/encoder/stages.1/layers.0/shortcut/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.1/layers.0/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.1/layers.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.1/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.1/layers.1/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.1/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.1/layers.1/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.1/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.1/layers.1/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.1/layers.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.2/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.1/layers.2/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.2/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.1/layers.2/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.2/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.1/layers.2/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.1/layers.2/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.3/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.1/layers.3/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.3/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.1/layers.3/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.1/layers.3/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.1/layers.3/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.1/layers.3/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.0/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.0/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.0/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.0/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.0/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+j_
+D/resnet/encoder/stages.2/layers.0/shortcut/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.2/layers.0/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.2/layers.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.1/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.1/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.1/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.1/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.1/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.2/layers.1/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.2/layers.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.2/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.2/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.2/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.2/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.2/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.2/layers.2/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.2/layers.2/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.3/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.3/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.3/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.3/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.3/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.2/layers.3/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.2/layers.3/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.4/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.4/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.4/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.4/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.4/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.2/layers.4/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.2/layers.4/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.5/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.5/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.5/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.2/layers.5/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.2/layers.5/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.2/layers.5/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.2/layers.5/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.0/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.3/layers.0/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.0/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.3/layers.0/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.0/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+j_
+D/resnet/encoder/stages.3/layers.0/shortcut/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.3/layers.0/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.3/layers.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.1/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.3/layers.1/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.1/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.3/layers.1/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.1/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.3/layers.1/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.3/layers.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.2/layer/layer.0/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.3/layers.2/layer/layer.0/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.2/layer/layer.1/convolution/Conv_output_0
+
+
+Ä
+
+jc
+H/resnet/encoder/stages.3/layers.2/layer/layer.1/activation/Relu_output_0
+
+
+Ä
+
+jd
+I/resnet/encoder/stages.3/layers.2/layer/layer.2/convolution/Conv_output_0
+
+
+Ä
+
+jI
+./resnet/encoder/stages.3/layers.2/Add_output_0
+
+
+Ä
+
+jU
+:/resnet/encoder/stages.3/layers.2/activation/Relu_output_0
+
+
+Ä
+
+jD
+)/resnet/pooler/GlobalAveragePool_output_0
+
+
+Ä
+
+j<
+)/classifier/classifier.0/Flatten_output_0
+	
+
+Äj
+output
+	
+
+ËBB
+com.microsoft.nchwcB
+
+ai.onnx.mlB
+ai.onnx.trainingB
+ai.onnx.preview.trainingB
+com.microsoftB
+com.microsoft.experimentalB
+org.pytorch.atenr
+
+onnx.inferonnxruntime.quantr+
+onnx.quant.pre_processonnxruntime.quant
