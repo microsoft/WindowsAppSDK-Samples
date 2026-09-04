@@ -12,6 +12,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>%(AdditionalOptions) /Qspectre</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <!-- /GS Enable Control Flow Guard -->
       <ControlFlowGuard>Guard</ControlFlowGuard>
       <!-- Setting this to be compatible with CFG -->
