@@ -62,11 +62,21 @@
   <ItemGroup>
     <ProjectReference Include="..\SampleApp\SampleApp.vcxproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
   </ItemGroup>
+  <Target Name="IncludeNativeXamlContent" BeforeTargets="_CopyPackageFiles_InputsOutputs">
+    <ItemGroup>
+      <_NativeXamlFile Include="..\SampleApp\$(Platform)\$(Configuration)\embed\SampleApp\*.xbf" />
+      <_FileToCopy Include="@(_NativeXamlFile)">
+        <TargetPath>%(_NativeXamlFile.Filename)%(_NativeXamlFile.Extension)</TargetPath>
+        <CopyToTargetPath>$(TargetDir)%(_NativeXamlFile.Filename)%(_NativeXamlFile.Extension)</CopyToTargetPath>
+      </_FileToCopy>
+    </ItemGroup>
+  </Target>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

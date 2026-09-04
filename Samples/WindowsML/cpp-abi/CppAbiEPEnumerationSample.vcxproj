@@ -66,12 +66,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <!-- Add Windows SDK metadata as reference for type resolution -->
-    <Reference Include="Windows">
-      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0\Windows.winmd</HintPath>
-      <IsSystemReference>true</IsSystemReference>
-      <WinMDFile>true</WinMDFile>
-    </Reference>
     <Reference Include="Microsoft.Web.WebView2.Core">
       <HintPath>$(PkgMicrosoft_Web_WebView2)\lib\Microsoft.Web.WebView2.Core.winmd</HintPath>
       <IsSystemReference>true</IsSystemReference>
@@ -79,8 +73,7 @@
     </Reference>
   </ItemGroup>
   <PropertyGroup>
-    <!-- Custom AbiWinRT arguments -->
-    <AbiWinRTArgs>-reference "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0\Windows.winmd"</AbiWinRTArgs>
+    <AbiWinRTSDKReferences>$(WindowsSdkDir)UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</AbiWinRTSDKReferences>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
