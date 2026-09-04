@@ -17,7 +17,7 @@
     .\UpdateVersions.ps1 -WinAppSDKVersion 2.4.1
 .EXAMPLE
     .\UpdateVersions.ps1 -WinAppSDKVersion 2.1.4 `
-        -DirectoryPackagesPropsPath 'Samples\WindowsML\Directory.Packages.props'
+        -DirectoryPackagesPropsPath 'Samples\Directory.Packages.props'
 #>
 [CmdletBinding()]
 param(
