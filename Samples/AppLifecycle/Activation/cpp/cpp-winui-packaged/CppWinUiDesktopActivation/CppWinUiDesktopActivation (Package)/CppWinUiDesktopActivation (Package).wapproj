@@ -60,6 +60,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CppWinUiDesktopActivation\CppWinUiDesktopActivation.vcxproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -61,6 +61,7 @@
   <ItemGroup>
     <ProjectReference Include="..\winui_desktop_packaged_app_cpp\winui_desktop_packaged_app_cpp.vcxproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
