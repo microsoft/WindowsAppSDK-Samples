@@ -11,12 +11,16 @@ This sample demonstrates how to use ONNX Runtime in a C++ desktop application, f
 ```
 CppConsoleDesktop.exe [options]
 Options:
-  --ep_policy <policy>  Set execution provider policy (NPU, CPU, GPU, DEFAULT, DISABLE). Default: DISABLE
-  --compile            Compile the model
-  --download           Download required packages
-  --model <path>       Path to input ONNX model (default: SqueezeNet.onnx in executable directory)
-  --compiled_output <path>      Path for compiled output model (default: SqueezeNet_ctx.onnx)
-  --image_path <path>           Path to the input image (default: sample kitten image)
+  --ep_policy <policy>           (Required*) Set execution provider selection policy (NPU, CPU, GPU, DEFAULT)
+  --ep_name <name>               (Required*) Explicit execution provider name (mutually exclusive with --ep_policy)
+  --compile                      Compile the model
+  --download                     Download required packages
+  --model <path>                 Path to input ONNX model (default: SqueezeNet.onnx in executable directory)
+  --compiled_output <path>       Path for compiled output model (default: auto-generated with device info)
+  --image_path <path>            Path to the input image (default: sample kitten image)
+
+Exactly one of --ep_policy or --ep_name must be specified.
+--use_model_catalog and --model are mutually exclusive.
 ```
 
 ## Key Features
@@ -68,7 +72,14 @@ for (const auto& [ep_name, devices] : ep_device_map)
 
 ### 2. Model Compilation
 
-The sample shows how to compile an ONNX model for optimized execution:
+The sample shows how to compile an ONNX model for optimized execution. Compiled model filenames
+are automatically generated with device-specific identifiers to prevent collisions:
+
+- Policy mode: `SqueezeNet_ctx_PREFER_GPU.onnx`
+- Explicit EP: `SqueezeNet_ctx_DML_GPU.onnx`
+- With perf mode: `SqueezeNet_ctx_PREFER_NPU_MaxPerformance.onnx`
+
+Use `--compiled_output` to override with a custom path.
 
 ```cpp
 #include <win_onnxruntime_cxx_api.h>

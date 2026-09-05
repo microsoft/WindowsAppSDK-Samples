@@ -1,0 +1,22 @@
+# Build outputs
+out/
+build/
+
+# CMake cache
+CMakeCache.txt
+CMakeFiles/
+
+# Local nupkg files used for pre-release testing
+*.nupkg
+
+# IDE files
+.vs/
+.vscode/
+*.user
+
+# Compiled files
+*.exe
+*.dll
+*.pdb
+*.obj
+*.ilk

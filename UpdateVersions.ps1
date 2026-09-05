@@ -1,111 +1,207 @@
 <#
 .SYNOPSIS
-    Updates WinAppSDK-related package references across the samples to a specified version.
+    Updates Windows App SDK versions across the repository's central package files.
 .DESCRIPTION
-    Ensures the requested Microsoft.WindowsAppSDK NuGet package (and key dependencies) is available locally,
-    then rewrites packages.config, project files, and Directory.Packages.props entries so they all target the
-    provided version. This script is intended to be the single place to bump WinAppSDK versions in the repo.
+    Restores the requested Microsoft.WindowsAppSDK package and its dependency
+    closure, then updates matching declarations in every Directory.Packages.props
+    file. A specific set of central package files can be selected when needed.
 .PARAMETER WinAppSDKVersion
-    Version of Microsoft.WindowsAppSDK to apply (for example, 1.8.251106002). You can discover the latest
-    stable, servicing, or preview versions at https://www.nuget.org/packages/Microsoft.WindowsAppSDK/.
+    Microsoft.WindowsAppSDK version to restore and apply.
 .PARAMETER NuGetPackagesFolder
-    Optional path to a NuGet packages directory that already contains the desired packages. When omitted the
-    script restores the packages into the local ./packages folder.
+    Package folder used to discover the resolved dependency versions. Defaults
+    to the repository's packages folder.
+.PARAMETER DirectoryPackagesPropsPath
+    Repository-relative or absolute paths to Directory.Packages.props files.
+    When omitted, all Directory.Packages.props files in the repository are used.
 .EXAMPLE
-    .\UpdateVersions.ps1 -WinAppSDKVersion 1.8.251106002
-    Updates all projects to reference Microsoft.WindowsAppSDK version 1.8.251106002, restoring packages into
-    the default ./packages directory when needed.
+    .\UpdateVersions.ps1 -WinAppSDKVersion 2.4.1
+.EXAMPLE
+    .\UpdateVersions.ps1 -WinAppSDKVersion 2.1.4 `
+        -DirectoryPackagesPropsPath 'Samples\Directory.Packages.props'
 #>
-Param(
-    [string]$WinAppSDKVersion = "",
-    [string]$NuGetPackagesFolder = ""
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [ValidatePattern('^[0-9A-Za-z][0-9A-Za-z.+-]*$')]
+    [string]$WinAppSDKVersion,
+
+    [Parameter()]
+    [string]$NuGetPackagesFolder = '',
+
+    [Parameter()]
+    [string[]]$DirectoryPackagesPropsPath = @()
 )
 
-# Ensure a local packages cache exists when the caller does not provide one.
-# A lightweight restore keeps this script self-contained for version updates.
-if ($NuGetPackagesFolder -eq "") {
-    $NuGetPackagesFolder = Join-Path $PSScriptRoot "packages"
-    Write-Host "NuGetPackagesFolder not supplied. Using default: $NuGetPackagesFolder"
+Set-StrictMode -Version 2.0
+$ErrorActionPreference = 'Stop'
+
+if ($NuGetPackagesFolder -eq '') {
+    $NuGetPackagesFolder = Join-Path $PSScriptRoot 'packages'
 }
 
-if (!(Test-Path $NuGetPackagesFolder)) {
+$NuGetPackagesFolder = [System.IO.Path]::GetFullPath($NuGetPackagesFolder)
+if (-not (Test-Path -LiteralPath $NuGetPackagesFolder)) {
     New-Item -ItemType Directory -Path $NuGetPackagesFolder -Force | Out-Null
 }
+$resolvedPackagesFolder = Join-Path $NuGetPackagesFolder $WinAppSDKVersion
 
-$nugetToolDir = Join-Path $PSScriptRoot ".nuget"
-$nugetExe = Join-Path $nugetToolDir "nuget.exe"
-if (!(Test-Path $nugetExe)) {
-    if (!(Test-Path $nugetToolDir)) { New-Item -ItemType Directory -Path $nugetToolDir | Out-Null }
-    Write-Host "Downloading nuget.exe..."
-    try {
-        Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe `
-            -OutFile $nugetExe `
-            -ErrorAction Stop
-    }
-    catch {
-        Write-Warning "Failed to download nuget.exe: $($_.Exception.Message)"
-    }
+$nugetToolDirectory = Join-Path $PSScriptRoot '.nuget'
+$nugetExecutable = Join-Path $nugetToolDirectory 'nuget.exe'
+if (-not (Test-Path -LiteralPath $nugetExecutable)) {
+    New-Item -ItemType Directory -Path $nugetToolDirectory -Force | Out-Null
+    Write-Verbose 'Downloading nuget.exe.'
+    Invoke-WebRequest `
+        -Uri 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe' `
+        -OutFile $nugetExecutable
 }
 
-# Always install/refresh the requested Microsoft.WindowsAppSDK version (idempotent if already present).
-if ([string]::IsNullOrWhiteSpace($WinAppSDKVersion)) {
-    $winAppSdkNugetUrl = "https://www.nuget.org/packages/Microsoft.WindowsAppSDK/"
-    Write-Warning "WinAppSDKVersion not supplied; cannot install Microsoft.WindowsAppSDK package automatically."
-    Write-Warning "Visit $winAppSdkNugetUrl to determine the latest version, then rerun the script."
-    exit 1
-}
-else {
-    if (!(Test-Path $NuGetPackagesFolder)) { New-Item -ItemType Directory -Path $NuGetPackagesFolder | Out-Null }
-    Write-Host "Installing Microsoft.WindowsAppSDK $WinAppSDKVersion into $NuGetPackagesFolder (running inside folder)"
-    Push-Location $NuGetPackagesFolder
-    try {
-        & $nugetExe install Microsoft.WindowsAppSDK `
-            -Version $WinAppSDKVersion `
-            -OutputDirectory . `
-            -Prerelease `
-            -DependencyVersion Highest
+Write-Verbose "Restoring Microsoft.WindowsAppSDK $WinAppSDKVersion."
+& $nugetExecutable install Microsoft.WindowsAppSDK `
+    -Version $WinAppSDKVersion `
+    -OutputDirectory $resolvedPackagesFolder `
+    -Prerelease `
+    -DependencyVersion Lowest `
+    -NonInteractive
 
-        if ($LASTEXITCODE -ne 0) {
-            throw "nuget.exe failed with exit code $LASTEXITCODE"
+if ($LASTEXITCODE -ne 0) {
+    throw "nuget.exe failed with exit code $LASTEXITCODE."
+}
+
+$packageVersions = @{
+    'Microsoft.WindowsAppSDK' = $WinAppSDKVersion
+}
+
+Get-ChildItem -LiteralPath $resolvedPackagesFolder -Directory |
+    Sort-Object -Property Name |
+    ForEach-Object {
+        $patterns = @(
+            '^(Microsoft\.WindowsAppSDK\.[A-Za-z]+)\.([0-9].*)$',
+            '^(Microsoft\.Windows\.SDK\.BuildTools(?:\.MSIX)?)\.([0-9].*)$',
+            '^(Microsoft\.Web\.WebView2)\.([0-9].*)$'
+        )
+
+        foreach ($pattern in $patterns) {
+            if ($_.Name -match $pattern) {
+                $packageVersions[$Matches[1]] = $Matches[2]
+                break
+            }
         }
     }
-    catch {
-        Write-Warning $_
+
+$repositoryRoot = [System.IO.Path]::GetFullPath($PSScriptRoot).TrimEnd('\')
+$repositoryPrefix = $repositoryRoot + '\'
+
+$packageFiles = if ($DirectoryPackagesPropsPath.Count -eq 0) {
+    @(Get-ChildItem `
+            -LiteralPath $repositoryRoot `
+            -Filter 'Directory.Packages.props' `
+            -File `
+            -Recurse)
+}
+else {
+    @(
+        foreach ($path in $DirectoryPackagesPropsPath) {
+            $candidate = if ([System.IO.Path]::IsPathRooted($path)) {
+                $path
+            }
+            else {
+                Join-Path $repositoryRoot $path
+            }
+
+            $resolvedPath = (Resolve-Path -LiteralPath $candidate).Path
+            $fullPath = [System.IO.Path]::GetFullPath($resolvedPath)
+            if (-not $fullPath.StartsWith(
+                    $repositoryPrefix,
+                    [System.StringComparison]::OrdinalIgnoreCase)) {
+                throw "Package file must be inside the repository: $path"
+            }
+
+            if ([System.IO.Path]::GetFileName($fullPath) -ne
+                'Directory.Packages.props') {
+                throw "Expected a Directory.Packages.props file: $path"
+            }
+
+            Get-Item -LiteralPath $fullPath
+        }
+    )
+}
+
+$packageFiles = @($packageFiles | Sort-Object -Property FullName -Unique)
+if ($packageFiles.Count -eq 0) {
+    throw 'No Directory.Packages.props files were found.'
+}
+
+$matchedWindowsAppSdkDeclarations = 0
+$matchedDeclarationCount = 0
+
+foreach ($packageFile in $packageFiles) {
+    $content = Get-Content -LiteralPath $packageFile.FullName -Raw
+    $originalContent = $content
+    $matchedPackageNames = @()
+
+    foreach ($packageVersion in $packageVersions.GetEnumerator()) {
+        $escapedPackageName = [regex]::Escape($packageVersion.Key)
+        $pattern = '(<PackageVersion\b[^>]*\bInclude="' +
+            $escapedPackageName + '"[^>]*\bVersion=")([^"]*)(")'
+        $matches = [regex]::Matches($content, $pattern)
+        if ($matches.Count -eq 0) {
+            continue
+        }
+
+        $matchedDeclarationCount += $matches.Count
+        $matchedPackageNames += $packageVersion.Key
+        if ($packageVersion.Key -eq 'Microsoft.WindowsAppSDK') {
+            $matchedWindowsAppSdkDeclarations += $matches.Count
+        }
+
+        $content = [regex]::Replace(
+            $content,
+            $pattern,
+            '${1}' + $packageVersion.Value + '${3}')
     }
-    finally {
-        Pop-Location
+
+    if ($content -ne $originalContent) {
+        Set-Content -LiteralPath $packageFile.FullName -Value $content -NoNewline
+    }
+
+    if ($matchedPackageNames.Count -gt 0) {
+        Write-Verbose (
+            "Processed $($packageFile.FullName): " +
+            ($matchedPackageNames -join ', '))
     }
 }
 
-# Seed the package/version map with the WinAppSDK metapackage.
-$nugetPackageToVersionTable = @{"Microsoft.WindowsAppSDK" = $WinAppSDKVersion }
-
-# When a populated packages folder is available, harvest dependency versions from it.
-Get-ChildItem $NuGetPackagesFolder |
-Sort-Object Name |
-Where-Object { $_.Name -like "Microsoft.WindowsAppSDK.*" -or 
-    $_.Name -like "Microsoft.Windows.SDK.BuildTools.*" -or 
-    $_.Name -like "Microsoft.Web.WebView2.*" } | 
-Where-Object { $_.Name -notlike "*.nupkg" } |
-ForEach-Object { 
-    if ($_.Name -match "^(Microsoft\.WindowsAppSDK\.[a-zA-Z]+)\.([0-9].*)$" -or
-        $_.Name -match "^(Microsoft\.Windows\.SDK\.BuildTools\.MSIX)\.([0-9].*)$" -or
-        $_.Name -match "^(Microsoft\.Windows\.SDK\.BuildTools)\.([0-9].*)$" -or
-        $_.Name -match "^(Microsoft\.Web\.WebView2)\.([0-9].*)$") {
-        $nugetPackageToVersionTable[$Matches[1]] = $Matches[2]
-        Write-Host "Found $($Matches[1]) - $($Matches[2])"
-    } 
+if ($matchedWindowsAppSdkDeclarations -eq 0) {
+    throw 'No Microsoft.WindowsAppSDK central package declarations were found.'
 }
 
-Get-ChildItem -Recurse Directory.Packages.props -Path $PSScriptRoot | foreach-object {
-    $content = Get-Content $_.FullName -Raw
+$staleDeclarations = @()
+foreach ($packageFile in $packageFiles) {
+    $content = Get-Content -LiteralPath $packageFile.FullName -Raw
 
-    foreach ($nugetPackageToVersion in $nugetPackageToVersionTable.GetEnumerator()) {
-        $newVersionString = 'PackageVersion Include="' + $nugetPackageToVersion.Key + '" Version="' + $nugetPackageToVersion.Value + '"'
-        $oldVersionString = 'PackageVersion Include="' + $nugetPackageToVersion.Key + '" Version="[-.0-9a-zA-Z]*"'
-        $content = $content -replace $oldVersionString, $newVersionString
+    foreach ($packageVersion in $packageVersions.GetEnumerator()) {
+        $escapedPackageName = [regex]::Escape($packageVersion.Key)
+        $pattern = '<PackageVersion\b[^>]*\bInclude="' +
+            $escapedPackageName + '"[^>]*\bVersion="([^"]*)"'
+
+        foreach ($match in [regex]::Matches($content, $pattern)) {
+            if ($match.Groups[1].Value -ne $packageVersion.Value) {
+                $staleDeclarations += (
+                    "$($packageFile.FullName): $($packageVersion.Key) " +
+                    "is $($match.Groups[1].Value), expected " +
+                    $packageVersion.Value)
+            }
+        }
     }
-
-    Set-Content -Path $_.FullName -Value $content
-    Write-Host "Modified " $_.FullName 
 }
+
+if ($staleDeclarations.Count -gt 0) {
+    throw "Central package verification failed:`n$($staleDeclarations -join "`n")"
+}
+
+Write-Verbose (
+    "Verified $matchedDeclarationCount declarations across " +
+    "$($packageFiles.Count) central package files.")
+
+exit 0

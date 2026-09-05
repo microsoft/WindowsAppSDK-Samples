@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <WindowsPackageType>None</WindowsPackageType>
     <SelfContained>True</SelfContained>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
   </PropertyGroup>
@@ -17,6 +18,7 @@
   <ItemGroup>
     <Compile Include="..\..\..\Shared\cs\ArgumentParser.cs" Link="Shared\ArgumentParser.cs" />
     <Compile Include="..\..\..\Shared\cs\ExecutionProviderManager.cs" Link="Shared\ExecutionProviderManager.cs" />
+    <Compile Include="..\..\..\Shared\cs\PerformanceConfigurator.cs" Link="Shared\PerformanceConfigurator.cs" />
     <Compile Include="..\..\..\Shared\cs\ImageProcessor.cs" Link="Shared\ImageProcessor.cs" />
     <Compile Include="..\..\..\Shared\cs\ModelManager.cs" Link="Shared\ModelManager.cs" />
     <Compile Include="..\..\..\Shared\cs\InferenceEngine.cs" Link="Shared\InferenceEngine.cs" />
