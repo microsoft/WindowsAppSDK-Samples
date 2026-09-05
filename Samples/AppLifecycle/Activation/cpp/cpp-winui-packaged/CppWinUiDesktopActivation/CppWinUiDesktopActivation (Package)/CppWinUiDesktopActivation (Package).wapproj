@@ -71,5 +71,14 @@
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <Target Name="IncludeNativeXamlContent" BeforeTargets="_CopyPackageFiles_InputsOutputs">
+    <ItemGroup>
+      <_NativeXamlFile Include="..\CppWinUiDesktopActivation\$(Platform)\$(Configuration)\embed\CppWinUiDesktopActivation\*.xbf" />
+      <_FileToCopy Include="@(_NativeXamlFile)">
+        <TargetPath>%(_NativeXamlFile.Filename)%(_NativeXamlFile.Extension)</TargetPath>
+        <CopyToTargetPath>$(TargetDir)%(_NativeXamlFile.Filename)%(_NativeXamlFile.Extension)</CopyToTargetPath>
+      </_FileToCopy>
+    </ItemGroup>
+  </Target>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
