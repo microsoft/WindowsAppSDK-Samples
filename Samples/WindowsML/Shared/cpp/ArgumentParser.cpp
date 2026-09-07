@@ -65,13 +65,32 @@ namespace Shared
             {
                 options.ep_policy = OrtExecutionProviderDevicePolicy_DEFAULT;
             }
-            else if (policy_str == L"DISABLE")
+            else
             {
-                options.ep_policy = std::nullopt;
+                std::wcout << L"Unknown EP policy: " << policy_str << L", using default (DEFAULT)\n";
+                options.ep_policy = OrtExecutionProviderDevicePolicy_DEFAULT;
+            }
+        }
+        else if (arguments[i] == L"--perf_mode" && i + 1 < arguments.size())
+        {
+            std::wstring perf_mode_token = std::wstring(arguments[++i]);
+
+            if (perf_mode_token == L"MAX_PERFORMANCE")
+            {
+                options.perf_mode = PerformanceMode::MaxPerformance;
+            }
+            else if (perf_mode_token == L"MAX_EFFICIENCY")
+            {
+                options.perf_mode = PerformanceMode::MaxEfficiency;
+            }
+            else if (perf_mode_token == L"DEFAULT")
+            {
+                options.perf_mode = PerformanceMode::Default;
             }
             else
             {
-                std::wcout << L"Unknown EP policy: " << policy_str << L", using default (DISABLE)\n";
+                std::wcout << L"Unknown perf_mode: " << perf_mode_token << L", defaulting to DEFAULT\n";
+                options.perf_mode = PerformanceMode::Default;
             }
         }
         else if (arguments[i] == L"--ep_name" && i + 1 < arguments.size())
@@ -161,14 +180,15 @@ namespace Shared
     {
         std::wcout << L"Usage: Application.exe [options]\n"
                    << L"Options:\n"
-                   << L"  --ep_policy <policy>          Set execution provider selection policy (NPU, CPU, GPU, DEFAULT, DISABLE)\n"
+                   << L"  --ep_policy <policy>          Set execution provider selection policy (NPU, CPU, GPU, DEFAULT)\n"
                    << L"  --ep_name <name>              Explicit execution provider name (mutually exclusive with --ep_policy)\n"
                    << L"  --device_type <type>          Device type for OpenVINOExecutionProvider (NPU, GPU, CPU) when multiple present\n"
+                   << L"  --perf_mode <mode>            Set EP performance mode (MAX_PERFORMANCE, MAX_EFFICIENCY, DEFAULT)\n"
                    << L"  --compile                     Compile the model\n"
                    << L"  --download                    Download required packages\n"
                    << L"  --use_model_catalog           Use the model catalog for model selection\n"
                    << L"  --model <path>                Path to the input ONNX model (default: SqueezeNet.onnx in executable directory)\n"
-                   << L"  --compiled_output <path>      Path for compiled output model (default: SqueezeNet_ctx.onnx)\n"
+                   << L"  --compiled_output <path>      Path for compiled output model (default: auto-generated with device info)\n"
                    << L"  --image_path <path>           Path to the input image (default: sample kitten image)\n"
                    << L"\n"
                    << L"Exactly one of --ep_policy or --ep_name must be specified.\n"

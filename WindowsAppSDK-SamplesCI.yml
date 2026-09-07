@@ -24,9 +24,9 @@ stages:
             buildConfiguration: 'Debug'
     steps:
     - task: NuGetToolInstaller@1
-      displayName: 'Use NuGet 5.11.0'
+      displayName: 'Use NuGet 6.2.4'
       inputs:
-        versionSpec: 5.11.0
+        versionSpec: 6.2.4
 
     # The environment variable VCToolsInstallDir isn't defined on lab machines, so we need to retrieve it ourselves.
     - script: |

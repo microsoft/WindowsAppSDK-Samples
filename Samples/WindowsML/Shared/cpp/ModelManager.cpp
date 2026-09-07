@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 #include "ModelManager.h"
 #include <iostream>
@@ -251,6 +251,57 @@ namespace Shared
         // Default fallback
         std::wcout << L"Auto-selected Default model variant (fallback)\n";
         return ModelVariant::Default;
+    }
+
+    std::filesystem::path ModelManager::GenerateCompiledModelPath(
+        const std::filesystem::path& modelPath,
+        const std::filesystem::path& executableFolder,
+        const CommandLineOptions& options)
+    {
+        // If user explicitly specified --compiled_output, use it as-is
+        if (!options.output_path.empty())
+        {
+            return std::filesystem::path(options.output_path);
+        }
+
+        std::wstring baseName = modelPath.stem().wstring();
+        std::wstring suffix;
+
+        if (options.ep_policy.has_value())
+        {
+            std::string policyStr = ArgumentParser::ToString(options.ep_policy.value());
+            suffix = L"_" + std::wstring(policyStr.begin(), policyStr.end());
+        }
+        else if (!options.ep_name.empty())
+        {
+            suffix = L"_" + options.ep_name;
+
+            // Try to determine device type
+            std::wstring deviceType;
+            if (options.device_type.has_value())
+            {
+                deviceType = options.device_type.value();
+            }
+
+            if (!deviceType.empty())
+            {
+                suffix += L"_" + deviceType;
+            }
+        }
+
+        if (options.perf_mode == PerformanceMode::MaxPerformance)
+        {
+            suffix += L"_MaxPerformance";
+        }
+        else if (options.perf_mode == PerformanceMode::MaxEfficiency)
+        {
+            suffix += L"_MaxEfficiency";
+        }
+
+        std::wstring fileName = baseName + L"_ctx" + suffix + L".onnx";
+        auto result = executableFolder / fileName;
+        std::wcout << L"Compiled model path: " << result.wstring() << std::endl;
+        return result;
     }
 
 } // namespace Shared

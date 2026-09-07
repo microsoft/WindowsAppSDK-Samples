@@ -110,7 +110,7 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
         std::vector<std::string> labels = ModelManager::LoadLabels(labelsPath);
 
         std::filesystem::path outputPath =
-            options.output_path.empty() ? executableFolder / L"SqueezeNet_ctx.onnx" : std::filesystem::path(options.output_path);
+            ModelManager::GenerateCompiledModelPath(modelPath, executableFolder, options);
 
         std::filesystem::path imagePath =
             options.image_path.empty() ? executableFolder / L"image.png" : std::filesystem::path(options.image_path);
@@ -122,6 +122,15 @@ IAsyncAction RunInferenceAsync(const CommandLineOptions& options)
         // Create session
         std::wcout << L"Loading model: " << actualModelPath.wstring().c_str() << std::endl;
         Ort::Session session(env, actualModelPath.c_str(), sessionOptions);
+
+        // Set "Efficient" mode for MaxEfficiency performance mode
+        // NOTE: Only affects NPU and currently only supported for QNN EP and OpenVINO EP
+        if (options.perf_mode == PerformanceMode::MaxEfficiency)
+        {
+            const char* keys[] = {"ep.dynamic.workload_type"};
+            const char* values[] = {"Efficient"};
+            session.SetEpDynamicOptions(keys, values, 1);
+        }
 
         // Get model input details
         Ort::AllocatorWithDefaultOptions allocator;

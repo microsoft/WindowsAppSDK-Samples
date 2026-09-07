@@ -19,7 +19,8 @@ namespace Input
         {
             new Scenario() { Title = "Gesture Recognizer", ClassName = typeof(GestureRecognizer).FullName },
             new Scenario() { Title = "Gesture Recognizer Manipulations", ClassName = typeof(GestureRecognizerManipulation).FullName },
-            new Scenario() { Title = "Cursor", ClassName = typeof(InputCursor).FullName }
+            new Scenario() { Title = "Cursor", ClassName = typeof(InputCursor).FullName },
+            new Scenario() { Title = "Keyboard Shortcut Manager", ClassName = typeof(KeyboardShortcutManager).FullName }
         };
     }
 

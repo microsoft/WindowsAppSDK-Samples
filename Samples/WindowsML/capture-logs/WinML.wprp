@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WindowsPerformanceRecorder Version="1" Author="WCL Team">
+    <Profiles>
+        <EventCollector Id="EventCollector_SimpleTraceLoggingProvider" Name="WinML Rundown Collectors">
+            <BufferSize Value="256" />
+            <Buffers Value="3.5" PercentageOfTotalMemory="true" MaximumBufferSpace="112" />
+        </EventCollector>
+
+        <!-- WindowsMLRuntime: RegisteredProviders, ProviderCertification -->
+        <EventProvider Id="Microsoft.Windows.AI.WindowsMLRuntime" Name="1491d42b-0927-55b9-a765-10ec4bb1980f" NonPagedMemory="true" Level="5" />
+
+        <!-- ONNX runtime: SessionCreation, DriverInfo, OnnxVersion, EpAutoSelection, WinmlOnnxError -->
+        <EventProvider Id="ONNX" Name="929DD115-1ECB-4CB5-B060-EBD4983C421D" Level="5">
+            <CaptureStateOnSave>
+                <Keyword Value="0x1"/>
+            </CaptureStateOnSave>
+        </EventProvider>
+
+        <!-- ORT TraceLogging: OnnxError -->
+        <EventProvider Id="EventProvider_OrtTraceLoggingProvider" Name="3a26b1ff-7484-7484-7484-15261f42614d" NonPagedMemory="true" Level="5" />
+
+        <Profile Id="WinMLProfile.Verbose.Memory" Name="WinMLProfile" Description="WinMLTraceLoggingProvider" LoggingMode="Memory" DetailLevel="Verbose">
+            <ProblemCategories>
+                <ProblemCategory Value="First Level Triage"/>
+            </ProblemCategories>
+            <Collectors>
+                <EventCollectorId Value="EventCollector_SimpleTraceLoggingProvider">
+                    <EventProviders>
+                        <EventProviderId Value="Microsoft.Windows.AI.WindowsMLRuntime" />
+                        <EventProviderId Value="ONNX" />
+                        <EventProviderId Value="EventProvider_OrtTraceLoggingProvider" />
+                    </EventProviders>
+                </EventCollectorId>
+            </Collectors>
+        </Profile>
+        <Profile Id="WinMLProfile.Verbose.File" Name="WinMLProfile" Description="WinMLTraceLoggingProvider" LoggingMode="File" DetailLevel="Verbose">
+            <ProblemCategories>
+                <ProblemCategory Value="First Level Triage"/>
+            </ProblemCategories>
+            <Collectors>
+                <EventCollectorId Value="EventCollector_SimpleTraceLoggingProvider">
+                    <EventProviders>
+                        <EventProviderId Value="Microsoft.Windows.AI.WindowsMLRuntime" />
+                        <EventProviderId Value="ONNX" />
+                        <EventProviderId Value="EventProvider_OrtTraceLoggingProvider" />
+                    </EventProviders>
+                </EventCollectorId>
+            </Collectors>
+        </Profile>
+    </Profiles>
+    <TraceMergeProperties>
+        <TraceMergeProperty Id="TraceMerge_Default" Name="TraceMerge_Default">
+            <CustomEvents>
+                <CustomEvent Value="EventMetadata" />
+            </CustomEvents>
+        </TraceMergeProperty>
+    </TraceMergeProperties>
+</WindowsPerformanceRecorder>
