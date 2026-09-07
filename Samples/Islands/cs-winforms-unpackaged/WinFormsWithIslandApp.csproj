@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <!-- Island-support: Reference the WindowsAppSDK and packages it depends on -->
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
   </ItemGroup>
 
   <ItemGroup>
