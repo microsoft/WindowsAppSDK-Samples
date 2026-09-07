@@ -37,9 +37,7 @@ namespace winrt::DynamicRefreshRateTool::implementation
         auto buttonClicked = sender.try_as<ToggleButton>();
 
         for (auto button : { Button1(), Button2(), Button3() }) {
-            if ((buttonClicked == button) != button.IsChecked().GetBoolean()) {
-                button.OnToggle();
-            }
+            button.IsChecked(buttonClicked == button);
         }
 
         if (Button1().IsChecked().GetBoolean()) {
