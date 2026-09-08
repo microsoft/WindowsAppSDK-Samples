@@ -1,4 +1,3 @@
 SoftwareBitmap inputImage;
-TextRecognizerOptions recognizerOptions;
-var recognizerResult = model.RecognizeTextFromImage(inputImage, recognizerOptions);
+var recognizerResult = model.RecognizeTextFromImage(inputImage);
 IEnumerable<string> result = recognizerResult.Lines.Select(line => line.Text);

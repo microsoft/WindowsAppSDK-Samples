@@ -149,7 +149,6 @@
     <None Include="Introduction.md">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="DWriteCoreGallery.exe.manifest">

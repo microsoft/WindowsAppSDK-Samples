@@ -1,92 +1,54 @@
-# Contributing
+---
+page_type: sample
+languages:
+    - csharp
+products:
+    - windows
+    - windows-app-sdk
+name: "Windows AI Samples"
+urlFragment: WindowsAISamples
+description: "Shows how to use the Windows AI APIs"
+extendedZipContent:
+    - path: LICENSE
+      target: LICENSE
+---
 
 This shows the project structure and how one can get started contributing to Windows AI sample.
 
-## Project Structure
+An app that demonstrates how to use the Windows AI APIs with WinUI.
 
-The project follows the MVVM (Model-View-ViewModel) pattern. Here's how the code is organized:
+## Releases
+Stable features can be found in the [main](https://github.com/microsoft/WindowsAppSDK-Samples/tree/main/Samples/WindowsAIFoundry/cs-winui) branch. 
 
-- **Models**: Contains the data models used in the application.
-  - `Models/ImageDescriptionModel.cs`
-  - `Models/ImageObjectExtractorModel.cs`
-- **ViewModels**: Contains the view models that handle the business logic and data binding for the views.
-  - `ViewModels/ImageDescriptionViewModel.cs`
-  - `ViewModels/mageObjectExtractorViewModel.cs`
-- **Pages**: Contains the XAML pages and their code-behind files. They represent the `Views` part of MVVM.
-  - `Pages/ImageDescriptionPage.xaml`
-  - `Pages/ImageDescriptionPage.xaml.cs`
-  - `Pages/ImageObjectExtractorPage.xaml`
-  - `Pages/ImageObjectExtractorPage.xaml.cs`
-- **Helpers**: The Util, Converters and Controls folders contain common shared code used by all the pages
-  - The `Controls` folder contains user controls for showing creating Session and example source codes
-  - `CodeBlockControl.xaml` and `CodeBlockControl.xaml.cs` are parts of user control which shows example source code for each API. The example code is fetched from the `Examples` folder.
-  - `ModelInitializationControl.xaml` and `ModelInitializationControl.xaml.cs` have user control to create session for every page. `CodeBlockControl.xaml` has a button for creating session with ICommand. Each page instantiates this control with a specific to model api for creating a session. This is defined in `CreateModelSessionWithProgress`.
-  
-## Adding a New Page
-Any of the examples like `ImageScaler` or `ImageDescriptionModel` can be used as reference for adding newer pages. `LanguageModel` is slightly different as it has multiple effects in the sample page. 
+Experimental features can be found in the [release/experimental](https://github.com/microsoft/WindowsAppSDK-Samples/tree/release/experimental/Samples/WindowsAIFoundry/cs-winui) branch
+
+## Prerequisites
+
+-   See
+    [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
+-   Make sure that your development environment is set up correctly&mdash;see
+    [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+-   Use a Copilot+ PC
+-   Detailed instructions : [Set up your development environment to build Windows AI APIs](https://learn.microsoft.com/en-us/windows/ai/apis/model-setup)
 
 
-## AsyncCommand and Its Inherited Class
+To get the latest updates to Windows and the development tools, and to help shape their development,
+join the [Windows Insider Program](https://insider.windows.com).
 
-In this project, we use `AsyncCommand` to handle asynchronous operations in the view models. `AsyncCommand` is a custom implementation of `ICommand` that supports asynchronous execution.
+## Building and running the sample
 
-### AsyncCommand
+-   Open the solution file (`.sln`) in Visual Studio.
+-   Ensure your build configuration is set to `arm64`.
+-   From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
 
-Here's an example of how to use `AsyncCommand`:
+# Contributing to this project
+- Refer to the [contributing guide](./Contributing.md)
 
-```csharp
-//...
-    public ICommand ScaleCommand => _scaleSoftwareBitmapCommand;
-    private readonly AsyncCommand<(SoftwareBitmap, int, int), SoftwareBitmapSource> _scaleSoftwareBitmapCommand;
+## Special Considerations for Unpackaged and Self-Contained modes with Windows AI APIs
 
-    public ImageScalerViewModel(ImageScalerModel imageScalerSession)
-    : base(imageScalerSession)
-    {
-        _scaleSoftwareBitmapCommand = new(
-            async _ =>
-            {
-                var height = (int)(Input!.PixelHeight * Factor);
-                var width = (int)(Input!.PixelWidth * Factor);
-                var outputBitmap = Session.ScaleSoftwareBitmap(Input!, width, height);
-                ...
-            },
-            (_) => IsAvailable && Input is not null);
-    }
-
-//...
-
+- Unpackaged app configuration is no longer supported. Every app using Windows AI APIs must have a package identity which can be granted to [apps with an external location](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/grant-identity-to-nonpackaged-apps) to achieve that with unpackaged binaries.
+- Self-contained mode is fully supported by Windows AI APIs as well.
+- The following command demonstrates how to run the app as an ARM64 application in packaged self-contained mode (for both WinAppSDK and .NET):
+```powershell
+dotnet run -p:Configuration=Debug -p:Platform=ARM64 -p:WindowsAppSDKSelfContained=true -p:SelfContained=true.
 ```
-Here, our code needs to call `ImageScalerModel.ScaleSoftwareBitmap(SoftwareBitmap inputImage, int, int)` from the view model's Scale Image button (refer to [`ImageScalerPage.xaml`](./Pages/ImageScalerPage.xaml)). We set the `ScaleCommand` property to an `AsyncCommand` that calls `ScaleSoftwareBitmap`. `AsyncCommand` implements `ICommand` so this assignment works.
-The `ICommand` is enabled only when the Input image is loaded and the session is created, denoted by Image and IsAvailable respectively.
-
-### AsyncCommandWithProgress
-
-`AsyncCommandWithProgress` is an inherited class from `AsyncCommand` that supports receiving response in a progressive manner, few tokens at a time. It is used only in Language Model related page.
-
-Here's an example of how to use `AsyncCommandWithProgress`:
-
-```csharp
-//...
-    private readonly AsyncCommandWithProgress<string, LanguageModelResponse, string> _generateResponseWithProgressCommand;
-    private readonly StringBuilder _responseProgress = new();
-
-    // GenerateResponseWithProgress
-    _generateResponseWithProgressCommand = new(
-        prompt =>
-        {
-            _responseProgress.Clear();
-            DispatchPropertyChanged(nameof(ResponseProgress));
-
-            return Session.GenerateResponseWithProgressAsync(prompt!);
-        },
-        (prompt) => IsAvailable && !string.IsNullOrEmpty(prompt));
-
-    _generateResponseWithProgressCommand.ResultProgressHandler += OnResultProgress;
-    _generateResponseWithProgressCommand.ResultHandler += OnResult;
-//...
-```
-Similar to `AsyncCommand`, `AsyncCommandWithProgress` implements `ICommand` and calls model APIs. It provides two event handlers, `ResultProgressHandler` and `ResultHandler`.
-`ResultProgressHandler` is used to update the result (`ResponseProgress`) as newer tokens arrive.
-`ResultHandler` is called when final response token has arrived and there are no more pending response tokens.
-
-Refer to [`LanguageModelViewModel.cs`](./ViewModels/LanguageModelViewModel.cs) for detailed implementation.

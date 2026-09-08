@@ -83,7 +83,7 @@ namespace winrt::cpp_winui_packaged::implementation
         *((int*)nullptr) = 0;
     }
 
-    void S2_CrashRecovery::OnNavigatedFrom(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
+    void S2_CrashRecovery::OnNavigatedFrom(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs /*e*/)
     {
         _timer.Stop();
     }

@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.Windows.AI.ContentSafety;
 using System;

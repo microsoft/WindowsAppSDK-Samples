@@ -5,15 +5,21 @@
     <AppxLogTelemetryFromSideloadingScript>false</AppxLogTelemetryFromSideloadingScript>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- Suppress CS8305: Feature is for evaluation purposes only and is subject to change or removal in future updates. -->
+    <NoWarn>$(NoWarn);8305</NoWarn>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>%(AdditionalOptions) /Qspectre</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <!-- /GS Enable Control Flow Guard -->
       <ControlFlowGuard>Guard</ControlFlowGuard>
       <!-- Setting this to be compatible with CFG -->
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <SDLCheck>true</SDLCheck>
+      <!-- Treat C4100 (unreferenced parameter) as error -->
+      <TreatSpecificWarningsAsErrors>4100;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
     </ClCompile>
     <Link>
       <!-- dynamicbase is required for enabling CFG -->

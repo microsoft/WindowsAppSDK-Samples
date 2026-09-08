@@ -1,0 +1,11 @@
+﻿// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+namespace TestOAuthInCPlusPlus
+{
+    [default_interface]
+    runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+        void OnUriCallback([in] Windows.Foundation.Uri uri);
+    }
+}

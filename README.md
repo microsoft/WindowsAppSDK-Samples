@@ -30,6 +30,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 #### Data and Files
 - [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
+- [Storage Pickers](Samples/StoragePickers): These samples demonstrate the `Microsoft.Windows.Storage.Pickers` APIs for opening files, saving files, and selecting folders.
 
 ### Deployment
 - [Deployment Manager](Samples/DeploymentManager): This sample demonstrates how to initialize and access deployment information for the Windows App SDK runtime.
@@ -37,11 +38,14 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Unpackaged](Samples/Unpackaged): These samples demonstrate auto-initialization with the Windows App SDK package from non-MSIX (unpackaged) application.
 
 ### Dynamic Dependencies
-- [DirectX](DynamicDependenciesSample/DynamicDependencies): This sample demonstrates how to use the Dynamic Dependencies API to dynamically load the DirectX Runtime MSIX framework package.
+- [DirectX](Samples/DynamicDependenciesSample/DynamicDependencies): This sample demonstrates how to use the Dynamic Dependencies API to dynamically load the DirectX Runtime MSIX framework package.
 
 ### Graphics
 - [Mica](Samples/Mica): These samples demonstrate how to use the Mica material in different apps and frameworks.
 - [Text Rendering](Samples/TextRendering): This sample is a gallery of the DWriteCore APIs demonstrating text rendering.
+
+### Media
+- [Camera Capture UI](Samples/CameraCaptureUI): This sample demonstrates how to capture photos and videos using the CameraCaptureUI API in a WinUI 3 app.
 
 ### Islands
 - [Islands](Samples/Islands): This sample shows how to add a WinAppSDK island with Xaml content to a Win32 app.
@@ -52,6 +56,10 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ### Runtime Components
 - [Custom Controls](Samples/CustomControls): This sample shows how to author a Windows Runtime Component in C# with custom WinUI controls.
+
+### Security and Identity
+- [OAuth2 Manager](Samples/OAuth2Manager): This sample demonstrates how to perform OAuth 2.0 authorization in a WinUI 3 app.
+- [Secure UI](Samples/SecureUI): This sample demonstrates a packaged C++ application that creates an AppWindow with a Mica backdrop.
 
 ### User Interface and Input
 

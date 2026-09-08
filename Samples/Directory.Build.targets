@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <WindowsSdkPackageVersion>$(TargetPlatformVersion.TrimEnd('0'))55</WindowsSdkPackageVersion>
+  </PropertyGroup>
+
+  <!-- Workaround issue affecting publishing with R2R on ARM64 for .NET 6 with the preview CsWinRT builds. -->
+  <ItemGroup Condition="'$(Platform)'=='ARM64'">
+    <PublishReadyToRunExclude Include="WinRT.Runtime.dll" />
+  </ItemGroup>
+
+  <!-- Auto-restore NuGet for native vcxproj (PackageReference) when building inside VS -->
+  <Target Name="EnsureNuGetRestoreForVcxproj" BeforeTargets="PrepareForBuild" Condition="
+            '$(BuildingInsideVisualStudio)' == 'true'
+            and '$(DesignTimeBuild)' != 'true'
+            and '$(RestoreInProgress)' != 'true'
+            and '$(MSBuildProjectExtension)' == '.vcxproj'
+            and '$(RestoreProjectStyle)' == 'PackageReference'
+            and '$(MSBuildProjectExtensionsPath)' != ''
+            and !Exists('$(MSBuildProjectExtensionsPath)project.assets.json')
+          ">
+
+    <Message Importance="normal" Text="NuGet assets missing for $(MSBuildProjectName); running Restore...; IntDir=$(IntDir); BaseIntermediateOutputPath=$(BaseIntermediateOutputPath)" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Restore" Properties="RestoreInProgress=true" BuildInParallel="false" />
+  </Target>
+
+</Project>

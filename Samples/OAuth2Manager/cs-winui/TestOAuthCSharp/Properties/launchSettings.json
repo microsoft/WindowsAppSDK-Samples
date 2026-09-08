@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TestOAuthCSharp (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TestOAuthCSharp (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

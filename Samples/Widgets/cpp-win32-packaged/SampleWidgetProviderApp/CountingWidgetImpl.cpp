@@ -51,7 +51,7 @@ void CountingWidget::OnActionInvoked(winrt::WidgetActionInvokedArgs actionInvoke
 }
 
 // This function will be invoked when WidgetContext has changed.
-void CountingWidget::OnWidgetContextChanged(winrt::WidgetContextChangedArgs contextChangedArgs)
+void CountingWidget::OnWidgetContextChanged(winrt::WidgetContextChangedArgs /*contextChangedArgs*/)
 {
     // (Optional) There a several things that can be done here:
     // 1. If you need to adjust template/data for the new context (i.e. widget size has chaned) - you can do it here.
