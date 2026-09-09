@@ -5,7 +5,9 @@
   <ItemGroup>
     <!-- WindowsAppSDK packages -->
     <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.14.0" />
-    <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.1.1" />
+    <!-- Managed compatibility metadata extraction requires the newer Windows ML binding.
+         Native samples remain on packages.config 2.1.1, whose C++ API already includes it. -->
+    <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.3.42" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.1.3" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="2.1.10" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="2.0.4" />

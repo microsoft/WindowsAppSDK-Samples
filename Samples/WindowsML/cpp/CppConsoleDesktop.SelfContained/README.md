@@ -9,6 +9,7 @@ This is a self-contained variant of the WindowsML C++ console desktop sample.
 - **Shared Helpers**: Uses the same shared helper classes from `../../Shared/cpp/`
 - **Source Files**: References the main application source from `../CppConsoleDesktop/CppConsoleDesktop.cpp`
 - **Binary Deployment**: ONNX Runtime binaries are bundled alongside the application
+- **Compiled Models**: Reuses an existing compiled model only when compatibility validation reports `EP_SUPPORTED_OPTIMAL`; `--compile` safely replaces non-optimal models
 
 ## Required NuGet Package References
 

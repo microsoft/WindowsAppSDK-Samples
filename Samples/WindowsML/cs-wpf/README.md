@@ -67,6 +67,17 @@ var resultTensor = InferenceEngine.ExtractResults(_session, results);
 var topPredictions = ResultProcessor.GetTopPredictions(resultTensor, _labels, 5);
 ```
 
+## Compiled Model Cache Compatibility
+
+When a compiled model is present at the generated cache path, the shared `ModelManager` validates
+its EP compatibility metadata against the selected execution provider and device before reuse.
+Only `EP_SUPPORTED_OPTIMAL` is accepted. Missing metadata and every other compatibility result
+cause the WPF sample to use the original ONNX model.
+
+The WPF UI does not request compilation, so it does not replace a missing or non-optimal cache.
+Applications that enable the shared `Options.Compile` path compile to a temporary file and replace
+the cache only after compilation succeeds.
+
 ## Related Samples
 
 - **WinForms Version**: [cs-winforms](../cs-winforms/) - Same functionality with Windows Forms UI

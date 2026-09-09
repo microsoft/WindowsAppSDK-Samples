@@ -9,6 +9,7 @@ This is a framework-dependent variant of the WindowsML C++ console desktop sampl
 - **Shared Helpers**: Uses the same shared helper classes from `../../Shared/cpp/`
 - **Source Files**: References the main application source from `../CppConsoleDesktop/CppConsoleDesktop.cpp`
 - **Runtime Dependencies**: Requires WindowsAppSDK Runtime to be installed on target machine
+- **Compiled Models**: Reuses an existing compiled model only when compatibility validation reports `EP_SUPPORTED_OPTIMAL`; `--compile` safely replaces non-optimal models
 
 ## Features
 

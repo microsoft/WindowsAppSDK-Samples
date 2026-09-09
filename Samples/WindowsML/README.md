@@ -8,6 +8,7 @@ Windows ML enables high-performance, reliable inferencing of machine learning mo
 
 - **Execution Provider Selection** - Automatic discovery and acquisition of execution providers for hardware-accelerated inference
 - **Model Compilation** - Optimize models for specific hardware during first run
+- **Compiled Model Compatibility** - Validate cached compiled models against the current execution provider and devices before reuse
 - **Windows App SDK Deployment Types** - Use models in a variety of different Windows App SDK deployment modes (e.g., self-contained, framework-based deployment)
 
 ## Prerequisites
@@ -69,10 +70,13 @@ Most samples follow this pattern:
 
 1. **Initialize Environment** - Create ONNX Runtime environment
 2. **Register Execution Providers** - Discover and register available hardware accelerators
-3. **Load Model** - Load ONNX model, optionally compile for target hardware
-4. **Preprocess Input** - Convert images to model input format
-5. **Run Inference** - Execute model and get predictions
-6. **Process Results** - Apply softmax and display top predictions
+3. **Validate Cached Model** - Extract compatibility metadata from an existing compiled model and validate it against devices from the matching execution provider
+4. **Compile or Load Model** - Reuse only an optimal compiled model; otherwise compile when requested or use the original ONNX model
+5. **Preprocess Input** - Convert images to model input format
+6. **Run Inference** - Execute model and get predictions
+7. **Process Results** - Apply softmax and display top predictions
+
+Compatibility is reported through `OrtCompiledModelCompatibility`. The samples reuse a compiled model only for `EP_SUPPORTED_OPTIMAL`; `EP_SUPPORTED_PREFER_RECOMPILATION`, `EP_UNSUPPORTED`, `EP_NOT_APPLICABLE`, and missing compatibility metadata trigger recompilation or fallback. Because `GetModelCompatibilityForEpDevices` requires devices from a single execution provider, the samples validate one EP device group at a time.
 
 ## Model Files
 
