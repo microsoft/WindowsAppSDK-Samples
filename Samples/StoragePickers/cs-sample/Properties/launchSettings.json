@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FilePickersAppSinglePackaged (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FilePickersAppSinglePackaged (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
