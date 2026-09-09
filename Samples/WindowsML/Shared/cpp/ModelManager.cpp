@@ -34,6 +34,30 @@ namespace Shared
         std::cout << "Compiling model from " << modelPath << std::endl;
         std::cout << "Output path: " << compiledModelPath << std::endl;
 
+        std::error_code pathError;
+        const bool compiledModelExists = std::filesystem::exists(compiledModelPath, pathError);
+        if (pathError)
+        {
+            const std::string message =
+                "Failed to inspect compiled model output path: " + pathError.message();
+            std::cerr << message << std::endl;
+            return ortApi.CreateStatus(ORT_FAIL, message.c_str());
+        }
+
+        if (compiledModelExists && std::filesystem::equivalent(modelPath, compiledModelPath, pathError))
+        {
+            const std::string message = "Compilation output path must be different from the original model path.";
+            std::cerr << message << std::endl;
+            return ortApi.CreateStatus(ORT_INVALID_ARGUMENT, message.c_str());
+        }
+        if (pathError)
+        {
+            const std::string message =
+                "Failed to compare input and compiled model paths: " + pathError.message();
+            std::cerr << message << std::endl;
+            return ortApi.CreateStatus(ORT_FAIL, message.c_str());
+        }
+
         // Get compile API
         const OrtCompileApi* compileApi = ortApi.GetCompileApi();
         if (!compileApi)
