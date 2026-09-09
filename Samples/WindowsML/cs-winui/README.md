@@ -83,6 +83,11 @@ This sample uses the **SqueezeNet** model:
 - **Output**: Probability distribution over ImageNet classes
 - **Size**: Lightweight model optimized for performance
 
+> [!NOTE]
+> This WinUI sample loads the original model directly and does not use the shared compiled-model
+> cache path. Compiled-model compatibility validation applies to the console, WPF, and WinForms
+> samples that call `ModelManager.ResolveActualModelPath`.
+
 ## Deployment
 
 The application can be deployed as:

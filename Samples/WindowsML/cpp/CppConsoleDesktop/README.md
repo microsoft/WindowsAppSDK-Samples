@@ -81,6 +81,22 @@ are automatically generated with device-specific identifiers to prevent collisio
 
 Use `--compiled_output` to override with a custom path.
 
+Before reusing an existing compiled model, the sample reads its execution-provider
+compatibility metadata and validates it against the currently selected devices. Devices
+are checked in single-EP groups. Explicit `--ep_name`/`--device_type` choices validate
+only that selected group. Policy mode probes candidate groups for the policy's preferred
+device type and CPU fallback, and requires every metadata-bearing candidate group to
+report optimal compatibility. At least one candidate must contain matching compatibility
+metadata.
+
+Only `EP_SUPPORTED_OPTIMAL` models are reused. Missing metadata,
+`EP_NOT_APPLICABLE`, `EP_SUPPORTED_PREFER_RECOMPILATION`, and `EP_UNSUPPORTED`
+are treated as non-optimal. With `--compile`, the replacement is compiled to a temporary
+file with EP context embedded, then atomically moved into place. This prevents the final
+model from referencing a temp-named sidecar. A failed compilation falls back to the
+original ONNX model instead of loading the stale compiled model. Without `--compile`, a
+non-optimal compiled model also falls back to the original model.
+
 ```cpp
 #include <win_onnxruntime_cxx_api.h>
 
@@ -94,6 +110,7 @@ compileApi->CreateModelCompilationOptionsFromSessionOptions(env, sessionOptions,
 // Set input and output paths
 compileApi->ModelCompilationOptions_SetInputModelPath(compileOptions, modelPath.c_str());
 compileApi->ModelCompilationOptions_SetOutputModelPath(compileOptions, compiledModelPath.c_str());
+compileApi->ModelCompilationOptions_SetEpContextEmbedMode(compileOptions, true);
 
 // Compile the model
 compileApi->CompileModel(env, compileOptions);
