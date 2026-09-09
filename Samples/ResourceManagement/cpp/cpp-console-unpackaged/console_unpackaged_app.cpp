@@ -8,11 +8,13 @@
 #include "winrt\Windows.Foundation.h"
 #include "winrt\Windows.Foundation.Collections.h"
 #include "winrt\Microsoft.Windows.ApplicationModel.Resources.h"
+#include "winrt\Microsoft.Windows.Globalization.h"
 
 #include <MddBootstrap.h>
 
 using namespace winrt;
 using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
+using namespace winrt::Microsoft::Windows::Globalization;
 
 int wmain(int argc, wchar_t* argv[])
 {
@@ -27,9 +29,11 @@ int wmain(int argc, wchar_t* argv[])
             "       Default or default\n"
             "       Override or override\n"
             "       Fallback or fallback\n"
+            "       PrimaryLanguageOverride or primarylanguageoverride\n"
             "  Default and override retrieve a sample string from string resource files.\n"
             "  For the override case, this sample uses the German language.\n"
             "  Fallback corresponds to the resource-not-found case, where we fallback to a legacy resource loader.\n"
+            "  PrimaryLanguageOverride uses ApplicationLanguages.PrimaryLanguageOverride property to override the language to German.\n"
             "\n"
             "Examples:\n"
             "  Get the sample string for the default resource context\n"
@@ -37,8 +41,10 @@ int wmain(int argc, wchar_t* argv[])
             "  Get the sample string for the override resource context (sample uses the German language for the override context)\n"
             "    console_unpackaged_app.exe override\n"
             "  Get the sample string for the resource-not-found fallback case\n"
-            "    console_unpackaged_app.exe fallback\n";
-        return 1;
+            "    console_unpackaged_app.exe fallback\n"
+            "  Get the sample string for the language overriden with ApplicationLanguages.PrimaryLanguageOverride (sample uses the German language)\n"
+            "    console_unpackaged_app.exe primarylanguageoverride\n";
+            return 1;
     }
 
     // Required for C++/WinRT. This call associates this thread with an apartment and initializes COM runtime.
@@ -75,6 +81,11 @@ int wmain(int argc, wchar_t* argv[])
     else if ((_wcsicmp(argv[1], L"Fallback") == 0) || (_wcsicmp(argv[1], L"fallback") == 0))
     {
         std::wcout << manager.MainResourceMap().GetValue(L"Resources/LegacyString").ValueAsString().c_str() << std::endl;
+    }
+    else if ((_wcsicmp(argv[1], L"PrimaryLanguageOverride") == 0) || (_wcsicmp(argv[1], L"primarylanguageoverride") == 0))
+    {
+        ApplicationLanguages::PrimaryLanguageOverride(L"de-DE");
+        std::wcout << manager.MainResourceMap().GetValue(L"Resources/SampleString").ValueAsString().c_str() << std::endl;
     }
     else
     {
