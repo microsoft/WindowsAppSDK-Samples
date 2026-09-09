@@ -26,8 +26,14 @@ namespace CppUnpackagedAppNotifications
         Scenario2_ToastWithTextBox();
     }
 
-     /* The following code is template-specific IDL.
-     These runtime classes are the same across all C++/WinRT WinUI samples. */
+    [default_interface]
+    runtimeclass Scenario3_PushToastWithAvatar : Microsoft.UI.Xaml.Controls.Page
+    {
+        Scenario3_PushToastWithAvatar();
+    }
+
+    /* The following code is template-specific IDL.
+    These runtime classes are the same across all C++/WinRT WinUI samples. */
 
     runtimeclass MainPage : Microsoft.UI.Xaml.Controls.Page
     {

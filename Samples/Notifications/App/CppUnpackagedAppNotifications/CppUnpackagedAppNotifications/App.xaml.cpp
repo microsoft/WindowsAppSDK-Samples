@@ -9,13 +9,15 @@
 #include <Microsoft.UI.Xaml.Window.h>
 #include <winrt/Microsoft.Windows.AppLifecycle.h>
 #include <winrt/Microsoft.Windows.AppNotifications.h>
+#include <winrt/Windows.ApplicationModel.Background.h>
 
 namespace winrt
 {
     using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::Windows::AppLifecycle;
-    using namespace winrt::Microsoft::Windows::AppNotifications;
+    using namespace Microsoft::Windows::AppLifecycle;
+    using namespace Microsoft::Windows::AppNotifications;
+    using namespace Microsoft::Windows::PushNotifications;
 }
 
 // NotificationManager is responsible for registering and unregistering the Sample for App Notifications as well as
@@ -87,11 +89,38 @@ namespace winrt::CppUnpackagedAppNotifications::implementation
             winrt::AppActivationArguments activationArgs{ currentInstance.GetActivatedEventArgs() };
             if (activationArgs)
             {
-                winrt::ExtendedActivationKind extendedKind{ activationArgs.Kind() };
-                if (extendedKind == winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification)
+                switch (activationArgs.Kind())
+                {
+                    // When it is activated from a push notification, the sample only displays the notification.
+                    // It doesn’t register for foreground activation of perform any other actions
+                    // because background activation is meant to let app perform only small tasks in order to preserve battery life.
+                case ExtendedActivationKind::Push:
+                {
+                    winrt::PushNotificationReceivedEventArgs pushArgs{ activationArgs.Data().as<winrt::PushNotificationReceivedEventArgs>() };
+
+                    // Call GetDeferral to ensure that code runs in low power
+                    auto deferral{ pushArgs.GetDeferral() };
+
+                    auto payload{ pushArgs.Payload() };
+
+                    // Do stuff to process the raw notification payload
+                    std::string payloadString(payload.begin(), payload.end());
+                    //std::cout << "\nPush notification content received in the BACKGROUND: " << payloadString.c_str() << std::endl;
+                    //std::cout << "\nPress 'Enter' to exit the App." << std::endl;
+
+                    // Call Complete on the deferral when finished processing the payload.
+                    // This removes the override that kept the app running even when the system was in a low power mode.
+                    deferral.Complete();
+                    //std::cin.ignore();
+                }
+                break;
+
+                case winrt::Microsoft::Windows::AppLifecycle::ExtendedActivationKind::AppNotification:
                 {
                     winrt::AppNotificationActivatedEventArgs notificationActivatedEventArgs{ activationArgs.Data().as<winrt::AppNotificationActivatedEventArgs>() };
                     g_notificationManager.ProcessLaunchActivationArgs(notificationActivatedEventArgs);
+                }
+                break;
                 }
             }
         }
