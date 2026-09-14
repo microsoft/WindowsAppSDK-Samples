@@ -29,7 +29,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
     - [Share Target](Samples\AppLifecycle\ShareTarget\WinUI-CS-ShareTargetSampleApp): This sample demonstrates an app that can be activated as a share target.
 
 #### Data and Files
-- [Resource Management](Samples/ResourceManagement): These samples demonstrates app resource management using the MRT Core APIs.
+- [Resource Management](Samples/ResourceManagement): These samples demonstrate app resource management using the MRT Core APIs.
 
 ### Deployment
 - [Deployment Manager](Samples/DeploymentManager): This sample demonstrates how to initialize and access deployment information for the Windows App SDK runtime.
@@ -64,7 +64,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ## 💻 Requirements
 
-Thes Windows App SDK samples have the following system requirements:
+These Windows App SDK samples have the following system requirements:
 
 - Windows 10, version 1809 (build 17763) or later.
 
@@ -75,7 +75,7 @@ Thes Windows App SDK samples have the following system requirements:
     - Desktop development with C++ (needed even if you're only building .NET apps)
     - Windows SDK version 2004 (build 19041) or later. This is installed with Visual Studio by default.
 
-Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) and [tools for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment) for a detalied list of requirements for developing apps with the Windows App SDK.
+Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) and [tools for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment) for a detailed list of requirements for developing apps with the Windows App SDK.
 
 ## 🚀 Using the samples
 
@@ -97,6 +97,6 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 Once a new sample app has been added, Microsoft developers shall consider updating the internal Aggregator pipeline to:
 - Enable building of the new sample app regularly.
-- Add a new test case to the existing SampleTests TAEF test driver to regularly verify successful launchng of the sample app against the latest Windows App SDK version.
+- Add a new test case to the existing SampleTests TAEF test driver to regularly verify successful launching of the sample app against the latest Windows App SDK version.
 
 Refer to the documentation on the internal Aggregator repository for instructions, in the BuildSampleApps and TestSampleApps Stages.
