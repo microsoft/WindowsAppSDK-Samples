@@ -36,17 +36,18 @@ public:
 protected:
 
     // Window message handlers.
-    virtual void OnPaint(HDC hdc, RECT invalidRect) {}
-    virtual bool OnKeyDown(uint32_t keyCode) { return false; }
-    virtual bool OnLeftButtonDown(int x, int y) { return false; }
+    // Remove parameter names to avoid C4100 (unreferenced formal parameter) warnings in base implementations.
+    virtual void OnPaint(HDC /*hdc*/, RECT /*invalidRect*/) {}
+    virtual bool OnKeyDown(uint32_t /*keyCode*/) { return false; }
+    virtual bool OnLeftButtonDown(int /*x*/, int /*y*/) { return false; }
     virtual void OnLeftButtonUp() {}
-    virtual void OnMouseMove(int x, int y) {}
-    virtual void OnVSCroll(uint32_t requestId) {}
-    virtual void OnMouseWheel(int distance) {}
+    virtual void OnMouseMove(int /*x*/, int /*y*/) {}
+    virtual void OnVSCroll(uint32_t /*requestId*/) {}
+    virtual void OnMouseWheel(int /*distance*/) {}
     virtual void OnSize() {}
-    virtual void OnFocus(bool haveFocus) {}
-    virtual void OnMenuCommand(uint32_t id) {}
-    virtual LRESULT OnControlCommand(HWND controlWindow, uint32_t controlId, uint32_t notificationCode) { return 0; }
+    virtual void OnFocus(bool /*haveFocus*/) {}
+    virtual void OnMenuCommand(uint32_t /*id*/) {}
+    virtual LRESULT OnControlCommand(HWND /*controlWindow*/, uint32_t /*controlId*/, uint32_t /*notificationCode*/) { return 0; }
 
 private:
     LRESULT Handle_Create(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);

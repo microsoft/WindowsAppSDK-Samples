@@ -54,7 +54,7 @@ MainWindow::MainWindow(int nShowCmd)
     UpdateWindow(m_hwnd);
 }
 
-LRESULT MainWindow::OnCreate(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::OnCreate(HWND hwnd, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     m_hwnd = hwnd;
     m_textRenderer = new TextRenderer{ hwnd };
@@ -91,19 +91,19 @@ void MainWindow::SetScenario(uint32_t menuItemId)
     }
 }
 
-LRESULT MainWindow::OnSize(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::OnSize(HWND /*hwnd*/, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     ResizeScenarioWindow();
     return 0;
 }
 
-LRESULT MainWindow::OnFocus(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::OnFocus(HWND /*hwnd*/, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     SetFocus(m_activeScenarioWindow->GetHandle());
     return 0;
 }
 
-LRESULT MainWindow::OnCommand(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::OnCommand(HWND /*hwnd*/, UINT /*message*/, WPARAM wParam, LPARAM /*lParam*/)
 {
     uint32_t menuItemId = LOWORD(wParam);
 
@@ -120,7 +120,7 @@ LRESULT MainWindow::OnCommand(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
     return 0;
 }
 
-LRESULT MainWindow::OnDpiChange(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::OnDpiChange(HWND hwnd, UINT /*message*/, WPARAM wParam, LPARAM lParam)
 {
     UINT dpi = LOWORD(wParam);
     RECT newRect = *reinterpret_cast<RECT const*>(lParam);
