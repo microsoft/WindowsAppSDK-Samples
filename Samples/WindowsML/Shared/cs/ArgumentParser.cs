@@ -17,6 +17,16 @@ namespace WindowsML.Shared
     }
 
     /// <summary>
+    /// PerformanceMode enumeration
+    /// </summary>
+    public enum PerformanceMode
+    {
+        Default,
+        MaxPerformance,
+        MaxEfficiency
+    }
+
+    /// <summary>
     /// Command-line argument parsing for WindowsML samples
     /// </summary>
     public class Options
@@ -28,9 +38,10 @@ namespace WindowsML.Shared
         public bool Download { get; set; } = false;
         public bool UseModelCatalog { get; set; } = false;
         public string ModelPath { get; set; } = string.Empty;
-        public string OutputPath { get; set; } = "SqueezeNet_ctx.onnx";
+        public string OutputPath { get; set; } = string.Empty;
         public string ImagePath { get; set; } = string.Empty;
         public ModelVariant Variant { get; set; } = ModelVariant.Default;
+        public PerformanceMode PerfMode { get; set; } = PerformanceMode.Default;
     }
 
     public static class ArgumentParser
@@ -64,12 +75,9 @@ namespace WindowsML.Shared
                                 case "DEFAULT":
                                     options.EpPolicy = ExecutionProviderDevicePolicy.DEFAULT;
                                     break;
-                                case "DISABLE":
-                                    options.EpPolicy = null;
-                                    break;
                                 default:
-                                    Console.WriteLine($"Unknown EP policy: {policyStr}, using default (DISABLE)");
-                                    options.EpPolicy = null;
+                                    Console.WriteLine($"Unknown EP policy: {policyStr}, using default (DEFAULT)");
+                                    options.EpPolicy = ExecutionProviderDevicePolicy.DEFAULT;
                                     break;
                             }
                         }
@@ -79,6 +87,29 @@ namespace WindowsML.Shared
                         if (i + 1 < args.Length)
                         {
                             options.EpName = args[++i];
+                        }
+                        break;
+
+                    case "--perf_mode":
+                        if (i + 1 < args.Length)
+                        {
+                            string perfModeToken = args[++i].ToUpperInvariant();
+                            switch (perfModeToken)
+                            {
+                                case "MAX_PERFORMANCE":
+                                    options.PerfMode = PerformanceMode.MaxPerformance;
+                                    break;
+                                case "MAX_EFFICIENCY":
+                                    options.PerfMode = PerformanceMode.MaxEfficiency;
+                                    break;
+                                case "DEFAULT":
+                                    options.PerfMode = PerformanceMode.Default;
+                                    break;
+                                default:
+                                    Console.WriteLine($"Unknown perf_mode: {perfModeToken}, defaulting to DEFAULT");
+                                    options.PerfMode = PerformanceMode.Default;
+                                    break;
+                            }
                         }
                         break;
 
@@ -179,14 +210,15 @@ namespace WindowsML.Shared
         public static void PrintHelp()
         {
             Console.WriteLine("Options:");
-            Console.WriteLine("  --ep_policy <policy>        Set execution provider policy (NPU, CPU, GPU, DEFAULT, DISABLE)");
+            Console.WriteLine("  --ep_policy <policy>        Set execution provider policy (NPU, CPU, GPU, DEFAULT)");
             Console.WriteLine("  --ep_name <name>            Explicit execution provider name (mutually exclusive with --ep_policy)");
             Console.WriteLine("  --device_type <type>        Optional hardware device type to use when EP supports multiple (e.g. CPU, GPU, NPU)");
+            Console.WriteLine("  --perf_mode <mode>          Set EP performance mode (MAX_PERFORMANCE, MAX_EFFICIENCY, DEFAULT)");
             Console.WriteLine("  --compile                   Compile the model");
             Console.WriteLine("  --download                  Download required packages");
             Console.WriteLine("  --use_model_catalog         Use the model catalog for model discovery");
             Console.WriteLine("  --model <path>              Path to input ONNX model (default: SqueezeNet.onnx)");
-            Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: SqueezeNet_ctx.onnx)");
+            Console.WriteLine("  --compiled_output <path>    Path for compiled output model (default: auto-generated with device info)");
             Console.WriteLine("  --image_path <path>         Path to the input image (default: sample kitten image)");
             Console.WriteLine("  --help, -h                  Display this help message");
             Console.WriteLine();

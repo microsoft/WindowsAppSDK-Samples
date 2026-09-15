@@ -120,7 +120,8 @@ namespace WindowsMLSample
             {
                 ModelPath = "SqueezeNet.onnx",
                 EpName = selectedEp,
-                DeviceType = selectedDeviceType
+                DeviceType = selectedDeviceType,
+                PerfMode = GetSelectedPerformanceMode()
             };
 
             var (modelPath, compiledModelPath, labelsPath) = await ModelManager.ResolvePaths(options, _ortEnv);
@@ -295,6 +296,15 @@ namespace WindowsMLSample
             {
                 ResultsText.Text = $"Device refresh failed: {ex.Message}";
             }
+        }
+
+        private PerformanceMode GetSelectedPerformanceMode()
+        {
+            if (PerfModeMaxPerfRadio.IsChecked == true)
+                return PerformanceMode.MaxPerformance;
+            if (PerfModeMaxEffRadio.IsChecked == true)
+                return PerformanceMode.MaxEfficiency;
+            return PerformanceMode.Default;
         }
 
         public void Dispose()

@@ -1,4 +1,4 @@
 pillow
 numpy
-wasdk-Microsoft.Windows.AI.MachineLearning[all]
-wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap
+wasdk-Microsoft.Windows.AI.MachineLearning[all]==2.1.3
+wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap==2.1.3

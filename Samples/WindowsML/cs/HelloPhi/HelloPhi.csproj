@@ -10,4 +10,10 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\Shared\cs\ArgumentParser.cs" Link="Shared\ArgumentParser.cs" />
+    <Compile Include="..\..\Shared\cs\ExecutionProviderManager.cs" Link="Shared\ExecutionProviderManager.cs" />
+    <Compile Include="..\..\Shared\cs\PerformanceConfigurator.cs" Link="Shared\PerformanceConfigurator.cs" />
+  </ItemGroup>
+
 </Project>
