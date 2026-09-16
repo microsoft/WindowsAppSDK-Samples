@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TouchKeyboard (Unpackaged)": {
+      "commandName": "Project"
+    },
+    "TouchKeyboard (Package)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}
