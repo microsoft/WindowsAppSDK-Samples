@@ -24,6 +24,6 @@
             </StackPanel>
         </ScrollViewer>
         <TextBlock Grid.Row="1" Text="Touch or click the screen to see information about the current pointer(s)" TextWrapping="Wrap" Padding="0,12,0,0"/>
-        <Canvas Grid.Row="2" x:Name="mainCanvas" Height="Auto" Margin="12,10,12,12" Background="Transparent"/>
+        <Canvas Grid.Row="2" x:Name="mainCanvas" Margin="12,10,12,12" Background="Transparent"/>
     </Grid>
 </Page>

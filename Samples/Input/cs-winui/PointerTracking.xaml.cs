@@ -12,7 +12,6 @@ namespace Input
     public sealed partial class PointerTracking : Page
     {
         private readonly Dictionary<uint, PointerEllipse> ellipses = new Dictionary<uint, PointerEllipse>();
-        private bool primaryExists;
 
         public PointerTracking()
         {
@@ -42,6 +41,7 @@ namespace Input
             if (ellipses.TryGetValue(pointerPoint.PointerId, out PointerEllipse ellipse))
             {
                 UpdateEllipsePosition(ellipse, pointerPoint.Position);
+                SynchronizePrimaryPointer(pointerPoint);
                 UpdateLastEvent("Moved", pointerPoint.PointerId);
             }
 
@@ -82,27 +82,15 @@ namespace Input
             if (ellipses.TryGetValue(pointerPoint.PointerId, out PointerEllipse existingEllipse))
             {
                 UpdateEllipsePosition(existingEllipse, pointerPoint.Position);
+                SynchronizePrimaryPointer(pointerPoint);
                 UpdateLastEvent(eventName, pointerPoint.PointerId);
                 return;
             }
 
             PointerEllipse pointerEllipse = new PointerEllipse();
             pointerEllipse.PointerId = pointerPoint.PointerId;
-
-            if (pointerPoint.Properties.IsPrimary && !primaryExists)
-            {
-                pointerEllipse.PrimaryPointer = true;
-                pointerEllipse.PrimaryEllipse = true;
-                primaryExists = true;
-                PointerPrimary.Text = pointerPoint.PointerId.ToString();
-            }
-            else
-            {
-                pointerEllipse.PrimaryPointer = false;
-                pointerEllipse.PrimaryEllipse = false;
-            }
-
             ellipses[pointerPoint.PointerId] = pointerEllipse;
+            SynchronizePrimaryPointer(pointerPoint);
             UpdateEllipsePosition(pointerEllipse, pointerPoint.Position);
             pointerCanvas.Children.Add(pointerEllipse);
             UpdatePointerCount();
@@ -117,20 +105,41 @@ namespace Input
             }
 
             PointerPoint pointerPoint = e.GetCurrentPoint(pointerCanvas);
-            if (pointerPoint.Properties.IsPrimary)
-            {
-                PointerPrimary.Text = "n/a";
-                primaryExists = false;
-            }
-
             if (ellipses.TryGetValue(pointerPoint.PointerId, out PointerEllipse ellipse))
             {
+                if (ellipse.PrimaryPointer)
+                {
+                    PointerPrimary.Text = "n/a";
+                }
+
                 pointerCanvas.Children.Remove(ellipse);
                 ellipses.Remove(pointerPoint.PointerId);
                 UpdatePointerCount();
             }
 
             UpdateLastEvent(eventName, pointerPoint.PointerId);
+        }
+
+        private void SynchronizePrimaryPointer(PointerPoint pointerPoint)
+        {
+            if (pointerPoint.Properties.IsPrimary)
+            {
+                foreach (KeyValuePair<uint, PointerEllipse> entry in ellipses)
+                {
+                    bool isPrimary = entry.Key == pointerPoint.PointerId;
+                    entry.Value.PrimaryPointer = isPrimary;
+                    entry.Value.PrimaryEllipse = isPrimary;
+                }
+
+                PointerPrimary.Text = pointerPoint.PointerId.ToString();
+            }
+            else if (ellipses.TryGetValue(pointerPoint.PointerId, out PointerEllipse ellipse) &&
+                ellipse.PrimaryPointer)
+            {
+                ellipse.PrimaryPointer = false;
+                ellipse.PrimaryEllipse = false;
+                PointerPrimary.Text = "n/a";
+            }
         }
 
         private void UpdateEllipsePosition(PointerEllipse ellipse, Point position)

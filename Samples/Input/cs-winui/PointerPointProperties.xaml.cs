@@ -63,10 +63,7 @@ namespace Input
         private void Pointer_Wheel_Changed(object sender, PointerRoutedEventArgs e)
         {
             PointerPoint currentPoint = e.GetCurrentPoint(mainCanvas);
-            if (currentPoint.IsInContact)
-            {
-                CreateOrUpdatePropertyPopUp(currentPoint);
-            }
+            CreateOrUpdatePropertyPopUp(currentPoint);
         }
 
         private void CreateOrUpdatePropertyPopUp(PointerPoint currentPoint)

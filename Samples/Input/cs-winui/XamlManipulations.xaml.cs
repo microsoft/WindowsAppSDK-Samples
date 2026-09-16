@@ -122,7 +122,7 @@ namespace Input
             inertiaSwitch.IsOn = true;
         }
 
-        private void resetButton_Pressed(object sender, RoutedEventArgs e)
+        private void resetButton_Click(object sender, RoutedEventArgs e)
         {
             forceManipulationsToEnd = true;
             manipulateMe.RenderTransform = null;
