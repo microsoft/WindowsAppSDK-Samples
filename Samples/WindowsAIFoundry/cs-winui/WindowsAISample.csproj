@@ -22,9 +22,17 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxOSMinVersionReplaceManifestVersion>false</AppxOSMinVersionReplaceManifestVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
+    <ExperimentalApisAvailable>false</ExperimentalApisAvailable>
+    <ExperimentalApisAvailable Condition="'$(UseExperimentalWinAppSDK)' == 'true'">true</ExperimentalApisAvailable>
   </PropertyGroup>
+
   <ItemGroup>
-    <None Remove="Controls\ModelInitializationControl.xaml" />
+    <Compile Remove="Extensions\**\*.cs" />
+    <Compile Remove="Shared\**\*.cs" />
+    <Page Remove="Extensions\**\*.xaml" />
+    <Page Remove="Shared\**\*.xaml" />
+    <None Remove="Extensions\**" />
+    <None Remove="Shared\**" />
     <None Remove="Examples\ImageObjectExtractor.md" />
     <None Remove="Examples\ImageObjectExtractorInit.md" />
     <None Remove="Examples\ImageScaler.md" />
@@ -53,8 +61,52 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <ProjectReference Include="Shared\WindowsAISample.Shared.csproj">
+      <SetPlatform>Platform=AnyCPU</SetPlatform>
+      <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
+    </ProjectReference>
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(ExperimentalApisAvailable)' == 'true'">
+    <Compile Include="Extensions\ImageForegroundExtractor\ShellExtension.cs"
+             Link="Extensions\ImageForegroundExtractor\ShellExtension.cs" />
+    <Compile Include="Extensions\VideoScaler\ShellExtension.cs"
+             Link="Extensions\VideoScaler\ShellExtension.cs" />
+    <ProjectReference Include="Extensions\ImageForegroundExtractor\WindowsAISample.Ext.ImageForegroundExtractor.csproj">
+      <SetPlatform>Platform=AnyCPU</SetPlatform>
+      <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
+    </ProjectReference>
+    <ProjectReference Include="Extensions\VideoScaler\WindowsAISample.Ext.VideoScaler.csproj">
+      <SetPlatform>Platform=AnyCPU</SetPlatform>
+      <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
+    </ProjectReference>
+    <Content Include="Extensions\ImageForegroundExtractor\Examples\*.md"
+             Link="Examples\%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Extensions\VideoScaler\Examples\*.md"
+             Link="Examples\%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ExtensionRequiringExperimentalApis Include="ImageForegroundExtractor" />
+    <ExtensionRequiringExperimentalApis Include="VideoScaler" />
+  </ItemGroup>
+
+  <Target Name="RemoveStaleExtensionOutputs"
+          BeforeTargets="CopyFilesToOutputDirectory"
+          Condition="'$(ExperimentalApisAvailable)' != 'true'">
+    <ItemGroup>
+      <StaleExtensionFile Include="@(ExtensionRequiringExperimentalApis -> '$(TargetDir)WindowsAISample.Ext.%(Identity).dll')" />
+      <StaleExtensionFile Include="@(ExtensionRequiringExperimentalApis -> '$(TargetDir)WindowsAISample.Ext.%(Identity).pdb')" />
+      <StaleExtensionFile Include="@(ExtensionRequiringExperimentalApis -> '$(TargetDir)WindowsAISample.Ext.%(Identity).pri')" />
+      <StaleExtensionDirectory Include="@(ExtensionRequiringExperimentalApis -> '$(TargetDir)WindowsAISample.Ext.%(Identity)')" />
+    </ItemGroup>
+
+    <Delete Files="@(StaleExtensionFile)" />
+    <RemoveDir Directories="@(StaleExtensionDirectory)" />
+  </Target>
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
       Tools extension to be activated for this project even if the Windows App SDK Nuget
@@ -102,9 +154,5 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\ModelInitializationControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+  <Import Project="ProjectReference.Platform.targets" />
 </Project>
