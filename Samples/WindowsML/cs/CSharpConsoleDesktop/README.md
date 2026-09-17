@@ -93,23 +93,26 @@ are automatically generated with device-specific identifiers to prevent collisio
 
 Use `--compiled_output` to override with a custom path.
 
-Before an existing compiled model is reused, the shared `ModelManager` reads its EP compatibility
-metadata and validates it against the currently discovered devices. Explicit `--ep_name` and
-`--device_type` selections are honored. With `--ep_policy`, devices are grouped by EP and each EP
-group is probed separately.
+Before an existing compiled model is reused, the shared `ModelManager` reads its
+EP compatibility metadata and validates it against the currently discovered
+devices. Explicit `--ep_name` and `--device_type` selections are honored.
 
-Only `EP_SUPPORTED_OPTIMAL` is reused. `EP_SUPPORTED_PREFER_RECOMPILATION`, `EP_UNSUPPORTED`,
-`EP_NOT_APPLICABLE`, discovery failures, and validation failures cause the sample to use the
-original ONNX model instead. For policy selection, at least one candidate EP group must have
-matching metadata, and every metadata-bearing candidate group must report `EP_SUPPORTED_OPTIMAL`.
-Candidate groups follow policy fallback behavior: CPU for `DEFAULT`/`PREFER_CPU`, NPU plus CPU for
-NPU/efficiency policies, and GPU plus CPU for GPU/performance policies. If no candidate group has
-matching metadata, the cache is also treated as non-optimal.
+Only `EP_SUPPORTED_OPTIMAL` is reused.
+`EP_SUPPORTED_PREFER_RECOMPILATION`, `EP_UNSUPPORTED`, `EP_NOT_APPLICABLE`,
+discovery failures, and validation failures cause the sample to use the original
+ONNX model instead. For policy selection, the sample follows ONNX Runtime's
+policy ordering and validates the preferred device and CPU fallback devices
+selected by the policy. The selected devices are separated into single-EP groups
+because one compatibility call cannot mix EPs. The preferred group must have
+matching metadata, and every selected group with metadata must report
+`EP_SUPPORTED_OPTIMAL`. Missing metadata is tolerated only for fallback groups
+that do not compile the model.
 
-When `--compile` is present and the cached model is missing or non-optimal, compilation writes to a
-temporary file in the output directory and replaces the cache only after compilation succeeds. If
-compilation or replacement fails, a stale compiled model is never selected and inference falls
-back to the original model. EP context data is embedded in the compiled ONNX file so atomic cache
+When `--compile` is present and the cached model is missing or non-optimal,
+compilation writes to a temporary file in the output directory and replaces the
+cache only after compilation succeeds. If compilation or replacement fails, a
+stale compiled model is never selected and inference falls back to the original
+model. EP context data is embedded in the compiled ONNX file so atomic cache
 replacement does not leave references to temporary sidecar files.
 
 ### 3. Execution Provider Selection Policy

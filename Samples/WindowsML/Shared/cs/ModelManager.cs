@@ -383,6 +383,7 @@ namespace WindowsML.Shared
             if (isCompiledModelAvailable)
             {
                 bool foundCompatibilityMetadata = false;
+                bool preferredGroupMissingCompatibilityMetadata = false;
                 bool foundNonOptimalCompatibility = false;
                 bool compatibilityCheckFailed = false;
                 Console.WriteLine($"Checking compiled model compatibility: {compiledModelPath}");
@@ -403,8 +404,9 @@ namespace WindowsML.Shared
                             : "  No execution provider devices matched the configured EP policy.");
                     }
 
-                    foreach ((string epName, List<OrtEpDevice> devices) in candidateGroups)
+                    for (int groupIndex = 0; groupIndex < candidateGroups.Count; groupIndex++)
                     {
+                        (string epName, List<OrtEpDevice> devices) = candidateGroups[groupIndex];
                         Console.WriteLine(
                             $"  Probing EP '{epName}' with device(s): {FormatDeviceContext(devices)}");
 
@@ -416,6 +418,11 @@ namespace WindowsML.Shared
                             {
                                 Console.WriteLine(
                                     $"  Compiled model has no compatibility metadata for EP '{epName}'.");
+                                // Selection preserves the requested or policy-preferred EP as the first group.
+                                if (groupIndex == 0)
+                                {
+                                    preferredGroupMissingCompatibilityMetadata = true;
+                                }
                                 continue;
                             }
 
@@ -450,13 +457,15 @@ namespace WindowsML.Shared
 
                 bool canReuseCompiledModel =
                     foundCompatibilityMetadata &&
+                    !preferredGroupMissingCompatibilityMetadata &&
                     !foundNonOptimalCompatibility &&
                     !compatibilityCheckFailed;
 
                 if (canReuseCompiledModel)
                 {
                     Console.WriteLine(
-                        "All applicable compatibility metadata reports EP_SUPPORTED_OPTIMAL.");
+                        "The preferred EP and all applicable fallback metadata report " +
+                        "EP_SUPPORTED_OPTIMAL.");
                     Console.WriteLine($"Using existing compiled model: {compiledModelPath}");
                     return compiledModelPath;
                 }
@@ -465,6 +474,11 @@ namespace WindowsML.Shared
                 {
                     Console.WriteLine(
                         "No compatibility metadata matched the selected execution provider devices.");
+                }
+                else if (preferredGroupMissingCompatibilityMetadata)
+                {
+                    Console.WriteLine(
+                        "No compatibility metadata matched the preferred execution provider.");
                 }
                 else if (foundNonOptimalCompatibility)
                 {
@@ -621,40 +635,110 @@ namespace WindowsML.Shared
                 return device == null ? [] : [(group.EpName, [device])];
             }
 
-            HashSet<string> policyDeviceTypes = GetPolicyDeviceTypes(
+            List<OrtEpDevice> policyDevices = SelectDevicesForPolicy(
+                discoveredDevices,
                 options.EpPolicy ?? ExecutionProviderDevicePolicy.DEFAULT);
-
-            // Preserve EP grouping while including the policy's preferred hardware and CPU fallback.
-            return groups
-                .Select(group => (
-                    group.EpName,
-                    group.Devices.Where(device => policyDeviceTypes.Contains(
-                        device.HardwareDevice.Type.ToString())).ToList()))
-                .Where(group => group.Item2.Count > 0)
-                .Select(group => (group.EpName, group.Item2))
+            return policyDevices
+                .GroupBy(device => device.EpName, StringComparer.OrdinalIgnoreCase)
+                .Select(group => (group.Key, group.ToList()))
                 .ToList();
         }
 
-        private static HashSet<string> GetPolicyDeviceTypes(ExecutionProviderDevicePolicy policy)
+        private static List<OrtEpDevice> SelectDevicesForPolicy(
+            IReadOnlyList<OrtEpDevice> devices,
+            ExecutionProviderDevicePolicy policy)
         {
-            string? preferredDeviceType = policy switch
+            List<OrtEpDevice> orderedDevices = devices.ToList();
+            orderedDevices.Sort(ComparePolicyDevices);
+            List<OrtEpDevice> selectedDevices = [];
+            if (orderedDevices.Count == 0)
             {
-                ExecutionProviderDevicePolicy.PREFER_NPU or
-                ExecutionProviderDevicePolicy.MAX_EFFICIENCY or
-                ExecutionProviderDevicePolicy.MIN_OVERALL_POWER => "NPU",
-                ExecutionProviderDevicePolicy.PREFER_GPU or
-                ExecutionProviderDevicePolicy.MAX_PERFORMANCE => "GPU",
-                _ => null
-            };
-
-            var deviceTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "CPU" };
-            if (preferredDeviceType != null)
-            {
-                deviceTypes.Add(preferredDeviceType);
+                return selectedDevices;
             }
 
-            return deviceTypes;
+            if (policy is ExecutionProviderDevicePolicy.PREFER_NPU or
+                ExecutionProviderDevicePolicy.MAX_EFFICIENCY or
+                ExecutionProviderDevicePolicy.MIN_OVERALL_POWER)
+            {
+                if (orderedDevices[0].HardwareDevice.Type == OrtHardwareDeviceType.NPU)
+                {
+                    selectedDevices.Add(orderedDevices[0]);
+                }
+            }
+            else if (policy is ExecutionProviderDevicePolicy.PREFER_GPU or
+                     ExecutionProviderDevicePolicy.MAX_PERFORMANCE)
+            {
+                OrtEpDevice? firstGpu = orderedDevices.FirstOrDefault(
+                    device => device.HardwareDevice.Type == OrtHardwareDeviceType.GPU);
+                if (firstGpu != null)
+                {
+                    selectedDevices.Add(firstGpu);
+                }
+            }
+
+            OrtEpDevice? firstCpu = orderedDevices.FirstOrDefault(
+                device => device.HardwareDevice.Type == OrtHardwareDeviceType.CPU);
+            if (firstCpu != null)
+            {
+                selectedDevices.Add(firstCpu);
+                OrtEpDevice lastDevice = orderedDevices[^1];
+                if (!IsDefaultCpuEp(firstCpu) && IsDefaultCpuEp(lastDevice))
+                {
+                    selectedDevices.Add(lastDevice);
+                }
+            }
+
+            return selectedDevices;
         }
+
+        private static int ComparePolicyDevices(OrtEpDevice left, OrtEpDevice right)
+        {
+            int comparison = GetDeviceTypePriority(left.HardwareDevice.Type).CompareTo(
+                GetDeviceTypePriority(right.HardwareDevice.Type));
+            if (comparison != 0)
+            {
+                return comparison;
+            }
+
+            if (left.HardwareDevice.Type == OrtHardwareDeviceType.GPU)
+            {
+                comparison = IsDiscreteGpu(right).CompareTo(IsDiscreteGpu(left));
+                if (comparison != 0)
+                {
+                    return comparison;
+                }
+            }
+
+            comparison = MatchesEpVendor(right).CompareTo(MatchesEpVendor(left));
+            if (comparison != 0)
+            {
+                return comparison;
+            }
+
+            comparison = IsDefaultCpuEp(left).CompareTo(IsDefaultCpuEp(right));
+            return comparison != 0
+                ? comparison
+                : StringComparer.Ordinal.Compare(left.EpName, right.EpName);
+        }
+
+        private static int GetDeviceTypePriority(OrtHardwareDeviceType type) => type switch
+        {
+            OrtHardwareDeviceType.NPU => 0,
+            OrtHardwareDeviceType.GPU => 1,
+            _ => 2
+        };
+
+        private static bool IsDiscreteGpu(OrtEpDevice device) =>
+            device.HardwareDevice.Type == OrtHardwareDeviceType.GPU &&
+            device.HardwareDevice.Metadata.Entries.TryGetValue("Discrete", out string? discrete) &&
+            discrete == "1";
+
+        private static bool MatchesEpVendor(OrtEpDevice device) =>
+            device.HardwareDevice.Vendor.Equals(device.EpVendor, StringComparison.Ordinal);
+
+        private static bool IsDefaultCpuEp(OrtEpDevice device) =>
+            device.HardwareDevice.Type == OrtHardwareDeviceType.CPU &&
+            device.EpVendor.Equals("Microsoft", StringComparison.Ordinal);
 
         private static string FormatDeviceContext(IEnumerable<OrtEpDevice> devices)
         {

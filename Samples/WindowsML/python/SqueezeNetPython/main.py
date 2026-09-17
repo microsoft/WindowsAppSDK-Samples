@@ -22,40 +22,74 @@ def _get_ort_compatibility_api(name: str):
     return getattr(onnxruntime_pybind11_state, name)
 
 
-def _filter_ep_devices_by_types(devices_by_ep, device_type_names: tuple[str, ...]):
-    hardware_device_types = {
-        getattr(getattr(ort, "OrtHardwareDeviceType", None), device_type_name, None)
-        for device_type_name in device_type_names
-    }
-    hardware_device_types.discard(None)
-    matching_groups = {}
-
-    for ep_name, devices in devices_by_ep.items():
-        matching_devices = []
-        for device in devices:
-            device_type = device.device.type
-            if device_type in hardware_device_types or (
-                str(device_type).rsplit(".", 1)[-1].upper() in device_type_names
-            ):
-                matching_devices.append(device)
-
-        if matching_devices:
-            matching_groups[ep_name] = matching_devices
-
-    return matching_groups
+def _device_type_name(device) -> str:
+    return str(device.device.type).rsplit(".", 1)[-1].upper()
 
 
-def _get_policy_device_type_names(policy) -> tuple[str, ...]:
+def _is_discrete_gpu(device) -> bool:
+    return (
+        _device_type_name(device) == "GPU"
+        and device.device.metadata.get("Discrete") == "1"
+    )
+
+
+def _matches_ep_vendor(device) -> bool:
+    return device.device.vendor == device.ep_vendor
+
+
+def _is_default_cpu_ep(device) -> bool:
+    return _device_type_name(device) == "CPU" and device.ep_vendor == "Microsoft"
+
+
+def _policy_device_sort_key(device):
+    device_type_priority = {"NPU": 0, "GPU": 1, "CPU": 2}
+    device_type = _device_type_name(device)
+    return (
+        device_type_priority.get(device_type, 2),
+        0 if _is_discrete_gpu(device) else 1,
+        0 if _matches_ep_vendor(device) else 1,
+        1 if _is_default_cpu_ep(device) else 0,
+        device.ep_name,
+    )
+
+
+def _select_policy_device_groups(ep_devices, policy):
+    ordered_devices = sorted(ep_devices, key=_policy_device_sort_key)
+    selected_devices = []
+    if not ordered_devices:
+        return {}
+
     policy_name = getattr(policy, "name", str(policy).rsplit(".", 1)[-1])
     if policy_name in {
         "PREFER_NPU",
         "MAX_EFFICIENCY",
         "MIN_OVERALL_POWER",
     }:
-        return ("NPU", "CPU")
-    if policy_name in {"PREFER_GPU", "MAX_PERFORMANCE"}:
-        return ("GPU", "CPU")
-    return ("CPU",)
+        if _device_type_name(ordered_devices[0]) == "NPU":
+            selected_devices.append(ordered_devices[0])
+    elif policy_name in {"PREFER_GPU", "MAX_PERFORMANCE"}:
+        first_gpu = next(
+            (device for device in ordered_devices if _device_type_name(device) == "GPU"),
+            None,
+        )
+        if first_gpu is not None:
+            selected_devices.append(first_gpu)
+
+    first_cpu = next(
+        (device for device in ordered_devices if _device_type_name(device) == "CPU"),
+        None,
+    )
+    if first_cpu is not None:
+        selected_devices.append(first_cpu)
+        if not _is_default_cpu_ep(first_cpu) and _is_default_cpu_ep(
+            ordered_devices[-1]
+        ):
+            selected_devices.append(ordered_devices[-1])
+
+    selected_groups = {}
+    for device in selected_devices:
+        selected_groups.setdefault(device.ep_name, []).append(device)
+    return selected_groups
 
 
 def _compile_model_to_temporary_file(
@@ -183,20 +217,15 @@ if __name__ == "__main__":
             "OrtCompiledModelCompatibility"
         )
 
-        devices_by_ep = {}
-        for device in get_ep_devices():
-            devices_by_ep.setdefault(device.ep_name, []).append(device)
-
-        policy_device_types = _get_policy_device_type_names(ep_policy)
-        relevant_device_groups = _filter_ep_devices_by_types(
-            devices_by_ep, policy_device_types
+        relevant_device_groups = _select_policy_device_groups(
+            get_ep_devices(), ep_policy
         )
         policy_name = getattr(
             ep_policy, "name", str(ep_policy).rsplit(".", 1)[-1]
         )
         print(
             f"{policy_name} compatibility check selected "
-            f"{'/'.join(policy_device_types)} candidate EP group(s): "
+            "the following EP group(s): "
             + ", ".join(relevant_device_groups)
         )
     except Exception as error:
@@ -230,9 +259,12 @@ if __name__ == "__main__":
                 print("No relevant execution provider devices were found.")
             else:
                 matching_metadata_found = False
+                preferred_group_metadata_missing = False
                 all_matching_groups_optimal = True
 
-                for ep_name, ep_devices in relevant_device_groups.items():
+                for group_index, (ep_name, ep_devices) in enumerate(
+                    relevant_device_groups.items()
+                ):
                     device_descriptions = ", ".join(
                         f"{ep_device.device.type} "
                         f"(EP vendor={ep_device.ep_vendor})"
@@ -252,6 +284,9 @@ if __name__ == "__main__":
                                 "Compiled model has no compatibility metadata for "
                                 f"{ep_name}."
                             )
+                            # Selection preserves the policy-preferred EP as the first group.
+                            if group_index == 0:
+                                preferred_group_metadata_missing = True
                             continue
 
                         matching_metadata_found = True
@@ -280,11 +315,18 @@ if __name__ == "__main__":
                 if not matching_metadata_found:
                     print(
                         "Compiled model has no compatibility metadata for any "
-                        "candidate EP group."
+                        "selected EP group."
+                    )
+                elif preferred_group_metadata_missing:
+                    print(
+                        "Compiled model has no compatibility metadata for the "
+                        "preferred EP group."
                     )
 
                 candidate_is_optimal = (
-                    matching_metadata_found and all_matching_groups_optimal
+                    matching_metadata_found
+                    and not preferred_group_metadata_missing
+                    and all_matching_groups_optimal
                 )
 
             if candidate_is_optimal:

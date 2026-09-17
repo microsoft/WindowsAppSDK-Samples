@@ -39,17 +39,18 @@ python main.py
 The sample uses the `PREFER_NPU` execution provider device policy and caches the
 compiled model as `Model\SqueezeNet_ctx.onnx`. Before reusing that file, it:
 
-1. Calls `get_ep_devices` and groups the returned devices by execution provider.
-   Devices from different execution providers are never passed together.
-2. For the `PREFER_NPU` policy, checks same-execution-provider groups containing
-   NPU and CPU devices because policy selection can fall back to CPU.
+1. Calls `get_ep_devices` and orders the returned devices for policy selection.
+2. For the `PREFER_NPU` policy, selects the preferred NPU when one is available
+   and the CPU fallback devices.
 3. Reads each relevant execution provider's metadata with
    `get_compatibility_info_from_model` and validates it with
    `get_model_compatibility_for_ep_devices`.
-4. Requires at least one candidate execution provider group to have matching
-   metadata, and reuses the cached model only when every metadata-bearing group
-   reports `OrtCompiledModelCompatibility.EP_SUPPORTED_OPTIMAL`. A non-optimal
-   result from any applicable group rejects the cache.
+4. Separates the selected devices into single-EP groups because devices from
+   different execution providers cannot be passed together.
+5. Requires the preferred execution provider group to have matching metadata,
+   and reuses the cached model only when every selected group with metadata
+   reports `OrtCompiledModelCompatibility.EP_SUPPORTED_OPTIMAL`. Missing
+   metadata is tolerated only for fallback groups that do not compile the model.
 
 If the cached model is missing, has no matching metadata, or is not optimal, the
 sample compiles the original model in a temporary directory with EP context

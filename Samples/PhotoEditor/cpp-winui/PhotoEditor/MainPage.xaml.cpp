@@ -214,7 +214,7 @@ namespace winrt::PhotoEditor::implementation
     }
 
     // Photo clicked event handler for navigation to DetailPage view.
-    void MainPage::ImageGridView_ItemClick(IInspectable const sender, ItemClickEventArgs const e)
+    void MainPage::ImageGridView_ItemClick(IInspectable const /*sender*/, ItemClickEventArgs const e)
     {
         // Prepare the connected animation for navigation to the detail page.
         m_persistedItem = e.ClickedItem().as<PhotoEditor::Photo>();

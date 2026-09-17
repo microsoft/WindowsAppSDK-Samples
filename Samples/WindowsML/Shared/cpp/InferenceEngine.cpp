@@ -8,6 +8,7 @@
 #include <iterator>
 #include <map>
 #include <optional>
+#include <string_view>
 #include <system_error>
 
 namespace
@@ -81,32 +82,145 @@ namespace
         return groups;
     }
 
-    OrtHardwareDeviceType GetPreferredDeviceType(OrtExecutionProviderDevicePolicy policy)
+    int GetDeviceTypePriority(OrtHardwareDeviceType type)
     {
-        switch (policy)
+        switch (type)
         {
-        case OrtExecutionProviderDevicePolicy_PREFER_NPU:
-        case OrtExecutionProviderDevicePolicy_MAX_EFFICIENCY:
-        case OrtExecutionProviderDevicePolicy_MIN_OVERALL_POWER:
-            return OrtHardwareDeviceType_NPU;
-        case OrtExecutionProviderDevicePolicy_PREFER_GPU:
-        case OrtExecutionProviderDevicePolicy_MAX_PERFORMANCE:
-            return OrtHardwareDeviceType_GPU;
-        case OrtExecutionProviderDevicePolicy_DEFAULT:
-        case OrtExecutionProviderDevicePolicy_PREFER_CPU:
+        case OrtHardwareDeviceType_NPU:
+            return 0;
+        case OrtHardwareDeviceType_GPU:
+            return 1;
+        case OrtHardwareDeviceType_CPU:
         default:
-            return OrtHardwareDeviceType_CPU;
+            return 2;
         }
     }
 
+    bool IsDiscreteGpu(const Ort::ConstEpDevice& device)
+    {
+        if (device.Device().Type() != OrtHardwareDeviceType_GPU)
+        {
+            return false;
+        }
+
+        const char* discrete = device.Device().Metadata().GetValue("Discrete");
+        return discrete != nullptr && std::string_view(discrete) == "1";
+    }
+
+    bool MatchesEpVendor(const Ort::ConstEpDevice& device)
+    {
+        return std::string_view(device.Device().Vendor()) == device.EpVendor();
+    }
+
+    bool IsDefaultCpuEp(const Ort::ConstEpDevice& device)
+    {
+        return device.Device().Type() == OrtHardwareDeviceType_CPU &&
+               std::string_view(device.EpVendor()) == "Microsoft";
+    }
+
+    std::vector<Ort::ConstEpDevice> OrderDevicesForPolicy(const std::vector<Ort::ConstEpDevice>& devices)
+    {
+        std::vector<Ort::ConstEpDevice> orderedDevices(devices);
+        std::sort(orderedDevices.begin(), orderedDevices.end(), [](const auto& left, const auto& right) {
+            const int leftTypePriority = GetDeviceTypePriority(left.Device().Type());
+            const int rightTypePriority = GetDeviceTypePriority(right.Device().Type());
+            if (leftTypePriority != rightTypePriority)
+            {
+                return leftTypePriority < rightTypePriority;
+            }
+
+            if (left.Device().Type() == OrtHardwareDeviceType_GPU)
+            {
+                const bool leftDiscrete = IsDiscreteGpu(left);
+                const bool rightDiscrete = IsDiscreteGpu(right);
+                if (leftDiscrete != rightDiscrete)
+                {
+                    return leftDiscrete;
+                }
+            }
+
+            const bool leftMatchesVendor = MatchesEpVendor(left);
+            const bool rightMatchesVendor = MatchesEpVendor(right);
+            if (leftMatchesVendor != rightMatchesVendor)
+            {
+                return leftMatchesVendor;
+            }
+
+            const bool leftIsDefaultCpu = IsDefaultCpuEp(left);
+            const bool rightIsDefaultCpu = IsDefaultCpuEp(right);
+            if (leftIsDefaultCpu != rightIsDefaultCpu)
+            {
+                return !leftIsDefaultCpu;
+            }
+
+            return std::string_view(left.EpName()) < right.EpName();
+        });
+        return orderedDevices;
+    }
+
+    void SelectCpuDevices(
+        const std::vector<Ort::ConstEpDevice>& orderedDevices,
+        std::vector<Ort::ConstEpDevice>& selectedDevices)
+    {
+        const auto firstCpu = std::find_if(orderedDevices.begin(), orderedDevices.end(), [](const auto& device) {
+            return device.Device().Type() == OrtHardwareDeviceType_CPU;
+        });
+        if (firstCpu == orderedDevices.end())
+        {
+            return;
+        }
+
+        selectedDevices.push_back(*firstCpu);
+        if (!IsDefaultCpuEp(*firstCpu) && IsDefaultCpuEp(orderedDevices.back()))
+        {
+            selectedDevices.push_back(orderedDevices.back());
+        }
+    }
+
+    std::vector<Ort::ConstEpDevice> SelectDevicesForPolicy(
+        const std::vector<Ort::ConstEpDevice>& devices,
+        OrtExecutionProviderDevicePolicy policy)
+    {
+        const std::vector<Ort::ConstEpDevice> orderedDevices = OrderDevicesForPolicy(devices);
+        std::vector<Ort::ConstEpDevice> selectedDevices;
+        if (orderedDevices.empty())
+        {
+            return selectedDevices;
+        }
+
+        if (policy == OrtExecutionProviderDevicePolicy_PREFER_NPU ||
+            policy == OrtExecutionProviderDevicePolicy_MAX_EFFICIENCY ||
+            policy == OrtExecutionProviderDevicePolicy_MIN_OVERALL_POWER)
+        {
+            if (orderedDevices.front().Device().Type() == OrtHardwareDeviceType_NPU)
+            {
+                selectedDevices.push_back(orderedDevices.front());
+            }
+        }
+        else if (policy == OrtExecutionProviderDevicePolicy_PREFER_GPU ||
+                 policy == OrtExecutionProviderDevicePolicy_MAX_PERFORMANCE)
+        {
+            const auto firstGpu = std::find_if(orderedDevices.begin(), orderedDevices.end(), [](const auto& device) {
+                return device.Device().Type() == OrtHardwareDeviceType_GPU;
+            });
+            if (firstGpu != orderedDevices.end())
+            {
+                selectedDevices.push_back(*firstGpu);
+            }
+        }
+
+        SelectCpuDevices(orderedDevices, selectedDevices);
+        return selectedDevices;
+    }
+
     std::vector<EpDeviceGroup> SelectDeviceGroups(
-        const std::vector<EpDeviceGroup>& groups,
+        const std::vector<Ort::ConstEpDevice>& devices,
         const WindowsML::Shared::CommandLineOptions& options)
     {
-        std::vector<EpDeviceGroup> selectedGroups;
-
         if (!options.ep_name.empty())
         {
+            const auto groups = GroupDevicesByExecutionProvider(devices);
+            std::vector<EpDeviceGroup> selectedGroups;
             const std::string requestedEp = WideToUtf8(options.ep_name);
             const auto group = std::find_if(groups.begin(), groups.end(), [&](const EpDeviceGroup& candidate) {
                 return candidate.name == requestedEp;
@@ -133,23 +247,9 @@ namespace
             return selectedGroups;
         }
 
-        const OrtHardwareDeviceType preferredType =
-            GetPreferredDeviceType(options.ep_policy.value_or(OrtExecutionProviderDevicePolicy_DEFAULT));
-        for (const auto& group : groups)
-        {
-            EpDeviceGroup selectedGroup{group.name, {}};
-            std::copy_if(group.devices.begin(), group.devices.end(), std::back_inserter(selectedGroup.devices),
-                [&](const Ort::ConstEpDevice& device) {
-                    const OrtHardwareDeviceType deviceType = device.Device().Type();
-                    return deviceType == preferredType || deviceType == OrtHardwareDeviceType_CPU;
-                });
-            if (!selectedGroup.devices.empty())
-            {
-                selectedGroups.push_back(std::move(selectedGroup));
-            }
-        }
-
-        return selectedGroups;
+        return GroupDevicesByExecutionProvider(SelectDevicesForPolicy(
+            devices,
+            options.ep_policy.value_or(OrtExecutionProviderDevicePolicy_DEFAULT)));
     }
 
     ExistingCompiledModelStatus ToStatus(OrtCompiledModelCompatibility compatibility)
@@ -264,8 +364,7 @@ namespace Shared
 
             try
             {
-                const auto deviceGroups =
-                    SelectDeviceGroups(GroupDevicesByExecutionProvider(env.GetEpDevices()), options);
+                const auto deviceGroups = SelectDeviceGroups(env.GetEpDevices(), options);
                 if (deviceGroups.empty())
                 {
                     check.status = ExistingCompiledModelStatus::NoMatchingDevices;
@@ -274,12 +373,14 @@ namespace Shared
                 else
                 {
                     bool foundMetadata = false;
+                    bool preferredGroupMissingMetadata = false;
                     bool validationFailed = false;
                     std::optional<ExistingCompiledModelStatus> bestNonOptimalStatus;
                     Ort::AllocatorWithDefaultOptions allocator;
 
-                    for (const auto& group : deviceGroups)
+                    for (size_t groupIndex = 0; groupIndex < deviceGroups.size(); ++groupIndex)
                     {
+                        const auto& group = deviceGroups[groupIndex];
                         CompatibilityProbe probe;
                         probe.executionProvider = group.name;
                         for (const auto& device : group.devices)
@@ -295,6 +396,11 @@ namespace Shared
                             {
                                 probe.detail = "No compatibility metadata was found for this execution provider.";
                                 check.probes.push_back(std::move(probe));
+                                // Selection preserves the requested or policy-preferred EP as the first group.
+                                if (groupIndex == 0)
+                                {
+                                    preferredGroupMissingMetadata = true;
+                                }
                                 continue;
                             }
 
@@ -328,6 +434,12 @@ namespace Shared
                         check.status = ExistingCompiledModelStatus::ValidationError;
                         check.detail = "Compatibility validation failed for one or more applicable execution provider groups.";
                     }
+                    else if (preferredGroupMissingMetadata)
+                    {
+                        check.status = ExistingCompiledModelStatus::MissingMetadata;
+                        check.detail =
+                            "The compiled model contains no compatibility metadata for the preferred execution provider.";
+                    }
                     else if (!foundMetadata)
                     {
                         check.status = ExistingCompiledModelStatus::MissingMetadata;
@@ -341,7 +453,9 @@ namespace Shared
                     else
                     {
                         check.status = ExistingCompiledModelStatus::Optimal;
-                        check.detail = "All metadata-bearing execution provider groups reported optimal compatibility.";
+                        check.detail =
+                            "The preferred execution provider and all selected fallback groups with metadata "
+                            "reported optimal compatibility.";
                     }
                 }
             }
