@@ -334,17 +334,27 @@ namespace WindowsML.Shared
         /// </summary>
         public static void CompileModel(SessionOptions sessionOptions, string modelPath, string compiledModelPath)
         {
+            TryCompileModel(sessionOptions, modelPath, compiledModelPath);
+        }
+
+        private static bool TryCompileModel(SessionOptions sessionOptions, string modelPath, string compiledModelPath)
+        {
             Console.WriteLine($"Compiling model from {modelPath}");
             Console.WriteLine($"Output path: {compiledModelPath}");
 
             // Create compilation options from session options
-            OrtModelCompilationOptions compileOptions = new(sessionOptions);
+            using OrtModelCompilationOptions compileOptions = new(sessionOptions);
 
             try
             {
                 // Set input and output model paths
                 compileOptions.SetInputModelPath(modelPath);
                 compileOptions.SetOutputModelPath(compiledModelPath);
+
+                // Keep EP context binaries in the ONNX file so temporary-file replacement
+                // cannot strand a compiled model that references a temp-named sidecar.
+                // External initializer output is not configured, so initializers also remain inline.
+                compileOptions.SetEpContextEmbedMode(true);
 
                 Console.WriteLine("Starting compile, this may take a few moments...");
                 DateTime start = DateTime.Now;
@@ -354,10 +364,12 @@ namespace WindowsML.Shared
 
                 TimeSpan duration = DateTime.Now - start;
                 Console.WriteLine($"Model compiled successfully in {duration.TotalMilliseconds} ms");
+                return true;
             }
-            catch
+            catch (Exception ex)
             {
-                Console.Error.WriteLine($"Failed to compile model, continuing ...");
+                Console.Error.WriteLine($"Failed to compile model: {ex.Message}");
+                return false;
             }
         }
 
@@ -366,17 +378,128 @@ namespace WindowsML.Shared
         /// </summary>
         public static string ResolveActualModelPath(Options options, string modelPath, string compiledModelPath, OrtEnv ortEnv)
         {
-            string actualModelPath;
             bool isCompiledModelAvailable = File.Exists(compiledModelPath);
 
             if (isCompiledModelAvailable)
             {
-                Console.WriteLine($"Using existing compiled model: {compiledModelPath}");
-                actualModelPath = compiledModelPath;
+                bool foundCompatibilityMetadata = false;
+                bool preferredGroupMissingCompatibilityMetadata = false;
+                bool foundNonOptimalCompatibility = false;
+                bool compatibilityCheckFailed = false;
+                Console.WriteLine($"Checking compiled model compatibility: {compiledModelPath}");
+
+                try
+                {
+                    IReadOnlyList<OrtEpDevice> discoveredDevices = ortEnv.GetEpDevices();
+                    List<(string EpName, List<OrtEpDevice> Devices)> candidateGroups =
+                        SelectCompatibilityDeviceGroups(discoveredDevices, options);
+
+                    if (candidateGroups.Count == 0)
+                    {
+                        Console.WriteLine(!string.IsNullOrWhiteSpace(options.EpName)
+                            ? $"  No discovered devices match EP '{options.EpName}'" +
+                              (!string.IsNullOrWhiteSpace(options.DeviceType)
+                                  ? $" and device type '{options.DeviceType}'."
+                                  : ".")
+                            : "  No execution provider devices matched the configured EP policy.");
+                    }
+
+                    for (int groupIndex = 0; groupIndex < candidateGroups.Count; groupIndex++)
+                    {
+                        (string epName, List<OrtEpDevice> devices) = candidateGroups[groupIndex];
+                        Console.WriteLine(
+                            $"  Probing EP '{epName}' with device(s): {FormatDeviceContext(devices)}");
+
+                        try
+                        {
+                            string compatibilityInfo =
+                                ortEnv.GetCompatibilityInfoFromModel(compiledModelPath, epName);
+                            if (string.IsNullOrWhiteSpace(compatibilityInfo))
+                            {
+                                Console.WriteLine(
+                                    $"  Compiled model has no compatibility metadata for EP '{epName}'.");
+                                // Selection preserves the requested or policy-preferred EP as the first group.
+                                if (groupIndex == 0)
+                                {
+                                    preferredGroupMissingCompatibilityMetadata = true;
+                                }
+                                continue;
+                            }
+
+                            foundCompatibilityMetadata = true;
+                            OrtCompiledModelCompatibility compatibilityStatus =
+                                ortEnv.GetModelCompatibilityForEpDevices(devices, compatibilityInfo);
+                            Console.WriteLine($"  EP '{epName}' compatibility status: {compatibilityStatus}.");
+
+                            if (compatibilityStatus == OrtCompiledModelCompatibility.EP_SUPPORTED_OPTIMAL)
+                            {
+                                Console.WriteLine(
+                                    $"  Compiled model is optimal for EP '{epName}'.");
+                            }
+                            else
+                            {
+                                foundNonOptimalCompatibility = true;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            compatibilityCheckFailed = true;
+                            Console.WriteLine(
+                                $"  Compatibility check failed for EP '{epName}': {ex.Message}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    compatibilityCheckFailed = true;
+                    Console.WriteLine($"  Compiled model compatibility check failed: {ex.Message}");
+                }
+
+                bool canReuseCompiledModel =
+                    foundCompatibilityMetadata &&
+                    !preferredGroupMissingCompatibilityMetadata &&
+                    !foundNonOptimalCompatibility &&
+                    !compatibilityCheckFailed;
+
+                if (canReuseCompiledModel)
+                {
+                    Console.WriteLine(
+                        "The preferred EP and all applicable fallback metadata report " +
+                        "EP_SUPPORTED_OPTIMAL.");
+                    Console.WriteLine($"Using existing compiled model: {compiledModelPath}");
+                    return compiledModelPath;
+                }
+
+                if (!foundCompatibilityMetadata)
+                {
+                    Console.WriteLine(
+                        "No compatibility metadata matched the selected execution provider devices.");
+                }
+                else if (preferredGroupMissingCompatibilityMetadata)
+                {
+                    Console.WriteLine(
+                        "No compatibility metadata matched the preferred execution provider.");
+                }
+                else if (foundNonOptimalCompatibility)
+                {
+                    Console.WriteLine(
+                        "At least one applicable execution provider group reported a non-optimal status.");
+                }
+
+                Console.WriteLine($"Existing compiled model is not optimal and will not be used: {compiledModelPath}");
+
+                if (!options.Compile)
+                {
+                    Console.WriteLine($"Using original model: {modelPath}");
+                    return modelPath;
+                }
             }
-            else if (options.Compile)
+
+            if (options.Compile)
             {
-                Console.WriteLine("No compiled model found, attempting to create compiled model");
+                Console.WriteLine(isCompiledModelAvailable
+                    ? "Attempting to replace the non-optimal compiled model"
+                    : "No compiled model found, attempting to create compiled model");
 
                 try
                 {
@@ -401,33 +524,245 @@ namespace WindowsML.Shared
                         throw new Exception("Could not find an EP selection policy or an explicit execution provider.");
                     }
 
-                    CompileModel(tempSessionOptions, modelPath, compiledModelPath);
-
-                    if (File.Exists(compiledModelPath))
+                    if (TryCompileAndReplaceModel(
+                        tempSessionOptions,
+                        modelPath,
+                        compiledModelPath))
                     {
                         Console.WriteLine($"Compiled model created successfully at {compiledModelPath}");
-                        actualModelPath = compiledModelPath;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Falling back to original model: {modelPath}");
-                        actualModelPath = modelPath;
+                        return compiledModelPath;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Compilation failed: {ex.Message}");
-                    Console.WriteLine($"Falling back to original model: {modelPath}");
-                    actualModelPath = modelPath;
                 }
-            }
-            else
-            {
-                Console.WriteLine($"Using original model: {modelPath}");
-                actualModelPath = modelPath;
+
+                Console.WriteLine($"Falling back to original model: {modelPath}");
+                return modelPath;
             }
 
-            return actualModelPath;
+            Console.WriteLine($"Using original model: {modelPath}");
+            return modelPath;
+        }
+
+        private static bool TryCompileAndReplaceModel(
+            SessionOptions sessionOptions,
+            string modelPath,
+            string compiledModelPath)
+        {
+            string fullModelPath = Path.GetFullPath(modelPath);
+            string fullCompiledModelPath = Path.GetFullPath(compiledModelPath);
+
+            if (fullModelPath.Equals(fullCompiledModelPath, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine("Compilation output path must be different from the original model path.");
+                return false;
+            }
+
+            string outputDirectory = Path.GetDirectoryName(fullCompiledModelPath)!;
+            Directory.CreateDirectory(outputDirectory);
+
+            string temporaryCompiledModelPath = Path.Combine(
+                outputDirectory,
+                $".{Path.GetFileNameWithoutExtension(fullCompiledModelPath)}.{Guid.NewGuid():N}.tmp.onnx");
+
+            try
+            {
+                if (!TryCompileModel(sessionOptions, fullModelPath, temporaryCompiledModelPath) ||
+                    !File.Exists(temporaryCompiledModelPath))
+                {
+                    Console.WriteLine("Compilation did not produce a usable temporary model.");
+                    return false;
+                }
+
+                if (File.Exists(fullCompiledModelPath))
+                {
+                    // The temporary model is in the same directory, so replacement is same-volume.
+                    File.Replace(
+                        temporaryCompiledModelPath,
+                        fullCompiledModelPath,
+                        destinationBackupFileName: null,
+                        ignoreMetadataErrors: true);
+                }
+                else
+                {
+                    File.Move(temporaryCompiledModelPath, fullCompiledModelPath);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    $"Failed to replace compiled model cache '{fullCompiledModelPath}' " +
+                    $"with temporary output '{temporaryCompiledModelPath}': {ex.Message}");
+                return false;
+            }
+            finally
+            {
+                TryDeleteFile(temporaryCompiledModelPath);
+            }
+        }
+
+        private static List<(string EpName, List<OrtEpDevice> Devices)> SelectCompatibilityDeviceGroups(
+            IReadOnlyList<OrtEpDevice> discoveredDevices,
+            Options options)
+        {
+            List<(string EpName, List<OrtEpDevice> Devices)> groups = discoveredDevices
+                .GroupBy(device => device.EpName, StringComparer.OrdinalIgnoreCase)
+                .Select(group => (group.Key, group.ToList()))
+                .ToList();
+
+            if (!string.IsNullOrWhiteSpace(options.EpName))
+            {
+                (string EpName, List<OrtEpDevice> Devices) group = groups.FirstOrDefault(
+                    candidate => candidate.EpName.Equals(options.EpName, StringComparison.OrdinalIgnoreCase));
+                if (group.Devices == null)
+                {
+                    return [];
+                }
+
+                if (string.IsNullOrWhiteSpace(options.DeviceType))
+                {
+                    return [group];
+                }
+
+                // Explicit session configuration selects the first matching device.
+                OrtEpDevice? device = group.Devices.FirstOrDefault(
+                    candidate => candidate.HardwareDevice.Type.ToString().Equals(
+                        options.DeviceType,
+                        StringComparison.OrdinalIgnoreCase));
+                return device == null ? [] : [(group.EpName, [device])];
+            }
+
+            List<OrtEpDevice> policyDevices = SelectDevicesForPolicy(
+                discoveredDevices,
+                options.EpPolicy ?? ExecutionProviderDevicePolicy.DEFAULT);
+            return policyDevices
+                .GroupBy(device => device.EpName, StringComparer.OrdinalIgnoreCase)
+                .Select(group => (group.Key, group.ToList()))
+                .ToList();
+        }
+
+        private static List<OrtEpDevice> SelectDevicesForPolicy(
+            IReadOnlyList<OrtEpDevice> devices,
+            ExecutionProviderDevicePolicy policy)
+        {
+            List<OrtEpDevice> orderedDevices = devices.ToList();
+            orderedDevices.Sort(ComparePolicyDevices);
+            List<OrtEpDevice> selectedDevices = [];
+            if (orderedDevices.Count == 0)
+            {
+                return selectedDevices;
+            }
+
+            if (policy is ExecutionProviderDevicePolicy.PREFER_NPU or
+                ExecutionProviderDevicePolicy.MAX_EFFICIENCY or
+                ExecutionProviderDevicePolicy.MIN_OVERALL_POWER)
+            {
+                if (orderedDevices[0].HardwareDevice.Type == OrtHardwareDeviceType.NPU)
+                {
+                    selectedDevices.Add(orderedDevices[0]);
+                }
+            }
+            else if (policy is ExecutionProviderDevicePolicy.PREFER_GPU or
+                     ExecutionProviderDevicePolicy.MAX_PERFORMANCE)
+            {
+                OrtEpDevice? firstGpu = orderedDevices.FirstOrDefault(
+                    device => device.HardwareDevice.Type == OrtHardwareDeviceType.GPU);
+                if (firstGpu != null)
+                {
+                    selectedDevices.Add(firstGpu);
+                }
+            }
+
+            OrtEpDevice? firstCpu = orderedDevices.FirstOrDefault(
+                device => device.HardwareDevice.Type == OrtHardwareDeviceType.CPU);
+            if (firstCpu != null)
+            {
+                selectedDevices.Add(firstCpu);
+                OrtEpDevice lastDevice = orderedDevices[^1];
+                if (!IsDefaultCpuEp(firstCpu) && IsDefaultCpuEp(lastDevice))
+                {
+                    selectedDevices.Add(lastDevice);
+                }
+            }
+
+            return selectedDevices;
+        }
+
+        private static int ComparePolicyDevices(OrtEpDevice left, OrtEpDevice right)
+        {
+            int comparison = GetDeviceTypePriority(left.HardwareDevice.Type).CompareTo(
+                GetDeviceTypePriority(right.HardwareDevice.Type));
+            if (comparison != 0)
+            {
+                return comparison;
+            }
+
+            if (left.HardwareDevice.Type == OrtHardwareDeviceType.GPU)
+            {
+                comparison = IsDiscreteGpu(right).CompareTo(IsDiscreteGpu(left));
+                if (comparison != 0)
+                {
+                    return comparison;
+                }
+            }
+
+            comparison = MatchesEpVendor(right).CompareTo(MatchesEpVendor(left));
+            if (comparison != 0)
+            {
+                return comparison;
+            }
+
+            comparison = IsDefaultCpuEp(left).CompareTo(IsDefaultCpuEp(right));
+            return comparison != 0
+                ? comparison
+                : StringComparer.Ordinal.Compare(left.EpName, right.EpName);
+        }
+
+        private static int GetDeviceTypePriority(OrtHardwareDeviceType type) => type switch
+        {
+            OrtHardwareDeviceType.NPU => 0,
+            OrtHardwareDeviceType.GPU => 1,
+            _ => 2
+        };
+
+        private static bool IsDiscreteGpu(OrtEpDevice device) =>
+            device.HardwareDevice.Type == OrtHardwareDeviceType.GPU &&
+            device.HardwareDevice.Metadata.Entries.TryGetValue("Discrete", out string? discrete) &&
+            discrete == "1";
+
+        private static bool MatchesEpVendor(OrtEpDevice device) =>
+            device.HardwareDevice.Vendor.Equals(device.EpVendor, StringComparison.Ordinal);
+
+        private static bool IsDefaultCpuEp(OrtEpDevice device) =>
+            device.HardwareDevice.Type == OrtHardwareDeviceType.CPU &&
+            device.EpVendor.Equals("Microsoft", StringComparison.Ordinal);
+
+        private static string FormatDeviceContext(IEnumerable<OrtEpDevice> devices)
+        {
+            return string.Join(", ", devices.Select(device =>
+            {
+                OrtHardwareDevice hardwareDevice = device.HardwareDevice;
+                return $"{hardwareDevice.Type} (vendor={hardwareDevice.Vendor}, " +
+                       $"vendorId={hardwareDevice.VendorId}, deviceId={hardwareDevice.DeviceId})";
+            }));
+        }
+
+        private static void TryDeleteFile(string path)
+        {
+            try
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Warning: Could not remove temporary model '{path}': {ex.Message}");
+            }
         }
     }
 }
