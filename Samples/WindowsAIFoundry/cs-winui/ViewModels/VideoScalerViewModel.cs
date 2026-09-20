@@ -6,8 +6,9 @@ using WindowsAISample.ViewModels;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;
 using Windows.Media;
+using WindowsAISample.Models;
 
-namespace WindowsAISample.Ext.VideoScaler;
+namespace WindowsAISample.ViewModels;
 
 internal class VideoScalerViewModel : InputImageViewModelBase<VideoScalerModel>
 {

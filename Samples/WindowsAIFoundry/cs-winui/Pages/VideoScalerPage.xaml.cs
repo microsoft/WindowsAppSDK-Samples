@@ -3,13 +3,12 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace WindowsAISample.Ext.VideoScaler;
+namespace WindowsAISample.Pages;
 
 public sealed partial class VideoScalerPage : Page
 {
     public VideoScalerPage()
     {
         InitializeComponent();
-        DataContext = new VideoScalerViewModel(new VideoScalerModel());
     }
 }

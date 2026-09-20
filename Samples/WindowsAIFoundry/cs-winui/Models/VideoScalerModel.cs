@@ -11,12 +11,12 @@ using Microsoft.Windows.Management.Deployment;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using WindowsAISample.Models.Contracts;
+using WindowsAISample.Util;
 
-// The enclosing namespace 'VideoScaler' would shadow the SDK type; alias it to keep call sites readable.
 using VideoScalerApi = Microsoft.Windows.AI.Video.VideoScaler;
 using VideoScalerStatusApi = Microsoft.Windows.AI.Video.VideoScalerStatus;
 
-namespace WindowsAISample.Ext.VideoScaler;
+namespace WindowsAISample.Models;
 
 internal class VideoScalerModel : IModelManager
 {

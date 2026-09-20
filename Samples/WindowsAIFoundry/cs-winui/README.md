@@ -23,9 +23,8 @@ An app that demonstrates how to use the Windows AI APIs with WinUI.
 The same solution supports both stable and experimental Windows App SDK
 packages:
 
-- Stable packages build the stable scenarios.
-- Experimental packages also build the Image Foreground Extractor and Video
-  Scaler extensions.
+- Stable packages build the stable scenarios, including Video Scaler.
+- Experimental packages also build the Image Foreground Extractor extension.
 
 Experimental scenarios are separate projects under `Extensions`. Stable builds
 do not reference or build those projects. The Shell conditionally links each

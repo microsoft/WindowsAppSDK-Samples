@@ -19,13 +19,10 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
         rootFrame.DataContext = new CopilotRootViewModel();
         AddImageForegroundExtractor();
-        AddVideoScaler();
         rootFrame.Navigate(typeof(LanguageModelPage));
     }
 
     partial void AddImageForegroundExtractor();
-
-    partial void AddVideoScaler();
 
     private void AddFeature(string title, Symbol icon, Type pageType)
     {
@@ -73,6 +70,9 @@ public sealed partial class MainWindow : Window
                     break;
                 case "ImageObjectRemover":
                     rootFrame.Navigate(typeof(ImageObjectRemoverPage));
+                    break;
+                case "VideoScaler":
+                    rootFrame.Navigate(typeof(VideoScalerPage));
                     break;
             }
         }

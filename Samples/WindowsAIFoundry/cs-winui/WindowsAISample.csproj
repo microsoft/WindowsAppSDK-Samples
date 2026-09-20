@@ -41,10 +41,12 @@
     <None Remove="Examples\LanguageModelWithProgress.md" />
     <None Remove="Examples\TextRecognizer.md" />
     <None Remove="Examples\TextRecognizerInit.md" />
+    <None Remove="Examples\VideoScalerInit.md" />
     <None Remove="Pages\ExampleCode.xaml" />
     <None Remove="Pages\ImageDescriptionPage.xaml" />
     <None Remove="Pages\ImageObjectExtractorPage.xaml" />
     <None Remove="Pages\ImageScalerPage.xaml" />
+    <None Remove="Pages\VideoScalerPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,27 +73,17 @@
   <ItemGroup Condition="'$(ExperimentalApisAvailable)' == 'true'">
     <Compile Include="Extensions\ImageForegroundExtractor\ShellExtension.cs"
              Link="Extensions\ImageForegroundExtractor\ShellExtension.cs" />
-    <Compile Include="Extensions\VideoScaler\ShellExtension.cs"
-             Link="Extensions\VideoScaler\ShellExtension.cs" />
     <ProjectReference Include="Extensions\ImageForegroundExtractor\WindowsAISample.Ext.ImageForegroundExtractor.csproj">
-      <SetPlatform>Platform=AnyCPU</SetPlatform>
-      <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
-    </ProjectReference>
-    <ProjectReference Include="Extensions\VideoScaler\WindowsAISample.Ext.VideoScaler.csproj">
       <SetPlatform>Platform=AnyCPU</SetPlatform>
       <AdditionalProperties>Platform=AnyCPU</AdditionalProperties>
     </ProjectReference>
     <Content Include="Extensions\ImageForegroundExtractor\Examples\*.md"
              Link="Examples\%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="Extensions\VideoScaler\Examples\*.md"
-             Link="Examples\%(Filename)%(Extension)"
-             CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
     <ExtensionRequiringExperimentalApis Include="ImageForegroundExtractor" />
-    <ExtensionRequiringExperimentalApis Include="VideoScaler" />
   </ItemGroup>
 
   <Target Name="RemoveStaleExtensionOutputs"
@@ -146,6 +138,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\LanguageModelPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\VideoScalerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
