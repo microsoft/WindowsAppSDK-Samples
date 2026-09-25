@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using System;
 using System.Windows.Input;
@@ -9,7 +9,7 @@ namespace WindowsAISample.Util;
 /// <summary>
 /// Async command support with progress support
 /// </summary>
-internal partial class AsyncCommandWithProgress<TParameter, TResult, TProgress> : AsyncCommand<TParameter, TResult>
+public partial class AsyncCommandWithProgress<TParameter, TResult, TProgress> : AsyncCommand<TParameter, TResult>
 {
     private readonly AsyncCommand<object?, bool> _cancelCommand;
 
@@ -18,7 +18,7 @@ internal partial class AsyncCommandWithProgress<TParameter, TResult, TProgress> 
     private TProgress? _currentProgress;
     private TResult? _finalResult;
 
-    internal AsyncCommandWithProgress(
+    public AsyncCommandWithProgress(
         Func<TParameter, IAsyncOperationWithProgress<TResult, TProgress>> executeCallbackWithProgress,
         Func<TParameter?, bool> canExecuteCallback)
         : base(new DefaultAsyncCommandDelegate<TParameter, TResult>())
