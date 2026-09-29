@@ -22,7 +22,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     NuGetCMakePackage
-    GIT_REPOSITORY https://github.com/mschofie/NuGetCMakePackage
+    GIT_REPOSITORY https://github.com/ssparach/NuGetCMakePackage
     GIT_TAG develop
 )
 
@@ -44,6 +44,7 @@ add_nuget_packages(
 # The component NuGet packages were downloaded transitively and their cmake configs are probed individually.
 find_package(Microsoft.WindowsAppSDK.Base CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.Foundation CONFIG REQUIRED)
+find_package(Microsoft.WindowsAppSDK.InteractiveExperiences CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.DWrite CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.Widgets CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.AI CONFIG REQUIRED)
