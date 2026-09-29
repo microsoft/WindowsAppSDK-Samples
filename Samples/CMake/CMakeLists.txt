@@ -22,7 +22,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     NuGetCMakePackage
-    GIT_REPOSITORY https://github.com/mschofie/NuGetCMakePackage
+    GIT_REPOSITORY https://github.com/ssparach/NuGetCMakePackage
     GIT_TAG develop
 )
 
@@ -48,6 +48,7 @@ add_nuget_packages(
 
 find_package(Microsoft.WindowsAppSDK.Base CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.Foundation CONFIG REQUIRED)
+find_package(Microsoft.WindowsAppSDK.InteractiveExperiences CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.DWrite CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.Widgets CONFIG REQUIRED)
 find_package(Microsoft.WindowsAppSDK.AI CONFIG REQUIRED)
@@ -96,5 +97,3 @@ add_subdirectory(UnpackagedSelfContained)
 add_subdirectory(UnpackagedFrameworkDependent)
 add_subdirectory(PackagedSelfContained)
 add_subdirectory(PackagedFrameworkDependent)
-
-
