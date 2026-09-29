@@ -1,0 +1,9 @@
+<Project>
+  <Import Project="..\..\Directory.Packages.props" />
+
+  <ItemGroup>
+    <!-- Versions supplied by the installed .NET MAUI workload. -->
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+  </ItemGroup>
+</Project>
