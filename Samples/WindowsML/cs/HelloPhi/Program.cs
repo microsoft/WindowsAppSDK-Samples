@@ -33,7 +33,23 @@ static async Task InitializeProvidersAsync(bool allowDownload)
             if (allowDownload || readyState != ExecutionProviderReadyState.NotPresent)
             {
                 Console.WriteLine($"  EnsureReadyAsync: {provider.Name}");
-                await provider.EnsureReadyAsync();
+
+                // EnsureReadyAsync reports failure through the result rather than by throwing
+                var result = await provider.EnsureReadyAsync();
+                if (result.Status != ExecutionProviderReadyResultState.Success)
+                {
+                    Console.WriteLine($"  EnsureReadyAsync failed: 0x{result.ExtendedError?.HResult:X8} {result.DiagnosticText}");
+                    continue;
+                }
+
+                readyState = provider.ReadyState;
+            }
+
+            // TryRegister only succeeds for providers that are Ready
+            if (readyState != ExecutionProviderReadyState.Ready)
+            {
+                Console.WriteLine("  Skipping registration; provider is not ready");
+                continue;
             }
 
             var registerResult = provider.TryRegister();
