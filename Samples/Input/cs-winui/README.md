@@ -5,9 +5,9 @@ languages:
 products:
 - windows
 - windows-app-sdk
-name: "Input Samples"
+name: "Input samples"
 urlFragment: Input
-description: "Showcases Microsoft.UI.Input API usage."
+description: "Shows input, pointer, device, and manipulation APIs in WinUI 3."
 extendedZipContent:
 - path: LICENSE
   target: LICENSE
@@ -15,18 +15,49 @@ extendedZipContent:
 
 # Input samples
 
-These samples demonstrate how to use the WinAppSDK input APIs within the namespace Microsoft.UI.Input. This sample also demonstrates the working of various Keyboard events and Keyboard accelerators using WinUI. 
+This WinUI 3 sample demonstrates input APIs from the Windows App SDK, XAML,
+and Windows platform APIs.
+
+## Scenarios
+
+- **Gesture recognizer** recognizes pointer gestures.
+- **Gesture recognizer manipulations** applies recognized manipulations to
+  XAML content.
+- **Cursor** demonstrates custom input cursors.
+- **Keyboard Shortcut Manager** demonstrates app-wide shortcut registration.
+- **Pointer Tracking** tracks multiple pointers, highlights the primary
+  pointer, and reports pointer lifecycle events.
+- **Pointer Point Properties** displays common and device-specific properties
+  for mouse, pen, and touch input.
+- **Device Capabilities** reports available keyboard, mouse, and touch
+  capabilities.
+- **XAML Manipulations** demonstrates translation, rotation, and inertia using
+  XAML manipulation events.
 
 ## Prerequisites
 
-* See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
-* Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
+- Windows 10, version 1809 (build 17763), or later.
+- Visual Studio with the .NET desktop development workload.
 
-## Building and running any of the samples
+## Build and run the sample
 
-* Open the solution file (`.sln`) from the subfolder of your preferred sample in Visual Studio.
-* From Visual Studio, either **Start Without Debugging** (Ctrl+F5) or **Start Debugging** (F5).
+1. Open `Input.sln` in Visual Studio.
+2. Select an x86, x64, or ARM64 configuration.
+3. Build and run the `Input` project.
 
-## Related Links
+Pointer Tracking and Pointer Point Properties are best explored with multiple
+input devices. Touch-specific behavior requires a touch-capable display.
 
-- [Windows App SDK](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
+## Related links
+
+- [Handle pointer input][pointer-input]
+- [Identify input devices][input-devices]
+- [Touch interactions][touch-interactions]
+- [Touchpad interactions][touchpad-interactions]
+- [Windows App SDK][windows-app-sdk]
+
+[input-devices]: https://learn.microsoft.com/windows/apps/develop/input/identify-input-devices
+[pointer-input]: https://learn.microsoft.com/windows/apps/develop/input/handle-pointer-input
+[touch-interactions]: https://learn.microsoft.com/windows/apps/develop/input/touch-interactions
+[touchpad-interactions]: https://learn.microsoft.com/windows/apps/develop/input/touchpad-interactions
+[windows-app-sdk]: https://learn.microsoft.com/windows/apps/windows-app-sdk/

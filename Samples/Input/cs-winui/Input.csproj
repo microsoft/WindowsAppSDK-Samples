@@ -12,9 +12,14 @@
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="DeviceCapabilities.xaml" />
     <None Remove="GestureRecognizer.xaml" />
     <None Remove="GestureRecognizerManipulation.xaml" />
     <None Remove="InputCursor.xaml" />
+    <None Remove="PointerEllipse.xaml" />
+    <None Remove="PointerPointProperties.xaml" />
+    <None Remove="PointerTracking.xaml" />
+    <None Remove="XamlManipulations.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +35,7 @@
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\Square150x150Logo.png" />
     <Content Include="Assets\Square44x44Logo.png" />
+    <Content Include="Assets\Landscape.jpg" />
     <Content Include="Assets\logo.png" />
     <Content Include="Assets\Wide310x150Logo.png" />
     <Content Include="Assets\windows-sdk.ico" />
@@ -40,6 +46,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="DeviceCapabilities.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="InputCursor.xaml">
@@ -53,6 +64,26 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="GestureRecognizer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PointerTracking.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PointerEllipse.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PointerPointProperties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="XamlManipulations.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
