@@ -18,6 +18,7 @@ parameters:
   - 'Mica'
   - 'Notifications'
   - 'PhotoEditor'
+  - 'Printing'
   - 'ResourceManagement'
   - 'SelfContainedDeployment'
   - 'TextRendering'

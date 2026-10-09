@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintingSample", "PrintingSample.csproj", "{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|Any CPU.Build.0 = Debug|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|ARM64.Build.0 = Debug|ARM64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|x64.ActiveCfg = Debug|x64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|x64.Build.0 = Debug|x64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|x64.Deploy.0 = Debug|x64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|x86.ActiveCfg = Debug|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|x86.Build.0 = Debug|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Debug|x86.Deploy.0 = Debug|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|Any CPU.ActiveCfg = Release|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|Any CPU.Build.0 = Release|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|ARM64.ActiveCfg = Release|ARM64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|ARM64.Build.0 = Release|ARM64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|ARM64.Deploy.0 = Release|ARM64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|x64.ActiveCfg = Release|x64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|x64.Build.0 = Release|x64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|x64.Deploy.0 = Release|x64
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|x86.ActiveCfg = Release|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|x86.Build.0 = Release|x86
+		{CC0D16DF-4265-4A7E-8E4A-660E18630DCB}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
