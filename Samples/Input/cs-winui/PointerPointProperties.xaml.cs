@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -89,13 +88,13 @@ namespace Input
             switch (currentPoint.PointerDeviceType)
             {
                 case PointerDeviceType.Mouse:
-                    deviceSpecificProperties = GetMouseProperties(currentPoint);
+                    deviceSpecificProperties = "Device: Mouse\n" + GetMouseProperties(currentPoint);
                     break;
                 case PointerDeviceType.Pen:
-                    deviceSpecificProperties = GetPenProperties(currentPoint);
+                    deviceSpecificProperties = "Device: Pen\n" + GetPenProperties(currentPoint);
                     break;
                 case PointerDeviceType.Touch:
-                    deviceSpecificProperties = GetTouchProperties(currentPoint);
+                    deviceSpecificProperties = "Device: Touch\n" + GetTouchProperties(currentPoint);
                     break;
             }
 
@@ -154,19 +153,6 @@ namespace Input
 
                 TextBlock deviceSpecificText = new TextBlock();
                 deviceSpecificText.Text = deviceSpecificProperties;
-
-                switch (currentPoint.PointerDeviceType)
-                {
-                    case PointerDeviceType.Mouse:
-                        deviceSpecificText.Foreground = new SolidColorBrush(Colors.Red);
-                        break;
-                    case PointerDeviceType.Touch:
-                        deviceSpecificText.Foreground = new SolidColorBrush(Colors.Green);
-                        break;
-                    case PointerDeviceType.Pen:
-                        deviceSpecificText.Foreground = new SolidColorBrush(Colors.Yellow);
-                        break;
-                }
 
                 pointerPanel.Children.Add(deviceSpecificText);
                 popups[currentPoint.PointerId] = pointerPanel;

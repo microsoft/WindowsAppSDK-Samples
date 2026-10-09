@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -53,7 +52,7 @@ namespace Input
         private void ManipulateMe_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             forceManipulationsToEnd = false;
-            manipulateMe.Background = new SolidColorBrush(Colors.DeepSkyBlue);
+            SetManipulationStatus("Status: manipulating", "SystemControlHighlightAccentBrush");
         }
 
         private void ManipulateMe_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -77,12 +76,12 @@ namespace Input
 
         private void ManipulateMe_ManipulationInertiaStarting(object sender, ManipulationInertiaStartingRoutedEventArgs e)
         {
-            manipulateMe.Background = new SolidColorBrush(Colors.RoyalBlue);
+            SetManipulationStatus("Status: inertia", "SystemControlHighlightListMediumBrush");
         }
 
         private void ManipulateMe_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            manipulateMe.Background = new SolidColorBrush(Colors.LightGray);
+            SetManipulationStatus("Status: idle", "SystemControlBackgroundBaseLowBrush");
         }
 
         private void movementAxis_Changed(object sender, SelectionChangedEventArgs e)
@@ -126,9 +125,16 @@ namespace Input
         {
             forceManipulationsToEnd = true;
             manipulateMe.RenderTransform = null;
+            SetManipulationStatus("Status: idle", "SystemControlBackgroundBaseLowBrush");
             movementAxis.SelectedIndex = 0;
             InitOptions();
             InitManipulationTransforms();
+        }
+
+        private void SetManipulationStatus(string status, string backgroundResourceKey)
+        {
+            manipulationStatus.Text = status;
+            manipulateMe.Background = (Brush)Application.Current.Resources[backgroundResourceKey];
         }
     }
 }

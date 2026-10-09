@@ -32,7 +32,7 @@
         <Border Grid.Row="2"
                 MinHeight="360"
                 Padding="0"
-                BorderBrush="Gray"
+                BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
             <Canvas x:Name="pointerCanvas"
