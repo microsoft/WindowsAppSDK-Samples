@@ -12,7 +12,7 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        AppWindow.SetIcon("Assets\\AppIcon.ico");
+        AppWindow.SetIcon("Assets\\windows-sdk.ico");
     }
 
     public void Navigate(Type pageType, object parameter = null)

@@ -18,6 +18,8 @@ extendedZipContent:
 This sample demonstrates how to print content from a WinUI 3 desktop app that
 uses the Windows App SDK.
 
+![The Printing sample showing the Basic scenario](images/printing-sample.png)
+
 ## Features
 
 - Open the Windows print experience from a WinUI 3 window.

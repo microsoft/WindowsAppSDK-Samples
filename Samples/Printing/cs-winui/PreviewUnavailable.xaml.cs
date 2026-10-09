@@ -1,4 +1,7 @@
-﻿using Windows.Foundation;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Windows.Foundation;
 using Microsoft.UI.Xaml.Controls;
 
 namespace PrintSample

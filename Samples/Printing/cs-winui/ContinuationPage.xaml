@@ -1,4 +1,6 @@
-﻿<Page
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page
     x:Class="PrintSample.ContinuationPage"
     IsTabStop="False"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -17,7 +19,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <RichTextBlockOverflow x:Name="ContinuationPageLinkedContainer" Grid.Row="0" Grid.Column="0" />
+        <RichTextBlockOverflow x:Name="ContinuationPageLinkedContainer"
+                               AutomationProperties.AccessibilityView="Raw"
+                               AutomationProperties.Name="Additional print content"
+                               Grid.Row="0"
+                               Grid.Column="0" />
         <StackPanel x:Name="Footer" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Visibility="Collapsed">
             <RichTextBlock Foreground="Black" FontSize="16" TextAlignment="Left" FontFamily="Segoe UI">
                 <Paragraph>Copyright © Microsoft Corporation. All rights reserved.</Paragraph>

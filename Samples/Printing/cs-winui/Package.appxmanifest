@@ -17,7 +17,7 @@
   <Properties>
     <DisplayName>PrintingSample</DisplayName>
     <PublisherDisplayName>AppPublisher</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\logo.png</Logo>
   </Properties>
 
   <Dependencies>

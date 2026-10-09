@@ -1,15 +1,5 @@
-﻿<!--
-//*********************************************************
-//
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//
-//*********************************************************
--->
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
 <Page
     x:Class="PrintSample.PageToPrint"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -45,10 +35,10 @@
         </StackPanel>
 
         <RichTextBlock Foreground="Black" x:Name="TextSelection" FontSize="18" Grid.Row="1"  Grid.ColumnSpan="2" OverflowContentTarget="{Binding ElementName=FirstLinkedContainer}"
-            IsTextSelectionEnabled="True" TextAlignment="Left" FontFamily="Segoe UI" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
+            IsTextSelectionEnabled="False" TextAlignment="Left" FontFamily="Segoe UI" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
 
         <RichTextBlock Foreground="Black" x:Name="TextContent" FontSize="18" Grid.Row="1"  Grid.ColumnSpan="2" OverflowContentTarget="{Binding ElementName=FirstLinkedContainer}"
-            IsTextSelectionEnabled="True" TextAlignment="Left" FontFamily="Segoe UI" VerticalAlignment="Top" HorizontalAlignment="Left">
+            IsTextSelectionEnabled="False" TextAlignment="Left" FontFamily="Segoe UI" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Paragraph FontSize="32">Lorem ipsum dolor sit amet, consectetur</Paragraph>
             <Paragraph></Paragraph>
             <Paragraph >Sed convallis ornare velit et interdum. Donec sapien neque, aliquet consequat convallis at, interdum et enim. Donec iaculis, lectus vel pulvinar cursus, lectus diam interdum ante, a rhoncus tortor quam porta metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam pulvinar fringilla vestibulum. Pellentesque pharetra nunc in turpis tempus sed faucibus ligula sagittis. Praesent hendrerit est vitae lorem mattis in porttitor urna vestibulum. Phasellus adipiscing aliquam libero ac adipiscing. In a erat sit amet erat sollicitudin bibendum id vitae dui. Vestibulum non consequat nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris elit nisi, blandit et porttitor quis, malesuada nec mi.</Paragraph>
@@ -61,8 +51,17 @@
             <Paragraph></Paragraph>
             <Paragraph >Sed eget nunc quis tellus interdum aliquet. Suspendisse rhoncus malesuada nisi a imperdiet. Suspendisse ullamcorper mi sed purus tristique interdum. Mauris lobortis, ante ultrices varius consequat, eros ante hendrerit enim, vulputate convallis dui ligula eget velit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec eget lectus fermentum nisi consequat dictum. Sed volutpat justo non purus semper vel pretium enim molestie. Nam consectetur, lectus quis feugiat malesuada, neque nunc faucibus velit, nec vehicula risus est id sapien. Vestibulum ut metus massa, ut placerat lacus. Fusce condimentum vehicula tortor, nec vestibulum ligula iaculis ut. Nulla facilisi. Phasellus tincidunt scelerisque erat, ut fermentum urna pretium eu. Donec ut nibh orci. Curabitur sodales metus dictum mauris varius vitae mollis tellus pulvinar. Quisque facilisis ligula sed  risus laoreet non lacinia odio luctus. Nam lobortis rhoncus felis vitae ultrices.</Paragraph>
         </RichTextBlock>
-        <RichTextBlockOverflow x:Name="FirstLinkedContainer" OverflowContentTarget="{Binding ElementName=ContinuationPageLinkedContainer}" Grid.Row="2" Grid.Column="0"/>
-        <RichTextBlockOverflow x:Name="ContinuationPageLinkedContainer" Grid.Row="3" Grid.ColumnSpan="2"/>
+        <RichTextBlockOverflow x:Name="FirstLinkedContainer"
+                               AutomationProperties.AccessibilityView="Raw"
+                               AutomationProperties.Name="Print content continuation"
+                               OverflowContentTarget="{Binding ElementName=ContinuationPageLinkedContainer}"
+                               Grid.Row="2"
+                               Grid.Column="0"/>
+        <RichTextBlockOverflow x:Name="ContinuationPageLinkedContainer"
+                               AutomationProperties.AccessibilityView="Raw"
+                               AutomationProperties.Name="Additional print content"
+                               Grid.Row="3"
+                               Grid.ColumnSpan="2"/>
         <Image Source="ms-appx:///Assets/print_1.png" x:Name="ScenarioImage" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Margin="10"/>
 
         <StackPanel x:Name="Footer" Grid.Row="4" Grid.ColumnSpan="2">

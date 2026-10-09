@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Xaml.Controls;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Microsoft.UI.Xaml.Controls;
 
 namespace PrintSample
 {
