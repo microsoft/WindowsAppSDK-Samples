@@ -210,8 +210,8 @@
                             </VisualStateManager.VisualStateGroups>
                             <Grid Height="38" VerticalAlignment="Top">
 
-                                <!-- Here we're adding a red focus visual with 2px border to make it stand out -->
-                                <Rectangle x:Name="FocusVisual" Stroke="Red" StrokeThickness="2" Opacity="0" Height="26" RadiusX="4" RadiusY="4" />
+                                <!-- Here we're adding an accent focus visual with a 2px border to make it stand out -->
+                                <Rectangle x:Name="FocusVisual" Stroke="{ThemeResource CustomFocusVisualBrush}" StrokeThickness="2" Opacity="0" Height="26" RadiusX="4" RadiusY="4" />
 
                                 <Rectangle x:Name="NormalRectangle" Fill="Transparent" Height="20" Stroke="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" StrokeThickness="{ThemeResource CheckBoxBorderThemeThickness}" UseLayoutRounding="False" Width="20" Margin="2" RadiusX="4" RadiusY="4"/>
                                 <FontIcon x:Name="CheckGlyph" Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}" FontSize="20" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE001;" Opacity="0" Margin="2"/>
@@ -228,11 +228,11 @@
         <StackPanel Margin="24" Spacing="16">
             <TextBlock Text="Using custom focus visuals" Style="{StaticResource SubtitleTextBlockStyle}" />
             <RichTextBlock>
-                <Paragraph>With Windows 10, the system now draws the focus visuals for all of the inbox controls, and can be used for custom controls as well.</Paragraph>
+                <Paragraph>WinUI 3 draws system focus visuals for its in-box controls and can apply them to custom controls as well.</Paragraph>
                 <Paragraph>In this example, we will show you how to customize the focus visuals, if the 1px black and white border does not suit your needs.</Paragraph>
                 <Paragraph>Look in the Page.Resources of this page to see the source for this sample.</Paragraph>
                 <Paragraph>The 3 steps you need to define your own focus visuals for any inbox control are:</Paragraph>
-                <Paragraph TextIndent="20">1) Re-template the control and add in your desired visual (here we've added a red rectangle)</Paragraph>
+                <Paragraph TextIndent="20">1) Re-template the control and add your desired visual (here we use an accent rectangle)</Paragraph>
                 <Paragraph TextIndent="20">2) Add back the FocusStates VisualStateGroup (see the control template code for the proper state names)</Paragraph>
                 <Paragraph TextIndent="20">3) Set Control.UseSystemFocusVisuals to False</Paragraph>
             </RichTextBlock>

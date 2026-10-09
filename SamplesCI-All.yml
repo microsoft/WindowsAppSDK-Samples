@@ -12,6 +12,7 @@ parameters:
   - 'AppLifecycle\StateNotifications'
   - 'DeploymentManager'
   - 'CustomControls'
+  - 'FocusVisuals'
   - 'Insights'
   - 'Input/cs-winui'
   - 'Installer'
