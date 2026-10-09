@@ -46,7 +46,5 @@ uses the Windows App SDK.
 ## Related links
 
 - [Print from your app][print-from-app]
-- [Original UWP printing sample][uwp-sample]
 
 [print-from-app]: https://learn.microsoft.com/windows/apps/develop/devices-sensors/print-from-your-app
-[uwp-sample]: https://github.com/microsoft/Windows-universal-samples/tree/main/Samples/Printing

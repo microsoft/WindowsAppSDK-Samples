@@ -78,7 +78,7 @@
                  (If the Image conveyed useful information we'd not use AccessibilityView, but instead provide a localized
                  name for the Image to convey its purpose.) -->
             <Image x:Name="WindowsLogo" Stretch="None" Source="Assets/windows-sdk.png" Margin="0,15,0,0" AutomationProperties.AccessibilityView="Raw" />
-            <TextBlock x:Name="Header" Text="Universal Windows Platform sample" Style="{StaticResource TagLineTextStyle}" Margin="0,15,0,0" />
+            <TextBlock x:Name="Header" Text="Windows App SDK sample" Style="{StaticResource TagLineTextStyle}" Margin="0,15,0,0" />
         </StackPanel>
     </Grid>
 </Page>

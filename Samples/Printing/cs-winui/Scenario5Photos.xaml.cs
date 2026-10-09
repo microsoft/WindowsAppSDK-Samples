@@ -323,11 +323,11 @@ namespace PrintSample
 
             pageDescription.Margin.Width = Math.Max(
                 printPageDescription.ImageableRect.Left,
-                printPageDescription.ImageableRect.Right - printPageDescription.PageSize.Width);
+                printPageDescription.PageSize.Width - printPageDescription.ImageableRect.Right);
 
             pageDescription.Margin.Height = Math.Max(
                 printPageDescription.ImageableRect.Top,
-                printPageDescription.ImageableRect.Bottom - printPageDescription.PageSize.Height);
+                printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Bottom);
 
             pageDescription.ViewablePageSize.Width = printPageDescription.PageSize.Width - pageDescription.Margin.Width * 2;
             pageDescription.ViewablePageSize.Height = printPageDescription.PageSize.Height - pageDescription.Margin.Height * 2;
