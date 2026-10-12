@@ -50,6 +50,7 @@
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.AI.MachineLearning" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="System.Numerics.Tensors" />
     <Manifest Include="$(ApplicationManifest)" />

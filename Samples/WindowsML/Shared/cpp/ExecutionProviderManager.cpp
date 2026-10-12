@@ -26,7 +26,9 @@ namespace Shared
     void ExecutionProviderManager::InitializeProviders(bool allowDownload)
     {
         std::cout << "Getting available providers..." << std::endl;
-        auto catalog = winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderCatalog::GetDefault();
+        using namespace winrt::Microsoft::Windows::AI::MachineLearning;
+
+        auto catalog = ExecutionProviderCatalog::GetDefault();
         auto providers = catalog.FindAllProviders();
         for (const auto& provider : providers)
         {
@@ -37,12 +39,27 @@ namespace Shared
                 std::wcout << L"  Ready state: " << static_cast<int>(readyState) << std::endl;
 
                 // Only call EnsureReadyAsync if we allow downloads or if the provider is already ready
-                if (allowDownload || readyState != winrt::Microsoft::Windows::AI::MachineLearning::ExecutionProviderReadyState::NotPresent)
+                if (allowDownload || readyState != ExecutionProviderReadyState::NotPresent)
                 {
-                    provider.EnsureReadyAsync().get();
+                    // EnsureReadyAsync reports failure through the result rather than by throwing
+                    auto result = provider.EnsureReadyAsync().get();
+                    if (result.Status() != ExecutionProviderReadyResultState::Success)
+                    {
+                        std::wcout << L"  EnsureReadyAsync failed: 0x" << std::hex
+                                   << static_cast<uint32_t>(result.ExtendedError()) << std::dec << L" "
+                                   << result.DiagnosticText().c_str() << std::endl;
+                        continue;
+                    }
+
                     readyState = provider.ReadyState();
                     std::wcout << L"  Updated Ready state: " << static_cast<int>(readyState) << std::endl;
+                }
 
+                // TryRegister only succeeds for providers that are Ready
+                if (readyState != ExecutionProviderReadyState::Ready)
+                {
+                    std::wcout << L"  Skipping registration; provider is not ready" << std::endl;
+                    continue;
                 }
 
                 provider.TryRegister();

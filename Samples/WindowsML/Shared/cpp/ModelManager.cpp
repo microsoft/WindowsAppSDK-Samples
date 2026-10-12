@@ -1,10 +1,23 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE.md in the repo root for license information.
 #include "ModelManager.h"
-#include <iostream>
-#include <fstream>
 #include <chrono>
+#include <fstream>
+#include <iostream>
+#include <system_error>
 #include <windows.h>
+
+namespace
+{
+    std::filesystem::path CreateTemporaryCompiledModelPath(const std::filesystem::path& compiledModelPath)
+    {
+        const auto uniqueValue = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        const std::wstring temporaryName =
+            compiledModelPath.stem().wstring() + L".tmp." + std::to_wstring(GetCurrentProcessId()) + L"." +
+            std::to_wstring(uniqueValue) + compiledModelPath.extension().wstring();
+        return compiledModelPath.parent_path() / temporaryName;
+    }
+}
 
 namespace WindowsML
 {
@@ -21,13 +34,41 @@ namespace Shared
         std::cout << "Compiling model from " << modelPath << std::endl;
         std::cout << "Output path: " << compiledModelPath << std::endl;
 
+        std::error_code pathError;
+        const bool compiledModelExists = std::filesystem::exists(compiledModelPath, pathError);
+        if (pathError)
+        {
+            const std::string message =
+                "Failed to inspect compiled model output path: " + pathError.message();
+            std::cerr << message << std::endl;
+            return ortApi.CreateStatus(ORT_FAIL, message.c_str());
+        }
+
+        if (compiledModelExists && std::filesystem::equivalent(modelPath, compiledModelPath, pathError))
+        {
+            const std::string message = "Compilation output path must be different from the original model path.";
+            std::cerr << message << std::endl;
+            return ortApi.CreateStatus(ORT_INVALID_ARGUMENT, message.c_str());
+        }
+        if (pathError)
+        {
+            const std::string message =
+                "Failed to compare input and compiled model paths: " + pathError.message();
+            std::cerr << message << std::endl;
+            return ortApi.CreateStatus(ORT_FAIL, message.c_str());
+        }
+
         // Get compile API
         const OrtCompileApi* compileApi = ortApi.GetCompileApi();
         if (!compileApi)
         {
             std::cerr << "Failed to get compile API" << std::endl;
-            return nullptr;
+            return ortApi.CreateStatus(ORT_FAIL, "Failed to get compile API");
         }
+
+        const std::filesystem::path temporaryModelPath = CreateTemporaryCompiledModelPath(compiledModelPath);
+        std::error_code cleanupError;
+        std::filesystem::remove(temporaryModelPath, cleanupError);
 
         // Create compilation options from session options
         OrtModelCompilationOptions* compileOptions = nullptr;
@@ -47,10 +88,20 @@ namespace Shared
             return status;
         }
 
-        status = compileApi->ModelCompilationOptions_SetOutputModelPath(compileOptions, compiledModelPath.c_str());
+        status = compileApi->ModelCompilationOptions_SetOutputModelPath(compileOptions, temporaryModelPath.c_str());
         if (status != nullptr)
         {
             std::cerr << "Failed to set output model path: " << ortApi.GetErrorMessage(status) << std::endl;
+            compileApi->ReleaseModelCompilationOptions(compileOptions);
+            return status;
+        }
+
+        // Keep the compiled EP context in the ONNX file so atomic replacement
+        // cannot strand a model that references a temp-named sidecar.
+        status = compileApi->ModelCompilationOptions_SetEpContextEmbedMode(compileOptions, true);
+        if (status != nullptr)
+        {
+            std::cerr << "Failed to configure embedded EP context: " << ortApi.GetErrorMessage(status) << std::endl;
             compileApi->ReleaseModelCompilationOptions(compileOptions);
             return status;
         }
@@ -67,7 +118,36 @@ namespace Shared
 
         if (status == nullptr)
         {
-            std::cout << "Model compiled successfully in " << duration.count() << " ms" << std::endl;
+            std::error_code outputError;
+            const bool outputExists = std::filesystem::exists(temporaryModelPath, outputError);
+            if (outputError)
+            {
+                const std::string message =
+                    "Failed to inspect temporary compiled model: " + outputError.message();
+                status = ortApi.CreateStatus(ORT_FAIL, message.c_str());
+                std::cerr << message << std::endl;
+            }
+            else if (!outputExists)
+            {
+                status = ortApi.CreateStatus(ORT_FAIL, "Compilation completed without creating an output model");
+                std::cerr << ortApi.GetErrorMessage(status) << std::endl;
+            }
+            else if (!MoveFileExW(
+                         temporaryModelPath.c_str(),
+                         compiledModelPath.c_str(),
+                         MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
+            {
+                const DWORD error = GetLastError();
+                const std::string message =
+                    "Failed to replace compiled model atomically. Win32 error: " + std::to_string(error);
+                status = ortApi.CreateStatus(ORT_FAIL, message.c_str());
+                std::wcerr << L"Failed to replace temporary compiled model '" << temporaryModelPath
+                           << L"' with cache '" << compiledModelPath << L"'. Win32 error: " << error << std::endl;
+            }
+            else
+            {
+                std::cout << "Model compiled successfully in " << duration.count() << " ms" << std::endl;
+            }
         }
         else
         {
@@ -75,6 +155,10 @@ namespace Shared
         }
 
         compileApi->ReleaseModelCompilationOptions(compileOptions);
+        if (status != nullptr)
+        {
+            std::filesystem::remove(temporaryModelPath, cleanupError);
+        }
         return status;
     }
 

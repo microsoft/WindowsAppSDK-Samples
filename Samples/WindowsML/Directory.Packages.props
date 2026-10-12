@@ -4,6 +4,9 @@
   <ItemGroup>
     <!-- WindowsML-specific dependencies -->
     <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.WinML" Version="0.14.0" />
+    <!-- Managed compatibility metadata extraction requires the newer Windows ML binding.
+         Native samples use Microsoft.WindowsAppSDK.ML, whose C++ API already includes it. -->
+    <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.3.42" />
     <PackageVersion Include="Microsoft.Windows.AbiWinRT" Version="2.0.210330.2" />
   </ItemGroup>
 </Project>

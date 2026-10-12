@@ -46,6 +46,7 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ### Media
 - [Camera Capture UI](Samples/CameraCaptureUI): This sample demonstrates how to capture photos and videos using the CameraCaptureUI API in a WinUI 3 app.
+- [Custom Media Transport Controls](Samples/CustomMediaTransportControls): This sample demonstrates how to derive and style MediaTransportControls while preserving media playback commands in a WinUI 3 app.
 
 ### Islands
 - [Islands](Samples/Islands): This sample shows how to add a WinAppSDK island with Xaml content to a Win32 app.
@@ -66,6 +67,11 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 - [Input](Samples/Input/cs-winui): These scenarios demonstrate keyboard,
   pointer, device capability, cursor, gesture, and XAML manipulation input in
   WinUI 3.
+- [Printing](Samples/Printing): This sample demonstrates how to print WinUI 3
+  content with the Windows print experience.
+- [Focus visuals](Samples/FocusVisuals): This sample demonstrates how to
+  customize keyboard focus visuals and apply system focus visuals to custom
+  WinUI 3 controls.
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
 - [Windows Composition, Input and SceneGraph](Samples/SceneGraph): This collection of samples showcases Microsoft.UI.Composition, Microsoft.UI.Input and SceneGraph APIs.
 - [WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery): This is a sample app that showcases all of the WinUI 3 controls in action.

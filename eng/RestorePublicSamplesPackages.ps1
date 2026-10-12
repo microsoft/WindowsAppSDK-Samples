@@ -16,6 +16,22 @@ if ($solutions.Count -eq 0)
     throw "No solutions were found under '$SamplesRoot'."
 }
 
+# MAUI projects require the MAUI workload before restore.
+if (Get-ChildItem -Path $SamplesRoot -Recurse -File -Filter *.csproj |
+    Select-String -Pattern '<UseMaui>\s*true' -Quiet)
+{
+    $dotnet = Get-Command dotnet -ErrorAction Stop
+    Write-Host "Installing .NET MAUI workload"
+    & $dotnet.Source workload install maui `
+        --source https://api.nuget.org/v3/index.json `
+        --skip-manifest-update
+
+    if ($LASTEXITCODE -ne 0)
+    {
+        throw "dotnet workload install maui failed with exit code $LASTEXITCODE."
+    }
+}
+
 New-Item -ItemType Directory -Path $PackagesDirectory -Force | Out-Null
 $originalPackagesDirectory = $env:NUGET_PACKAGES
 $env:NUGET_PACKAGES = $PackagesDirectory

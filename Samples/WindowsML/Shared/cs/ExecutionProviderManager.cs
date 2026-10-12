@@ -41,8 +41,23 @@ namespace WindowsML.Shared
                     // Only call EnsureReadyAsync if we allow downloads or if the provider is already ready
                     if (allowDownload || readyState != ExecutionProviderReadyState.NotPresent)
                     {
-                        await provider.EnsureReadyAsync();
-                        Console.WriteLine($"  Updated Ready state: {provider.ReadyState}");
+                        // EnsureReadyAsync reports failure through the result rather than by throwing
+                        var result = await provider.EnsureReadyAsync();
+                        if (result.Status != ExecutionProviderReadyResultState.Success)
+                        {
+                            Console.WriteLine($"  EnsureReadyAsync failed: 0x{result.ExtendedError?.HResult:X8} {result.DiagnosticText}");
+                            continue;
+                        }
+
+                        readyState = provider.ReadyState;
+                        Console.WriteLine($"  Updated Ready state: {readyState}");
+                    }
+
+                    // TryRegister only succeeds for providers that are Ready
+                    if (readyState != ExecutionProviderReadyState.Ready)
+                    {
+                        Console.WriteLine("  Skipping registration; provider is not ready");
+                        continue;
                     }
 
                     provider.TryRegister();

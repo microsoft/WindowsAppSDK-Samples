@@ -1,0 +1,28 @@
+﻿<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Page
+    x:Class="CustomMediaTransportControls.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:CustomMediaTransportControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <MediaPlayerElement
+            x:Name="MediaPlayer"
+            AreTransportControlsEnabled="True"
+            AutomationProperties.Name="Fish video player">
+            <MediaPlayerElement.TransportControls>
+                <local:CustomMediaTransportControls
+                    IsCompact="False"
+                    IsPlaybackRateButtonVisible="True"
+                    IsPlaybackRateEnabled="True"
+                    IsZoomButtonVisible="True"
+                    IsZoomEnabled="True"
+                    Liked="CustomMediaTransportControls_Liked" />
+            </MediaPlayerElement.TransportControls>
+        </MediaPlayerElement>
+    </Grid>
+</Page>

@@ -93,30 +93,27 @@ are automatically generated with device-specific identifiers to prevent collisio
 
 Use `--compiled_output` to override with a custom path.
 
-```csharp
-// Create compilation options from session options
-OrtModelCompilationOptions compileOptions = new(sessionOptions);
+Before an existing compiled model is reused, the shared `ModelManager` reads its
+EP compatibility metadata and validates it against the currently discovered
+devices. Explicit `--ep_name` and `--device_type` selections are honored.
 
-try
-{
-    // Set input and output model paths
-    compileOptions.SetInputModelPath(modelPath);
-    compileOptions.SetOutputModelPath(compiledModelPath);
+Only `EP_SUPPORTED_OPTIMAL` is reused.
+`EP_SUPPORTED_PREFER_RECOMPILATION`, `EP_UNSUPPORTED`, `EP_NOT_APPLICABLE`,
+discovery failures, and validation failures cause the sample to use the original
+ONNX model instead. For policy selection, the sample follows ONNX Runtime's
+policy ordering and validates the preferred device and CPU fallback devices
+selected by the policy. The selected devices are separated into single-EP groups
+because one compatibility call cannot mix EPs. The preferred group must have
+matching metadata, and every selected group with metadata must report
+`EP_SUPPORTED_OPTIMAL`. Missing metadata is tolerated only for fallback groups
+that do not compile the model.
 
-    Console.WriteLine("Starting compile, this may take a few moments...");
-    DateTime start = DateTime.Now;
-
-    // Compile the model
-    compileOptions.CompileModel();
-
-    TimeSpan duration = DateTime.Now - start;
-    Console.WriteLine($"Model compiled successfully in {duration.TotalMilliseconds} ms");
-}
-catch
-{
-    Console.Error.WriteLine($"Failed to compile model, continuing ...");
-}
-```
+When `--compile` is present and the cached model is missing or non-optimal,
+compilation writes to a temporary file in the output directory and replaces the
+cache only after compilation succeeds. If compilation or replacement fails, a
+stale compiled model is never selected and inference falls back to the original
+model. EP context data is embedded in the compiled ONNX file so atomic cache
+replacement does not leave references to temporary sidecar files.
 
 ### 3. Execution Provider Selection Policy
 
