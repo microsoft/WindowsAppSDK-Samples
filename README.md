@@ -64,6 +64,9 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ### User Interface and Input
 
+- [Input](Samples/Input/cs-winui): These scenarios demonstrate keyboard,
+  pointer, device capability, cursor, gesture, and XAML manipulation input in
+  WinUI 3.
 - [Printing](Samples/Printing): This sample demonstrates how to print WinUI 3
   content with the Windows print experience.
 - [Focus visuals](Samples/FocusVisuals): This sample demonstrates how to
