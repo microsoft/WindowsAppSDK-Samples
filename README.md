@@ -63,6 +63,8 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ### User Interface and Input
 
+- [Printing](Samples/Printing): This sample demonstrates how to print WinUI 3
+  content with the Windows print experience.
 - [Focus visuals](Samples/FocusVisuals): This sample demonstrates how to
   customize keyboard focus visuals and apply system focus visuals to custom
   WinUI 3 controls.
