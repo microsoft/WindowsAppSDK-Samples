@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Custom Media Transport Controls (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Custom Media Transport Controls (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

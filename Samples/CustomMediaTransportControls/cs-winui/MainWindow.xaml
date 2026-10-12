@@ -1,0 +1,13 @@
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<Window
+    x:Class="CustomMediaTransportControls.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:CustomMediaTransportControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Custom Media Transport Controls"
+    mc:Ignorable="d">
+    <local:MainPage />
+</Window>
