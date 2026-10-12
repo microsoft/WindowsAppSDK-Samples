@@ -63,6 +63,9 @@ This repository hosts samples for the [Windows App SDK](https://github.com/micro
 
 ### User Interface and Input
 
+- [Focus visuals](Samples/FocusVisuals): This sample demonstrates how to
+  customize keyboard focus visuals and apply system focus visuals to custom
+  WinUI 3 controls.
 - [Windowing](Samples/Windowing): This sample demonstrates how to manage app windows using the Windowing APIs.
 - [Windows Composition, Input and SceneGraph](Samples/SceneGraph): This collection of samples showcases Microsoft.UI.Composition, Microsoft.UI.Input and SceneGraph APIs.
 - [WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery): This is a sample app that showcases all of the WinUI 3 controls in action.
