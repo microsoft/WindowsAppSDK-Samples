@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ namespace WindowsAISample.Util;
 /// <summary>
 /// Lightweight model base class that implements INotifyPropertyChanged
 /// </summary>
-internal partial class ModelBase : INotifyPropertyChanged
+public partial class ModelBase : INotifyPropertyChanged
 {
 
     public event PropertyChangedEventHandler? PropertyChanged;
