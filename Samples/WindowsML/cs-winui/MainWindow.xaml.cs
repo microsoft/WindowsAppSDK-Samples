@@ -78,8 +78,24 @@ namespace WindowsMLSample
                 EpCombo.SelectionChanged += EpCombo_SelectionChanged;
 
                 providerInfo.AppendLine("========================================");
-                providerInfo.AppendLine("Select an execution provider (and device if required) then click 'Load / Reload Model'.");
+                providerInfo.AppendLine("Auto-loading model with default execution provider...");
                 ResultsText.Text = providerInfo.ToString();
+
+                // Auto-load model and run inference on startup
+                try
+                {
+                    await LoadModelAsync();
+                    if (_session != null)
+                    {
+                        await LoadAndRunDemoAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ResultsText.Text = providerInfo.ToString()
+                        + $"\nAuto-load failed: {ex.Message}"
+                        + "\nSelect an execution provider and click 'Load / Reload Model' to retry.";
+                }
             }
             catch (Exception ex)
             {
