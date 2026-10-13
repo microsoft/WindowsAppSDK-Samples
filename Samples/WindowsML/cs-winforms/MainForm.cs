@@ -126,7 +126,10 @@ namespace WindowsMLWinFormsSample
 
             var options = new Options
             {
-                ModelPath = "SqueezeNet.onnx",
+                // Empty ModelPath lets ModelManager.DetermineModelVariant() pick
+                // FP32 (GPU) or Default/quantized (CPU/NPU) based on the selected EP.
+                // Hardcoding a filename would bypass that auto-selection.
+                ModelPath = string.Empty,
                 EpName = epCombo.SelectedItem!.ToString(),
                 DeviceType = deviceCombo.Enabled ? deviceCombo.SelectedItem?.ToString() : null,
                 PerfMode = GetSelectedPerformanceMode()
