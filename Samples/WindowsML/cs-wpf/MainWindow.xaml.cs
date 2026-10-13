@@ -26,12 +26,25 @@ namespace WindowsMLSampleForWPF
         private OrtEnv? _ortEnv;
         private List<string> _labels = new();
         private bool _disposed;
+        private bool _isBusy;
+        private bool _deviceComboWasEnabled;
+        private bool _epComboWasEnabled;
 
         public MainWindow()
         {
             InitializeComponent(); // Must match x:Class in XAML
             Loaded += MainWindow_Loaded;
+            Closing += MainWindow_Closing;
             Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_isBusy)
+            {
+                e.Cancel = true;
+                ResultsTextBox.Text = "Please wait for the current operation to complete before closing.";
+            }
         }
 
         private void MainWindow_Closed(object? sender, EventArgs e)
@@ -133,11 +146,11 @@ namespace WindowsMLSampleForWPF
             {
                 ModelPath = "SqueezeNet.onnx",
                 EpName = EpCombo.SelectedItem?.ToString(),
-                DeviceType = (DeviceCombo.IsEnabled ? DeviceCombo.SelectedItem?.ToString() : null),
+                DeviceType = (DeviceCombo.Items.Count > 1 ? DeviceCombo.SelectedItem?.ToString() : null),
                 PerfMode = GetSelectedPerformanceMode()
             };
 
-            if (DeviceCombo.IsEnabled && DeviceCombo.SelectedItem == null)
+            if (DeviceCombo.Items.Count > 1 && DeviceCombo.SelectedItem == null)
             {
                 ResultsTextBox.Text = "Select a device type for the selected execution provider.";
                 return;
@@ -172,13 +185,43 @@ namespace WindowsMLSampleForWPF
                     bitmap.EndInit();
                     SelectedImage.Source = bitmap;
 
-                    RunInferenceButton.IsEnabled = true;
-                    ResultsTextBox.Text = "Image selected. Click 'Run Inference' to classify the image.";
+                    RunInferenceButton.IsEnabled = _session != null;
+                    ResultsTextBox.Text = _session != null
+                        ? "Image selected. Click 'Run Inference' to classify the image."
+                        : "Image selected. Load or reload the model first to enable inference.";
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error loading image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+        }
+
+        private void SetBusy(bool busy)
+        {
+            _isBusy = busy;
+            BusyIndicator.Visibility = busy ? Visibility.Visible : Visibility.Collapsed;
+            RunInferenceButton.IsEnabled = !busy && _session != null && !string.IsNullOrEmpty(_selectedImagePath);
+            ReloadSessionButton.IsEnabled = !busy;
+            SelectImageButton.IsEnabled = !busy;
+            AllowProviderDownloadCheckBox.IsEnabled = !busy;
+            PerfModeDefaultRadio.IsEnabled = !busy;
+            PerfModeMaxPerfRadio.IsEnabled = !busy;
+            PerfModeMaxEffRadio.IsEnabled = !busy;
+
+            if (busy)
+            {
+                // Save combo states before disabling so we can restore them later
+                _epComboWasEnabled = EpCombo.IsEnabled;
+                _deviceComboWasEnabled = DeviceCombo.IsEnabled;
+                EpCombo.IsEnabled = false;
+                DeviceCombo.IsEnabled = false;
+            }
+            else
+            {
+                // Restore the combo enabled states that PopulateDeviceCombo computed
+                EpCombo.IsEnabled = _epComboWasEnabled;
+                DeviceCombo.IsEnabled = _deviceComboWasEnabled;
             }
         }
 
@@ -192,14 +235,15 @@ namespace WindowsMLSampleForWPF
 
             try
             {
+                SetBusy(true);
                 ResultsTextBox.Text = "Running inference...";
-                Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.Render);
 
-                var videoFrame = await ImageProcessor.LoadImageFileAsync(_selectedImagePath);
+                using var videoFrame = await ImageProcessor.LoadImageFileAsync(_selectedImagePath);
                 var inputTensor = await ImageProcessor.PreprocessImageAsync(videoFrame);
 
-                using var results = InferenceEngine.RunInference(_session, inputTensor);
-                var resultTensor = InferenceEngine.ExtractResults(_session, results);
+                var session = _session;
+                using var results = await Task.Run(() => InferenceEngine.RunInference(session, inputTensor));
+                var resultTensor = InferenceEngine.ExtractResults(session, results);
 
                 var topPredictions = ResultProcessor.GetTopPredictions(resultTensor, _labels, 5);
                 ResultsTextBox.Text = FormatResultsForUI(topPredictions);
@@ -207,6 +251,10 @@ namespace WindowsMLSampleForWPF
             catch (Exception ex)
             {
                 ResultsTextBox.Text = $"Error during inference: {ex.Message}";
+            }
+            finally
+            {
+                SetBusy(false);
             }
         }
 
@@ -258,11 +306,23 @@ namespace WindowsMLSampleForWPF
 
         private async void ReloadSessionButton_Click(object sender, RoutedEventArgs e)
         {
-            ResultsTextBox.Text = "Loading / reloading model...";
-            await LoadModelAndLabelsAsync();
-            if (_session != null)
+            try
             {
-                ResultsTextBox.Text += "\nModel loaded. Select an image and click 'Run Inference'.";
+                SetBusy(true);
+                ResultsTextBox.Text = "Loading / reloading model...";
+                await LoadModelAndLabelsAsync();
+                if (_session != null)
+                {
+                    ResultsTextBox.Text += "\nModel loaded. Select an image and click 'Run Inference'.";
+                }
+            }
+            catch (Exception ex)
+            {
+                ResultsTextBox.Text = $"Error loading model: {ex.Message}";
+            }
+            finally
+            {
+                SetBusy(false);
             }
         }
 
