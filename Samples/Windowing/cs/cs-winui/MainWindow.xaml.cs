@@ -43,7 +43,7 @@ namespace Windowing
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
                     IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
-                SendMessage(hwnd, WM_SETICON, ICON_SMALL, imageHandle.Value);
+                SendMessage(hwnd, WM_SETICON, ICON_SMALL, new LPARAM((nint)imageHandle.Value));
             }
 
             fixed (char* nameLocal = iconName)
@@ -54,7 +54,7 @@ namespace Windowing
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
                     GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
                     IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
-                SendMessage(hwnd, WM_SETICON, ICON_BIG, imageHandle.Value);
+                SendMessage(hwnd, WM_SETICON, ICON_BIG, new LPARAM((nint)imageHandle.Value));
             }
         }
 
