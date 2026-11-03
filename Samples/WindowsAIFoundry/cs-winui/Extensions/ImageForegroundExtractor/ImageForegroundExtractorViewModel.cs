@@ -1,0 +1,45 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using WindowsAISample.Util;
+using WindowsAISample.ViewModels;
+using Microsoft.UI.Xaml.Media.Imaging;
+using System;
+using System.Windows.Input;
+using Windows.Graphics.Imaging;
+
+namespace WindowsAISample.Ext.ImageForegroundExtractor;
+
+internal class ImageForegroundExtractorViewModel : InputImageViewModelBase<ImageForegroundExtractorModel>
+{
+    private readonly AsyncCommand<SoftwareBitmap, SoftwareBitmapSource> _extractForegroundCommand;
+
+    public ImageForegroundExtractorViewModel(ImageForegroundExtractorModel imageForegroundExtractorSession)
+    : base(imageForegroundExtractorSession)
+    {
+        _extractForegroundCommand = new(
+            async _ =>
+            {
+                if (Input == null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                var foregroundMask = await Session.ExtractForegroundMaskAsync(Input);
+                var outputBitmap = Input.ApplyMask(foregroundMask);
+
+                return await DispatcherQueue.EnqueueAsync(async () =>
+                {
+                    return await outputBitmap.ToSourceAsync();
+                });
+            },
+            _ => IsAvailable && Input is not null);
+    }
+
+    public ICommand ExtractForegroundCommand => _extractForegroundCommand;
+
+    protected override void OnIsAvailableChanged()
+    {
+        _extractForegroundCommand.FireCanExecuteChanged();
+    }
+}

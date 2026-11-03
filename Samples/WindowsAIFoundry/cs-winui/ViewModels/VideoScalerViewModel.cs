@@ -20,7 +20,7 @@ internal partial class VideoScalerViewModel : InputImageViewModelBase<VideoScale
     {
         _scaleVideoFrameCommand = new(
             async _ =>
-            { 
+            {
                 var softwareBitmap = Session.ScaleVideoFrame(Input!);
                 return await DispatcherQueue.EnqueueAsync(async () =>
                 {
