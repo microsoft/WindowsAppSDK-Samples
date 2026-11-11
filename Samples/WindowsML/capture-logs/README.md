@@ -1,6 +1,6 @@
 # Capturing Windows ML Logs
 
-The scripts and profiles for capturing Windows ML diagnostic logs are now in
+The scripts and profiles for capturing Windows ML diagnostic logs are in
 the Windows ML repository:
 [microsoft/WindowsML/Tools/capture-logs](https://github.com/microsoft/WindowsML/tree/main/Tools/capture-logs).
 
