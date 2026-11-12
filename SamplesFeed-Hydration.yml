@@ -15,6 +15,25 @@ parameters:
   displayName: Microsoft.WindowsAppSDK version (WindowsAppSDKVersion mode only)
   type: string
   default: ''
+- name: DotNetToolchains
+  displayName: Sample restore toolchains
+  type: object
+  default:
+    Samples:
+      VmImage: windows-2022
+      UseGlobalJson: 'true'
+      SdkVersion: ''
+      RestoreArguments: ''
+    Net9:
+      VmImage: windows-2022
+      UseGlobalJson: 'false'
+      SdkVersion: '9.0.321'
+      RestoreArguments: '-DesktopSdkProjectsOnly'
+    Net10:
+      VmImage: windows-2025-vs2026
+      UseGlobalJson: 'false'
+      SdkVersion: '10.0.403'
+      RestoreArguments: '-DesktopSdkProjectsOnly'
 
 trigger:
   batch: true
@@ -48,6 +67,12 @@ jobs:
 - ${{ if ne(parameters.HydrationMode, 'ValidateOnly') }}:
   - job: Hydrate
     displayName: Hydrate WinAppSDK-SampleDeps
+    ${{ if eq(parameters.HydrationMode, 'Branch') }}:
+      strategy:
+        matrix: ${{ parameters.DotNetToolchains }}
+        maxParallel: 1
+      pool:
+        vmImage: $(VmImage)
     timeoutInMinutes: 120
     steps:
     - checkout: self
@@ -83,8 +108,10 @@ jobs:
         displayName: Install sample .NET SDKs
         inputs:
           packageType: sdk
-          useGlobalJson: true
+          useGlobalJson: $(UseGlobalJson)
+          version: $(SdkVersion)
           workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
+          installationPath: '$(Agent.TempDirectory)\dotnet'
 
     - task: NuGetAuthenticate@1
       displayName: Authenticate to WinAppSDK-SampleDeps
@@ -120,6 +147,7 @@ jobs:
             -SamplesRoot "$(SamplesCheckoutDirectory)\Samples"
             -NuGetConfigPath "$(SamplesFeedConfig)"
             -PackagesDirectory "$(Pipeline.Workspace)\hydration-packages"
+            $(RestoreArguments)
 
     - ${{ if eq(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
       - task: PowerShell@2
@@ -145,6 +173,11 @@ jobs:
   displayName: Validate anonymous public restore
   ${{ if ne(parameters.HydrationMode, 'ValidateOnly') }}:
     dependsOn: Hydrate
+  ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
+    strategy:
+      matrix: ${{ parameters.DotNetToolchains }}
+    pool:
+      vmImage: $(VmImage)
   timeoutInMinutes: 120
   steps:
   - checkout: self
@@ -180,8 +213,10 @@ jobs:
       displayName: Install sample .NET SDKs
       inputs:
         packageType: sdk
-        useGlobalJson: true
+        useGlobalJson: $(UseGlobalJson)
+        version: $(SdkVersion)
         workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
+        installationPath: '$(Agent.TempDirectory)\dotnet'
 
   - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
     - task: PowerShell@2
@@ -192,6 +227,7 @@ jobs:
           -SamplesRoot "$(SamplesCheckoutDirectory)\Samples"
           -NuGetConfigPath "$(SamplesFeedConfig)"
           -PackagesDirectory "$(Pipeline.Workspace)\anonymous-packages"
+          $(RestoreArguments)
 
   - ${{ if eq(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
     - task: PowerShell@2

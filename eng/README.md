@@ -34,3 +34,22 @@ Restrict permission to queue the pipeline to trusted maintainers.
 5. Use a fresh job without `NuGetAuthenticate` to verify that the complete closure restores anonymously.
 
 If hydration fails, first confirm that the cleanup step removed the upstream before retrying.
+
+## .NET toolchain coverage
+
+The `DotNetToolchains` matrix keeps the global.json-driven restore of every
+sample on its existing VS 2022 image. Additional jobs restore desktop SDK-style
+C# projects with SDKs 9.0.321 and 10.0.403 in isolated installation roots.
+The anonymous job repeats the same matrix. Authenticated jobs run one at a time
+so their upstream enable/disable steps cannot overlap.
+
+Runtime-pack versions are selected by the SDK, not just the target framework.
+For example, SDK 10.0.403 selects 8.0.33 when restoring net8.0 samples, while
+SDK 8.0.428 selects 8.0.34. Keep older SDK entries when extending coverage so
+their exact runtime dependencies remain available.
+
+`-DesktopSdkProjectsOnly` restores the non-MAUI SDK-style C# projects directly.
+Native solutions and MAUI stay in the original full-solution job, avoiding
+migration of older C++ XAML targets and unsupported net8.0 mobile workloads
+just to hydrate implicit .NET packages. Only the SDK 10 job uses the VS 2026
+image, which supplies its required MSBuild 18.

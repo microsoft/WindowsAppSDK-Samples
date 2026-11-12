@@ -3,22 +3,35 @@ param(
     [string]$SamplesRoot = (Join-Path $PSScriptRoot "..\Samples"),
     [string]$NuGetConfigPath = (Join-Path $PSScriptRoot "..\Samples\nuget.config"),
     [Parameter(Mandatory)]
-    [string]$PackagesDirectory
+    [string]$PackagesDirectory,
+    [switch]$DesktopSdkProjectsOnly
 )
 
 Set-StrictMode -Version 3.0
 $ErrorActionPreference = "Stop"
 
 $nuget = Get-Command nuget -ErrorAction Stop
-$solutions = @(Get-ChildItem -Path $SamplesRoot -Recurse -File -Filter *.sln)
-if ($solutions.Count -eq 0)
+$restoreTargets = @(Get-ChildItem -Path $SamplesRoot -Recurse -File -Filter *.sln)
+$projects = @(Get-ChildItem -Path $SamplesRoot -Recurse -File -Filter *.csproj)
+$mauiProjects = @(
+    $projects | Select-String -Pattern '<UseMaui>\s*true' -List |
+        ForEach-Object { $_.Path }
+)
+if ($DesktopSdkProjectsOnly)
 {
-    throw "No solutions were found under '$SamplesRoot'."
+    $restoreTargets = @($projects | Where-Object {
+        [xml]$project = Get-Content -LiteralPath $_.FullName -Raw
+        $project.DocumentElement.GetAttribute("Sdk") -like "Microsoft.NET.Sdk*" -and
+            $_.FullName -notin $mauiProjects
+    })
+}
+if ($restoreTargets.Count -eq 0)
+{
+    throw "No sample restore targets were found under '$SamplesRoot'."
 }
 
 # MAUI projects require the MAUI workload before restore.
-if (Get-ChildItem -Path $SamplesRoot -Recurse -File -Filter *.csproj |
-    Select-String -Pattern '<UseMaui>\s*true' -Quiet)
+if (!$DesktopSdkProjectsOnly -and $mauiProjects.Count -gt 0)
 {
     $dotnet = Get-Command dotnet -ErrorAction Stop
     Write-Host "Installing .NET MAUI workload"
@@ -38,10 +51,10 @@ $env:NUGET_PACKAGES = $PackagesDirectory
 
 try
 {
-    foreach ($solution in $solutions)
+    foreach ($restoreTarget in $restoreTargets)
     {
-        Write-Host "Restoring $($solution.FullName)"
-        & $nuget.Source restore $solution.FullName `
+        Write-Host "Restoring $($restoreTarget.FullName)"
+        & $nuget.Source restore $restoreTarget.FullName `
             -ConfigFile $NuGetConfigPath `
             -PackagesDirectory $PackagesDirectory `
             -NoHttpCache `
@@ -51,7 +64,7 @@ try
 
         if ($LASTEXITCODE -ne 0)
         {
-            throw "NuGet restore failed for '$($solution.FullName)' with exit code $LASTEXITCODE."
+            throw "NuGet restore failed for '$($restoreTarget.FullName)' with exit code $LASTEXITCODE."
         }
     }
 
@@ -99,4 +112,4 @@ finally
     $env:NUGET_PACKAGES = $originalPackagesDirectory
 }
 
-Write-Host "Restored $($solutions.Count) sample solutions and all declared CMake NuGet dependencies."
+Write-Host "Restored $($restoreTargets.Count) sample restore targets and all declared CMake NuGet dependencies."
