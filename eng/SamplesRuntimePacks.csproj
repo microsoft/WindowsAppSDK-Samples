@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageDownload Include="
+      Microsoft.NETCore.App.Runtime.win-x86;
+      Microsoft.NETCore.App.Runtime.win-x64;
+      Microsoft.NETCore.App.Runtime.win-arm64;
+      Microsoft.AspNetCore.App.Runtime.win-x86;
+      Microsoft.AspNetCore.App.Runtime.win-x64;
+      Microsoft.AspNetCore.App.Runtime.win-arm64;
+      Microsoft.WindowsDesktop.App.Runtime.win-x86;
+      Microsoft.WindowsDesktop.App.Runtime.win-x64;
+      Microsoft.WindowsDesktop.App.Runtime.win-arm64"
+      Version="[8.0.33]" />
+  </ItemGroup>
+</Project>

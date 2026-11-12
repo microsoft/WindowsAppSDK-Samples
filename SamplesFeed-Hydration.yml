@@ -29,6 +29,7 @@ trigger:
     - eng/RestorePublicSamplesPackages.ps1
     - eng/RestoreWindowsAppSDKPackage.ps1
     - eng/SamplesFeed.nuget.config
+    - eng/SamplesRuntimePacks.csproj
     - eng/SetSamplesFeedUpstream.ps1
 
 pr: none

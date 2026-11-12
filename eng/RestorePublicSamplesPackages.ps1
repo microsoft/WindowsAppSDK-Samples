@@ -38,10 +38,11 @@ $env:NUGET_PACKAGES = $PackagesDirectory
 
 try
 {
-    foreach ($solution in $solutions)
+    $restoreTargets = @($solutions) + (Get-Item -LiteralPath (Join-Path $PSScriptRoot "SamplesRuntimePacks.csproj"))
+    foreach ($restoreTarget in $restoreTargets)
     {
-        Write-Host "Restoring $($solution.FullName)"
-        & $nuget.Source restore $solution.FullName `
+        Write-Host "Restoring $($restoreTarget.FullName)"
+        & $nuget.Source restore $restoreTarget.FullName `
             -ConfigFile $NuGetConfigPath `
             -PackagesDirectory $PackagesDirectory `
             -NoHttpCache `
@@ -51,7 +52,7 @@ try
 
         if ($LASTEXITCODE -ne 0)
         {
-            throw "NuGet restore failed for '$($solution.FullName)' with exit code $LASTEXITCODE."
+            throw "NuGet restore failed for '$($restoreTarget.FullName)' with exit code $LASTEXITCODE."
         }
     }
 
@@ -99,4 +100,4 @@ finally
     $env:NUGET_PACKAGES = $originalPackagesDirectory
 }
 
-Write-Host "Restored $($solutions.Count) sample solutions and all declared CMake NuGet dependencies."
+Write-Host "Restored $($solutions.Count) sample solutions, developer SDK runtime packs, and all declared CMake NuGet dependencies."
