@@ -99,6 +99,9 @@ ForEach-Object {
 
 Get-ChildItem -Recurse Directory.Packages.props -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
+    $content = $content -replace
+        '<WindowsAppSDKVersion>.*</WindowsAppSDKVersion>',
+        "<WindowsAppSDKVersion>$WinAppSDKVersion</WindowsAppSDKVersion>"
 
     foreach ($nugetPackageToVersion in $nugetPackageToVersionTable.GetEnumerator()) {
         $newVersionString = 'PackageVersion Include="' + $nugetPackageToVersion.Key + '" Version="' + $nugetPackageToVersion.Value + '"'
