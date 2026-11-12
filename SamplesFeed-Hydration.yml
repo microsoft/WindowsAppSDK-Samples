@@ -29,7 +29,6 @@ trigger:
     - eng/RestorePublicSamplesPackages.ps1
     - eng/RestoreWindowsAppSDKPackage.ps1
     - eng/SamplesFeed.nuget.config
-    - eng/SamplesRuntimePacks.csproj
     - eng/SetSamplesFeedUpstream.ps1
 
 pr: none
@@ -86,6 +85,8 @@ jobs:
           packageType: sdk
           useGlobalJson: true
           workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
+          # Keep the image's .NET 10 SDK visible alongside the global.json SDKs.
+          installationPath: 'C:\Program Files\dotnet'
 
     - task: NuGetAuthenticate@1
       displayName: Authenticate to WinAppSDK-SampleDeps
@@ -183,6 +184,7 @@ jobs:
         packageType: sdk
         useGlobalJson: true
         workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
+        installationPath: 'C:\Program Files\dotnet'
 
   - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
     - task: PowerShell@2
