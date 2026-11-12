@@ -29,17 +29,21 @@ Restrict permission to queue the pipeline to trusted maintainers.
 
 1. Clone the protected branch whose update triggered the pipeline.
 2. Enable NuGet Gallery as the feed upstream.
-3. Restore all sample solutions, developer SDK runtime packs, and explicit CMake
-   NuGet dependencies through the single-source hydration config with the
-   authenticated build identity.
+3. Restore all sample solutions, pinned .NET runtime and apphost packs, and
+   explicit CMake NuGet dependencies through the single-source hydration
+   config with the authenticated build identity.
 4. Disable the upstream in an `always()` cleanup step.
 5. Use a fresh job without `NuGetAuthenticate` to verify that the complete closure restores anonymously.
 
 If hydration fails, first confirm that the cleanup step removed the upstream before retrying.
 
-`SamplesRuntimePacks.csproj` explicitly retains .NET `8.0.33` runtime packs
-for .NET Core, ASP.NET Core, and Windows Desktop on x86, x64, and ARM64.
-Developer SDKs can request this exact patch even when the hydration agent's
-.NET SDK uses a newer patch. Both hydration and anonymous validation restore
-these packs; updating the agent alone does not populate skipped runtime
-patch versions.
+The Deployment Manager and packaged Self-Contained Deployment C# samples pin
+a .NET 10 SDK in their local `global.json` files. Both jobs discover these
+files through `UseDotNet@2`. The pipeline uses a Visual Studio 2026 image for
+.NET 10 support.
+
+`SamplesRuntimePacks.csproj` explicitly retains .NET `10.0.15` runtime packs
+for .NET Core, ASP.NET Core, and Windows Desktop on x86, x64, and ARM64,
+plus .NET Core apphosts for all three architectures. SDK-bundled apphosts
+can otherwise hide packages needed on another developer architecture.
+Update the SDK pins and runtime closure together when servicing these samples.

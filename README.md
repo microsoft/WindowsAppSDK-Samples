@@ -92,6 +92,10 @@ Thes Windows App SDK samples have the following system requirements:
     - Desktop development with C++ (needed even if you're only building .NET apps)
     - Windows SDK version 2004 (build 19041) or later. This is installed with Visual Studio by default.
 
+The C# Deployment Manager and packaged Self-Contained Deployment
+(`cs2/cs-winui-packaged`) samples require Visual Studio 2026 and the .NET 10
+SDK selected by their local `global.json` files.
+
 Refer to the docs on [system requirements](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements) and [tools for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment) for a detalied list of requirements for developing apps with the Windows App SDK.
 
 ## 🚀 Using the samples

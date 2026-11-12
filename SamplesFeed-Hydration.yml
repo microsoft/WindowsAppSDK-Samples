@@ -43,7 +43,7 @@ variables:
   SamplesFeedConfig: '$(Build.SourcesDirectory)\eng\SamplesFeed.nuget.config'
 
 pool:
-  vmImage: windows-2022
+  vmImage: windows-2025-vs2026
 
 jobs:
 - ${{ if ne(parameters.HydrationMode, 'ValidateOnly') }}:
