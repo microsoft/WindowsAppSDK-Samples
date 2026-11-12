@@ -21,7 +21,8 @@ This sample demonstrates how to use the DeploymentManager class to ensure the Wi
 
 * See [System requirements for Windows app development](https://docs.microsoft.com/windows/apps/windows-app-sdk/system-requirements).
 * Make sure that your development environment is set up correctly&mdash;see [Install tools for developing apps for Windows 10 and Windows 11](https://docs.microsoft.com/windows/apps/windows-app-sdk/set-up-your-development-environment).
-* The C# sample requires Visual Studio 2026 and the .NET 10 SDK.
+* The C# sample requires Visual Studio 2022 version 17.12 or later and the
+  .NET 9 SDK.
 
 ## Building and running the sample
 

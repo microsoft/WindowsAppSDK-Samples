@@ -42,7 +42,7 @@ variables:
   SamplesFeedConfig: '$(Build.SourcesDirectory)\eng\SamplesFeed.nuget.config'
 
 pool:
-  vmImage: windows-2025-vs2026
+  vmImage: windows-2022
 
 jobs:
 - ${{ if ne(parameters.HydrationMode, 'ValidateOnly') }}:
@@ -85,7 +85,7 @@ jobs:
           packageType: sdk
           useGlobalJson: true
           workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
-          # Keep the image's .NET 10 SDK visible alongside the global.json SDKs.
+          # Keep the image's .NET 9 SDK visible alongside the global.json SDKs.
           installationPath: 'C:\Program Files\dotnet'
 
     - task: NuGetAuthenticate@1
