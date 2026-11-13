@@ -62,6 +62,10 @@
             </Grid>
         </Grid>
 
+        <!-- Busy indicator (indeterminate progress bar, hidden by default) -->
+        <ProgressBar x:Name="BusyIndicator" Grid.Row="0" IsIndeterminate="True" Visibility="Collapsed"
+                     Height="3" VerticalAlignment="Bottom" Margin="0,0,0,-5"/>
+
         <!-- Image Display Row -->
         <GroupBox Header="Selected Image" Grid.Row="1" Margin="0,0,0,10" MinHeight="250">
             <Border BorderBrush="Gray" BorderThickness="1" Background="LightGray">
