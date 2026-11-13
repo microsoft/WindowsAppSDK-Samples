@@ -1,0 +1,131 @@
+﻿<local:SamplePage
+    x:Class="CompositionSampleGallery.ShadowInterop"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CompositionSampleGallery"
+    xmlns:common="using:SamplesCommon"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="TextBlock" x:Key="TitleText">
+            <Setter Property="Margin" Value="5,20,0,5"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <Style TargetType="Border" x:Key="DividingBorder">
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer Margin="15" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Style="{StaticResource TitleText}" >TextBlock</TextBlock>
+            <Border Style="{StaticResource DividingBorder}"/>
+
+            <common:CompositionShadow BlurRadius="6" ShadowOpacity=".7" OffsetX="2" OffsetY="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                <TextBlock TextWrapping="Wrap" FontSize="30" FontWeight="SemiBold">
+                        Here’s a custom control that allows you to apply DropShadows through Markup on XAML Text, Images, or Shapes
+                </TextBlock>
+            </common:CompositionShadow>
+            <common:CompositionShadow BlurRadius="4" ShadowOpacity=".7" OffsetX="1" OffsetY="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                <TextBlock TextWrapping="Wrap" FontSize="16">
+                        Here’s a custom control that allows you to apply DropShadows through Markup on XAML Text, Images, or Shapes
+                </TextBlock>
+            </common:CompositionShadow>
+
+            <TextBlock Style="{StaticResource TitleText}" >Shapes</TextBlock>
+            <Border Style="{StaticResource DividingBorder}"/>
+
+            <StackPanel Orientation="Horizontal">
+                <common:CompositionShadow OffsetX="8" OffsetY="12" Margin="20" Color="Gray" BlurRadius="10">
+                    <Polygon Points="50,0 0,50 50,50" Fill="Blue"/>
+                </common:CompositionShadow>
+
+                <common:CompositionShadow OffsetX="10" OffsetY="10" Margin="20">
+                    <Rectangle Width="100" Height="50"
+                            Stroke="Green" StrokeThickness="5"/>
+                </common:CompositionShadow>
+
+                <common:CompositionShadow Color="Blue" BlurRadius="5" OffsetX="3" OffsetY="5" Margin="20">
+                    <Polyline Points="0,0 50,50 50,0 0,50"
+                            Stroke="Black" StrokeThickness="2"/>
+                </common:CompositionShadow>
+            </StackPanel>
+
+            <TextBlock Style="{StaticResource TitleText}">Images</TextBlock>
+            <Border Style="{StaticResource DividingBorder}"/>
+
+            <ScrollViewer
+                    VerticalScrollMode="Disabled"
+                    VerticalScrollBarVisibility="Hidden" 
+                    HorizontalScrollMode="Enabled"
+                    HorizontalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Horizontal">
+                    <RelativePanel Margin="10" Padding="0">
+                        <Image x:Name="Image1" Source="ms-appx:///Assets/Other/Gear.png"
+                               Width="200" Height="200"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   VerticalAlignment="Top" 
+                                   FontStyle="Italic" 
+                                   RelativePanel.Below="Image1" 
+                                   RelativePanel.AlignHorizontalCenterWith="Image1">Before</TextBlock>
+                    </RelativePanel>
+
+                    <RelativePanel Margin="10" Padding="0">
+                        <common:CompositionShadow x:Name="Image2" Color="HotPink" BlurRadius="20"
+                                                  Width="200" Height="200"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Top">
+                            <Image Source="ms-appx:///Assets/Other/Gear.png" 
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"/>
+                        </common:CompositionShadow>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   VerticalAlignment="Top" 
+                                   FontStyle="Italic" 
+                                   RelativePanel.Below="Image2" 
+                                   RelativePanel.AlignHorizontalCenterWith="Image2">After</TextBlock>
+                    </RelativePanel>
+
+                    <RelativePanel Margin="10" Padding="0">
+                        <Image x:Name="Image3" Source="ms-appx:///Assets/NormalMapsAndMasks/SphericalWithMask.png"
+                               Width="200" Height="200"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   VerticalAlignment="Top" 
+                                   FontStyle="Italic" 
+                                   RelativePanel.Below="Image3" 
+                                   RelativePanel.AlignHorizontalCenterWith="Image3">Before</TextBlock>
+                    </RelativePanel>
+
+                    <RelativePanel Margin="10" Padding="0">
+                        <common:CompositionShadow x:Name="Image4" OffsetY="5" OffsetX="2" BlurRadius="15"
+                            Width="200" Height="200"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+                            <Image Source="ms-appx:///Assets/NormalMapsAndMasks/SphericalWithMask.png"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"/>
+                        </common:CompositionShadow>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   VerticalAlignment="Top" 
+                                   FontStyle="Italic" 
+                                   RelativePanel.Below="Image4" 
+                                   RelativePanel.AlignHorizontalCenterWith="Image4">After</TextBlock>
+                    </RelativePanel>
+                </StackPanel>
+            </ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
+</local:SamplePage>
