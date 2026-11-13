@@ -97,6 +97,45 @@ ForEach-Object {
     } 
 }
 
+# Microsoft.Windows.AI.MachineLearning ships on its own version track, independent of Microsoft.WindowsAppSDK,
+# so a fixed pin would fall below the range the wrapper requires as the wrapper advances. Instead, read the
+# AI.ML floor declared by the Microsoft.WindowsAppSDK.ML wrapper that was just resolved and harvested above and
+# pin the samples to that floor. Using the harvested wrapper version (rather than searching the folder) keeps
+# this in lockstep with the exact wrapper the samples are being pinned to and is deterministic. A WinAppSDK
+# that carries no ML wrapper simply leaves the committed pin untouched.
+$mlWrapperId = "Microsoft.WindowsAppSDK.ML"
+$aimlId = "Microsoft.Windows.AI.MachineLearning"
+if ($nugetPackageToVersionTable.ContainsKey($mlWrapperId)) {
+    $mlWrapperFolder = Join-Path $NuGetPackagesFolder "$mlWrapperId.$($nugetPackageToVersionTable[$mlWrapperId])"
+    $mlWrapperNuspec = Join-Path $mlWrapperFolder "$mlWrapperId.nuspec"
+    if (Test-Path $mlWrapperNuspec) {
+        try {
+            [xml]$mlWrapperXml = Get-Content -Path $mlWrapperNuspec
+            # The AI.ML dependency is declared once per target-framework <group> with an identical range in each,
+            # so the first match is representative; fall back to an ungrouped <dependency> list when present.
+            $aimlDependency = $null
+            foreach ($group in $mlWrapperXml.package.metadata.dependencies.group) {
+                $aimlDependency = $group.dependency | Where-Object { $_.id -eq $aimlId } | Select-Object -First 1
+                if ($aimlDependency) { break }
+            }
+            if (-not $aimlDependency) {
+                $aimlDependency = $mlWrapperXml.package.metadata.dependencies.dependency | Where-Object { $_.id -eq $aimlId } | Select-Object -First 1
+            }
+            if ($aimlDependency) {
+                # NuGet range notation may be "[min, max)", "[exact]", or a bare "min"; keep the lower bound.
+                $aimlFloor = (($aimlDependency.version -replace '[\[\]()]', '') -split ',')[0].Trim()
+                if ($aimlFloor) {
+                    $nugetPackageToVersionTable[$aimlId] = $aimlFloor
+                    Write-Host "Found $aimlId - $aimlFloor (floor from $mlWrapperId $($nugetPackageToVersionTable[$mlWrapperId]))"
+                }
+            }
+        }
+        catch {
+            Write-Warning "Unable to read $aimlId floor from ${mlWrapperNuspec}: $($_.Exception.Message)"
+        }
+    }
+}
+
 Get-ChildItem -Recurse Directory.Packages.props -Path $PSScriptRoot | foreach-object {
     $content = Get-Content $_.FullName -Raw
 
