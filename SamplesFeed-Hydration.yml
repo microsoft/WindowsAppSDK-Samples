@@ -1,167 +1,38 @@
 parameters:
 - name: HydrationMode
-  displayName: Hydration mode
   type: string
   default: Branch
   values:
   - Branch
   - ValidateOnly
   - WindowsAppSDKVersion
-- name: DotNetToolchains
-  displayName: Sample restore toolchains
-  type: object
-  default:
-    Samples:
-      VmImage: windows-2022
-      UseGlobalJson: 'true'
-      SdkVersion: ''
-      RestoreArguments: ''
-    Net9:
-      VmImage: windows-2022
-      UseGlobalJson: 'false'
-      SdkVersion: '9.0.321'
-      RestoreArguments: '-DesktopSdkProjectsOnly'
-    Net10:
-      VmImage: windows-2025-vs2026
-      UseGlobalJson: 'false'
-      SdkVersion: '10.0.403'
-      RestoreArguments: '-DesktopSdkProjectsOnly'
 
-trigger:
-  batch: true
-  branches:
-    include:
-    - main
-    - release/*
-  paths:
-    include:
-    - Samples/**
-    - SamplesFeed-Hydration.yml
-    - eng/RestorePublicSamplesPackages.ps1
-    - eng/RestoreWindowsAppSDKPackage.ps1
-    - eng/ResolveSamplesFeedTarget.ps1
-    - eng/SamplesFeed.nuget.config
-    - eng/SetSamplesFeedUpstream.ps1
-
+trigger: none
 pr: none
 
 variables:
   HydrationTarget: $[coalesce(variables['BranchOrVersion'], '')]
-  SamplesCheckoutDirectory: '$(Pipeline.Workspace)\samples-to-hydrate'
-  SamplesFeedConfig: '$(Build.SourcesDirectory)\eng\SamplesFeed.nuget.config'
 
 pool:
   vmImage: windows-2022
 
 jobs:
-- ${{ if ne(parameters.HydrationMode, 'ValidateOnly') }}:
-  - job: Hydrate
-    displayName: Hydrate WinAppSDK-SampleDeps
-    ${{ if eq(parameters.HydrationMode, 'Branch') }}:
-      strategy:
-        matrix: ${{ parameters.DotNetToolchains }}
-        maxParallel: 1
-      pool:
-        vmImage: $(VmImage)
-    timeoutInMinutes: 120
-    steps:
-    - checkout: self
-
-    - task: PowerShell@2
-      displayName: Validate and resolve hydration target
-      inputs:
-        filePath: '$(Build.SourcesDirectory)\eng\ResolveSamplesFeedTarget.ps1'
-        arguments: -HydrationMode ${{ parameters.HydrationMode }}
-      env:
-        HYDRATION_TARGET: $(HydrationTarget)
-
-    - ${{ if eq(parameters.HydrationMode, 'Branch') }}:
-      - task: PowerShell@2
-        displayName: Checkout selected Samples branch
-        inputs:
-          targetType: inline
-          script: |
-            git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
-              https://github.com/microsoft/WindowsAppSDK-Samples.git `
-              $env:SAMPLES_CHECKOUT_DIRECTORY
-
-            if ($LASTEXITCODE -ne 0)
-            {
-                throw "Failed to check out Samples branch '$env:SAMPLES_BRANCH'."
-            }
-        env:
-          SAMPLES_BRANCH: $(EffectiveSamplesBranch)
-          SAMPLES_CHECKOUT_DIRECTORY: $(SamplesCheckoutDirectory)
-
-    - task: NuGetToolInstaller@1
-      displayName: Use NuGet
-
-    - ${{ if eq(parameters.HydrationMode, 'Branch') }}:
-      - task: UseDotNet@2
-        displayName: Install sample .NET SDKs
-        inputs:
-          packageType: sdk
-          useGlobalJson: $(UseGlobalJson)
-          version: $(SdkVersion)
-          workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
-          installationPath: '$(Agent.TempDirectory)\dotnet'
-
-    - task: NuGetAuthenticate@1
-      displayName: Authenticate to WinAppSDK-SampleDeps
-
-    - task: PowerShell@2
-      displayName: Enable NuGet Gallery upstream
-      inputs:
-        targetType: inline
-        script: |
-          Write-Host '##vso[task.setvariable variable=SamplesFeedUpstreamAttempted]true'
-          & '$(Build.SourcesDirectory)\eng\SetSamplesFeedUpstream.ps1' -Action Enable
-      env:
-        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-
-    - ${{ if eq(parameters.HydrationMode, 'Branch') }}:
-      - task: PowerShell@2
-        displayName: Hydrate branch package closure
-        inputs:
-          filePath: '$(Build.SourcesDirectory)\eng\RestorePublicSamplesPackages.ps1'
-          arguments: >
-            -SamplesRoot "$(SamplesCheckoutDirectory)\Samples"
-            -NuGetConfigPath "$(SamplesFeedConfig)"
-            -PackagesDirectory "$(Pipeline.Workspace)\hydration-packages"
-            $(RestoreArguments)
-
-    - ${{ if eq(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
-      - task: PowerShell@2
-        displayName: Hydrate Microsoft.WindowsAppSDK package closure
-        inputs:
-          filePath: '$(Build.SourcesDirectory)\eng\RestoreWindowsAppSDKPackage.ps1'
-          arguments: >
-            -NuGetConfigPath "$(SamplesFeedConfig)"
-            -PackagesDirectory "$(Pipeline.Workspace)\hydration-packages"
-        env:
-          WINDOWS_APP_SDK_VERSION: $(EffectiveWindowsAppSDKVersion)
-
-    - task: PowerShell@2
-      displayName: Disable NuGet Gallery upstream
-      condition: and(always(), eq(variables['SamplesFeedUpstreamAttempted'], 'true'))
-      inputs:
-        filePath: '$(Build.SourcesDirectory)\eng\SetSamplesFeedUpstream.ps1'
-        arguments: -Action Disable
-      env:
-        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-
-- job: ValidateAnonymousRestore
-  displayName: Validate anonymous public restore
-  ${{ if ne(parameters.HydrationMode, 'ValidateOnly') }}:
-    dependsOn: Hydrate
-  ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
-    strategy:
-      matrix: ${{ parameters.DotNetToolchains }}
-    pool:
-      vmImage: $(VmImage)
-  timeoutInMinutes: 120
+- job: TestQueueVariable
+  timeoutInMinutes: 10
   steps:
   - checkout: self
+
+  - task: PowerShell@2
+    displayName: Test target resolver without accessing feeds
+    inputs:
+      targetType: inline
+      script: |
+        Import-Module Pester -RequiredVersion 3.4.0
+        $result = Invoke-Pester '$(Build.SourcesDirectory)\eng\Tests\ResolveSamplesFeedTarget.Tests.ps1' -PassThru
+        if ($result.FailedCount -gt 0)
+        {
+            throw "$($result.FailedCount) target resolver tests failed."
+        }
 
   - task: PowerShell@2
     displayName: Validate and resolve hydration target
@@ -170,56 +41,41 @@ jobs:
       arguments: -HydrationMode ${{ parameters.HydrationMode }}
     env:
       HYDRATION_TARGET: $(HydrationTarget)
+      # Use a protected triggering-ref fixture on this diagnostic-only branch.
+      BUILD_SOURCEBRANCH: refs/heads/release/hosted-target-test
 
-  - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
-    - task: PowerShell@2
-      displayName: Checkout selected Samples branch
-      inputs:
-        targetType: inline
-        script: |
-          git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
-            https://github.com/microsoft/WindowsAppSDK-Samples.git `
-            $env:SAMPLES_CHECKOUT_DIRECTORY
-
-          if ($LASTEXITCODE -ne 0)
-          {
-              throw "Failed to check out Samples branch '$env:SAMPLES_BRANCH'."
-          }
-      env:
-        SAMPLES_BRANCH: $(EffectiveSamplesBranch)
-        SAMPLES_CHECKOUT_DIRECTORY: $(SamplesCheckoutDirectory)
-
-  - task: NuGetToolInstaller@1
-    displayName: Use NuGet
-
-  - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
-    - task: UseDotNet@2
-      displayName: Install sample .NET SDKs
-      inputs:
-        packageType: sdk
-        useGlobalJson: $(UseGlobalJson)
-        version: $(SdkVersion)
-        workingDirectory: '$(SamplesCheckoutDirectory)\Samples'
-        installationPath: '$(Agent.TempDirectory)\dotnet'
-
-  - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
-    - task: PowerShell@2
-      displayName: Restore branch without credentials
-      inputs:
-        filePath: '$(Build.SourcesDirectory)\eng\RestorePublicSamplesPackages.ps1'
-        arguments: >
-          -SamplesRoot "$(SamplesCheckoutDirectory)\Samples"
-          -NuGetConfigPath "$(SamplesFeedConfig)"
-          -PackagesDirectory "$(Pipeline.Workspace)\anonymous-packages"
-          $(RestoreArguments)
-
-  - ${{ if eq(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
-    - task: PowerShell@2
-      displayName: Restore Microsoft.WindowsAppSDK without credentials
-      inputs:
-        filePath: '$(Build.SourcesDirectory)\eng\RestoreWindowsAppSDKPackage.ps1'
-        arguments: >
-          -NuGetConfigPath "$(SamplesFeedConfig)"
-          -PackagesDirectory "$(Pipeline.Workspace)\anonymous-packages"
-      env:
-        WINDOWS_APP_SDK_VERSION: $(EffectiveWindowsAppSDKVersion)
+  - task: PowerShell@2
+    displayName: Verify queue input reached the next step
+    inputs:
+      targetType: inline
+      script: |
+        if ($env:TEST_MODE -eq 'WindowsAppSDKVersion')
+        {
+            if ($env:RESOLVED_VERSION -ne $env:HYDRATION_TARGET)
+            {
+                throw 'Queue-time version did not reach the consumer.'
+            }
+            Write-Host "Resolved explicit version: $env:RESOLVED_VERSION"
+        }
+        else
+        {
+            $expected = if ([string]::IsNullOrWhiteSpace($env:HYDRATION_TARGET))
+            {
+                'release/hosted-target-test'
+            }
+            else
+            {
+                $env:HYDRATION_TARGET.Trim()
+            }
+            if ($env:RESOLVED_BRANCH -ne $expected)
+            {
+                throw 'Queue-time branch did not reach the consumer.'
+            }
+            Write-Host "Resolved branch: $env:RESOLVED_BRANCH"
+        }
+        Write-Host 'No authentication or feed-management tasks exist in this test pipeline.'
+    env:
+      TEST_MODE: ${{ parameters.HydrationMode }}
+      HYDRATION_TARGET: $(HydrationTarget)
+      RESOLVED_BRANCH: $(EffectiveSamplesBranch)
+      RESOLVED_VERSION: $(EffectiveWindowsAppSDKVersion)
