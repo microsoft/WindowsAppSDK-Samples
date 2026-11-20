@@ -38,11 +38,12 @@ jobs:
     displayName: Validate and resolve hydration target
     inputs:
       filePath: '$(Build.SourcesDirectory)\eng\ResolveSamplesFeedTarget.ps1'
-      arguments: -HydrationMode ${{ parameters.HydrationMode }}
+      # Use a protected triggering-ref fixture on this diagnostic-only branch.
+      arguments: >-
+        -HydrationMode ${{ parameters.HydrationMode }}
+        -SourceBranch refs/heads/release/hosted-target-test
     env:
       HYDRATION_TARGET: $(HydrationTarget)
-      # Use a protected triggering-ref fixture on this diagnostic-only branch.
-      BUILD_SOURCEBRANCH: refs/heads/release/hosted-target-test
 
   - task: PowerShell@2
     displayName: Verify queue input reached the next step
