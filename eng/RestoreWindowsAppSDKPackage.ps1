@@ -10,7 +10,7 @@ Set-StrictMode -Version 3.0
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrWhiteSpace($PackageVersion) -or
-    $PackageVersion -notmatch '^[0-9A-Za-z][0-9A-Za-z.+-]*$')
+    $PackageVersion -notmatch '^[0-9]+(\.[0-9]+){0,3}(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$')
 {
     throw "WindowsAppSDKVersion must be a valid non-empty NuGet version."
 }
@@ -27,11 +27,11 @@ Write-Host "Restoring Microsoft.WindowsAppSDK $PackageVersion and its dependency
     -NonInteractive `
     -DirectDownload `
     -DependencyVersion Lowest `
-    -Verbosity quiet
+    -Verbosity normal
 
 if ($LASTEXITCODE -ne 0)
 {
-    throw "NuGet install failed for 'Microsoft.WindowsAppSDK $PackageVersion' with exit code $LASTEXITCODE."
+    throw "NuGet install failed for 'Microsoft.WindowsAppSDK $PackageVersion' with exit code $LASTEXITCODE. Check the NuGet output above. A version published on nuget.org may not yet be available through the Azure Artifacts upstream; verify upstream availability before retrying."
 }
 
 Write-Host "Restored Microsoft.WindowsAppSDK $PackageVersion and its dependency closure."

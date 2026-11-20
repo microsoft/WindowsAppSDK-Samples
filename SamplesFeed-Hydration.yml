@@ -7,33 +7,10 @@ parameters:
   - Branch
   - ValidateOnly
   - WindowsAppSDKVersion
-- name: SamplesBranch
-  displayName: Samples branch (manual Branch or ValidateOnly mode; blank uses the triggering branch)
+- name: BranchOrVersion
+  displayName: Build/Version (use $(Build.SourceBranch) for triggering branch)
   type: string
-  default: ''
-- name: WindowsAppSDKVersion
-  displayName: Microsoft.WindowsAppSDK version (WindowsAppSDKVersion mode only)
-  type: string
-  default: ''
-- name: DotNetToolchains
-  displayName: Sample restore toolchains
-  type: object
-  default:
-    Samples:
-      VmImage: windows-2022
-      UseGlobalJson: 'true'
-      SdkVersion: ''
-      RestoreArguments: ''
-    Net9:
-      VmImage: windows-2022
-      UseGlobalJson: 'false'
-      SdkVersion: '9.0.321'
-      RestoreArguments: '-DesktopSdkProjectsOnly'
-    Net10:
-      VmImage: windows-2025-vs2026
-      UseGlobalJson: 'false'
-      SdkVersion: '10.0.403'
-      RestoreArguments: '-DesktopSdkProjectsOnly'
+  default: $(Build.SourceBranch)
 
 trigger:
   batch: true
@@ -47,16 +24,13 @@ trigger:
     - SamplesFeed-Hydration.yml
     - eng/RestorePublicSamplesPackages.ps1
     - eng/RestoreWindowsAppSDKPackage.ps1
+    - eng/ResolveSamplesFeedTarget.ps1
     - eng/SamplesFeed.nuget.config
     - eng/SetSamplesFeedUpstream.ps1
 
 pr: none
 
 variables:
-  ${{ if ne(parameters.SamplesBranch, '') }}:
-    EffectiveSamplesBranch: ${{ parameters.SamplesBranch }}
-  ${{ else }}:
-    EffectiveSamplesBranch: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
   SamplesCheckoutDirectory: '$(Pipeline.Workspace)\samples-to-hydrate'
   SamplesFeedConfig: '$(Build.SourcesDirectory)\eng\SamplesFeed.nuget.config'
 
@@ -69,7 +43,22 @@ jobs:
     displayName: Hydrate WinAppSDK-SampleDeps
     ${{ if eq(parameters.HydrationMode, 'Branch') }}:
       strategy:
-        matrix: ${{ parameters.DotNetToolchains }}
+        matrix:
+          Samples:
+            VmImage: windows-2022
+            UseGlobalJson: true
+            SdkVersion: ''
+            RestoreArguments: ''
+          Net9:
+            VmImage: windows-2022
+            UseGlobalJson: false
+            SdkVersion: '9.0.321'
+            RestoreArguments: '-DesktopSdkProjectsOnly'
+          Net10:
+            VmImage: windows-2025-vs2026
+            UseGlobalJson: false
+            SdkVersion: '10.0.403'
+            RestoreArguments: '-DesktopSdkProjectsOnly'
         maxParallel: 1
       pool:
         vmImage: $(VmImage)
@@ -77,17 +66,20 @@ jobs:
     steps:
     - checkout: self
 
+    - task: PowerShell@2
+      displayName: Validate and resolve hydration target
+      inputs:
+        filePath: '$(Build.SourcesDirectory)\eng\ResolveSamplesFeedTarget.ps1'
+        arguments: -HydrationMode ${{ parameters.HydrationMode }}
+      env:
+        HYDRATION_TARGET: ${{ parameters.BranchOrVersion }}
+
     - ${{ if eq(parameters.HydrationMode, 'Branch') }}:
       - task: PowerShell@2
         displayName: Checkout selected Samples branch
         inputs:
           targetType: inline
           script: |
-            if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
-            {
-                throw "The selected branch must be 'main' or a protected 'release/*' branch; received '$env:SAMPLES_BRANCH'."
-            }
-
             git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
               https://github.com/microsoft/WindowsAppSDK-Samples.git `
               $env:SAMPLES_CHECKOUT_DIRECTORY
@@ -116,25 +108,13 @@ jobs:
     - task: NuGetAuthenticate@1
       displayName: Authenticate to WinAppSDK-SampleDeps
 
-    - ${{ if eq(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
-      - task: PowerShell@2
-        displayName: Validate Microsoft.WindowsAppSDK version
-        inputs:
-          targetType: inline
-          script: |
-            if ([string]::IsNullOrWhiteSpace($env:WINDOWS_APP_SDK_VERSION) -or
-                $env:WINDOWS_APP_SDK_VERSION -notmatch '^[0-9A-Za-z][0-9A-Za-z.+-]*$')
-            {
-                throw "WindowsAppSDKVersion must be a valid non-empty NuGet version."
-            }
-        env:
-          WINDOWS_APP_SDK_VERSION: ${{ parameters.WindowsAppSDKVersion }}
-
     - task: PowerShell@2
       displayName: Enable NuGet Gallery upstream
       inputs:
-        filePath: '$(Build.SourcesDirectory)\eng\SetSamplesFeedUpstream.ps1'
-        arguments: -Action Enable
+        targetType: inline
+        script: |
+          Write-Host '##vso[task.setvariable variable=SamplesFeedUpstreamAttempted]true'
+          & '$(Build.SourcesDirectory)\eng\SetSamplesFeedUpstream.ps1' -Action Enable
       env:
         SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
@@ -158,11 +138,11 @@ jobs:
             -NuGetConfigPath "$(SamplesFeedConfig)"
             -PackagesDirectory "$(Pipeline.Workspace)\hydration-packages"
         env:
-          WINDOWS_APP_SDK_VERSION: ${{ parameters.WindowsAppSDKVersion }}
+          WINDOWS_APP_SDK_VERSION: $(EffectiveWindowsAppSDKVersion)
 
     - task: PowerShell@2
       displayName: Disable NuGet Gallery upstream
-      condition: always()
+      condition: and(always(), eq(variables['SamplesFeedUpstreamAttempted'], 'true'))
       inputs:
         filePath: '$(Build.SourcesDirectory)\eng\SetSamplesFeedUpstream.ps1'
         arguments: -Action Disable
@@ -175,12 +155,35 @@ jobs:
     dependsOn: Hydrate
   ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
     strategy:
-      matrix: ${{ parameters.DotNetToolchains }}
+      matrix:
+        Samples:
+          VmImage: windows-2022
+          UseGlobalJson: true
+          SdkVersion: ''
+          RestoreArguments: ''
+        Net9:
+          VmImage: windows-2022
+          UseGlobalJson: false
+          SdkVersion: '9.0.321'
+          RestoreArguments: '-DesktopSdkProjectsOnly'
+        Net10:
+          VmImage: windows-2025-vs2026
+          UseGlobalJson: false
+          SdkVersion: '10.0.403'
+          RestoreArguments: '-DesktopSdkProjectsOnly'
     pool:
       vmImage: $(VmImage)
   timeoutInMinutes: 120
   steps:
   - checkout: self
+
+  - task: PowerShell@2
+    displayName: Validate and resolve hydration target
+    inputs:
+      filePath: '$(Build.SourcesDirectory)\eng\ResolveSamplesFeedTarget.ps1'
+      arguments: -HydrationMode ${{ parameters.HydrationMode }}
+    env:
+      HYDRATION_TARGET: ${{ parameters.BranchOrVersion }}
 
   - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
     - task: PowerShell@2
@@ -188,11 +191,6 @@ jobs:
       inputs:
         targetType: inline
         script: |
-          if ($env:SAMPLES_BRANCH -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
-          {
-              throw "The selected branch must be 'main' or a protected 'release/*' branch; received '$env:SAMPLES_BRANCH'."
-          }
-
           git clone --branch $env:SAMPLES_BRANCH --depth 1 --single-branch `
             https://github.com/microsoft/WindowsAppSDK-Samples.git `
             $env:SAMPLES_CHECKOUT_DIRECTORY
@@ -238,4 +236,4 @@ jobs:
           -NuGetConfigPath "$(SamplesFeedConfig)"
           -PackagesDirectory "$(Pipeline.Workspace)\anonymous-packages"
       env:
-        WINDOWS_APP_SDK_VERSION: ${{ parameters.WindowsAppSDKVersion }}
+        WINDOWS_APP_SDK_VERSION: $(EffectiveWindowsAppSDKVersion)

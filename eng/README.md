@@ -21,9 +21,39 @@ Restrict permission to queue the pipeline to trusted maintainers.
 
 | Mode | Behavior |
 | --- | --- |
-| `Branch` | Hydrates and anonymously validates the complete dependency closure for the triggering branch. For a manual run, `SamplesBranch` may select `main` or a protected `release/*` branch; blank defaults to the queued branch, normally `main`. |
-| `ValidateOnly` | Restores a selected branch anonymously without enabling or changing feed upstreams. |
-| `WindowsAppSDKVersion` | Requires `WindowsAppSDKVersion`, then hydrates and anonymously validates that `Microsoft.WindowsAppSDK` package version and its NuGet dependency closure. |
+| `Branch` | Hydrates and anonymously validates a branch. |
+| `ValidateOnly` | Anonymously restores that branch without changing upstreams. |
+| `WindowsAppSDKVersion` | Hydrates and anonymously validates an SDK version. |
+
+The **Build/Version** parameter (`BranchOrVersion`) appears beside the mode
+in the queue form. Its default, `$(Build.SourceBranch)`, expands to the actual
+triggering ref when the job runs:
+
+- `Branch` or `ValidateOnly`: leave the default unchanged to use the triggering
+  branch, or replace it with `main` or a protected `release/*` branch.
+- `WindowsAppSDKVersion`: replace the default with an exact NuGet version, such as
+  `2.7.0`. This restores `Microsoft.WindowsAppSDK` and its dependency closure.
+  The pipeline rejects an unchanged branch default or an invalid version
+  before authentication or upstream enablement.
+
+No queue-time variable setup or dummy placeholder is needed. Runtime string
+parameters cannot be empty, so use the meaningful branch-expression default
+rather than clearing the field. The resolver accepts both short branch names
+and full `refs/heads/*` refs, but only allows `main` and protected `release/*`
+branches.
+
+Mode-specific validation runs at the start of each job, not in the queue form.
+The form does not dynamically change the shared field when the mode changes.
+API callers previously supplying `SamplesBranch` or `WindowsAppSDKVersion`
+as template parameters must now supply the `BranchOrVersion` template parameter
+instead. Omit it in branch modes to use the triggering branch.
+
+Target resolution tests run without accessing feeds:
+
+```powershell
+powershell -NoProfile -Command `
+    "Invoke-Pester .\eng\Tests\ResolveSamplesFeedTarget.Tests.ps1"
+```
 
 ## Flow
 
@@ -35,10 +65,19 @@ Restrict permission to queue the pipeline to trusted maintainers.
 
 If hydration fails, first confirm that the cleanup step removed the upstream before retrying.
 
+A version appearing on nuget.org does not guarantee that the Azure Artifacts
+upstream can resolve it yet. If NuGet reports a published version as not found,
+verify availability through the authenticated feed with its upstream enabled.
+If the version remains unavailable, investigate Azure Artifacts upstream
+availability rather than repeatedly rerunning the pipeline. Do not bypass the
+feed or leave its upstream enabled: anonymous validation still requires the
+complete package closure to be saved in the feed.
+
 ## .NET toolchain coverage
 
-The `DotNetToolchains` matrix keeps the global.json-driven restore of every
-sample on its existing VS 2022 image. Additional jobs restore desktop SDK-style
+The internal job matrices keep the global.json-driven restore of every
+sample on its existing VS 2022 image. Toolchains are not queue-form inputs.
+Additional jobs restore desktop SDK-style
 C# projects with SDKs 9.0.321 and 10.0.403 in isolated installation roots.
 The anonymous job repeats the same matrix. Authenticated jobs run one at a time
 so their upstream enable/disable steps cannot overlap.
