@@ -7,6 +7,10 @@ parameters:
   - Branch
   - ValidateOnly
   - WindowsAppSDKVersion
+- name: BranchOrVersion
+  displayName: Branch / Version (default is triggering branch)
+  type: string
+  default: $(Build.SourceBranch)
 - name: DotNetToolchains
   displayName: Sample restore toolchains
   type: object
@@ -46,7 +50,6 @@ trigger:
 pr: none
 
 variables:
-  HydrationTarget: $[coalesce(variables['BranchOrVersion'], '')]
   SamplesCheckoutDirectory: '$(Pipeline.Workspace)\samples-to-hydrate'
   SamplesFeedConfig: '$(Build.SourcesDirectory)\eng\SamplesFeed.nuget.config'
 
@@ -73,7 +76,7 @@ jobs:
         filePath: '$(Build.SourcesDirectory)\eng\ResolveSamplesFeedTarget.ps1'
         arguments: -HydrationMode ${{ parameters.HydrationMode }}
       env:
-        HYDRATION_TARGET: $(HydrationTarget)
+        HYDRATION_TARGET: ${{ parameters.BranchOrVersion }}
 
     - ${{ if eq(parameters.HydrationMode, 'Branch') }}:
       - task: PowerShell@2
@@ -169,7 +172,7 @@ jobs:
       filePath: '$(Build.SourcesDirectory)\eng\ResolveSamplesFeedTarget.ps1'
       arguments: -HydrationMode ${{ parameters.HydrationMode }}
     env:
-      HYDRATION_TARGET: $(HydrationTarget)
+      HYDRATION_TARGET: ${{ parameters.BranchOrVersion }}
 
   - ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
     - task: PowerShell@2

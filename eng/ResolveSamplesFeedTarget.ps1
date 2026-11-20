@@ -2,12 +2,13 @@
 .SYNOPSIS
     Validates and resolves the Samples feed hydration target.
 .DESCRIPTION
-    Treats an empty branch target as the triggering branch. Version mode
-    requires an explicit NuGet version. Emits job variables for later steps.
+    Normalizes branch names and refs, with empty targets using the triggering
+    branch. Version mode requires an explicit NuGet version. Emits job variables
+    for later steps.
 .PARAMETER HydrationMode
     Branch, ValidateOnly, or WindowsAppSDKVersion.
 .PARAMETER Target
-    Queue-time BranchOrVersion value, supplied through HYDRATION_TARGET.
+    BranchOrVersion parameter value, supplied through HYDRATION_TARGET.
 .PARAMETER SourceBranch
     Triggering Git ref, normally supplied by BUILD_SOURCEBRANCH.
 .EXAMPLE
@@ -47,12 +48,14 @@ else
 {
     $branch = if ([string]::IsNullOrWhiteSpace($Target))
     {
-        $SourceBranch -replace '^refs/heads/', ''
+        $SourceBranch
     }
     else
     {
         $Target.Trim()
     }
+
+    $branch = $branch -replace '^refs/heads/', ''
 
     if ($branch -notmatch '^(main|release/[A-Za-z0-9][A-Za-z0-9._-]*)$')
     {

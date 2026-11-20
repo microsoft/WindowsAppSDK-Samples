@@ -26,6 +26,15 @@ Describe 'Samples feed target resolution' {
             Should Be '##vso[task.setvariable variable=EffectiveSamplesBranch]release/1.8'
     }
 
+    It 'normalizes expanded triggering ref <Ref>' -TestCases @(
+        @{ Mode = 'Branch'; Ref = 'refs/heads/main'; Branch = 'main' }
+        @{ Mode = 'ValidateOnly'; Ref = 'refs/heads/release/2.0'; Branch = 'release/2.0' }
+    ) {
+        param($Mode, $Ref, $Branch)
+        & $resolver -HydrationMode $Mode -Target $Ref -SourceBranch 'refs/heads/other' |
+            Should Be "##vso[task.setvariable variable=EffectiveSamplesBranch]$Branch"
+    }
+
     It 'rejects unprotected branch input <Target>' -TestCases @(
         @{ Target = '.' }
         @{ Target = 'feature/test' }
@@ -46,6 +55,8 @@ Describe 'Samples feed target resolution' {
         @{ Target = '.' }
         @{ Target = 'main' }
         @{ Target = '2..7' }
+        @{ Target = 'refs/heads/main' }
+        @{ Target = '$(Build.SourceBranch)' }
     ) {
         param($Target)
         { & $resolver -HydrationMode WindowsAppSDKVersion -Target $Target } | Should Throw

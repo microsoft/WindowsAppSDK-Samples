@@ -25,26 +25,28 @@ Restrict permission to queue the pipeline to trusted maintainers.
 | `ValidateOnly` | Anonymously restores that branch without changing upstreams. |
 | `WindowsAppSDKVersion` | Hydrates and anonymously validates an SDK version. |
 
-The queue-time variable `BranchOrVersion` is interpreted according to the mode:
+The **Branch / Version** parameter (`BranchOrVersion`) appears beside the mode
+in the queue form. Its default, `$(Build.SourceBranch)`, expands to the actual
+triggering ref when the job runs:
 
-- `Branch` or `ValidateOnly`: leave it blank to use the triggering branch,
-  or enter `main` or a protected `release/*` branch.
-- `WindowsAppSDKVersion`: enter an exact NuGet version, such as
+- `Branch` or `ValidateOnly`: leave the default unchanged to use the triggering
+  branch, or replace it with `main` or a protected `release/*` branch.
+- `WindowsAppSDKVersion`: replace the default with an exact NuGet version, such as
   `2.7.0`. This restores `Microsoft.WindowsAppSDK` and its dependency closure.
-  The pipeline rejects invalid versions before enabling the upstream.
+  The pipeline rejects an unchanged branch default or an invalid version
+  before authentication or upstream enablement.
 
-In the pipeline's **Variables** settings, add `BranchOrVersion` with an empty
-value and enable **Let users override this value when running this pipeline**.
-Do not define the input variable in YAML, which would shadow the UI setting.
-When queuing a run, select the mode and edit this input under **Variables**.
-No placeholder values are used. API callers can omit it or pass an empty value
-to select the triggering branch in branch modes.
+No queue-time variable setup or dummy placeholder is needed. Runtime string
+parameters cannot be empty, so use the meaningful branch-expression default
+rather than clearing the field. The resolver accepts both short branch names
+and full `refs/heads/*` refs, but only allows `main` and protected `release/*`
+branches.
 
-Unlike runtime string parameters, variables allow empty values. Validation
-runs at the start of each job, before authentication or upstream enablement,
-not in the queue form: a blank version can be queued but fails immediately.
+Mode-specific validation runs at the start of each job, not in the queue form.
+The form does not dynamically change the shared field when the mode changes.
 API callers previously supplying `SamplesBranch` or `WindowsAppSDKVersion`
-as template parameters must now supply the `BranchOrVersion` variable instead.
+as template parameters must now supply the `BranchOrVersion` template parameter
+instead. Omit it in branch modes to use the triggering branch.
 
 Target resolution tests run without accessing feeds:
 
