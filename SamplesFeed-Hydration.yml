@@ -8,13 +8,13 @@ parameters:
   - ValidateOnly
   - WindowsAppSDKVersion
 - name: SamplesBranch
-  displayName: Samples branch (manual Branch or ValidateOnly mode; blank uses the triggering branch)
+  displayName: Samples branch (Branch or ValidateOnly mode; . uses the triggering branch)
   type: string
-  default: ''
+  default: '.'
 - name: WindowsAppSDKVersion
-  displayName: Microsoft.WindowsAppSDK version (WindowsAppSDKVersion mode only)
+  displayName: Microsoft.WindowsAppSDK version (WindowsAppSDKVersion mode only; otherwise leave .)
   type: string
-  default: ''
+  default: '.'
 - name: DotNetToolchains
   displayName: Sample restore toolchains
   type: object
@@ -53,7 +53,7 @@ trigger:
 pr: none
 
 variables:
-  ${{ if ne(parameters.SamplesBranch, '') }}:
+  ${{ if and(ne(parameters.SamplesBranch, ''), ne(parameters.SamplesBranch, '.')) }}:
     EffectiveSamplesBranch: ${{ parameters.SamplesBranch }}
   ${{ else }}:
     EffectiveSamplesBranch: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]

@@ -21,9 +21,15 @@ Restrict permission to queue the pipeline to trusted maintainers.
 
 | Mode | Behavior |
 | --- | --- |
-| `Branch` | Hydrates and anonymously validates the complete dependency closure for the triggering branch. For a manual run, `SamplesBranch` may select `main` or a protected `release/*` branch; blank defaults to the queued branch, normally `main`. |
+| `Branch` | Hydrates and anonymously validates the complete dependency closure for the triggering branch. For a manual run, `SamplesBranch` may select `main` or a protected `release/*` branch; `.` defaults to the queued branch, normally `main`. |
 | `ValidateOnly` | Restores a selected branch anonymously without enabling or changing feed upstreams. |
 | `WindowsAppSDKVersion` | Requires `WindowsAppSDKVersion`, then hydrates and anonymously validates that `Microsoft.WindowsAppSDK` package version and its NuGet dependency closure. |
+
+Leave unused string parameters at `.`. Azure DevOps requires non-empty strings
+in the manual run form, even for parameters unused by the selected mode.
+In `WindowsAppSDKVersion` mode, replace its `.` with the exact package version;
+`SamplesBranch` is ignored. API callers should also use `.` or omit unused
+parameters rather than sending empty strings.
 
 ## Flow
 
@@ -34,6 +40,14 @@ Restrict permission to queue the pipeline to trusted maintainers.
 5. Use a fresh job without `NuGetAuthenticate` to verify that the complete closure restores anonymously.
 
 If hydration fails, first confirm that the cleanup step removed the upstream before retrying.
+
+A version appearing on nuget.org does not guarantee that the Azure Artifacts
+upstream can resolve it yet. If NuGet reports a published version as not found,
+verify availability through the authenticated feed with its upstream enabled.
+If the version remains unavailable, investigate Azure Artifacts upstream
+availability rather than repeatedly rerunning the pipeline. Do not bypass the
+feed or leave its upstream enabled: anonymous validation still requires the
+complete package closure to be saved in the feed.
 
 ## .NET toolchain coverage
 
