@@ -21,15 +21,37 @@ Restrict permission to queue the pipeline to trusted maintainers.
 
 | Mode | Behavior |
 | --- | --- |
-| `Branch` | Hydrates and anonymously validates the complete dependency closure for the triggering branch. For a manual run, `SamplesBranch` may select `main` or a protected `release/*` branch; `.` defaults to the queued branch, normally `main`. |
-| `ValidateOnly` | Restores a selected branch anonymously without enabling or changing feed upstreams. |
-| `WindowsAppSDKVersion` | Requires `WindowsAppSDKVersion`, then hydrates and anonymously validates that `Microsoft.WindowsAppSDK` package version and its NuGet dependency closure. |
+| `Branch` | Hydrates and anonymously validates a branch. |
+| `ValidateOnly` | Anonymously restores that branch without changing upstreams. |
+| `WindowsAppSDKVersion` | Hydrates and anonymously validates an SDK version. |
 
-Leave unused string parameters at `.`. Azure DevOps requires non-empty strings
-in the manual run form, even for parameters unused by the selected mode.
-In `WindowsAppSDKVersion` mode, replace its `.` with the exact package version;
-`SamplesBranch` is ignored. API callers should also use `.` or omit unused
-parameters rather than sending empty strings.
+The queue-time variable `BranchOrVersion` is interpreted according to the mode:
+
+- `Branch` or `ValidateOnly`: leave it blank to use the triggering branch,
+  or enter `main` or a protected `release/*` branch.
+- `WindowsAppSDKVersion`: enter an exact NuGet version, such as
+  `2.7.0`. This restores `Microsoft.WindowsAppSDK` and its dependency closure.
+  The pipeline rejects invalid versions before enabling the upstream.
+
+In the pipeline's **Variables** settings, add `BranchOrVersion` with an empty
+value and enable **Let users override this value when running this pipeline**.
+Do not define the input variable in YAML, which would shadow the UI setting.
+When queuing a run, select the mode and edit this input under **Variables**.
+No placeholder values are used. API callers can omit it or pass an empty value
+to select the triggering branch in branch modes.
+
+Unlike runtime string parameters, variables allow empty values. Validation
+runs at the start of each job, before authentication or upstream enablement,
+not in the queue form: a blank version can be queued but fails immediately.
+API callers previously supplying `SamplesBranch` or `WindowsAppSDKVersion`
+as template parameters must now supply the `BranchOrVersion` variable instead.
+
+Target resolution tests run without accessing feeds:
+
+```powershell
+powershell -NoProfile -Command `
+    "Invoke-Pester .\eng\Tests\ResolveSamplesFeedTarget.Tests.ps1"
+```
 
 ## Flow
 

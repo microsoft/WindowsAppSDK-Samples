@@ -10,7 +10,7 @@ Set-StrictMode -Version 3.0
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrWhiteSpace($PackageVersion) -or
-    $PackageVersion -notmatch '^[0-9A-Za-z][0-9A-Za-z.+-]*$')
+    $PackageVersion -notmatch '^[0-9]+(\.[0-9]+){0,3}(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$')
 {
     throw "WindowsAppSDKVersion must be a valid non-empty NuGet version."
 }
