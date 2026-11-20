@@ -25,7 +25,7 @@ Restrict permission to queue the pipeline to trusted maintainers.
 | `ValidateOnly` | Anonymously restores that branch without changing upstreams. |
 | `WindowsAppSDKVersion` | Hydrates and anonymously validates an SDK version. |
 
-The **Branch / Version** parameter (`BranchOrVersion`) appears beside the mode
+The **Build/Version** parameter (`BranchOrVersion`) appears beside the mode
 in the queue form. Its default, `$(Build.SourceBranch)`, expands to the actual
 triggering ref when the job runs:
 

@@ -8,7 +8,7 @@ parameters:
   - ValidateOnly
   - WindowsAppSDKVersion
 - name: BranchOrVersion
-  displayName: Branch / Version
+  displayName: Build/Version (use $(Build.SourceBranch) for triggering branch)
   type: string
   default: $(Build.SourceBranch)
 
