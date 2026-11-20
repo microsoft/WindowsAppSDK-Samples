@@ -8,28 +8,9 @@ parameters:
   - ValidateOnly
   - WindowsAppSDKVersion
 - name: BranchOrVersion
-  displayName: Branch / Version (default is triggering branch)
+  displayName: Branch / Version
   type: string
   default: $(Build.SourceBranch)
-- name: DotNetToolchains
-  displayName: Sample restore toolchains
-  type: object
-  default:
-    Samples:
-      VmImage: windows-2022
-      UseGlobalJson: 'true'
-      SdkVersion: ''
-      RestoreArguments: ''
-    Net9:
-      VmImage: windows-2022
-      UseGlobalJson: 'false'
-      SdkVersion: '9.0.321'
-      RestoreArguments: '-DesktopSdkProjectsOnly'
-    Net10:
-      VmImage: windows-2025-vs2026
-      UseGlobalJson: 'false'
-      SdkVersion: '10.0.403'
-      RestoreArguments: '-DesktopSdkProjectsOnly'
 
 trigger:
   batch: true
@@ -62,7 +43,22 @@ jobs:
     displayName: Hydrate WinAppSDK-SampleDeps
     ${{ if eq(parameters.HydrationMode, 'Branch') }}:
       strategy:
-        matrix: ${{ parameters.DotNetToolchains }}
+        matrix:
+          Samples:
+            VmImage: windows-2022
+            UseGlobalJson: true
+            SdkVersion: ''
+            RestoreArguments: ''
+          Net9:
+            VmImage: windows-2022
+            UseGlobalJson: false
+            SdkVersion: '9.0.321'
+            RestoreArguments: '-DesktopSdkProjectsOnly'
+          Net10:
+            VmImage: windows-2025-vs2026
+            UseGlobalJson: false
+            SdkVersion: '10.0.403'
+            RestoreArguments: '-DesktopSdkProjectsOnly'
         maxParallel: 1
       pool:
         vmImage: $(VmImage)
@@ -159,7 +155,22 @@ jobs:
     dependsOn: Hydrate
   ${{ if ne(parameters.HydrationMode, 'WindowsAppSDKVersion') }}:
     strategy:
-      matrix: ${{ parameters.DotNetToolchains }}
+      matrix:
+        Samples:
+          VmImage: windows-2022
+          UseGlobalJson: true
+          SdkVersion: ''
+          RestoreArguments: ''
+        Net9:
+          VmImage: windows-2022
+          UseGlobalJson: false
+          SdkVersion: '9.0.321'
+          RestoreArguments: '-DesktopSdkProjectsOnly'
+        Net10:
+          VmImage: windows-2025-vs2026
+          UseGlobalJson: false
+          SdkVersion: '10.0.403'
+          RestoreArguments: '-DesktopSdkProjectsOnly'
     pool:
       vmImage: $(VmImage)
   timeoutInMinutes: 120

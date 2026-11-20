@@ -75,8 +75,9 @@ complete package closure to be saved in the feed.
 
 ## .NET toolchain coverage
 
-The `DotNetToolchains` matrix keeps the global.json-driven restore of every
-sample on its existing VS 2022 image. Additional jobs restore desktop SDK-style
+The internal job matrices keep the global.json-driven restore of every
+sample on its existing VS 2022 image. Toolchains are not queue-form inputs.
+Additional jobs restore desktop SDK-style
 C# projects with SDKs 9.0.321 and 10.0.403 in isolated installation roots.
 The anonymous job repeats the same matrix. Authenticated jobs run one at a time
 so their upstream enable/disable steps cannot overlap.
