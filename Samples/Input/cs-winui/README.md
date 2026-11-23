@@ -23,7 +23,6 @@ and Windows platform APIs.
 - **Gesture recognizer** recognizes pointer gestures.
 - **Gesture recognizer manipulations** applies recognized manipulations to
   XAML content.
-- **Cursor** demonstrates custom input cursors.
 - **Keyboard Shortcut Manager** demonstrates app-wide shortcut registration.
 - **Pointer Tracking** tracks multiple pointers, highlights the primary
   pointer, and reports pointer lifecycle events.
