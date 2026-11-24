@@ -38,7 +38,7 @@ namespace cs_winui_packaged
                 // Update registration with new arguments (only if already registered)
                 uint flags;
                 uint size = 0;
-                if (GetApplicationRestartSettings(System.Diagnostics.Process.GetCurrentProcess().SafeHandle, null, ref size, &flags) == 0)
+                if (GetApplicationRestartSettings(System.Diagnostics.Process.GetCurrentProcess().SafeHandle, null, ref size, out flags) == 0)
                 {
                     String restartArgsInput = messageInput.Text;
                     if (RegisterApplicationRestart(restartArgsInput, (REGISTER_APPLICATION_RESTART_FLAGS)flags) == 0)
